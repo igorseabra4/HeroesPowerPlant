@@ -247,17 +247,10 @@ namespace HeroesPowerPlant
                 {
                     string ChunkName = Path.GetFileNameWithoutExtension(file.Name);
 
-                    if (!ChunkName.Contains("COLI"))
-                    {
-                        RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
-                        TempBSPFile.SetChunkNumberAndName();
-                        TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(file.Data), file.Data);
-                        BSPStream.Add(TempBSPFile);
-                    }
-                    else
+                    if (ChunkName.Contains("COLI"))
                     {
                         ReadFileMethods.isCollision = true;
-                        
+
                         RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                         try
                         {
@@ -270,6 +263,13 @@ namespace HeroesPowerPlant
                         ShadowCollisionBSPStream.Add(TempBSPFile);
 
                         ReadFileMethods.isCollision = false;
+                    }
+                    else
+                    {
+                        RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
+                        TempBSPFile.SetChunkNumberAndName();
+                        TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(file.Data), file.Data);
+                        BSPStream.Add(TempBSPFile);
                     }
                 }
         }

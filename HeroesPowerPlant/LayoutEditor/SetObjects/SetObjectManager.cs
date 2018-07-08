@@ -42,15 +42,17 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public virtual BoundingBox CreateBoundingBox(string[] modelNames)
         {
-            if (modelNames == null | modelNames.Length == 0)
-                return BoundingBox.FromPoints(SharpRenderer.cubeVertices.ToArray());
+            if (modelNames == null)
+                return BoundingBox.FromPoints(cubeVertices.ToArray());
+            else if (modelNames.Length == 0)
+                return BoundingBox.FromPoints(cubeVertices.ToArray());
 
             List<Vector3> list = new List<Vector3>();
             foreach (string m in modelNames)
                 if (DFFRenderer.DFFStream.ContainsKey(m))
                     list.AddRange(DFFRenderer.DFFStream[m].GetVertexList());
                 else
-                    list.AddRange(SharpRenderer.cubeVertices);
+                    list.AddRange(cubeVertices);
 
             return BoundingBox.FromPoints(list.ToArray());
         }

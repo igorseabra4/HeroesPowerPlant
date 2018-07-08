@@ -226,7 +226,11 @@ namespace HeroesPowerPlant.LevelEditor
 
             success = false;
 
-            foreach (RenderWareModelFile b in BSPStream)
+            List<RenderWareModelFile> bspAndCol = new List<RenderWareModelFile>();
+            bspAndCol.AddRange(BSPStream);
+            bspAndCol.AddRange(ShadowCollisionBSPStream);
+
+            foreach (RenderWareModelFile b in bspAndCol)
             {
                 if (b.ChunkNumber == chunk.number)
                 {

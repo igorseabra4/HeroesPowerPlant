@@ -1,4 +1,4 @@
-= Heroes Power Plant Release 5 =
+= Heroes Power Plant Release 6 =
 Please read all of this if you have no previous experience with Sonic Heroes level editing!
 
 Keyboard view controls:

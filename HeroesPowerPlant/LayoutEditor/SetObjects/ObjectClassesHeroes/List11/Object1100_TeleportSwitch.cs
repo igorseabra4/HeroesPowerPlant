@@ -8,9 +8,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private Matrix destinationMatrix;
 
-        public override void CreateTransformMatrix(Vector3 Position, int XRot, int YRot, int ZRot)
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            base.CreateTransformMatrix(Position, XRot, YRot, ZRot);
+            base.CreateTransformMatrix(Position, Rotation);
             destinationMatrix = Matrix.Translation(DestinationX, DestinationY, DestinationZ);
         }
 

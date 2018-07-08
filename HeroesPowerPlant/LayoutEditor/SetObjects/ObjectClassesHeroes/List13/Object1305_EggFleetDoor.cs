@@ -40,7 +40,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { ReadWriteWord(8, value); }
         }
 
-        public Int16 TriggerYRot
+        public Int16 TriggerRotY
         {
             get { return ReadWriteWord(24); }
             set { ReadWriteWord(24, value); }

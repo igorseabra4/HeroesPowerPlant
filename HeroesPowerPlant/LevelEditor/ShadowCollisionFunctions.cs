@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.LevelEditor
     {
         public static int shadowRenderWareVersion = 0x1C020037;
 
-        public static RWSection[] CreateShadowCollisionBSPFile(string FileNameForBox, ModelConverterData data)
+        public static RWSection[] CreateShadowCollisionBSPFile(ModelConverterData data)
         {
             Vertex3 Max = new Vertex3(data.VertexStream[0].Position.X, data.VertexStream[0].Position.Y, data.VertexStream[0].Position.Z);
             Vertex3 Min = new Vertex3(data.VertexStream[0].Position.X, data.VertexStream[0].Position.Y, data.VertexStream[0].Position.Z);
@@ -65,7 +65,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             // GENERATE COLLISION DATA
-            
+
             List<ushort> TriangleIndexList = new List<ushort>();
             List<Split> splitlist = new List<Split>();
             ushort loop = 0;
@@ -111,7 +111,7 @@ namespace HeroesPowerPlant.LevelEditor
                         splitlist.Add(split);
                         split = new Split();
                         exitloop = false;
-                        
+                        break;
                     }
 
                     exitloop = true;
@@ -139,7 +139,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             //PositionOnList = 0;
             //SplitSector(sector, 20, 0, splitList, TriangleIndexReferenceList, vList, tList);
-            
+
             List<Color> cFlags = new List<Color>();
             foreach (Triangle t in data.TriangleStream)
                 cFlags.Add(t.collisionFlagForShadow);
@@ -157,7 +157,7 @@ namespace HeroesPowerPlant.LevelEditor
                     numPlaneSectors = 0,
                     numAtomicSectors = 1,
                     colSectorSize = 0,
-                    worldFlags = WorldFlags.WorldSectorsOverlap | WorldFlags.ModulateMaterialColors, //(WorldFlags)0x40000040,
+                    worldFlags = WorldFlags.WorldSectorsOverlap,// | WorldFlags.ModulateMaterialColors, //(WorldFlags)0x40000040,
                     boxMaximum = Max,
                     boxMinimum = Min
                 },

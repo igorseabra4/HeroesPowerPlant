@@ -152,14 +152,14 @@ namespace HeroesPowerPlant.Config
                 NumericStartX.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.X;
                 NumericStartY.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
                 NumericStartZ.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericStartRot.Value = (decimal)(Start_Positions[ComboBoxTeam.SelectedIndex].Pitch * 360f / 65536);
+                NumericStartRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(Start_Positions[ComboBoxTeam.SelectedIndex].Pitch);
                 ComboStartMode.SelectedIndex = Start_Positions[ComboBoxTeam.SelectedIndex].Mode;
                 NumericStartHold.Value = Start_Positions[ComboBoxTeam.SelectedIndex].HoldTime;
 
                 NumericEndX.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.X;
                 NumericEndY.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
                 NumericEndZ.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericEndRot.Value = (decimal)(End_Positions[ComboBoxTeam.SelectedIndex].Pitch * 360f / 65536);
+                NumericEndRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(End_Positions[ComboBoxTeam.SelectedIndex].Pitch);
             }
             else if (CurrentLevelConfig.Mode == ModeType.MultiPlayer)
             {
@@ -169,7 +169,7 @@ namespace HeroesPowerPlant.Config
                     NumericStartX.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.X;
                     NumericStartY.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
                     NumericStartZ.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                    NumericStartRot.Value = (decimal)(Start_Positions[ComboBoxTeam.SelectedIndex].Pitch * 360f / 65536);
+                    NumericStartRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(Start_Positions[ComboBoxTeam.SelectedIndex].Pitch);
                     ComboStartMode.SelectedIndex = Start_Positions[ComboBoxTeam.SelectedIndex].Mode;
                     NumericStartHold.Value = Start_Positions[ComboBoxTeam.SelectedIndex].HoldTime;
                 }
@@ -179,13 +179,13 @@ namespace HeroesPowerPlant.Config
                 NumericEndX.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.X;
                 NumericEndY.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
                 NumericEndZ.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericEndRot.Value = (decimal)(End_Positions[ComboBoxTeam.SelectedIndex].Pitch * 360f / 65536);
+                NumericEndRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(End_Positions[ComboBoxTeam.SelectedIndex].Pitch);
 
                 groupBoxBrag.Enabled = true;
                 NumericBragX.Value = (decimal)Brag_Positions[ComboBoxTeam.SelectedIndex].Position.X;
                 NumericBragY.Value = (decimal)Brag_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
                 NumericBragZ.Value = (decimal)Brag_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericBragRot.Value = (decimal)(Brag_Positions[ComboBoxTeam.SelectedIndex].Pitch * 360f / 65536);
+                NumericBragRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(Brag_Positions[ComboBoxTeam.SelectedIndex].Pitch);
             }
             ProgramIsChangingStuff = false;
         }
@@ -288,7 +288,7 @@ namespace HeroesPowerPlant.Config
             if (!ProgramIsChangingStuff)
             {
                 Start_Positions[ComboBoxTeam.SelectedIndex].Position = new Vector3((float)NumericStartX.Value, (float)NumericStartY.Value, (float)NumericStartZ.Value);
-                Start_Positions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)((float)NumericStartRot.Value * 65536f / 360);
+                Start_Positions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericStartRot.Value);
                 Start_Positions[ComboBoxTeam.SelectedIndex].newMatrix();
             }
         }
@@ -310,7 +310,7 @@ namespace HeroesPowerPlant.Config
             if (!ProgramIsChangingStuff)
             {
                 End_Positions[ComboBoxTeam.SelectedIndex].Position = new Vector3((float)NumericEndX.Value, (float)NumericEndY.Value, (float)NumericEndZ.Value);
-                End_Positions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)((float)NumericEndRot.Value * 65536f / 360);
+                End_Positions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericEndRot.Value);
                 End_Positions[ComboBoxTeam.SelectedIndex].newMatrix();
             }
         }
@@ -320,7 +320,7 @@ namespace HeroesPowerPlant.Config
             if (!ProgramIsChangingStuff)
             {
                 Brag_Positions[ComboBoxTeam.SelectedIndex].Position = new Vector3((float)NumericBragX.Value, (float)NumericBragY.Value, (float)NumericBragZ.Value);
-                Brag_Positions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)((float)NumericBragRot.Value * 65536f / 360);
+                Brag_Positions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericBragRot.Value);
                 Brag_Positions[ComboBoxTeam.SelectedIndex].newMatrix();
             }
         }

@@ -6,12 +6,12 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0180_FlowerPatch : SetObjectManagerHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, int XRot, int YRot, int ZRot)
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             transformMatrix = Matrix.Scaling(Scale)
-                * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                 * Matrix.Translation(Position);
         }
 

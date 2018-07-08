@@ -1,8 +1,5 @@
 ﻿using SharpDX;
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -22,6 +19,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         
         public Vector3 Position;
+        public Vector3 Rotation;
         public byte Link;
         public byte Rend;
 
@@ -29,10 +27,7 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public override string ToString()
         {
-            if (Link == 0)
-                return objectEntry.GetName();
-            else
-                return objectEntry.GetName() + " (" + Link.ToString() + ")";
+            return objectEntry.GetName() + (Link == 0 ? "" : $"({Link})");
         }
 
         public abstract void CreateTransformMatrix();

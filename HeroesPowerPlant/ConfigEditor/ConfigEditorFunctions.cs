@@ -1,10 +1,7 @@
 ﻿using SharpDX;
-using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using static HeroesPowerPlant.SharpRenderer;
 
@@ -101,15 +98,15 @@ namespace HeroesPowerPlant.Config
             private Matrix world;
             private DefaultRenderData renderData = new DefaultRenderData();
 
-            public EntryRenderer(Vector3 Position, ushort YRot, Vector3 v)
+            public EntryRenderer(Vector3 Position, int Rotation, Vector3 v)
             {
-                NewMatrix(Position, YRot);
+                NewMatrix(Position, Rotation);
                 renderData.Color = new Vector4(v, 0.3f);
             }
 
-            public void NewMatrix(Vector3 Position, ushort YRot)
+            public void NewMatrix(Vector3 Position, int Rotation)
             {
-                world = Matrix.Scaling(20f, 20f, 30f) * Matrix.RotationY(YRot * MathUtil.Pi / 32768) * Matrix.Translation(Position);
+                world = Matrix.Scaling(20f, 20f, 30f) * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation)) * Matrix.Translation(Position);
             }
             
             public void Render(Matrix viewProjection)
@@ -133,7 +130,7 @@ namespace HeroesPowerPlant.Config
         public class PositionEntry
         {
             public Vector3 Position = new Vector3();
-            public ushort Pitch;
+            public int Pitch;
             public byte Mode;
             public int HoldTime;
 

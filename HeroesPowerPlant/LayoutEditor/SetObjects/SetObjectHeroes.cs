@@ -4,21 +4,15 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class SetObjectHeroes : SetObject
     {
-        public int XRot;
-        public int YRot;
-        public int ZRot;
-
         public SetObjectManagerHeroes objectManager;
 
-        public SetObjectHeroes() : this(new ObjectEntry(), Vector3.Zero, 0, 0, 0, 0, 10) { }
+        public SetObjectHeroes() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10) { }
 
-        public SetObjectHeroes(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, int XRot, int YRot, int ZRot, byte Link, byte Rend)
+        public SetObjectHeroes(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend)
         {
             FindObjectEntry(List, Type, objectEntries);
             this.Position = Position;
-            this.XRot = XRot;
-            this.YRot = YRot;
-            this.ZRot = ZRot;
+            this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
 
@@ -29,13 +23,11 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateTransformMatrix();
         }
 
-        public SetObjectHeroes(ObjectEntry thisObject, Vector3 Position, int XRot, int YRot, int ZRot, byte Link, byte Rend)
+        public SetObjectHeroes(ObjectEntry thisObject, Vector3 Position, Vector3 Rotation, byte Link, byte Rend)
         {
             objectEntry = thisObject;
             this.Position = Position;
-            this.XRot = XRot;
-            this.YRot = YRot;
-            this.ZRot = ZRot;
+            this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
 
@@ -48,7 +40,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix()
         {
-            objectManager.CreateTransformMatrix(Position, XRot, YRot, ZRot);
+            objectManager.CreateTransformMatrix(Position, Rotation);
 
             boundingBox = objectManager.CreateBoundingBox(objectEntry.ModelNames);
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, objectManager.transformMatrix);

@@ -75,11 +75,10 @@ namespace HeroesPowerPlant
             return rwSectionArray;
         }
 
-        public void SetForRendering(RWSection[] rwChunkList, byte[] rwByteArray, bool isShadowCollision = false)
+        public void SetForRendering(RWSection[] rwChunkList, byte[] rwByteArray)
         {
             if (rwByteArray == null)
-                rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwChunkList,
-                    isShadowCollision ? LevelEditor.LevelEditorFunctions.shadowRenderWareVersion : LevelEditor.LevelEditorFunctions.renderWareVersion);
+                rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwChunkList, isCollision ? LevelEditor.LevelEditorFunctions.shadowRenderWareVersion : LevelEditor.LevelEditorFunctions.renderWareVersion);
             else
                 rwSectionByteArray = rwByteArray;
 
@@ -104,8 +103,7 @@ namespace HeroesPowerPlant
                         }
                         else if (m.texture != null)
                         {
-                            string textureName = m.texture.diffuseTextureName.stringString;
-                            MaterialList.Add(textureName);
+                            MaterialList.Add(m.texture.diffuseTextureName.stringString);
                         }
                         else
                         {
@@ -194,11 +192,12 @@ namespace HeroesPowerPlant
             List<SharpSubSet> SubsetList = new List<SharpSubSet>();
             List<int> indexList = new List<int>();
             int previousIndexCount = 0;
-
+            
             for (int i = 0; i < MaterialList.Count; i++)
             {
-                foreach (Triangle t in AtomicSector.atomicStruct.triangleArray)
+                for (int j = 0; j < AtomicSector.atomicStruct.triangleArray.Length; j++) // each (Triangle t in AtomicSector.atomicStruct.triangleArray)
                 {
+                    Triangle t = AtomicSector.atomicStruct.triangleArray[j];
                     if (t.materialIndex == i)
                     {
                         indexList.Add(t.vertex1);
@@ -222,9 +221,9 @@ namespace HeroesPowerPlant
                             v3.Color = color;
                             vertexList[t.vertex3] = v3;
                         }
-                    }
 
-                    triangleList.Add(t);
+                        triangleList.Add(t);
+                    }
                 }
 
                 if (indexList.Count - previousIndexCount > 0)

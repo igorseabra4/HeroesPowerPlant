@@ -7,12 +7,12 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0003_Ring : SetObjectManagerHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, int XRot, int YRot, int ZRot)
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             transformMatrix = 
-                Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                 * Matrix.Translation(Position);
         }
 

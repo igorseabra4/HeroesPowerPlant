@@ -44,7 +44,12 @@ namespace HeroesPowerPlant
 
         public static float BAMStoDegrees(int bams)
         {
-            return bams * (360f / 65536f);
+            return bams * (180f / 32768f);
+        }
+
+        public static float BAMStoDegrees(float bams)
+        {
+            return bams * (180f / 32768f);
         }
 
         public static float BAMStoRadians(int bams)
@@ -52,9 +57,14 @@ namespace HeroesPowerPlant
             return (float)(bams * (Math.PI / 32768f));
         }
 
+        public static float BAMStoRadians(float bams)
+        {
+            return (float)(bams * (Math.PI / 32768f));
+        }
+
         public static int DegreesToBAMS(float degrees)
         {
-            return (int)(degrees * 65536f / 360f);
+            return (int)(degrees * 32768f / 180f);
         }
     }
 }

@@ -6,13 +6,13 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020B_EventActivator : SetObjectManagerHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, int XRot, int YRot, int ZRot)
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ)
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
-                    * Matrix.Translation(Position);
+                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
+                * Matrix.Translation(Position);
         }
 
         public override void Draw(string[] modelNames, bool isSelected)

@@ -25,37 +25,38 @@ namespace HeroesPowerPlant.LayoutEditor
             throw new Exception();
         }
 
-        public override void CreateTransformMatrix(Vector3 Position, int XRot, int YRot, int ZRot)
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             if (Shape == ShapeEnum.Cube)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ)
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
             else if (Shape == ShapeEnum.Sphere)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX)
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
             else if (Shape == ShapeEnum.Cylinder)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
             else if (Shape == ShapeEnum.NotInUse)
             {
-                transformMatrix = Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                transformMatrix = 
+                      Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
         }

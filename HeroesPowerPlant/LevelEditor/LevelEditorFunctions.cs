@@ -50,7 +50,7 @@ namespace HeroesPowerPlant.LevelEditor
             public List<Triangle> TriangleStream;
             public string MTLLib;
         }
-        
+
         public static ModelConverterData ReadOBJFile(string InputFile, bool ignoreUVs)
         {
             ModelConverterData objData = new ModelConverterData()
@@ -148,16 +148,16 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         objData.MaterialStream.Add(Regex.Replace(j.Substring(7), @"\s+", ""));
                         CurrentMaterial += 1;
-                        
+
                         TempColFlags = new RenderWareFile.Color(0, 0, 0, 0);
 
                         if (j.Contains('_'))
                         {
-                            if (j.Split('_').Last().Count() == 8)
+                            string a = j.Split('_').Last();
+                            if (a.Count() == 8)
                             {
                                 try
                                 {
-                                    string a = j.Split('_').Last();
                                     TempColFlags.R = Convert.ToByte(new string(new char[] { a[0], a[1] }), 16);
                                     TempColFlags.G = Convert.ToByte(new string(new char[] { a[2], a[3] }), 16);
                                     TempColFlags.B = Convert.ToByte(new string(new char[] { a[4], a[5] }), 16);
@@ -170,15 +170,15 @@ namespace HeroesPowerPlant.LevelEditor
                             }
                             else
                             {
-                                if (j.Split('_').Last() == "f") // floor
+                                if (a == "f") // floor
                                     TempColFlags = new RenderWareFile.Color(0x01, 0x00, 0x00, 0x60);
-                                else if (j.Split('_').Last() == "m") // metal floor
+                                else if (a == "m") // metal floor
                                     TempColFlags = new RenderWareFile.Color(0x01, 0x01, 0x01, 0x10);
-                                else if (j.Split('_').Last() == "a") // angle wall
+                                else if (a == "a") // angle wall
                                     TempColFlags = new RenderWareFile.Color(0x02, 0x01, 0x01, 0x10);
-                                else if (j.Split('_').Last() == "t") // triangle jump wall
+                                else if (a == "t") // triangle jump wall
                                     TempColFlags = new RenderWareFile.Color(0x02, 0x00, 0x00, 0x60);
-                                else if (j.Split('_').Last() == "x") //death
+                                else if (a == "x") //death
                                     TempColFlags = new RenderWareFile.Color(0x20, 0x00, 0x00, 0x00);
                             }
                         }
@@ -350,7 +350,7 @@ namespace HeroesPowerPlant.LevelEditor
                 if (i.Position.Z < Min.Z)
                     Min.Z = i.Position.Z;
             }
-            
+
             List<Vertex3> vList = new List<Vertex3>(data.VertexStream.Count);
             foreach (Vertex v in data.VertexStream)
                 vList.Add(new Vertex3(v.Position.X, v.Position.Y, v.Position.Z));
@@ -375,7 +375,7 @@ namespace HeroesPowerPlant.LevelEditor
             int TotalNumberOfTristripIndicies = 0;
 
             if (Program.levelEditor.checkBoxTristrip.Checked) // tristrip generator
-            {                
+            {
                 for (int i = 0; i < data.MaterialStream.Count; i++)
                 {
                     List<Triangle> TriangleStream2 = new List<Triangle>();
@@ -452,7 +452,7 @@ namespace HeroesPowerPlant.LevelEditor
                     materialList = new Material_0007[data.MaterialStream.Count()]
                 },
 
-                firstWorldChunk =  new AtomicSector_0009()
+                firstWorldChunk = new AtomicSector_0009()
                 {
                     atomicStruct = new AtomicSectorStruct_0001()
                     {
@@ -621,14 +621,13 @@ namespace HeroesPowerPlant.LevelEditor
                         indexLists.Last().Add(triangleStream[i].vertex3);
                         triangleStream[i].MaterialIndex = -1;
                         allAreDone = false;
-                        
+
                     }
                 }
             }
 
             return indexLists;
         }
-        
         public static void ConvertBSPtoOBJ(string fileName, RenderWareModelFile bspFile)
         {
             int totalVertexIndices = 0;
@@ -649,66 +648,81 @@ namespace HeroesPowerPlant.LevelEditor
                     OBJWriter.WriteLine();
                     if (w.firstWorldChunk.sectionIdentifier == Section.AtomicSector)
                     {
-                        GetAtomicTriangleList(OBJWriter, (AtomicSector_0009)w.firstWorldChunk, ref triangleList, ref totalVertexIndices);
+                        GetAtomicTriangleList(OBJWriter, (AtomicSector_0009)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isCollision);
                     }
                     else if (w.firstWorldChunk.sectionIdentifier == Section.PlaneSector)
                     {
-                        GetPlaneTriangleList(OBJWriter, (PlaneSector_000A)w.firstWorldChunk, ref triangleList, ref totalVertexIndices);
+                        GetPlaneTriangleList(OBJWriter, (PlaneSector_000A)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isCollision);
                     }
                 }
             }
 
-            for (int i = 0; i < bspFile.MaterialList.Count; i++)
+            if (bspFile.isCollision)
             {
-                OBJWriter.WriteLine("g " + fileNameWithoutExtension + "_" + bspFile.MaterialList[i]);
-                OBJWriter.WriteLine("usemtl " + bspFile.MaterialList[i] + "_m");
+                RenderWareFile.Color currentColFlag = new RenderWareFile.Color(3, 3, 3, 3);
 
-                if (bspFile.isCollision)
+                foreach (Triangle j in triangleList)
                 {
+                    if (j.collisionFlagForShadow != currentColFlag)
+                    {
+                        currentColFlag = j.collisionFlagForShadow;
+                        OBJWriter.WriteLine();
+                        OBJWriter.WriteLine("g " + fileNameWithoutExtension + "_" + currentColFlag.ToString());
+                        OBJWriter.WriteLine("usemtl colmat_" + currentColFlag.ToString());
+                    }
+
+                    OBJWriter.WriteLine("f "
+                        + (j.vertex1 + 1).ToString() + " "
+                        + (j.vertex2 + 1).ToString() + " "
+                        + (j.vertex3 + 1).ToString());
+                }
+
+                OBJWriter.Close();
+                WriteCollisionMaterialLib(triangleList, bspFile.MaterialList.ToArray(), materialLibrary);
+                return;
+            }
+            else
+                for (int i = 0; i < bspFile.MaterialList.Count; i++)
+                {
+                    OBJWriter.WriteLine("g " + fileNameWithoutExtension + "_" + bspFile.MaterialList[i]);
+                    OBJWriter.WriteLine("usemtl " + bspFile.MaterialList[i] + "_m");
+
                     foreach (Triangle j in triangleList)
                         if (j.MaterialIndex == i)
                             OBJWriter.WriteLine("f "
-                                + (j.vertex1 + 1).ToString() + " "
-                                + (j.vertex2 + 1).ToString() + " "
-                                + (j.vertex3 + 1).ToString());
+                                + (j.vertex1 + 1).ToString() + "/" + (j.vertex1 + 1).ToString() + " "
+                                + (j.vertex2 + 1).ToString() + "/" + (j.vertex2 + 1).ToString() + " "
+                                + (j.vertex3 + 1).ToString() + "/" + (j.vertex3 + 1).ToString());
+
+                    OBJWriter.WriteLine();
+
+                    OBJWriter.Close();
+                    WriteMaterialLib(bspFile.MaterialList.ToArray(), materialLibrary);
                 }
-                else
-                foreach (Triangle j in triangleList)
-                    if (j.MaterialIndex == i)
-                        OBJWriter.WriteLine("f "
-                            + (j.vertex1 + 1).ToString() + "/" + (j.vertex1 + 1).ToString() + " "
-                            + (j.vertex2 + 1).ToString() + "/" + (j.vertex2 + 1).ToString() + " "
-                            + (j.vertex3 + 1).ToString() + "/" + (j.vertex3 + 1).ToString());
-
-                OBJWriter.WriteLine();
-            }
-
-            OBJWriter.Close();
-            WriteMaterialLib(bspFile.MaterialList.ToArray(), materialLibrary);
         }
 
-        private static void GetPlaneTriangleList(StreamWriter OBJWriter, PlaneSector_000A planeSection, ref List<Triangle> triangleList, ref int totalVertexIndices)
+        private static void GetPlaneTriangleList(StreamWriter OBJWriter, PlaneSector_000A planeSection, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision)
         {
             if (planeSection.leftSection is AtomicSector_0009 a1)
             {
-                GetAtomicTriangleList(OBJWriter, a1, ref triangleList, ref totalVertexIndices);
+                GetAtomicTriangleList(OBJWriter, a1, ref triangleList, ref totalVertexIndices, isCollision);
             }
             else if (planeSection.leftSection is PlaneSector_000A p1)
             {
-                GetPlaneTriangleList(OBJWriter, p1, ref  triangleList, ref totalVertexIndices);
+                GetPlaneTriangleList(OBJWriter, p1, ref triangleList, ref totalVertexIndices, isCollision);
             }
 
             if (planeSection.rightSection is AtomicSector_0009 a2)
             {
-                GetAtomicTriangleList(OBJWriter, a2, ref triangleList, ref totalVertexIndices);
+                GetAtomicTriangleList(OBJWriter, a2, ref triangleList, ref totalVertexIndices, isCollision);
             }
             else if (planeSection.rightSection is PlaneSector_000A p2)
             {
-                GetPlaneTriangleList(OBJWriter, p2, ref triangleList, ref totalVertexIndices);
+                GetPlaneTriangleList(OBJWriter, p2, ref triangleList, ref totalVertexIndices, isCollision);
             }
         }
 
-        private static void GetAtomicTriangleList(StreamWriter OBJWriter, AtomicSector_0009 AtomicSector, ref List<Triangle> triangleList, ref int totalVertexIndices)
+        private static void GetAtomicTriangleList(StreamWriter OBJWriter, AtomicSector_0009 AtomicSector, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision)
         {
             if (AtomicSector.atomicStruct.isNativeData)
             {
@@ -738,21 +752,45 @@ namespace HeroesPowerPlant.LevelEditor
             // Write vcolors to obj
             if (AtomicSector.atomicStruct.colorArray != null)
                 foreach (RenderWareFile.Color i in AtomicSector.atomicStruct.colorArray)
-                OBJWriter.WriteLine("vc " + i.R.ToString() + " " + i.G.ToString() + " " + i.B.ToString() + " " + i.A.ToString());
+                    OBJWriter.WriteLine("vc " + i.R.ToString() + " " + i.G.ToString() + " " + i.B.ToString() + " " + i.A.ToString());
 
             OBJWriter.WriteLine();
 
             if (AtomicSector.atomicStruct.triangleArray != null)
-                foreach (RenderWareFile.Triangle i in AtomicSector.atomicStruct.triangleArray)
+            {
+                if (isCollision)
                 {
-                    triangleList.Add(new Triangle
+                    RenderWareFile.Color[] collisionFlagList = new RenderWareFile.Color[0];
+                    foreach (RWSection r in AtomicSector.atomicExtension.extensionSectionList)
+                        if (r is UserDataPLG_011F userdata)
+                            collisionFlagList = userdata.collisionFlags;
+
+                    for (int i = 0; i < AtomicSector.atomicStruct.triangleArray.Length; i++)
                     {
-                        MaterialIndex = i.materialIndex,
-                        vertex1 = i.vertex1 + totalVertexIndices,
-                        vertex2 = i.vertex2 + totalVertexIndices,
-                        vertex3 = i.vertex3 + totalVertexIndices
-                    });
+                        triangleList.Add(new Triangle
+                        {
+                            collisionFlagForShadow = collisionFlagList[i],
+                            MaterialIndex = AtomicSector.atomicStruct.triangleArray[i].materialIndex,
+                            vertex1 = AtomicSector.atomicStruct.triangleArray[i].vertex1 + totalVertexIndices,
+                            vertex2 = AtomicSector.atomicStruct.triangleArray[i].vertex2 + totalVertexIndices,
+                            vertex3 = AtomicSector.atomicStruct.triangleArray[i].vertex3 + totalVertexIndices,
+                        });
+                    }
                 }
+                else
+                {
+                    foreach (RenderWareFile.Triangle i in AtomicSector.atomicStruct.triangleArray)
+                    {
+                        triangleList.Add(new Triangle
+                        {
+                            MaterialIndex = i.materialIndex,
+                            vertex1 = i.vertex1 + totalVertexIndices,
+                            vertex2 = i.vertex2 + totalVertexIndices,
+                            vertex3 = i.vertex3 + totalVertexIndices,
+                        });
+                    }
+                }
+            }
 
             if (AtomicSector.atomicStruct.vertexArray != null)
                 totalVertexIndices += AtomicSector.atomicStruct.vertexArray.Count();
@@ -771,7 +809,6 @@ namespace HeroesPowerPlant.LevelEditor
                 if (rw is NativeDataPLG_0510 native)
                 {
                     n = native.nativeDataStruct.nativeData;
-                    
                 }
             }
 
@@ -794,7 +831,7 @@ namespace HeroesPowerPlant.LevelEditor
                     else throw new Exception();
                 }
             }
-            
+
             foreach (TriangleDeclaration td in n.triangleDeclarations)
             {
                 foreach (TriangleList tl in td.TriangleListList)
@@ -881,7 +918,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
         }
-        
+
         private static void WriteMaterialLib(string[] MaterialStream, string materialLibrary)
         {
             StreamWriter MTLWriter = new StreamWriter(materialLibrary, false);
@@ -900,7 +937,40 @@ namespace HeroesPowerPlant.LevelEditor
                 MTLWriter.WriteLine();
             }
 
-            MTLWriter.Close();            
+            MTLWriter.Close();
+        }
+
+        private static void WriteCollisionMaterialLib(List<Triangle> triangleList, string[] MaterialStream, string materialLibrary)
+        {
+            StreamWriter MTLWriter = new StreamWriter(materialLibrary, false);
+            MTLWriter.WriteLine("# Exported by Heroes Power Plant");
+            MTLWriter.WriteLine();
+
+            Dictionary<string, string[]> mtlFileStrings = new Dictionary<string, string[]>();
+
+            foreach (Triangle j in triangleList)
+            {
+                if (!mtlFileStrings.ContainsKey(j.collisionFlagForShadow.ToString()))
+                {
+
+                    RenderWareFile.Color color = RenderWareFile.Color.FromString(MaterialStream[j.MaterialIndex]);
+
+                    mtlFileStrings.Add(j.collisionFlagForShadow.ToString(), new string[] {
+                        "newmtl colmat_" + j.collisionFlagForShadow.ToString(),
+                        $"Kd {color.R / 255f} {color.G / 255f} {color.B / 255f}"
+                    });
+                }
+            }
+
+            foreach (string[] ss in mtlFileStrings.Values)
+            {
+                MTLWriter.WriteLine(ss[0]);
+                MTLWriter.WriteLine(ss[1]);
+                MTLWriter.WriteLine("d 1.0");
+                MTLWriter.WriteLine();
+            }
+
+            MTLWriter.Close();
         }
     }
 }

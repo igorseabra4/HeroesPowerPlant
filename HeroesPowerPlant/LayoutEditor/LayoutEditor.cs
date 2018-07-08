@@ -137,11 +137,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
             if (Path.GetExtension(currentlyOpenFileName).ToLower() == ".bin")
             {
+                isShadow = false;
                 ComboBoxObject.Items.AddRange(HeroesObjectEntries);
                 listBoxObjects.Items.AddRange(GetHeroesLayout(currentlyOpenFileName, HeroesObjectEntries).ToArray());
             }
             else if (Path.GetExtension(currentlyOpenFileName).ToLower() == ".dat")
             {
+                isShadow = true;
                 ComboBoxObject.Items.AddRange(ShadowObjectEntries);
                 listBoxObjects.Items.AddRange(GetShadowLayout(currentlyOpenFileName, ShadowObjectEntries).ToArray());
             }
@@ -261,7 +263,7 @@ namespace HeroesPowerPlant.LayoutEditor
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                SetObjectHeroes ring = new SetObjectHeroes(0, 3, HeroesObjectEntries, Vector3.Zero, 0, 0, 0, 0, 0);
+                SetObjectHeroes ring = new SetObjectHeroes(0, 3, HeroesObjectEntries, Vector3.Zero, Vector3.Zero, 0, 0);
                 listBoxObjects.Items.AddRange(GetObjectsFromObjFile(openFile.FileName, ring.objectEntry).ToArray());
             }
         }
@@ -298,9 +300,9 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 currentSet = listBoxObjects.Items[selectedObject] as SetObjectHeroes;
                 
-                NumericRotX.Value = (decimal)BAMStoDegrees(((SetObjectHeroes)currentSet).XRot);
-                NumericRotY.Value = (decimal)BAMStoDegrees(((SetObjectHeroes)currentSet).YRot);
-                NumericRotZ.Value = (decimal)BAMStoDegrees(((SetObjectHeroes)currentSet).ZRot);
+                NumericRotX.Value = (decimal)BAMStoDegrees(((SetObjectHeroes)currentSet).Rotation.X);
+                NumericRotY.Value = (decimal)BAMStoDegrees(((SetObjectHeroes)currentSet).Rotation.Y);
+                NumericRotZ.Value = (decimal)BAMStoDegrees(((SetObjectHeroes)currentSet).Rotation.Z);
 
                 PropertyGridMisc.SelectedObject = (currentSet as SetObjectHeroes).objectManager;
             }
@@ -346,7 +348,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
             else
             {
-                SetObjectHeroes newObject = new SetObjectHeroes(0, 0, HeroesObjectEntries, SharpRenderer.Camera.GetPosition() + 100 * SharpRenderer.Camera.GetForward(), 0, 0, 0, 0, 10);
+                SetObjectHeroes newObject = new SetObjectHeroes(0, 0, HeroesObjectEntries, SharpRenderer.Camera.GetPosition() + 100 * SharpRenderer.Camera.GetForward(), Vector3.Zero, 0, 10);
                 newObject.CreateTransformMatrix();
 
                 listBoxObjects.Items.Add(newObject);
@@ -363,7 +365,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 if (isShadow)
                 {
-                    destination = new SetObjectShadow(original.objectEntry, original.Position, ((SetObjectShadow)original).Rotation, original.Link, original.Rend);
+                    destination = new SetObjectShadow(original.objectEntry, original.Position, original.Rotation, original.Link, original.Rend);
 
                     (destination as SetObjectShadow).objectManager.MiscSettings = new byte[(original as SetObjectShadow).objectManager.MiscSettings.Length];
 
@@ -374,7 +376,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
                 else
                 {
-                    destination = new SetObjectHeroes(original.objectEntry, original.Position, ((SetObjectHeroes)original).XRot, ((SetObjectHeroes)original).YRot, ((SetObjectHeroes)original).ZRot, original.Link, original.Rend);
+                    destination = new SetObjectHeroes(original.objectEntry, original.Position, original.Rotation, original.Link, original.Rend);
                     
                     (destination as SetObjectHeroes).objectManager.MiscSettings = new byte[(original as SetObjectHeroes).objectManager.MiscSettings.Length];
 
@@ -459,9 +461,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
                 else
                 {
-                    (listBoxObjects.Items[selectedObject] as SetObjectHeroes).XRot = (int)((float)NumericRotX.Value * (65536f / 360f));
-                    (listBoxObjects.Items[selectedObject] as SetObjectHeroes).YRot = (int)((float)NumericRotY.Value * (65536f / 360f));
-                    (listBoxObjects.Items[selectedObject] as SetObjectHeroes).ZRot = (int)((float)NumericRotZ.Value * (65536f / 360f));
+                    (listBoxObjects.Items[selectedObject] as SetObjectHeroes).Rotation.X = DegreesToBAMS((float)NumericRotX.Value);
+                    (listBoxObjects.Items[selectedObject] as SetObjectHeroes).Rotation.Y = DegreesToBAMS((float)NumericRotY.Value);
+                    (listBoxObjects.Items[selectedObject] as SetObjectHeroes).Rotation.Z = DegreesToBAMS((float)NumericRotZ.Value);
                 }
                 (listBoxObjects.Items[selectedObject] as SetObject).CreateTransformMatrix();
             }
@@ -559,9 +561,9 @@ namespace HeroesPowerPlant.LayoutEditor
             MemoryFunctions.DeterminePointers();
             if (Program.MemManager.ProcessIsAttached)
             {
-                NumericRotX.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer0RX) * (180 / 32768);
-                NumericRotY.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer0RY) * (180 / 32768);
-                NumericRotZ.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer0RZ) * (180 / 32768);
+                NumericRotX.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer0RX));
+                NumericRotY.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer0RY));
+                NumericRotZ.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer0RZ));
             }
             else MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -571,9 +573,9 @@ namespace HeroesPowerPlant.LayoutEditor
             MemoryFunctions.DeterminePointers();
             if (Program.MemManager.ProcessIsAttached)
             {
-                NumericRotX.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer1RX) * (180 / 32768);
-                NumericRotY.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer1RY) * (180 / 32768);
-                NumericRotZ.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer1RZ) * (180 / 32768);
+                NumericRotX.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer1RX));
+                NumericRotY.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer1RY));
+                NumericRotZ.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer1RZ));
             }
             else MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -583,9 +585,9 @@ namespace HeroesPowerPlant.LayoutEditor
             MemoryFunctions.DeterminePointers();
             if (Program.MemManager.ProcessIsAttached)
             {
-                NumericRotX.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer2RX) * (180 / 32768);
-                NumericRotY.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer2RY) * (180 / 32768);
-                NumericRotZ.Value = (decimal)Program.MemManager.ReadUInt32(MemoryFunctions.Pointer2RZ) * (180 / 32768);
+                NumericRotX.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer2RX));
+                NumericRotY.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer2RY));
+                NumericRotZ.Value = (decimal)BAMStoDegrees(Program.MemManager.ReadUInt32(MemoryFunctions.Pointer2RZ));
             }
             else MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

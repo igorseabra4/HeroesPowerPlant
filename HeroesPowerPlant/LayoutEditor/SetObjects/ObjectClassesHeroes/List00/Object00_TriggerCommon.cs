@@ -29,38 +29,38 @@ namespace HeroesPowerPlant.LayoutEditor
             throw new Exception();
         }
 
-        public override void CreateTransformMatrix(Vector3 Position, int XRot, int YRot, int ZRot)
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             if (Type == TypeType.Sphere)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX)
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
             else if (Type == TypeType.Cylinder)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
             else if (Type == TypeType.Rectangle)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ)
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
             else if (Type == TypeType.CylinderXZ)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
-                    * Matrix.RotationY((float)(YRot * (Math.PI / 32768f)))
-                    * Matrix.RotationX((float)(XRot * (Math.PI / 32768f)))
-                    * Matrix.RotationZ((float)(ZRot * (Math.PI / 32768f)))
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
         }

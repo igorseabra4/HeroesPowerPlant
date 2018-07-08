@@ -53,7 +53,7 @@ namespace HeroesPowerPlant.LevelEditor
         {
             using (OpenFileDialog a = new OpenFileDialog()
             {
-                Filter = "All supported types|*.dae;*.obj;*.bsp|DAE Files|*.dae|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
+                Filter = "All supported types|*.obj;*.bsp|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
                 Multiselect = true
             })
                 if (a.ShowDialog() == DialogResult.OK)
@@ -73,7 +73,7 @@ namespace HeroesPowerPlant.LevelEditor
 
                         if (Path.GetExtension(i).ToLower() == ".obj")
                         {
-                            file.SetForRendering(CreateShadowCollisionBSPFile(i, ReadOBJFile(i, true)), null, true);
+                            file.SetForRendering(CreateShadowCollisionBSPFile(ReadOBJFile(i, true)), null);
                         }
                         else
                         {
@@ -109,15 +109,18 @@ namespace HeroesPowerPlant.LevelEditor
             }
             else
             {
-                CommonOpenFileDialog a = new CommonOpenFileDialog();
+                CommonOpenFileDialog a = new CommonOpenFileDialog()
+                {
+                    IsFolderPicker = true
+                };
                 if (a.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     if (listBoxLevelModels.SelectedIndices.Count > 1)
                         foreach (int i in listBoxLevelModels.SelectedIndices)
                             ConvertBSPtoOBJ(Path.Combine(a.FileName, ShadowCollisionBSPStream[i].fileName), ShadowCollisionBSPStream[i]);
                     else
-                        for (int i = 0; i < BSPStream.Count; i++)
-                            ConvertBSPtoOBJ(Path.Combine(a.FileName, ShadowCollisionBSPStream[i].fileName), ShadowCollisionBSPStream[i]);
+                        foreach (RenderWareModelFile i in ShadowCollisionBSPStream)
+                            ConvertBSPtoOBJ(Path.Combine(a.FileName, i.fileName), i);
                 }
             }
         }

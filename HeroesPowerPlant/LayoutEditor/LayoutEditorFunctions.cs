@@ -22,9 +22,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     break;
 
                 Vector3 Position = new Vector3(Switch(LayoutFileReader.ReadSingle()), Switch(LayoutFileReader.ReadSingle()), Switch(LayoutFileReader.ReadSingle()));
-                int XRot = Switch(LayoutFileReader.ReadInt32());
-                int YRot = Switch(LayoutFileReader.ReadInt32());
-                int ZRot = Switch(LayoutFileReader.ReadInt32());
+                Vector3 Rotation = new Vector3(Switch(LayoutFileReader.ReadInt32()), Switch(LayoutFileReader.ReadInt32()), Switch(LayoutFileReader.ReadInt32()));
 
                 LayoutFileReader.BaseStream.Position += 16;
                 byte List = LayoutFileReader.ReadByte();
@@ -32,7 +30,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 byte Link = LayoutFileReader.ReadByte();
                 byte Rend = LayoutFileReader.ReadByte();
 
-                SetObjectHeroes TempObject = new SetObjectHeroes(List, Type, objectEntries, Position, XRot, YRot, ZRot, Link, Rend);
+                SetObjectHeroes TempObject = new SetObjectHeroes(List, Type, objectEntries, Position, Rotation, Link, Rend);
 
                 if (List == 0 & Type == 0)
                     continue;
@@ -79,9 +77,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(Switch(i.Position.X));
                 layoutWriter.Write(Switch(i.Position.Y));
                 layoutWriter.Write(Switch(i.Position.Z));
-                layoutWriter.Write(Switch(i.XRot));
-                layoutWriter.Write(Switch(i.YRot));
-                layoutWriter.Write(Switch(i.ZRot));
+                layoutWriter.Write(Switch((int)i.Rotation.X));
+                layoutWriter.Write(Switch((int)i.Rotation.Y));
+                layoutWriter.Write(Switch((int)i.Rotation.Z));
                 layoutWriter.Write(new byte[] { 0, 2, currentNum, 9, 0, 0, 0, 0, 0, 2, currentNum, 9, 0, 0, 0, 0 });
                 layoutWriter.Write(i.objectEntry.List);
                 layoutWriter.Write(i.objectEntry.Type);
@@ -234,7 +232,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (j.StartsWith("v"))
                 {
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
-                    SetObjectHeroes heroesSetObject = new SetObjectHeroes(objectEntry, new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), 0, 0, 0, 0, 10);
+                    SetObjectHeroes heroesSetObject = new SetObjectHeroes(objectEntry, new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), Vector3.Zero, 0, 10);
                     
                     list.Add(heroesSetObject);
                 }
@@ -259,7 +257,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         list.Add(TempObject);
                     }
                     TempObject = null;
-                    TempObject = new SetObjectHeroes(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), objectEntries, Vector3.Zero, 0, 0, 0, 0, 10);
+                    TempObject = new SetObjectHeroes(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), objectEntries, Vector3.Zero, Vector3.Zero, 0, 10);
                 }
                 else if (s.StartsWith("link "))
                 {
@@ -279,9 +277,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 else if (s.StartsWith("r "))
                 {
                     string[] j = s.Split(' ');
-                    TempObject.XRot = Convert.ToInt32(j[1]);
-                    TempObject.YRot = Convert.ToInt32(j[2]);
-                    TempObject.ZRot = Convert.ToInt32(j[3]);
+                    TempObject.Rotation.X = Convert.ToInt32(j[1]);
+                    TempObject.Rotation.Y = Convert.ToInt32(j[2]);
+                    TempObject.Rotation.Z = Convert.ToInt32(j[3]);
                 }
                 else if (s.StartsWith("misc "))
                 {
@@ -333,7 +331,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 iniWriter.WriteLine("link " + String.Format("{0, 2:D2}", i.Link));
                 iniWriter.WriteLine("rend " + String.Format("{0, 2:D2}", i.Rend));
                 iniWriter.WriteLine("v " + i.Position.X.ToString() + " " + i.Position.Y.ToString() + " " + i.Position.Z.ToString());
-                iniWriter.WriteLine("r " + i.XRot.ToString() + " " + i.YRot.ToString() + " " + i.ZRot.ToString());
+                iniWriter.WriteLine("r " + i.Rotation.X.ToString() + " " + i.Rotation.Y.ToString() + " " + i.Rotation.Z.ToString());
                 if (i.objectEntry.HasMiscSettings)
                 {
                     List<char> m = new List<char>();
@@ -438,9 +436,9 @@ namespace HeroesPowerPlant.LayoutEditor
         //        HeroesSetObject TempObject = new HeroesSetObject
         //        {
         //            Position = i.Position,
-        //            XRot = DegreesToBAMS(i.Rotation.X),
-        //            YRot = DegreesToBAMS(i.Rotation.Y),
-        //            ZRot = DegreesToBAMS(i.Rotation.Z),
+        //            Rotation.X = DegreesToBAMS(i.Rotation.X),
+        //            Rotation.Y = DegreesToBAMS(i.Rotation.Y),
+        //            Rotation.Z = DegreesToBAMS(i.Rotation.Z),
 
         //            //Link = i.Link,
         //            Rend = (byte)(1.8f * i.Rend)
@@ -493,7 +491,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         //                if (i.MiscSettings[0] == 1)
         //                {
-        //                    TempObject.YRot += 0x10000 / 2;
+        //                    TempObject.Rotation.Y += 0x10000 / 2;
         //                }
         //            }
         //            else if (i.Type == 0x11) TempObject.Type = 0x04; // Hint
@@ -529,9 +527,9 @@ namespace HeroesPowerPlant.LayoutEditor
         //            {
         //                TempObject.List = 0x00;
         //                TempObject.Type = 0x2E; // Fan
-        //                TempObject.XRot = 0;
-        //                TempObject.YRot = 0;
-        //                TempObject.ZRot = 0;
+        //                TempObject.Rotation.X = 0;
+        //                TempObject.Rotation.Y = 0;
+        //                TempObject.Rotation.Z = 0;
         //            }
         //            else if (i.Type == 0xD5) // Digital big block
         //            {
@@ -572,7 +570,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         //                if (i.MiscSettings[0] == 1)
         //                {
-        //                    TempObject.XRot -= (0x10000 / 4);
+        //                    TempObject.Rotation.X -= (0x10000 / 4);
         //                }
         //                else
         //                {

@@ -10,12 +10,12 @@ namespace HeroesPowerPlant.LayoutEditor
             return new BoundingBox(-Vector3.One, Vector3.One);
         }
 
-        public override void CreateTransformMatrix(Vector3 Position, int XRot, int YRot, int ZRot)
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             transformMatrix = Matrix.Scaling(ScaleX / 2, ScaleY / 2, ScaleZ / 2) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians(XRot)) *
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians(YRot)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(ZRot)) *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z)) *
                 Matrix.Translation(Position);
         }
 
