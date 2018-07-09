@@ -82,7 +82,14 @@ namespace HeroesPowerPlant
                 if (TextureStream.ContainsKey(textureName))
                     showMessageBox = true;
                 else
-                    TextureStream.Add(textureName, device.LoadTextureFromFile(i));
+                    try
+                    {
+                        TextureStream.Add(textureName, device.LoadTextureFromFile(i));
+                    }
+                    catch (Exception e)
+                    {
+                        System.Windows.Forms.MessageBox.Show(e.Message);
+                    }
             }
             if (showMessageBox) System.Windows.Forms.MessageBox.Show("HeroesPowerPlant found duplicates of one or more textures. The first one will be used.");
         }
@@ -122,6 +129,7 @@ namespace HeroesPowerPlant
                 DetermineVisibleChunks();
 
             device.SetFillModeDefault();
+            defaultShader.Apply();
 
             RenderOpaque(viewProjection);
             RenderAlpha(viewProjection);
@@ -135,7 +143,6 @@ namespace HeroesPowerPlant
 
             device.UpdateData(defaultBuffer, viewProjection);
             device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
-            defaultShader.Apply();
 
             for (int j = 0; j < BSPStream.Count; j++)
             {
@@ -178,7 +185,6 @@ namespace HeroesPowerPlant
 
                 device.UpdateData(defaultBuffer, viewProjection);
                 device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
-                defaultShader.Apply();
 
                 BSPStream[j].Render();
             }

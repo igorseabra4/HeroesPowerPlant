@@ -6,14 +6,13 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0080_TriggerTeleport : SetObjectManagerHeroes
     {
-        private Matrix triggerMatrix;
         private Matrix destinationMatrix;
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             destinationMatrix = Matrix.Translation(XDestination, YDestination, ZDestination);
 
-            triggerMatrix = Matrix.Scaling(Radius)
+            transformMatrix = Matrix.Scaling(Radius)
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
@@ -22,8 +21,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            DrawCube(destinationMatrix, isSelected);
-            DrawSphere(triggerMatrix, isSelected);
+            DrawCube(isSelected);
+            DrawSphereTrigger(transformMatrix, isSelected);
         }
 
         public float Radius

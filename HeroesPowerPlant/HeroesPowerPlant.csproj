@@ -121,6 +121,16 @@
     <Compile Include="ConfigEditor\SplineEditorFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0281_TurtleFeet.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0282_KameWave.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0305_BigBridge.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0306_AirCar.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List04\Object04_CraneWallLight.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List13\Object1302_HorizCannon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List13\Object1303_MovingCannon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0010_Ring.cs" />
+    <Compile Include="LayoutEditor\SetObjects\RingType.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0066_TriggerBobJump.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0584_GiantDice.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List09\Object0900_Frog.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ItemType.cs" />
@@ -174,7 +184,6 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object020C_TriggerKaos.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0300_AcceleratorRoad.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0302_RoadCap.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0305_BigBridge.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0308_Accelerator.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List04\Object0401_EnergyColumn.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0502_Flipper.cs" />
@@ -395,6 +404,9 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SharpDX\Shader_Tinted.hlsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tools\HeroesSETIDTBLEditor.exe">

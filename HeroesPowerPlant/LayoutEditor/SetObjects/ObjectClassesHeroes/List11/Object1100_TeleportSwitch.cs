@@ -1,6 +1,4 @@
-﻿using System;
-using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -18,7 +16,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             base.Draw(modelNames, isSelected);
 
-            DrawCube(Matrix.Scaling(5) * destinationMatrix, true);
+            DrawCube(true);
         }
 
         public float DestinationX
@@ -68,8 +66,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public bool IsUpsideDown
         {
             get { return ReadWriteByte(17) != 0; }
-            set { byte a = value ? (byte)1 : (byte)0; ReadWriteByte(17, a); }
+            set { ReadWriteByte(17, (byte)(value ? 1 : 0)); }
         }
-
     }
 }

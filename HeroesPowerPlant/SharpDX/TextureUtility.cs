@@ -891,10 +891,11 @@ namespace HeroesPowerPlant
             {
                 return CreateTextureFromDDS(device.Device, device.DeviceContext, System.IO.File.ReadAllBytes(filename), out bool isCube);
             }
-            else
+            else if (ext.ToLower() == ".png")
             {
                 return CreateTextureFromBitmap(device.Device, device.DeviceContext, filename);
             }
+            else throw new Exception("Unsupported image format: " + filename);
         }
     }
 }

@@ -131,28 +131,30 @@ namespace HeroesPowerPlant.LayoutEditor
             for (int i = 0; i < AmountOfObjects; i++)
             {
                 LayoutFileReader.BaseStream.Position = 12 + i * 0x2C;
-                SetObjectShadow TempObject = new SetObjectShadow();
 
                 if (LayoutFileReader.BaseStream.Position >= LayoutFileReader.BaseStream.Length)
                     break;
 
-                TempObject.Position = new Vector3(LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle());
-                TempObject.Rotation = new Vector3(LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle());
+                Vector3 Position = new Vector3(LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle());
+                Vector3 Rotation = new Vector3(LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle());
                 LayoutFileReader.BaseStream.Position += 8;
-                TempObject.objectEntry.Type = LayoutFileReader.ReadByte();
-                TempObject.objectEntry.List = LayoutFileReader.ReadByte();
-                TempObject.Link = LayoutFileReader.ReadByte();
-                TempObject.Rend = LayoutFileReader.ReadByte();
-                TempObject.objectEntry.MiscSettingCount = LayoutFileReader.ReadInt32();
+                byte Type = LayoutFileReader.ReadByte();
+                byte List = LayoutFileReader.ReadByte();
+                byte Link = LayoutFileReader.ReadByte();
+                byte Rend = LayoutFileReader.ReadByte();
+                int MiscSettingCount = LayoutFileReader.ReadInt32();
 
-                TempObject.CreateTransformMatrix();
+                SetObjectShadow TempObject = new SetObjectShadow(List, Type, objectEntries, Position, Rotation, Link, Rend, MiscSettingCount);
 
                 list.Add(TempObject);
             }
 
             LayoutFileReader.BaseStream.Position = 12 + AmountOfObjects * 0x2C;
             for (int i = 0; i < list.Count; i++)
-                list[i].objectManager.MiscSettings = LayoutFileReader.ReadBytes(list[i].objectEntry.MiscSettingCount);
+            {
+                list[i].objectManager.MiscSettings = LayoutFileReader.ReadBytes(list[i].MiscSettingCount);
+                list[i].CreateTransformMatrix();
+            }
 
             LayoutFileReader.Close();
 
@@ -205,7 +207,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(i.objectEntry.List);
                 layoutWriter.Write(i.Link);
                 layoutWriter.Write(i.Rend);
-                layoutWriter.Write(i.objectEntry.MiscSettingCount);
+                layoutWriter.Write(i.MiscSettingCount);
                 layoutWriter.Write(0);
             }
 
@@ -362,7 +364,6 @@ namespace HeroesPowerPlant.LayoutEditor
             string DebugName = "";
             string Description = "";
             List<string> Model = new List<string>();
-            int MiscSettingCount = -1;
 
             foreach (string i in File.ReadAllLines(FileName))
             {
@@ -381,8 +382,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     Description = i.Split('=')[1];
                 else if (i.StartsWith("Model="))
                     Model.Add(i.Split('=')[1]);
-                else if (i.StartsWith("MiscSettingCount="))
-                    MiscSettingCount = Convert.ToInt32(i.Split('=')[1]);
                 else if (i.StartsWith("EndOfFile"))
                 {
                     list.Add(new ObjectEntry()
@@ -394,7 +393,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         DebugName = DebugName,
                         ModelNames = Model.ToArray(),
                         Description = Description,
-                        MiscSettingCount = MiscSettingCount
                     });
                     break;
                 }
@@ -409,7 +407,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         DebugName = DebugName,
                         ModelNames = Model.ToArray(),
                         Description = Description,
-                        MiscSettingCount = MiscSettingCount
                     });
                     List = 0;
                     Type = 0;
@@ -418,7 +415,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     DebugName = "";
                     Model = new List<string>();
                     Description = "";
-                    MiscSettingCount = -1;
                 }
             }
 

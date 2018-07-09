@@ -27,31 +27,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (isSelected)
-            {
-                device.SetFillModeWireframe();
-            }
-            else
-            {
-                device.SetFillModeDefault();
-            }
-
-            device.SetCullModeDefault();
-            device.SetBlendStateAlphaBlend();// (BlendOperation.Subtract, BlendOption.SourceColor, BlendOption.InverseSourceColor);
-            device.ApplyRasterState();
-            device.UpdateAllStates();
-
-            device.UpdateData(defaultBuffer, transformMatrix * viewProjection);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
-            defaultShader.Apply();
-
             if (MiscSettings[4] < 3)
-                if (DFFRenderer.DFFStream.ContainsKey(modelNames[(byte)Type]))
-                    DFFRenderer.DFFStream[modelNames[(byte)Type]].Render();
-                else
-                    DrawCube(transformMatrix, isSelected);
+                Draw(modelNames[(byte)Type], isSelected);
             else
-                DrawCube(transformMatrix, isSelected);
+                DrawCube(isSelected);
         }
 
         public enum RuinType : byte

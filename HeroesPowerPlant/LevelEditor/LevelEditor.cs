@@ -186,7 +186,7 @@ namespace HeroesPowerPlant.LevelEditor
                         {
                             file.SetForRendering(CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false)), null);
                         }
-                        else
+                        else if (new string[] { ".bsp", ".rg1", ".rp2", ".rx1" }.Contains(Path.GetExtension(i).ToLower()))
                         {
                             file.SetForRendering(ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                         }
@@ -309,12 +309,14 @@ namespace HeroesPowerPlant.LevelEditor
             openToolStripMenuItem1.Enabled = true;
             saveToolStripMenuItem1.Enabled = true;
             saveAsToolStripMenuItem1.Enabled = true;
-
+            
             saveToolStripMenuItem2.Enabled = false;
             saveAsToolStripMenuItem2.Enabled = false;
 
             collisionEditorToolStripMenuItem.Enabled = false;
             shadowCollisionEditor.Hide();
+            buttonImport.Enabled = true;
+
             isShadowMode = false;
         }
 
@@ -333,6 +335,8 @@ namespace HeroesPowerPlant.LevelEditor
             saveAsToolStripMenuItem2.Enabled = true;
 
             collisionEditorToolStripMenuItem.Enabled = true;
+            buttonImport.Enabled = true;
+
             isShadowMode = true;
         }
 

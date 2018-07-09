@@ -13,9 +13,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (objectEntries[i].List == List & objectEntries[i].Type == Type)
                 {
                     objectEntry = objectEntries[i];
-                    break;
+                    return;
                 }
             }
+            throw new Exception($"Object entry not found: {List} {Type}");
         }
         
         public Vector3 Position;
@@ -23,18 +24,18 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Link;
         public byte Rend;
 
-        public bool IsSelected;
+        public bool isSelected;
         
         public override string ToString()
         {
             return objectEntry.GetName() + (Link == 0 ? "" : $"({Link})");
         }
 
-        public abstract void CreateTransformMatrix();
-
         public abstract void Draw(bool drawEveryObject);
 
         public abstract void FindNewObjectManager();
+
+        public abstract void CreateTransformMatrix();
 
         public int GetTypeAsOne()
         {
@@ -47,7 +48,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         public BoundingBox boundingBox;
-        
+
         public float? IntersectsWith(Ray r)
         {
             if (r.Intersects(ref boundingBox, out float distance))

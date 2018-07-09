@@ -11,7 +11,6 @@ namespace HeroesPowerPlant.LayoutEditor
         public string Description;
         public string[] ModelNames;
         public bool HasMiscSettings;
-        public int MiscSettingCount;
 
         public override string ToString()
         {

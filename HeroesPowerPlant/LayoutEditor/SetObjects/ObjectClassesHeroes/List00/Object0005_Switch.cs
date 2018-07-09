@@ -13,7 +13,7 @@
         public SwitchType Type
         {
             get { return (SwitchType)ReadWriteByte(4); }
-            set { byte a = (byte)value; ReadWriteByte(4, a); }
+            set { ReadWriteByte(4, (byte)value); }
         }
 
         public bool Hidden

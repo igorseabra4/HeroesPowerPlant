@@ -285,6 +285,17 @@ namespace HeroesPowerPlant
                 SharpRenderer.backgroundColor = new Color(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, colorDialog.Color.A);
         }
 
+        private void selectionColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                SharpRenderer.selectedObjectColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedObjectColor.W);
+                SharpRenderer.selectedColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedColor.W);
+                LevelEditor.VisibilityFunctions.selectedChunkColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, LevelEditor.VisibilityFunctions.selectedChunkColor.W);
+            }
+        }
+
         private void startPosYToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleStartPos();

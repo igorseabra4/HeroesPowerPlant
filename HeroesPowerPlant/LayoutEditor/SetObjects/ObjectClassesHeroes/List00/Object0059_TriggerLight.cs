@@ -8,26 +8,28 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override BoundingBox CreateBoundingBox(string[] modelNames)
         {
-            return new BoundingBox(-Vector3.One, Vector3.One);
-
-            if (Shape == ShapeEnum.Cube | Shape == ShapeEnum.NotInUse)
+            if (TriggerShape == TriggerLightShape.Cube)
             {
                 return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -ScaleZ) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, ScaleZ) / 2);
             }
-            else if (Shape == ShapeEnum.Sphere)
+            else if (TriggerShape == TriggerLightShape.Sphere)
             {
                 return BoundingBox.FromSphere(new BoundingSphere(Vector3.Zero, Radius_ScaleX));
             }
-            else if (Shape == ShapeEnum.Cylinder)
+            else if (TriggerShape == TriggerLightShape.Cylinder)
             {
                 return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
+            }
+            else if (TriggerShape == TriggerLightShape.NotInUse)
+            {
+                return base.CreateBoundingBox(modelNames);
             }
             throw new Exception();
         }
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            if (Shape == ShapeEnum.Cube)
+            if (TriggerShape == TriggerLightShape.Cube)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -35,7 +37,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
-            else if (Shape == ShapeEnum.Sphere)
+            else if (TriggerShape == TriggerLightShape.Sphere)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -43,7 +45,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
-            else if (Shape == ShapeEnum.Cylinder)
+            else if (TriggerShape == TriggerLightShape.Cylinder)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -51,29 +53,29 @@ namespace HeroesPowerPlant.LayoutEditor
                     * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
-            else if (Shape == ShapeEnum.NotInUse)
+            else if (TriggerShape == TriggerLightShape.NotInUse)
             {
-                transformMatrix = 
-                      Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                    * Matrix.Translation(Position);
+                base.CreateTransformMatrix(Position, Rotation);
             }
         }
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (Shape == ShapeEnum.Cube | Shape == ShapeEnum.NotInUse)
+            if (TriggerShape == TriggerLightShape.Cube)
             {
-                DrawCube(transformMatrix, isSelected);
+                DrawCubeTrigger(transformMatrix, isSelected);
             }
-            else if (Shape == ShapeEnum.Sphere)
+            else if (TriggerShape == TriggerLightShape.Sphere)
             {
-                DrawSphere(transformMatrix, isSelected);
+                DrawSphereTrigger(transformMatrix, isSelected);
             }
-            else if (Shape == ShapeEnum.Cylinder)
+            else if (TriggerShape == TriggerLightShape.Cylinder)
             {
                 DrawCylinder(transformMatrix, isSelected);
+            }
+            else if (TriggerShape ==  TriggerLightShape.NotInUse)
+            {
+                base.Draw(modelNames, isSelected);
             }
         }
 
@@ -117,16 +119,17 @@ namespace HeroesPowerPlant.LayoutEditor
             set { ReadWriteByte(5, (byte)value); }
         }
 
-        public enum ShapeEnum
+        public enum TriggerLightShape
         {
             Cube = 0,
             Sphere = 1,
             Cylinder = 2,
             NotInUse = 3
         }
-        public ShapeEnum Shape
+
+        public TriggerLightShape TriggerShape
         {
-            get { return (ShapeEnum)ReadWriteByte(6); }
+            get { return (TriggerLightShape)ReadWriteByte(6); }
             set { ReadWriteByte(6, (byte)value); }
         }
 

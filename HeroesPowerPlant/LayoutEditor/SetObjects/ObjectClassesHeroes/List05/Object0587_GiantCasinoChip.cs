@@ -21,9 +21,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
                     DFFRenderer.DFFStream[modelNames[Type]].Render();
                 else
-                    DrawCube(Matrix.Scaling(5) * transformMatrix, isSelected);
+                    DrawCube(isSelected);
             else
-                DrawCube(Matrix.Scaling(5) * transformMatrix, isSelected);
+                DrawCube(isSelected);
         }
 
         public float Scale

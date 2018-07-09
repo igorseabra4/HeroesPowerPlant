@@ -8,30 +8,28 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override BoundingBox CreateBoundingBox(string[] modelNames)
         {
-            return new BoundingBox(-Vector3.One, Vector3.One);
-
-            if (Type == TypeType.Sphere)
+            if (TriggerShape == TriggerCommonShape.Sphere)
             {
                 return BoundingBox.FromSphere(new BoundingSphere(Vector3.Zero, Radius_ScaleX));
             }
-            else if (Type == TypeType.Cylinder)
+            else if (TriggerShape == TriggerCommonShape.Cylinder)
             {
-                return new BoundingBox(new Vector3(-1, -1, -1) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
+                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
             }
-            else if (Type == TypeType.Rectangle)
+            else if (TriggerShape == TriggerCommonShape.Cube)
             {
-                return new BoundingBox(new Vector3(-1, -1, -ScaleZ) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, ScaleZ) / 2);
+                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -ScaleZ) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, ScaleZ) / 2);
             }
-            else if (Type == TypeType.CylinderXZ)
+            else if (TriggerShape == TriggerCommonShape.CylinderXZ)
             {
-                return new BoundingBox(new Vector3(-1, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
+                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
             }
             throw new Exception();
         }
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            if (Type == TypeType.Sphere)
+            if (TriggerShape == TriggerCommonShape.Sphere)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -39,7 +37,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
-            else if (Type == TypeType.Cylinder)
+            else if (TriggerShape == TriggerCommonShape.Cylinder)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -47,7 +45,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
-            else if (Type == TypeType.Rectangle)
+            else if (TriggerShape == TriggerCommonShape.Cube)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -55,7 +53,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                     * Matrix.Translation(Position);
             }
-            else if (Type == TypeType.CylinderXZ)
+            else if (TriggerShape == TriggerCommonShape.CylinderXZ)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -67,35 +65,35 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (Type == TypeType.Sphere)
+            if (TriggerShape == TriggerCommonShape.Sphere)
             {
-                DrawSphere(transformMatrix, isSelected);
+                DrawSphereTrigger(transformMatrix, isSelected);
             }
-            else if (Type == TypeType.Cylinder)
+            else if (TriggerShape == TriggerCommonShape.Cylinder)
             {
                 DrawCylinder(transformMatrix, isSelected);
             }
-            else if (Type == TypeType.Rectangle)
+            else if (TriggerShape == TriggerCommonShape.Cube)
             {
-                DrawCube(transformMatrix, isSelected);
+                DrawCubeTrigger(transformMatrix, isSelected);
             }
-            else if (Type == TypeType.CylinderXZ)
+            else if (TriggerShape == TriggerCommonShape.CylinderXZ)
             {
                 DrawCylinder(transformMatrix, isSelected);
             }
         }
 
-        public enum TypeType : Int32
+        public enum TriggerCommonShape : Int32
         {
             Sphere = 0,
             Cylinder = 1,
-            Rectangle = 2,
+            Cube = 2,
             CylinderXZ = 3,
         }
 
-        public TypeType Type
+        public TriggerCommonShape TriggerShape
         {
-            get { return (TypeType)ReadWriteLong(4); }
+            get { return (TriggerCommonShape)ReadWriteLong(4); }
             set { Int32 a = (Int32)value; ReadWriteLong(4, a); }
         }
 

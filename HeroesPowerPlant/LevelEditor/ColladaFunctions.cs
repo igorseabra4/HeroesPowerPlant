@@ -275,7 +275,7 @@ namespace HeroesPowerPlant.LevelEditor
             return DAEObjectList;
         }
 
-        public static ModelConverterData ConvertDataFromDAEObject(List<DAEObject> DAEObjectList, bool ignoreUVsColors)
+        public static ModelConverterData ConvertDataFromDAEObject(List<DAEObject> DAEObjectList, bool ignoreUVsAndColors)
         {
             ModelConverterData data = new ModelConverterData()
             {
@@ -295,7 +295,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 foreach (Vector3 j in i.PositionVertexList)
                 {
-                    Vector3 NewPos = (Vector3)Vector3.Transform(j, i.TransformMatrix); //* Matrix.CreateRotationX(-(float)Math.PI/2));
+                    Vector3 NewPos = (Vector3)Vector3.Transform(j, i.TransformMatrix);
 
                     data.VertexStream.Add(new Vertex
                     {
@@ -313,7 +313,9 @@ namespace HeroesPowerPlant.LevelEditor
                 foreach (DAETriangleList j in i.TriangleListList)
                 {
                     if (!data.MaterialStream.Contains(j.TextureName))
+                    {
                         data.MaterialStream.Add(j.TextureName);
+                    }
 
                     foreach (Triangle k in j.TriangleList)
                     {
@@ -322,7 +324,7 @@ namespace HeroesPowerPlant.LevelEditor
                             if (data.MaterialStream[m] == j.TextureName)
                             {
                                 k.MaterialIndex = m;
-                                
+                                break;
                             }
                         }
 
@@ -343,13 +345,10 @@ namespace HeroesPowerPlant.LevelEditor
                 TotalColors += i.VColorList.Count;
             }
 
-            if (ignoreUVsColors)
+            if (ignoreUVsAndColors)
                 return data;
-
-            data = FixUVCoords(data);
-            data = FixColors(data);
-
-            return data;
+            
+            return FixColors(FixUVCoords(data));
         }
 
         public static ModelConverterData FixColors(ModelConverterData d)

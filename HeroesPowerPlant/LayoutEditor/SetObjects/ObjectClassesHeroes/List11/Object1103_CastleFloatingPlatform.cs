@@ -20,7 +20,7 @@ namespace HeroesPowerPlant.LayoutEditor
             public bool IsUpsideDown
             {
                 get { return ReadWriteByte(5) != 0; }
-                set { byte a = value ? (byte)1 : (byte)0; ReadWriteByte(5, a); }
+                set { ReadWriteByte(5, (byte)(value ? 1 : 0)); }
             }
 
             public Int16 UnknownAlternateRange0
@@ -63,12 +63,6 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 get { return ReadWriteByte(18); }
                 set { ReadWriteByte(18, value); }
-            }
-
-            public Int16 Unknown
-            {
-                get { return ReadWriteWord(20); }
-                set { ReadWriteWord(20, value); }
             }
         }
     }

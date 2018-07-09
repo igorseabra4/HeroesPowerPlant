@@ -35,37 +35,41 @@ namespace HeroesPowerPlant.LevelEditor
             public void Render(Matrix viewProjection)
             {
                 renderData.worldViewProjection = chunkTransform * viewProjection;
-                if (isSelected) renderData.Color = new Vector4(1f, 0.5f, 0.25f, 0.01f);
-                else renderData.Color = new Vector4(0.75f, 0.75f, 1f, 0.01f);
-                
+
+                if (isSelected)
+                    renderData.Color = selectedChunkColor;
+                else
+                    renderData.Color = chunkColor;
+
                 device.SetFillModeDefault();
-                device.SetCullModeReverse();
-                device.SetBlendStateAdditive();// (BlendOperation.Subtract, BlendOption.SourceColor, BlendOption.InverseSourceColor);
+                device.SetCullModeNone();
+                device.SetBlendStateAlphaBlend();
                 device.ApplyRasterState();
                 device.UpdateAllStates();
 
                 device.UpdateData(basicBuffer, renderData);
                 device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-                basicShader.Apply();
 
                 Cube.Draw();
 
                 device.SetFillModeWireframe();
-                device.SetCullModeNone();
-                device.SetDefaultBlendState();
                 device.ApplyRasterState();
                 device.UpdateAllStates();
 
+                renderData.Color = Vector4.One;
                 device.UpdateData(basicBuffer, renderData);
                 device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-                basicShader.Apply();
 
                 Cube.Draw();
             }
         }
 
+        public static Vector4 chunkColor = new Vector4(0.3f, 0.8f, 0.9f, 0.4f);
+        public static Vector4 selectedChunkColor = new Vector4(1f, 0.5f, 0.1f, 0.4f);
+
         public static void RenderChunkModels(Matrix viewProjection)
         {
+            basicShader.Apply();
             for (int j = 0; j < ChunkList.Count; j++)
             {
                 ChunkList[j].Render(viewProjection);

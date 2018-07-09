@@ -9,17 +9,15 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override BoundingBox CreateBoundingBox(string[] modelNames)
         {
-            return new BoundingBox(-Vector3.One, Vector3.One);
-
-            if (TriggerShape == TriggerTalkShapes.Sphere)
+            if (TriggerShape == TriggerTalkShape.Sphere)
             {
                 return BoundingBox.FromSphere(new BoundingSphere(Vector3.Zero, Radius_ScaleX));
             }
-            else if (TriggerShape == TriggerTalkShapes.Cylinder)
+            else if (TriggerShape == TriggerTalkShape.Cylinder)
             {
                 return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
             }
-            else if (TriggerShape == TriggerTalkShapes.Cube)
+            else if (TriggerShape == TriggerTalkShape.Cube)
             {
                 return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -ScaleZ) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, ScaleZ) / 2);
             }
@@ -37,17 +35,17 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (TriggerShape == TriggerTalkShapes.Sphere)
+            if (TriggerShape == TriggerTalkShape.Sphere)
             {
-                DrawSphere(Matrix.Scaling(Radius_ScaleX) * transformMatrix, isSelected);
+                DrawSphereTrigger(Matrix.Scaling(Radius_ScaleX) * transformMatrix, isSelected);
             }
-            else if (TriggerShape == TriggerTalkShapes.Cylinder)
+            else if (TriggerShape == TriggerTalkShape.Cylinder)
             {
                 DrawCylinder(Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) * transformMatrix, isSelected);
             }
-            else if (TriggerShape == TriggerTalkShapes.Cube)
+            else if (TriggerShape == TriggerTalkShape.Cube)
             {
-                DrawCube(Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ) * transformMatrix, isSelected);
+                DrawCubeTrigger(Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ) * transformMatrix, isSelected);
             }
         }
 
@@ -69,15 +67,15 @@ namespace HeroesPowerPlant.LayoutEditor
             set { ReadWriteWord(6, value); }
         }
 
-        public enum TriggerTalkShapes
+        public enum TriggerTalkShape
         {
             Sphere = 0,
             Cylinder = 1,
             Cube = 2
         }
-        public TriggerTalkShapes TriggerShape
+        public TriggerTalkShape TriggerShape
         {
-            get { return (TriggerTalkShapes)ReadWriteLong(8); }
+            get { return (TriggerTalkShape)ReadWriteLong(8); }
             set { ReadWriteLong(8, (int)value); }
         }
 

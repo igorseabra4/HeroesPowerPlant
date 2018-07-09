@@ -12,9 +12,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (DFFRenderer.DFFStream.ContainsKey(modelNames[MiscSettings[7]]))
                     DFFRenderer.DFFStream[modelNames[MiscSettings[7]]].Render();
                 else
-                    DrawCube(transformMatrix, isSelected);
+                    DrawCube(isSelected);
             else
-                DrawCube(transformMatrix, isSelected);
+                DrawCube(isSelected);
         }
     }
 }

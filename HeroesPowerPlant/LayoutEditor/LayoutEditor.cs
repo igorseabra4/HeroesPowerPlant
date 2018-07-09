@@ -182,7 +182,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             SaveFileDialog saveFile = new SaveFileDialog
             {
-                Filter = ".dat files|*.dat",
+                Filter = isShadow? "DAT Files|*.dat" : "BIN Files|*.bin",
                 FileName = currentlyOpenFileName
             };
             if (saveFile.ShowDialog() == DialogResult.OK)
@@ -279,7 +279,7 @@ namespace HeroesPowerPlant.LayoutEditor
             ProgramIsChangingStuff = true;
 
             foreach (SetObject s in listBoxObjects.Items)
-                s.IsSelected = false;
+                s.isSelected = false;
 
             selectedObject = listBoxObjects.SelectedIndex;
 
@@ -307,7 +307,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 PropertyGridMisc.SelectedObject = (currentSet as SetObjectHeroes).objectManager;
             }
 
-            currentSet.IsSelected = true;
+            currentSet.isSelected = true;
 
             ComboBoxObject.SelectedItem = currentSet.objectEntry;
 
@@ -340,7 +340,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (isShadow)
             {
-                SetObjectShadow newObject = new SetObjectShadow(0, 0, ShadowObjectEntries, SharpRenderer.Camera.GetPosition() + 100 * SharpRenderer.Camera.GetForward(), Vector3.Zero, 0, 10);
+                SetObjectShadow newObject = new SetObjectShadow(0, 0, ShadowObjectEntries, SharpRenderer.Camera.GetPosition() + 100 * SharpRenderer.Camera.GetForward(), Vector3.Zero, 0, 10, 0);
                 newObject.CreateTransformMatrix();
 
                 listBoxObjects.Items.Add(newObject);
@@ -365,31 +365,22 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 if (isShadow)
                 {
-                    destination = new SetObjectShadow(original.objectEntry, original.Position, original.Rotation, original.Link, original.Rend);
-
-                    (destination as SetObjectShadow).objectManager.MiscSettings = new byte[(original as SetObjectShadow).objectManager.MiscSettings.Length];
+                    destination = new SetObjectShadow(original.objectEntry, original.Position, original.Rotation, original.Link, original.Rend, (original as SetObjectShadow).MiscSettingCount);
 
                     for (int i = 0; i < (destination as SetObjectShadow).objectManager.MiscSettings.Length; i++)
-                    {
                         (destination as SetObjectShadow).objectManager.MiscSettings[i] = (original as SetObjectShadow).objectManager.MiscSettings[i];
-                    }
                 }
                 else
                 {
                     destination = new SetObjectHeroes(original.objectEntry, original.Position, original.Rotation, original.Link, original.Rend);
-                    
-                    (destination as SetObjectHeroes).objectManager.MiscSettings = new byte[(original as SetObjectHeroes).objectManager.MiscSettings.Length];
 
                     for (int i = 0; i < (destination as SetObjectHeroes).objectManager.MiscSettings.Length; i++)
-                    {
                         (destination as SetObjectHeroes).objectManager.MiscSettings[i] = (original as SetObjectHeroes).objectManager.MiscSettings[i];
-                    }
                 }
 
                 destination.CreateTransformMatrix();
 
                 listBoxObjects.Items.Add(destination);
-
                 listBoxObjects.SelectedIndex = listBoxObjects.Items.Count - 1;
             }
         }
@@ -504,7 +495,7 @@ namespace HeroesPowerPlant.LayoutEditor
             int index = listBoxObjects.SelectedIndex;
             for (int i = 0; i < listBoxObjects.Items.Count; i++)
             {
-                if (((SetObject)listBoxObjects.Items[i]).IsSelected) continue;
+                if (((SetObject)listBoxObjects.Items[i]).isSelected) continue;
 
                 float? distance = ((SetObject)listBoxObjects.Items[i]).IntersectsWith(r);
                 if (distance != null)

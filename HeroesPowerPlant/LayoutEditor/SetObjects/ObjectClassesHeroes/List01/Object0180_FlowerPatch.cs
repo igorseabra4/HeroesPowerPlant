@@ -18,12 +18,9 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void Draw(string[] modelNames, bool isSelected)
         {
             if (Type <= 8)
-                if (DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
-                    DFFRenderer.DFFStream[modelNames[Type]].Render();
-                else
-                    DrawCube(Matrix.Scaling(5) * transformMatrix, isSelected);
+                Draw(modelNames[Type], isSelected);
             else
-                DrawCube(Matrix.Scaling(5) * transformMatrix, isSelected);
+                DrawCube(isSelected);
         }
 
         public byte Type

@@ -47,6 +47,9 @@ namespace HeroesPowerPlant
         public static SharpShader defaultShader;
         public static SharpDX.Direct3D11.Buffer defaultBuffer;
 
+        public static SharpShader tintedShader;
+        public static SharpDX.Direct3D11.Buffer tintedBuffer;
+
         public struct DefaultRenderData
         {
             public Matrix worldViewProjection;
@@ -84,6 +87,16 @@ namespace HeroesPowerPlant
 
             defaultBuffer = defaultShader.CreateBuffer<Matrix>();
 
+            tintedShader = new SharpShader(device, "Resources/SharpDX/Shader_Tinted.hlsl",
+                new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
+                new InputElement[] {
+                        new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0),
+                        new InputElement("COLOR", 0, Format.R8G8B8A8_UNorm, 12, 0),
+                        new InputElement("TEXCOORD", 0, Format.R32G32_Float, 16, 0)
+                });
+
+            tintedBuffer = defaultShader.CreateBuffer<DefaultRenderData>();
+
             collisionShader = new SharpShader(device, "Resources/SharpDX/Shader_Collision.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
@@ -97,35 +110,30 @@ namespace HeroesPowerPlant
 
         private static DefaultRenderData cubeRenderData;
 
-        public static void DrawCube(Matrix world, bool isSelected)// = false)
+        public static Vector4 normalColor = new Vector4(0.2f, 0.6f, 0.8f, 0.8f);
+        public static Vector4 selectedColor = new Vector4(1f, 0.5f, 0.1f, 0.8f);
+        public static Vector4 selectedObjectColor = new Vector4(1f, 0f, 0f, 1f);
+
+        public static void DrawCubeTrigger(Matrix world, bool isSelected)
         {
             cubeRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
-                cubeRenderData.Color = new Vector4(0.75f, 1f, 0.75f, 0.01f);
+                cubeRenderData.Color = selectedColor;
             else
-                cubeRenderData.Color = new Vector4(0.75f, 0.75f, 1f, 0.01f);
+                cubeRenderData.Color = normalColor;
 
             device.SetFillModeDefault();
-            device.SetCullModeReverse();
-            device.SetBlend(BlendOperation.Subtract, BlendOption.SourceColor, BlendOption.InverseSourceColor);
+            device.SetCullModeNone();
+            device.SetBlendStateAlphaBlend();
             device.ApplyRasterState();
             device.UpdateAllStates();
-
+            
             device.UpdateData(basicBuffer, cubeRenderData);
             device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
 
             Cube.Draw();
-
-            //device.SetCullModeDefault();
-            //device.SetBlendStateAlphaBlend();
-            //device.ApplyRasterState();
-            //device.UpdateAllStates();
-
-            //device.UpdateData(basicBuffer, cubeRenderData);
-            //device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-            //basicShader.Apply();
         }
 
         private static DefaultRenderData cylinderRenderData;
@@ -135,13 +143,13 @@ namespace HeroesPowerPlant
             cylinderRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
-                cylinderRenderData.Color = new Vector4(0.75f, 1f, 0.75f, 0.01f);
+                cylinderRenderData.Color = selectedColor;
             else
-                cylinderRenderData.Color = new Vector4(0.75f, 0.75f, 1f, 0.01f);
+                cylinderRenderData.Color = normalColor;
 
             device.SetFillModeDefault();
-            device.SetCullModeReverse();
-            device.SetBlend(BlendOperation.Subtract, BlendOption.SourceColor, BlendOption.InverseSourceColor);
+            device.SetCullModeNone();
+            device.SetBlendStateAlphaBlend();
             device.ApplyRasterState();
             device.UpdateAllStates();
 
@@ -150,31 +158,22 @@ namespace HeroesPowerPlant
             basicShader.Apply();
 
             Cylinder.Draw();
-
-            //device.SetCullModeDefault();
-            //device.SetBlendStateAlphaBlend();
-            //device.ApplyRasterState();
-            //device.UpdateAllStates();
-
-            //device.UpdateData(basicBuffer, cylinderRenderData);
-            //device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-            //basicShader.Apply();
         }
 
         private static DefaultRenderData sphereRenderData;
 
-        public static void DrawSphere(Matrix world, bool isSelected)
+        public static void DrawSphereTrigger(Matrix world, bool isSelected)
         {
             sphereRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
-                sphereRenderData.Color = new Vector4(0.75f, 1f, 0.75f, 0.01f);
+                sphereRenderData.Color = selectedColor;
             else
-                sphereRenderData.Color = new Vector4(0.75f, 0.75f, 1f, 0.01f);
+                sphereRenderData.Color = normalColor;
 
             device.SetFillModeDefault();
-            device.SetCullModeReverse();
-            device.SetBlend(BlendOperation.Subtract, BlendOption.SourceColor, BlendOption.InverseSourceColor);
+            device.SetCullModeNone();
+            device.SetBlendStateAlphaBlend();
             device.ApplyRasterState();
             device.UpdateAllStates();
 
@@ -183,15 +182,6 @@ namespace HeroesPowerPlant
             basicShader.Apply();
 
             Sphere.Draw();
-
-            //device.SetCullModeDefault();
-            //device.SetBlendStateAlphaBlend();
-            //device.ApplyRasterState();
-            //device.UpdateAllStates();
-
-            //device.UpdateData(basicBuffer, sphereRenderData);
-            //device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-            //basicShader.Apply();
         }
 
         private static bool showStartPositions = true;
@@ -310,6 +300,16 @@ namespace HeroesPowerPlant
                 viewProjection = Camera.GenerateLookAtRH() * Matrix.PerspectiveFovRH(fovAngle, aspectRatio, near, far);
                 frustum = new BoundingFrustum(viewProjection);
 
+                if (showCollision)
+                {
+                    CollisionFunctions.RenderCollisionModel(viewProjection, -Camera.GetForward(), Camera.GetUp());
+                    BSPRenderer.RenderShadowCollisionModel(viewProjection);
+                }
+                else
+                {
+                    BSPRenderer.RenderLevelModel(viewProjection);
+                }
+
                 if (showChunkBoxes)
                     VisibilityFunctions.RenderChunkModels(viewProjection);
 
@@ -326,17 +326,7 @@ namespace HeroesPowerPlant
 
                 if (showQuadtree)
                     CollisionFunctions.RenderQuadTree(viewProjection);
-
-                if (showCollision)
-                {
-                    CollisionFunctions.RenderCollisionModel(viewProjection, -Camera.GetForward(), Camera.GetUp());
-                    BSPRenderer.RenderShadowCollisionModel(viewProjection);
-                }
-                else
-                {
-                    BSPRenderer.RenderLevelModel(viewProjection);
-                }
-                
+                                
                 //present
                 device.Present();
             });

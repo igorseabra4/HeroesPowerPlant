@@ -92,6 +92,8 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
+            if (listBoxLevelModels.Items.Count == 0) return;
+
             if (listBoxLevelModels.SelectedIndices.Count == 1)
             {
                 SaveFileDialog a = new SaveFileDialog()
@@ -150,7 +152,6 @@ namespace HeroesPowerPlant.LevelEditor
 
             ShadowCollisionBSPStream.Clear();
             listBoxLevelModels.Items.Clear();
-            buttonExport.Enabled = false;
         }
 
         private void listBoxLevelModels_SelectedIndexChanged(object sender, EventArgs e)

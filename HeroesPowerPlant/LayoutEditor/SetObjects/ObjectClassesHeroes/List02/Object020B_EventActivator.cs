@@ -17,7 +17,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            DrawCube(transformMatrix, isSelected);
+            DrawCubeTrigger(transformMatrix, isSelected);
         }
 
         public float ScaleX

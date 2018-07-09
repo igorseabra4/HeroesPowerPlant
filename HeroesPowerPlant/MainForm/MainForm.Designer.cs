@@ -68,6 +68,7 @@ namespace HeroesPowerPlant
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
+            this.selectionColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -214,6 +215,7 @@ namespace HeroesPowerPlant
             this.noCullingCToolStripMenuItem,
             this.wireframeFToolStripMenuItem,
             this.BackgroundColorToolStripMenuItem,
+            this.selectionColorToolStripMenuItem,
             this.toolStripSeparator3,
             this.startPosYToolStripMenuItem,
             this.splinesUToolStripMenuItem,
@@ -372,6 +374,13 @@ namespace HeroesPowerPlant
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
+            // selectionColorToolStripMenuItem
+            // 
+            this.selectionColorToolStripMenuItem.Name = "selectionColorToolStripMenuItem";
+            this.selectionColorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.selectionColorToolStripMenuItem.Text = "Selection Color...";
+            this.selectionColorToolStripMenuItem.Click += new System.EventHandler(this.selectionColorToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -436,6 +445,7 @@ namespace HeroesPowerPlant
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem graphicsModeToolStripMenuItem;
         private ToolStripMenuItem vSyncToolStripMenuItem;
+        private ToolStripMenuItem selectionColorToolStripMenuItem;
     }
 }
 
