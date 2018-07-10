@@ -170,14 +170,26 @@ namespace HeroesPowerPlant.LevelEditor
                             }
                             else
                             {
-                                if (a == "f") // floor
+                                if (a == "c") // ceiling
+                                    TempColFlags = new RenderWareFile.Color(0x00, 0x00, 0x00, 0x00);
+                                else if (a == "f") // road floor
+                                    TempColFlags = new RenderWareFile.Color(0x01, 0x00, 0x02, 0x00);
+                                else if (a == "fs") // stone floor
                                     TempColFlags = new RenderWareFile.Color(0x01, 0x00, 0x00, 0x60);
-                                else if (a == "m") // metal floor
+                                else if (a == "fm") // metal floor
                                     TempColFlags = new RenderWareFile.Color(0x01, 0x01, 0x01, 0x10);
+                                else if (a == "t") // triangle jump wall
+                                    TempColFlags = new RenderWareFile.Color(0x02, 0x00, 0x00, 0x00);
                                 else if (a == "a") // angle wall
                                     TempColFlags = new RenderWareFile.Color(0x02, 0x01, 0x01, 0x10);
-                                else if (a == "t") // triangle jump wall
-                                    TempColFlags = new RenderWareFile.Color(0x02, 0x00, 0x00, 0x60);
+                                else if (a == "i") // invisible wall
+                                    TempColFlags = new RenderWareFile.Color(0x02, 0x02, 0x00, 0x00);
+                                else if (a == "g") // green goo
+                                    TempColFlags = new RenderWareFile.Color(0x05, 0x00, 0x02, 0x00);
+                                else if (a == "k") // barrier
+                                    TempColFlags = new RenderWareFile.Color(0x08, 0x00, 0x00, 0x00);
+                                else if (a == "i2") //invisible wall at distance
+                                    TempColFlags = new RenderWareFile.Color(0x10, 0x00, 0x00, 0x00);
                                 else if (a == "x") //death
                                     TempColFlags = new RenderWareFile.Color(0x20, 0x00, 0x00, 0x00);
                             }
@@ -679,9 +691,9 @@ namespace HeroesPowerPlant.LevelEditor
 
                 OBJWriter.Close();
                 WriteCollisionMaterialLib(triangleList, bspFile.MaterialList.ToArray(), materialLibrary);
-                return;
             }
             else
+            {
                 for (int i = 0; i < bspFile.MaterialList.Count; i++)
                 {
                     OBJWriter.WriteLine("g " + fileNameWithoutExtension + "_" + bspFile.MaterialList[i]);
@@ -695,10 +707,11 @@ namespace HeroesPowerPlant.LevelEditor
                                 + (j.vertex3 + 1).ToString() + "/" + (j.vertex3 + 1).ToString());
 
                     OBJWriter.WriteLine();
-
-                    OBJWriter.Close();
-                    WriteMaterialLib(bspFile.MaterialList.ToArray(), materialLibrary);
                 }
+
+                OBJWriter.Close();
+                WriteMaterialLib(bspFile.MaterialList.ToArray(), materialLibrary);
+            }
         }
 
         private static void GetPlaneTriangleList(StreamWriter OBJWriter, PlaneSector_000A planeSection, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision)

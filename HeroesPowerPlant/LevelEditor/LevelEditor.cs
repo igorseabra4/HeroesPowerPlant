@@ -526,7 +526,7 @@ namespace HeroesPowerPlant.LevelEditor
             if (isShadow)
             {
                 openVisibilityFile = null;
-                ChunkList = loadShadowVisibilityFile(new HeroesONEFile(fileName));
+                ChunkList = LoadShadowVisibilityFile(new HeroesONEFile(fileName));
                 labelLoadedBLK.Text = "";
             }
             else
@@ -571,7 +571,34 @@ namespace HeroesPowerPlant.LevelEditor
                 labelLoadedBLK.Text = "Loaded " + openVisibilityFile;
             }
         }
-        
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog()
+            {
+                Filter = "All supported files|*.bin;*.bdt|BIN files|*.bin|BDT files|*.bdt"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                if (Path.GetExtension(openFile.FileName).ToLower() == ".bdt")
+                {
+                    ChunkList.AddRange(LoadShadowVisibilityFile(new FileStream(openFile.FileName, FileMode.Open)));
+                }
+                else if (Path.GetExtension(openFile.FileName).ToLower() == ".bin")
+                {
+                    ChunkList.AddRange(loadHeroesVisibilityFile(openFile.FileName));
+                }
+
+                numericCurrentChunk.Minimum = 1;
+                numericCurrentChunk.Maximum = ChunkList.Count();
+                numericCurrentChunk.Value = ChunkList.Count();
+                if (numericCurrentChunk.Maximum != 0)
+                    numericCurrentChunk.Value = 1;
+
+                labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+            }
+        }
+
         public string openVisibilityFile;
         bool ProgramIsChangingStuff = false;
         

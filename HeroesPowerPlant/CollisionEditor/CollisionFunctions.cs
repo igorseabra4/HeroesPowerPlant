@@ -81,7 +81,7 @@ namespace HeroesPowerPlant.Collision
 
             public RectangleF TasRect;
 
-            public CLTriangle(UInt16 a, UInt16 b, UInt16 c, int d, byte[] e)
+            public CLTriangle(UInt16 a, UInt16 b, UInt16 c, int d, byte[] e, List<CLVertex> CLVertexList)
             {
                 Vertices[0] = a;
 
@@ -99,8 +99,8 @@ namespace HeroesPowerPlant.Collision
                 MeshNum = (ushort)d;
                 ColFlags = e;
 
-                CalculateNormals();
-                CalculateRectangle();
+                CalculateNormals(CLVertexList);
+                CalculateRectangle(CLVertexList);
             }
 
             public CLTriangle(uint a, uint b, uint c)
@@ -110,7 +110,7 @@ namespace HeroesPowerPlant.Collision
                 Vertices[2] = (ushort)c;
             }
 
-            public void CalculateNormals()
+            public void CalculateNormals(List<CLVertex> CLVertexList)
             {
                 Vector3 Vector1 = new Vector3(
                     CLVertexList[Vertices[1]].Position.X - CLVertexList[Vertices[0]].Position.X,
@@ -130,7 +130,7 @@ namespace HeroesPowerPlant.Collision
                 CLVertexList[Vertices[2]].NormalList.Add(Normals);
             }
 
-            public void CalculateRectangle()
+            public void CalculateRectangle(List<CLVertex> CLVertexList)
             {
                 float MinX = CLVertexList[Vertices[0]].Position.X;
                 if (CLVertexList[Vertices[1]].Position.X < MinX)
@@ -163,7 +163,6 @@ namespace HeroesPowerPlant.Collision
         public static Header UseHeader = new Header();
         public static List<CLQuadNode> CLQuadNodeList = new List<CLQuadNode>();
         public static CLTriangle[] CLTriangleArray;
-        public static List<CLVertex> CLVertexList = new List<CLVertex>();
         public static VertexColoredNormalized[] CLVertexArray;
 
         public static void ConvertOBJtoCL(string InputFile, string OutputFile, byte depthLevel)
@@ -191,6 +190,7 @@ namespace HeroesPowerPlant.Collision
             byte[] TempColFlags = { 0, 0, 0, 0x0 };
 
             List<CLTriangle> CLTriangleList = new List<CLTriangle>(65535);
+            List<CLVertex> CLVertexList = new List<CLVertex>();
             CLVertexList = new List<CLVertex>(65535);
 
             foreach (string j in OBJFile)
@@ -209,7 +209,7 @@ namespace HeroesPowerPlant.Collision
                     (ushort)(Convert.ToUInt16(SubStrings[1].Split('/')[0]) - 1),
                     (ushort)(Convert.ToUInt16(SubStrings[2].Split('/')[0]) - 1),
                     (ushort)(Convert.ToUInt16(SubStrings[3].Split('/')[0]) - 1),
-                    CurrentMeshNum, TempColFlags));
+                    CurrentMeshNum, TempColFlags, CLVertexList));
                     Program.collisionEditor.progressBar1.PerformStep();
                 }
                 else if (j.StartsWith("g ") | j.StartsWith("o "))
@@ -280,6 +280,14 @@ namespace HeroesPowerPlant.Collision
                 return false;
             }
 
+            CLVertexArray = new VertexColoredNormalized[CLVertexList.Count()];
+            for (int i = 0; i < CLVertexList.Count; i++)
+            {
+                CLVertexArray[i] = new VertexColoredNormalized(CLVertexList[i].Position,
+                    CLVertexList[i].CalculateNormals(),
+                    CLVertexList[i].Color);
+            }
+
             CLTriangleArray = CLTriangleList.ToArray();
             return true;
         }
@@ -287,14 +295,14 @@ namespace HeroesPowerPlant.Collision
         public static bool GenerateCollision(byte MaxDepth)
         {
             //Let's start with quadtree maximums, minimums and center
-            float MaxX = CLVertexList[0].Position.X;
-            float MaxY = CLVertexList[0].Position.Y;
-            float MaxZ = CLVertexList[0].Position.Z;
-            float MinX = CLVertexList[0].Position.X;
-            float MinY = CLVertexList[0].Position.Y;
-            float MinZ = CLVertexList[0].Position.Z;
+            float MaxX = CLVertexArray[0].Position.X;
+            float MaxY = CLVertexArray[0].Position.Y;
+            float MaxZ = CLVertexArray[0].Position.Z;
+            float MinX = CLVertexArray[0].Position.X;
+            float MinY = CLVertexArray[0].Position.Y;
+            float MinZ = CLVertexArray[0].Position.Z;
 
-            foreach (CLVertex i in CLVertexList)
+            foreach (VertexColoredNormalized i in CLVertexArray)
             {
                 if (i.Position.X > MaxX)
                     MaxX = i.Position.X;
@@ -330,7 +338,7 @@ namespace HeroesPowerPlant.Collision
             }
 
             UseHeader.numTriangles = (ushort)CLTriangleArray.Count();
-            UseHeader.numVertices = (ushort)CLVertexList.Count();
+            UseHeader.numVertices = (ushort)CLVertexArray.Count();
 
             //Now let's build the quadtree
             Program.collisionEditor.numericDepthLevel.Value = MaxDepth;
@@ -355,7 +363,7 @@ namespace HeroesPowerPlant.Collision
             TempNode.NodeSquare.Height = UseHeader.quadLenght;
 
             TempNode.Child = 1;
-            TempNode.NodeTriangleArray = ReadWriteCommon.Range(CLTriangleArray.Count()).Cast<ushort>().ToArray();
+            TempNode.NodeTriangleArray = Range((ushort)CLTriangleArray.Count());
 
             CLQuadNodeList.Add(TempNode);
             Program.collisionEditor.progressBar1.PerformStep();
@@ -379,7 +387,7 @@ namespace HeroesPowerPlant.Collision
                 i += 1;
             }
 
-            Program.collisionEditor.progressBar1.Maximum = 2 * CLVertexList.Count() + 2 * CLTriangleArray.Count() + 4 * CLQuadNodeList.Count();
+            Program.collisionEditor.progressBar1.Maximum = 2 * CLVertexArray.Count() + 2 * CLTriangleArray.Count() + 4 * CLQuadNodeList.Count();
             return true;
         }
 
@@ -509,7 +517,7 @@ namespace HeroesPowerPlant.Collision
 
             UseHeader.pointVertex = (uint)FileWriter.BaseStream.Position;
 
-            foreach (CLVertex i in CLVertexList)
+            foreach (VertexColoredNormalized i in CLVertexArray)
             {
                 FileWriter.Write(Switch(i.Position.X));
                 FileWriter.Write(Switch(i.Position.Y));

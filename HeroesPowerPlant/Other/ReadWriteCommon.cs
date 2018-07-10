@@ -42,6 +42,18 @@ namespace HeroesPowerPlant
             return b;
         }
 
+        public static ushort[] Range(ushort a)
+        {
+            ushort[] b = new ushort[a];
+
+            for (ushort i = 0; i < a; i++)
+            {
+                b[i] = i;
+            }
+
+            return b;
+        }
+
         public static float BAMStoDegrees(int bams)
         {
             return bams * (180f / 32768f);

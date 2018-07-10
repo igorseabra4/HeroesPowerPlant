@@ -78,7 +78,6 @@ namespace HeroesPowerPlant.Collision
             label1.Text = "No CL loaded";
             currentCLfileName = null;
             UseHeader = new Header();
-            CLVertexList = null;
             CLVertexArray = null;
             CLTriangleArray = null;
             CLQuadNodeList = null;

@@ -312,6 +312,10 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 foreach (DAETriangleList j in i.TriangleListList)
                 {
+                    if (j.TriangleList.Count == 0) continue;
+
+                    if (j.TextureName == null) j.TextureName = "default";
+
                     if (!data.MaterialStream.Contains(j.TextureName))
                     {
                         data.MaterialStream.Add(j.TextureName);

@@ -129,7 +129,7 @@ namespace HeroesPowerPlant.Collision
             Program.collisionEditor.progressBar1.Maximum = UseHeader.numTriangles + UseHeader.numVertices + 3 * UseHeader.numQuadnodes;
 
             List<CLTriangle> CLTriangleList = new List<CLTriangle>(UseHeader.numTriangles);
-            CLVertexList = new List<CLVertex>(UseHeader.numVertices);
+            List<CLVertex> CLVertexList = new List<CLVertex>(UseHeader.numVertices);
             MeshTypeList = new List<UInt64>();
 
             Program.collisionEditor.label3.Text = "Number of Vertices: " + UseHeader.numVertices.ToString();

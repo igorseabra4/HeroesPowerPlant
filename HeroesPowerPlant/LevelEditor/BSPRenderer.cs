@@ -265,7 +265,14 @@ namespace HeroesPowerPlant
                         catch { TempBSPFile.ChunkNumber = -1; };
 
                         TempBSPFile.isCollision = true;
-                        TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(file.Data), file.Data);
+                        try
+                        {
+                            TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(file.Data), file.Data);
+                        }
+                        catch (Exception e)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Error on opening " + file.Name + ": " + e.Message);
+                        }
                         ShadowCollisionBSPStream.Add(TempBSPFile);
 
                         ReadFileMethods.isCollision = false;

@@ -111,38 +111,41 @@ namespace HeroesPowerPlant.LevelEditor
             return list;
         }
 
-        public static List<Chunk> loadShadowVisibilityFile(HeroesONEFile shadowDATONE)
+        public static List<Chunk> LoadShadowVisibilityFile(HeroesONEFile shadowDATONE)
         {
             List<Chunk> list = new List<Chunk>();
 
-                foreach (HeroesONEFile.File i in shadowDATONE.Files)
+            foreach (HeroesONEFile.File i in shadowDATONE.Files)
+                if (Path.GetExtension(i.Name).ToLower() == ".bdt")
+                    return (LoadShadowVisibilityFile(new MemoryStream(i.Data)));
+
+            throw new Exception("No visibility BDT file found");
+        }
+
+        public static List<Chunk> LoadShadowVisibilityFile(Stream bdtFile)
+        {
+            List<Chunk> list = new List<Chunk>();
+
+            BinaryReader BLKFileReader = new BinaryReader(bdtFile);
+
+            BLKFileReader.BaseStream.Position = 0x40;
+
+            int numberOfChunks = BLKFileReader.ReadInt32();
+            for (int j = 0; j < numberOfChunks; j++)
+            {
+                Chunk TempChunk = new Chunk
                 {
-                    if (Path.GetExtension(i.Name).ToLower() == ".bdt")
-                    {
-                        BinaryReader BLKFileReader = new BinaryReader(new MemoryStream(i.Data));
+                    number = BLKFileReader.ReadInt32(),
+                    Min = new Vector3(BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle()),
+                    Max = new Vector3(BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle()),
+                };
+                TempChunk.CalculateModel();
 
-                        BLKFileReader.BaseStream.Position = 0x40;
-
-                        int numberOfChunks = BLKFileReader.ReadInt32();
-                        for (int j = 0; j < numberOfChunks; j++)
-                        {
-                            Chunk TempChunk = new Chunk
-                            {
-                                number = BLKFileReader.ReadInt32(),
-                                Min = new Vector3(BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle()),
-                                Max = new Vector3(BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle()),
-                            };
-                            TempChunk.CalculateModel();
-
-                            list.Add(TempChunk);
-                            BLKFileReader.ReadInt32();
-                        }
-                        BLKFileReader.Close();
-
-                        
-                    }
-                }
-
+                list.Add(TempChunk);
+                BLKFileReader.ReadInt32();
+            }
+            BLKFileReader.Close();
+            
             return list;
         }
 

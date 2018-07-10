@@ -217,7 +217,7 @@ namespace HeroesPowerPlant.LevelEditor
                             },
                             new UserDataPLG_011F()
                             {
-                                unknown1 = 0x02,
+                                userDataType = 0x02,
                                 unknown2 = 0x0A,
                                 attribute = "attribute",
                                 unknown3 = 0x01,
