@@ -4,26 +4,26 @@
     {
         public byte KaosNumber
         {
-            get { return ReadWriteByte(4); }
-            set { ReadWriteByte(4, value); }
+            get { return ReadByte(4); }
+            set { Write(4, value); }
         }
 
         public float MinSpeed
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float MaxSpeed
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float Acceleration
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
     }
 }

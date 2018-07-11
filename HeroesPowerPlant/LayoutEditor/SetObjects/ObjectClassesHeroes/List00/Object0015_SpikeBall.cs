@@ -1,7 +1,21 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using SharpDX;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0015_SpikeBall : SetObjectManagerHeroes
     {
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
+            transformMatrix = Matrix.Scaling(Scale != 0f ? Scale : 1f) *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
+                Matrix.Translation(Position);
+        }
+
         public enum SpikeBallType
         {
             SingleBall = 0,
@@ -10,20 +24,20 @@
 
         public SpikeBallType Type
         {
-            get { return (SpikeBallType)ReadWriteLong(4); }
-            set { ReadWriteLong(4, (int)value); }
+            get { return (SpikeBallType)ReadLong(4); }
+            set { Write(4, (int)value); }
         }
 
         public float RotateSpeed
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float Scale
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

@@ -6,15 +6,12 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object00_TriggerCommon : SetObjectManagerHeroes
     {
+        private BoundingSphere sphereBound;
+
         public override bool TriangleIntersection(Ray r, string[] ModelNames)
         {
             if (TriggerShape == TriggerCommonShape.Sphere)
-            {
-                Vector3 center = Vector3.Zero;
-                center = (Vector3)Vector3.Transform(center, transformMatrix);
-
-                return r.Intersects(new BoundingSphere(center, Radius_ScaleX / 2));
-            }
+                return r.Intersects(sphereBound);
             else
                 return base.TriangleIntersection(r, ModelNames);
         }
@@ -26,8 +23,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             if (TriggerShape == TriggerCommonShape.Sphere)
             {
+                sphereBound = new BoundingSphere(Position, Radius_ScaleX / 2);
+
                 transformMatrix = Matrix.Scaling(Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                     * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
@@ -90,26 +92,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TriggerCommonShape TriggerShape
         {
-            get { return (TriggerCommonShape)ReadWriteLong(4); }
-            set { Int32 a = (Int32)value; ReadWriteLong(4, a); }
+            get { return (TriggerCommonShape)ReadLong(4); }
+            set { Write(4, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius_ScaleX
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Height_ScaleY
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

@@ -4,35 +4,35 @@
     {
         public float ScaleX
         {
-            get { return ReadWriteSingle(4); }
+            get { return ReadFloat(4); }
             set
             {
-                ReadWriteSingle(4, value);
+                Write(4, value);
             }
         }
 
         public float ScaleY
         {
-            get { return ReadWriteSingle(8); }
+            get { return ReadFloat(8); }
             set
             {
-                ReadWriteSingle(8, value);
+                Write(8, value);
             }
         }
 
         public float ScaleZ
         {
-            get { return ReadWriteSingle(12); }
+            get { return ReadFloat(12); }
             set
             {
-                ReadWriteSingle(12, value);
+                Write(12, value);
             }
         }
 
         public byte LinkID
         {
-            get { return ReadWriteByte(16); }
-            set { ReadWriteByte(16, value); }
+            get { return ReadByte(16); }
+            set { Write(16, value); }
         }
 
         public enum DirectionType : byte
@@ -43,8 +43,8 @@
 
         public DirectionType Direction
         {
-            get { return (DirectionType)ReadWriteByte(17); }
-            set { ReadWriteByte(17, (byte)value); }
+            get { return (DirectionType)ReadByte(17); }
+            set { Write(17, (byte)value); }
         }
     }
 }

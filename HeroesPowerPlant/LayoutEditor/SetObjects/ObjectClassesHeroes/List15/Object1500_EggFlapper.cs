@@ -11,8 +11,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public QualityType Quality
         {
-            get { return (QualityType)ReadWriteByte(4); }
-            set { byte a = (byte)value; ReadWriteByte(4, a); }
+            get { return (QualityType)ReadByte(4); }
+            set { byte a = (byte)value; Write(4, a); }
         }
 
         public enum ShadowEnum : byte
@@ -23,8 +23,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public ShadowEnum ShadowType
         {
-            get { return (ShadowEnum)ReadWriteByte(5); }
-            set { byte a = (byte)value; ReadWriteByte(5, a); }
+            get { return (ShadowEnum)ReadByte(5); }
+            set { byte a = (byte)value; Write(5, a); }
         }
 
         public enum MoveEnum : byte
@@ -36,8 +36,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public MoveEnum MoveType
         {
-            get { return (MoveEnum)ReadWriteByte(6); }
-            set { byte a = (byte)value; ReadWriteByte(6, a); }
+            get { return (MoveEnum)ReadByte(6); }
+            set { byte a = (byte)value; Write(6, a); }
         }
 
         public enum WeaponEnum : byte
@@ -52,78 +52,78 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public WeaponEnum WeaponType
         {
-            get { return (WeaponEnum)ReadWriteByte(7); }
-            set { byte a = (byte)value; ReadWriteByte(7, a); }
+            get { return (WeaponEnum)ReadByte(7); }
+            set { byte a = (byte)value; Write(7, a); }
         }
 
         public Int16 ScopeRange
         {
             //21
-            get { return ReadWriteWord(8); }
-            set { ReadWriteWord(8, value); }
+            get { return ReadShort(8); }
+            set { Write(8, value); }
         }
 
         public Int16 ScopeOffset
         {
             //22
-            get { return ReadWriteWord(10); }
-            set { ReadWriteWord(10, value); }
+            get { return ReadShort(10); }
+            set { Write(10, value); }
         }
 
         public Int16 AttackInterval
         {
             //31
-            get { return ReadWriteWord(12); }
-            set { ReadWriteWord(12, value); }
+            get { return ReadShort(12); }
+            set { Write(12, value); }
         }
 
         public Int16 AttackFrame
         {
             //31
-            get { return ReadWriteWord(14); }
-            set { ReadWriteWord(14, value); }
+            get { return ReadShort(14); }
+            set { Write(14, value); }
         }
 
         public float FLOOR
         {
             //4
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float MoveSpeed
         {
             //5
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
 
         public float MoveRange
         {
             //6
-            get { return ReadWriteSingle(24); }
-            set { ReadWriteSingle(24, value); }
+            get { return ReadFloat(24); }
+            set { Write(24, value); }
         }
 
         public float WeaponSpeed
         {
             //7
-            get { return ReadWriteSingle(28); }
-            set { ReadWriteSingle(28, value); }
+            get { return ReadFloat(28); }
+            set { Write(28, value); }
         }
 
         public Int16 LightAngleY
         {
             //W8
-            get { return ReadWriteWord(32); }
-            set { ReadWriteWord(32, value); }
+            get { return ReadShort(32); }
+            set { Write(32, value); }
         }
 
         public Int16 LightAngleX
         {
             //W8
-            get { return ReadWriteWord(34); }
-            set { ReadWriteWord(34, value); }
+            get { return ReadShort(34); }
+            set { Write(34, value); }
         }
     }
 }

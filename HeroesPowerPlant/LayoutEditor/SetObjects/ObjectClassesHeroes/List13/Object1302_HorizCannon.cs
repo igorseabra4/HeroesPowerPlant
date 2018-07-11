@@ -6,20 +6,20 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public short ShootTime
         {
-            get { return ReadWriteWord(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadShort(4); }
+            set { Write(4, (float)value); }
         }
 
         public float ShootRange
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public byte IgnoreCollision
         {
-            get { return ReadWriteByte(12); }
-            set { ReadWriteByte(12, value); }
+            get { return ReadByte(12); }
+            set { Write(12, value); }
         }
     }
 }

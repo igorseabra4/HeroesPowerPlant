@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using System;
+using System.Linq;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -7,6 +8,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             transformMatrix =
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
@@ -14,51 +18,50 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.Translation(Position);
         }
 
-        public float ReadWriteSingle(int j)
+        public float ReadFloat(int j)
         {
             return BitConverter.ToSingle(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
         }
 
-        public void ReadWriteSingle(int j, float value)
-        {
-            MiscSettings[j] = BitConverter.GetBytes(value)[3];
-            MiscSettings[j + 1] = BitConverter.GetBytes(value)[2];
-            MiscSettings[j + 2] = BitConverter.GetBytes(value)[1];
-            MiscSettings[j + 3] = BitConverter.GetBytes(value)[0];
-        }
-
-        public short ReadWriteWord(int j)
-        {
-            return BitConverter.ToInt16(new byte[] { MiscSettings[j + 1], MiscSettings[j] }, 0);
-        }
-
-        public void ReadWriteWord(int j, Int16 value)
-        {
-            MiscSettings[j] = BitConverter.GetBytes(value)[1];
-            MiscSettings[j + 1] = BitConverter.GetBytes(value)[0];
-        }
-
-        public byte ReadWriteByte(int j)
+        public byte ReadByte(int j)
         {
             return MiscSettings[j];
         }
 
-        public void ReadWriteByte(int j, byte value)
+        public short ReadShort(int j)
         {
-            MiscSettings[j] = value;
+            return BitConverter.ToInt16(new byte[] { MiscSettings[j + 1], MiscSettings[j] }, 0);
         }
-
-        public int ReadWriteLong(int j)
+        
+        public int ReadLong(int j)
         {
             return BitConverter.ToInt32(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
         }
 
-        public void ReadWriteLong(int j, Int32 value)
+        public void Write(int j, float value)
         {
-            MiscSettings[j] = BitConverter.GetBytes(value)[3];
-            MiscSettings[j + 1] = BitConverter.GetBytes(value)[2];
-            MiscSettings[j + 2] = BitConverter.GetBytes(value)[1];
-            MiscSettings[j + 3] = BitConverter.GetBytes(value)[0];
+            byte[] split = BitConverter.GetBytes(value).Reverse().ToArray();
+            for (int i = 0; i < 4; i++)
+                MiscSettings[j + i] = split[i];
+        }
+
+        public void Write(int j, byte value)
+        {
+            MiscSettings[j] = value;
+        }
+
+        public void Write(int j, short value)
+        {
+            byte[] split = BitConverter.GetBytes(value).Reverse().ToArray();
+            for (int i = 0; i < 2; i++)
+                MiscSettings[j + i] = split[i];
+        }
+
+        public void Write(int j, int value)
+        {
+            byte[] split = BitConverter.GetBytes(value).Reverse().ToArray();
+            for (int i = 0; i < 4; i++)
+                MiscSettings[j + i] = split[i];
         }
     }
 }

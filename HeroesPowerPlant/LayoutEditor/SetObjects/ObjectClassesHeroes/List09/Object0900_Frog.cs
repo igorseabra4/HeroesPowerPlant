@@ -6,56 +6,56 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public float JumpDirX
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public float JumpDirY
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float JumpDirZ
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float Radius
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float Scale
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
 
         public float JumpCycle
         {
-            get { return ReadWriteSingle(24); }
-            set { ReadWriteSingle(24, value); }
+            get { return ReadFloat(24); }
+            set { Write(24, value); }
         }
 
         public Int16 StopTimeSec
         {
-            get { return ReadWriteWord(28); }
-            set { ReadWriteWord(28, value); }
+            get { return ReadShort(28); }
+            set { Write(28, value); }
         }
 
         public Int16 LeaveTimeSec
         {
-            get { return ReadWriteWord(30); }
-            set { ReadWriteWord(30, value); }
+            get { return ReadShort(30); }
+            set { Write(30, value); }
         }
 
         public byte FrogType
         {
-            get { return ReadWriteByte(32); }
-            set { ReadWriteByte(32, value); }
+            get { return ReadByte(32); }
+            set { Write(32, value); }
         }
     }
 }

@@ -12,26 +12,26 @@
 
         public CageType Type
         {
-            get { return (CageType)ReadWriteLong(4); }
-            set { ReadWriteLong(4, (int)value); }
+            get { return (CageType)ReadLong(4); }
+            set { Write(4, (int)value); }
         }
 
         public float MoveCycleSec
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float MoveRangeH
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float MoveRangeV
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
     }
 }

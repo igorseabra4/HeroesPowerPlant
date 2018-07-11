@@ -6,26 +6,26 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public float Scale
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public byte Type
         {
-            get { return ReadWriteByte(8); }
-            set { ReadWriteByte(8, value); }
+            get { return ReadByte(8); }
+            set { Write(8, value); }
         }
 
         public byte Param2
         {
-            get { return ReadWriteByte(9); }
-            set { ReadWriteByte(9, value); }
+            get { return ReadByte(9); }
+            set { Write(9, value); }
         }
 
         public float Param3
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
     }
 }

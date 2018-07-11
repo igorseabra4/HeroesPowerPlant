@@ -4,32 +4,32 @@
     {
         public float Trance
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public byte Type
         {
-            get { return ReadWriteByte(8); }
-            set { ReadWriteByte(8, value); }
+            get { return ReadByte(8); }
+            set { Write(8, value); }
         }
 
         public byte KeyFlip
         {
-            get { return ReadWriteByte(9); }
-            set { ReadWriteByte(9, value); }
+            get { return ReadByte(9); }
+            set { Write(9, value); }
         }
 
         public byte Power
         {
-            get { return ReadWriteByte(10); }
-            set { ReadWriteByte(10, value); }
+            get { return ReadByte(10); }
+            set { Write(10, value); }
         }
 
         public byte Player
         {
-            get { return ReadWriteByte(11); }
-            set { ReadWriteByte(11, value); }
+            get { return ReadByte(11); }
+            set { Write(11, value); }
         }
     }
 }

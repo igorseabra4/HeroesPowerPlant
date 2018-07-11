@@ -9,6 +9,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             transformMatrix = 
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
@@ -108,26 +111,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public RingType Type
         {
-            get { return (RingType)ReadWriteWord(4); }
-            set { Int16 a = (Int16)value; ReadWriteWord(4, a); }
+            get { return (RingType)ReadShort(4); }
+            set { Write(4, (short)value); }
         }
 
-        public Int16 NumberOfRings
+        public short NumberOfRings
         {
-            get { return ReadWriteWord(6); }
-            set { ReadWriteWord(6, value); }
+            get { return ReadShort(6); }
+            set { Write(6, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float TotalLenght
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

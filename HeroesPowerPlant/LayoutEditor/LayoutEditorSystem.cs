@@ -190,12 +190,13 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public void SelectedIndexChanged(int selectedIndex)
         {
-            if (CurrentlySelectedIndex != -1)
+            if (CurrentlySelectedIndex > 0 & CurrentlySelectedIndex < setObjects.Count)
                 GetSelectedObject().isSelected = false;
 
             currentlySelectedIndex = selectedIndex;
 
-            if (currentlySelectedIndex < 0) return;
+            if (currentlySelectedIndex < 0)
+                return;
 
             GetSelectedObject().isSelected = true;
         }
@@ -248,9 +249,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int RemoveSetObject()
         {
-            int returnValue = currentlySelectedIndex;
             setObjects.RemoveAt(currentlySelectedIndex);
-            return returnValue;
+            return currentlySelectedIndex;
         }
 
         public void ClearList()

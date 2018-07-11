@@ -4,8 +4,8 @@
     {
         public float YOffset
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
     }
 }

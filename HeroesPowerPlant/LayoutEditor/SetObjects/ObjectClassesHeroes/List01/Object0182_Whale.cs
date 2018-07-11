@@ -1,49 +1,67 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0182_Whale : SetObjectManagerHeroes
     {
-        public byte WhaleType
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            get { return ReadWriteByte(4); }
-            set { ReadWriteByte(4, value); }
+            base.CreateTransformMatrix(Position, Rotation);
+
+            triggerMatrix = Matrix.Scaling(TriggerSize) * Matrix.Translation(TriggerX, TriggerY, TriggerZ);
         }
 
-        public Int16 TriggerSize
+        public override void Draw(string[] modelNames, bool isSelected)
         {
-            get { return ReadWriteWord(6); }
-            set { ReadWriteWord(6, value); }
+            base.Draw(modelNames, isSelected);
+
+            if (isSelected)
+                SharpRenderer.DrawSphereTrigger(triggerMatrix, true);
+        }
+
+        Matrix triggerMatrix;
+
+        public byte WhaleType
+        {
+            get { return ReadByte(4); }
+            set { Write(4, value); }
+        }
+
+        public short TriggerSize
+        {
+            get { return ReadShort(6); }
+            set { Write(6, value); }
         }
 
         public float WhaleScale
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float ArchRadius
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float TriggerX
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float TriggerY
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
 
         public float TriggerZ
         {
-            get { return ReadWriteSingle(24); }
-            set { ReadWriteSingle(24, value); }
+            get { return ReadFloat(24); }
+            set { Write(24, value); }
         }
     }
 }

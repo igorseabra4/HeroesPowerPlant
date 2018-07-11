@@ -16,50 +16,50 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public WeightType Type
         {
-            get { return (WeightType)ReadWriteByte(4); }
-            set { ReadWriteByte(4, (byte)value); }
+            get { return (WeightType)ReadByte(4); }
+            set { Write(4, (byte)value); }
         }
 
         public byte LinkID
         {
-            get { return ReadWriteByte(5); }
-            set { ReadWriteByte(5, value); }
+            get { return ReadByte(5); }
+            set { Write(5, value); }
         }
 
         public Int16 Height
         {
-            get { return ReadWriteWord(6); }
-            set { ReadWriteWord(6, value); }
+            get { return ReadShort(6); }
+            set { Write(6, value); }
         }
 
         public float ScaleX
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float ScaleZ
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public Int16 UpWaitTime
         {
-            get { return ReadWriteWord(16); }
-            set { ReadWriteWord(16, value); }
+            get { return ReadShort(16); }
+            set { Write(16, value); }
         }
 
         public Int16 DownWaitTime
         {
-            get { return ReadWriteWord(18); }
-            set { ReadWriteWord(18, value); }
+            get { return ReadShort(18); }
+            set { Write(18, value); }
         }
 
         public float ScaleY
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
     }
 }

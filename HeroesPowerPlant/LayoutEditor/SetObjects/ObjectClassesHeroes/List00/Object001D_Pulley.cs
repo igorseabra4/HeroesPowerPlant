@@ -6,20 +6,20 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public float Elevation
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public float ElevationAngle
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float Power
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public enum PulleyType
@@ -30,8 +30,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public PulleyType Type
         {
-            get { return (PulleyType)ReadWriteWord(16); }
-            set { Int16 a = (Int16)value; ReadWriteWord(16, a); }
+            get { return (PulleyType)ReadShort(16); }
+            set { Int16 a = (Int16)value; Write(16, a); }
         }
     }
 }

@@ -8,6 +8,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             transformMatrix = Matrix.Scaling(Scale)
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -25,14 +28,14 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public byte Type
         {
-            get { return ReadWriteByte(4); }
-            set { ReadWriteByte(4, value); }
+            get { return ReadByte(4); }
+            set { Write(4, value); }
         }
 
         public float Scale
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

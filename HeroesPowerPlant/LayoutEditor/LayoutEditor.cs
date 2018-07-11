@@ -157,8 +157,12 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             ProgramIsChangingStuff = true;
 
-            layoutSystem.SelectedIndexChanged(listBoxObjects.SelectedIndex);
-            UpdateDisplayData();
+            if (listBoxObjects.SelectedIndex < layoutSystem.GetSetObjectAmount())
+            {
+                layoutSystem.SelectedIndexChanged(listBoxObjects.SelectedIndex);
+                if (listBoxObjects.SelectedIndex != -1)
+                    UpdateDisplayData();
+            }
 
             ProgramIsChangingStuff = false;
         }
@@ -183,12 +187,12 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (layoutSystem.CurrentlySelectedIndex >= 0)
             {
+                ProgramIsChangingStuff = true;
                 int Temp = layoutSystem.RemoveSetObject();
                 listBoxObjects.Items.RemoveAt(Temp);
-                if (Temp < listBoxObjects.Items.Count)
-                    listBoxObjects.SelectedIndex = Temp;
-                else
-                    listBoxObjects.SelectedIndex = Temp - 1;
+                try { listBoxObjects.SelectedIndex = Temp; }
+                catch { listBoxObjects.SelectedIndex = Temp - 1; }
+                ProgramIsChangingStuff = false;
             }
         }
 

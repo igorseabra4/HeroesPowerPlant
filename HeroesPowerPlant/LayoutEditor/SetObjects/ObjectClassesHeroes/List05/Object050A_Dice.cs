@@ -6,26 +6,26 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public float Speed
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public float Height
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float Radius
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public Int16 StopTime
         {
-            get { return ReadWriteWord(16); }
-            set { ReadWriteWord(16, value); }
+            get { return ReadShort(16); }
+            set { Write(16, value); }
         }
 
         public enum TypeEnum : Int16
@@ -36,14 +36,14 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TypeEnum Type
         {
-            get { return (TypeEnum)ReadWriteWord(18); }
-            set { ReadWriteWord(18, (Int16)value); }
+            get { return (TypeEnum)ReadShort(18); }
+            set { Write(18, (Int16)value); }
         }
 
         public Int16 OffsetTime
         {
-            get { return ReadWriteWord(20); }
-            set { ReadWriteWord(20, value); }
+            get { return ReadShort(20); }
+            set { Write(20, value); }
         }
     }
 }

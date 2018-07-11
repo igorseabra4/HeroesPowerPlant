@@ -16,8 +16,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public StartModeEnum StartMode
         {
-            get { return (StartModeEnum)ReadWriteByte(4); }
-            set { byte a = (byte)value; ReadWriteByte(4, a); }
+            get { return (StartModeEnum)ReadByte(4); }
+            set { byte a = (byte)value; Write(4, a); }
         }
 
         public enum MassTypeEnum : byte
@@ -33,8 +33,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public MassTypeEnum ColorMass
         {
-            get { return (MassTypeEnum)ReadWriteByte(5); }
-            set { byte a = (byte)value; ReadWriteByte(5, a); }
+            get { return (MassTypeEnum)ReadByte(5); }
+            set { byte a = (byte)value; Write(5, a); }
         }
 
         public enum WeaponTypeEnum : byte
@@ -49,8 +49,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public WeaponTypeEnum WeaponType
         {
-            get { return (WeaponTypeEnum)ReadWriteByte(6); }
-            set { byte a = (byte)value; ReadWriteByte(6, a); }
+            get { return (WeaponTypeEnum)ReadByte(6); }
+            set { byte a = (byte)value; Write(6, a); }
         }
 
         public enum ShieldTypeEnum : byte
@@ -62,57 +62,57 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public ShieldTypeEnum ShieldType
         {
-            get { return (ShieldTypeEnum)ReadWriteByte(7); }
-            set { byte a = (byte)value; ReadWriteByte(7, a); }
+            get { return (ShieldTypeEnum)ReadByte(7); }
+            set { byte a = (byte)value; Write(7, a); }
         }
 
         public Int16 ScopeRange
         {
             //W2
-            get { return ReadWriteWord(8); }
-            set { ReadWriteWord(8, value); }
+            get { return ReadShort(8); }
+            set { Write(8, value); }
         }
 
         public Int16 ScopeOffset
         {
             //W2
-            get { return ReadWriteWord(10); }
-            set { ReadWriteWord(10, value); }
+            get { return ReadShort(10); }
+            set { Write(10, value); }
         }
 
         public float MovingRange
         {
             //F3
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float FallWarpHeight
         {
             //F4
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float FalcoNumberFloat
         {
             //F5
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
 
         public float ShotSpeed
         {
             //F6
-            get { return ReadWriteSingle(24); }
-            set { ReadWriteSingle(24, value); }
+            get { return ReadFloat(24); }
+            set { Write(24, value); }
         }
 
         public Int32 ShotInterval
         {
             //L7
-            get { return ReadWriteLong(28); }
-            set { ReadWriteLong(28, value); }
+            get { return ReadLong(28); }
+            set { Write(28, value); }
         }
     }
 }

@@ -6,14 +6,14 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public float Speed
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public Int16 ControlTime
         {
-            get { return ReadWriteWord(8); }
-            set { ReadWriteWord(8, value); }
+            get { return ReadShort(8); }
+            set { Write(8, value); }
         }
     }
 }

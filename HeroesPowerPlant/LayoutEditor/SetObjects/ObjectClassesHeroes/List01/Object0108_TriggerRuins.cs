@@ -12,6 +12,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             transformMatrix = Matrix.Scaling(ScaleX / 2, ScaleY / 2, ScaleZ / 2) *
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X)) *
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y)) *
@@ -26,20 +29,20 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float ScaleX
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleY
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public enum RuinType : byte
@@ -50,8 +53,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public RuinType Type
         {
-            get { return (RuinType)ReadWriteByte(16); }
-            set { byte a = (byte)value; ReadWriteByte(16, a); }
+            get { return (RuinType)ReadByte(16); }
+            set { byte a = (byte)value; Write(16, a); }
         }
     }
 }

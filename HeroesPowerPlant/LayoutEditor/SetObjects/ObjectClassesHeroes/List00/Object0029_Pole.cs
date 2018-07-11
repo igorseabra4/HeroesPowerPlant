@@ -6,62 +6,62 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public Int16 Length
         {
-            get { return ReadWriteWord(4); }
-            set { ReadWriteWord(4, value); }
+            get { return ReadShort(4); }
+            set { Write(4, value); }
         }
 
         public Int16 Range
         {
-            get { return ReadWriteWord(6); }
-            set { ReadWriteWord(6, value); }
+            get { return ReadShort(6); }
+            set { Write(6, value); }
         }
 
         public Int16 Start
         {
-            get { return ReadWriteWord(8); }
-            set { ReadWriteWord(8, value); }
+            get { return ReadShort(8); }
+            set { Write(8, value); }
         }
 
         public Int16 End
         {
-            get { return ReadWriteWord(10); }
-            set { ReadWriteWord(10, value); }
+            get { return ReadShort(10); }
+            set { Write(10, value); }
         }
 
         public float ReleaseElevation
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float ReleaseAzimuth
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float ReleasePower
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
 
         public byte NoReference
         {
-            get { return ReadWriteByte(24); }
-            set { ReadWriteByte(24, value); }
+            get { return ReadByte(24); }
+            set { Write(24, value); }
         }
 
         public byte ReferenceID
         {
-            get { return ReadWriteByte(25); }
-            set { ReadWriteByte(25, value); }
+            get { return ReadByte(25); }
+            set { Write(25, value); }
         }
 
         public Int16 NoControlTime
         {
-            get { return ReadWriteWord(26); }
-            set { ReadWriteWord(26, value); }
+            get { return ReadShort(26); }
+            set { Write(26, value); }
         }
     }
 }

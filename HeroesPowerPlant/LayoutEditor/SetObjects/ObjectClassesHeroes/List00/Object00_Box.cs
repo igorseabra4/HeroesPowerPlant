@@ -11,8 +11,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public CrashModeType Type
         {
-            get { return (CrashModeType)ReadWriteWord(4); }
-            set { Int16 a = (Int16)value; ReadWriteWord(4, a); }
+            get { return (CrashModeType)ReadShort(4); }
+            set { Int16 a = (Int16)value; Write(4, a); }
         }
     }
 }

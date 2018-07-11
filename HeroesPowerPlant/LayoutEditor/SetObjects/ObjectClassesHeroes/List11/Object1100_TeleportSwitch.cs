@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -9,32 +10,47 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             base.CreateTransformMatrix(Position, Rotation);
-            destinationMatrix = Matrix.Translation(DestinationX, DestinationY, DestinationZ);
+            destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(DestinationX, DestinationY, DestinationZ);
         }
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
             base.Draw(modelNames, isSelected);
 
-            DrawCube(true);
+            if (isSelected)
+            {
+                renderData.worldViewProjection = destinationMatrix * viewProjection;
+
+                device.SetFillModeDefault();
+                device.SetCullModeNone();
+                device.SetBlendStateAlphaBlend();
+                device.ApplyRasterState();
+                device.UpdateAllStates();
+
+                device.UpdateData(basicBuffer, renderData);
+                device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+                basicShader.Apply();
+
+                Sphere.Draw();
+            }
         }
 
         public float DestinationX
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float DestinationY
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float DestinationZ
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public enum BallState : byte
@@ -59,14 +75,14 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public BallState State
         {
-            get { return (BallState)ReadWriteByte(16); }
-            set { byte a = (byte)value; ReadWriteByte(16, a); }
+            get { return (BallState)ReadByte(16); }
+            set { byte a = (byte)value; Write(16, a); }
         }
 
         public bool IsUpsideDown
         {
-            get { return ReadWriteByte(17) != 0; }
-            set { ReadWriteByte(17, (byte)(value ? 1 : 0)); }
+            get { return ReadByte(17) != 0; }
+            set { Write(17, (byte)(value ? 1 : 0)); }
         }
     }
 }

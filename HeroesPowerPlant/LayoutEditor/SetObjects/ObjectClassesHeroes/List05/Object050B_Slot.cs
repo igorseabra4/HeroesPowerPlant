@@ -6,8 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public Int32 Rate
         {
-            get { return ReadWriteLong(4); }
-            set { ReadWriteLong(4, value); }
+            get { return ReadLong(4); }
+            set { Write(4, value); }
         }
     }
 }

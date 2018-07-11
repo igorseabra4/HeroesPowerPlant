@@ -6,8 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public Int16 Priority
         {
-            get { return ReadWriteWord(4); }
-            set { ReadWriteWord(4, value); }
+            get { return ReadShort(4); }
+            set { Write(4, value); }
         }
     }
 }

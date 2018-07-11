@@ -5,12 +5,11 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0080_TriggerTeleport : SetObjectManagerHeroes
     {
+        private BoundingSphere sphereBound;
+
         public override bool TriangleIntersection(Ray r, string[] ModelNames)
         {
-            Vector3 center = Vector3.Zero;
-            center = (Vector3)Vector3.Transform(center, transformMatrix);
-
-            return r.Intersects(new BoundingSphere(center, Radius / 2));
+            return r.Intersects(sphereBound);
         }
 
         public override BoundingBox CreateBoundingBox(string[] modelNames)
@@ -22,6 +21,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
+            sphereBound = new BoundingSphere(Position, Radius / 2);
+
             destinationMatrix = Matrix.Translation(XDestination, YDestination, ZDestination);
 
             transformMatrix = Matrix.Scaling(Radius)
@@ -33,32 +37,34 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            DrawCube(isSelected);
             DrawSphereTrigger(transformMatrix, isSelected);
+
+            if (isSelected)
+                DrawCube(true);
         }
 
         public float Radius
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float XDestination
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float YDestination
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float ZDestination
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
     }
 }

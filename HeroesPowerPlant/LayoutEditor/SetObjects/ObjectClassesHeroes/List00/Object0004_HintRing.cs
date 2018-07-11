@@ -6,14 +6,14 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public Int16 LineToPlay
         {
-            get { return ReadWriteWord(4); }
-            set { ReadWriteWord(4, value); }
+            get { return ReadShort(4); }
+            set { Write(4, value); }
         }
 
         public bool DeleteByLinkOff
         {
-            get { return ReadWriteByte(6) != 0; }
-            set { ReadWriteByte(6, value ? (byte)1 : (byte)0); }
+            get { return ReadByte(6) != 0; }
+            set { Write(6, value ? (byte)1 : (byte)0); }
         }
     }
 }

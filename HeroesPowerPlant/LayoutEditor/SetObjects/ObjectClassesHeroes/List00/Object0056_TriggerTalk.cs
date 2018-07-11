@@ -6,15 +6,12 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0056_TriggerTalk : SetObjectManagerHeroes
     {
+        private BoundingSphere sphereBound;
+
         public override bool TriangleIntersection(Ray r, string[] ModelNames)
         {
             if (TriggerShape == TriggerTalkShape.Sphere)
-            {
-                Vector3 center = Vector3.Zero;
-                center = (Vector3)Vector3.Transform(center, transformMatrix);
-
-                return r.Intersects(new BoundingSphere(center, Radius_ScaleX / 2));
-            }
+                return r.Intersects(sphereBound);
             else
                 return base.TriangleIntersection(r, ModelNames);
         }
@@ -26,8 +23,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             if (TriggerShape == TriggerTalkShape.Sphere)
             {
+                sphereBound = new BoundingSphere(Position, Radius_ScaleX / 2);
+
                 transformMatrix = Matrix.Scaling(Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                     * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
@@ -76,14 +78,14 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TypeType Type
         {
-            get { return (TypeType)ReadWriteWord(4); }
-            set { ReadWriteWord(4, (Int16)value); }
+            get { return (TypeType)ReadShort(4); }
+            set { Write(4, (Int16)value); }
         }
 
         public Int16 CommonLineToPlay
         {
-            get { return ReadWriteWord(6); }
-            set { ReadWriteWord(6, value); }
+            get { return ReadShort(6); }
+            set { Write(6, value); }
         }
 
         public enum TriggerTalkShape
@@ -94,62 +96,62 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TriggerTalkShape TriggerShape
         {
-            get { return (TriggerTalkShape)ReadWriteLong(8); }
-            set { ReadWriteLong(8, (int)value); }
+            get { return (TriggerTalkShape)ReadLong(8); }
+            set { Write(8, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius_ScaleX
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Height_ScaleY
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public Int16 HintStart1
         {
-            get { return ReadWriteWord(24); }
-            set { ReadWriteWord(24, value); }
+            get { return ReadShort(24); }
+            set { Write(24, value); }
         }
 
         public Int16 HintEnd1
         {
-            get { return ReadWriteWord(26); }
-            set { ReadWriteWord(26, value); }
+            get { return ReadShort(26); }
+            set { Write(26, value); }
         }
 
         public Int16 HintStart2
         {
-            get { return ReadWriteWord(28); }
-            set { ReadWriteWord(28, value); }
+            get { return ReadShort(28); }
+            set { Write(28, value); }
         }
 
         public Int16 HintEnd2
         {
-            get { return ReadWriteWord(30); }
-            set { ReadWriteWord(30, value); }
+            get { return ReadShort(30); }
+            set { Write(30, value); }
         }
 
         public Int16 HintStart3
         {
-            get { return ReadWriteWord(32); }
-            set { ReadWriteWord(32, value); }
+            get { return ReadShort(32); }
+            set { Write(32, value); }
         }
 
         public Int16 HintEnd3
         {
-            get { return ReadWriteWord(34); }
-            set { ReadWriteWord(34, value); }
+            get { return ReadShort(34); }
+            set { Write(34, value); }
         }
     }
 }

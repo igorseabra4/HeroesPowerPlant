@@ -12,6 +12,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ)
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -26,20 +29,20 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float ScaleX
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleY
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public enum TypeType
@@ -57,14 +60,14 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TypeType Type
         {
-            get { return (TypeType)ReadWriteByte(16); }
-            set { ReadWriteSingle(16, (byte)value); }
+            get { return (TypeType)ReadByte(16); }
+            set { Write(16, (float)(byte)value); }
         }
 
         public bool OnlyLeader
         {
-            get { return ReadWriteByte(17) != 0; }
-            set { ReadWriteByte(17, value ? (byte)1 : (byte)0); }
+            get { return ReadByte(17) != 0; }
+            set { Write(17, value ? (byte)1 : (byte)0); }
         }
     }
 }

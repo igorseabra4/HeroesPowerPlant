@@ -12,6 +12,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         // Drawing related
         public Matrix transformMatrix;
+        protected Vector3 Position;
+        protected Vector3 Rotation;
 
         public abstract void CreateTransformMatrix(Vector3 Position, Vector3 Rotation);
 
@@ -20,16 +22,10 @@ namespace HeroesPowerPlant.LayoutEditor
         public virtual void Draw(string[] modelNames, bool isSelected)
         {
             if (modelNames != null)
-            {
                 for (int m = 0; m < modelNames.Length; m++)
-                {
                     Draw(modelNames[m], isSelected);
-                }
-            }
             else
-            {
                 DrawCube(isSelected);
-            }
         }
 
         public void Draw(string modelName, bool isSelected)

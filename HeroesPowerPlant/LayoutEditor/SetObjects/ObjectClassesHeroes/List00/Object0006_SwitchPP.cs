@@ -10,8 +10,8 @@
 
         public SwitchMode Mode
         {
-            get { return (SwitchMode)ReadWriteByte(4); }
-            set { byte a = (byte)value; ReadWriteByte(4, a); }
+            get { return (SwitchMode)ReadByte(4); }
+            set { byte a = (byte)value; Write(4, a); }
         }
     }
 }

@@ -6,20 +6,20 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public byte Type
         {
-            get { return ReadWriteByte(4); }
-            set { ReadWriteByte(4, value); }
+            get { return ReadByte(4); }
+            set { Write(4, value); }
         }
 
         public Int16 ScaleX
         {
-            get { return ReadWriteWord(6); }
-            set { ReadWriteWord(6, value); }
+            get { return ReadShort(6); }
+            set { Write(6, value); }
         }
 
         public Int16 ScaleY
         {
-            get { return ReadWriteWord(8); }
-            set { ReadWriteWord(8, value); }
+            get { return ReadShort(8); }
+            set { Write(8, value); }
         }
     }
 }

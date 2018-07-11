@@ -6,15 +6,12 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0059_TriggerLight : SetObjectManagerHeroes
     {
+        private BoundingSphere sphereBound;
+
         public override bool TriangleIntersection(Ray r, string[] ModelNames)
         {
             if (TriggerShape == TriggerLightShape.Sphere)
-            {
-                Vector3 center = Vector3.Zero;
-                center = (Vector3)Vector3.Transform(center, transformMatrix);
-
-                return r.Intersects(new BoundingSphere(center, Radius_ScaleX / 2));
-            }
+                return r.Intersects(sphereBound);
             else
                 return base.TriangleIntersection(r, ModelNames);
         }
@@ -29,6 +26,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             if (TriggerShape == TriggerLightShape.Cube)
             {
                 transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ)
@@ -39,6 +39,8 @@ namespace HeroesPowerPlant.LayoutEditor
             }
             else if (TriggerShape == TriggerLightShape.Sphere)
             {
+                sphereBound = new BoundingSphere(Position, Radius_ScaleX / 2);
+
                 transformMatrix = Matrix.Scaling(Radius_ScaleX)
                     * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                     * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
@@ -102,8 +104,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public NumberEnum Number
         {
-            get { return (NumberEnum)ReadWriteByte(4); }
-            set { ReadWriteByte(4, (byte)value); }
+            get { return (NumberEnum)ReadByte(4); }
+            set { Write(4, (byte)value); }
         }
 
         public enum TypeEnum
@@ -115,8 +117,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TypeEnum Type
         {
-            get { return (TypeEnum)ReadWriteByte(5); }
-            set { ReadWriteByte(5, (byte)value); }
+            get { return (TypeEnum)ReadByte(5); }
+            set { Write(5, (byte)value); }
         }
 
         public enum TriggerLightShape
@@ -129,26 +131,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TriggerLightShape TriggerShape
         {
-            get { return (TriggerLightShape)ReadWriteByte(6); }
-            set { ReadWriteByte(6, (byte)value); }
+            get { return (TriggerLightShape)ReadByte(6); }
+            set { Write(6, (byte)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius_ScaleX
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Height_ScaleY
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

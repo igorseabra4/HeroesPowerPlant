@@ -1,6 +1,5 @@
 ﻿using System;
 using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -8,6 +7,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             transformMatrix = Matrix.Scaling(Scale)
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -28,20 +30,20 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float Scale
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public Int32 Type
         {
-            get { return ReadWriteLong(8); }
-            set { ReadWriteLong(8, value); }
+            get { return ReadLong(8); }
+            set { Write(8, value); }
         }
 
         public Int32 Speed
         {
-            get { return ReadWriteLong(12); }
-            set { ReadWriteLong(12, value); }
+            get { return ReadLong(12); }
+            set { Write(12, value); }
         }
     }
 }

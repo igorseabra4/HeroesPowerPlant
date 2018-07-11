@@ -11,8 +11,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TypeEnum Type
         {
-            get { return (TypeEnum)ReadWriteByte(4); }
-            set { byte a = (byte)value; ReadWriteByte(4, a); }
+            get { return (TypeEnum)ReadByte(4); }
+            set { byte a = (byte)value; Write(4, a); }
         }
 
         public enum PathEnum : byte
@@ -22,8 +22,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public PathEnum PathMode
         {
-            get { return (PathEnum)ReadWriteByte(5); }
-            set { byte a = (byte)value; ReadWriteByte(5, a); }
+            get { return (PathEnum)ReadByte(5); }
+            set { byte a = (byte)value; Write(5, a); }
         }
 
         public enum IronballEnum : byte
@@ -33,38 +33,38 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public IronballEnum IronBallMode
         {
-            get { return (IronballEnum)ReadWriteByte(6); }
-            set { byte a = (byte)value; ReadWriteByte(6, a); }
+            get { return (IronballEnum)ReadByte(6); }
+            set { byte a = (byte)value; Write(6, a); }
         }
 
         public float WeaponSpeed
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public Int32 AttackInterval
         {
-            get { return ReadWriteLong(12); }
-            set { ReadWriteLong(12, value); }
+            get { return ReadLong(12); }
+            set { Write(12, value); }
         }
 
         public float MoveSpeedMin
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float MoveSpeed
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
 
         public float MoveSpeedMax
         {
-            get { return ReadWriteSingle(24); }
-            set { ReadWriteSingle(24, value); }
+            get { return ReadFloat(24); }
+            set { Write(24, value); }
         }
     }
 }

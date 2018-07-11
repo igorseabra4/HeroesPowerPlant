@@ -11,8 +11,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TypeEnum Type
         {
-            get { return (TypeEnum)ReadWriteByte(4); }
-            set { byte a = (byte)value; ReadWriteByte(4, a); }
+            get { return (TypeEnum)ReadByte(4); }
+            set { byte a = (byte)value; Write(4, a); }
         }
 
         public enum AppearEnum : byte
@@ -22,50 +22,50 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public AppearEnum Appear
         {
-            get { return (AppearEnum)ReadWriteByte(5); }
-            set { byte a = (byte)value; ReadWriteByte(5, a); }
+            get { return (AppearEnum)ReadByte(5); }
+            set { byte a = (byte)value; Write(5, a); }
         }
 
         public float MoveSpeed
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float MoveRange
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float ScopeRange
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float ScopeOffset
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
 
         public Int32 AttackInterval
         {
-            get { return ReadWriteLong(24); }
-            set { ReadWriteLong(24, value); }
+            get { return ReadLong(24); }
+            set { Write(24, value); }
         }
 
         public float WeaponSpeed
         {
-            get { return ReadWriteSingle(28); }
-            set { ReadWriteSingle(28, value); }
+            get { return ReadFloat(28); }
+            set { Write(28, value); }
         }
 
         public float FallDistance
         {
-            get { return ReadWriteSingle(32); }
-            set { ReadWriteSingle(32, value); }
+            get { return ReadFloat(32); }
+            set { Write(32, value); }
         }
     }
 }

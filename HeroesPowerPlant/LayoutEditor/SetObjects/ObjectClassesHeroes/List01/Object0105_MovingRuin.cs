@@ -42,18 +42,18 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public RuinType Type
         {
-            get { return (RuinType)ReadWriteByte(4); }
+            get { return (RuinType)ReadByte(4); }
             set
             {
                 byte a = (byte)value;
-                ReadWriteByte(4, a);
+                Write(4, a);
             }
         }
 
         public float MovingDistance
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
     }
 }

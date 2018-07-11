@@ -4,56 +4,56 @@
     {
         public byte FarType
         {
-            get { return ReadWriteByte(4); }
-            set { ReadWriteByte(4, value); }
+            get { return ReadByte(4); }
+            set { Write(4, value); }
         }
 
         public byte BlockType
         {
-            get { return ReadWriteByte(5); }
-            set { ReadWriteByte(5, value); }
+            get { return ReadByte(5); }
+            set { Write(5, value); }
         }
 
         public byte CrossWize
         {
-            get { return ReadWriteByte(6); }
-            set { ReadWriteByte(6, value); }
+            get { return ReadByte(6); }
+            set { Write(6, value); }
         }
 
         public byte LengthWize
         {
-            get { return ReadWriteByte(7); }
-            set { ReadWriteByte(7, value); }
+            get { return ReadByte(7); }
+            set { Write(7, value); }
         }
 
         public short Time
         {
-            get { return ReadWriteWord(8); }
-            set { ReadWriteWord(8, value); }
+            get { return ReadShort(8); }
+            set { Write(8, value); }
         }
 
         public short TimeRnd
         {
-            get { return ReadWriteWord(10); }
-            set { ReadWriteWord(10, value); }
+            get { return ReadShort(10); }
+            set { Write(10, value); }
         }
 
         public float Length
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float Speed
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public float SpeedRnd
         {
-            get { return ReadWriteSingle(20); }
-            set { ReadWriteSingle(20, value); }
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
         }
     }
 }

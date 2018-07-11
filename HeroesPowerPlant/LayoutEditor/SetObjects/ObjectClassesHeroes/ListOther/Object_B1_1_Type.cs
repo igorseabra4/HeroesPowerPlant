@@ -4,8 +4,8 @@
     {
         public byte Type
         {
-            get { return ReadWriteByte(4); }
-            set { ReadWriteByte(4, value); }
+            get { return ReadByte(4); }
+            set { Write(4, value); }
         }
     }
 }

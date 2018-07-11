@@ -4,26 +4,26 @@
     {
         public float Power
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public byte AngType
         {
-            get { return ReadWriteByte(8); }
-            set { ReadWriteByte(8, value); }
+            get { return ReadByte(8); }
+            set { Write(8, value); }
         }
 
         public byte Color
         {
-            get { return ReadWriteByte(9); }
-            set { ReadWriteByte(9, value); }
+            get { return ReadByte(9); }
+            set { Write(9, value); }
         }
 
         public byte Number
         {
-            get { return ReadWriteByte(10); }
-            set { ReadWriteByte(10, value); }
+            get { return ReadByte(10); }
+            set { Write(10, value); }
         }
     }
 }

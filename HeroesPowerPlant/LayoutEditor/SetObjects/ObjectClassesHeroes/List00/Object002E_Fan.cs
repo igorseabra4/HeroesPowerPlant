@@ -4,26 +4,26 @@
     {
         public float Scale
         {
-            get { return ReadWriteSingle(4); }
-            set { ReadWriteSingle(4, value); }
+            get { return ReadFloat(4); }
+            set { Write(4, value); }
         }
 
         public float HeightTriangleDive
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float HeightDefault
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
 
         public float Power
         {
-            get { return ReadWriteSingle(16); }
-            set { ReadWriteSingle(16, value); }
+            get { return ReadFloat(16); }
+            set { Write(16, value); }
         }
 
         public enum FanMode : byte
@@ -36,26 +36,26 @@
 
         public FanMode Mode
         {
-            get { return (FanMode)ReadWriteByte(20); }
-            set { byte a = (byte)value; ReadWriteByte(20, a); }
+            get { return (FanMode)ReadByte(20); }
+            set { byte a = (byte)value; Write(20, a); }
         }
 
         public byte LinkID
         {
-            get { return ReadWriteByte(21); }
-            set { ReadWriteByte(21, value); }
+            get { return ReadByte(21); }
+            set { Write(21, value); }
         }
 
         public float WindScale
         {
-            get { return ReadWriteSingle(24); }
-            set { ReadWriteSingle(24, value); }
+            get { return ReadFloat(24); }
+            set { Write(24, value); }
         }
 
         public bool IsInvisible
         {
-            get { return ReadWriteByte(28) != 0; }
-            set { ReadWriteByte(28, value ? (byte)1 : (byte)0); }
+            get { return ReadByte(28) != 0; }
+            set { Write(28, value ? (byte)1 : (byte)0); }
         }
     }
 }

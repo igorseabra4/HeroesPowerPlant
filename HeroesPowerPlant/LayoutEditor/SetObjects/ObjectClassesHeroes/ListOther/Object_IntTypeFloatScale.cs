@@ -1,19 +1,31 @@
-﻿using System;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object_IntTypeFloatScale : SetObjectManagerHeroes
     {
-        public Int32 Type
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            get { return ReadWriteLong(4); }
-            set { ReadWriteLong(4, value); }
+            this.Position = Position;
+            this.Rotation = Rotation;
+
+            transformMatrix = Matrix.Scaling(Scale != 0f ? Scale : 1f, 1f, 1f) *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
+                Matrix.Translation(Position);
+        }
+
+        public int Type
+        {
+            get { return ReadLong(4); }
+            set { Write(4, value); }
         }
 
         public float Scale
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

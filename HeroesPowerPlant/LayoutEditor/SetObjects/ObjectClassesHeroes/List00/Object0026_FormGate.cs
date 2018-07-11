@@ -4,20 +4,20 @@
     {
         public Formations Formation
         {
-            get { return (Formations)ReadWriteByte(4); }
-            set { byte a = (byte)value; ReadWriteByte(4, a); }
+            get { return (Formations)ReadByte(4); }
+            set { byte a = (byte)value; Write(4, a); }
         }
 
         public float Width
         {
-            get { return ReadWriteSingle(8); }
-            set { ReadWriteSingle(8, value); }
+            get { return ReadFloat(8); }
+            set { Write(8, value); }
         }
 
         public float Height
         {
-            get { return ReadWriteSingle(12); }
-            set { ReadWriteSingle(12, value); }
+            get { return ReadFloat(12); }
+            set { Write(12, value); }
         }
     }
 }
