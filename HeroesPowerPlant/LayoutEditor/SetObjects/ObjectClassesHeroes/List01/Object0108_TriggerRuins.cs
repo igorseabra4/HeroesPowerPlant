@@ -7,7 +7,7 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override BoundingBox CreateBoundingBox(string[] modelNames)
         {
-            return new BoundingBox(-Vector3.One, Vector3.One);
+            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)

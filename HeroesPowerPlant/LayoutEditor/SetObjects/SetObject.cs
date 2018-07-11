@@ -52,8 +52,15 @@ namespace HeroesPowerPlant.LayoutEditor
         public float? IntersectsWith(Ray r)
         {
             if (r.Intersects(ref boundingBox, out float distance))
+            {
+                if (!TriangleIntersection(r))
+                    return null;
+
                 return distance;
+            }
             else return null;
         }
+
+        public abstract bool TriangleIntersection(Ray r);
     }
 }

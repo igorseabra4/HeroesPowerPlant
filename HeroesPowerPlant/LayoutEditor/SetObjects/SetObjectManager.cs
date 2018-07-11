@@ -99,5 +99,31 @@ namespace HeroesPowerPlant.LayoutEditor
 
             return BoundingBox.FromPoints(list.ToArray());
         }
+
+        public virtual bool TriangleIntersection(Ray r, string[] ModelNames)
+        {
+            if (ModelNames == null)
+                return true;
+            if (ModelNames.Length == 0)
+                return true;
+
+            foreach (string s in ModelNames)
+            {
+                if (DFFRenderer.DFFStream.ContainsKey(s))
+                {
+                    foreach (RenderWareFile.Triangle t in DFFRenderer.DFFStream[s].triangleList)
+                    {
+                        Vector3 v1 = (Vector3)Vector3.Transform(DFFRenderer.DFFStream[s].vertexList[t.vertex1], transformMatrix);
+                        Vector3 v2 = (Vector3)Vector3.Transform(DFFRenderer.DFFStream[s].vertexList[t.vertex2], transformMatrix);
+                        Vector3 v3 = (Vector3)Vector3.Transform(DFFRenderer.DFFStream[s].vertexList[t.vertex3], transformMatrix);
+
+                        if (r.Intersects(ref v1, ref v2, ref v3))
+                            return true;
+                    }
+                }
+                else return true;
+            }
+            return false;
+        }
     }
 }

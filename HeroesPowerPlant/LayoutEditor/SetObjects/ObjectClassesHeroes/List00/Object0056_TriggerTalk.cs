@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using static HeroesPowerPlant.SharpRenderer;
 using SharpDX;
 
@@ -7,45 +6,65 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0056_TriggerTalk : SetObjectManagerHeroes
     {
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        public override bool TriangleIntersection(Ray r, string[] ModelNames)
         {
             if (TriggerShape == TriggerTalkShape.Sphere)
             {
-                return BoundingBox.FromSphere(new BoundingSphere(Vector3.Zero, Radius_ScaleX));
+                Vector3 center = Vector3.Zero;
+                center = (Vector3)Vector3.Transform(center, transformMatrix);
+
+                return r.Intersects(new BoundingSphere(center, Radius_ScaleX / 2));
             }
-            else if (TriggerShape == TriggerTalkShape.Cylinder)
-            {
-                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
-            }
-            else if (TriggerShape == TriggerTalkShape.Cube)
-            {
-                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -ScaleZ) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, ScaleZ) / 2);
-            }
-            throw new Exception();
+            else
+                return base.TriangleIntersection(r, ModelNames);
+        }
+
+        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        {
+            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            transformMatrix =
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                * Matrix.Translation(Position);
+            if (TriggerShape == TriggerTalkShape.Sphere)
+            {
+                transformMatrix = Matrix.Scaling(Radius_ScaleX)
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
+                    * Matrix.Translation(Position);
+            }
+            else if (TriggerShape == TriggerTalkShape.Cylinder)
+            {
+                transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
+                    * Matrix.Translation(Position);
+            }
+            else if (TriggerShape == TriggerTalkShape.Cube)
+            {
+                transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ)
+                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
+                    * Matrix.Translation(Position);
+            }
         }
         
         public override void Draw(string[] modelNames, bool isSelected)
         {
             if (TriggerShape == TriggerTalkShape.Sphere)
             {
-                DrawSphereTrigger(Matrix.Scaling(Radius_ScaleX) * transformMatrix, isSelected);
+                DrawSphereTrigger(transformMatrix, isSelected);
             }
             else if (TriggerShape == TriggerTalkShape.Cylinder)
             {
-                DrawCylinder(Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) * transformMatrix, isSelected);
+                DrawCylinder(transformMatrix, isSelected);
             }
             else if (TriggerShape == TriggerTalkShape.Cube)
             {
-                DrawCubeTrigger(Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ) * transformMatrix, isSelected);
+                DrawCubeTrigger(transformMatrix, isSelected);
             }
         }
 

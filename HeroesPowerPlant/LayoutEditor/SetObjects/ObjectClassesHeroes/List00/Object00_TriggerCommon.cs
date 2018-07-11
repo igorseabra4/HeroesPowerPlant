@@ -6,25 +6,22 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object00_TriggerCommon : SetObjectManagerHeroes
     {
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        public override bool TriangleIntersection(Ray r, string[] ModelNames)
         {
             if (TriggerShape == TriggerCommonShape.Sphere)
             {
-                return BoundingBox.FromSphere(new BoundingSphere(Vector3.Zero, Radius_ScaleX));
+                Vector3 center = Vector3.Zero;
+                center = (Vector3)Vector3.Transform(center, transformMatrix);
+
+                return r.Intersects(new BoundingSphere(center, Radius_ScaleX / 2));
             }
-            else if (TriggerShape == TriggerCommonShape.Cylinder)
-            {
-                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
-            }
-            else if (TriggerShape == TriggerCommonShape.Cube)
-            {
-                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -ScaleZ) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, ScaleZ) / 2);
-            }
-            else if (TriggerShape == TriggerCommonShape.CylinderXZ)
-            {
-                return new BoundingBox(new Vector3(-Radius_ScaleX, -Height_ScaleY, -Radius_ScaleX) / 2, new Vector3(Radius_ScaleX, Height_ScaleY, Radius_ScaleX) / 2);
-            }
-            throw new Exception();
+            else
+                return base.TriangleIntersection(r, ModelNames);
+        }
+
+        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        {
+            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)

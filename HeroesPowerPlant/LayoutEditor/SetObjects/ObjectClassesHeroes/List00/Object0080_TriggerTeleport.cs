@@ -1,11 +1,23 @@
 ﻿using SharpDX;
-using System;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0080_TriggerTeleport : SetObjectManagerHeroes
     {
+        public override bool TriangleIntersection(Ray r, string[] ModelNames)
+        {
+            Vector3 center = Vector3.Zero;
+            center = (Vector3)Vector3.Transform(center, transformMatrix);
+
+            return r.Intersects(new BoundingSphere(center, Radius / 2));
+        }
+
+        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        {
+            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
+        }
+
         private Matrix destinationMatrix;
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)

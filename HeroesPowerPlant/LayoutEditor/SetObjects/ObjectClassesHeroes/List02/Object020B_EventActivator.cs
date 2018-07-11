@@ -1,11 +1,15 @@
-﻿using System;
-using SharpDX;
+﻿using SharpDX;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020B_EventActivator : SetObjectManagerHeroes
     {
+        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        {
+            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
+        }
+
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ)

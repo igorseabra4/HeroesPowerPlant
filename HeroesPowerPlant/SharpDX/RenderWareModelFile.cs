@@ -322,9 +322,9 @@ namespace HeroesPowerPlant
                         indexList.Add(t.vertex1);
                         indexList.Add(t.vertex2);
                         indexList.Add(t.vertex3);
-                    }
 
-                    triangleList.Add(t);
+                        triangleList.Add(t);
+                    }
                 }
 
                 if (indexList.Count - previousIndexCount > 0)

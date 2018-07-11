@@ -54,6 +54,11 @@ namespace HeroesPowerPlant.LayoutEditor
             objectManager.Draw(objectEntry.ModelNames, isSelected);
         }
 
+        public override bool TriangleIntersection(Ray r)
+        {
+            return objectManager.TriangleIntersection(r, objectEntry.ModelNames);
+        }
+
         public override void FindNewObjectManager()
         {
             objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
