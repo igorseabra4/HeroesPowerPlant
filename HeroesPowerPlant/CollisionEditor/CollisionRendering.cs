@@ -6,9 +6,9 @@ using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 using static HeroesPowerPlant.SharpRenderer;
 
-namespace HeroesPowerPlant.Collision
+namespace HeroesPowerPlant.CollisionEditor
 {
-    public partial class CollisionFunctions
+    public class CollisionRendering
     {
         private static SharpMesh quadTreeMesh;
         private static DefaultRenderData mainQuadtreeRenderData = new DefaultRenderData();
@@ -63,7 +63,7 @@ namespace HeroesPowerPlant.Collision
             secondQuadTreeMesh.Draw();
         }
 
-        private static SharpMesh collisionMesh;
+        public static SharpMesh collisionMesh;
         private static CollisionRenderData sceneInformation;
 
         public static void RenderCollisionModel(Matrix viewProjection, Vector3 lightDirection, Vector3 lightDirection2)
@@ -91,61 +91,57 @@ namespace HeroesPowerPlant.Collision
             collisionMesh.Draw();
         }
         
-        public static bool LoadCLFile(string FileName)
+        public static CLFile LoadCLFile(string FileName)
         {
-            if (FileName == "")
-                return false;
-
-            UseHeader = new Header();
-            CLQuadNodeList.Clear();
-
+            CLFile data = new CLFile(0);
+            
             BinaryReader CLReader = new BinaryReader(new FileStream(FileName, FileMode.Open));
 
             CLReader.BaseStream.Position = 0;
 
-            UseHeader.numBytes = Switch(CLReader.ReadUInt32());
+            data.numBytes = Switch(CLReader.ReadUInt32());
             //Get total number of bytes in file
 
-            if (UseHeader.numBytes != CLReader.BaseStream.Length)
-                return false;
+            if (data.numBytes != CLReader.BaseStream.Length)
+                throw new Exception("Not a valid CL file.");
 
             //Get offset of structs
-            UseHeader.pointQuadtree = Switch(CLReader.ReadUInt32());
-            UseHeader.pointTriangle = Switch(CLReader.ReadUInt32());
-            UseHeader.pointVertex = Switch(CLReader.ReadUInt32());
+            data.pointQuadtree = Switch(CLReader.ReadUInt32());
+            data.pointTriangle = Switch(CLReader.ReadUInt32());
+            data.pointVertex = Switch(CLReader.ReadUInt32());
 
             //Get quadtree center and radius
-            UseHeader.quadCenterX = Switch(CLReader.ReadSingle());
-            UseHeader.quadCenterY = Switch(CLReader.ReadSingle());
-            UseHeader.quadCenterZ = Switch(CLReader.ReadSingle());
-            UseHeader.quadLenght = Switch(CLReader.ReadSingle());
+            data.quadCenterX = Switch(CLReader.ReadSingle());
+            data.quadCenterY = Switch(CLReader.ReadSingle());
+            data.quadCenterZ = Switch(CLReader.ReadSingle());
+            data.quadLenght = Switch(CLReader.ReadSingle());
 
             //Get amount of stuff
-            UseHeader.PowerFlag = Switch(CLReader.ReadUInt16());
-            UseHeader.numTriangles = Switch(CLReader.ReadUInt16());
-            UseHeader.numVertices = Switch(CLReader.ReadUInt16());
-            UseHeader.numQuadnodes = Switch(CLReader.ReadUInt16());
+            data.PowerFlag = Switch(CLReader.ReadUInt16());
+            data.numTriangles = Switch(CLReader.ReadUInt16());
+            data.numVertices = Switch(CLReader.ReadUInt16());
+            data.numQuadnodes = Switch(CLReader.ReadUInt16());
 
-            Program.collisionEditor.progressBar1.Maximum = UseHeader.numTriangles + UseHeader.numVertices + 3 * UseHeader.numQuadnodes;
+            Program.collisionEditor.progressBar1.Maximum = data.numTriangles + data.numVertices + 3 * data.numQuadnodes;
 
-            List<CLTriangle> CLTriangleList = new List<CLTriangle>(UseHeader.numTriangles);
-            List<CLVertex> CLVertexList = new List<CLVertex>(UseHeader.numVertices);
-            MeshTypeList = new List<UInt64>();
+            List<CLTriangle> CLTriangleList = new List<CLTriangle>(data.numTriangles);
+            List<CLVertex> CLVertexList = new List<CLVertex>(data.numVertices);
+            data.MeshTypeList = new List<UInt64>();
 
-            Program.collisionEditor.label3.Text = "Number of Vertices: " + UseHeader.numVertices.ToString();
-            Program.collisionEditor.label4.Text = "Number of Triangles: " + UseHeader.numTriangles.ToString();
-            Program.collisionEditor.label5.Text = "Number of QuadNodes: " + UseHeader.numQuadnodes.ToString();
+            Program.collisionEditor.labelVertexNum.Text = "Number of Vertices: " + data.numVertices.ToString();
+            Program.collisionEditor.labelTriangles.Text = "Number of Triangles: " + data.numTriangles.ToString();
+            Program.collisionEditor.labelQuadnodes.Text = "Number of QuadNodes: " + data.numQuadnodes.ToString();
 
-            for (int i = 0; i < UseHeader.numVertices; i++)
+            for (int i = 0; i < data.numVertices; i++)
             {
-                CLReader.BaseStream.Position = UseHeader.pointVertex + i * 0xC;
+                CLReader.BaseStream.Position = data.pointVertex + i * 0xC;
                 CLVertexList.Add(new CLVertex(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle())));
                 Program.collisionEditor.progressBar1.PerformStep();
             }
             
-            for (int i = 0; i < UseHeader.numTriangles; i++)
+            for (int i = 0; i < data.numTriangles; i++)
             {
-                CLReader.BaseStream.Position = UseHeader.pointTriangle + i * 0x20;
+                CLReader.BaseStream.Position = data.pointTriangle + i * 0x20;
                 CLTriangleList.Add(new CLTriangle(Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16())));
                 CLReader.BaseStream.Position += 6;
 
@@ -156,8 +152,8 @@ namespace HeroesPowerPlant.Collision
 
                 UInt64 FlagsAsUint64 = CLReader.ReadUInt64();
                 CLTriangleList[i].ColFlags = BitConverter.GetBytes(FlagsAsUint64);
-                if (!MeshTypeList.Contains(FlagsAsUint64))
-                    MeshTypeList.Add(FlagsAsUint64);
+                if (!data.MeshTypeList.Contains(FlagsAsUint64))
+                    data.MeshTypeList.Add(FlagsAsUint64);
 
                 Color TempColor = new Color(CLTriangleList[i].ColFlags[1], CLTriangleList[i].ColFlags[2], CLTriangleList[i].ColFlags[3]);
 
@@ -178,11 +174,11 @@ namespace HeroesPowerPlant.Collision
                 Program.collisionEditor.progressBar1.PerformStep();
             }
 
-            CLTriangleArray = CLTriangleList.ToArray();
+            data.CLTriangleArray = CLTriangleList.ToArray();
 
-            for (int i = 0; i < UseHeader.numQuadnodes; i++)
+            for (int i = 0; i < data.numQuadnodes; i++)
             {
-                CLReader.BaseStream.Position = UseHeader.pointQuadtree + i * 0x20;
+                CLReader.BaseStream.Position = data.pointQuadtree + i * 0x20;
                 CLQuadNode TempNode = new CLQuadNode
                 {
                     Index = Switch(CLReader.ReadUInt16()),
@@ -196,84 +192,84 @@ namespace HeroesPowerPlant.Collision
                 TempNode.PosValueZ = Switch(CLReader.ReadUInt16());
                 TempNode.Depth = CLReader.ReadByte();
 
-                CLQuadNodeList.Add(TempNode);
+                data.CLQuadNodeList.Add(TempNode);
                 Program.collisionEditor.progressBar1.PerformStep();
             }
 
-            ReBuildQuadtree();
-            DetermineQuadtreeRenderStuff();
+            ReBuildQuadtree(ref data);
+            DetermineQuadtreeRenderStuff(ref data);
 
             CLReader.Close();
 
-            CLVertexArray = new VertexColoredNormalized[CLVertexList.Count()];
+            data.CLVertexArray = new VertexColoredNormalized[CLVertexList.Count()];
             for (int i = 0; i < CLVertexList.Count; i++)
             {
-                CLVertexArray[i] = new VertexColoredNormalized(CLVertexList[i].Position,
+                data.CLVertexArray[i] = new VertexColoredNormalized(CLVertexList[i].Position,
                     CLVertexList[i].CalculateNormals(),
                     CLVertexList[i].Color);
             }
 
-            int[] IndexArray = new int[CLTriangleArray.Count() * 3];
+            int[] IndexArray = new int[data.CLTriangleArray.Count() * 3];
 
-            for (int i = 0; i < CLTriangleArray.Count() * 3; i++)
-                IndexArray[i] = CLTriangleArray[i / 3].Vertices[i % 3];
+            for (int i = 0; i < data.CLTriangleArray.Count() * 3; i++)
+                IndexArray[i] = data.CLTriangleArray[i / 3].Vertices[i % 3];
 
-            collisionMesh = SharpMesh.Create(SharpRenderer.device, CLVertexArray, IndexArray, new List<SharpSubSet>() { new SharpSubSet(0, IndexArray.Count(), null) }, SharpDX.Direct3D.PrimitiveTopology.TriangleList);
+            collisionMesh = SharpMesh.Create(device, data.CLVertexArray, IndexArray, new List<SharpSubSet>() { new SharpSubSet(0, IndexArray.Count(), null) }, SharpDX.Direct3D.PrimitiveTopology.TriangleList);
 
-            return true;
+            return data;
         }
 
-        public static bool ReBuildQuadtree()
+        public static bool ReBuildQuadtree(ref CLFile data)
         {
-            CLQuadNodeList[0].NodeSquare.X = UseHeader.quadCenterX - (UseHeader.quadLenght / 2);
-            CLQuadNodeList[0].NodeSquare.Y = UseHeader.quadCenterZ - (UseHeader.quadLenght / 2);
+            data.CLQuadNodeList[0].NodeSquare.X = data.quadCenterX - (data.quadLenght / 2);
+            data.CLQuadNodeList[0].NodeSquare.Y = data.quadCenterZ - (data.quadLenght / 2);
 
-            CLQuadNodeList[0].NodeSquare.Height = UseHeader.quadLenght;
-            CLQuadNodeList[0].NodeSquare.Width = UseHeader.quadLenght;
+            data.CLQuadNodeList[0].NodeSquare.Height = data.quadLenght;
+            data.CLQuadNodeList[0].NodeSquare.Width = data.quadLenght;
 
-            for (int i = 0; i < CLQuadNodeList.Count; i++)
+            for (int i = 0; i < data.CLQuadNodeList.Count; i++)
             {
-                if (CLQuadNodeList[i].Child != 0)
+                if (data.CLQuadNodeList[i].Child != 0)
                 {
-                    GiveSquareToChild(CLQuadNodeList[i].NodeSquare, CLQuadNodeList[i].Child, 0);
-                    GiveSquareToChild(CLQuadNodeList[i].NodeSquare, CLQuadNodeList[i].Child, 1);
-                    GiveSquareToChild(CLQuadNodeList[i].NodeSquare, CLQuadNodeList[i].Child, 2);
-                    GiveSquareToChild(CLQuadNodeList[i].NodeSquare, CLQuadNodeList[i].Child, 3);
+                    GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 0);
+                    GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 1);
+                    GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 2);
+                    GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 3);
                 }
                 Program.collisionEditor.progressBar1.PerformStep();
             }
 
             //sewer's code
             Program.collisionEditor.checkedListBox1.Items.Clear();
-            foreach (CLQuadNode i in CLQuadNodeList)
+            foreach (CLQuadNode i in data.CLQuadNodeList)
                 Program.collisionEditor.checkedListBox1.Items.Add(i);
             // end
 
             return true;
         }
 
-        public static void GiveSquareToChild(RectangleF r, int Child, int Offset)
+        public static void GiveSquareToChild(ref CLFile data, RectangleF r, int Child, int Offset)
         {
-            CLQuadNodeList[Child + Offset].NodeSquare = new RectangleF(r.X, r.Y, r.Width / 2, r.Height / 2);
+            data.CLQuadNodeList[Child + Offset].NodeSquare = new RectangleF(r.X, r.Y, r.Width / 2, r.Height / 2);
 
             if (Offset == 1)
-                CLQuadNodeList[Child + Offset].NodeSquare.X += CLQuadNodeList[Child + Offset].NodeSquare.Width;
+                data.CLQuadNodeList[Child + Offset].NodeSquare.X += data.CLQuadNodeList[Child + Offset].NodeSquare.Width;
             else if (Offset == 2)
-                CLQuadNodeList[Child + Offset].NodeSquare.Y += CLQuadNodeList[Child + Offset].NodeSquare.Height;
+                data.CLQuadNodeList[Child + Offset].NodeSquare.Y += data.CLQuadNodeList[Child + Offset].NodeSquare.Height;
             else if (Offset == 3)
             {
-                CLQuadNodeList[Child + Offset].NodeSquare.X += CLQuadNodeList[Child + Offset].NodeSquare.Width;
-                CLQuadNodeList[Child + Offset].NodeSquare.Y += CLQuadNodeList[Child + Offset].NodeSquare.Height;
+                data.CLQuadNodeList[Child + Offset].NodeSquare.X += data.CLQuadNodeList[Child + Offset].NodeSquare.Width;
+                data.CLQuadNodeList[Child + Offset].NodeSquare.Y += data.CLQuadNodeList[Child + Offset].NodeSquare.Height;
             }
         }
         
-        public static void DetermineQuadtreeRenderStuff()
+        public static void DetermineQuadtreeRenderStuff(ref CLFile data)
         {
             List<Vertex> QuadNodeVertexList = new List<Vertex>();
             List<Int32> QuadNodeIndexList = new List<Int32>();
 
             Int32 k = 0;
-            foreach (CLQuadNode i in CLQuadNodeList)
+            foreach (CLQuadNode i in data.CLQuadNodeList)
             {
                 Program.collisionEditor.progressBar1.PerformStep();
                 if (i.Child == 0 | i.Index == 0)
@@ -294,19 +290,19 @@ namespace HeroesPowerPlant.Collision
                 }
             }
 
-            quadTreeMesh = SharpMesh.Create(SharpRenderer.device, QuadNodeVertexList.ToArray(), QuadNodeIndexList.ToArray(), new List<SharpSubSet>(){
+            quadTreeMesh = SharpMesh.Create(device, QuadNodeVertexList.ToArray(), QuadNodeIndexList.ToArray(), new List<SharpSubSet>(){
                 new SharpSubSet(0, QuadNodeIndexList.Count, null) }, SharpDX.Direct3D.PrimitiveTopology.LineList);
             mainQuadtreeRenderData.Color = new Vector4(0.9f, 0.3f, 0.6f, 1f);
         }
         
         //sewer's code
-        public static void DetermineRenderStuff2()
+        public static void DetermineRenderStuff2(CLFile data)
         {
             List<Vertex> QuadNodeVertexList = new List<Vertex>();
             List<Int32> QuadNodeIndexList = new List<Int32>();
 
             Int32 k = 0;
-            foreach (CLQuadNode i in CLQuadNodeList)
+            foreach (CLQuadNode i in data.CLQuadNodeList)
             {
                 if (Program.collisionEditor.checkedListBox1.CheckedIndices.Contains(i.Index))
                 {

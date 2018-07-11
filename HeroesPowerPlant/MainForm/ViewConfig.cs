@@ -96,7 +96,7 @@ namespace HeroesPowerPlant
 
         private void NumericQuadHeight_ValueChanged(object sender, EventArgs e)
         {
-            Collision.CollisionFunctions.SetQuadHeight((float)NumericQuadHeight.Value);
+            CollisionEditor.CollisionRendering.SetQuadHeight((float)NumericQuadHeight.Value);
         }
     }
 }

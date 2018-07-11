@@ -51,43 +51,43 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonImport_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog a = new OpenFileDialog()
+            OpenFileDialog a = new OpenFileDialog()
             {
                 Filter = "All supported types|*.obj;*.bsp|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
                 Multiselect = true
-            })
-                if (a.ShowDialog() == DialogResult.OK)
+            };
+            if (a.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string i in a.FileNames)
                 {
-                    foreach (string i in a.FileNames)
+                    ReadFileMethods.isCollision = true;
+
+                    RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + ".BSP");
+                    file.isShadowCollision = true;
+
+                    try
                     {
-                        ReadFileMethods.isCollision = true;
+                        file.ChunkNumber = Convert.ToByte(Path.GetFileNameWithoutExtension(i).Split('_').Last());
+                    }
+                    catch { file.ChunkNumber = -1; };
 
-                        RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + ".BSP");
-                        file.isCollision = true;
-
-                        try
-                        {
-                            file.ChunkNumber = Convert.ToByte(Path.GetFileNameWithoutExtension(i).Split('_').Last());
-                        }
-                        catch { file.ChunkNumber = -1; };
-
-                        if (Path.GetExtension(i).ToLower() == ".obj")
-                        {
-                            file.SetForRendering(CreateShadowCollisionBSPFile(ReadOBJFile(i, true)), null);
-                        }
-                        else
-                        {
-                            file.SetForRendering(ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
-                        }
-
-                        ShadowCollisionBSPStream.Add(file);
-                        listBoxLevelModels.Items.Add(file.fileName);
-
-                        ReadFileMethods.isCollision = false;
+                    if (Path.GetExtension(i).ToLower() == ".obj")
+                    {
+                        file.SetForRendering(CreateShadowCollisionBSPFile(ReadOBJFile(i, true)), null);
+                    }
+                    else
+                    {
+                        file.SetForRendering(ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                     }
 
-                    buttonExport.Enabled = true;
+                    ShadowCollisionBSPStream.Add(file);
+                    listBoxLevelModels.Items.Add(file.fileName);
+
+                    ReadFileMethods.isCollision = false;
                 }
+
+                buttonExport.Enabled = true;
+            }
         }
 
         private void buttonExport_Click(object sender, EventArgs e)

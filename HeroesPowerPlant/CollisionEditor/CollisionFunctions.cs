@@ -7,181 +7,24 @@ using System.Windows.Forms;
 using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 
-namespace HeroesPowerPlant.Collision
+namespace HeroesPowerPlant.CollisionEditor
 {
     public partial class CollisionFunctions
     {
-        public struct Header
-        {
-            public UInt32 numBytes;
-            public UInt32 pointQuadtree;
-            public UInt32 pointTriangle;
-            public UInt32 pointVertex;
-            public float quadCenterX;
-            public float quadCenterY;
-            public float quadCenterZ;
-            public float quadLenght;
-            public UInt16 PowerFlag;
-            public UInt16 numTriangles;
-            public UInt16 numVertices;
-            public UInt16 numQuadnodes;
-        }
-
-        public class CLQuadNode
-        {
-            public UInt16 Index;
-            public UInt16 Parent;
-            public UInt16 Child;
-            public UInt16 NodeTriangleAmount;
-            public UInt32 TriListOffset;
-            public UInt16 PosValueX;
-            public UInt16 PosValueZ;
-
-            public byte Depth;
-            public UInt16[] NodeTriangleArray;
-
-            public RectangleF NodeSquare;
-
-            public override string ToString()
-            {
-                return "Nd. " + Index.ToString() + ", Pr. " + Parent.ToString() + ", Ch. " + Child.ToString() + ", Am. " + NodeTriangleAmount.ToString() + ", D. " + Depth.ToString();
-            }
-        }
-
-        public class CLVertex
-        {
-            public Vector3 Position;
-            public List<Vector3> NormalList;
-            public Color Color;
-
-            public CLVertex(float x, float y, float z)
-            {
-                Position = new Vector3(x, y, z);
-                NormalList = new List<Vector3>(3);
-                Color = Color.White;
-            }
-
-            public Vector3 CalculateNormals()
-            {
-                Vector3 Totals = new Vector3();
-                foreach (Vector3 j in NormalList)
-                    Totals += j;
-                Totals.Normalize();
-
-                return Totals;
-            }
-        }
-
-        public class CLTriangle
-        {
-            public ushort[] Vertices = new ushort[3];
-            public Vector3 Normals;
-            public byte[] ColFlags = new byte[4];
-            public UInt16 MeshNum;
-
-            public RectangleF TasRect;
-
-            public CLTriangle(UInt16 a, UInt16 b, UInt16 c, int d, byte[] e, List<CLVertex> CLVertexList)
-            {
-                Vertices[0] = a;
-
-                if (Program.collisionEditor.checkBox2.CheckState == CheckState.Checked)
-                {
-                    Vertices[1] = c;
-                    Vertices[2] = b;
-                }
-                else
-                {
-                    Vertices[1] = b;
-                    Vertices[2] = c;
-                }
-
-                MeshNum = (ushort)d;
-                ColFlags = e;
-
-                CalculateNormals(CLVertexList);
-                CalculateRectangle(CLVertexList);
-            }
-
-            public CLTriangle(uint a, uint b, uint c)
-            {
-                Vertices[0] = (ushort)a;
-                Vertices[1] = (ushort)b;
-                Vertices[2] = (ushort)c;
-            }
-
-            public void CalculateNormals(List<CLVertex> CLVertexList)
-            {
-                Vector3 Vector1 = new Vector3(
-                    CLVertexList[Vertices[1]].Position.X - CLVertexList[Vertices[0]].Position.X,
-                    CLVertexList[Vertices[1]].Position.Y - CLVertexList[Vertices[0]].Position.Y,
-                    CLVertexList[Vertices[1]].Position.Z - CLVertexList[Vertices[0]].Position.Z);
-                Vector3 Vector2 = new Vector3(
-                    CLVertexList[Vertices[2]].Position.X - CLVertexList[Vertices[0]].Position.X,
-                    CLVertexList[Vertices[2]].Position.Y - CLVertexList[Vertices[0]].Position.Y,
-                    CLVertexList[Vertices[2]].Position.Z - CLVertexList[Vertices[0]].Position.Z);
-
-                Normals = Vector3.Cross(Vector1, Vector2);
-
-                Normals.Normalize();
-
-                CLVertexList[Vertices[0]].NormalList.Add(Normals);
-                CLVertexList[Vertices[1]].NormalList.Add(Normals);
-                CLVertexList[Vertices[2]].NormalList.Add(Normals);
-            }
-
-            public void CalculateRectangle(List<CLVertex> CLVertexList)
-            {
-                float MinX = CLVertexList[Vertices[0]].Position.X;
-                if (CLVertexList[Vertices[1]].Position.X < MinX)
-                    MinX = CLVertexList[Vertices[1]].Position.X;
-                if (CLVertexList[Vertices[2]].Position.X < MinX)
-                    MinX = CLVertexList[Vertices[2]].Position.X;
-
-                float MinZ = CLVertexList[Vertices[0]].Position.Z;
-                if (CLVertexList[Vertices[1]].Position.Z < MinZ)
-                    MinZ = CLVertexList[Vertices[1]].Position.Z;
-                if (CLVertexList[Vertices[2]].Position.Z < MinZ)
-                    MinZ = CLVertexList[Vertices[2]].Position.Z;
-
-                float MaxX = CLVertexList[Vertices[0]].Position.X;
-                if (CLVertexList[Vertices[1]].Position.X > MaxX)
-                    MaxX = CLVertexList[Vertices[1]].Position.X;
-                if (CLVertexList[Vertices[2]].Position.X > MaxX)
-                    MaxX = CLVertexList[Vertices[2]].Position.X;
-
-                float MaxZ = CLVertexList[Vertices[0]].Position.Z;
-                if (CLVertexList[Vertices[1]].Position.Z > MaxZ)
-                    MaxZ = CLVertexList[Vertices[1]].Position.Z;
-                if (CLVertexList[Vertices[2]].Position.Z > MaxZ)
-                    MaxZ = CLVertexList[Vertices[2]].Position.Z;
-
-                TasRect = new RectangleF(MinX, MinZ, MaxX - MinX, MaxZ - MinZ);
-            }
-        }
-
-        public static Header UseHeader = new Header();
-        public static List<CLQuadNode> CLQuadNodeList = new List<CLQuadNode>();
-        public static CLTriangle[] CLTriangleArray;
-        public static VertexColoredNormalized[] CLVertexArray;
-
         public static void ConvertOBJtoCL(string InputFile, string OutputFile, byte depthLevel)
         {
-            UseHeader = new Header();
-            CLQuadNodeList.Clear();
-            CLVertexArray = null;
-            CLTriangleArray = null;
+            CLFile data = new CLFile(depthLevel);
 
             Program.collisionEditor.progressBar1.Minimum = 0;
             Program.collisionEditor.progressBar1.Value = 0;
             Program.collisionEditor.progressBar1.Step = 1;
 
-            if (ReadOBJFile(InputFile))
-                if (GenerateCollision(depthLevel))
-                    CreateCLFile(OutputFile, depthLevel);
+            if (ReadOBJFile(InputFile, ref data))
+                if (GenerateCollision(ref data))
+                    CreateCLFile(OutputFile, ref data);
         }
 
-        public static bool ReadOBJFile(string InputFile)
+        public static bool ReadOBJFile(string InputFile, ref CLFile data)
         {
             string[] OBJFile = File.ReadAllLines(InputFile);
             Program.collisionEditor.progressBar1.Maximum = 65535 + OBJFile.Length;
@@ -190,8 +33,7 @@ namespace HeroesPowerPlant.Collision
             byte[] TempColFlags = { 0, 0, 0, 0x0 };
 
             List<CLTriangle> CLTriangleList = new List<CLTriangle>(65535);
-            List<CLVertex> CLVertexList = new List<CLVertex>();
-            CLVertexList = new List<CLVertex>(65535);
+            List<CLVertex> CLVertexList = new List<CLVertex>(65535);
 
             foreach (string j in OBJFile)
             {
@@ -280,29 +122,29 @@ namespace HeroesPowerPlant.Collision
                 return false;
             }
 
-            CLVertexArray = new VertexColoredNormalized[CLVertexList.Count()];
+            data.CLVertexArray = new VertexColoredNormalized[CLVertexList.Count()];
             for (int i = 0; i < CLVertexList.Count; i++)
             {
-                CLVertexArray[i] = new VertexColoredNormalized(CLVertexList[i].Position,
+                data.CLVertexArray[i] = new VertexColoredNormalized(CLVertexList[i].Position,
                     CLVertexList[i].CalculateNormals(),
                     CLVertexList[i].Color);
             }
 
-            CLTriangleArray = CLTriangleList.ToArray();
+            data.CLTriangleArray = CLTriangleList.ToArray();
             return true;
         }
 
-        public static bool GenerateCollision(byte MaxDepth)
+        public static bool GenerateCollision(ref CLFile data)
         {
             //Let's start with quadtree maximums, minimums and center
-            float MaxX = CLVertexArray[0].Position.X;
-            float MaxY = CLVertexArray[0].Position.Y;
-            float MaxZ = CLVertexArray[0].Position.Z;
-            float MinX = CLVertexArray[0].Position.X;
-            float MinY = CLVertexArray[0].Position.Y;
-            float MinZ = CLVertexArray[0].Position.Z;
+            float MaxX = data.CLVertexArray[0].Position.X;
+            float MaxY = data.CLVertexArray[0].Position.Y;
+            float MaxZ = data.CLVertexArray[0].Position.Z;
+            float MinX = data.CLVertexArray[0].Position.X;
+            float MinY = data.CLVertexArray[0].Position.Y;
+            float MinZ = data.CLVertexArray[0].Position.Z;
 
-            foreach (VertexColoredNormalized i in CLVertexArray)
+            foreach (VertexColoredNormalized i in data.CLVertexArray)
             {
                 if (i.Position.X > MaxX)
                     MaxX = i.Position.X;
@@ -318,84 +160,83 @@ namespace HeroesPowerPlant.Collision
                     MinZ = i.Position.Z;
             }
 
-            UseHeader.quadCenterX = (MaxX + MinX) / 2.0f;
-            UseHeader.quadCenterY = (MaxY + MinY) / 2.0f;
-            UseHeader.quadCenterZ = (MaxZ + MinZ) / 2.0f;
+            data.quadCenterX = (MaxX + MinX) / 2.0f;
+            data.quadCenterY = (MaxY + MinY) / 2.0f;
+            data.quadCenterZ = (MaxZ + MinZ) / 2.0f;
 
-            UseHeader.quadLenght = MaxX - MinX;
-            if (UseHeader.quadLenght < MaxZ - MinZ)
-                UseHeader.quadLenght = MaxZ - MinZ;
+            data.quadLenght = MaxX - MinX;
+            if (data.quadLenght < MaxZ - MinZ)
+                data.quadLenght = MaxZ - MinZ;
 
-            UseHeader.quadLenght = (float)Math.Ceiling(UseHeader.quadLenght);
-            while (UseHeader.quadLenght % 16 != 0)
-                UseHeader.quadLenght++;
+            data.quadLenght = (float)Math.Ceiling(data.quadLenght);
+            while (data.quadLenght % 16 != 0)
+                data.quadLenght++;
 
-            if (Program.collisionEditor.checkBox1.Checked == true)
+            if (data.MaxDepth == 0)
             {
-                MaxDepth = (byte)(Math.Log(UseHeader.quadLenght / 50) / (Math.Log(2)));
-                if (MaxDepth > 10)
-                    MaxDepth = 10;
+                data.MaxDepth = (byte)(Math.Log(data.quadLenght / 50) / (Math.Log(2)));
+                if (data.MaxDepth > 10)
+                    data.MaxDepth = 10;
             }
 
-            UseHeader.numTriangles = (ushort)CLTriangleArray.Count();
-            UseHeader.numVertices = (ushort)CLVertexArray.Count();
+            data.numTriangles = (ushort)data.CLTriangleArray.Count();
+            data.numVertices = (ushort)data.CLVertexArray.Count();
 
             //Now let's build the quadtree
-            Program.collisionEditor.numericDepthLevel.Value = MaxDepth;
-            UseHeader.PowerFlag = (ushort)Program.collisionEditor.numericUpDownPowerFlag.Value;
+            data.PowerFlag = (ushort)Program.collisionEditor.numericUpDownPowerFlag.Value;
 
-            if (BuildQuadtree(MaxDepth))
+            if (BuildQuadtree(ref data))
             {
-                UseHeader.numQuadnodes = (ushort)CLQuadNodeList.Count;
+                data.numQuadnodes = (ushort)data.CLQuadNodeList.Count;
                 return true;
             }
             else
                 return false;
         }
 
-        public static bool BuildQuadtree(byte MaxDepth)
+        public static bool BuildQuadtree(ref CLFile data)
         {
             CLQuadNode TempNode = new CLQuadNode();
 
-            TempNode.NodeSquare.X = UseHeader.quadCenterX - (UseHeader.quadLenght / 2);
-            TempNode.NodeSquare.Y = UseHeader.quadCenterZ - (UseHeader.quadLenght / 2);
-            TempNode.NodeSquare.Width = UseHeader.quadLenght;
-            TempNode.NodeSquare.Height = UseHeader.quadLenght;
+            TempNode.NodeSquare.X = data.quadCenterX - (data.quadLenght / 2);
+            TempNode.NodeSquare.Y = data.quadCenterZ - (data.quadLenght / 2);
+            TempNode.NodeSquare.Width = data.quadLenght;
+            TempNode.NodeSquare.Height = data.quadLenght;
 
             TempNode.Child = 1;
-            TempNode.NodeTriangleArray = Range((ushort)CLTriangleArray.Count());
+            TempNode.NodeTriangleArray = Range((ushort)data.CLTriangleArray.Count());
 
-            CLQuadNodeList.Add(TempNode);
+            data.CLQuadNodeList.Add(TempNode);
             Program.collisionEditor.progressBar1.PerformStep();
 
             int i = 0;
 
-            while (i < CLQuadNodeList.Count)
+            while (i < data.CLQuadNodeList.Count)
             {
-                if (CLQuadNodeList[i].Depth != MaxDepth & CLQuadNodeList[i].NodeTriangleArray.Count() > 0)
+                if (data.CLQuadNodeList[i].Depth != data.MaxDepth & data.CLQuadNodeList[i].NodeTriangleArray.Count() > 0)
                 {
-                    CLQuadNodeList[i].Child = (ushort)CLQuadNodeList.Count;
+                    data.CLQuadNodeList[i].Child = (ushort)data.CLQuadNodeList.Count;
 
-                    CLQuadNodeList.Add(CreateNode(CLQuadNodeList[i], 0));
-                    CLQuadNodeList.Add(CreateNode(CLQuadNodeList[i], 1));
-                    CLQuadNodeList.Add(CreateNode(CLQuadNodeList[i], 2));
-                    CLQuadNodeList.Add(CreateNode(CLQuadNodeList[i], 3));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 0, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 1, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 2, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 3, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
 
-                    CLQuadNodeList[i].NodeTriangleArray = null;
-                    CLQuadNodeList[i].NodeTriangleAmount = 0;
+                    data.CLQuadNodeList[i].NodeTriangleArray = null;
+                    data.CLQuadNodeList[i].NodeTriangleAmount = 0;
                 }
                 i += 1;
             }
 
-            Program.collisionEditor.progressBar1.Maximum = 2 * CLVertexArray.Count() + 2 * CLTriangleArray.Count() + 4 * CLQuadNodeList.Count();
+            Program.collisionEditor.progressBar1.Maximum = 2 * data.CLVertexArray.Count() + 2 * data.CLTriangleArray.Count() + 4 * data.CLQuadNodeList.Count();
             return true;
         }
 
-        public static CLQuadNode CreateNode(CLQuadNode NodeParent, byte NodeOrient)
+        public static CLQuadNode CreateNode(CLQuadNode NodeParent, byte NodeOrient, ushort Count, int PowerFlag, CLTriangle[] CLTriangleArray)
         {
             CLQuadNode NodeChild = new CLQuadNode
             {
-                Index = (ushort)CLQuadNodeList.Count,
+                Index = Count,
                 Parent = NodeParent.Index,
                 Child = 0,
                 Depth = (byte)(NodeParent.Depth + 1),
@@ -406,7 +247,7 @@ namespace HeroesPowerPlant.Collision
                 NodeSquare = new RectangleF(NodeParent.NodeSquare.X, NodeParent.NodeSquare.Y, NodeParent.NodeSquare.Width / 2f, NodeParent.NodeSquare.Height / 2f)
             };
 
-            ushort ValueToAdd = (ushort)Math.Pow(2, (UseHeader.PowerFlag - NodeChild.Depth));
+            ushort ValueToAdd = (ushort)Math.Pow(2, (PowerFlag - NodeChild.Depth));
 
             if (NodeOrient == 1)
             {
@@ -426,14 +267,14 @@ namespace HeroesPowerPlant.Collision
                 NodeChild.NodeSquare.Y += NodeChild.NodeSquare.Height;
             }
 
-            NodeChild.NodeTriangleArray = GetTrianglesInsideNode(NodeChild, NodeParent.NodeTriangleArray);
+            NodeChild.NodeTriangleArray = GetTrianglesInsideNode(NodeChild, NodeParent.NodeTriangleArray, CLTriangleArray);
             NodeChild.NodeTriangleAmount = (ushort)NodeChild.NodeTriangleArray.Count();
 
             Program.collisionEditor.progressBar1.PerformStep();
             return NodeChild;
         }
 
-        public static UInt16[] GetTrianglesInsideNode(CLQuadNode Node, ushort[] TriangleList)
+        public static UInt16[] GetTrianglesInsideNode(CLQuadNode Node, ushort[] TriangleList, CLTriangle[] CLTriangleArray)
         {
             List<UInt16> NodeTriangleList = new List<UInt16>();
 
@@ -444,21 +285,21 @@ namespace HeroesPowerPlant.Collision
             return NodeTriangleList.ToArray();
         }
 
-        public static bool CreateCLFile(string FileName, byte MaxDepth)
+        public static bool CreateCLFile(string FileName, ref CLFile data)
         {
             //Finally, let's write the file
             BinaryWriter FileWriter = new BinaryWriter(new MemoryStream(
-                0x20 * CLQuadNodeList.Count() +
-                0x20 * CLTriangleArray.Count() +
-                0xC * CLVertexArray.Count() + 0x28));
+                0x20 * data.CLQuadNodeList.Count() +
+                0x20 * data.CLTriangleArray.Count() +
+                0xC * data.CLVertexArray.Count() + 0x28));
             
             FileWriter.BaseStream.Position = 0x28;
-            for (ushort i = 0; i < CLQuadNodeList.Count; i++)
+            for (ushort i = 0; i < data.CLQuadNodeList.Count; i++)
             {
-                if ((CLQuadNodeList[i].Depth == MaxDepth) & (CLQuadNodeList[i].NodeTriangleAmount > 0))
+                if ((data.CLQuadNodeList[i].Depth == data.MaxDepth) & (data.CLQuadNodeList[i].NodeTriangleAmount > 0))
                 {
-                    CLQuadNodeList[i].TriListOffset = (uint)FileWriter.BaseStream.Position;
-                    foreach (UInt16 j in CLQuadNodeList[i].NodeTriangleArray)
+                    data.CLQuadNodeList[i].TriListOffset = (uint)FileWriter.BaseStream.Position;
+                    foreach (UInt16 j in data.CLQuadNodeList[i].NodeTriangleArray)
                     {
                         FileWriter.Write(Switch(j));
                     }
@@ -469,9 +310,9 @@ namespace HeroesPowerPlant.Collision
             if (FileWriter.BaseStream.Position % 4 == 2)
                 FileWriter.Write((ushort)0);
 
-            UseHeader.pointQuadtree = (uint)FileWriter.BaseStream.Position;
+            data.pointQuadtree = (uint)FileWriter.BaseStream.Position;
 
-            foreach (CLQuadNode i in CLQuadNodeList)
+            foreach (CLQuadNode i in data.CLQuadNodeList)
             {
                 FileWriter.Write(Switch(i.Index));
                 FileWriter.Write(Switch(i.Parent));
@@ -492,9 +333,9 @@ namespace HeroesPowerPlant.Collision
                 Program.collisionEditor.progressBar1.PerformStep();
             }
 
-            UseHeader.pointTriangle = (uint)FileWriter.BaseStream.Position;
+            data.pointTriangle = (uint)FileWriter.BaseStream.Position;
 
-            foreach (CLTriangle i in CLTriangleArray)
+            foreach (CLTriangle i in data.CLTriangleArray)
             {
                 FileWriter.Write(Switch(i.Vertices[0]));
                 FileWriter.Write(Switch(i.Vertices[1]));
@@ -515,9 +356,9 @@ namespace HeroesPowerPlant.Collision
                 Program.collisionEditor.progressBar1.PerformStep();
             }
 
-            UseHeader.pointVertex = (uint)FileWriter.BaseStream.Position;
+            data.pointVertex = (uint)FileWriter.BaseStream.Position;
 
-            foreach (VertexColoredNormalized i in CLVertexArray)
+            foreach (VertexColoredNormalized i in data.CLVertexArray)
             {
                 FileWriter.Write(Switch(i.Position.X));
                 FileWriter.Write(Switch(i.Position.Y));
@@ -525,44 +366,42 @@ namespace HeroesPowerPlant.Collision
 
                 Program.collisionEditor.progressBar1.PerformStep();
             }
-            
-            UseHeader.numBytes = (uint)FileWriter.BaseStream.Position;
+
+            data.numBytes = (uint)FileWriter.BaseStream.Position;
             FileWriter.BaseStream.Position = 0;
 
-            FileWriter.Write(Switch(UseHeader.numBytes));
-            FileWriter.Write(Switch(UseHeader.pointQuadtree));
-            FileWriter.Write(Switch(UseHeader.pointTriangle));
-            FileWriter.Write(Switch(UseHeader.pointVertex));
-            FileWriter.Write(Switch(UseHeader.quadCenterX));
-            FileWriter.Write(Switch(UseHeader.quadCenterY));
-            FileWriter.Write(Switch(UseHeader.quadCenterZ));
-            FileWriter.Write(Switch(UseHeader.quadLenght));
-            FileWriter.Write(Switch(UseHeader.PowerFlag));
-            FileWriter.Write(Switch(UseHeader.numTriangles));
-            FileWriter.Write(Switch(UseHeader.numVertices));
-            FileWriter.Write(Switch(UseHeader.numQuadnodes));
+            FileWriter.Write(Switch(data.numBytes));
+            FileWriter.Write(Switch(data.pointQuadtree));
+            FileWriter.Write(Switch(data.pointTriangle));
+            FileWriter.Write(Switch(data.pointVertex));
+            FileWriter.Write(Switch(data.quadCenterX));
+            FileWriter.Write(Switch(data.quadCenterY));
+            FileWriter.Write(Switch(data.quadCenterZ));
+            FileWriter.Write(Switch(data.quadLenght));
+            FileWriter.Write(Switch(data.PowerFlag));
+            FileWriter.Write(Switch(data.numTriangles));
+            FileWriter.Write(Switch(data.numVertices));
+            FileWriter.Write(Switch(data.numQuadnodes));
             
             File.WriteAllBytes(FileName, ((MemoryStream)FileWriter.BaseStream).ToArray());
             return true;
         }
 
-        static List<UInt64> MeshTypeList;
-
-        public static void ConvertCLtoOBJ(string fileName)
+        public static void ConvertCLtoOBJ(string fileName, ref CLFile data)
         {
             StreamWriter FileCloser = new StreamWriter(new FileStream(fileName, FileMode.Create));
 
             FileCloser.WriteLine("#Exported by Heroes Power Plant");
-            FileCloser.WriteLine("#Number of vertices: " + CLVertexArray.Count().ToString());
-            FileCloser.WriteLine("#Number of faces: " + CLTriangleArray.Count().ToString());
+            FileCloser.WriteLine("#Number of vertices: " + data.CLVertexArray.Count().ToString());
+            FileCloser.WriteLine("#Number of faces: " + data.CLTriangleArray.Count().ToString());
             FileCloser.WriteLine();
 
-            foreach (VertexColoredNormalized i in CLVertexArray)
+            foreach (VertexColoredNormalized i in data.CLVertexArray)
                 FileCloser.WriteLine("v " + i.Position.X.ToString() + " " + i.Position.Y.ToString() + " " + i.Position.Z.ToString());
 
             FileCloser.WriteLine();
 
-            foreach (UInt64 i in MeshTypeList)
+            foreach (UInt64 i in data.MeshTypeList)
             {
                 byte[] TempByte = BitConverter.GetBytes(i);
 
@@ -572,7 +411,7 @@ namespace HeroesPowerPlant.Collision
                     TempByte[2].ToString("X2") + TempByte[3].ToString("X2"));
                 FileCloser.WriteLine();
 
-                foreach (CLTriangle j in CLTriangleArray)
+                foreach (CLTriangle j in data.CLTriangleArray)
                     if ((j.ColFlags[0] == TempByte[0]) & (j.ColFlags[1] == TempByte[1]) &
                         (j.ColFlags[2] == TempByte[2]) & (j.ColFlags[3] == TempByte[3]) &
                         (j.ColFlags[4] == TempByte[4]) & (j.ColFlags[5] == TempByte[5]))

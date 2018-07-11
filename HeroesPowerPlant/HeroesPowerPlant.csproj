@@ -96,12 +96,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollisionEditor\CLFile.cs" />
+    <Compile Include="CollisionEditor\CLQuadNode.cs" />
+    <Compile Include="CollisionEditor\CLTriangle.cs" />
+    <Compile Include="CollisionEditor\CLVertex.cs" />
     <Compile Include="CollisionEditor\CollisionEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CollisionEditor\CollisionEditor.designer.cs">
       <DependentUpon>CollisionEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="CollisionEditor\CollisionEditorSystem.cs" />
     <Compile Include="CollisionEditor\CollisionFunctions.cs" />
     <Compile Include="ConfigEditor\ConfigEditor.cs">
       <SubType>Form</SubType>
@@ -121,6 +126,7 @@
     <Compile Include="ConfigEditor\SplineEditorFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LayoutEditor\LayoutEditorSystem.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0281_TurtleFeet.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0282_KameWave.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0305_BigBridge.cs" />

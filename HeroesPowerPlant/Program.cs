@@ -15,7 +15,7 @@ namespace HeroesPowerPlant
         public static ViewConfig viewConfig;
         public static Config.ConfigEditor configEditor;
         public static LevelEditor.LevelEditor levelEditor;
-        public static Collision.CollisionEditor collisionEditor;
+        public static CollisionEditor.CollisionEditor collisionEditor;
         public static LayoutEditor.LayoutEditor layoutEditor;
 
         public static Config.SplineEditor splineEditor;
@@ -41,7 +41,7 @@ namespace HeroesPowerPlant
             viewConfig = new ViewConfig();
             configEditor = new Config.ConfigEditor();
             levelEditor = new LevelEditor.LevelEditor();
-            collisionEditor = new Collision.CollisionEditor();
+            collisionEditor = new CollisionEditor.CollisionEditor();
             layoutEditor = new LayoutEditor.LayoutEditor();
 
             splineEditor = new Config.SplineEditor();

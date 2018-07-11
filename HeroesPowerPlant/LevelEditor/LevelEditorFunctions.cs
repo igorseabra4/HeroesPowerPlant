@@ -1,12 +1,12 @@
-﻿using System;
+﻿using RenderWareFile;
+using RenderWareFile.Sections;
+using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using RenderWareFile;
-using RenderWareFile.Sections;
-using SharpDX;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -37,38 +37,39 @@ namespace HeroesPowerPlant.LevelEditor
             public int Color1;
             public int Color2;
             public int Color3;
+        }
 
-            public RenderWareFile.Color collisionFlagForShadow;
+        public class TriangleExt : Triangle
+        {
+            public RenderWareFile.Color collisionFlag;
         }
 
         public struct ModelConverterData
         {
-            public List<string> MaterialStream;
-            public List<Vertex> VertexStream;
-            public List<Vector2> UVStream;
-            public List<SharpDX.Color> ColorStream;
-            public List<Triangle> TriangleStream;
+            public List<string> MaterialList;
+            public List<Vertex> VertexList;
+            public List<Vector2> UVList;
+            public List<SharpDX.Color> ColorList;
+            public List<Triangle> TriangleList;
             public string MTLLib;
         }
 
-        public static ModelConverterData ReadOBJFile(string InputFile, bool ignoreUVs)
+        public static ModelConverterData ReadOBJFile(string InputFile, bool isShadowCollision)
         {
             ModelConverterData objData = new ModelConverterData()
             {
-                MaterialStream = new List<string>(),
-                VertexStream = new List<Vertex>(),
-                UVStream = new List<Vector2>(),
-                ColorStream = new List<SharpDX.Color>(),
-                TriangleStream = new List<Triangle>(),
+                MaterialList = new List<string>(),
+                VertexList = new List<Vertex>(),
+                UVList = new List<Vector2>(),
+                ColorList = new List<SharpDX.Color>(),
+                TriangleList = new List<Triangle>(),
                 MTLLib = null
             };
 
             string[] OBJFile = File.ReadAllLines(InputFile);
 
             int CurrentMaterial = -1;
-
-            List<SharpDX.Color> ColorStream = new List<SharpDX.Color>();
-
+            
             bool hasUVCoords = true;
 
             RenderWareFile.Color TempColFlags = new RenderWareFile.Color(0, 0, 0, 0);
@@ -89,7 +90,7 @@ namespace HeroesPowerPlant.LevelEditor
 
                         TempVertex.Color = SharpDX.Color.White;
 
-                        objData.VertexStream.Add(TempVertex);
+                        objData.VertexList.Add(TempVertex);
                     }
                     else if (j.Substring(0, 3) == "vt ")
                     {
@@ -99,7 +100,7 @@ namespace HeroesPowerPlant.LevelEditor
                             X = Convert.ToSingle(SubStrings[1]),
                             Y = Convert.ToSingle(SubStrings[2])
                         };
-                        objData.UVStream.Add(TempUV);
+                        objData.UVList.Add(TempUV);
                     }
                     else if (j.Substring(0, 3) == "vc ") // Special code
                     {
@@ -112,19 +113,11 @@ namespace HeroesPowerPlant.LevelEditor
                             A = Convert.ToByte(SubStrings[4])
                         };
 
-                        ColorStream.Add(TempColor);
+                        objData.ColorList.Add(TempColor);
                     }
                     else if (j.StartsWith("f "))
                     {
                         string[] SubStrings = j.Split(' ');
-
-                        if (SubStrings[1].Split('/').Count() == 1 & hasUVCoords)
-                        {
-                            if (!ignoreUVs)
-                                MessageBox.Show("You model doesn't have texture coordinates.");
-                            hasUVCoords = false;
-                            objData.UVStream = new List<Vector2>() { new Vector2() };
-                        }
 
                         Triangle TempTriangle = new Triangle
                         {
@@ -133,89 +126,50 @@ namespace HeroesPowerPlant.LevelEditor
                             vertex2 = Convert.ToInt32(SubStrings[2].Split('/')[0]) - 1,
                             vertex3 = Convert.ToInt32(SubStrings[3].Split('/')[0]) - 1
                         };
-                        if (hasUVCoords)
+
+                        if (hasUVCoords & !isShadowCollision)
                         {
-                            TempTriangle.UVCoord1 = Convert.ToInt32(SubStrings[1].Split('/')[1]) - 1;
-                            TempTriangle.UVCoord2 = Convert.ToInt32(SubStrings[2].Split('/')[1]) - 1;
-                            TempTriangle.UVCoord3 = Convert.ToInt32(SubStrings[3].Split('/')[1]) - 1;
+                            try
+                            {
+                                TempTriangle.UVCoord1 = Convert.ToInt32(SubStrings[1].Split('/')[1]) - 1;
+                                TempTriangle.UVCoord2 = Convert.ToInt32(SubStrings[2].Split('/')[1]) - 1;
+                                TempTriangle.UVCoord3 = Convert.ToInt32(SubStrings[3].Split('/')[1]) - 1;
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Error parsing texture coordinates. The model will be imported without them.");
+                                hasUVCoords = false;
+                                objData.UVList = new List<Vector2>() { new Vector2() };
+                            }
                         }
 
-                        TempTriangle.collisionFlagForShadow = TempColFlags;
-
-                        objData.TriangleStream.Add(TempTriangle);
+                        objData.TriangleList.Add(TempTriangle);
                     }
                     else if (j.StartsWith("usemtl "))
                     {
-                        objData.MaterialStream.Add(Regex.Replace(j.Substring(7), @"\s+", ""));
+                        objData.MaterialList.Add(Regex.Replace(j.Substring(7), @"\s+", ""));
                         CurrentMaterial += 1;
-
-                        TempColFlags = new RenderWareFile.Color(0, 0, 0, 0);
-
-                        if (j.Contains('_'))
-                        {
-                            string a = j.Split('_').Last();
-                            if (a.Count() == 8)
-                            {
-                                try
-                                {
-                                    TempColFlags.R = Convert.ToByte(new string(new char[] { a[0], a[1] }), 16);
-                                    TempColFlags.G = Convert.ToByte(new string(new char[] { a[2], a[3] }), 16);
-                                    TempColFlags.B = Convert.ToByte(new string(new char[] { a[4], a[5] }), 16);
-                                    TempColFlags.A = Convert.ToByte(new string(new char[] { a[6], a[7] }), 16);
-                                }
-                                catch
-                                {
-                                    TempColFlags = new RenderWareFile.Color(0, 0, 0, 0);
-                                }
-                            }
-                            else
-                            {
-                                if (a == "c") // ceiling
-                                    TempColFlags = new RenderWareFile.Color(0x00, 0x00, 0x00, 0x00);
-                                else if (a == "f") // road floor
-                                    TempColFlags = new RenderWareFile.Color(0x01, 0x00, 0x02, 0x00);
-                                else if (a == "fs") // stone floor
-                                    TempColFlags = new RenderWareFile.Color(0x01, 0x00, 0x00, 0x60);
-                                else if (a == "fm") // metal floor
-                                    TempColFlags = new RenderWareFile.Color(0x01, 0x01, 0x01, 0x10);
-                                else if (a == "t") // triangle jump wall
-                                    TempColFlags = new RenderWareFile.Color(0x02, 0x00, 0x00, 0x00);
-                                else if (a == "a") // angle wall
-                                    TempColFlags = new RenderWareFile.Color(0x02, 0x01, 0x01, 0x10);
-                                else if (a == "i") // invisible wall
-                                    TempColFlags = new RenderWareFile.Color(0x02, 0x02, 0x00, 0x00);
-                                else if (a == "g") // green goo
-                                    TempColFlags = new RenderWareFile.Color(0x05, 0x00, 0x02, 0x00);
-                                else if (a == "k") // barrier
-                                    TempColFlags = new RenderWareFile.Color(0x08, 0x00, 0x00, 0x00);
-                                else if (a == "i2") //invisible wall at distance
-                                    TempColFlags = new RenderWareFile.Color(0x10, 0x00, 0x00, 0x00);
-                                else if (a == "x") //death
-                                    TempColFlags = new RenderWareFile.Color(0x20, 0x00, 0x00, 0x00);
-                            }
-                        }
                     }
                     else if (j.StartsWith("mtllib "))
                         objData.MTLLib = j.Substring(7).Split('\\').LastOrDefault();
                 }
             }
 
-            // Special code
-            if (ColorStream.Count == objData.VertexStream.Count)
-                for (int i = 0; i < objData.VertexStream.Count; i++)
-                {
-                    Vertex v = objData.VertexStream[i];
-                    v.Color = ColorStream[i];
-                    objData.VertexStream[i] = v;
-                }
-
-
-            if (ignoreUVs)
+            if (isShadowCollision)
                 return objData;
+
+            // Special code
+            if (objData.ColorList.Count == objData.VertexList.Count)
+                for (int i = 0; i < objData.VertexList.Count; i++)
+                {
+                    Vertex v = objData.VertexList[i];
+                    v.Color = objData.ColorList[i];
+                    objData.VertexList[i] = v;
+                }
 
             try
             {
-                objData.MaterialStream = ReplaceMaterialNames(InputFile, objData.MTLLib, objData.MaterialStream);
+                objData.MaterialList = ReplaceMaterialNames(InputFile, objData.MTLLib, objData.MaterialList);
             }
             catch
             {
@@ -230,10 +184,12 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static List<string> ReplaceMaterialNames(string InputOBJFile, string MTLLib, List<string> MaterialList)
         {
-            string[] MTLFile = File.ReadAllLines(Path.Combine(Path.GetDirectoryName(InputOBJFile), MTLLib));
+            string MTLPath = Path.Combine(Path.GetDirectoryName(InputOBJFile), MTLLib);
+            string[] MTLFile = File.ReadAllLines(MTLPath);
+
+            Dictionary<string, string> MaterialLibrary = new Dictionary<string, string>();
 
             string MaterialName = "";
-            string TextureName = "";
 
             foreach (string j in MTLFile)
             {
@@ -245,15 +201,17 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 else if (a.StartsWith("map_Kd"))
                 {
-                    TextureName = Path.GetFileNameWithoutExtension(a.Substring(6));
-                    for (int k = 0; k < MaterialList.Count; k++)
-                    {
-                        if (MaterialList[k] == MaterialName)
-                        {
-                            MaterialList[k] = TextureName;
-                        }
-                    }
+                    if (!MaterialLibrary.ContainsKey(MaterialName))
+                    MaterialLibrary.Add(MaterialName, Path.GetFileNameWithoutExtension(a.Substring(6)));
                 }
+            }
+
+            for (int k = 0; k < MaterialList.Count; k++)
+            {
+                if (MaterialLibrary.ContainsKey(MaterialList[k]))
+                    MaterialList[k] = MaterialLibrary[MaterialList[k]];
+                else
+                    MessageBox.Show("Texture name for material " + MaterialList[k] + " was not found in the " + MTLPath + " file.");
             }
 
             return MaterialList;
@@ -261,78 +219,78 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static ModelConverterData FixUVCoords(ModelConverterData data)
         {
-            for (int i = 0; i < data.TriangleStream.Count; i++)
+            for (int i = 0; i < data.TriangleList.Count; i++)
             {
-                if (data.VertexStream[data.TriangleStream[i].vertex1].HasUV == false)
+                if (data.VertexList[data.TriangleList[i].vertex1].HasUV == false)
                 {
-                    Vertex TempVertex = data.VertexStream[data.TriangleStream[i].vertex1];
+                    Vertex TempVertex = data.VertexList[data.TriangleList[i].vertex1];
 
-                    TempVertex.TexCoord.X = data.UVStream[data.TriangleStream[i].UVCoord1].X;
-                    TempVertex.TexCoord.Y = data.UVStream[data.TriangleStream[i].UVCoord1].Y;
+                    TempVertex.TexCoord.X = data.UVList[data.TriangleList[i].UVCoord1].X;
+                    TempVertex.TexCoord.Y = data.UVList[data.TriangleList[i].UVCoord1].Y;
                     TempVertex.HasUV = true;
-                    data.VertexStream[data.TriangleStream[i].vertex1] = TempVertex;
+                    data.VertexList[data.TriangleList[i].vertex1] = TempVertex;
                 }
                 else
                 {
-                    Vertex TempVertex = data.VertexStream[data.TriangleStream[i].vertex1];
+                    Vertex TempVertex = data.VertexList[data.TriangleList[i].vertex1];
 
-                    if ((TempVertex.TexCoord.X != data.UVStream[data.TriangleStream[i].UVCoord1].X) | (TempVertex.TexCoord.Y != data.UVStream[data.TriangleStream[i].UVCoord1].Y))
+                    if ((TempVertex.TexCoord.X != data.UVList[data.TriangleList[i].UVCoord1].X) | (TempVertex.TexCoord.Y != data.UVList[data.TriangleList[i].UVCoord1].Y))
                     {
-                        TempVertex.TexCoord.X = data.UVStream[data.TriangleStream[i].UVCoord1].X;
-                        TempVertex.TexCoord.Y = data.UVStream[data.TriangleStream[i].UVCoord1].Y;
+                        TempVertex.TexCoord.X = data.UVList[data.TriangleList[i].UVCoord1].X;
+                        TempVertex.TexCoord.Y = data.UVList[data.TriangleList[i].UVCoord1].Y;
 
-                        Triangle TempTriangle = data.TriangleStream[i];
-                        TempTriangle.vertex1 = data.VertexStream.Count;
-                        data.TriangleStream[i] = TempTriangle;
-                        data.VertexStream.Add(TempVertex);
+                        Triangle TempTriangle = data.TriangleList[i];
+                        TempTriangle.vertex1 = data.VertexList.Count;
+                        data.TriangleList[i] = TempTriangle;
+                        data.VertexList.Add(TempVertex);
                     }
                 }
-                if (data.VertexStream[data.TriangleStream[i].vertex2].HasUV == false)
+                if (data.VertexList[data.TriangleList[i].vertex2].HasUV == false)
                 {
-                    Vertex TempVertex = data.VertexStream[data.TriangleStream[i].vertex2];
+                    Vertex TempVertex = data.VertexList[data.TriangleList[i].vertex2];
 
-                    TempVertex.TexCoord.X = data.UVStream[data.TriangleStream[i].UVCoord2].X;
-                    TempVertex.TexCoord.Y = data.UVStream[data.TriangleStream[i].UVCoord2].Y;
+                    TempVertex.TexCoord.X = data.UVList[data.TriangleList[i].UVCoord2].X;
+                    TempVertex.TexCoord.Y = data.UVList[data.TriangleList[i].UVCoord2].Y;
                     TempVertex.HasUV = true;
-                    data.VertexStream[data.TriangleStream[i].vertex2] = TempVertex;
+                    data.VertexList[data.TriangleList[i].vertex2] = TempVertex;
                 }
                 else
                 {
-                    Vertex TempVertex = data.VertexStream[data.TriangleStream[i].vertex2];
+                    Vertex TempVertex = data.VertexList[data.TriangleList[i].vertex2];
 
-                    if ((TempVertex.TexCoord.X != data.UVStream[data.TriangleStream[i].UVCoord2].X) | (TempVertex.TexCoord.Y != data.UVStream[data.TriangleStream[i].UVCoord2].Y))
+                    if ((TempVertex.TexCoord.X != data.UVList[data.TriangleList[i].UVCoord2].X) | (TempVertex.TexCoord.Y != data.UVList[data.TriangleList[i].UVCoord2].Y))
                     {
-                        TempVertex.TexCoord.X = data.UVStream[data.TriangleStream[i].UVCoord2].X;
-                        TempVertex.TexCoord.Y = data.UVStream[data.TriangleStream[i].UVCoord2].Y;
+                        TempVertex.TexCoord.X = data.UVList[data.TriangleList[i].UVCoord2].X;
+                        TempVertex.TexCoord.Y = data.UVList[data.TriangleList[i].UVCoord2].Y;
 
-                        Triangle TempTriangle = data.TriangleStream[i];
-                        TempTriangle.vertex2 = data.VertexStream.Count;
-                        data.TriangleStream[i] = TempTriangle;
-                        data.VertexStream.Add(TempVertex);
+                        Triangle TempTriangle = data.TriangleList[i];
+                        TempTriangle.vertex2 = data.VertexList.Count;
+                        data.TriangleList[i] = TempTriangle;
+                        data.VertexList.Add(TempVertex);
                     }
                 }
-                if (data.VertexStream[data.TriangleStream[i].vertex3].HasUV == false)
+                if (data.VertexList[data.TriangleList[i].vertex3].HasUV == false)
                 {
-                    Vertex TempVertex = data.VertexStream[data.TriangleStream[i].vertex3];
+                    Vertex TempVertex = data.VertexList[data.TriangleList[i].vertex3];
 
-                    TempVertex.TexCoord.X = data.UVStream[data.TriangleStream[i].UVCoord3].X;
-                    TempVertex.TexCoord.Y = data.UVStream[data.TriangleStream[i].UVCoord3].Y;
+                    TempVertex.TexCoord.X = data.UVList[data.TriangleList[i].UVCoord3].X;
+                    TempVertex.TexCoord.Y = data.UVList[data.TriangleList[i].UVCoord3].Y;
                     TempVertex.HasUV = true;
-                    data.VertexStream[data.TriangleStream[i].vertex3] = TempVertex;
+                    data.VertexList[data.TriangleList[i].vertex3] = TempVertex;
                 }
                 else
                 {
-                    Vertex TempVertex = data.VertexStream[data.TriangleStream[i].vertex3];
+                    Vertex TempVertex = data.VertexList[data.TriangleList[i].vertex3];
 
-                    if ((TempVertex.TexCoord.X != data.UVStream[data.TriangleStream[i].UVCoord3].X) | (TempVertex.TexCoord.Y != data.UVStream[data.TriangleStream[i].UVCoord3].Y))
+                    if ((TempVertex.TexCoord.X != data.UVList[data.TriangleList[i].UVCoord3].X) | (TempVertex.TexCoord.Y != data.UVList[data.TriangleList[i].UVCoord3].Y))
                     {
-                        TempVertex.TexCoord.X = data.UVStream[data.TriangleStream[i].UVCoord3].X;
-                        TempVertex.TexCoord.Y = data.UVStream[data.TriangleStream[i].UVCoord3].Y;
+                        TempVertex.TexCoord.X = data.UVList[data.TriangleList[i].UVCoord3].X;
+                        TempVertex.TexCoord.Y = data.UVList[data.TriangleList[i].UVCoord3].Y;
 
-                        Triangle TempTriangle = data.TriangleStream[i];
-                        TempTriangle.vertex3 = data.VertexStream.Count;
-                        data.TriangleStream[i] = TempTriangle;
-                        data.VertexStream.Add(TempVertex);
+                        Triangle TempTriangle = data.TriangleList[i];
+                        TempTriangle.vertex3 = data.VertexList.Count;
+                        data.TriangleList[i] = TempTriangle;
+                        data.VertexList.Add(TempVertex);
                     }
                 }
             }
@@ -344,10 +302,10 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static RWSection[] CreateBSPFile(string FileNameForBox, ModelConverterData data)
         {
-            Vertex3 Max = new Vertex3(data.VertexStream[0].Position.X, data.VertexStream[0].Position.Y, data.VertexStream[0].Position.Z);
-            Vertex3 Min = new Vertex3(data.VertexStream[0].Position.X, data.VertexStream[0].Position.Y, data.VertexStream[0].Position.Z);
+            Vertex3 Max = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
+            Vertex3 Min = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
 
-            foreach (Vertex i in data.VertexStream)
+            foreach (Vertex i in data.VertexList)
             {
                 if (i.Position.X > Max.X)
                     Max.X = i.Position.X;
@@ -363,24 +321,24 @@ namespace HeroesPowerPlant.LevelEditor
                     Min.Z = i.Position.Z;
             }
 
-            List<Vertex3> vList = new List<Vertex3>(data.VertexStream.Count);
-            foreach (Vertex v in data.VertexStream)
+            List<Vertex3> vList = new List<Vertex3>(data.VertexList.Count);
+            foreach (Vertex v in data.VertexList)
                 vList.Add(new Vertex3(v.Position.X, v.Position.Y, v.Position.Z));
 
-            List<RenderWareFile.Color> cList = new List<RenderWareFile.Color>(data.VertexStream.Count);
-            foreach (Vertex v in data.VertexStream)
+            List<RenderWareFile.Color> cList = new List<RenderWareFile.Color>(data.VertexList.Count);
+            foreach (Vertex v in data.VertexList)
                 cList.Add(new RenderWareFile.Color(v.Color.R, v.Color.G, v.Color.B, v.Color.A));
 
-            List<TextCoord> uvList = new List<TextCoord>(data.VertexStream.Count);
+            List<TextCoord> uvList = new List<TextCoord>(data.VertexList.Count);
             if (Program.levelEditor.checkBoxFlipUVs.Checked)
-                foreach (Vertex v in data.VertexStream)
+                foreach (Vertex v in data.VertexList)
                     uvList.Add(new TextCoord(v.TexCoord.X, v.TexCoord.Y));
             else
-                foreach (Vertex v in data.VertexStream)
+                foreach (Vertex v in data.VertexList)
                     uvList.Add(new TextCoord(v.TexCoord.X, -v.TexCoord.Y));
 
-            List<RenderWareFile.Triangle> tList = new List<RenderWareFile.Triangle>(data.TriangleStream.Count);
-            foreach (Triangle t in data.TriangleStream)
+            List<RenderWareFile.Triangle> tList = new List<RenderWareFile.Triangle>(data.TriangleList.Count);
+            foreach (Triangle t in data.TriangleList)
                 tList.Add(new RenderWareFile.Triangle((ushort)t.MaterialIndex, (ushort)t.vertex1, (ushort)t.vertex2, (ushort)t.vertex3));
 
             List<BinMesh> binMeshList = new List<BinMesh>();
@@ -388,10 +346,10 @@ namespace HeroesPowerPlant.LevelEditor
 
             if (Program.levelEditor.checkBoxTristrip.Checked) // tristrip generator
             {
-                for (int i = 0; i < data.MaterialStream.Count; i++)
+                for (int i = 0; i < data.MaterialList.Count; i++)
                 {
                     List<Triangle> TriangleStream2 = new List<Triangle>();
-                    foreach (Triangle f in data.TriangleStream)
+                    foreach (Triangle f in data.TriangleList)
                         if (f.MaterialIndex == i)
                             TriangleStream2.Add(f);
 
@@ -411,10 +369,10 @@ namespace HeroesPowerPlant.LevelEditor
             }
             else //trilist generator
             {
-                for (int i = 0; i < data.MaterialStream.Count; i++)
+                for (int i = 0; i < data.MaterialList.Count; i++)
                 {
                     List<int> indices = new List<int>();
-                    foreach (Triangle f in data.TriangleStream)
+                    foreach (Triangle f in data.TriangleList)
                     {
                         if (f.MaterialIndex == i)
                         {
@@ -445,8 +403,8 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     rootIsWorldSector = 1,
                     inverseOrigin = new Vertex3(-0f, -0f, -0f),
-                    numTriangles = (uint)data.TriangleStream.Count(),
-                    numVertices = (uint)data.VertexStream.Count(),
+                    numTriangles = (uint)data.TriangleList.Count(),
+                    numVertices = (uint)data.VertexList.Count(),
                     numPlaneSectors = 0,
                     numAtomicSectors = 1,
                     colSectorSize = 0,
@@ -459,9 +417,9 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     materialListStruct = new MaterialListStruct_0001()
                     {
-                        materialCount = data.MaterialStream.Count()
+                        materialCount = data.MaterialList.Count()
                     },
-                    materialList = new Material_0007[data.MaterialStream.Count()]
+                    materialList = new Material_0007[data.MaterialList.Count()]
                 },
 
                 firstWorldChunk = new AtomicSector_0009()
@@ -469,8 +427,8 @@ namespace HeroesPowerPlant.LevelEditor
                     atomicStruct = new AtomicSectorStruct_0001()
                     {
                         matListWindowBase = 0,
-                        numTriangles = data.TriangleStream.Count(),
-                        numVertices = data.VertexStream.Count(),
+                        numTriangles = data.TriangleList.Count(),
+                        numVertices = data.VertexList.Count(),
                         boxMaximum = Max,
                         boxMinimum = Min,
                         collSectorPresent = 0x2F50D984,
@@ -496,7 +454,7 @@ namespace HeroesPowerPlant.LevelEditor
                 worldExtension = new Extension_0003()
             };
 
-            for (int i = 0; i < data.MaterialStream.Count; i++)
+            for (int i = 0; i < data.MaterialList.Count; i++)
             {
                 world.materialList.materialList[i] = new Material_0007()
                 {
@@ -521,7 +479,7 @@ namespace HeroesPowerPlant.LevelEditor
                         },
                         diffuseTextureName = new String_0002()
                         {
-                            stringString = data.MaterialStream[i]
+                            stringString = data.MaterialList[i]
                         },
                         alphaTextureName = new String_0002()
                         {
@@ -640,6 +598,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             return indexLists;
         }
+
         public static void ConvertBSPtoOBJ(string fileName, RenderWareModelFile bspFile)
         {
             int totalVertexIndices = 0;
@@ -660,24 +619,24 @@ namespace HeroesPowerPlant.LevelEditor
                     OBJWriter.WriteLine();
                     if (w.firstWorldChunk.sectionIdentifier == Section.AtomicSector)
                     {
-                        GetAtomicTriangleList(OBJWriter, (AtomicSector_0009)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isCollision);
+                        GetAtomicTriangleList(OBJWriter, (AtomicSector_0009)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isShadowCollision);
                     }
                     else if (w.firstWorldChunk.sectionIdentifier == Section.PlaneSector)
                     {
-                        GetPlaneTriangleList(OBJWriter, (PlaneSector_000A)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isCollision);
+                        GetPlaneTriangleList(OBJWriter, (PlaneSector_000A)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isShadowCollision);
                     }
                 }
             }
 
-            if (bspFile.isCollision)
+            if (bspFile.isShadowCollision)
             {
                 RenderWareFile.Color currentColFlag = new RenderWareFile.Color(3, 3, 3, 3);
 
-                foreach (Triangle j in triangleList)
+                foreach (TriangleExt j in triangleList)
                 {
-                    if (j.collisionFlagForShadow != currentColFlag)
+                    if (j.collisionFlag != currentColFlag)
                     {
-                        currentColFlag = j.collisionFlagForShadow;
+                        currentColFlag = j.collisionFlag;
                         OBJWriter.WriteLine();
                         OBJWriter.WriteLine("g " + fileNameWithoutExtension + "_" + currentColFlag.ToString());
                         OBJWriter.WriteLine("usemtl colmat_" + currentColFlag.ToString());
@@ -780,9 +739,9 @@ namespace HeroesPowerPlant.LevelEditor
 
                     for (int i = 0; i < AtomicSector.atomicStruct.triangleArray.Length; i++)
                     {
-                        triangleList.Add(new Triangle
+                        triangleList.Add(new TriangleExt
                         {
-                            collisionFlagForShadow = collisionFlagList[i],
+                            collisionFlag = collisionFlagList[i],
                             MaterialIndex = AtomicSector.atomicStruct.triangleArray[i].materialIndex,
                             vertex1 = AtomicSector.atomicStruct.triangleArray[i].vertex1 + totalVertexIndices,
                             vertex2 = AtomicSector.atomicStruct.triangleArray[i].vertex2 + totalVertexIndices,
@@ -961,15 +920,15 @@ namespace HeroesPowerPlant.LevelEditor
 
             Dictionary<string, string[]> mtlFileStrings = new Dictionary<string, string[]>();
 
-            foreach (Triangle j in triangleList)
+            foreach (TriangleExt j in triangleList)
             {
-                if (!mtlFileStrings.ContainsKey(j.collisionFlagForShadow.ToString()))
+                if (!mtlFileStrings.ContainsKey(j.collisionFlag.ToString()))
                 {
 
                     RenderWareFile.Color color = RenderWareFile.Color.FromString(MaterialStream[j.MaterialIndex]);
 
-                    mtlFileStrings.Add(j.collisionFlagForShadow.ToString(), new string[] {
-                        "newmtl colmat_" + j.collisionFlagForShadow.ToString(),
+                    mtlFileStrings.Add(j.collisionFlag.ToString(), new string[] {
+                        "newmtl colmat_" + j.collisionFlag.ToString(),
                         $"Kd {color.R / 255f} {color.G / 255f} {color.B / 255f}"
                     });
                 }

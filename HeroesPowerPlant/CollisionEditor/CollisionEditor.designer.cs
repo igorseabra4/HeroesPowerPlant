@@ -1,4 +1,4 @@
-﻿namespace HeroesPowerPlant.Collision
+﻿namespace HeroesPowerPlant.CollisionEditor
 {
     partial class CollisionEditor
     {
@@ -34,15 +34,15 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelQuadnodes = new System.Windows.Forms.Label();
+            this.labelTriangles = new System.Windows.Forms.Label();
+            this.labelVertexNum = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.numericDepthLevel = new System.Windows.Forms.NumericUpDown();
             this.buttonImport = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.label1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.labelFileLoaded = new System.Windows.Forms.ToolStripStatusLabel();
             this.numericUpDownPowerFlag = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -108,30 +108,30 @@
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 79);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(117, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Number of Quadnodes:";
+            this.labelQuadnodes.AutoSize = true;
+            this.labelQuadnodes.Location = new System.Drawing.Point(12, 79);
+            this.labelQuadnodes.Name = "label5";
+            this.labelQuadnodes.Size = new System.Drawing.Size(117, 13);
+            this.labelQuadnodes.TabIndex = 12;
+            this.labelQuadnodes.Text = "Number of Quadnodes:";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 66);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(105, 13);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Number of Triangles:";
+            this.labelTriangles.AutoSize = true;
+            this.labelTriangles.Location = new System.Drawing.Point(12, 66);
+            this.labelTriangles.Name = "label4";
+            this.labelTriangles.Size = new System.Drawing.Size(105, 13);
+            this.labelTriangles.TabIndex = 13;
+            this.labelTriangles.Text = "Number of Triangles:";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 53);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 13);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Number of Vertices:";
+            this.labelVertexNum.AutoSize = true;
+            this.labelVertexNum.Location = new System.Drawing.Point(12, 53);
+            this.labelVertexNum.Name = "label3";
+            this.labelVertexNum.Size = new System.Drawing.Size(100, 13);
+            this.labelVertexNum.TabIndex = 14;
+            this.labelVertexNum.Text = "Number of Vertices:";
             // 
             // checkBox1
             // 
@@ -188,7 +188,7 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.label1});
+            this.labelFileLoaded});
             this.statusStrip1.Location = new System.Drawing.Point(0, 133);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(343, 22);
@@ -197,9 +197,9 @@
             // 
             // label1
             // 
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 17);
-            this.label1.Text = "No CL loaded";
+            this.labelFileLoaded.Name = "label1";
+            this.labelFileLoaded.Size = new System.Drawing.Size(79, 17);
+            this.labelFileLoaded.Text = "No CL loaded";
             // 
             // numericUpDownPowerFlag
             // 
@@ -293,9 +293,9 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.numericUpDownPowerFlag);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.labelQuadnodes);
+            this.Controls.Add(this.labelTriangles);
+            this.Controls.Add(this.labelVertexNum);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.numericDepthLevel);
@@ -325,16 +325,16 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        public System.Windows.Forms.Label label5;
-        public System.Windows.Forms.Label label4;
-        public System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label labelQuadnodes;
+        public System.Windows.Forms.Label labelTriangles;
+        public System.Windows.Forms.Label labelVertexNum;
         public System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.NumericUpDown numericDepthLevel;
         private System.Windows.Forms.Button buttonImport;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel label1;
+        private System.Windows.Forms.ToolStripStatusLabel labelFileLoaded;
         public System.Windows.Forms.NumericUpDown numericUpDownPowerFlag;
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.CheckBox checkBox2;

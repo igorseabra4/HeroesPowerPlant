@@ -279,11 +279,11 @@ namespace HeroesPowerPlant.LevelEditor
         {
             ModelConverterData data = new ModelConverterData()
             {
-                MaterialStream = new List<string>(),
-                VertexStream = new List<Vertex>(),
-                UVStream = new List<Vector2>(),
-                ColorStream = new List<Color>(),
-                TriangleStream = new List<Triangle>(),
+                MaterialList = new List<string>(),
+                VertexList = new List<Vertex>(),
+                UVList = new List<Vector2>(),
+                ColorList = new List<Color>(),
+                TriangleList = new List<Triangle>(),
                 MTLLib = null
             };
 
@@ -297,18 +297,18 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     Vector3 NewPos = (Vector3)Vector3.Transform(j, i.TransformMatrix);
 
-                    data.VertexStream.Add(new Vertex
+                    data.VertexList.Add(new Vertex
                     {
                         Position = NewPos
                     });
                 }
                 foreach (Vector2 j in i.TexCoordList)
                 {
-                    data.UVStream.Add(j);
+                    data.UVList.Add(j);
                 }
                 foreach (Color j in i.VColorList)
                 {
-                    data.ColorStream.Add(j);
+                    data.ColorList.Add(j);
                 }
                 foreach (DAETriangleList j in i.TriangleListList)
                 {
@@ -316,16 +316,16 @@ namespace HeroesPowerPlant.LevelEditor
 
                     if (j.TextureName == null) j.TextureName = "default";
 
-                    if (!data.MaterialStream.Contains(j.TextureName))
+                    if (!data.MaterialList.Contains(j.TextureName))
                     {
-                        data.MaterialStream.Add(j.TextureName);
+                        data.MaterialList.Add(j.TextureName);
                     }
 
                     foreach (Triangle k in j.TriangleList)
                     {
-                        for (int m = 0; m < data.MaterialStream.Count; m++)
+                        for (int m = 0; m < data.MaterialList.Count; m++)
                         {
-                            if (data.MaterialStream[m] == j.TextureName)
+                            if (data.MaterialList[m] == j.TextureName)
                             {
                                 k.MaterialIndex = m;
                                 break;
@@ -341,7 +341,7 @@ namespace HeroesPowerPlant.LevelEditor
                         k.Color1 += TotalColors;
                         k.Color2 += TotalColors;
                         k.Color3 += TotalColors;
-                        data.TriangleStream.Add(k);
+                        data.TriangleList.Add(k);
                     }
                 }
                 TotalVertices += i.PositionVertexList.Count;
@@ -357,9 +357,9 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static ModelConverterData FixColors(ModelConverterData d)
         {
-            List<Vertex> VertexStream = d.VertexStream;
-            List<Triangle> TriangleStream = d.TriangleStream;
-            List<Color> ColorStream = d.ColorStream;
+            List<Vertex> VertexStream = d.VertexList;
+            List<Triangle> TriangleStream = d.TriangleList;
+            List<Color> ColorStream = d.ColorList;
 
             for (int i = 0; i < TriangleStream.Count; i++)
             {
@@ -442,11 +442,11 @@ namespace HeroesPowerPlant.LevelEditor
 
             return new ModelConverterData()
             {
-                MaterialStream = d.MaterialStream,
-                VertexStream = VertexStream,
-                UVStream = d.UVStream,
-                ColorStream = ColorStream,
-                TriangleStream = TriangleStream,
+                MaterialList = d.MaterialList,
+                VertexList = VertexStream,
+                UVList = d.UVList,
+                ColorList = ColorStream,
+                TriangleList = TriangleStream,
                 MTLLib = d.MTLLib
             };
         }

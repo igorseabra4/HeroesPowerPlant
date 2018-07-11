@@ -46,28 +46,20 @@ namespace HeroesPowerPlant
 
         public static void AddDFFFiles(string fileName)
         {
-            foreach (ObjectEntry o in Program.layoutEditor.HeroesObjectEntries)
+            foreach (ObjectEntry o in Program.layoutEditor.layoutSystem.GetAllObjectEntries())
                 if (o.ModelNames != null)
                 {
                     foreach (string s in o.ModelNames)
                         if (!ObjectDFFNames.Contains(s))
                             ObjectDFFNames.Add(s);
                 }
-
-            foreach (ObjectEntry o in Program.layoutEditor.ShadowObjectEntries)
-                if (o.ModelNames != null)
-                {
-                    foreach (string s in o.ModelNames)
-                        if (!ObjectDFFNames.Contains(s))
-                            ObjectDFFNames.Add(s);
-                }
-
+            
             foreach (HeroesONEFile.File j in new HeroesONEFile(fileName).Files)
             {
                 AddDFF(j);
             }
 
-            Program.layoutEditor.ResetMatrices();
+            Program.layoutEditor.layoutSystem.ResetMatrices();
         }
 
         public static void AddDFF(HeroesONEFile.File j)

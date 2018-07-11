@@ -19,7 +19,7 @@ namespace HeroesPowerPlant
         public string ChunkName;
         public int ChunkNumber;
         public bool isNoCulling = false;
-        public bool isCollision = false;
+        public bool isShadowCollision = false;
 
         public List<SharpMesh> meshList;
         
@@ -78,7 +78,7 @@ namespace HeroesPowerPlant
         public void SetForRendering(RWSection[] rwChunkList, byte[] rwByteArray)
         {
             if (rwByteArray == null)
-                rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwChunkList, isCollision ? LevelEditor.LevelEditorFunctions.shadowRenderWareVersion : LevelEditor.LevelEditorFunctions.renderWareVersion);
+                rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwChunkList, isShadowCollision ? LevelEditor.LevelEditorFunctions.shadowRenderWareVersion : LevelEditor.LevelEditorFunctions.renderWareVersion);
             else
                 rwSectionByteArray = rwByteArray;
 
@@ -97,7 +97,7 @@ namespace HeroesPowerPlant
 
                     foreach (Material_0007 m in w.materialList.materialList)
                     {
-                        if (isCollision)
+                        if (isShadowCollision)
                         {
                             MaterialList.Add(m.materialStruct.color.ToString());
                         }
@@ -168,7 +168,7 @@ namespace HeroesPowerPlant
                 this.vertexList.Add(new Vector3(v.X, v.Y, v.Z));
             }
 
-            if (!isCollision)
+            if (!isShadowCollision)
             {
                 for (int i = 0; i < vertexList.Count; i++)
                 {
@@ -204,7 +204,7 @@ namespace HeroesPowerPlant
                         indexList.Add(t.vertex2);
                         indexList.Add(t.vertex3);
                         
-                        if (isCollision)
+                        if (isShadowCollision)
                         {
                             RenderWareFile.Color c = RenderWareFile.Color.FromString(MaterialList[i]);
                             SharpDX.Color color = new SharpDX.Color(c.R, c.G, c.B, c.A);

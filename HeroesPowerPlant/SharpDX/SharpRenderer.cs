@@ -1,13 +1,11 @@
 ﻿using SharpDX;
-using System;
 using System.Windows.Forms;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using System.Collections.Generic;
-using HeroesPowerPlant.Collision;
+using HeroesPowerPlant.CollisionEditor;
 using HeroesPowerPlant.LevelEditor;
-using HeroesPowerPlant.LayoutEditor;
 
 namespace HeroesPowerPlant
 {
@@ -248,14 +246,14 @@ namespace HeroesPowerPlant
                 else objData = LevelEditorFunctions.ReadOBJFile("Resources/Models/Sphere.obj", true);
 
                 List<Vertex> vertexList = new List<Vertex>();
-                foreach (LevelEditorFunctions.Vertex v in objData.VertexStream)
+                foreach (LevelEditorFunctions.Vertex v in objData.VertexList)
                 {
                     vertexList.Add(new Vertex(v.Position));
                     if (i == 0) cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z) * 5);
                 }
 
                 List<int> indexList = new List<int>();
-                foreach (LevelEditorFunctions.Triangle t in objData.TriangleStream)
+                foreach (LevelEditorFunctions.Triangle t in objData.TriangleList)
                 {
                     indexList.Add(t.vertex1);
                     indexList.Add(t.vertex2);
@@ -302,7 +300,7 @@ namespace HeroesPowerPlant
 
                 if (showCollision)
                 {
-                    CollisionFunctions.RenderCollisionModel(viewProjection, -Camera.GetForward(), Camera.GetUp());
+                    CollisionRendering.RenderCollisionModel(viewProjection, -Camera.GetForward(), Camera.GetUp());
                     BSPRenderer.RenderShadowCollisionModel(viewProjection);
                 }
                 else
@@ -314,9 +312,9 @@ namespace HeroesPowerPlant
                     VisibilityFunctions.RenderChunkModels(viewProjection);
 
                 if (showObjects == CheckState.Checked)
-                    Program.layoutEditor.RenderAllSetObjects(true);
+                    Program.layoutEditor.layoutSystem.RenderAllSetObjects(true);
                 else if (showObjects == CheckState.Indeterminate)
-                    Program.layoutEditor.RenderAllSetObjects(false);
+                    Program.layoutEditor.layoutSystem.RenderAllSetObjects(false);
 
                 if (showStartPositions)
                     Program.configEditor.RenderStartPositions(viewProjection);
@@ -325,7 +323,7 @@ namespace HeroesPowerPlant
                     Program.splineEditor.RenderSplines(viewProjection);
 
                 if (showQuadtree)
-                    CollisionFunctions.RenderQuadTree(viewProjection);
+                    CollisionRendering.RenderQuadTree(viewProjection);
                                 
                 //present
                 device.Present();
@@ -343,6 +341,9 @@ namespace HeroesPowerPlant
             foreach (RenderWareModelFile r in DFFRenderer.DFFStream.Values)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
+
+            if (CollisionRendering.collisionMesh != null)
+                CollisionRendering.collisionMesh.Dispose();
 
             if (BSPRenderer.whiteDefault != null)
                 BSPRenderer.whiteDefault.Dispose();

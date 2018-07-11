@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Windows.Forms;
-using static HeroesPowerPlant.Collision.CollisionFunctions;
 
-namespace HeroesPowerPlant.Collision
+namespace HeroesPowerPlant.CollisionEditor
 {
     public partial class CollisionEditor : Form
     {
+        public CollisionEditor()
+        {
+            InitializeComponent();
+            collisionSystem = new CollisionEditorSystem();
+        }
+
+        private void CollisionEditor_Load(object sender, EventArgs e)
+        {
+            TopMost = true;
+        }
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
@@ -15,17 +25,7 @@ namespace HeroesPowerPlant.Collision
             Hide();
         }
 
-        public CollisionEditor()
-        {
-            InitializeComponent();
-        }
-
-        private void CollisionEditor_Load(object sender, EventArgs e)
-        {
-            TopMost = true;
-        }
-
-        public string currentCLfileName;
+        CollisionEditorSystem collisionSystem;
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -41,8 +41,7 @@ namespace HeroesPowerPlant.Collision
             if (OpenOBJFile.ShowDialog() == DialogResult.OK)
                 if (SaveCLFile.ShowDialog() == DialogResult.OK)
                 {
-                    currentCLfileName = SaveCLFile.FileName;
-                    ConvertOBJtoCL(OpenOBJFile.FileName, currentCLfileName, (byte)numericDepthLevel.Value);
+                    collisionSystem.NewFile(OpenOBJFile.FileName, SaveCLFile.FileName, GetDepthLevel());
                     initFile();
                 }
         }
@@ -55,8 +54,7 @@ namespace HeroesPowerPlant.Collision
             };
             if (OpenCLFile.ShowDialog() == DialogResult.OK)
             {
-                currentCLfileName = OpenCLFile.FileName;
-                initFile();
+                Open(OpenCLFile.FileName);
             }
         }
 
@@ -68,43 +66,52 @@ namespace HeroesPowerPlant.Collision
             };
             if (SaveOBJFile.ShowDialog() == DialogResult.OK)
             {
-                ConvertCLtoOBJ(SaveOBJFile.FileName);
+                collisionSystem.ConvertCLtoOBJ(SaveOBJFile.FileName);
                 initFile();
             }
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            label1.Text = "No CL loaded";
-            currentCLfileName = null;
-            UseHeader = new Header();
-            CLVertexArray = null;
-            CLTriangleArray = null;
-            CLQuadNodeList = null;
-
-            label3.Text = "Number of Vertices: ";
-            label4.Text = "Number of Triangles: ";
-            label5.Text = "Number of QuadNodes: ";
+            collisionSystem.Close();
+            labelFileLoaded.Text = "No CL loaded";
+            labelVertexNum.Text = "Vertices: ";
+            labelTriangles.Text = "Triangles: ";
+            labelQuadnodes.Text = "QuadNodes: ";
 
             exportOBJToolStripMenuItem.Enabled = false;
         }
 
         private void buttonImport_Click(object sender, EventArgs e)
         {
-            if (currentCLfileName != null)
+            if (collisionSystem.HasOpenedFile())
             {
                 OpenFileDialog OpenOBJFile = new OpenFileDialog();
                 OpenOBJFile.Filter = "OBJ Files|*.obj|All Files|*.*";
                 if (OpenOBJFile.ShowDialog() == DialogResult.OK)
                 {
-                    ConvertOBJtoCL(OpenOBJFile.FileName, currentCLfileName, (byte)numericDepthLevel.Value);
+                    collisionSystem.Import(OpenOBJFile.FileName, GetDepthLevel());
                     initFile();
                 }
             }
             else
-            {
                 newToolStripMenuItem_Click(sender, e);
-            }
+        }
+
+        public void Open(string fileName)
+        {
+            collisionSystem.Open(fileName);
+            initFile();
+        }
+
+        public string GetFileName()
+        {
+            return collisionSystem.CurrentCLfileName;
+        }
+
+        private byte GetDepthLevel()
+        {
+            return checkBox1.Checked ? (byte)numericDepthLevel.Value : (byte)0;
         }
 
         public void initFile()
@@ -113,16 +120,16 @@ namespace HeroesPowerPlant.Collision
             progressBar1.Value = 0;
             progressBar1.Step = 1;
 
-            if (LoadCLFile(currentCLfileName))
-            {
-                label1.Text = "Loaded " + currentCLfileName;
-                label3.Text = "Number of Vertices: " + UseHeader.numVertices.ToString();
-                label4.Text = "Number of Triangles: " + UseHeader.numTriangles.ToString();
-                label5.Text = "Number of QuadNodes: " + UseHeader.numQuadnodes.ToString();
+            collisionSystem.LoadCLFile();
 
-                exportOBJToolStripMenuItem.Enabled = true;
-            }
+            labelFileLoaded.Text = "Loaded " + collisionSystem.CurrentCLfileName;
+            labelVertexNum.Text = "Vertices: " + collisionSystem.NumVertices.ToString();
+            labelTriangles.Text = "Triangles: " + collisionSystem.NumTriangles.ToString();
+            labelQuadnodes.Text = "QuadNodes: " + collisionSystem.NumQuadNodes.ToString();
+            numericDepthLevel.Value = collisionSystem.DepthLevel;
 
+            exportOBJToolStripMenuItem.Enabled = true;
+            
             progressBar1.Value = 0;
         }
 
@@ -141,7 +148,7 @@ namespace HeroesPowerPlant.Collision
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DetermineRenderStuff2();
+            //DetermineRenderStuff2();
         }
     }
 }

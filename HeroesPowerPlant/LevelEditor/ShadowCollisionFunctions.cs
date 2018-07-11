@@ -12,10 +12,10 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static RWSection[] CreateShadowCollisionBSPFile(ModelConverterData data)
         {
-            Vertex3 Max = new Vertex3(data.VertexStream[0].Position.X, data.VertexStream[0].Position.Y, data.VertexStream[0].Position.Z);
-            Vertex3 Min = new Vertex3(data.VertexStream[0].Position.X, data.VertexStream[0].Position.Y, data.VertexStream[0].Position.Z);
+            Vertex3 Max = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
+            Vertex3 Min = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
 
-            foreach (Vertex i in data.VertexStream)
+            foreach (Vertex i in data.VertexList)
             {
                 if (i.Position.X > Max.X)
                     Max.X = i.Position.X;
@@ -31,21 +31,21 @@ namespace HeroesPowerPlant.LevelEditor
                     Min.Z = i.Position.Z;
             }
 
-            List<Vertex3> vList = new List<Vertex3>(data.VertexStream.Count);
-            foreach (Vertex v in data.VertexStream)
+            List<Vertex3> vList = new List<Vertex3>(data.VertexList.Count);
+            foreach (Vertex v in data.VertexList)
                 vList.Add(new Vertex3(v.Position.X, v.Position.Y, v.Position.Z));
 
-            List<RenderWareFile.Triangle> tList = new List<RenderWareFile.Triangle>(data.TriangleStream.Count);
-            foreach (Triangle t in data.TriangleStream)
+            List<RenderWareFile.Triangle> tList = new List<RenderWareFile.Triangle>(data.TriangleList.Count);
+            foreach (Triangle t in data.TriangleList)
                 tList.Add(new RenderWareFile.Triangle((ushort)t.MaterialIndex, (ushort)t.vertex1, (ushort)t.vertex2, (ushort)t.vertex3));
 
             List<BinMesh> binMeshList = new List<BinMesh>();
             int TotalNumberOfTristripIndicies = 0;
 
-            for (int i = 0; i < data.MaterialStream.Count; i++)
+            for (int i = 0; i < data.MaterialList.Count; i++)
             {
                 List<int> indices = new List<int>();
-                foreach (Triangle f in data.TriangleStream)
+                foreach (Triangle f in data.TriangleList)
                 {
                     if (f.MaterialIndex == i)
                     {
@@ -71,6 +71,7 @@ namespace HeroesPowerPlant.LevelEditor
             ushort loop = 0;
             bool exitloop = false;
             Split split = new Split();
+            byte trianglesPerSplit = 200;
 
             while (!exitloop)
             {
@@ -94,16 +95,16 @@ namespace HeroesPowerPlant.LevelEditor
                     }
                 };
 
-                for (ushort i = (ushort)(200 * loop); i < tList.Count(); i++)
+                for (ushort i = (ushort)(trianglesPerSplit * loop); i < tList.Count(); i++)
                 {
                     TriangleIndexList.Add(i);
 
                     split.negativeSector.TriangleIndexList.Add(i);
 
-                    if (split.negativeSector.TriangleIndexList.Count() == 200)
+                    if (split.negativeSector.TriangleIndexList.Count() == trianglesPerSplit)
                     {
-                        split.negativeSector.triangleAmount = 200;
-                        split.negativeSector.referenceIndex = (ushort)(200 * loop);
+                        split.negativeSector.triangleAmount = trianglesPerSplit;
+                        split.negativeSector.referenceIndex = (ushort)(trianglesPerSplit * loop);
                         loop += 1;
 
                         split.positiveSector.triangleAmount = 0xFF;
@@ -119,7 +120,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             split.negativeSector.triangleAmount = (byte)split.negativeSector.TriangleIndexList.Count();
-            split.negativeSector.referenceIndex = (ushort)(200 * loop);
+            split.negativeSector.referenceIndex = (ushort)(trianglesPerSplit * loop);
             split.positiveSector.triangleAmount = 0;
             split.positiveSector.referenceIndex = 0;
             loop += 1;
@@ -140,9 +141,51 @@ namespace HeroesPowerPlant.LevelEditor
             //PositionOnList = 0;
             //SplitSector(sector, 20, 0, splitList, TriangleIndexReferenceList, vList, tList);
 
+            // COLLISION FLAGS
+
+            Color[] cFlagList = new Color[data.MaterialList.Count];
+            for (int i = 0; i < cFlagList.Length; i++)
+            {
+                cFlagList[i] = new Color(0x01, 0x00, 0x02, 0x00);
+
+                string a = data.MaterialList[i].Split('_').Last();
+
+                if (a == "c") // ceiling
+                    cFlagList[i] = new Color(0x00, 0x00, 0x00, 0x00);
+                else if (a == "f") // road floor
+                    cFlagList[i] = new Color(0x01, 0x00, 0x02, 0x00);
+                else if (a == "fs") // stone floor
+                    cFlagList[i] = new Color(0x01, 0x00, 0x00, 0x60);
+                else if (a == "fm") // metal floor
+                    cFlagList[i] = new Color(0x01, 0x01, 0x01, 0x10);
+                else if (a == "t") // triangle jump wall
+                    cFlagList[i] = new Color(0x02, 0x00, 0x00, 0x00);
+                else if (a == "a") // angle wall
+                    cFlagList[i] = new Color(0x02, 0x01, 0x01, 0x10);
+                else if (a == "i") // invisible wall
+                    cFlagList[i] = new Color(0x02, 0x02, 0x00, 0x00);
+                else if (a == "g") // green goo
+                    cFlagList[i] = new Color(0x05, 0x00, 0x02, 0x00);
+                else if (a == "k") // barrier
+                    cFlagList[i] = new Color(0x08, 0x00, 0x00, 0x00);
+                else if (a == "i2") // invisible wall at distance
+                    cFlagList[i] = new Color(0x10, 0x00, 0x00, 0x00);
+                else if (a == "x") // death
+                    cFlagList[i] = new Color(0x20, 0x00, 0x00, 0x00);
+                else if (a.Count() == 8)
+                    try
+                    {
+                        cFlagList[i] = Color.FromString(a);
+                    }
+                    catch
+                    {
+                        cFlagList[i] = new Color(0x01, 0x00, 0x02, 0x00);
+                    }
+            }
+            
             List<Color> cFlags = new List<Color>();
-            foreach (Triangle t in data.TriangleStream)
-                cFlags.Add(t.collisionFlagForShadow);
+            foreach (Triangle t in data.TriangleList)
+                cFlags.Add(cFlagList[t.MaterialIndex]);
 
             // GENERATE RENDERWARE DATA
 
@@ -152,8 +195,8 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     rootIsWorldSector = 1,
                     inverseOrigin = new Vertex3(-0f, -0f, -0f),
-                    numTriangles = (uint)data.TriangleStream.Count(),
-                    numVertices = (uint)data.VertexStream.Count(),
+                    numTriangles = (uint)data.TriangleList.Count(),
+                    numVertices = (uint)data.VertexList.Count(),
                     numPlaneSectors = 0,
                     numAtomicSectors = 1,
                     colSectorSize = 0,
@@ -166,9 +209,9 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     materialListStruct = new MaterialListStruct_0001()
                     {
-                        materialCount = data.MaterialStream.Count()
+                        materialCount = data.MaterialList.Count()
                     },
-                    materialList = new Material_0007[data.MaterialStream.Count()]
+                    materialList = new Material_0007[data.MaterialList.Count()]
                 },
 
                 firstWorldChunk = new AtomicSector_0009()
@@ -176,8 +219,8 @@ namespace HeroesPowerPlant.LevelEditor
                     atomicStruct = new AtomicSectorStruct_0001()
                     {
                         matListWindowBase = 0,
-                        numTriangles = data.TriangleStream.Count(),
-                        numVertices = data.VertexStream.Count(),
+                        numTriangles = data.TriangleList.Count(),
+                        numVertices = data.VertexList.Count(),
                         boxMaximum = Max,
                         boxMinimum = Min,
                         collSectorPresent = 0x0012f410,
@@ -236,14 +279,14 @@ namespace HeroesPowerPlant.LevelEditor
                 worldExtension = new Extension_0003()
             };
 
-            for (int i = 0; i < data.MaterialStream.Count; i++)
+            for (int i = 0; i < data.MaterialList.Count; i++)
             {
                 world.materialList.materialList[i] = new Material_0007()
                 {
                     materialStruct = new MaterialStruct_0001()
                     {
                         unusedFlags = 0,
-                        color = new RenderWareFile.Color() { R = 0xFF, G = 0xFF, B = 0xFF, A = 0xFF },
+                        color = new Color() { R = 0xFF, G = 0xFF, B = 0xFF, A = 0xFF },
                         unusedInt2 = 0x01FAE70C,
                         isTextured = 0,
                         ambient = 1f,

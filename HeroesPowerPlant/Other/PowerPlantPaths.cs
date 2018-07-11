@@ -61,9 +61,9 @@ namespace HeroesPowerPlant
                 {
                     paths.visibilityPath = Program.levelEditor.openVisibilityFile;
                 }
-                if (Program.collisionEditor.currentCLfileName != null)
+                if (Program.collisionEditor.GetFileName() != null)
                 {
-                    paths.collisionEditorPath = Program.collisionEditor.currentCLfileName;
+                    paths.collisionEditorPath = Program.collisionEditor.GetFileName();
                 }
             }
             
@@ -162,9 +162,7 @@ namespace HeroesPowerPlant
                 if (paths.levelEditorPath != null)
                 {
                     if (File.Exists(paths.levelEditorPath))
-                    {
                         Program.levelEditor.OpenONEFolder(paths.levelEditorPath);
-                    }
                     else
                         MessageBox.Show(paths.levelEditorPath + " could not be loaded", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -182,9 +180,7 @@ namespace HeroesPowerPlant
                 if (paths.levelEditorPath != null)
                 {
                     if (File.Exists(paths.levelEditorPath))
-                    {
                         Program.levelEditor.OpenONEFile(paths.levelEditorPath);
-                    }
                     else
                         MessageBox.Show(paths.levelEditorPath + " could not be loaded", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -192,22 +188,15 @@ namespace HeroesPowerPlant
                 if (paths.visibilityPath != null)
                 {
                     if (File.Exists(paths.visibilityPath))
-                    {
                         Program.levelEditor.initVisibilityEditor(false, paths.visibilityPath);
-                    }
                     else
-                    {
                         MessageBox.Show(paths.visibilityPath + " could not be loaded", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
                 }
 
                 if (paths.collisionEditorPath != null)
                 {
                     if (File.Exists(paths.collisionEditorPath))
-                    {
-                        Program.collisionEditor.currentCLfileName = paths.collisionEditorPath;
-                        Program.collisionEditor.initFile();
-                    }
+                        Program.collisionEditor.Open(paths.collisionEditorPath);
                     else
                         MessageBox.Show(paths.collisionEditorPath + " could not be loaded", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
