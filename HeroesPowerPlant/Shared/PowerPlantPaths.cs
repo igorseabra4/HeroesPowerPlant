@@ -66,16 +66,16 @@ namespace HeroesPowerPlant
                     paths.collisionEditorPath = Program.collisionEditor.GetFileName();
                 }
             }
-            
-            //if (Program.heroesLayoutEditor.currentlyOpenFileName != null)
-            //{
-            //    paths.layoutEditorPath = Program.heroesLayoutEditor.currentlyOpenFileName;
-            //}
 
-            //if (Program.cameraEditor.currentCameraFile != null)
-            //{
-            //    paths.cameraEditorPath = Program.cameraEditor.currentCameraFile;
-            //}
+            if (Program.layoutEditor.GetOpenFileName() != null)
+            {
+                paths.layoutEditorPath = Program.layoutEditor.GetOpenFileName();
+            }
+
+            if (Program.cameraEditor.currentCameraFile != null)
+            {
+                paths.cameraEditorPath = Program.cameraEditor.currentCameraFile;
+            }
 
             foreach (string s in DFFRenderer.filePaths)
             {
@@ -210,14 +210,14 @@ namespace HeroesPowerPlant
                     MessageBox.Show(paths.layoutEditorPath + " could not be loaded", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            //if (paths.cameraEditorPath != null)
-            //{
-            //    if (File.Exists(paths.cameraEditorPath))
-            //        Program.cameraEditor.open(paths.cameraEditorPath);
-            //    else
-            //        MessageBox.Show(paths.cameraEditorPath + " could not be loaded", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-            
+            if (paths.cameraEditorPath != null)
+            {
+                if (File.Exists(paths.cameraEditorPath))
+                    Program.cameraEditor.open(paths.cameraEditorPath);
+                else
+                    MessageBox.Show(paths.cameraEditorPath + " could not be loaded", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             foreach (string s in paths.DFFONEPaths)
             {
                 if (File.Exists(s))

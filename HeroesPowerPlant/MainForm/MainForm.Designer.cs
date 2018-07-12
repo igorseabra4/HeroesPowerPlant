@@ -53,7 +53,11 @@ namespace HeroesPowerPlant
             this.noCullingCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframeFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BackgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectionColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mouseModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.objectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.camerasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startPosYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splinesUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renderByChunkHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +72,6 @@ namespace HeroesPowerPlant
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.selectionColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -204,10 +207,10 @@ namespace HeroesPowerPlant
             // 
             // cameraEditorToolStripMenuItem
             // 
-            this.cameraEditorToolStripMenuItem.Enabled = false;
             this.cameraEditorToolStripMenuItem.Name = "cameraEditorToolStripMenuItem";
             this.cameraEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.cameraEditorToolStripMenuItem.Text = "Camera Editor (F7)";
+            this.cameraEditorToolStripMenuItem.Click += new System.EventHandler(this.cameraEditorToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -217,6 +220,7 @@ namespace HeroesPowerPlant
             this.BackgroundColorToolStripMenuItem,
             this.selectionColorToolStripMenuItem,
             this.toolStripSeparator3,
+            this.mouseModeToolStripMenuItem,
             this.startPosYToolStripMenuItem,
             this.splinesUToolStripMenuItem,
             this.renderByChunkHToolStripMenuItem,
@@ -253,10 +257,42 @@ namespace HeroesPowerPlant
             this.BackgroundColorToolStripMenuItem.Text = "Background Color...";
             this.BackgroundColorToolStripMenuItem.Click += new System.EventHandler(this.BackgroundColorToolStripMenuItem_Click);
             // 
+            // selectionColorToolStripMenuItem
+            // 
+            this.selectionColorToolStripMenuItem.Name = "selectionColorToolStripMenuItem";
+            this.selectionColorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.selectionColorToolStripMenuItem.Text = "Selection Color...";
+            this.selectionColorToolStripMenuItem.Click += new System.EventHandler(this.selectionColorToolStripMenuItem_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(182, 6);
+            // 
+            // mouseModeToolStripMenuItem
+            // 
+            this.mouseModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.objectsToolStripMenuItem,
+            this.camerasToolStripMenuItem});
+            this.mouseModeToolStripMenuItem.Name = "mouseModeToolStripMenuItem";
+            this.mouseModeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.mouseModeToolStripMenuItem.Text = "Mouse Mode";
+            // 
+            // objectsToolStripMenuItem
+            // 
+            this.objectsToolStripMenuItem.Checked = true;
+            this.objectsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.objectsToolStripMenuItem.Name = "objectsToolStripMenuItem";
+            this.objectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectsToolStripMenuItem.Text = "Objects";
+            this.objectsToolStripMenuItem.Click += new System.EventHandler(this.objectsToolStripMenuItem_Click);
+            // 
+            // camerasToolStripMenuItem
+            // 
+            this.camerasToolStripMenuItem.Name = "camerasToolStripMenuItem";
+            this.camerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.camerasToolStripMenuItem.Text = "Cameras";
+            this.camerasToolStripMenuItem.Click += new System.EventHandler(this.camerasToolStripMenuItem_Click);
             // 
             // startPosYToolStripMenuItem
             // 
@@ -374,13 +410,6 @@ namespace HeroesPowerPlant
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
-            // selectionColorToolStripMenuItem
-            // 
-            this.selectionColorToolStripMenuItem.Name = "selectionColorToolStripMenuItem";
-            this.selectionColorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.selectionColorToolStripMenuItem.Text = "Selection Color...";
-            this.selectionColorToolStripMenuItem.Click += new System.EventHandler(this.selectionColorToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -446,6 +475,9 @@ namespace HeroesPowerPlant
         private ToolStripMenuItem graphicsModeToolStripMenuItem;
         private ToolStripMenuItem vSyncToolStripMenuItem;
         private ToolStripMenuItem selectionColorToolStripMenuItem;
+        private ToolStripMenuItem mouseModeToolStripMenuItem;
+        private ToolStripMenuItem objectsToolStripMenuItem;
+        private ToolStripMenuItem camerasToolStripMenuItem;
     }
 }
 

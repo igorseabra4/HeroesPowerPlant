@@ -25,17 +25,19 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Rend;
 
         public bool isSelected;
+
+        public BoundingBox boundingBox;
         
         public override string ToString()
         {
             return objectEntry.GetName() + (Link == 0 ? "" : $"({Link})");
         }
 
+        public abstract void CreateTransformMatrix();
+
         public abstract void Draw(bool drawEveryObject);
 
         public abstract void FindNewObjectManager();
-
-        public abstract void CreateTransformMatrix();
 
         public int GetTypeAsOne()
         {
@@ -46,8 +48,6 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             return Position.Length();
         }
-
-        public BoundingBox boundingBox;
 
         public float? IntersectsWith(Ray r)
         {

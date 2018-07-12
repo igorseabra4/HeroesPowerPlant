@@ -24,9 +24,9 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Position = Position;
             this.Rotation = Rotation;
 
-            sphereBound = new BoundingSphere(Position, Radius / 2);
+            sphereBound = new BoundingSphere(Position, Radius );
 
-            destinationMatrix = Matrix.Translation(XDestination, YDestination, ZDestination);
+            destinationMatrix = Matrix.Translation(XDestination * 2, YDestination * 2, ZDestination * 2);
 
             transformMatrix = Matrix.Scaling(Radius)
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))

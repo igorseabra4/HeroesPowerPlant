@@ -79,7 +79,12 @@ namespace HeroesPowerPlant
         {
             Program.splineEditor.Show();
         }
-        
+
+        private void cameraEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.cameraEditor.Show();
+        }
+
         public void EnableSplineEditor()
         {
             splineEditorToolStripMenuItem.Enabled = true;
@@ -94,10 +99,11 @@ namespace HeroesPowerPlant
         {
             if (e.Button == MouseButtons.Left)
             {
-                Rectangle r = new Rectangle(renderPanel.ClientRectangle.X, renderPanel.ClientRectangle.Y,
-                    renderPanel.ClientRectangle.Width, renderPanel.ClientRectangle.Height);
-
-                Program.layoutEditor.ScreenClicked(Ray.GetPickRay(e.Location.X, e.Location.Y, new Viewport(r), SharpRenderer.viewProjection));//new Ray(v, v2));
+                SharpRenderer.ScreenClicked(new Rectangle(
+                    renderPanel.ClientRectangle.X,
+                    renderPanel.ClientRectangle.Y,
+                    renderPanel.ClientRectangle.Width,
+                    renderPanel.ClientRectangle.Height), e.X, e.Y);
             }
         }
 
@@ -202,8 +208,8 @@ namespace HeroesPowerPlant
                 Program.layoutEditor.Show();
             else if (e.KeyCode == Keys.F6 & splineEditorToolStripMenuItem.Enabled)
                 Program.splineEditor.Show();
-            //    else if (keyState.IsKeyDown(Keys.F7) & oldKeyState.IsKeyUp(Keys.F7))
-            //        cameraEditor.Show();
+            else if (e.KeyCode == Keys.F7)
+                Program.cameraEditor.Show();
         }
 
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
@@ -269,13 +275,9 @@ namespace HeroesPowerPlant
         {
             wireframeFToolStripMenuItem.Checked = !wireframeFToolStripMenuItem.Checked;
             if (wireframeFToolStripMenuItem.Checked)
-            {
                 SharpRenderer.device.SetNormalFillMode(FillMode.Wireframe);
-            }
             else
-            {
                 SharpRenderer.device.SetNormalFillMode(FillMode.Solid);
-            }
         }
 
         private void BackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -294,6 +296,20 @@ namespace HeroesPowerPlant
                 SharpRenderer.selectedColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedColor.W);
                 LevelEditor.VisibilityFunctions.selectedChunkColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, LevelEditor.VisibilityFunctions.selectedChunkColor.W);
             }
+        }
+
+        private void objectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SharpRenderer.SetMouseModeObjects(true);
+            objectsToolStripMenuItem.Checked = true;
+            camerasToolStripMenuItem.Checked = false;
+        }
+        
+        private void camerasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SharpRenderer.SetMouseModeObjects(false);
+            camerasToolStripMenuItem.Checked = true;
+            objectsToolStripMenuItem.Checked = false;
         }
 
         private void startPosYToolStripMenuItem_Click(object sender, EventArgs e)
@@ -370,17 +386,14 @@ namespace HeroesPowerPlant
         private void ToggleShowObjects()
         {
             if (showObjectsGToolStripMenuItem.CheckState == CheckState.Checked)
-            {
-                showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
-            }
-            else if (showObjectsGToolStripMenuItem.CheckState == CheckState.Indeterminate)
-            {
                 showObjectsGToolStripMenuItem.CheckState = CheckState.Unchecked;
-            }
-            else if (showObjectsGToolStripMenuItem.CheckState == CheckState.Unchecked)
-            {
+            
+            else if (showObjectsGToolStripMenuItem.CheckState == CheckState.Indeterminate)
                 showObjectsGToolStripMenuItem.CheckState = CheckState.Checked;
-            }
+
+            else if (showObjectsGToolStripMenuItem.CheckState == CheckState.Unchecked)
+                showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
+
             SharpRenderer.SetShowObjects(showObjectsGToolStripMenuItem.CheckState);
         }
 

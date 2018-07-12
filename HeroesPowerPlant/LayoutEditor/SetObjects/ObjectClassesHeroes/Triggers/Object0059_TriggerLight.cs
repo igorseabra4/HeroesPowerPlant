@@ -28,57 +28,44 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             this.Position = Position;
             this.Rotation = Rotation;
+            
+            switch (TriggerShape)
+            {
+                case TriggerLightShape.Sphere:
+                    sphereBound = new BoundingSphere(Position, Radius_ScaleX);
+                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2);
+                    break;
+                case TriggerLightShape.Cube:
+                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, ScaleZ * 2);
+                    break;
+                case TriggerLightShape.Cylinder:
+                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, Radius_ScaleX * 2);
+                    break;
+                case TriggerLightShape.NotInUse:
+                    base.CreateTransformMatrix(Position, Rotation);
+                    return;
+            }
 
-            if (TriggerShape == TriggerLightShape.Cube)
-            {
-                transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, ScaleZ)
-                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                    * Matrix.Translation(Position);
-            }
-            else if (TriggerShape == TriggerLightShape.Sphere)
-            {
-                sphereBound = new BoundingSphere(Position, Radius_ScaleX / 2);
-
-                transformMatrix = Matrix.Scaling(Radius_ScaleX)
-                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                    * Matrix.Translation(Position);
-            }
-            else if (TriggerShape == TriggerLightShape.Cylinder)
-            {
-                transformMatrix = Matrix.Scaling(Radius_ScaleX, Height_ScaleY, Radius_ScaleX)
-                    * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                    * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                    * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                    * Matrix.Translation(Position);
-            }
-            else if (TriggerShape == TriggerLightShape.NotInUse)
-            {
-                base.CreateTransformMatrix(Position, Rotation);
-            }
+            transformMatrix = transformMatrix
+                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
+                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                * Matrix.Translation(Position);
         }
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
             if (TriggerShape == TriggerLightShape.Cube)
-            {
                 DrawCubeTrigger(transformMatrix, isSelected);
-            }
+            
             else if (TriggerShape == TriggerLightShape.Sphere)
-            {
                 DrawSphereTrigger(transformMatrix, isSelected);
-            }
+            
             else if (TriggerShape == TriggerLightShape.Cylinder)
-            {
-                DrawCylinder(transformMatrix, isSelected);
-            }
+                DrawCylinderTrigger(transformMatrix, isSelected);
+            
             else if (TriggerShape ==  TriggerLightShape.NotInUse)
-            {
                 base.Draw(modelNames, isSelected);
-            }
         }
 
         public enum NumberEnum

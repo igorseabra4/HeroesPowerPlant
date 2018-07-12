@@ -1,4 +1,4 @@
-	= Heroes Power Plant Release 6 BETA =
+	= Heroes Power Plant v 0.6 BETA =
 Please read all of this if you have no previous experience with Sonic Heroes/Shadow the Hedgehog level editing!
 
 	= Viewport =
@@ -30,6 +30,7 @@ The options to add and clear object ONEs let you pick ONE files containing (most
 	Options:
 - No culling (C): toggles backface culling
 - Wireframe (F): toggles wireframe mode
+- Mouse mode: allows you to choose between clicking to select layout objects or camera triggers.
 - Background color: allows you to choose a new background color for the view
 - Selection color: allows you to choose a new tint for selected objects
 - Start Pos (Y): toggles display of Start/End/Bragging positions from the Config Editor.
@@ -90,8 +91,7 @@ The collision editor allows you to import an OBJ file, which will be converted t
 - Open: opens a CL file and allows you to display or import an OBJ over it.
 - Close: closes the CL file so you can't display or edit it anymore.
 - Import OBJ: lets you choose an OBJ file to import and overwrite the current CL.
--- You can choose the maximum depth of the quadtree or let it be chosen automatically.
--- If you're looking at _xx (death) or _wt (water) models, normals are reversed, so you should disable culling as the models will show up upside down. Make sure to check "flip normals" when importing.
+-- You can choose the maximum depth of the quadtree or let it be chosen automatically (I recommend setting it to 5).
 -- Append one of the following letters to the mesh names (not material names, not texture names!) in your 3D model editor to set up collision flags:
  _a - water collision (for _wt.CL)
  _b - bingo slide
@@ -104,14 +104,16 @@ The collision editor allows you to import an OBJ file, which will be converted t
  _w - wall
  _x - death collision (for _xx.CL)
 - Note: if your collision model appears completely black after importing, just open the file again and it should display correctly.
+- If you're looking at _xx (death) or _wt (water) models, normals are reversed, so you should disable culling as the models will show up upside down.
+- To import _xx or _wt, append the appropriate flag to the mesh names, check "flip normals" and set the quadtree depth to 1 before importing.
 
 	= Layout Editor (F5) =
 The object layout editor allows you to add, remove and modify objects.
 Note: currently, adding new objects (or changing their types) to Shadow layouts is unsupported. You can try doing so, but the file certainly will not work ingame. Deleting, copying and editing existing ones is fine though.
 - You can open s*_*.bin files (from Heroes) or stg*_*.dat (from Shadow) or create new ones.
 - Objects will be displayed as small cubes. You can click on the objects to select them.
-- To render using their actual models, you must add the ONE which contains the DFF to the object ONEs (explained above).
-- If SONIC HEROES(TM) is running, you can get values from ingame or teleport yourself to an object's location (even for Shadow layouts!)
+- To render using their actual models, you must add the ONE archive which contains the DFF to the object ONEs (explained above).
+- If SONIC HEROES(TM) is running, you can get values from ingame or teleport yourself to an object's location (even if you're editing a Shadow layout!)
 - You can export and import the objects with their information to an INI file and import objects from another file without overwriting the currently open one, and OBJ files (in this case, a ring will be placed in each vertex, this is useful for importing lines of rings).
 - You can take a look at the Object Editing pages in Sonic Retro to understand a bit more about this.
 
@@ -124,12 +126,9 @@ The spline editor allows you to view, choose the type of, delete and import new 
 - If no splines are present, a null one will be created.
 
 	= Camera Editor (F7) =
-The camera editor is currently unavailable. It has been replaced with a live fire course for military androids. We apologize for the inconvenience and wish you the best of luck.
-
-But, if there were a camera editor, it would be like this:
 The camera layout editor allows you to add, remove and modify cameras.
 - You can open s*_cam.bin files or create new ones.
-- Camera triggers will be displayed as their shape; you can click on the center of the triggers to select them.
-- For the selected camera, the camera location will be displayed as a pink cube and points A, B and C will be displayed as red, green and blue cubes (as long as they're not at the origin).
+- Camera triggers will be displayed as their shape; you can click on the triggers to select them as long as the mouse mode is set to Camera.
+- For the selected camera, the camera location will be displayed as a pink cube and points A, B and C will be displayed as red, green and blue cubes.
 - Note that we don't know 100% about cameras yet, but if you take a look at the original camera files and the information on Sonic Retro you might be able to understand a bit of it.
 - Know something we don't? Tell us! Don't keep it to yourself.

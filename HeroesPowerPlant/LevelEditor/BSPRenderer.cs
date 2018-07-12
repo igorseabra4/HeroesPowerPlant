@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using SharpDX;
 using SharpDX.Direct3D11;
-using SharpDX.DXGI;
 using HeroesONELib;
 using RenderWareFile;
 using static HeroesPowerPlant.SharpRenderer;

@@ -10,19 +10,14 @@ namespace HeroesPowerPlant
         public static MainForm mainForm;
         public static AboutBox aboutBox;
 
-        public static ReadWriteProcess MemManager = new ReadWriteProcess();
-
+        public static ReadWriteProcess MemManager;
         public static ViewConfig viewConfig;
         public static Config.ConfigEditor configEditor;
         public static LevelEditor.LevelEditor levelEditor;
         public static CollisionEditor.CollisionEditor collisionEditor;
         public static LayoutEditor.LayoutEditor layoutEditor;
-
         public static Config.SplineEditor splineEditor;
-
-
-
-
+        public static CameraEditor.CameraEditor cameraEditor;
 
         /// <summary>
         /// Ponto de entrada principal para o aplicativo.
@@ -37,16 +32,15 @@ namespace HeroesPowerPlant
 
             mainForm = new MainForm();
             aboutBox = new AboutBox();
-
+            MemManager = new ReadWriteProcess();
             viewConfig = new ViewConfig();
             configEditor = new Config.ConfigEditor();
             levelEditor = new LevelEditor.LevelEditor();
             collisionEditor = new CollisionEditor.CollisionEditor();
             layoutEditor = new LayoutEditor.LayoutEditor();
-
             splineEditor = new Config.SplineEditor();
-
-
+            cameraEditor = new CameraEditor.CameraEditor();
+            
             Application.Run(mainForm);
         }
     }

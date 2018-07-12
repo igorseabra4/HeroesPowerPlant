@@ -109,7 +109,7 @@ namespace HeroesPowerPlant.Config
                 world = Matrix.Scaling(20f, 20f, 30f) * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation)) * Matrix.Translation(Position);
             }
             
-            public void Render(Matrix viewProjection)
+            public void Render()
             {
                 renderData.worldViewProjection = world * viewProjection;
 
@@ -154,9 +154,9 @@ namespace HeroesPowerPlant.Config
                 entryRenderer.NewMatrix(Position, Pitch);
             }
 
-            public void Render(Matrix viewProjection)
+            public void Render()
             {
-                entryRenderer.Render(viewProjection);
+                entryRenderer.Render();
             }
         }
         
@@ -164,11 +164,11 @@ namespace HeroesPowerPlant.Config
         public List<PositionEntry> End_Positions = new List<PositionEntry>();
         public List<PositionEntry> Brag_Positions = new List<PositionEntry>();
 
-        public void RenderStartPositions( Matrix viewProjection)
+        public void RenderStartPositions()
         {
-            foreach (PositionEntry p in Start_Positions) p.Render(viewProjection);
-            foreach (PositionEntry p in End_Positions) p.Render(viewProjection);
-            foreach (PositionEntry p in Brag_Positions) p.Render(viewProjection);
+            foreach (PositionEntry p in Start_Positions) p.Render();
+            foreach (PositionEntry p in End_Positions) p.Render();
+            foreach (PositionEntry p in Brag_Positions) p.Render();
         }
 
         private void Clean_File()

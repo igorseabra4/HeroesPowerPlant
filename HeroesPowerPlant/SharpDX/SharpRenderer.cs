@@ -6,6 +6,7 @@ using SharpDX.Windows;
 using System.Collections.Generic;
 using HeroesPowerPlant.CollisionEditor;
 using HeroesPowerPlant.LevelEditor;
+using System;
 
 namespace HeroesPowerPlant
 {
@@ -136,7 +137,7 @@ namespace HeroesPowerPlant
 
         private static DefaultRenderData cylinderRenderData;
 
-        public static void DrawCylinder(Matrix world, bool isSelected)// = false)
+        public static void DrawCylinderTrigger(Matrix world, bool isSelected)// = false)
         {
             cylinderRenderData.worldViewProjection = world * viewProjection;
 
@@ -189,6 +190,7 @@ namespace HeroesPowerPlant
         private static bool showQuadtree = false;
         private static CheckState showObjects = CheckState.Indeterminate;
         private static bool showCameras = true;
+        private static bool mouseModeObjects = true;
 
         public static void SetShowStartPos(bool value)
         {
@@ -223,6 +225,11 @@ namespace HeroesPowerPlant
         public static void SetShowCameras(bool value)
         {
             showCameras = value;
+        }
+
+        public static void SetMouseModeObjects(bool value)
+        {
+            mouseModeObjects = value;
         }
 
         public static SharpMesh Cube;
@@ -265,6 +272,15 @@ namespace HeroesPowerPlant
                 else if (i == 2) Pyramid = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
                 else Sphere = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
             }
+        }
+
+        public static void ScreenClicked(Rectangle viewRectangle, int X, int Y)
+        {
+            Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
+            if (mouseModeObjects)
+                Program.layoutEditor.ScreenClicked(ray);
+            else
+                Program.cameraEditor.ScreenClicked(ray);
         }
 
         public static Matrix viewProjection;
@@ -316,14 +332,17 @@ namespace HeroesPowerPlant
                 else if (showObjects == CheckState.Indeterminate)
                     Program.layoutEditor.layoutSystem.RenderAllSetObjects(false);
 
+                if (showCameras)
+                    Program.cameraEditor.RenderAllCameras();
+
                 if (showStartPositions)
-                    Program.configEditor.RenderStartPositions(viewProjection);
+                    Program.configEditor.RenderStartPositions();
 
                 if (showSplines)
-                    Program.splineEditor.RenderSplines(viewProjection);
+                    Program.splineEditor.RenderSplines();
 
                 if (showQuadtree)
-                    CollisionRendering.RenderQuadTree(viewProjection);
+                    CollisionRendering.RenderQuadTree();
                                 
                 //present
                 device.Present();
@@ -342,8 +361,7 @@ namespace HeroesPowerPlant
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
 
-            if (CollisionRendering.collisionMesh != null)
-                CollisionRendering.collisionMesh.Dispose();
+            CollisionRendering.Dispose();
 
             if (BSPRenderer.whiteDefault != null)
                 BSPRenderer.whiteDefault.Dispose();

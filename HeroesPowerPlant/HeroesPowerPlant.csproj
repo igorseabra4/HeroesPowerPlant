@@ -96,6 +96,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CameraEditor\CameraEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CameraEditor\CameraEditor.designer.cs">
+      <DependentUpon>CameraEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraEditor\CameraEditorFunctions.cs" />
+    <Compile Include="CameraEditor\CameraEntry.cs" />
     <Compile Include="CollisionEditor\CLFile.cs" />
     <Compile Include="CollisionEditor\CLQuadNode.cs" />
     <Compile Include="CollisionEditor\CLTriangle.cs" />
@@ -136,7 +144,7 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List13\Object1303_MovingCannon.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0010_Ring.cs" />
     <Compile Include="LayoutEditor\SetObjects\RingType.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0066_TriggerBobJump.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0066_TriggerBobJump.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0584_GiantDice.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List09\Object0900_Frog.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ItemType.cs" />
@@ -166,17 +174,17 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object002E_Fan.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0031_Case.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0032_WarpFlower.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0056_TriggerTalk.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0059_TriggerLight.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0080_TriggerTeleport.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0056_TriggerTalk.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0059_TriggerLight.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0080_TriggerTeleport.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Box.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_DashPadRing.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_TriggerCommon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object00_TriggerCommon.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Weight.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0102_TruckRail.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0103_TruckPath.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0105_MovingRuin.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0108_TriggerRuins.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0108_TriggerRuins.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0180_FlowerPatch.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0182_Whale.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0183_Seagulls.cs" />
@@ -186,8 +194,8 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0200_CrumbleStonePillar.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0204_Kaos.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object020A_ColliQuake.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object020B_EventActivator.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object020C_TriggerKaos.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object020B_EventActivator.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object020C_TriggerKaos.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0300_AcceleratorRoad.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0302_RoadCap.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0308_Accelerator.cs" />
@@ -267,12 +275,12 @@
     <Compile Include="MainForm\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other\MemoryFunctions.cs" />
-    <Compile Include="Other\PowerPlantPaths.cs" />
-    <Compile Include="Other\ReadWriteCommon.cs" />
-    <Compile Include="Other\ReadWriteMemory.cs" />
+    <Compile Include="Shared\MemoryFunctions.cs" />
+    <Compile Include="Shared\PowerPlantPaths.cs" />
+    <Compile Include="Shared\ReadWriteCommon.cs" />
+    <Compile Include="Shared\ReadWriteMemory.cs" />
     <Compile Include="CollisionEditor\CollisionRendering.cs" />
-    <Compile Include="Other\HeroesONEFile.cs" />
+    <Compile Include="Shared\HeroesONEFile.cs" />
     <Compile Include="LevelEditor\ColladaFunctions.cs" />
     <Compile Include="LevelEditor\collada_schema_1_4.cs" />
     <Compile Include="LevelEditor\VisibilityFunctions.cs" />
@@ -302,6 +310,9 @@
     <Compile Include="MainForm\ViewConfig.designer.cs">
       <DependentUpon>ViewConfig.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CameraEditor\CameraEditor.resx">
+      <DependentUpon>CameraEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CollisionEditor\CollisionEditor.resx">
       <DependentUpon>CollisionEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -358,9 +369,7 @@
     <None Include="Resources\Lists\HeroesObjectList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Lists\ObjectMiscHelper.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\Lists\ObjectMiscHelper.ini" />
     <None Include="Resources\Lists\ShadowObjectList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -413,6 +422,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\SharpDX\Shader_Tinted.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Generic Stage Injection Mod\readme.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tools\HeroesSETIDTBLEditor.exe">

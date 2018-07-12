@@ -20,7 +20,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private static Matrix quadTreeTranslation = Matrix.Identity;
 
-        public static void RenderQuadTree(Matrix viewProjection)
+        public static void RenderQuadTree()
         {
             if (quadTreeMesh == null)
                 return;
@@ -63,7 +63,7 @@ namespace HeroesPowerPlant.CollisionEditor
             secondQuadTreeMesh.Draw();
         }
 
-        public static SharpMesh collisionMesh;
+        private static SharpMesh collisionMesh;
         private static CollisionRenderData sceneInformation;
 
         public static void RenderCollisionModel(Matrix viewProjection, Vector3 lightDirection, Vector3 lightDirection2)
@@ -89,6 +89,16 @@ namespace HeroesPowerPlant.CollisionEditor
             collisionShader.Apply();
 
             collisionMesh.Draw();
+        }
+
+        public static void Dispose()
+        {
+            if (collisionMesh != null)
+                collisionMesh.Dispose();
+            if (quadTreeMesh != null)
+                quadTreeMesh.Dispose();
+            if (secondQuadTreeMesh != null)
+                secondQuadTreeMesh.Dispose();
         }
         
         public static CLFile LoadCLFile(string FileName)

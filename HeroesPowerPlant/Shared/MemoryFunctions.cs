@@ -56,5 +56,27 @@ namespace HeroesPowerPlant
             Pointer2RY = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x38);
             Pointer2RZ = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x3c);
         }
+
+        public static bool Teleport(float X, float Y, float Z)
+        {
+            if (Program.MemManager.ProcessIsAttached)
+            {
+                DeterminePointers();
+
+                Program.MemManager.Write4bytes(Pointer0X, BitConverter.GetBytes(X));
+                Program.MemManager.Write4bytes(Pointer0Y, BitConverter.GetBytes(Y));
+                Program.MemManager.Write4bytes(Pointer0Z, BitConverter.GetBytes(Z));
+                Program.MemManager.Write4bytes(Pointer1X, BitConverter.GetBytes(X));
+                Program.MemManager.Write4bytes(Pointer1Y, BitConverter.GetBytes(Y));
+                Program.MemManager.Write4bytes(Pointer1Z, BitConverter.GetBytes(Z));
+                Program.MemManager.Write4bytes(Pointer2X, BitConverter.GetBytes(X));
+                Program.MemManager.Write4bytes(Pointer2Y, BitConverter.GetBytes(Y));
+                Program.MemManager.Write4bytes(Pointer2Z, BitConverter.GetBytes(Z));
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

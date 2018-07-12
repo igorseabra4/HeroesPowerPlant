@@ -301,6 +301,17 @@ namespace HeroesPowerPlant.LayoutEditor
                 MessageBox.Show("Error writing data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        private void buttonDrop_Click(object sender, EventArgs e)
+        {
+            layoutSystem.Drop();
+            UpdateDisplayData();
+        }
+
+        public string GetOpenFileName()
+        {
+            return layoutSystem.CurrentlyOpenFileName;
+        }
+
         public void OpenLayoutFile(string fileName)
         {
             layoutSystem.OpenLayoutFile(fileName);

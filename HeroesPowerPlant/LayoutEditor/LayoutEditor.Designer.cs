@@ -82,6 +82,7 @@
             this.ButtonGetSpeed = new System.Windows.Forms.Button();
             this.RichTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.PropertyGridMisc = new System.Windows.Forms.PropertyGrid();
+            this.buttonDrop = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -650,11 +651,22 @@
             this.PropertyGridMisc.TabIndex = 78;
             this.PropertyGridMisc.ToolbarVisible = false;
             // 
+            // buttonDrop
+            // 
+            this.buttonDrop.Location = new System.Drawing.Point(591, 88);
+            this.buttonDrop.Name = "buttonDrop";
+            this.buttonDrop.Size = new System.Drawing.Size(69, 20);
+            this.buttonDrop.TabIndex = 79;
+            this.buttonDrop.Text = "Drop";
+            this.buttonDrop.UseVisualStyleBackColor = true;
+            this.buttonDrop.Click += new System.EventHandler(this.buttonDrop_Click);
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 454);
+            this.Controls.Add(this.buttonDrop);
             this.Controls.Add(this.PropertyGridMisc);
             this.Controls.Add(this.RichTextBoxDescription);
             this.Controls.Add(this.GroupBoxGameStuff);
@@ -760,5 +772,6 @@
         internal System.Windows.Forms.PropertyGrid PropertyGridMisc;
         private System.Windows.Forms.ToolStripMenuItem byIDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem byDistanceFromOriginToolStripMenuItem;
+        private System.Windows.Forms.Button buttonDrop;
     }
 }

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static HeroesPowerPlant.CollisionEditor.CollisionFunctions;
-using static HeroesPowerPlant.CollisionEditor.CollisionRendering;
+﻿using static HeroesPowerPlant.CollisionEditor.CollisionFunctions;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
     public class CollisionEditorSystem
     {
         public string CurrentCLfileName { get => CurrentCLfileName; private set => CurrentCLfileName = value; }
-        public int NumVertices { get => NumVertices; private set => NumVertices = value; }
-        public int NumTriangles { get => NumTriangles; private set => NumTriangles = value; }
-        public int NumQuadNodes { get => NumQuadNodes; private set => NumQuadNodes = value; }
-        public byte DepthLevel { get; private set; }
+        public int NumVertices { get => data.numVertices; }
+        public int NumTriangles { get => data.numTriangles; }
+        public int NumQuadNodes { get => data.numQuadnodes; }
+        public byte DepthLevel { get => data.MaxDepth; }
+
+        private CLFile data;
 
         public void Import(string sourceOBJfile, byte depthLevel)
         {
@@ -34,14 +30,13 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public void ConvertCLtoOBJ(string fileName)
         {
-            ConvertCLtoOBJ(fileName);
+            CollisionFunctions.ConvertCLtoOBJ(fileName, ref data);
         }
 
         public void Close()
         {
             CurrentCLfileName = null;
-            if (collisionMesh != null)
-                collisionMesh.Dispose();
+            CollisionRendering.Dispose();
         }
 
         public bool HasOpenedFile()
@@ -51,15 +46,9 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public void LoadCLFile()
         {
-            if (collisionMesh != null)
-                collisionMesh.Dispose();
+            CollisionRendering.Dispose();
 
-            CLFile data = CollisionRendering.LoadCLFile(CurrentCLfileName);
-
-            NumVertices = data.numVertices;
-            NumTriangles = data.numTriangles;
-            NumQuadNodes = data.numQuadnodes;
-            DepthLevel = data.MaxDepth;
+            data = CollisionRendering.LoadCLFile(CurrentCLfileName);
         }
     }
 }

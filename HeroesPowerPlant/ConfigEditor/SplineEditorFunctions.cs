@@ -35,7 +35,7 @@ namespace HeroesPowerPlant.Config
                     new SharpSubSet(0, Points.Length, null) }, SharpDX.Direct3D.PrimitiveTopology.LineStrip);
             }
 
-            public void Render(Matrix viewProjection)
+            public void Render()
             {
                 if (isSelected)
                     renderData.Color = new Vector4(0.3f, 0.9f, 0.5f, 1f);
@@ -58,9 +58,9 @@ namespace HeroesPowerPlant.Config
             }
         }
 
-        public void RenderSplines(Matrix viewProjection)
+        public void RenderSplines()
         {
-            foreach (Spline s in SplineList) s.Render(viewProjection);
+            foreach (Spline s in SplineList) s.Render();
         }
 
         public List<Spline> SplineList = new List<Spline>();

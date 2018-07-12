@@ -44,17 +44,17 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public SetObject GetSelectedObject()
         {
-            if (CurrentlySelectedIndex != -1)
-                return setObjects[CurrentlySelectedIndex];
-            else
+            if (CurrentlySelectedIndex < 0)
                 return null;
+
+            return setObjects[CurrentlySelectedIndex];
         }
 
         public ObjectEntry GetSelectedSetObjectEntry()
         {
-            if (CurrentlySelectedIndex != -1)
-                return setObjects[CurrentlySelectedIndex].objectEntry;
-            else return null;
+            if (CurrentlySelectedIndex < 0)
+                return null;
+            return setObjects[CurrentlySelectedIndex].objectEntry;
         }
 
         public int GetSelectedIndex()
@@ -221,9 +221,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool CopySetObject()
         {
-            SetObject original = GetSelectedObject();
-            if (original == null) return false;
+            if (currentlySelectedIndex < 0)
+                return false;
 
+            SetObject original = GetSelectedObject();
             SetObject destination;
 
             if (isShadow)
@@ -261,8 +262,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void ComboBoxObjectChanged(ObjectEntry entry)
         {
+            if (currentlySelectedIndex < 0)
+                return;
+
             SetObject current = GetSelectedObject();
-            if (current == null) return;
 
             current.objectEntry = entry;
             current.FindNewObjectManager();
@@ -271,7 +274,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void SetObjectPosition(float x, float y, float z)
         {
-            if (currentlySelectedIndex <= 0) return;
+            if (currentlySelectedIndex < 0) return;
 
             GetSelectedObject().Position = new Vector3(x, y, z);
             GetSelectedObject().CreateTransformMatrix();
@@ -279,7 +282,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void SetObjectRotation(float x, float y, float z)
         {
-            if (currentlySelectedIndex <= 0) return;
+            if (currentlySelectedIndex < 0) return;
 
             if (isShadow)
                 GetSelectedObject().Rotation = new Vector3(x, y, z);
@@ -291,27 +294,69 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void SetObjectRotationDefault(float x, float y, float z)
         {
-            if (currentlySelectedIndex <= 0) return;
+            if (currentlySelectedIndex < 0) return;
             GetSelectedObject().Rotation = new Vector3(x, y, z);
             GetSelectedObject().CreateTransformMatrix();
         }
 
         public void SetObjectLink(byte value)
         {
-            if (currentlySelectedIndex <= 0) return;
+            if (currentlySelectedIndex < 0) return;
             GetSelectedObject().Link = value;
         }
 
         public void SetObjectRend(byte value)
         {
-            if (currentlySelectedIndex <= 0) return;
+            if (currentlySelectedIndex < 0) return;
             GetSelectedObject().Rend = value;
+        }
+
+        public void Drop()
+        {
+            if (currentlySelectedIndex < 0) return;
+
+            Ray ray = new Ray(GetSelectedObject().Position, Vector3.Down);
+            float smallerDistance = 10000f;
+            bool change = false;
+
+            for (int i = 0; i < BSPRenderer.BSPStream.Count; i++)
+            {
+                foreach (RenderWareFile.RWSection rw in BSPRenderer.BSPStream[i].GetAsRWSectionArray())
+                {
+                    if (rw is RenderWareFile.Sections.World_000B world)
+                    {
+                        if (GetSelectedObject().Position.X < world.worldStruct.boxMinimum.X |
+                            GetSelectedObject().Position.Y < world.worldStruct.boxMinimum.Y |
+                            GetSelectedObject().Position.Z < world.worldStruct.boxMinimum.Z |
+                            GetSelectedObject().Position.X > world.worldStruct.boxMaximum.X |
+                            GetSelectedObject().Position.Y > world.worldStruct.boxMaximum.Y |
+                            GetSelectedObject().Position.Z > world.worldStruct.boxMaximum.Z) continue;
+                    }
+                }
+
+                foreach (RenderWareFile.Triangle t in BSPRenderer.BSPStream[i].triangleList)
+                {  
+                    Vector3 v1 = BSPRenderer.BSPStream[i].vertexList[t.vertex1];
+                    Vector3 v2 = BSPRenderer.BSPStream[i].vertexList[t.vertex2];
+                    Vector3 v3 = BSPRenderer.BSPStream[i].vertexList[t.vertex3];
+
+                    if (ray.Intersects(ref v1, ref v2, ref v3, out float distance))
+                        if (distance < smallerDistance)
+                        {
+                            smallerDistance = distance;
+                            change = true;
+                        }
+                }
+            }
+
+            if (change)
+                GetSelectedObject().Position.Y -= smallerDistance;
         }
 
         #endregion
 
         #region GUI Return Methods
-        
+
         public decimal GetPosX()
         {
             return (decimal)GetSelectedObject().Position.X;
@@ -381,7 +426,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 float? distance = setObjects[i].IntersectsWith(r);
                 if (distance != null)
                     if (distance < smallerDistance)
+                    {
+                        smallerDistance = (float)distance;
                         index = i;
+                    }
             }
 
             return index;
@@ -502,24 +550,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool Teleport()
         {
-            if (Program.MemManager.ProcessIsAttached)
-            {
-                MemoryFunctions.DeterminePointers();
-
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer0X, BitConverter.GetBytes(GetSelectedObject().Position.X));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer0Y, BitConverter.GetBytes(GetSelectedObject().Position.Y));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer0Z, BitConverter.GetBytes(GetSelectedObject().Position.Z));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer1X, BitConverter.GetBytes(GetSelectedObject().Position.X));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer1Y, BitConverter.GetBytes(GetSelectedObject().Position.Y));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer1Z, BitConverter.GetBytes(GetSelectedObject().Position.Z));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer2X, BitConverter.GetBytes(GetSelectedObject().Position.X));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer2Y, BitConverter.GetBytes(GetSelectedObject().Position.Y));
-                Program.MemManager.Write4bytes(MemoryFunctions.Pointer2Z, BitConverter.GetBytes(GetSelectedObject().Position.Z));
-
-                return true;
-            }
-
-            return false;
+            return MemoryFunctions.Teleport(GetSelectedObject().Position.X, GetSelectedObject().Position.Y, GetSelectedObject().Position.Z);
         }
         #endregion
     }
