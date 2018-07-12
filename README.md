@@ -6,6 +6,6 @@ Editors included:
 *  Visibility Editor (Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms))
 *  Collision Editor (Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms))
 *  Object Layout Editor (Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms))
-*  Camera Editor (not yet implemented)
+*  Camera Editor (Sonic Heroes (all platforms))
 *  Start/Ending/Bragging Position Editor (for Sonic Heroes (PC) only, use with Generic Stage Injection Mod)
 *  Spline Editor (for Sonic Heroes (PC) only, use with Generic Stage Injection Mod)
