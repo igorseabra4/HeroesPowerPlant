@@ -12,11 +12,11 @@ namespace HeroesPowerPlant.CameraEditor
         public CameraEditor()
         {
             InitializeComponent();
-            numericUpDown1.Maximum = Decimal.MaxValue;
-            numericUpDown2.Maximum = Decimal.MaxValue;
+            numericUpDownCamType.Maximum = Decimal.MaxValue;
+            numericUpDownCamSpeed.Maximum = Decimal.MaxValue;
             numericUpDown3.Maximum = Decimal.MaxValue;
-            numericUpDown4.Maximum = Decimal.MaxValue;
-            numericUpDown5.Maximum = Decimal.MaxValue;
+            numericUpDownActType.Maximum = Decimal.MaxValue;
+            numericUpDownTrigShape.Maximum = Decimal.MaxValue;
             numericUpDownColPosX.Maximum = Decimal.MaxValue;
             numericUpDownColPosY.Maximum = Decimal.MaxValue;
             numericUpDownColPosZ.Maximum = Decimal.MaxValue;
@@ -52,11 +52,11 @@ namespace HeroesPowerPlant.CameraEditor
             numericUpDown38.Maximum = Decimal.MaxValue;
             numericUpDown39.Maximum = Decimal.MaxValue;
 
-            numericUpDown1.Minimum = Decimal.MinValue;
-            numericUpDown2.Minimum = Decimal.MinValue;
+            numericUpDownCamType.Minimum = Decimal.MinValue;
+            numericUpDownCamSpeed.Minimum = Decimal.MinValue;
             numericUpDown3.Minimum = Decimal.MinValue;
-            numericUpDown4.Minimum = Decimal.MinValue;
-            numericUpDown5.Minimum = Decimal.MinValue;
+            numericUpDownActType.Minimum = Decimal.MinValue;
+            numericUpDownTrigShape.Minimum = Decimal.MinValue;
             numericUpDownColPosX.Minimum = Decimal.MinValue;
             numericUpDownColPosY.Minimum = Decimal.MinValue;
             numericUpDownColPosZ.Minimum = Decimal.MinValue;
@@ -116,7 +116,7 @@ namespace HeroesPowerPlant.CameraEditor
             currentCameraFile = null;
             ListBoxCameras.Items.Clear();
             toolStripStatusFile.Text = "No file loaded";
-            LabelCameraCount.Text = "0 cameras";
+            UpdateLabelCameraCount();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -136,10 +136,10 @@ namespace HeroesPowerPlant.CameraEditor
             currentCameraFile = fileName;
 
             ListBoxCameras.Items.Clear();
-            ListBoxCameras.Items.AddRange(importCameraFile(currentCameraFile).ToArray());
+            ListBoxCameras.Items.AddRange(ImportCameraFile(currentCameraFile).ToArray());
 
             toolStripStatusFile.Text = "Loaded " + currentCameraFile;
-            LabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
+            UpdateLabelCameraCount();
 
             ListBoxCameras.SelectedIndex = -1;
         }
@@ -166,7 +166,7 @@ namespace HeroesPowerPlant.CameraEditor
             }
         }
 
-        bool hasRemoved = false;
+        private bool hasRemoved = false;
 
         private void ListBoxCameras_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -186,11 +186,11 @@ namespace HeroesPowerPlant.CameraEditor
 
                     current.isSelected = true;
 
-                    numericUpDown1.Value = current.CameraType;
-                    numericUpDown2.Value = current.CameraSpeed;
+                    numericUpDownCamType.Value = current.CameraType;
+                    numericUpDownCamSpeed.Value = current.CameraSpeed;
                     numericUpDown3.Value = current.Integer3;
-                    numericUpDown4.Value = current.ActivationType;
-                    numericUpDown5.Value = current.TriggerShape;
+                    numericUpDownActType.Value = current.ActivationType;
+                    numericUpDownTrigShape.Value = current.TriggerShape;
                     numericUpDownColPosX.Value = (decimal)current.TriggerPosition.X;
                     numericUpDownColPosY.Value = (decimal)current.TriggerPosition.Y;
                     numericUpDownColPosZ.Value = (decimal)current.TriggerPosition.Z;
@@ -232,8 +232,7 @@ namespace HeroesPowerPlant.CameraEditor
                 }
             }
 
-            LabelCameraCount.Text = "Camera " + (CurrentlySelectedCamera + 1).ToString() + "/" + ListBoxCameras.Items.Count.ToString();
-
+            UpdateLabelCameraCount();
             ProgramIsChangingStuff = false;
         }
 
@@ -243,11 +242,11 @@ namespace HeroesPowerPlant.CameraEditor
             {
                 CameraHeroes current = ListBoxCameras.Items[CurrentlySelectedCamera] as CameraHeroes;
 
-                current.CameraType = (int)numericUpDown1.Value;
-                current.CameraSpeed = (int)numericUpDown2.Value;
+                current.CameraType = (int)numericUpDownCamType.Value;
+                current.CameraSpeed = (int)numericUpDownCamSpeed.Value;
                 current.Integer3 = (int)numericUpDown3.Value;
-                current.ActivationType = (int)numericUpDown4.Value;
-                current.TriggerShape = (int)numericUpDown5.Value;
+                current.ActivationType = (int)numericUpDownActType.Value;
+                current.TriggerShape = (int)numericUpDownTrigShape.Value;
                 current.TriggerPosition = new Vector3((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value);
                 current.TriggerRotX = ReadWriteCommon.DegreesToBAMS((float)numericUpDownColRotX.Value);
                 current.TriggerRotY = ReadWriteCommon.DegreesToBAMS((float)numericUpDownColRotY.Value);
@@ -281,35 +280,48 @@ namespace HeroesPowerPlant.CameraEditor
             CameraHeroes newCamera = new CameraHeroes() { TriggerPosition = SharpRenderer.Camera.GetPosition() };
             ListBoxCameras.Items.Add(newCamera);
             ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
-            LabelCameraCount.Text = "Camera " + (CurrentlySelectedCamera + 1).ToString() + "/" + ListBoxCameras.Items.Count.ToString();
+            UpdateLabelCameraCount();
+        }
+
+        private void buttonCopy_Click(object sender, EventArgs e)
+        {
+            CameraHeroes newCamera = new CameraHeroes((CameraHeroes)ListBoxCameras.Items[CurrentlySelectedCamera]);
+            newCamera.CreateTransformMatrix();
+            ListBoxCameras.Items.Add(newCamera);
+            ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
+            UpdateLabelCameraCount();
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
+            if (CurrentlySelectedCamera == -1)
+                return;
+
             int Save = CurrentlySelectedCamera;
+            hasRemoved = true;
+            ListBoxCameras.Items.RemoveAt(CurrentlySelectedCamera);
+            
+            if (Save < ListBoxCameras.Items.Count)
+                ListBoxCameras.SelectedIndex = Save;
+            else
+                ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
 
-            if (CurrentlySelectedCamera != -1)
-            {
-                hasRemoved = true;
-                ListBoxCameras.Items.RemoveAt(CurrentlySelectedCamera);
-                
-                if (ListBoxCameras.Items.Count > 0)
-                    LabelCameraCount.Text = "Camera " + (CurrentlySelectedCamera + 1).ToString() + "/" + ListBoxCameras.Items.Count.ToString();
-                else
-                    LabelCameraCount.Text = "0 cameras";
-
-                if (Save < ListBoxCameras.Items.Count)
-                    ListBoxCameras.SelectedIndex = Save;
-                else
-                    ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
-            }
+            UpdateLabelCameraCount();
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
             hasRemoved = true;
             ListBoxCameras.Items.Clear();
-            LabelCameraCount.Text = "0 cameras";
+            UpdateLabelCameraCount();
+        }
+
+        private void UpdateLabelCameraCount()
+        {
+            if (CurrentlySelectedCamera == -1)
+                LabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
+            else if (ListBoxCameras.Items.Count > 0)
+                LabelCameraCount.Text = "Camera " + (CurrentlySelectedCamera + 1).ToString() + "/" + ListBoxCameras.Items.Count.ToString();
         }
 
         private void buttonTeleportToTrigger_Click(object sender, EventArgs e)

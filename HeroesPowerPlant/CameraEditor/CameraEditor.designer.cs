@@ -19,11 +19,11 @@
         {
             this.ListBoxCameras = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownTrigShape = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownActType = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownCamSpeed = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownCamType = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.numericUpDownColPosZ = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownColPosY = new System.Windows.Forms.NumericUpDown();
@@ -94,12 +94,13 @@
             this.buttonGetView = new System.Windows.Forms.Button();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.buttonComeTrigger = new System.Windows.Forms.Button();
+            this.buttonCopy = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrigShape)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownActType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamType)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownColPosZ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownColPosY)).BeginInit();
@@ -157,17 +158,17 @@
             this.ListBoxCameras.FormattingEnabled = true;
             this.ListBoxCameras.Location = new System.Drawing.Point(12, 27);
             this.ListBoxCameras.Name = "ListBoxCameras";
-            this.ListBoxCameras.Size = new System.Drawing.Size(147, 355);
+            this.ListBoxCameras.Size = new System.Drawing.Size(147, 329);
             this.ListBoxCameras.TabIndex = 0;
             this.ListBoxCameras.SelectedIndexChanged += new System.EventHandler(this.ListBoxCameras_SelectedIndexChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.numericUpDown5);
-            this.groupBox1.Controls.Add(this.numericUpDown4);
+            this.groupBox1.Controls.Add(this.numericUpDownTrigShape);
+            this.groupBox1.Controls.Add(this.numericUpDownActType);
             this.groupBox1.Controls.Add(this.numericUpDown3);
-            this.groupBox1.Controls.Add(this.numericUpDown2);
-            this.groupBox1.Controls.Add(this.numericUpDown1);
+            this.groupBox1.Controls.Add(this.numericUpDownCamSpeed);
+            this.groupBox1.Controls.Add(this.numericUpDownCamType);
             this.groupBox1.Location = new System.Drawing.Point(165, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(491, 46);
@@ -175,45 +176,45 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Camera Settings (Type, Speed, Unknown, Activation, Trigger)";
             // 
-            // numericUpDown5
+            // numericUpDownTrigShape
             // 
-            this.numericUpDown5.Location = new System.Drawing.Point(394, 19);
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown5.TabIndex = 2;
-            this.numericUpDown5.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownTrigShape.Location = new System.Drawing.Point(394, 19);
+            this.numericUpDownTrigShape.Name = "numericUpDownTrigShape";
+            this.numericUpDownTrigShape.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTrigShape.TabIndex = 5;
+            this.numericUpDownTrigShape.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
-            // numericUpDown4
+            // numericUpDownActType
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(297, 19);
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown4.TabIndex = 2;
-            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownActType.Location = new System.Drawing.Point(297, 19);
+            this.numericUpDownActType.Name = "numericUpDownActType";
+            this.numericUpDownActType.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownActType.TabIndex = 4;
+            this.numericUpDownActType.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown3
             // 
             this.numericUpDown3.Location = new System.Drawing.Point(200, 19);
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown3.TabIndex = 2;
+            this.numericUpDown3.TabIndex = 3;
             this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
-            // numericUpDown2
+            // numericUpDownCamSpeed
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(103, 19);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown2.TabIndex = 2;
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownCamSpeed.Location = new System.Drawing.Point(103, 19);
+            this.numericUpDownCamSpeed.Name = "numericUpDownCamSpeed";
+            this.numericUpDownCamSpeed.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownCamSpeed.TabIndex = 2;
+            this.numericUpDownCamSpeed.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
-            // numericUpDown1
+            // numericUpDownCamType
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(6, 19);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown1.TabIndex = 2;
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownCamType.Location = new System.Drawing.Point(6, 19);
+            this.numericUpDownCamType.Name = "numericUpDownCamType";
+            this.numericUpDownCamType.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownCamType.TabIndex = 1;
+            this.numericUpDownCamType.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // groupBox2
             // 
@@ -637,7 +638,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(12, 388);
+            this.buttonAdd.Location = new System.Drawing.Point(12, 359);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(147, 23);
             this.buttonAdd.TabIndex = 5;
@@ -883,11 +884,22 @@
             this.buttonComeTrigger.UseVisualStyleBackColor = true;
             this.buttonComeTrigger.Click += new System.EventHandler(this.buttonComeTrigger_Click);
             // 
+            // buttonCopy
+            // 
+            this.buttonCopy.Location = new System.Drawing.Point(12, 388);
+            this.buttonCopy.Name = "buttonCopy";
+            this.buttonCopy.Size = new System.Drawing.Size(147, 23);
+            this.buttonCopy.TabIndex = 16;
+            this.buttonCopy.Text = "Copy";
+            this.buttonCopy.UseVisualStyleBackColor = true;
+            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+            // 
             // CameraEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(781, 496);
+            this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox15);
@@ -917,11 +929,11 @@
             this.Text = "Camera Editor";
             this.Load += new System.EventHandler(this.CameraEditor_Load);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrigShape)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownActType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamType)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownColPosZ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownColPosY)).EndInit();
@@ -983,11 +995,11 @@
 
         public System.Windows.Forms.ListBox ListBoxCameras;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown5;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.NumericUpDown numericUpDownTrigShape;
+        private System.Windows.Forms.NumericUpDown numericUpDownActType;
         private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDownCamSpeed;
+        private System.Windows.Forms.NumericUpDown numericUpDownCamType;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.NumericUpDown numericUpDownColPosZ;
         private System.Windows.Forms.NumericUpDown numericUpDownColPosY;
@@ -1058,5 +1070,6 @@
         private System.Windows.Forms.Button buttonGetView;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button buttonComeTrigger;
+        private System.Windows.Forms.Button buttonCopy;
     }
 }
