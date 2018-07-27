@@ -8,7 +8,7 @@ namespace HeroesPowerPlant.CollisionEditor
         public CollisionEditor()
         {
             InitializeComponent();
-            collisionSystem = new CollisionEditorSystem();
+            collisionSystem = new CollisionSystem();
         }
 
         private void CollisionEditor_Load(object sender, EventArgs e)
@@ -25,7 +25,7 @@ namespace HeroesPowerPlant.CollisionEditor
             Hide();
         }
 
-        CollisionEditorSystem collisionSystem;
+        CollisionSystem collisionSystem;
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {

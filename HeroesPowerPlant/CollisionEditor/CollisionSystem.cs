@@ -4,14 +4,60 @@ using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
-    public partial class CollisionFunctions
+    public class CollisionSystem
     {
-        public static void ConvertOBJtoCL(string InputFile, string OutputFile, byte depthLevel)
+        public string CurrentCLfileName { get => CurrentCLfileName; private set => CurrentCLfileName = value; }
+        public int NumVertices { get => data.numVertices; }
+        public int NumTriangles { get => data.numTriangles; }
+        public int NumQuadNodes { get => data.numQuadnodes; }
+        public byte DepthLevel { get => data.MaxDepth; }
+
+        private CLFile data;
+
+        public void Import(string sourceOBJfile, byte depthLevel)
+        {
+            ConvertOBJtoCL(sourceOBJfile, CurrentCLfileName, depthLevel);
+        }
+
+        public void NewFile(string sourceOBJfile, string destinationCLfile, byte depthLevel)
+        {
+            CurrentCLfileName = destinationCLfile;
+            Import(sourceOBJfile, depthLevel);
+        }
+
+        public void Open(string fileName)
+        {
+            CurrentCLfileName = fileName;
+        }
+
+        public void ConvertCLtoOBJ(string fileName)
+        {
+            ConvertCLtoOBJ(fileName, ref data);
+        }
+
+        public void Close()
+        {
+            CurrentCLfileName = null;
+            CollisionRendering.Dispose();
+        }
+
+        public bool HasOpenedFile()
+        {
+            return CurrentCLfileName != null;
+        }
+
+        public void LoadCLFile()
+        {
+            CollisionRendering.Dispose();
+
+            data = CollisionRendering.LoadCLFile(CurrentCLfileName);
+        }
+
+        public void ConvertOBJtoCL(string InputFile, string OutputFile, byte depthLevel)
         {
             CLFile data = new CLFile(depthLevel);
 
@@ -24,7 +70,7 @@ namespace HeroesPowerPlant.CollisionEditor
                     CreateCLFile(OutputFile, ref data);
         }
 
-        public static bool ReadOBJFile(string InputFile, ref CLFile data)
+        public bool ReadOBJFile(string InputFile, ref CLFile data)
         {
             string[] OBJFile = File.ReadAllLines(InputFile);
             Program.collisionEditor.progressBar1.Maximum = 65535 + OBJFile.Length;
@@ -134,7 +180,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return true;
         }
 
-        public static bool GenerateCollision(ref CLFile data)
+        public bool GenerateCollision(ref CLFile data)
         {
             //Let's start with quadtree maximums, minimums and center
             float MaxX = data.CLVertexArray[0].Position.X;
@@ -190,11 +236,11 @@ namespace HeroesPowerPlant.CollisionEditor
                 data.numQuadnodes = (ushort)data.CLQuadNodeList.Count;
                 return true;
             }
-            else
-                return false;
+
+            return false;
         }
 
-        public static bool BuildQuadtree(ref CLFile data)
+        public bool BuildQuadtree(ref CLFile data)
         {
             CLQuadNode TempNode = new CLQuadNode();
 
@@ -232,7 +278,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return true;
         }
 
-        public static CLQuadNode CreateNode(CLQuadNode NodeParent, byte NodeOrient, ushort Count, int PowerFlag, CLTriangle[] CLTriangleArray)
+        public CLQuadNode CreateNode(CLQuadNode NodeParent, byte NodeOrient, ushort Count, int PowerFlag, CLTriangle[] CLTriangleArray)
         {
             CLQuadNode NodeChild = new CLQuadNode
             {
@@ -244,26 +290,26 @@ namespace HeroesPowerPlant.CollisionEditor
                 PosValueX = NodeParent.PosValueX,
                 PosValueZ = NodeParent.PosValueZ,
 
-                NodeSquare = new RectangleF(NodeParent.NodeSquare.X, NodeParent.NodeSquare.Y, NodeParent.NodeSquare.Width / 2f, NodeParent.NodeSquare.Height / 2f)
+                NodeSquare = new SharpDX.RectangleF(NodeParent.NodeSquare.X, NodeParent.NodeSquare.Y, NodeParent.NodeSquare.Width / 2f, NodeParent.NodeSquare.Height / 2f)
             };
 
-            ushort ValueToAdd = (ushort)Math.Pow(2, (PowerFlag - NodeChild.Depth));
+            ushort offsetValue = (ushort)Math.Pow(2, (PowerFlag - NodeChild.Depth));
 
             if (NodeOrient == 1)
             {
-                NodeChild.PosValueX += ValueToAdd;
+                NodeChild.PosValueX += offsetValue;
                 NodeChild.NodeSquare.X += NodeChild.NodeSquare.Width;
             }
             else if (NodeOrient == 2)
             {
-                NodeChild.PosValueZ += ValueToAdd;
+                NodeChild.PosValueZ += offsetValue;
                 NodeChild.NodeSquare.Y += NodeChild.NodeSquare.Height;
             }
             else if (NodeOrient == 3)
             {
-                NodeChild.PosValueX += ValueToAdd;
+                NodeChild.PosValueX += offsetValue;
                 NodeChild.NodeSquare.X += NodeChild.NodeSquare.Width;
-                NodeChild.PosValueZ += ValueToAdd;
+                NodeChild.PosValueZ += offsetValue;
                 NodeChild.NodeSquare.Y += NodeChild.NodeSquare.Height;
             }
 
@@ -274,7 +320,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return NodeChild;
         }
 
-        public static UInt16[] GetTrianglesInsideNode(CLQuadNode Node, ushort[] TriangleList, CLTriangle[] CLTriangleArray)
+        public UInt16[] GetTrianglesInsideNode(CLQuadNode Node, ushort[] TriangleList, CLTriangle[] CLTriangleArray)
         {
             List<UInt16> NodeTriangleList = new List<UInt16>();
 
@@ -285,14 +331,14 @@ namespace HeroesPowerPlant.CollisionEditor
             return NodeTriangleList.ToArray();
         }
 
-        public static bool CreateCLFile(string FileName, ref CLFile data)
+        public bool CreateCLFile(string FileName, ref CLFile data)
         {
             //Finally, let's write the file
             BinaryWriter FileWriter = new BinaryWriter(new MemoryStream(
                 0x20 * data.CLQuadNodeList.Count() +
                 0x20 * data.CLTriangleArray.Count() +
                 0xC * data.CLVertexArray.Count() + 0x28));
-            
+
             FileWriter.BaseStream.Position = 0x28;
             for (ushort i = 0; i < data.CLQuadNodeList.Count; i++)
             {
@@ -382,12 +428,12 @@ namespace HeroesPowerPlant.CollisionEditor
             FileWriter.Write(Switch(data.numTriangles));
             FileWriter.Write(Switch(data.numVertices));
             FileWriter.Write(Switch(data.numQuadnodes));
-            
+
             File.WriteAllBytes(FileName, ((MemoryStream)FileWriter.BaseStream).ToArray());
             return true;
         }
 
-        public static void ConvertCLtoOBJ(string fileName, ref CLFile data)
+        public void ConvertCLtoOBJ(string fileName, ref CLFile data)
         {
             StreamWriter FileCloser = new StreamWriter(new FileStream(fileName, FileMode.Create));
 
@@ -422,6 +468,5 @@ namespace HeroesPowerPlant.CollisionEditor
 
             FileCloser.Close();
         }
-
     }
 }

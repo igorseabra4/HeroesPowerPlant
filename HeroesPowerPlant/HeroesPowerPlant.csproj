@@ -114,8 +114,7 @@
     <Compile Include="CollisionEditor\CollisionEditor.designer.cs">
       <DependentUpon>CollisionEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="CollisionEditor\CollisionEditorSystem.cs" />
-    <Compile Include="CollisionEditor\CollisionFunctions.cs" />
+    <Compile Include="CollisionEditor\CollisionSystem.cs" />
     <Compile Include="ConfigEditor\ConfigEditor.cs">
       <SubType>Form</SubType>
     </Compile>
