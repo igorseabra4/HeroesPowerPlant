@@ -72,7 +72,7 @@ namespace HeroesPowerPlant.Config
         {
             OpenConfigFileName = null;
             LabelFileLoaded.Text = "No file loaded";
-            Clean_File();
+            CleanFile();
 
             Program.mainForm.EnableSplineEditor();
             Program.splineEditor.SplineEditorNewConfig();
@@ -97,7 +97,7 @@ namespace HeroesPowerPlant.Config
         {
             OpenConfigFileName = fileName;
             LabelFileLoaded.Text = "Loaded " + OpenConfigFileName;
-            if (Read_Config_File(OpenConfigFileName))
+            if (ReadINIConfig(OpenConfigFileName))
             {
                 Program.mainForm.EnableSplineEditor();
                 Program.splineEditor.SplineEditorOpenConfig(OpenConfigFileName);
@@ -115,7 +115,11 @@ namespace HeroesPowerPlant.Config
             if (OpenConfigFileName != null)
             {
                 if (OpenConfigFileName != "")
-                    SaveFile(OpenConfigFileName);
+                    if (Path.GetExtension(OpenConfigFileName).ToLower().Equals(".cc"))
+                        SaveFileIni(OpenConfigFileName);
+                    else if (Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
+                        SaveFileJson(OpenConfigFileName);
+                    else throw new Exception();
             }
             else
             {
@@ -127,7 +131,7 @@ namespace HeroesPowerPlant.Config
         {
             SaveFileDialog SaveConfigFile = new SaveFileDialog
             {
-                Filter = ".cc files|*.cc",
+                Filter = ".cc files|*.cc|JSON files|*.json",
                 FileName = OpenConfigFileName
             };
             DialogResult result = SaveConfigFile.ShowDialog();
@@ -135,7 +139,12 @@ namespace HeroesPowerPlant.Config
             {
                 OpenConfigFileName = SaveConfigFile.FileName;
                 LabelFileLoaded.Text = "Loaded " + OpenConfigFileName;
-                SaveFile(OpenConfigFileName);
+
+                if (Path.GetExtension(OpenConfigFileName).ToLower().Equals(".cc"))
+                    SaveFileIni(OpenConfigFileName);
+                else if (Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
+                    SaveFileJson(OpenConfigFileName);
+                else throw new Exception();
             }
         }
         
@@ -149,48 +158,46 @@ namespace HeroesPowerPlant.Config
                 groupBoxStart.Enabled = true;
                 groupBoxBrag.Enabled = false;
 
-                NumericStartX.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.X;
-                NumericStartY.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
-                NumericStartZ.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericStartRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(Start_Positions[ComboBoxTeam.SelectedIndex].Pitch);
-                ComboStartMode.SelectedIndex = Start_Positions[ComboBoxTeam.SelectedIndex].Mode;
-                NumericStartHold.Value = Start_Positions[ComboBoxTeam.SelectedIndex].HoldTime;
+                NumericStartX.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionX;
+                NumericStartY.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionY;
+                NumericStartZ.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionZ;
+                NumericStartRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(StartPositions[ComboBoxTeam.SelectedIndex].Pitch);
+                ComboStartMode.SelectedIndex = (int)StartPositions[ComboBoxTeam.SelectedIndex].Mode;
+                NumericStartHold.Value = StartPositions[ComboBoxTeam.SelectedIndex].HoldTime;
 
-                NumericEndX.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.X;
-                NumericEndY.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
-                NumericEndZ.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericEndRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(End_Positions[ComboBoxTeam.SelectedIndex].Pitch);
+                NumericEndX.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionX;
+                NumericEndY.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionY;
+                NumericEndZ.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionZ;
+                NumericEndRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(EndPositions[ComboBoxTeam.SelectedIndex].Pitch);
             }
             else if (CurrentLevelConfig.Mode == ModeType.MultiPlayer)
             {
                 if (ComboBoxTeam.SelectedIndex <= 1)
                 {
                     groupBoxStart.Enabled = true;
-                    NumericStartX.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.X;
-                    NumericStartY.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
-                    NumericStartZ.Value = (decimal)Start_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                    NumericStartRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(Start_Positions[ComboBoxTeam.SelectedIndex].Pitch);
-                    ComboStartMode.SelectedIndex = Start_Positions[ComboBoxTeam.SelectedIndex].Mode;
-                    NumericStartHold.Value = Start_Positions[ComboBoxTeam.SelectedIndex].HoldTime;
+                    NumericStartX.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionX;
+                    NumericStartY.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionY;
+                    NumericStartZ.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionZ;
+                    NumericStartRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(StartPositions[ComboBoxTeam.SelectedIndex].Pitch);
+                    ComboStartMode.SelectedIndex = (int)StartPositions[ComboBoxTeam.SelectedIndex].Mode;
+                    NumericStartHold.Value = StartPositions[ComboBoxTeam.SelectedIndex].HoldTime;
                 }
                 else
                     groupBoxStart.Enabled = false;
 
-                NumericEndX.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.X;
-                NumericEndY.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
-                NumericEndZ.Value = (decimal)End_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericEndRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(End_Positions[ComboBoxTeam.SelectedIndex].Pitch);
+                NumericEndX.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionX;
+                NumericEndY.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionY;
+                NumericEndZ.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionZ;
+                NumericEndRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(EndPositions[ComboBoxTeam.SelectedIndex].Pitch);
 
                 groupBoxBrag.Enabled = true;
-                NumericBragX.Value = (decimal)Brag_Positions[ComboBoxTeam.SelectedIndex].Position.X;
-                NumericBragY.Value = (decimal)Brag_Positions[ComboBoxTeam.SelectedIndex].Position.Y;
-                NumericBragZ.Value = (decimal)Brag_Positions[ComboBoxTeam.SelectedIndex].Position.Z;
-                NumericBragRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(Brag_Positions[ComboBoxTeam.SelectedIndex].Pitch);
+                NumericBragX.Value = (decimal)BragPositions[ComboBoxTeam.SelectedIndex].PositionX;
+                NumericBragY.Value = (decimal)BragPositions[ComboBoxTeam.SelectedIndex].PositionY;
+                NumericBragZ.Value = (decimal)BragPositions[ComboBoxTeam.SelectedIndex].PositionZ;
+                NumericBragRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(BragPositions[ComboBoxTeam.SelectedIndex].Pitch);
             }
             ProgramIsChangingStuff = false;
         }
-
-        LevelConfigEntry CurrentLevelConfig = new LevelConfigEntry();
         
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -200,65 +207,65 @@ namespace HeroesPowerPlant.Config
                 groupBoxEnd.Enabled = false;
                 groupBoxBrag.Enabled = false;
 
-                Start_Positions = new List<PositionEntry>();
-                End_Positions = new List<PositionEntry>();
-                Brag_Positions = new List<PositionEntry>();
+                StartPositions = new List<StartPositionEntry>();
+                EndPositions = new List<EndPositionEntry>();
+                BragPositions = new List<EndPositionEntry>();
 
-                PositionEntry SonicStartPosition = new PositionEntry();
-                PositionEntry DarkStartPosition = new PositionEntry();
-                PositionEntry RoseStartPosition = new PositionEntry();
-                PositionEntry ChaotixStartPosition = new PositionEntry();
-                PositionEntry ForeditStartPosition = new PositionEntry();
+                StartPositionEntry SonicStartPosition = new StartPositionEntry();
+                StartPositionEntry DarkStartPosition = new StartPositionEntry();
+                StartPositionEntry RoseStartPosition = new StartPositionEntry();
+                StartPositionEntry ChaotixStartPosition = new StartPositionEntry();
+                StartPositionEntry ForeditStartPosition = new StartPositionEntry();
 
-                PositionEntry SonicEndPosition = new PositionEntry();
-                PositionEntry DarkEndPosition = new PositionEntry();
-                PositionEntry RoseEndPosition = new PositionEntry();
-                PositionEntry ChaotixEndPosition = new PositionEntry();
-                PositionEntry ForeditEndPosition = new PositionEntry();
+                EndPositionEntry SonicEndPosition = new EndPositionEntry();
+                EndPositionEntry DarkEndPosition = new EndPositionEntry();
+                EndPositionEntry RoseEndPosition = new EndPositionEntry();
+                EndPositionEntry ChaotixEndPosition = new EndPositionEntry();
+                EndPositionEntry ForeditEndPosition = new EndPositionEntry();
 
-                PositionEntry SonicBragPosition = new PositionEntry();
-                PositionEntry DarkBragPosition = new PositionEntry();
-                PositionEntry RoseBragPosition = new PositionEntry();
-                PositionEntry ChaotixBragPosition = new PositionEntry();
-                PositionEntry ForeditBragPosition = new PositionEntry();
+                EndPositionEntry SonicBragPosition = new EndPositionEntry();
+                EndPositionEntry DarkBragPosition = new EndPositionEntry();
+                EndPositionEntry RoseBragPosition = new EndPositionEntry();
+                EndPositionEntry ChaotixBragPosition = new EndPositionEntry();
+                EndPositionEntry ForeditBragPosition = new EndPositionEntry();
                 
-                Start_Positions.Add(SonicStartPosition);
-                Start_Positions.Add(DarkStartPosition);
-                Start_Positions[0].NewColorAndRenderer(Color.Blue.ToVector3());
-                Start_Positions[1].NewColorAndRenderer(Color.Red.ToVector3());
+                StartPositions.Add(SonicStartPosition);
+                StartPositions.Add(DarkStartPosition);
+                StartPositions[0].NewColor(Color.Blue.ToVector3());
+                StartPositions[1].NewColor(Color.Red.ToVector3());
 
-                End_Positions.Add(SonicEndPosition);
-                End_Positions.Add(DarkEndPosition);
-                End_Positions.Add(RoseEndPosition);
-                End_Positions.Add(ChaotixEndPosition);
-                End_Positions.Add(ForeditEndPosition);
-                End_Positions[0].NewColorAndRenderer(Color.LightBlue.ToVector3());
-                End_Positions[1].NewColorAndRenderer(Color.IndianRed.ToVector3());
-                End_Positions[2].NewColorAndRenderer(Color.Pink.ToVector3());
-                End_Positions[3].NewColorAndRenderer(Color.LightGreen.ToVector3());
-                End_Positions[4].NewColorAndRenderer(Color.Yellow.ToVector3());
+                EndPositions.Add(SonicEndPosition);
+                EndPositions.Add(DarkEndPosition);
+                EndPositions.Add(RoseEndPosition);
+                EndPositions.Add(ChaotixEndPosition);
+                EndPositions.Add(ForeditEndPosition);
+                EndPositions[0].NewColor(Color.LightBlue.ToVector3());
+                EndPositions[1].NewColor(Color.IndianRed.ToVector3());
+                EndPositions[2].NewColor(Color.Pink.ToVector3());
+                EndPositions[3].NewColor(Color.LightGreen.ToVector3());
+                EndPositions[4].NewColor(Color.Yellow.ToVector3());
 
                 if (((LevelConfigEntry)ComboLevelConfig.SelectedItem).Mode == ModeType.SinglePlayer)
                 {
-                    Start_Positions.Add(RoseStartPosition);
-                    Start_Positions.Add(ChaotixStartPosition);
-                    Start_Positions.Add(ForeditStartPosition);
-                    Start_Positions[2].NewColorAndRenderer(Color.HotPink.ToVector3());
-                    Start_Positions[3].NewColorAndRenderer(Color.Green.ToVector3());
-                    Start_Positions[4].NewColorAndRenderer(Color.Orange.ToVector3());
+                    StartPositions.Add(RoseStartPosition);
+                    StartPositions.Add(ChaotixStartPosition);
+                    StartPositions.Add(ForeditStartPosition);
+                    StartPositions[2].NewColor(Color.HotPink.ToVector3());
+                    StartPositions[3].NewColor(Color.Green.ToVector3());
+                    StartPositions[4].NewColor(Color.Orange.ToVector3());
                 }
                 else if (((LevelConfigEntry)ComboLevelConfig.SelectedItem).Mode == ModeType.MultiPlayer)
                 {
-                    Brag_Positions.Add(SonicBragPosition);
-                    Brag_Positions.Add(DarkBragPosition);
-                    Brag_Positions.Add(RoseBragPosition);
-                    Brag_Positions.Add(ChaotixBragPosition);
-                    Brag_Positions.Add(ForeditBragPosition);
-                    Brag_Positions[0].NewColorAndRenderer(Color.DarkBlue.ToVector3());
-                    Brag_Positions[1].NewColorAndRenderer(Color.DarkRed.ToVector3());
-                    Brag_Positions[2].NewColorAndRenderer(Color.DarkMagenta.ToVector3());
-                    Brag_Positions[3].NewColorAndRenderer(Color.DarkGreen.ToVector3());
-                    Brag_Positions[4].NewColorAndRenderer(Color.DarkOrange.ToVector3());
+                    BragPositions.Add(SonicBragPosition);
+                    BragPositions.Add(DarkBragPosition);
+                    BragPositions.Add(RoseBragPosition);
+                    BragPositions.Add(ChaotixBragPosition);
+                    BragPositions.Add(ForeditBragPosition);
+                    BragPositions[0].NewColor(Color.DarkBlue.ToVector3());
+                    BragPositions[1].NewColor(Color.DarkRed.ToVector3());
+                    BragPositions[2].NewColor(Color.DarkMagenta.ToVector3());
+                    BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
+                    BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
                 }
             }
 
@@ -279,7 +286,7 @@ namespace HeroesPowerPlant.Config
             ComboBoxTeam.Items.Add("Team Chaotix");
             ComboBoxTeam.Items.Add("Team Foredit");
 
-            if (Start_Positions.Count > 0)
+            if (StartPositions.Count > 0)
                 ComboBoxTeam.SelectedIndex = 0;
         }
 
@@ -287,31 +294,35 @@ namespace HeroesPowerPlant.Config
         {
             if (!ProgramIsChangingStuff)
             {
-                Start_Positions[ComboBoxTeam.SelectedIndex].Position = new Vector3((float)NumericStartX.Value, (float)NumericStartY.Value, (float)NumericStartZ.Value);
-                Start_Positions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericStartRot.Value);
-                Start_Positions[ComboBoxTeam.SelectedIndex].newMatrix();
+                StartPositions[ComboBoxTeam.SelectedIndex].PositionX = (float)NumericStartX.Value;
+                StartPositions[ComboBoxTeam.SelectedIndex].PositionY = (float)NumericStartY.Value;
+                StartPositions[ComboBoxTeam.SelectedIndex].PositionZ = (float)NumericStartZ.Value;
+                StartPositions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericStartRot.Value);
+                StartPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
             }
         }
         
         private void ComboStartMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
-                Start_Positions[ComboBoxTeam.SelectedIndex].Mode = (byte)ComboStartMode.SelectedIndex;
+                StartPositions[ComboBoxTeam.SelectedIndex].Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)ComboStartMode.SelectedIndex;
         }
 
         private void NumericStartHold_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
-                Start_Positions[ComboBoxTeam.SelectedIndex].HoldTime = (int)NumericStartHold.Value;
+                StartPositions[ComboBoxTeam.SelectedIndex].HoldTime = (int)NumericStartHold.Value;
         }
 
         private void NumericEnd_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
             {
-                End_Positions[ComboBoxTeam.SelectedIndex].Position = new Vector3((float)NumericEndX.Value, (float)NumericEndY.Value, (float)NumericEndZ.Value);
-                End_Positions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericEndRot.Value);
-                End_Positions[ComboBoxTeam.SelectedIndex].newMatrix();
+                EndPositions[ComboBoxTeam.SelectedIndex].PositionX = (float)NumericEndX.Value;
+                EndPositions[ComboBoxTeam.SelectedIndex].PositionY = (float)NumericEndY.Value;
+                EndPositions[ComboBoxTeam.SelectedIndex].PositionZ = (float)NumericEndZ.Value;
+                EndPositions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericEndRot.Value);
+                EndPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
             }
         }
 
@@ -319,9 +330,11 @@ namespace HeroesPowerPlant.Config
         {
             if (!ProgramIsChangingStuff)
             {
-                Brag_Positions[ComboBoxTeam.SelectedIndex].Position = new Vector3((float)NumericBragX.Value, (float)NumericBragY.Value, (float)NumericBragZ.Value);
-                Brag_Positions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericBragRot.Value);
-                Brag_Positions[ComboBoxTeam.SelectedIndex].newMatrix();
+                BragPositions[ComboBoxTeam.SelectedIndex].PositionX = (float)NumericBragX.Value;
+                BragPositions[ComboBoxTeam.SelectedIndex].PositionY = (float)NumericBragY.Value;
+                BragPositions[ComboBoxTeam.SelectedIndex].PositionZ = (float)NumericBragZ.Value;
+                BragPositions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericBragRot.Value);
+                BragPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
             }
         }
     }

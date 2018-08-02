@@ -332,60 +332,60 @@ namespace HeroesPowerPlant.CameraEditor
 
         private void buttonGetTrigger_Click(object sender, EventArgs e)
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (TryAttach())
             {
-                DeterminePointers();
-                numericUpDownColPosX.Value = (decimal)Program.MemManager.ReadFloat(Pointer0X);
-                numericUpDownColPosY.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Y);
-                numericUpDownColPosZ.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Z);
+                Vector3 Position = GetPlayer0Position();
+                numericUpDownColPosX.Value = (decimal)Position.X;
+                numericUpDownColPosY.Value = (decimal)Position.Y;
+                numericUpDownColPosZ.Value = (decimal)Position.Z;
             }
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonGetCamera_Click(object sender, EventArgs e)
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (TryAttach())
             {
-                DeterminePointers();
-                numericUpDownCamPosX.Value = (decimal)Program.MemManager.ReadFloat(Camera_X);
-                numericUpDownCamPosY.Value = (decimal)Program.MemManager.ReadFloat(Camera_Y);
-                numericUpDownCamPosZ.Value = (decimal)Program.MemManager.ReadFloat(Camera_Z);
+                Vector3 Position = GetCameraPosition();
+                numericUpDownCamPosX.Value = (decimal)Position.X;
+                numericUpDownCamPosY.Value = (decimal)Position.Y;
+                numericUpDownCamPosZ.Value = (decimal)Position.Z;
             }
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
+        
         private void buttonGetA_Click(object sender, EventArgs e)
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (TryAttach())
             {
-                DeterminePointers();
-                numericUpDown21.Value = (decimal)Program.MemManager.ReadFloat(Pointer0X);
-                numericUpDown22.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Y);
-                numericUpDown23.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Z);
+                Vector3 Position = GetPlayer0Position();
+                numericUpDown21.Value = (decimal)Position.X;
+                numericUpDown22.Value = (decimal)Position.Y;
+                numericUpDown23.Value = (decimal)Position.Z;
             }
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonGetB_Click(object sender, EventArgs e)
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (TryAttach())
             {
-                DeterminePointers();
-                numericUpDown24.Value = (decimal)Program.MemManager.ReadFloat(Pointer0X);
-                numericUpDown25.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Y);
-                numericUpDown26.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Z);
+                Vector3 Position = GetPlayer0Position();
+                numericUpDown24.Value = (decimal)Position.X;
+                numericUpDown25.Value = (decimal)Position.Y;
+                numericUpDown26.Value = (decimal)Position.Z;
             }
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonGetC_Click(object sender, EventArgs e)
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (TryAttach())
             {
-                DeterminePointers();
-                numericUpDown27.Value = (decimal)Program.MemManager.ReadFloat(Pointer0X);
-                numericUpDown28.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Y);
-                numericUpDown29.Value = (decimal)Program.MemManager.ReadFloat(Pointer0Z);
+                Vector3 Position = GetPlayer0Position();
+                numericUpDown27.Value = (decimal)Position.X;
+                numericUpDown28.Value = (decimal)Position.Y;
+                numericUpDown29.Value = (decimal)Position.Z;
             }
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

@@ -31,6 +31,9 @@ namespace HeroesPowerPlant.Config
 
             public void SetRenderStuff()
             {
+                if (splineMesh != null)
+                    splineMesh.Dispose();
+
                 splineMesh = SharpMesh.Create(device, Points, ReadWriteCommon.Range(Points.Length), new List<SharpSubSet>() {
                     new SharpSubSet(0, Points.Length, null) }, SharpDX.Direct3D.PrimitiveTopology.LineStrip);
             }

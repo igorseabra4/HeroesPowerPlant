@@ -111,7 +111,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private byte GetDepthLevel()
         {
-            return checkBox1.Checked ? (byte)numericDepthLevel.Value : (byte)0;
+            return checkBox1.Checked ? (byte)0 : (byte)numericDepthLevel.Value;
         }
 
         public void initFile()
@@ -126,7 +126,8 @@ namespace HeroesPowerPlant.CollisionEditor
             labelVertexNum.Text = "Vertices: " + collisionSystem.NumVertices.ToString();
             labelTriangles.Text = "Triangles: " + collisionSystem.NumTriangles.ToString();
             labelQuadnodes.Text = "QuadNodes: " + collisionSystem.NumQuadNodes.ToString();
-            numericDepthLevel.Value = collisionSystem.DepthLevel;
+            if (collisionSystem.DepthLevel != 0)
+                numericDepthLevel.Value = collisionSystem.DepthLevel;
 
             exportOBJToolStripMenuItem.Enabled = true;
             

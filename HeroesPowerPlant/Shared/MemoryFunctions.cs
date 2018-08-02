@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,71 +8,119 @@ namespace HeroesPowerPlant
 {
     public static class MemoryFunctions
     {
+        private static ReadWriteProcess MemManager = new ReadWriteProcess();
+
         //This is the place where we get stuff from ingame
-        public static IntPtr Pointer0X;
-        public static IntPtr Pointer0Y;
-        public static IntPtr Pointer0Z;
-        public static IntPtr Pointer1X;
-        public static IntPtr Pointer1Y;
-        public static IntPtr Pointer1Z;
-        public static IntPtr Pointer2X;
-        public static IntPtr Pointer2Y;
-        public static IntPtr Pointer2Z;
-        public static IntPtr Pointer0RX;
-        public static IntPtr Pointer0RY;
-        public static IntPtr Pointer0RZ;
-        public static IntPtr Pointer1RX;
-        public static IntPtr Pointer1RY;
-        public static IntPtr Pointer1RZ;
-        public static IntPtr Pointer2RX;
-        public static IntPtr Pointer2RY;
-        public static IntPtr Pointer2RZ;
-        public static IntPtr Camera_X = new IntPtr(0x00A60C30);
-        public static IntPtr Camera_Y = new IntPtr(0x00A60C34);
-        public static IntPtr Camera_Z = new IntPtr(0x00A60C38);
+        private static IntPtr PointerCharacter0;
+        private static IntPtr PointerCharacter1;
+        private static IntPtr PointerCharacter2;
+        private static IntPtr CameraX = new IntPtr(0x00A60C30);
+        private static IntPtr CameraY = new IntPtr(0x00A60C34);
+        private static IntPtr CameraZ = new IntPtr(0x00A60C38);
 
-        public static void DeterminePointers()
+        private static int PositionXOffset = 0x28;
+        private static int PositionYOffset = 0x2C;
+        private static int PositionZOffset = 0x30;
+        private static int RotationXOffset = 0x34;
+        private static int RotationYOffset = 0x38;
+        private static int RotationZOffset = 0x3C;
+
+        public static bool TryAttach()
         {
-            Program.MemManager.TryAttachToProcess("SONIC HEROES(TM)");
-            //Program.MemManager.TryAttachToProcess("Tsonic_win.exe");
+            return MemManager.TryAttachToProcess("SONIC HEROES(TM)");
+        }
 
-            Pointer0X = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce820))) + 0x398) + 0x28);
-            Pointer0Y = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce820))) + 0x398) + 0x2c);
-            Pointer0Z = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce820))) + 0x398) + 0x30);
-            Pointer0RX = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce820))) + 0x398) + 0x34);
-            Pointer0RY = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce820))) + 0x398) + 0x38);
-            Pointer0RZ = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce820))) + 0x398) + 0x3c);
+        public static void DeterminePointer0()
+        {
+            PointerCharacter0 = new IntPtr(MemManager.ReadUInt32(new IntPtr(MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce820))) + 0x398));
+        }
 
-            Pointer1X = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce824))) + 0x398) + 0x28);
-            Pointer1Y = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce824))) + 0x398) + 0x2c);
-            Pointer1Z = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce824))) + 0x398) + 0x30);
-            Pointer1RX = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce824))) + 0x398) + 0x34);
-            Pointer1RY = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce824))) + 0x398) + 0x38);
-            Pointer1RZ = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce824))) + 0x398) + 0x3c);
+        public static Vector3 GetPlayer0Position()
+        {
+            DeterminePointer0();
+            return new Vector3(
+                MemManager.ReadFloat(PointerCharacter0 + PositionXOffset),
+                MemManager.ReadFloat(PointerCharacter0 + PositionYOffset),
+                MemManager.ReadFloat(PointerCharacter0 + PositionZOffset));
+        }
 
-            Pointer2X = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x28);
-            Pointer2Y = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x2c);
-            Pointer2Z = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x30);
-            Pointer2RX = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x34);
-            Pointer2RY = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x38);
-            Pointer2RZ = new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(Program.MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398) + 0x3c);
+        public static Vector3 GetPlayer0Rotation()
+        {
+            DeterminePointer0();
+            return new Vector3(
+                MemManager.ReadFloat(PointerCharacter0 + RotationXOffset),
+                MemManager.ReadFloat(PointerCharacter0 + RotationYOffset),
+                MemManager.ReadFloat(PointerCharacter0 + RotationZOffset));
+        }
+
+        public static void DeterminePointer1()
+        {
+            PointerCharacter1 = new IntPtr(MemManager.ReadUInt32(new IntPtr(MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce824))) + 0x398));
+        }
+
+        public static Vector3 GetPlayer1Position()
+        {
+            DeterminePointer1();
+            return new Vector3(
+                MemManager.ReadFloat(PointerCharacter1 + PositionXOffset),
+                MemManager.ReadFloat(PointerCharacter1 + PositionYOffset),
+                MemManager.ReadFloat(PointerCharacter1 + PositionZOffset));
+        }
+
+        public static Vector3 GetPlayer1Rotation()
+        {
+            DeterminePointer1();
+            return new Vector3(
+                MemManager.ReadFloat(PointerCharacter1 + RotationXOffset),
+                MemManager.ReadFloat(PointerCharacter1 + RotationYOffset),
+                MemManager.ReadFloat(PointerCharacter1 + RotationZOffset));
+        }
+
+        public static void DeterminePointer2()
+        {
+            PointerCharacter2 = new IntPtr(MemManager.ReadUInt32(new IntPtr(MemManager.ReadUInt32(new IntPtr(0x400000 + 0x5ce828))) + 0x398));
+        }
+
+        public static Vector3 GetPlayer2Position()
+        {
+            DeterminePointer2();
+            return new Vector3(
+                MemManager.ReadFloat(PointerCharacter2 + PositionXOffset),
+                MemManager.ReadFloat(PointerCharacter2 + PositionYOffset),
+                MemManager.ReadFloat(PointerCharacter2 + PositionZOffset));
+        }
+
+        public static Vector3 GetPlayer2Rotation()
+        {
+            DeterminePointer2();
+            return new Vector3(
+                MemManager.ReadFloat(PointerCharacter2 + RotationXOffset),
+                MemManager.ReadFloat(PointerCharacter2 + RotationYOffset),
+                MemManager.ReadFloat(PointerCharacter2 + RotationZOffset));
+        }
+
+        public static Vector3 GetCameraPosition()
+        {
+            return new Vector3(MemManager.ReadFloat(CameraX), MemManager.ReadFloat(CameraY), MemManager.ReadFloat(CameraZ));
         }
 
         public static bool Teleport(float X, float Y, float Z)
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (TryAttach())
             {
-                DeterminePointers();
+                DeterminePointer0();
+                DeterminePointer1();
+                DeterminePointer2();
 
-                Program.MemManager.Write4bytes(Pointer0X, BitConverter.GetBytes(X));
-                Program.MemManager.Write4bytes(Pointer0Y, BitConverter.GetBytes(Y));
-                Program.MemManager.Write4bytes(Pointer0Z, BitConverter.GetBytes(Z));
-                Program.MemManager.Write4bytes(Pointer1X, BitConverter.GetBytes(X));
-                Program.MemManager.Write4bytes(Pointer1Y, BitConverter.GetBytes(Y));
-                Program.MemManager.Write4bytes(Pointer1Z, BitConverter.GetBytes(Z));
-                Program.MemManager.Write4bytes(Pointer2X, BitConverter.GetBytes(X));
-                Program.MemManager.Write4bytes(Pointer2Y, BitConverter.GetBytes(Y));
-                Program.MemManager.Write4bytes(Pointer2Z, BitConverter.GetBytes(Z));
+                MemManager.Write4bytes(PointerCharacter0 + PositionXOffset, BitConverter.GetBytes(X));
+                MemManager.Write4bytes(PointerCharacter0 + PositionYOffset, BitConverter.GetBytes(Y));
+                MemManager.Write4bytes(PointerCharacter0 + PositionZOffset, BitConverter.GetBytes(Z));
+                MemManager.Write4bytes(PointerCharacter1 + PositionXOffset, BitConverter.GetBytes(X));
+                MemManager.Write4bytes(PointerCharacter1 + PositionYOffset, BitConverter.GetBytes(Y));
+                MemManager.Write4bytes(PointerCharacter1 + PositionZOffset, BitConverter.GetBytes(Z));
+                MemManager.Write4bytes(PointerCharacter2 + PositionXOffset, BitConverter.GetBytes(X));
+                MemManager.Write4bytes(PointerCharacter2 + PositionYOffset, BitConverter.GetBytes(Y));
+                MemManager.Write4bytes(PointerCharacter2 + PositionZOffset, BitConverter.GetBytes(Z));
 
                 return true;
             }

@@ -108,15 +108,25 @@ namespace HeroesPowerPlant.LevelEditor
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
 
-            HeroesONEFile oneFile = new HeroesONEFile();
+            HeroesONE_R.Structures.Archive one = new HeroesONE_R.Structures.Archive(HeroesONE_R.Structures.CommonRWVersions.Heroes);
+           
+          //  HeroesONEFile oneFile = new HeroesONEFile();
             foreach (RenderWareModelFile i in BSPStream)
             {
-                HeroesONEFile.File item = new HeroesONEFile.File(i.fileName, i.GetAsByteArray());
-                oneFile.Files.Add(item);
-                Program.levelEditor.progressBar1.Maximum += item.Data.Length;
+                //    HeroesONEFile.File item = new HeroesONEFile.File(i.fileName, i.GetAsByteArray());
+                //     oneFile.Files.Add(item);
+
+                HeroesONE_R.Structures.Subsctructures.ArchiveFile item = new HeroesONE_R.Structures.Subsctructures.ArchiveFile(i.fileName, i.GetAsByteArray());
+
+                one.Files.Add(item);
+
+                Program.levelEditor.progressBar1.Maximum += item.CompressedData.Length;
+                Program.levelEditor.progressBar1.Value += item.CompressedData.Length/2;
             }
 
-            oneFile.Save(file, ArchiveType.Heroes);
+            File.WriteAllBytes(file, one.BuildHeroesONEArchive().ToArray());
+
+            // oneFile.Save(file, ArchiveType.Heroes);
             openONEfilePath = file;
 
             SetFilenamePrefix(file);

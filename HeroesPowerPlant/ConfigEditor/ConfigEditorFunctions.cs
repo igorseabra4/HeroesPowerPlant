@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using static HeroesPowerPlant.SharpRenderer;
+using GenericStageInjectionCommon.Structs.Positions.Substructures;
+using GenericStageInjectionCommon.Shared;
+using System.Linq;
+using GenericStageInjectionCommon.Shared.Enums;
 
 namespace HeroesPowerPlant.Config
 {
@@ -24,6 +27,7 @@ namespace HeroesPowerPlant.Config
             public int EndingPointer;
             public int StartMultiPointer;
             public int BragPointer;
+            public StageID StageID;
 
             public override string ToString()
             {
@@ -44,6 +48,7 @@ namespace HeroesPowerPlant.Config
             int EndingPointer = 0;
             int StartMultiPointer = 0;
             int BragPointer = 0;
+            int StageID = 0;
 
             foreach (string i in ConfigListFile)
             {
@@ -68,6 +73,8 @@ namespace HeroesPowerPlant.Config
                     StartMultiPointer = Convert.ToInt32(i.Split('=')[1], 16);
                 else if (i.StartsWith("Brag="))
                     BragPointer = Convert.ToInt32(i.Split('=')[1], 16);
+                else if (i.StartsWith("StageID="))
+                    StageID = Convert.ToInt32(i.Split('=')[1], 16);
                 else if ((i.Length == 0) | (i.StartsWith("EndOfFile")))
                 {
                     list.Add(new LevelConfigEntry()
@@ -79,6 +86,7 @@ namespace HeroesPowerPlant.Config
                         EndingPointer = EndingPointer,
                         StartMultiPointer = StartMultiPointer,
                         BragPointer = BragPointer,
+                        StageID = (StageID)StageID
                     });
                     Name = "";
                     Mode = ModeType.SinglePlayer;
@@ -87,91 +95,27 @@ namespace HeroesPowerPlant.Config
                     EndingPointer = 0;
                     StartMultiPointer = 0;
                     BragPointer = 0;
+                    StageID = 0;
                 }
             }
 
             return list;
         }
-
-        public class EntryRenderer
-        {
-            private Matrix world;
-            private DefaultRenderData renderData = new DefaultRenderData();
-
-            public EntryRenderer(Vector3 Position, int Rotation, Vector3 v)
-            {
-                NewMatrix(Position, Rotation);
-                renderData.Color = new Vector4(v, 0.3f);
-            }
-
-            public void NewMatrix(Vector3 Position, int Rotation)
-            {
-                world = Matrix.Scaling(20f, 20f, 30f) * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation)) * Matrix.Translation(Position);
-            }
-            
-            public void Render()
-            {
-                renderData.worldViewProjection = world * viewProjection;
-
-                device.SetFillModeSolid();
-                device.SetCullModeNormal();
-                device.SetBlendStateAlphaBlend();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
-
-                device.UpdateData(basicBuffer, renderData);
-                device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-                basicShader.Apply();
-
-                Pyramid.Draw();
-            }
-        }
         
-        public class PositionEntry
-        {
-            public Vector3 Position = new Vector3();
-            public int Pitch;
-            public byte Mode;
-            public int HoldTime;
+        public List<StartPositionEntry> StartPositions = new List<StartPositionEntry>();
+        public List<EndPositionEntry> EndPositions = new List<EndPositionEntry>();
+        public List<EndPositionEntry> BragPositions = new List<EndPositionEntry>();
 
-            private EntryRenderer entryRenderer;
-            private Vector3 vColor;
-
-            public PositionEntry()
-            {
-                vColor = Color.White.ToVector3();
-                entryRenderer = new EntryRenderer(Position, Pitch, vColor);
-            }
-
-            public void NewColorAndRenderer(Vector3 v)
-            {
-                vColor = v;
-                entryRenderer = new EntryRenderer(Position, Pitch, vColor);
-            }
-            
-            public void newMatrix()
-            {
-                entryRenderer.NewMatrix(Position, Pitch);
-            }
-
-            public void Render()
-            {
-                entryRenderer.Render();
-            }
-        }
-        
-        public List<PositionEntry> Start_Positions = new List<PositionEntry>();
-        public List<PositionEntry> End_Positions = new List<PositionEntry>();
-        public List<PositionEntry> Brag_Positions = new List<PositionEntry>();
+        LevelConfigEntry CurrentLevelConfig = new LevelConfigEntry();
 
         public void RenderStartPositions()
         {
-            foreach (PositionEntry p in Start_Positions) p.Render();
-            foreach (PositionEntry p in End_Positions) p.Render();
-            foreach (PositionEntry p in Brag_Positions) p.Render();
+            foreach (StartPositionEntry p in StartPositions) p.Render();
+            foreach (EndPositionEntry p in EndPositions) p.Render();
+            foreach (EndPositionEntry p in BragPositions) p.Render();
         }
 
-        private void Clean_File()
+        private void CleanFile()
         {
             groupBoxStart.Enabled = false;
             groupBoxEnd.Enabled = false;
@@ -181,43 +125,25 @@ namespace HeroesPowerPlant.Config
             ComboLevelConfig.SelectedIndex = 1;
             CurrentLevelConfig.Mode = ModeType.SinglePlayer;
 
-            Start_Positions = new List<PositionEntry>();
-            End_Positions = new List<PositionEntry>();
-            Brag_Positions = new List<PositionEntry>();
+            StartPositions = new List<StartPositionEntry>();
+            EndPositions = new List<EndPositionEntry>();
+            BragPositions = new List<EndPositionEntry>();
+                        
+            for (int i = 0; i < 5; i++)
+                StartPositions.Add(new StartPositionEntry());
+            StartPositions[0].NewColor(Color.Blue.ToVector3());
+            StartPositions[1].NewColor(Color.Red.ToVector3());
+            StartPositions[2].NewColor(Color.HotPink.ToVector3());
+            StartPositions[3].NewColor(Color.Green.ToVector3());
+            StartPositions[4].NewColor(Color.Orange.ToVector3());
 
-            PositionEntry SonicStartPosition = new PositionEntry();
-            PositionEntry DarkStartPosition = new PositionEntry();
-            PositionEntry RoseStartPosition = new PositionEntry();
-            PositionEntry ChaotixStartPosition = new PositionEntry();
-            PositionEntry ForeditStartPosition = new PositionEntry();
-
-            PositionEntry SonicEndPosition = new PositionEntry();
-            PositionEntry DarkEndPosition = new PositionEntry();
-            PositionEntry RoseEndPosition = new PositionEntry();
-            PositionEntry ChaotixEndPosition = new PositionEntry();
-            PositionEntry ForeditEndPosition = new PositionEntry();
-            
-            Start_Positions.Add(SonicStartPosition);
-            Start_Positions.Add(DarkStartPosition);
-            Start_Positions.Add(RoseStartPosition);
-            Start_Positions.Add(ChaotixStartPosition);
-            Start_Positions.Add(ForeditStartPosition);
-            Start_Positions[0].NewColorAndRenderer(Color.Blue.ToVector3());
-            Start_Positions[1].NewColorAndRenderer(Color.Red.ToVector3());
-            Start_Positions[2].NewColorAndRenderer(Color.HotPink.ToVector3());
-            Start_Positions[3].NewColorAndRenderer(Color.Green.ToVector3());
-            Start_Positions[4].NewColorAndRenderer(Color.Orange.ToVector3());
-
-            End_Positions.Add(SonicEndPosition);
-            End_Positions.Add(DarkEndPosition);
-            End_Positions.Add(RoseEndPosition);
-            End_Positions.Add(ChaotixEndPosition);
-            End_Positions.Add(ForeditEndPosition);
-            End_Positions[0].NewColorAndRenderer(Color.LightBlue.ToVector3());
-            End_Positions[1].NewColorAndRenderer(Color.IndianRed.ToVector3());
-            End_Positions[2].NewColorAndRenderer(Color.Pink.ToVector3());
-            End_Positions[3].NewColorAndRenderer(Color.LightGreen.ToVector3());
-            End_Positions[4].NewColorAndRenderer(Color.Yellow.ToVector3());
+            for (int i = 0; i < 5; i++)
+                EndPositions.Add(new EndPositionEntry());
+            EndPositions[0].NewColor(Color.LightBlue.ToVector3());
+            EndPositions[1].NewColor(Color.IndianRed.ToVector3());
+            EndPositions[2].NewColor(Color.Pink.ToVector3());
+            EndPositions[3].NewColor(Color.LightGreen.ToVector3());
+            EndPositions[4].NewColor(Color.Yellow.ToVector3());
 
             groupBoxStart.Enabled = true;
             groupBoxEnd.Enabled = true;
@@ -225,29 +151,29 @@ namespace HeroesPowerPlant.Config
             ComboBoxTeam.SelectedIndex = 0;
         }
 
-        public bool Read_Config_File(string FileName)
+        public bool ReadINIConfig(string FileName)
         {
-            Start_Positions = new List<PositionEntry>();
-            End_Positions = new List<PositionEntry>();
-            Brag_Positions = new List<PositionEntry>();
+            StartPositions = new List<StartPositionEntry>();
+            EndPositions = new List<EndPositionEntry>();
+            BragPositions = new List<EndPositionEntry>();
 
-            PositionEntry SonicStartPosition = new PositionEntry();
-            PositionEntry DarkStartPosition = new PositionEntry();
-            PositionEntry RoseStartPosition = new PositionEntry();
-            PositionEntry ChaotixStartPosition = new PositionEntry();
-            PositionEntry ForeditStartPosition = new PositionEntry();
+            StartPositionEntry SonicStartPosition = new StartPositionEntry();
+            StartPositionEntry DarkStartPosition = new StartPositionEntry();
+            StartPositionEntry RoseStartPosition = new StartPositionEntry();
+            StartPositionEntry ChaotixStartPosition = new StartPositionEntry();
+            StartPositionEntry ForeditStartPosition = new StartPositionEntry();
 
-            PositionEntry SonicEndPosition = new PositionEntry();
-            PositionEntry DarkEndPosition = new PositionEntry();
-            PositionEntry RoseEndPosition = new PositionEntry();
-            PositionEntry ChaotixEndPosition = new PositionEntry();
-            PositionEntry ForeditEndPosition = new PositionEntry();
+            EndPositionEntry SonicEndPosition = new EndPositionEntry();
+            EndPositionEntry DarkEndPosition = new EndPositionEntry();
+            EndPositionEntry RoseEndPosition = new EndPositionEntry();
+            EndPositionEntry ChaotixEndPosition = new EndPositionEntry();
+            EndPositionEntry ForeditEndPosition = new EndPositionEntry();
 
-            PositionEntry SonicBragPosition = new PositionEntry();
-            PositionEntry DarkBragPosition = new PositionEntry();
-            PositionEntry RoseBragPosition = new PositionEntry();
-            PositionEntry ChaotixBragPosition = new PositionEntry();
-            PositionEntry ForeditBragPosition = new PositionEntry();
+            EndPositionEntry SonicBragPosition = new EndPositionEntry();
+            EndPositionEntry DarkBragPosition = new EndPositionEntry();
+            EndPositionEntry RoseBragPosition = new EndPositionEntry();
+            EndPositionEntry ChaotixBragPosition = new EndPositionEntry();
+            EndPositionEntry ForeditBragPosition = new EndPositionEntry();
 
             string[] ConfigFile = File.ReadAllLines(FileName);
 
@@ -266,7 +192,7 @@ namespace HeroesPowerPlant.Config
                     ComboLevelConfig.SelectedItem = i;
                     CurrentLevelConfig = i;
                     NotFoundEntry = false;
-                    
+                    break;
                 }
             }
             if (NotFoundEntry) throw new Exception();
@@ -279,25 +205,25 @@ namespace HeroesPowerPlant.Config
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { SonicStartPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicStartPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicStartPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { SonicStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { SonicStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { SonicStartPosition.Mode = Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { SonicStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { SonicStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { SonicEndPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicEndPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicEndPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { SonicEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { SonicEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { SonicBragPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicBragPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicBragPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { SonicBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { SonicBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
@@ -305,25 +231,25 @@ namespace HeroesPowerPlant.Config
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { DarkStartPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkStartPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkStartPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { DarkStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { DarkStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { DarkStartPosition.Mode = Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { DarkStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { DarkStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { DarkEndPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkEndPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkEndPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { DarkEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { DarkEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { DarkBragPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkBragPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkBragPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { DarkBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { DarkBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
@@ -331,25 +257,25 @@ namespace HeroesPowerPlant.Config
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { RoseStartPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseStartPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseStartPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { RoseStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { RoseStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { RoseStartPosition.Mode = Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { RoseStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { RoseStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { RoseEndPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseEndPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseEndPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { RoseEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { RoseEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { RoseBragPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseBragPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseBragPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { RoseBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { RoseBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
@@ -357,25 +283,25 @@ namespace HeroesPowerPlant.Config
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixStartPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixStartPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixStartPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ChaotixStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { ChaotixStartPosition.Mode = Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { ChaotixStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { ChaotixStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixEndPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixEndPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixEndPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ChaotixEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixBragPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixBragPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixBragPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ChaotixBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
@@ -383,68 +309,68 @@ namespace HeroesPowerPlant.Config
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditStartPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditStartPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditStartPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ForeditStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { ForeditStartPosition.Mode = Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { ForeditStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { ForeditStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditEndPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditEndPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditEndPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ForeditEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditBragPosition.Position.X = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditBragPosition.Position.Y = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditBragPosition.Position.Z = Convert.ToSingle(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ForeditBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
             }
 
-            Start_Positions.Add(SonicStartPosition);
-            Start_Positions.Add(DarkStartPosition);
-            Start_Positions[0].NewColorAndRenderer(Color.Blue.ToVector3());
-            Start_Positions[1].NewColorAndRenderer(Color.Red.ToVector3());
+            StartPositions.Add(SonicStartPosition);
+            StartPositions.Add(DarkStartPosition);
+            StartPositions[0].NewColor(Color.Blue.ToVector3());
+            StartPositions[1].NewColor(Color.Red.ToVector3());
 
-            End_Positions.Add(SonicEndPosition);
-            End_Positions.Add(DarkEndPosition);
-            End_Positions.Add(RoseEndPosition);
-            End_Positions.Add(ChaotixEndPosition);
-            End_Positions.Add(ForeditEndPosition);
-            End_Positions[0].NewColorAndRenderer(Color.LightBlue.ToVector3());
-            End_Positions[1].NewColorAndRenderer(Color.IndianRed.ToVector3());
-            End_Positions[2].NewColorAndRenderer(Color.Pink.ToVector3());
-            End_Positions[3].NewColorAndRenderer(Color.LightGreen.ToVector3());
-            End_Positions[4].NewColorAndRenderer(Color.Yellow.ToVector3());
+            EndPositions.Add(SonicEndPosition);
+            EndPositions.Add(DarkEndPosition);
+            EndPositions.Add(RoseEndPosition);
+            EndPositions.Add(ChaotixEndPosition);
+            EndPositions.Add(ForeditEndPosition);
+            EndPositions[0].NewColor(Color.LightBlue.ToVector3());
+            EndPositions[1].NewColor(Color.IndianRed.ToVector3());
+            EndPositions[2].NewColor(Color.Pink.ToVector3());
+            EndPositions[3].NewColor(Color.LightGreen.ToVector3());
+            EndPositions[4].NewColor(Color.Yellow.ToVector3());
 
             if (CurrentLevelConfig.Mode == ModeType.SinglePlayer)
             {
-                Start_Positions.Add(RoseStartPosition);
-                Start_Positions.Add(ChaotixStartPosition);
-                Start_Positions.Add(ForeditStartPosition);
-                Start_Positions[2].NewColorAndRenderer(Color.HotPink.ToVector3());
-                Start_Positions[3].NewColorAndRenderer(Color.Green.ToVector3());
-                Start_Positions[4].NewColorAndRenderer(Color.Orange.ToVector3());
+                StartPositions.Add(RoseStartPosition);
+                StartPositions.Add(ChaotixStartPosition);
+                StartPositions.Add(ForeditStartPosition);
+                StartPositions[2].NewColor(Color.HotPink.ToVector3());
+                StartPositions[3].NewColor(Color.Green.ToVector3());
+                StartPositions[4].NewColor(Color.Orange.ToVector3());
             }
 
             if (CurrentLevelConfig.Mode == ModeType.MultiPlayer)
             {
-                Brag_Positions.Add(SonicBragPosition);
-                Brag_Positions.Add(DarkBragPosition);
-                Brag_Positions.Add(RoseBragPosition);
-                Brag_Positions.Add(ChaotixBragPosition);
-                Brag_Positions.Add(ForeditBragPosition);
-                Brag_Positions[0].NewColorAndRenderer(Color.DarkBlue.ToVector3());
-                Brag_Positions[1].NewColorAndRenderer(Color.DarkRed.ToVector3());
-                Brag_Positions[2].NewColorAndRenderer(Color.DarkMagenta.ToVector3());
-                Brag_Positions[3].NewColorAndRenderer(Color.DarkGreen.ToVector3());
-                Brag_Positions[4].NewColorAndRenderer(Color.DarkOrange.ToVector3());
+                BragPositions.Add(SonicBragPosition);
+                BragPositions.Add(DarkBragPosition);
+                BragPositions.Add(RoseBragPosition);
+                BragPositions.Add(ChaotixBragPosition);
+                BragPositions.Add(ForeditBragPosition);
+                BragPositions[0].NewColor(Color.DarkBlue.ToVector3());
+                BragPositions[1].NewColor(Color.DarkRed.ToVector3());
+                BragPositions[2].NewColor(Color.DarkMagenta.ToVector3());
+                BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
+                BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
             }
 
             ComboLevelConfig.Enabled = true;
@@ -453,7 +379,30 @@ namespace HeroesPowerPlant.Config
             return true;
         }
 
-        private void SaveFile(string FileName)
+        private void SaveFileJson(string FileName)
+        {
+            GenericStageInjectionCommon.Shared.Config c = new GenericStageInjectionCommon.Shared.Config
+            {
+                StartPositions = new List<PositionStart>(),
+                EndPositions = new List<PositionEnd>(),
+                BragPositions = new List<PositionEnd>()
+            };
+
+            foreach (StartPositionEntry s in StartPositions)
+                c.StartPositions.Add(s.Position);
+
+            foreach (EndPositionEntry s in EndPositions)
+                c.EndPositions.Add(s.Position);
+
+            foreach (EndPositionEntry s in BragPositions)
+                c.BragPositions.Add(s.Position);
+
+            c.StageId = CurrentLevelConfig.StageID;
+
+            GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
+        }
+
+        private void SaveFileIni(string FileName)
         {
             StreamWriter streamWriter = new StreamWriter(new FileStream(FileName, FileMode.Create));
 
@@ -483,29 +432,29 @@ namespace HeroesPowerPlant.Config
                 else if (i == 3) team = "CHAOTIX_";
                 else team = "FOREDIT_";
 
-                if (i < 2 | Start_Positions.Count > 2)
+                if (i < 2 | StartPositions.Count > 2)
                 {
-                    streamWriter.WriteLine(team + "START_POSITIONX=" + Start_Positions[i].Position.X.ToString());
-                    streamWriter.WriteLine(team + "START_POSITIONY=" + Start_Positions[i].Position.Y.ToString());
-                    streamWriter.WriteLine(team + "START_POSITIONZ=" + Start_Positions[i].Position.Z.ToString());
-                    streamWriter.WriteLine(team + "START_PITCH=" + Start_Positions[i].Pitch.ToString());
-                    streamWriter.WriteLine(team + "START_MODE=" + Start_Positions[i].Mode.ToString());
-                    streamWriter.WriteLine(team + "START_RUNNING=" + Start_Positions[i].HoldTime.ToString());
+                    streamWriter.WriteLine(team + "START_POSITIONX=" + StartPositions[i].PositionX.ToString());
+                    streamWriter.WriteLine(team + "START_POSITIONY=" + StartPositions[i].PositionY.ToString());
+                    streamWriter.WriteLine(team + "START_POSITIONZ=" + StartPositions[i].PositionZ.ToString());
+                    streamWriter.WriteLine(team + "START_PITCH=" + StartPositions[i].Pitch.ToString());
+                    streamWriter.WriteLine(team + "START_MODE=" + StartPositions[i].Mode.ToString());
+                    streamWriter.WriteLine(team + "START_RUNNING=" + StartPositions[i].HoldTime.ToString());
                     streamWriter.WriteLine();
                 }
 
-                streamWriter.WriteLine(team + "END_POSITIONX=" + End_Positions[i].Position.X.ToString());
-                streamWriter.WriteLine(team + "END_POSITIONY=" + End_Positions[i].Position.Y.ToString());
-                streamWriter.WriteLine(team + "END_POSITIONZ=" + End_Positions[i].Position.Z.ToString());
-                streamWriter.WriteLine(team + "END_PITCH=" + End_Positions[i].Pitch.ToString());
+                streamWriter.WriteLine(team + "END_POSITIONX=" + EndPositions[i].PositionX.ToString());
+                streamWriter.WriteLine(team + "END_POSITIONY=" + EndPositions[i].PositionY.ToString());
+                streamWriter.WriteLine(team + "END_POSITIONZ=" + EndPositions[i].PositionZ.ToString());
+                streamWriter.WriteLine(team + "END_PITCH=" + EndPositions[i].Pitch.ToString());
                 streamWriter.WriteLine();
 
-                if (Brag_Positions.Count > 0)
+                if (BragPositions.Count > 0)
                 {
-                    streamWriter.WriteLine(team + "BRAG_POSITIONX=" + Brag_Positions[i].Position.X.ToString());
-                    streamWriter.WriteLine(team + "BRAG_POSITIONY=" + Brag_Positions[i].Position.Y.ToString());
-                    streamWriter.WriteLine(team + "BRAG_POSITIONZ=" + Brag_Positions[i].Position.Z.ToString());
-                    streamWriter.WriteLine(team + "BRAG_PITCH=" + Brag_Positions[i].Pitch.ToString());
+                    streamWriter.WriteLine(team + "BRAG_POSITIONX=" + BragPositions[i].PositionX.ToString());
+                    streamWriter.WriteLine(team + "BRAG_POSITIONY=" + BragPositions[i].PositionY.ToString());
+                    streamWriter.WriteLine(team + "BRAG_POSITIONZ=" + BragPositions[i].PositionZ.ToString());
+                    streamWriter.WriteLine(team + "BRAG_PITCH=" + BragPositions[i].Pitch.ToString());
                     streamWriter.WriteLine();
                 }
             }

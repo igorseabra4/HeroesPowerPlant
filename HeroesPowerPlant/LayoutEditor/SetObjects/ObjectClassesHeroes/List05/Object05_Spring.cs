@@ -8,7 +8,7 @@
             set { Write(4, value); }
         }
 
-        public float Rotation
+        public float RotSpeed
         {
             get { return ReadFloat(8); }
             set { Write(8, value); }

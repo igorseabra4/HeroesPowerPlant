@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.CollisionEditor
 {
     public class CollisionSystem
     {
-        public string CurrentCLfileName { get => CurrentCLfileName; private set => CurrentCLfileName = value; }
+        public string CurrentCLfileName;
         public int NumVertices { get => data.numVertices; }
         public int NumTriangles { get => data.numTriangles; }
         public int NumQuadNodes { get => data.numQuadnodes; }

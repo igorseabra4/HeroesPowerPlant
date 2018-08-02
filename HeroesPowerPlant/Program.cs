@@ -10,7 +10,6 @@ namespace HeroesPowerPlant
         public static MainForm mainForm;
         public static AboutBox aboutBox;
 
-        public static ReadWriteProcess MemManager;
         public static ViewConfig viewConfig;
         public static Config.ConfigEditor configEditor;
         public static LevelEditor.LevelEditor levelEditor;
@@ -32,7 +31,6 @@ namespace HeroesPowerPlant
 
             mainForm = new MainForm();
             aboutBox = new AboutBox();
-            MemManager = new ReadWriteProcess();
             viewConfig = new ViewConfig();
             configEditor = new Config.ConfigEditor();
             levelEditor = new LevelEditor.LevelEditor();

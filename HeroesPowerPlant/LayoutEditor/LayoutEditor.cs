@@ -375,6 +375,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (listBoxObjects.SelectedIndex != -1)
             {
+                ProgramIsChangingStuff = true;
                 NumericPosX.Value = layoutSystem.GetPosX();
                 NumericPosY.Value = layoutSystem.GetPosY();
                 NumericPosZ.Value = layoutSystem.GetPosZ();
@@ -389,6 +390,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 PropertyGridMisc.SelectedObject = layoutSystem.GetSelectedObjectManager();
                 UpdateDescriptionBox(layoutSystem.GetSelectedSetObjectEntry());
+                ProgramIsChangingStuff = false;
             }
 
             UpdateObjectAmountLabel();

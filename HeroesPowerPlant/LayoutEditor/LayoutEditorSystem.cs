@@ -14,7 +14,7 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private bool isShadow;
         public bool IsShadow { get => isShadow; }
-        
+
         private int currentlySelectedIndex = -1;
         public int CurrentlySelectedIndex { get => currentlySelectedIndex; }
 
@@ -31,7 +31,7 @@ namespace HeroesPowerPlant.LayoutEditor
             heroesObjectEntries = ReadObjectListData("Resources\\Lists\\HeroesObjectList.ini");
             shadowObjectEntries = ReadObjectListData("Resources\\Lists\\ShadowObjectList.ini");
         }
-        
+
         public int GetSetObjectAmount()
         {
             return setObjects.Count;
@@ -187,7 +187,7 @@ namespace HeroesPowerPlant.LayoutEditor
         #endregion
 
         #region Object Editing Methods
-        
+
         public void SelectedIndexChanged(int selectedIndex)
         {
             if (CurrentlySelectedIndex > 0 & CurrentlySelectedIndex < setObjects.Count)
@@ -275,8 +275,15 @@ namespace HeroesPowerPlant.LayoutEditor
         public void SetObjectPosition(float x, float y, float z)
         {
             if (currentlySelectedIndex < 0) return;
+            
+            SetObjectPosition(new Vector3(x, y, z));
+        }
 
-            GetSelectedObject().Position = new Vector3(x, y, z);
+        public void SetObjectPosition(Vector3 v)
+        {
+            if (currentlySelectedIndex < 0) return;
+
+            GetSelectedObject().Position = v;
             GetSelectedObject().CreateTransformMatrix();
         }
 
@@ -295,7 +302,14 @@ namespace HeroesPowerPlant.LayoutEditor
         private void SetObjectRotationDefault(float x, float y, float z)
         {
             if (currentlySelectedIndex < 0) return;
-            GetSelectedObject().Rotation = new Vector3(x, y, z);
+
+            SetObjectRotationDefault(new Vector3(x, y, z));
+        }
+
+        private void SetObjectRotationDefault(Vector3 v)
+        {
+            if (currentlySelectedIndex < 0) return;
+            GetSelectedObject().Rotation = v;
             GetSelectedObject().CreateTransformMatrix();
         }
 
@@ -335,7 +349,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
 
                 foreach (RenderWareFile.Triangle t in BSPRenderer.BSPStream[i].triangleList)
-                {  
+                {
                     Vector3 v1 = BSPRenderer.BSPStream[i].vertexList[t.vertex1];
                     Vector3 v2 = BSPRenderer.BSPStream[i].vertexList[t.vertex2];
                     Vector3 v3 = BSPRenderer.BSPStream[i].vertexList[t.vertex3];
@@ -406,8 +420,11 @@ namespace HeroesPowerPlant.LayoutEditor
             return GetSelectedObject().Rend;
         }
 
-        public object GetSelectedObjectManager()
+        public SetObjectManager GetSelectedObjectManager()
         {
+            if (CurrentlySelectedIndex < 0)
+                return null;
+
             if (isShadow)
                 return ((SetObjectShadow)GetSelectedObject()).objectManager;
             else
@@ -466,13 +483,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool GetSpeedMemory()
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (MemoryFunctions.TryAttach())
             {
-                MemoryFunctions.DeterminePointers();
-                SetObjectPosition(
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer0X),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer0Y),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer0Z));
+                SetObjectPosition(MemoryFunctions.GetPlayer0Position());
                 return true;
             }
             return false;
@@ -480,27 +493,19 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool GetFlyMemory()
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (MemoryFunctions.TryAttach())
             {
-                MemoryFunctions.DeterminePointers();
-                SetObjectPosition(
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer1X),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer1Y),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer1Z));
+                SetObjectPosition(MemoryFunctions.GetPlayer1Position());
                 return true;
             }
             return false;
         }
-        
+
         public bool GetPowMemory()
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (MemoryFunctions.TryAttach())
             {
-                MemoryFunctions.DeterminePointers();
-                SetObjectPosition(
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer2X),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer2Y),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer2Z));
+                SetObjectPosition(MemoryFunctions.GetPlayer2Position());
                 return true;
             }
             return false;
@@ -508,13 +513,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool GetSpeedRotMemory()
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (MemoryFunctions.TryAttach())
             {
-                MemoryFunctions.DeterminePointers();
-                SetObjectRotationDefault(
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer0RX),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer0RY),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer0RZ));
+                SetObjectRotationDefault(MemoryFunctions.GetPlayer0Rotation());
                 return true;
             }
             return false;
@@ -522,13 +523,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool GetFlyRotMemory()
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (MemoryFunctions.TryAttach())
             {
-                MemoryFunctions.DeterminePointers();
-                SetObjectRotationDefault(
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer1RX),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer1RY),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer1RZ));
+                SetObjectRotationDefault(MemoryFunctions.GetPlayer1Rotation());
                 return true;
             }
             return false;
@@ -536,13 +533,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool GetPowRotMemory()
         {
-            if (Program.MemManager.ProcessIsAttached)
+            if (MemoryFunctions.TryAttach())
             {
-                MemoryFunctions.DeterminePointers();
-                SetObjectRotationDefault(
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer2RX),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer2RY),
-                    Program.MemManager.ReadFloat(MemoryFunctions.Pointer2RZ));
+                SetObjectRotationDefault(MemoryFunctions.GetPlayer2Rotation());
                 return true;
             }
             return false;
