@@ -400,6 +400,15 @@ namespace HeroesPowerPlant.Config
             c.StageId = CurrentLevelConfig.StageID;
 
             GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
+
+            Program.splineEditor.buttonSave.Enabled = true;
+
+            if (CurrentLevelConfig.SplinePointer == 0 & Program.splineEditor.SplineList.Count > 0)
+                MessageBox.Show("Notice that this level config doesn't have a spline pointer. Your splines won't work ingame.");
+            else if (CurrentLevelConfig.SplinePointer != 0 & Program.splineEditor.SplineList.Count == 0)
+                Program.splineEditor.AddBlankSpline();
+
+            Program.splineEditor.Save();
         }
 
         private void SaveFileIni(string FileName)

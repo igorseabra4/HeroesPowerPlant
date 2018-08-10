@@ -226,10 +226,25 @@ namespace HeroesPowerPlant.LayoutEditor
                     switch (ObjectType)
                     {
                         case 0x0: return new Object1100_TeleportSwitch();
-                        case 0x3: return new Object1103_CastleFloatingPlatform();
+                        case 0x1: return new Object1101_CastleDoor();
+                        case 0x2: return new Object1102_CastleWall();
+                        case 0x3: return new Object11_FloatingPlatform();
                         case 0x4: return new Object1104_FlameTorch();
+                        case 0x5: return new Object1105_Ghost();
+                        case 0x6: return new Object11_FloatingPlatform();
+                        case 0x7: return new Object11_MansionWallThunder();
+                        case 0x8: return new Object1108_MansionDoor();
                         case 0x9: return new Object_HeroesEmpty();
+                        case 0xA: return new Object_HeroesEmpty();
+                        case 0xB: return new Object_F1Range();
+                        case 0xC: return new Object110C_TriggerMusic();
                         case 0x80: return new Object_IntTypeFloatScale();
+                        case 0x81: return new Object1181_Celestial();
+                        case 0x82: return new Object11_MansionWallThunder();
+                        case 0x83: return new Object_F1Range();
+                        case 0x84: return new Object1184_SmokeScreen();
+                        case 0x85: return new Object1185_Bone();
+                        case 0x88: return new Object1188_Curtain();
                         case 0x89: return new Object_L1Type();
                         default: return new Object_HeroesDefault();
                     }

@@ -50,6 +50,7 @@
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.buttonForceReload = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericDepthLevel)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -106,29 +107,29 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // label5
+            // labelQuadnodes
             // 
             this.labelQuadnodes.AutoSize = true;
-            this.labelQuadnodes.Location = new System.Drawing.Point(12, 79);
-            this.labelQuadnodes.Name = "label5";
+            this.labelQuadnodes.Location = new System.Drawing.Point(12, 57);
+            this.labelQuadnodes.Name = "labelQuadnodes";
             this.labelQuadnodes.Size = new System.Drawing.Size(117, 13);
             this.labelQuadnodes.TabIndex = 12;
             this.labelQuadnodes.Text = "Number of Quadnodes:";
             // 
-            // label4
+            // labelTriangles
             // 
             this.labelTriangles.AutoSize = true;
-            this.labelTriangles.Location = new System.Drawing.Point(12, 66);
-            this.labelTriangles.Name = "label4";
+            this.labelTriangles.Location = new System.Drawing.Point(12, 44);
+            this.labelTriangles.Name = "labelTriangles";
             this.labelTriangles.Size = new System.Drawing.Size(105, 13);
             this.labelTriangles.TabIndex = 13;
             this.labelTriangles.Text = "Number of Triangles:";
             // 
-            // label3
+            // labelVertexNum
             // 
             this.labelVertexNum.AutoSize = true;
-            this.labelVertexNum.Location = new System.Drawing.Point(12, 53);
-            this.labelVertexNum.Name = "label3";
+            this.labelVertexNum.Location = new System.Drawing.Point(12, 31);
+            this.labelVertexNum.Name = "labelVertexNum";
             this.labelVertexNum.Size = new System.Drawing.Size(100, 13);
             this.labelVertexNum.TabIndex = 14;
             this.labelVertexNum.Text = "Number of Vertices:";
@@ -177,9 +178,9 @@
             // 
             // buttonImport
             // 
-            this.buttonImport.Location = new System.Drawing.Point(12, 27);
+            this.buttonImport.Location = new System.Drawing.Point(186, 104);
             this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(110, 23);
+            this.buttonImport.Size = new System.Drawing.Size(145, 23);
             this.buttonImport.TabIndex = 8;
             this.buttonImport.Text = "Import OBJ";
             this.buttonImport.UseVisualStyleBackColor = true;
@@ -189,15 +190,15 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelFileLoaded});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 133);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 162);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(343, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // label1
+            // labelFileLoaded
             // 
-            this.labelFileLoaded.Name = "label1";
+            this.labelFileLoaded.Name = "labelFileLoaded";
             this.labelFileLoaded.Size = new System.Drawing.Size(79, 17);
             this.labelFileLoaded.Text = "No CL loaded";
             // 
@@ -256,7 +257,7 @@
             // checkedListBox1
             // 
             this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 133);
+            this.checkedListBox1.Location = new System.Drawing.Point(12, 162);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(319, 214);
             this.checkedListBox1.TabIndex = 20;
@@ -264,7 +265,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(256, 353);
+            this.button1.Location = new System.Drawing.Point(256, 382);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 21;
@@ -275,16 +276,27 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 104);
+            this.progressBar1.Location = new System.Drawing.Point(12, 133);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(319, 23);
             this.progressBar1.TabIndex = 22;
+            // 
+            // buttonForceReload
+            // 
+            this.buttonForceReload.Enabled = false;
+            this.buttonForceReload.Location = new System.Drawing.Point(12, 104);
+            this.buttonForceReload.Name = "buttonForceReload";
+            this.buttonForceReload.Size = new System.Drawing.Size(168, 23);
+            this.buttonForceReload.TabIndex = 23;
+            this.buttonForceReload.Text = "Force Reload";
+            this.buttonForceReload.UseVisualStyleBackColor = true;
             // 
             // CollisionEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 155);
+            this.ClientSize = new System.Drawing.Size(343, 184);
+            this.Controls.Add(this.buttonForceReload);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkedListBox1);
@@ -343,5 +355,6 @@
         public System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.Button button1;
         public System.Windows.Forms.ProgressBar progressBar1;
+        internal System.Windows.Forms.Button buttonForceReload;
     }
 }

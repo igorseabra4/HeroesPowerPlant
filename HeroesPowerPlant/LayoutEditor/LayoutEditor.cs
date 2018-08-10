@@ -307,6 +307,11 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateDisplayData();
         }
 
+        private void buttonForceReload_Click(object sender, EventArgs e)
+        {
+
+        }
+
         public string GetOpenFileName()
         {
             return layoutSystem.CurrentlyOpenFileName;

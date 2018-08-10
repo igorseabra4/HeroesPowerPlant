@@ -83,6 +83,7 @@
             this.RichTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.PropertyGridMisc = new System.Windows.Forms.PropertyGrid();
             this.buttonDrop = new System.Windows.Forms.Button();
+            this.buttonForceReload = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -522,12 +523,13 @@
             // 
             // GroupBoxGameStuff
             // 
+            this.GroupBoxGameStuff.Controls.Add(this.buttonForceReload);
             this.GroupBoxGameStuff.Controls.Add(this.ButtonTeleport);
             this.GroupBoxGameStuff.Controls.Add(this.GroupBoxGetRot);
             this.GroupBoxGameStuff.Controls.Add(this.GroupBoxGetPos);
             this.GroupBoxGameStuff.Location = new System.Drawing.Point(485, 175);
             this.GroupBoxGameStuff.Name = "GroupBoxGameStuff";
-            this.GroupBoxGameStuff.Size = new System.Drawing.Size(181, 169);
+            this.GroupBoxGameStuff.Size = new System.Drawing.Size(181, 196);
             this.GroupBoxGameStuff.TabIndex = 75;
             this.GroupBoxGameStuff.TabStop = false;
             this.GroupBoxGameStuff.Text = "Sonic Heroes Stuff";
@@ -632,11 +634,11 @@
             this.RichTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RichTextBoxDescription.Cursor = System.Windows.Forms.Cursors.Default;
             this.RichTextBoxDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RichTextBoxDescription.Location = new System.Drawing.Point(485, 350);
+            this.RichTextBoxDescription.Location = new System.Drawing.Point(485, 377);
             this.RichTextBoxDescription.Name = "RichTextBoxDescription";
             this.RichTextBoxDescription.ReadOnly = true;
             this.RichTextBoxDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.RichTextBoxDescription.Size = new System.Drawing.Size(181, 77);
+            this.RichTextBoxDescription.Size = new System.Drawing.Size(181, 50);
             this.RichTextBoxDescription.TabIndex = 77;
             this.RichTextBoxDescription.Text = "";
             // 
@@ -660,6 +662,17 @@
             this.buttonDrop.Text = "Drop";
             this.buttonDrop.UseVisualStyleBackColor = true;
             this.buttonDrop.Click += new System.EventHandler(this.buttonDrop_Click);
+            // 
+            // buttonForceReload
+            // 
+            this.buttonForceReload.Enabled = false;
+            this.buttonForceReload.Location = new System.Drawing.Point(7, 169);
+            this.buttonForceReload.Name = "buttonForceReload";
+            this.buttonForceReload.Size = new System.Drawing.Size(168, 23);
+            this.buttonForceReload.TabIndex = 6;
+            this.buttonForceReload.Text = "Force Reload";
+            this.buttonForceReload.UseVisualStyleBackColor = true;
+            this.buttonForceReload.Click += new System.EventHandler(this.buttonForceReload_Click);
             // 
             // LayoutEditor
             // 
@@ -773,5 +786,6 @@
         private System.Windows.Forms.ToolStripMenuItem byIDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem byDistanceFromOriginToolStripMenuItem;
         private System.Windows.Forms.Button buttonDrop;
+        internal System.Windows.Forms.Button buttonForceReload;
     }
 }

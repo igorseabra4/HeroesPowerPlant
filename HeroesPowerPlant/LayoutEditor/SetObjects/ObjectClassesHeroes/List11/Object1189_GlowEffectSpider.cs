@@ -1,8 +1,4 @@
-﻿using SharpDX;
-using System;
-using static HeroesPowerPlant.SharpRenderer;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1189_GlowEffectSpider : SetObjectManagerHeroes
     {

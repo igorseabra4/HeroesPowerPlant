@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1103_CastleFloatingPlatform : SetObjectManagerHeroes
+    public class Object11_FloatingPlatform : SetObjectManagerHeroes
     {
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (IsUpsideDown)
+            if (AlternateType)
                 base.Draw(modelNames.Skip(2).ToArray(), isSelected);
             else
                 base.Draw(modelNames.Take(2).ToArray(), isSelected);
@@ -25,7 +24,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { byte a = (byte)value; Write(4, a); }
         }
 
-        public bool IsUpsideDown
+        public bool AlternateType
         {
             get { return ReadByte(5) != 0; }
             set { Write(5, (byte)(value ? 1 : 0)); }

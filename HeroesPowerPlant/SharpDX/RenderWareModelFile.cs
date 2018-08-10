@@ -178,7 +178,7 @@ namespace HeroesPowerPlant
                 for (int i = 0; i < vertexList.Count; i++)
                 {
                     RenderWareFile.Color c = AtomicSector.atomicStruct.colorArray[i];
-
+                    
                     VertexColoredTextured v = vertexList[i];
                     v.Color = new SharpDX.Color(c.R, c.G, c.B, c.A);
                     vertexList[i] = v;

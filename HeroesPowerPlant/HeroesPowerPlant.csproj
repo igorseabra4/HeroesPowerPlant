@@ -140,6 +140,18 @@
     <Compile Include="ConfigEditor\EndPositionEntry.cs" />
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1101_CastleDoor.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1102_CastleWall.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1105_Ghost.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1108_MansionDoor.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1181_Celestial.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1184_SmokeScreen.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1185_Bone.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1188_Curtain.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object11_FloatingPlatform.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object11_MansionWallThunder.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object00_TriggerCommon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object110C_TriggerMusic.cs" />
     <Compile Include="Shared\Extensions.cs" />
     <Compile Include="ConfigEditor\SplineEditor.cs">
       <SubType>Form</SubType>
@@ -195,7 +207,6 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0080_TriggerTeleport.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Box.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_DashPadRing.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object00_TriggerCommon.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Weight.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0102_TruckRail.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0103_TruckPath.cs" />
@@ -226,7 +237,6 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object05_StarPanel.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\MysticLight.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1100_TeleportSwitch.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1103_CastleFloatingPlatform.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1104_FlameTorch.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1189_GlowEffectSpider.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List13\Object1305_EggFleetDoor.cs" />

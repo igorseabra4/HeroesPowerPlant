@@ -106,7 +106,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         private static DefaultRenderData renderData;
 
-        public Matrix cameraWorld;
+        private Matrix cameraWorld;
         private Matrix pointAWorld;
         private Matrix pointBWorld;
         private Matrix pointCWorld;
