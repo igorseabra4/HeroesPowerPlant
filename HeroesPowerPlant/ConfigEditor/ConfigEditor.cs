@@ -131,7 +131,7 @@ namespace HeroesPowerPlant.Config
         {
             SaveFileDialog SaveConfigFile = new SaveFileDialog
             {
-                Filter = ".cc files|*.cc|JSON files|*.json",
+                Filter = "JSON files (Reloaded/New Stage Injection)|*.json|.cc files (Heroes Mod Loader/Legacy)|*.cc",
                 FileName = OpenConfigFileName
             };
             DialogResult result = SaveConfigFile.ShowDialog();

@@ -401,11 +401,6 @@ namespace HeroesPowerPlant.Config
 
             Program.splineEditor.buttonSave.Enabled = true;
 
-            if (CurrentLevelConfig.SplinePointer == 0 & Program.splineEditor.SplineList.Count > 0)
-                MessageBox.Show("Notice that this level config doesn't have a spline pointer. Your splines won't work ingame.");
-            else if (CurrentLevelConfig.SplinePointer != 0 & Program.splineEditor.SplineList.Count == 0)
-                Program.splineEditor.AddBlankSpline();
-
             Program.splineEditor.Save();
         }
 
