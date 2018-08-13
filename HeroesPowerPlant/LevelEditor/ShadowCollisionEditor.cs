@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using HeroesONELib;
-using static HeroesPowerPlant.LevelEditor.VisibilityFunctions;
 using static HeroesPowerPlant.LevelEditor.LevelEditorFunctions;
 using static HeroesPowerPlant.BSPRenderer;
-using SharpDX;
 using RenderWareFile;
-using RenderWareFile.Sections;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace HeroesPowerPlant.LevelEditor

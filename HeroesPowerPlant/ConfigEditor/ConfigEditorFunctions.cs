@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using GenericStageInjectionCommon.Structs.Positions.Substructures;
-using GenericStageInjectionCommon.Shared;
-using System.Linq;
 using GenericStageInjectionCommon.Shared.Enums;
 
 namespace HeroesPowerPlant.Config

@@ -1,8 +1,10 @@
-﻿using HeroesONELib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using RenderWareFile;
 using HeroesPowerPlant.LayoutEditor;
 using System.Windows.Forms;
+using HeroesONE_R.Structures;
+using HeroesONE_R.Structures.Subsctructures;
 
 namespace HeroesPowerPlant
 {
@@ -54,7 +56,8 @@ namespace HeroesPowerPlant
                             ObjectDFFNames.Add(s);
                 }
             
-            foreach (HeroesONEFile.File j in new HeroesONEFile(fileName).Files)
+            byte[] dataBytes = File.ReadAllBytes(fileName);
+            foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
             {
                 AddDFF(j);
             }
@@ -62,12 +65,13 @@ namespace HeroesPowerPlant
             Program.layoutEditor.layoutSystem.ResetMatrices();
         }
 
-        public static void AddDFF(HeroesONEFile.File j)
+        public static void AddDFF(ArchiveFile j)
         {
             if (ObjectDFFNames.Contains(j.Name))
             {
                 RenderWareModelFile d = new RenderWareModelFile(j.Name);
-                d.SetForRendering(ReadFileMethods.ReadRenderWareFile(j.Data), j.Data);
+                byte[] dffData = j.DecompressThis();
+                d.SetForRendering(ReadFileMethods.ReadRenderWareFile(dffData), dffData);
 
                 if (DFFStream.ContainsKey(j.Name))
                 {

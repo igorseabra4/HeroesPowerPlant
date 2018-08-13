@@ -1,8 +1,4 @@
-﻿using System;
-using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0584_GiantDice : Object_HeroesDefault
     {

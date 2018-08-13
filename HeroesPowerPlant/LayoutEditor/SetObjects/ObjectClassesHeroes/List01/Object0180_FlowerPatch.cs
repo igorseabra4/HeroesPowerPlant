@@ -1,6 +1,4 @@
 ﻿using SharpDX;
-using System;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {

@@ -1,6 +1,8 @@
 ﻿using SharpDX;
 using System;
 using System.Windows.Forms;
+using Reloaded_GUI.Styles.Themes;
+using Reloaded_GUI.Styles.Themes.ApplyTheme;
 
 namespace HeroesPowerPlant
 {

@@ -52,19 +52,58 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="csharp-prs, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>G:\SonicHeroes\Tools\HeroesONE_R\csharp-prs.dll</HintPath>
+    <Reference Include="ColorMine, Version=1.2.0.0, Culture=neutral, PublicKeyToken=7a2c4d30138edc39, processorArchitecture=MSIL">
+      <HintPath>..\packages\ColorMine.1.2.0\lib\net45\ColorMine.dll</HintPath>
     </Reference>
-    <Reference Include="FraGag.Compression.Prs">
-      <HintPath>..\..\HeroesPowerPlant\HeroesPowerPlant\HeroesPowerPlant\bin\Debug\FraGag.Compression.Prs.dll</HintPath>
+    <Reference Include="libReloaded-IO, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libReloaded-IO.1.2.2-dev\lib\net472\libReloaded-IO.dll</HintPath>
     </Reference>
-    <Reference Include="GenericStageInjectionCommon">
-      <HintPath>..\..\GenericStageInjectionCommon\GenericStageInjectionCommon\bin\Debug\netstandard2.0\GenericStageInjectionCommon.dll</HintPath>
+    <Reference Include="libReloaded-Native, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libReloaded-Native.1.2.2-dev\lib\net472\libReloaded-Native.dll</HintPath>
     </Reference>
-    <Reference Include="HeroesONE_R">
-      <HintPath>G:\SonicHeroes\Tools\HeroesONE_R\HeroesONE_R.dll</HintPath>
+    <Reference Include="libReloaded-Paths, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libReloaded-Paths.1.2.2-dev\lib\net472\libReloaded-Paths.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -72,11 +111,11 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:\Users\igor\AppData\Roaming\Reloaded-Mod-Loader\Reloaded-Mods\Sonic-Heroes\Reloaded-Mod-Template\Libraries\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RenderWareFile">
-      <HintPath>..\..\RenderWareBSP\RenderWareFile\bin\Debug\RenderWareFile.dll</HintPath>
+    <Reference Include="Reloaded-GUI, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reloaded-GUI.1.0.3\lib\net472\Reloaded-GUI.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
@@ -98,6 +137,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -306,7 +348,6 @@
     <Compile Include="Shared\ReadWriteCommon.cs" />
     <Compile Include="Shared\ReadWriteMemory.cs" />
     <Compile Include="CollisionEditor\CollisionRendering.cs" />
-    <Compile Include="Shared\HeroesONEFile.cs" />
     <Compile Include="LevelEditor\ColladaFunctions.cs" />
     <Compile Include="LevelEditor\collada_schema_1_4.cs" />
     <Compile Include="LevelEditor\VisibilityFunctions.cs" />
@@ -336,6 +377,7 @@
     <Compile Include="MainForm\ViewConfig.designer.cs">
       <DependentUpon>ViewConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="VisualGUI\CustomToolstripRenderer.cs" />
     <EmbeddedResource Include="CameraEditor\CameraEditor.resx">
       <DependentUpon>CameraEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -490,6 +532,20 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenericStageInjectionCommon\GenericStageInjectionCommon\GenericStageInjectionCommon.csproj">
+      <Project>{3cc13c40-7e3f-42f8-aca8-37ca14bb57a4}</Project>
+      <Name>GenericStageInjectionCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeroesONE-Reloaded\HeroesONE++\HeroesONE_R.csproj">
+      <Project>{6fb14740-4ca8-48a5-ae1c-c48546ffc828}</Project>
+      <Name>HeroesONE_R</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderWareFile\RenderWareFile\RenderWareFile.csproj">
+      <Project>{005f2d00-06de-4ef9-bfee-80efac49e114}</Project>
+      <Name>RenderWareFile</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,7 +5,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SharpDX;
-using SharpDX.Direct3D11;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.Config

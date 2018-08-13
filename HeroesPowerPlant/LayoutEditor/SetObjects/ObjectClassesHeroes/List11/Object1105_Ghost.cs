@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1105_Ghost : SetObjectManagerHeroes
     {

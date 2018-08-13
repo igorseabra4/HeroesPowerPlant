@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D11;
 using SharpDX.Direct3D;
 
 using Buffer11 = SharpDX.Direct3D11.Buffer;
-using Device = SharpDX.Direct3D11.Device;
 
 namespace HeroesPowerPlant
 {
