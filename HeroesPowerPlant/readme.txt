@@ -1,4 +1,4 @@
-	= Heroes Power Plant v 0.6 BETA =
+	= Heroes Power Plant v 0.6.6 =
 Please read all of this if you have no previous experience with Sonic Heroes/Shadow the Hedgehog level editing!
 
 	= Viewport =
@@ -13,26 +13,26 @@ Please read all of this if you have no previous experience with Sonic Heroes/Sha
 - R: reset view
 - Z: toggle mouse mode*
 
+*Mouse mode: similar to a first person camera. The view rotates automatically as you move the mouse. Use the keyboard to move around.
+
 	Mouse controls:
 - Left click to select an object or camera
 - Mouse wheel to move forward/backward
 - Right click and drag to pan
 - Middle click and drag to rotate view
 
-*Mouse mode: similar to a first person camera. The view rotates automatically as you move the mouse. Use the keyboard to move around.
-
 	Project:
-A project INI is Heroes Power Plant's way of saving a group of file paths - this way, when you're editing your level, you don't have to open all your files individually again. In the Project INI, the paths for the Config Editor, Level Editor, Visibility Editor, Collision Editor, Layout Editor, Camera Editor and object ONE files are saved. Note that saving a project does *not* save the files for the individual editors, as they are independent of each other. Be aware of this so you don't lose your work.
+A project INI is Heroes Power Plant's way of saving a group of file paths - this way, when you're editing your level, you don't have to open all your files individually again. In the Project INI, the paths for the Config Editor, Level Editor, Visibility Editor, Collision Editor, Layout Editor, Camera Editor and display object ONE files are saved. Note that saving a project does *not* save the files for the individual editors, as they are independent of each other. Be aware of this so you don't lose your work.
 
 	Object ONEs:
-The options to add and clear object ONEs let you pick ONE files containing (mostly) DFF models, such as a s**_obj.one. This will allow the Layout Editor to display some objects with their actual models instead of representing them by small cubes.
+The options to add and clear object ONEs let you pick ONE files containing (mostly) DFF models, such as a s**_obj.one. This will allow the Layout Editor to display some objects with their actual models instead of representing them by small cubes. Add object ONEs only after opening the level model, otherwise it won't be able to find textures.
 
-	Options:
-- No culling (C): toggles backface culling
-- Wireframe (F): toggles wireframe mode
+	Options (and their shortcut keys):
+- No culling (C): toggles backface culling.
+- Wireframe (F): toggles wireframe mode.
 - Mouse mode: allows you to choose between clicking to select layout objects or camera triggers.
-- Background color: allows you to choose a new background color for the view
-- Selection color: allows you to choose a new tint for selected objects
+- Background color: allows you to choose a new background color for the view.
+- Selection color: allows you to choose a new tint for selected objects.
 - Start Pos (Y): toggles display of Start/End/Bragging positions from the Config Editor.
 - Splines (U): toggles display of splines from the Spline Editor.
 - Render By Chunk (H): toggles between display of entire level or just current chunk from the Level/Visibility Editor.
@@ -45,32 +45,35 @@ The options to add and clear object ONEs let you pick ONE files containing (most
 - VSync: toggles frame limiter (wanna see how much FPS you can get with the entire level being rendered?)
 
 	= View Config (F1) =
-Press F1 or click the status bar to display the view config window. Here you can set the view's position, rotation and a few other settings.
+Press F1 or click the status bar to display the view config window. Here you can set the view's position, rotation, movement speed (interval), draw distance (will affect object render distance), field of view and height to display the quadtree.
 
 	= Mod Loader Config Editor (F2) =
 - This editor allows you to create a new or open an existing Config.CC configuration file for the default Heroes Mod Loader Generic Stage Injection Mod DLL.
 - You can choose a level preset (required for the correct spline and position pointers to be saved) and edit start positions, ending positions and bragging positions for all teams (depending on which stage they are available for). You can get the original positions from the EXE using Heroes Tweaker. Note that not all level presets include spline pointers.
 - You can edit the Config.cc file in a text editor if you want to (and remove the spline pointer to leave them untouched, for example).
+- You can also save the file as Stage.json for the Reloaded Mod Loader version of the Generic Stage Injection Mod. This will become the standard format eventually.
 
 	= Level Editor (F3) =
 - For Heroes: this tool allows you to create new, open and edit .ONE level model archives and *_blk.bin visibility files.
 - For Shadow: this tool allows you to create new, open and edit stage folders which contain level models and collision files.
-Note that the level editor only works on the PC, XBOX and GameCube versions of Heroes and Shadow; it can't display or extract the models from the PS2 versions, but it can import new ones for it.
+Note that the level editor only works on the PC, XBOX and GameCube versions of Heroes and Shadow; it can't display or extract the models from the PS2 versions, but can import new ones for it.
 
 	Level Models:
 - You can import DAE, OBJ, or raw BSP. The model must use triangular faces and must contain vertex position and texture coordinate data; vertex normals will be ignored and vertex colors are optional for .DAE files. Your model must contain only one channel of each data type (vertex position, texture coordinate, vertex colors and normals), otherwise the import will fail.
 - You can export one or all of the BSPs as OBJ as well. The exported OBJs contain vertices, triangles, texture coordinates and vertex colors; since OBJ traditionally has no support for vertex colors, you can use the script located in the Tools folder to import these files to 3ds Max with vertex colors. Otherwise, they will be ignored. The material library expects PNG files in the same folder as the models (you can extract these with Magic.TXD).
-- You can double click on a BSP to rename it.
+- You can double click on a BSP to rename it. This will automatically set the new material flag and chunk number. If it cannot be detected, a default one will be set. The BSP name will not be fixed for you, so name it properly.
+- Heroes Power Plant's rendering is not always accurate to what the game will render. Always test your models ingame.
 
 	Visibility Editor:
 - The visibility editor allows you to edit the chunk boundaries *_blk.bin file.
+- You can edit each chunk entry's chunk number (you can have multiple entries enabling the same chunk) and bounding box values.
 - Make sure all maximum values are higher than the corresponding minimum.
-- The AutoChunk function will automatically set chunk boundaries based on the extremities of the BSPs with the same number. The value you can set here is an offset to be added to the boundaries.
+- The AutoChunk function will automatically set chunk boundaries based on the extremities of the BSPs with the same number. The value you can set here is an offset for the boundaries (will be added to positive values and subtracted from negative ones).
 - If you open a ONE archive, it'll try to open the *_blk.bin automatically.
 
 	Shadow Collision Editor:
 The Shadow collision editor allows you to import OBJ files for Shadow collision, which will be converted to BSP.
-- Append one of the following letters to the material names (not mesh names, not texture names!) in your 3D model editor to set up collision flags:
+- Append one of the following letters to the material names (not mesh names, and not texture names!) in your 3D model editor to set up collision flags:
  _a - angled wall
  _c - ceiling
  _f - normal floor/wall
@@ -105,23 +108,24 @@ The collision editor allows you to import an OBJ file, which will be converted t
  _x - death collision (for _xx.CL)
 - Note: if your collision model appears completely black after importing, just open the file again and it should display correctly.
 - If you're looking at _xx (death) or _wt (water) models, normals are reversed, so you should disable culling as the models will show up upside down.
-- To import _xx or _wt, append the appropriate flag to the mesh names, check "flip normals" and set the quadtree depth to 1 before importing.
+- To import _xx or _wt, append the appropriate flag to the mesh names, check "flip normals" and set the quadtree depth to 1 or 2 before importing.
 
 	= Layout Editor (F5) =
 The object layout editor allows you to add, remove and modify objects.
-Note: currently, adding new objects (or changing their types) to Shadow layouts is unsupported. You can try doing so, but the file certainly will not work ingame. Deleting, copying and editing existing ones is fine though.
+Note: currently, adding new objects (or changing their types) to Shadow layouts is unsupported, due to the misc. setting editor being incomplete. You can try doing so, but the file certainly will not work ingame. Deleting, copying and editing existing ones is fine though.
 - You can open s*_*.bin files (from Heroes) or stg*_*.dat (from Shadow) or create new ones.
-- Objects will be displayed as small cubes. You can click on the objects to select them.
-- To render using their actual models, you must add the ONE archive which contains the DFF to the object ONEs (explained above).
+- Objects will mostly be displayed as small cubes. You can click on the objects to select them.
+- To render using their actual models, you must add the ONE archive which contains the DFF to the object ONEs (explained above). This works for Heroes and Shadow files, but the object data INI must contain the name of the DFF model.
+- Many objects have documented misc. settings and thus will allow you to use a pretty editor instead of the generic one. If you want an object's misc. settings added to Heroes Power Plant, tell me and I'll try to add it.
 - If SONIC HEROES(TM) is running, you can get values from ingame or teleport yourself to an object's location (even if you're editing a Shadow layout!)
 - You can export and import the objects with their information to an INI file and import objects from another file without overwriting the currently open one, and OBJ files (in this case, a ring will be placed in each vertex, this is useful for importing lines of rings).
 - You can take a look at the Object Editing pages in Sonic Retro to understand a bit more about this.
 
 	= Spline Editor (F6) =
 The spline editor allows you to view, choose the type of, delete and import new splines from OBJ files.
-- Splines will be loaded from OBJ files in the Splines folder located in the same directory as your CC file (a new one will be created if it doesn't exist).
+- The spline editor is reliant on the Mod Loader Config Editor, and thus will only show up or allow you to save the splines if an existing CC or JSON is open in it.
+- Splines will be loaded from OBJ files in the Splines folder located in the same directory as your CC or JSON file (a new one will be created if it doesn't exist).
 - When importing, make sure your OBJ file contains only one spline.
-- The spline editor is reliant on the Mod Loader Config Editor, and thus will only show up or allow you to save the splines if an existing CC is open in it.
 - There is no way to display or edit splines straight from the game's EXE. You can extract them from the EXE using Heroes Tweaker.
 - If no splines are present, a null one will be created.
 

@@ -232,7 +232,10 @@ namespace HeroesPowerPlant.LayoutEditor
         private void NumericObjLink_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
+            {
                 layoutSystem.SetObjectLink((byte)NumericObjLink.Value);
+                UpdateSingleObjectList();
+            }
         }
 
         private void ButtonFindNextLink_Click(object sender, EventArgs e)

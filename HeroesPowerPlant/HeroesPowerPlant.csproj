@@ -377,7 +377,6 @@
     <Compile Include="MainForm\ViewConfig.designer.cs">
       <DependentUpon>ViewConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="VisualGUI\CustomToolstripRenderer.cs" />
     <EmbeddedResource Include="CameraEditor\CameraEditor.resx">
       <DependentUpon>CameraEditor.cs</DependentUpon>
     </EmbeddedResource>

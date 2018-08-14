@@ -77,17 +77,17 @@ namespace HeroesPowerPlant
 
         public void SetForRendering(RWSection[] rwChunkList, byte[] rwByteArray)
         {
+            rwSectionArray = rwChunkList;
+
             if (rwByteArray == null)
             {
-                rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwChunkList, isShadowCollision ? LevelEditor.LevelEditorFunctions.shadowRenderWareVersion : LevelEditor.LevelEditorFunctions.renderWareVersion);
+                rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwSectionArray, isShadowCollision ? LevelEditor.LevelEditorFunctions.shadowRenderWareVersion : LevelEditor.LevelEditorFunctions.renderWareVersion);
 
                 if (rwSectionByteArray.Length > 450 * 1024)
                     System.Windows.Forms.MessageBox.Show(fileName + " is larger than 450 kb. I will still import it for you, but be warned that files too large might make the game crash.");
             }
             else
                 rwSectionByteArray = rwByteArray;
-
-            rwSectionArray = rwChunkList;
             meshList = new List<SharpMesh>();
 
             vertexList = new List<Vector3>();
