@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.CollisionEditor
@@ -100,8 +101,11 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public void Open(string fileName)
         {
-            collisionSystem.Open(fileName);
-            initFile();
+            if (File.Exists(fileName))
+            {
+                collisionSystem.Open(fileName);
+                initFile();
+            }
         }
 
         public string GetFileName()

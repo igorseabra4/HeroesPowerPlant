@@ -217,7 +217,7 @@ namespace HeroesPowerPlant
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("dat"))
                 {
-                    Program.levelEditor.initVisibilityEditor(true, fileName);
+                    Program.LevelEditor.initVisibilityEditor(true, fileName);
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("fx"))
                 {

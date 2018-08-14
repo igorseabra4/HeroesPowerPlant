@@ -136,7 +136,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
         public void Save()
         {
-            splineFolder = Path.GetDirectoryName(Program.configEditor.OpenConfigFileName) + "\\Splines\\";
+            splineFolder = Path.GetDirectoryName(Program.ConfigEditor.OpenConfigFileName) + "\\Splines\\";
 
             if (!Directory.Exists(splineFolder))
                 Directory.CreateDirectory(splineFolder);

@@ -399,9 +399,9 @@ namespace HeroesPowerPlant.ConfigEditor
 
             GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
 
-            Program.splineEditor.buttonSave.Enabled = true;
+            Program.SplineEditor.buttonSave.Enabled = true;
 
-            Program.splineEditor.Save();
+            Program.SplineEditor.Save();
         }
 
         private void SaveFileIni(string FileName)
@@ -462,14 +462,14 @@ namespace HeroesPowerPlant.ConfigEditor
             }
 
             streamWriter.Close();
-            Program.splineEditor.buttonSave.Enabled = true;
+            Program.SplineEditor.buttonSave.Enabled = true;
 
-            if (CurrentLevelConfig.SplinePointer == 0 & Program.splineEditor.SplineList.Count > 0)
+            if (CurrentLevelConfig.SplinePointer == 0 & Program.SplineEditor.SplineList.Count > 0)
                 MessageBox.Show("Notice that this level config doesn't have a spline pointer. Your splines won't work ingame.");
-            else if (CurrentLevelConfig.SplinePointer != 0 & Program.splineEditor.SplineList.Count == 0)
-                Program.splineEditor.AddBlankSpline();
+            else if (CurrentLevelConfig.SplinePointer != 0 & Program.SplineEditor.SplineList.Count == 0)
+                Program.SplineEditor.AddBlankSpline();
 
-            Program.splineEditor.Save();
+            Program.SplineEditor.Save();
         }
     }
 }

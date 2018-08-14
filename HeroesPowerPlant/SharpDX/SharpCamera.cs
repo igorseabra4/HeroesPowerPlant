@@ -79,7 +79,7 @@ namespace HeroesPowerPlant
             Right = Vector3.Normalize(Vector3.Cross(Forward, Vector3.Up));
             Up = Vector3.Normalize(Vector3.Cross(Right, Forward));
 
-            Program.viewConfig.UpdateValues(Position, Yaw, Pitch, Speed);
+            Program.ViewConfig.UpdateValues(Position, Yaw, Pitch, Speed);
         }
 
         internal void Reset()

@@ -74,8 +74,8 @@ namespace HeroesPowerPlant.ConfigEditor
             LabelFileLoaded.Text = "No file loaded";
             CleanFile();
 
-            Program.mainForm.EnableSplineEditor();
-            Program.splineEditor.SplineEditorNewConfig();
+            Program.MainForm.EnableSplineEditor();
+            Program.SplineEditor.SplineEditorNewConfig();
         }
         
         public string OpenConfigFileName = "";
@@ -93,21 +93,34 @@ namespace HeroesPowerPlant.ConfigEditor
             }
         }
 
-        public void ConfigEditorOpen(string fileName)
+
+        /// <summary>
+        /// Reads a specified Config editor config.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>True if suceeded, else false.</returns>
+        public bool ConfigEditorOpen(string fileName)
         {
-            OpenConfigFileName = fileName;
-            LabelFileLoaded.Text = "Loaded " + OpenConfigFileName;
-            if (ReadINIConfig(OpenConfigFileName))
+            if (File.Exists(fileName))
             {
-                Program.mainForm.EnableSplineEditor();
-                Program.splineEditor.SplineEditorOpenConfig(OpenConfigFileName);
-                Program.splineEditor.buttonSave.Enabled = true;
+                LabelFileLoaded.Text = "Loaded " + fileName;
+                if (ReadINIConfig(fileName))
+                {
+                    Program.MainForm.EnableSplineEditor();
+                    Program.SplineEditor.SplineEditorOpenConfig(fileName);
+                    Program.SplineEditor.buttonSave.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Error opening file");
+                    newToolStripMenuItem_Click(new object(), new EventArgs());
+                    return false;
+                }
+
+                return true;
             }
-            else
-            {
-                MessageBox.Show("Error opening file");
-                newToolStripMenuItem_Click(new object(), new EventArgs());
-            }
+
+            return false;
         }
         
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

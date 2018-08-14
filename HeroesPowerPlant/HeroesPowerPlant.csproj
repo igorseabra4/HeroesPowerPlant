@@ -176,6 +176,7 @@
     <Compile Include="ConfigEditor\EndPositionEntry.cs" />
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
+    <Compile Include="Shared\IO\HPPConfig\HPPConfig.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1101_CastleDoor.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1102_CastleWall.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1105_Ghost.cs" />
@@ -338,7 +339,6 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Shared\MemoryFunctions.cs" />
-    <Compile Include="Shared\PowerPlantPaths.cs" />
     <Compile Include="Shared\ReadWriteCommon.cs" />
     <Compile Include="Shared\ReadWriteMemory.cs" />
     <Compile Include="CollisionEditor\CollisionRendering.cs" />

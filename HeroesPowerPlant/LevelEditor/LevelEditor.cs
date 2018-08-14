@@ -52,25 +52,28 @@ namespace HeroesPowerPlant.LevelEditor
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                OpenONEFile(openFile.FileName);
+                OpenONEHeroesFile(openFile.FileName);
             }
         }
 
-        public void OpenONEFile(string fileName)
+        public void OpenONEHeroesFile(string fileName)
         {
-            SetHeroesMode();
-            openONEfilePath = fileName;
-            SetFilenamePrefix(openONEfilePath);
-
-            byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
-            SetHeroesMeshStream(Archive.FromONEFile(ref fileBytes));
-
-            InitBSPList();
-
-            string SupposedBLK = Path.GetDirectoryName(openONEfilePath) + "\\" + currentFileNamePrefix + "_blk.bin";
-            if (File.Exists(SupposedBLK))
+            if (File.Exists(fileName))
             {
-                initVisibilityEditor(false, SupposedBLK);
+                SetHeroesMode();
+                openONEfilePath = fileName;
+                SetFilenamePrefix(openONEfilePath);
+
+                byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
+                SetHeroesMeshStream(Archive.FromONEFile(ref fileBytes));
+
+                InitBSPList();
+
+                string SupposedBLK = Path.GetDirectoryName(openONEfilePath) + "\\" + currentFileNamePrefix + "_blk.bin";
+                if (File.Exists(SupposedBLK))
+                {
+                    initVisibilityEditor(false, SupposedBLK);
+                }
             }
         }
 
@@ -114,7 +117,7 @@ namespace HeroesPowerPlant.LevelEditor
             Archive one = new Archive(CommonRWVersions.Heroes);
 
             foreach (RenderWareModelFile i in BSPStream)
-                Program.levelEditor.progressBar1.Maximum += i.GetAsByteArray().Length;
+                Program.LevelEditor.progressBar1.Maximum += i.GetAsByteArray().Length;
 
             foreach (RenderWareModelFile i in BSPStream)
             {
@@ -386,11 +389,11 @@ namespace HeroesPowerPlant.LevelEditor
 
             if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                OpenONEFolder(openFile.FileName);
+                OpenONEShadowFolder(openFile.FileName);
             }
         }
 
-        public void OpenONEFolder(string fileName)
+        public void OpenONEShadowFolder(string fileName)
         {
             SetShadowMode();
             openONEfilePath = fileName;
@@ -506,7 +509,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            openVisibilityFile = null;
+            OpenVisibilityFile = null;
             ChunkList.Clear();
             numericCurrentChunk.Maximum = ChunkList.Count();
             labelChunkAmount.Text = "Amount: " + ChunkList.Count();
@@ -527,33 +530,36 @@ namespace HeroesPowerPlant.LevelEditor
 
         public void initVisibilityEditor(bool isShadow, string fileName)
         {
-            if (isShadow)
+            if (File.Exists(fileName))
             {
-                openVisibilityFile = null;
-                byte[] bytes = File.ReadAllBytes(fileName);
-                ChunkList = LoadShadowVisibilityFile(Archive.FromONEFile(ref bytes));
-                labelLoadedBLK.Text = "";
-            }
-            else
-            {
-                openVisibilityFile = fileName;
-                ChunkList = loadHeroesVisibilityFile(openVisibilityFile);
-                labelLoadedBLK.Text = "Loaded " + fileName;
-            }
+                if (isShadow)
+                {
+                    OpenVisibilityFile = null;
+                    byte[] bytes = File.ReadAllBytes(fileName);
+                    ChunkList = LoadShadowVisibilityFile(Archive.FromONEFile(ref bytes));
+                    labelLoadedBLK.Text = "";
+                }
+                else
+                {
+                    OpenVisibilityFile = fileName;
+                    ChunkList = loadHeroesVisibilityFile(OpenVisibilityFile);
+                    labelLoadedBLK.Text = "Loaded " + fileName;
+                }
 
-            numericCurrentChunk.Minimum = 1;
-            numericCurrentChunk.Maximum = ChunkList.Count();
-            numericCurrentChunk.Value = ChunkList.Count();
-            if (numericCurrentChunk.Maximum != 0)
-                numericCurrentChunk.Value = 1;
+                numericCurrentChunk.Minimum = 1;
+                numericCurrentChunk.Maximum = ChunkList.Count();
+                numericCurrentChunk.Value = ChunkList.Count();
+                if (numericCurrentChunk.Maximum != 0)
+                    numericCurrentChunk.Value = 1;
 
-            labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+                labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+            }
         }
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (openVisibilityFile != null)
-                saveHeroesVisibilityFile(ChunkList, openVisibilityFile);
+            if (OpenVisibilityFile != null)
+                saveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
             else
                 saveAsToolStripMenuItem1_Click(sender, e);
         }
@@ -563,17 +569,17 @@ namespace HeroesPowerPlant.LevelEditor
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
                 Filter = "BIN files|*.bin",
-                FileName = Path.GetFileName(openVisibilityFile),
+                FileName = Path.GetFileName(OpenVisibilityFile),
                 AddExtension = true,
                 DefaultExt = "bin",
-                InitialDirectory = Path.GetDirectoryName(openVisibilityFile)
+                InitialDirectory = Path.GetDirectoryName(OpenVisibilityFile)
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                openVisibilityFile = saveFileDialog.FileName;
-                saveHeroesVisibilityFile(ChunkList, openVisibilityFile);
-                labelLoadedBLK.Text = "Loaded " + openVisibilityFile;
+                OpenVisibilityFile = saveFileDialog.FileName;
+                saveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
+                labelLoadedBLK.Text = "Loaded " + OpenVisibilityFile;
             }
         }
 
@@ -604,7 +610,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
         }
 
-        public string openVisibilityFile;
+        public string OpenVisibilityFile;
         bool ProgramIsChangingStuff = false;
         
         private void numericCurrentChunk_ValueChanged(object sender, EventArgs e)

@@ -6,16 +6,16 @@ namespace HeroesPowerPlant
 {
     static class Program
     {
-        public static MainForm mainForm;
-        public static AboutBox aboutBox;
+        public static MainForm MainForm;
+        public static AboutBox AboutBox;
 
-        public static ViewConfig viewConfig;
-        public static ConfigEditor.ConfigEditor configEditor;
-        public static LevelEditor.LevelEditor levelEditor;
-        public static CollisionEditor.CollisionEditor collisionEditor;
-        public static LayoutEditor.LayoutEditor layoutEditor;
-        public static SplineEditor splineEditor;
-        public static CameraEditor.CameraEditor cameraEditor;
+        public static ViewConfig ViewConfig;
+        public static ConfigEditor.ConfigEditor ConfigEditor;
+        public static LevelEditor.LevelEditor LevelEditor;
+        public static CollisionEditor.CollisionEditor CollisionEditor;
+        public static LayoutEditor.LayoutEditor LayoutEditor;
+        public static SplineEditor SplineEditor;
+        public static CameraEditor.CameraEditor CameraEditor;
 
         /// <summary>
         /// Ponto de entrada principal para o aplicativo.
@@ -28,17 +28,17 @@ namespace HeroesPowerPlant
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            mainForm = new MainForm();
-            aboutBox = new AboutBox();
-            viewConfig = new ViewConfig();
-            configEditor = new ConfigEditor.ConfigEditor();
-            levelEditor = new LevelEditor.LevelEditor();
-            collisionEditor = new CollisionEditor.CollisionEditor();
-            layoutEditor = new LayoutEditor.LayoutEditor();
-            splineEditor = new SplineEditor();
-            cameraEditor = new CameraEditor.CameraEditor();
+            MainForm = new MainForm();
+            AboutBox = new AboutBox();
+            ViewConfig = new ViewConfig();
+            ConfigEditor = new ConfigEditor.ConfigEditor();
+            LevelEditor = new LevelEditor.LevelEditor();
+            CollisionEditor = new CollisionEditor.CollisionEditor();
+            LayoutEditor = new LayoutEditor.LayoutEditor();
+            SplineEditor = new SplineEditor();
+            CameraEditor = new CameraEditor.CameraEditor();
             
-            Application.Run(mainForm);
+            Application.Run(MainForm);
         }
     }
 }

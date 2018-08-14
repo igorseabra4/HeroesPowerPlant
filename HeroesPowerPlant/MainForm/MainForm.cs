@@ -3,7 +3,7 @@ using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using static HeroesPowerPlant.PowerPlantPaths;
+using HeroesPowerPlant.Shared.IO.HPPConfig;
 
 namespace HeroesPowerPlant
 {
@@ -20,24 +20,44 @@ namespace HeroesPowerPlant
             new SharpRenderer(renderPanel);
         }
         
-        string currentPathsFile;
+        private string currentSavePath;
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ToolstripFileOpen(object sender, EventArgs e)
         {
-            currentPathsFile = open();
+            OpenFileDialog openFile = new OpenFileDialog()
+            { Filter = "Power Plant Config File|*.json" };
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                currentSavePath = openFile.FileName;
+                HPPConfig hppConfig = HPPConfig.Open(openFile.FileName);
+                HPPConfig.ApplyInstance(hppConfig);
+            }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ToolStripFileSave(object sender, EventArgs e)
         {
-            if (currentPathsFile != null)
-                save(currentPathsFile);
+            if (currentSavePath != null)
+            {
+                var hppConfig = HPPConfig.FromCurrentInstance();
+                HPPConfig.Save(hppConfig, currentSavePath);
+
+            }  
             else
-                currentPathsFile = saveAs();
+                ToolStripFileSaveAs(null, null);
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ToolStripFileSaveAs(object sender, EventArgs e)
         {
-            currentPathsFile = saveAs();
+            SaveFileDialog openFile = new SaveFileDialog()
+            { Filter = "Power Plant Config File|*.json" };
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                currentSavePath = openFile.FileName;
+                var hppConfig = HPPConfig.FromCurrentInstance();
+                HPPConfig.Save(hppConfig, currentSavePath);
+            }
         }
 
         private void addObjectONEToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,37 +72,37 @@ namespace HeroesPowerPlant
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.aboutBox.Show();
+            Program.AboutBox.Show();
         }
 
         private void modLoaderConfigEditorF2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.configEditor.Show();
+            Program.ConfigEditor.Show();
         }
 
         private void levelEditorF3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.levelEditor.Show();
+            Program.LevelEditor.Show();
         }
 
         private void collisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.collisionEditor.Show();
+            Program.CollisionEditor.Show();
         }
 
         private void layoutEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.layoutEditor.Show();
+            Program.LayoutEditor.Show();
         }
 
         private void splineEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.splineEditor.Show();
+            Program.SplineEditor.Show();
         }
 
         private void cameraEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.cameraEditor.Show();
+            Program.CameraEditor.Show();
         }
 
         public void EnableSplineEditor()
@@ -197,19 +217,19 @@ namespace HeroesPowerPlant
                 ToggleShowCameras();
 
             if (e.KeyCode == Keys.F1)
-                Program.viewConfig.Show();
+                Program.ViewConfig.Show();
             else if (e.KeyCode == Keys.F2)
-                Program.configEditor.Show();
+                Program.ConfigEditor.Show();
             else if (e.KeyCode == Keys.F3)
-                Program.levelEditor.Show();
+                Program.LevelEditor.Show();
             else if (e.KeyCode == Keys.F4)
-                Program.collisionEditor.Show();
+                Program.CollisionEditor.Show();
             else if (e.KeyCode == Keys.F5)
-                Program.layoutEditor.Show();
+                Program.LayoutEditor.Show();
             else if (e.KeyCode == Keys.F6 & splineEditorToolStripMenuItem.Enabled)
-                Program.splineEditor.Show();
+                Program.SplineEditor.Show();
             else if (e.KeyCode == Keys.F7)
-                Program.cameraEditor.Show();
+                Program.CameraEditor.Show();
         }
 
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
@@ -410,7 +430,7 @@ namespace HeroesPowerPlant
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
-            Program.viewConfig.Show();
+            Program.ViewConfig.Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

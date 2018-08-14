@@ -18,7 +18,7 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             Vertices[0] = a;
 
-            if (Program.collisionEditor.checkBox2.CheckState == CheckState.Checked)
+            if (Program.CollisionEditor.checkBox2.CheckState == CheckState.Checked)
             {
                 Vertices[1] = c;
                 Vertices[2] = b;

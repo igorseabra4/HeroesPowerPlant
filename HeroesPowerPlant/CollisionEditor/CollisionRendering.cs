@@ -132,21 +132,21 @@ namespace HeroesPowerPlant.CollisionEditor
             data.numVertices = Switch(CLReader.ReadUInt16());
             data.numQuadnodes = Switch(CLReader.ReadUInt16());
 
-            Program.collisionEditor.progressBar1.Maximum = data.numTriangles + data.numVertices + 3 * data.numQuadnodes;
+            Program.CollisionEditor.progressBar1.Maximum = data.numTriangles + data.numVertices + 3 * data.numQuadnodes;
 
             List<CLTriangle> CLTriangleList = new List<CLTriangle>(data.numTriangles);
             List<CLVertex> CLVertexList = new List<CLVertex>(data.numVertices);
             data.MeshTypeList = new List<UInt64>();
 
-            Program.collisionEditor.labelVertexNum.Text = "Number of Vertices: " + data.numVertices.ToString();
-            Program.collisionEditor.labelTriangles.Text = "Number of Triangles: " + data.numTriangles.ToString();
-            Program.collisionEditor.labelQuadnodes.Text = "Number of QuadNodes: " + data.numQuadnodes.ToString();
+            Program.CollisionEditor.labelVertexNum.Text = "Number of Vertices: " + data.numVertices.ToString();
+            Program.CollisionEditor.labelTriangles.Text = "Number of Triangles: " + data.numTriangles.ToString();
+            Program.CollisionEditor.labelQuadnodes.Text = "Number of QuadNodes: " + data.numQuadnodes.ToString();
 
             for (int i = 0; i < data.numVertices; i++)
             {
                 CLReader.BaseStream.Position = data.pointVertex + i * 0xC;
                 CLVertexList.Add(new CLVertex(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle())));
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
             
             for (int i = 0; i < data.numTriangles; i++)
@@ -181,7 +181,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 CLVertexList[CLTriangleList[i].Vertices[1]].Color = TempColor;
                 CLVertexList[CLTriangleList[i].Vertices[2]].Color = TempColor;
 
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
 
             data.CLTriangleArray = CLTriangleList.ToArray();
@@ -203,7 +203,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 TempNode.Depth = CLReader.ReadByte();
 
                 data.CLQuadNodeList.Add(TempNode);
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
 
             ReBuildQuadtree(ref data);
@@ -246,13 +246,13 @@ namespace HeroesPowerPlant.CollisionEditor
                     GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 2);
                     GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 3);
                 }
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
 
             //sewer's code
-            Program.collisionEditor.checkedListBox1.Items.Clear();
+            Program.CollisionEditor.checkedListBox1.Items.Clear();
             foreach (CLQuadNode i in data.CLQuadNodeList)
-                Program.collisionEditor.checkedListBox1.Items.Add(i);
+                Program.CollisionEditor.checkedListBox1.Items.Add(i);
             // end
 
             return true;
@@ -281,7 +281,7 @@ namespace HeroesPowerPlant.CollisionEditor
             Int32 k = 0;
             foreach (CLQuadNode i in data.CLQuadNodeList)
             {
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
                 if (i.Child == 0 | i.Index == 0)
                 {
                     QuadNodeVertexList.Add(new Vertex(new Vector3(i.NodeSquare.X, 0, i.NodeSquare.Y)));
@@ -314,7 +314,7 @@ namespace HeroesPowerPlant.CollisionEditor
             Int32 k = 0;
             foreach (CLQuadNode i in data.CLQuadNodeList)
             {
-                if (Program.collisionEditor.checkedListBox1.CheckedIndices.Contains(i.Index))
+                if (Program.CollisionEditor.checkedListBox1.CheckedIndices.Contains(i.Index))
                 {
                     QuadNodeVertexList.Add(new Vertex(new Vector3(i.NodeSquare.X, 100 / (i.Depth + 1), i.NodeSquare.Y)));
                     QuadNodeIndexList.Add(k);

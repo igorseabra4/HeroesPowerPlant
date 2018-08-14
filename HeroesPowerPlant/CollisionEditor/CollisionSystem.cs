@@ -61,9 +61,9 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             CLFile data = new CLFile(depthLevel);
 
-            Program.collisionEditor.progressBar1.Minimum = 0;
-            Program.collisionEditor.progressBar1.Value = 0;
-            Program.collisionEditor.progressBar1.Step = 1;
+            Program.CollisionEditor.progressBar1.Minimum = 0;
+            Program.CollisionEditor.progressBar1.Value = 0;
+            Program.CollisionEditor.progressBar1.Step = 1;
 
             if (ReadOBJFile(InputFile, ref data))
                 if (GenerateCollision(ref data))
@@ -73,7 +73,7 @@ namespace HeroesPowerPlant.CollisionEditor
         public bool ReadOBJFile(string InputFile, ref CLFile data)
         {
             string[] OBJFile = File.ReadAllLines(InputFile);
-            Program.collisionEditor.progressBar1.Maximum = 65535 + OBJFile.Length;
+            Program.CollisionEditor.progressBar1.Maximum = 65535 + OBJFile.Length;
 
             int CurrentMeshNum = -1;
             byte[] TempColFlags = { 0, 0, 0, 0x0 };
@@ -88,7 +88,7 @@ namespace HeroesPowerPlant.CollisionEditor
                     string a = Regex.Replace(j, @"\s+", " ");
                     string[] SubStrings = a.Split(' ');
                     CLVertexList.Add(new CLVertex(Convert.ToSingle(SubStrings[1]), Convert.ToSingle(SubStrings[2]), Convert.ToSingle(SubStrings[3])));
-                    Program.collisionEditor.progressBar1.PerformStep();
+                    Program.CollisionEditor.progressBar1.PerformStep();
                 }
                 else if (j.StartsWith("f "))
                 {
@@ -98,7 +98,7 @@ namespace HeroesPowerPlant.CollisionEditor
                     (ushort)(Convert.ToUInt16(SubStrings[2].Split('/')[0]) - 1),
                     (ushort)(Convert.ToUInt16(SubStrings[3].Split('/')[0]) - 1),
                     CurrentMeshNum, TempColFlags, CLVertexList));
-                    Program.collisionEditor.progressBar1.PerformStep();
+                    Program.CollisionEditor.progressBar1.PerformStep();
                 }
                 else if (j.StartsWith("g ") | j.StartsWith("o "))
                 {
@@ -154,7 +154,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 }
             }
 
-            Program.collisionEditor.progressBar1.Maximum = 65535 + CLVertexList.Count() + CLTriangleList.Count();
+            Program.CollisionEditor.progressBar1.Maximum = 65535 + CLVertexList.Count() + CLTriangleList.Count();
 
             if (CLVertexList.Count >= 0xffff)
             {
@@ -229,7 +229,7 @@ namespace HeroesPowerPlant.CollisionEditor
             data.numVertices = (ushort)data.CLVertexArray.Count();
 
             //Now let's build the quadtree
-            data.PowerFlag = (ushort)Program.collisionEditor.numericUpDownPowerFlag.Value;
+            data.PowerFlag = (ushort)Program.CollisionEditor.numericUpDownPowerFlag.Value;
 
             if (BuildQuadtree(ref data))
             {
@@ -253,7 +253,7 @@ namespace HeroesPowerPlant.CollisionEditor
             TempNode.NodeTriangleArray = Range((ushort)data.CLTriangleArray.Count());
 
             data.CLQuadNodeList.Add(TempNode);
-            Program.collisionEditor.progressBar1.PerformStep();
+            Program.CollisionEditor.progressBar1.PerformStep();
 
             int i = 0;
 
@@ -274,7 +274,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 i += 1;
             }
 
-            Program.collisionEditor.progressBar1.Maximum = 2 * data.CLVertexArray.Count() + 2 * data.CLTriangleArray.Count() + 4 * data.CLQuadNodeList.Count();
+            Program.CollisionEditor.progressBar1.Maximum = 2 * data.CLVertexArray.Count() + 2 * data.CLTriangleArray.Count() + 4 * data.CLQuadNodeList.Count();
             return true;
         }
 
@@ -316,7 +316,7 @@ namespace HeroesPowerPlant.CollisionEditor
             NodeChild.NodeTriangleArray = GetTrianglesInsideNode(NodeChild, NodeParent.NodeTriangleArray, CLTriangleArray);
             NodeChild.NodeTriangleAmount = (ushort)NodeChild.NodeTriangleArray.Count();
 
-            Program.collisionEditor.progressBar1.PerformStep();
+            Program.CollisionEditor.progressBar1.PerformStep();
             return NodeChild;
         }
 
@@ -350,7 +350,7 @@ namespace HeroesPowerPlant.CollisionEditor
                         FileWriter.Write(Switch(j));
                     }
                 }
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
 
             if (FileWriter.BaseStream.Position % 4 == 2)
@@ -376,7 +376,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 FileWriter.Write((ushort)0);
                 FileWriter.Write(0);
 
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
 
             data.pointTriangle = (uint)FileWriter.BaseStream.Position;
@@ -399,7 +399,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 FileWriter.Write(Switch(i.MeshNum));
                 FileWriter.Write((ushort)0);
 
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
 
             data.pointVertex = (uint)FileWriter.BaseStream.Position;
@@ -410,7 +410,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 FileWriter.Write(Switch(i.Position.Y));
                 FileWriter.Write(Switch(i.Position.Z));
 
-                Program.collisionEditor.progressBar1.PerformStep();
+                Program.CollisionEditor.progressBar1.PerformStep();
             }
 
             data.numBytes = (uint)FileWriter.BaseStream.Position;

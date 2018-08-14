@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using static HeroesPowerPlant.MemoryFunctions;
@@ -107,13 +108,13 @@ namespace HeroesPowerPlant.CameraEditor
             Hide();
         }
 
-        public string currentCameraFile;
+        public string CurrentCameraFile;
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
                 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            currentCameraFile = null;
+            CurrentCameraFile = null;
             ListBoxCameras.Items.Clear();
             toolStripStatusFile.Text = "No file loaded";
             UpdateLabelCameraCount();
@@ -127,27 +128,30 @@ namespace HeroesPowerPlant.CameraEditor
             };
             if (OpenCamera.ShowDialog() == DialogResult.OK)
             {
-                open(OpenCamera.FileName);
+                Open(OpenCamera.FileName);
             }
         }
 
-        public void open(string fileName)
+        public void Open(string fileName)
         {
-            currentCameraFile = fileName;
+            if (File.Exists(fileName))
+            {
+                CurrentCameraFile = fileName;
 
-            ListBoxCameras.Items.Clear();
-            ListBoxCameras.Items.AddRange(ImportCameraFile(currentCameraFile).ToArray());
+                ListBoxCameras.Items.Clear();
+                ListBoxCameras.Items.AddRange(ImportCameraFile(CurrentCameraFile).ToArray());
 
-            toolStripStatusFile.Text = "Loaded " + currentCameraFile;
-            UpdateLabelCameraCount();
+                toolStripStatusFile.Text = "Loaded " + CurrentCameraFile;
+                UpdateLabelCameraCount();
 
-            ListBoxCameras.SelectedIndex = -1;
+                ListBoxCameras.SelectedIndex = -1;
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentCameraFile != null)
-                saveCameraFile(currentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
+            if (CurrentCameraFile != null)
+                saveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
             else
                 saveAsToolStripMenuItem_Click(sender, e);
         }
@@ -157,12 +161,12 @@ namespace HeroesPowerPlant.CameraEditor
             SaveFileDialog SaveCamera = new SaveFileDialog()
             {
                 Filter = "Binary Files|*.bin",
-                FileName = currentCameraFile
+                FileName = CurrentCameraFile
             };
             if (SaveCamera.ShowDialog() == DialogResult.OK)
             {
-                currentCameraFile = SaveCamera.FileName;
-                saveCameraFile(currentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
+                CurrentCameraFile = SaveCamera.FileName;
+                saveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
             }
         }
 

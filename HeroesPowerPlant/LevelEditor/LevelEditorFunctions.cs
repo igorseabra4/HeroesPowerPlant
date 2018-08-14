@@ -330,7 +330,7 @@ namespace HeroesPowerPlant.LevelEditor
                 cList.Add(new RenderWareFile.Color(v.Color.R, v.Color.G, v.Color.B, v.Color.A));
 
             List<TextCoord> uvList = new List<TextCoord>(data.VertexList.Count);
-            if (Program.levelEditor.checkBoxFlipUVs.Checked)
+            if (Program.LevelEditor.checkBoxFlipUVs.Checked)
                 foreach (Vertex v in data.VertexList)
                     uvList.Add(new TextCoord(v.TexCoord.X, v.TexCoord.Y));
             else
@@ -344,7 +344,7 @@ namespace HeroesPowerPlant.LevelEditor
             List<BinMesh> binMeshList = new List<BinMesh>();
             int TotalNumberOfTristripIndicies = 0;
 
-            if (Program.levelEditor.checkBoxTristrip.Checked) // tristrip generator
+            if (Program.LevelEditor.checkBoxTristrip.Checked) // tristrip generator
             {
                 for (int i = 0; i < data.MaterialList.Count; i++)
                 {
@@ -395,7 +395,7 @@ namespace HeroesPowerPlant.LevelEditor
             WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors
                 | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;
 
-            worldFlags = Program.levelEditor.checkBoxTristrip.Checked ? worldFlags | WorldFlags.UseTriangleStrips : worldFlags;
+            worldFlags = Program.LevelEditor.checkBoxTristrip.Checked ? worldFlags | WorldFlags.UseTriangleStrips : worldFlags;
 
             World_000B world = new World_000B()
             {
@@ -442,7 +442,7 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         extensionSectionList = new List<RWSection>() { new BinMeshPLG_050E()
                         {
-                            binMeshHeaderFlags = Program.levelEditor.checkBoxTristrip.Checked ? BinMeshHeaderFlags.TriangleStrip : BinMeshHeaderFlags.TriangleList,
+                            binMeshHeaderFlags = Program.LevelEditor.checkBoxTristrip.Checked ? BinMeshHeaderFlags.TriangleStrip : BinMeshHeaderFlags.TriangleList,
                             numMeshes = binMeshList.Count(),
                             totalIndexCount = TotalNumberOfTristripIndicies,
                             binMeshList = binMeshList.ToArray()
@@ -712,7 +712,7 @@ namespace HeroesPowerPlant.LevelEditor
             //Write uv list to obj
             if (AtomicSector.atomicStruct.uvArray != null)
             {
-                if (Program.levelEditor.checkBoxFlipUVs.Checked)
+                if (Program.LevelEditor.checkBoxFlipUVs.Checked)
                     foreach (TextCoord i in AtomicSector.atomicStruct.uvArray)
                         OBJWriter.WriteLine("vt " + i.X.ToString() + " " + (-i.Y).ToString());
                 else
@@ -879,7 +879,7 @@ namespace HeroesPowerPlant.LevelEditor
                     //Write uv list to obj
                     if (textCoordList_final.Count() > 0)
                     {
-                        if (Program.levelEditor.checkBoxFlipUVs.Checked)
+                        if (Program.LevelEditor.checkBoxFlipUVs.Checked)
                             foreach (TextCoord i in textCoordList_final)
                                 OBJWriter.WriteLine("vt " + i.X.ToString() + " " + (-i.Y).ToString());
                         else

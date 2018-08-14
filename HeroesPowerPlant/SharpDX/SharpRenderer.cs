@@ -277,9 +277,9 @@ namespace HeroesPowerPlant
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
             if (mouseModeObjects)
-                Program.layoutEditor.ScreenClicked(ray);
+                Program.LayoutEditor.ScreenClicked(ray);
             else
-                Program.cameraEditor.ScreenClicked(ray);
+                Program.CameraEditor.ScreenClicked(ray);
         }
 
         public static Matrix viewProjection;
@@ -300,11 +300,11 @@ namespace HeroesPowerPlant
                     aspectRatio = (float)Panel.Width / Panel.Height;
                 }
 
-                Program.mainForm.KeyboardController();
+                Program.MainForm.KeyboardController();
 
                 sharpFPS.Update();
 
-                Program.mainForm.SetToolStripStatusLabel(Camera.GetInformation() + " FPS: " + sharpFPS.FPS.ToString());
+                Program.MainForm.SetToolStripStatusLabel(Camera.GetInformation() + " FPS: " + sharpFPS.FPS.ToString());
 
                 //clear color
                 device.Clear(backgroundColor);
@@ -327,18 +327,18 @@ namespace HeroesPowerPlant
                     VisibilityFunctions.RenderChunkModels(viewProjection);
 
                 if (showObjects == CheckState.Checked)
-                    Program.layoutEditor.layoutSystem.RenderAllSetObjects(true);
+                    Program.LayoutEditor.layoutSystem.RenderAllSetObjects(true);
                 else if (showObjects == CheckState.Indeterminate)
-                    Program.layoutEditor.layoutSystem.RenderAllSetObjects(false);
+                    Program.LayoutEditor.layoutSystem.RenderAllSetObjects(false);
 
                 if (showCameras)
-                    Program.cameraEditor.RenderAllCameras();
+                    Program.CameraEditor.RenderAllCameras();
 
                 if (showStartPositions)
-                    Program.configEditor.RenderStartPositions();
+                    Program.ConfigEditor.RenderStartPositions();
 
                 if (showSplines)
-                    Program.splineEditor.RenderSplines();
+                    Program.SplineEditor.RenderSplines();
 
                 if (showQuadtree)
                     CollisionRendering.RenderQuadTree();
