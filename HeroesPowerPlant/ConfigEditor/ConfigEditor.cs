@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using SharpDX;
 
-namespace HeroesPowerPlant.Config
+namespace HeroesPowerPlant.ConfigEditor
 {
     public partial class ConfigEditor : Form
     {

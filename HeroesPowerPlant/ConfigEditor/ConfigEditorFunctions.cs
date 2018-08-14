@@ -1,12 +1,12 @@
-﻿using SharpDX;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using GenericStageInjectionCommon.Structs.Positions.Substructures;
 using GenericStageInjectionCommon.Shared.Enums;
+using GenericStageInjectionCommon.Structs.Positions.Substructures;
+using SharpDX;
 
-namespace HeroesPowerPlant.Config
+namespace HeroesPowerPlant.ConfigEditor
 {
     public partial class ConfigEditor : Form
     {

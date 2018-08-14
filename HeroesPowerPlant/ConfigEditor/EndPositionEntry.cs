@@ -1,7 +1,7 @@
-﻿using SharpDX;
-using GenericStageInjectionCommon.Structs.Positions.Substructures;
+﻿using GenericStageInjectionCommon.Structs.Positions.Substructures;
+using SharpDX;
 
-namespace HeroesPowerPlant.Config
+namespace HeroesPowerPlant.ConfigEditor
 {
     public class EndPositionEntry
     {

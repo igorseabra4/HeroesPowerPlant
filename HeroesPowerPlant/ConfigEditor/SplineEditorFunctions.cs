@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
-namespace HeroesPowerPlant.Config
+namespace HeroesPowerPlant.ConfigEditor
 {
     public partial class SplineEditor : Form
     {
@@ -26,14 +25,14 @@ namespace HeroesPowerPlant.Config
             public bool isSelected = false;
 
             private SharpMesh splineMesh;
-            private DefaultRenderData renderData = new DefaultRenderData();
+            private SharpRenderer.DefaultRenderData renderData = new SharpRenderer.DefaultRenderData();
 
             public void SetRenderStuff()
             {
                 if (splineMesh != null)
                     splineMesh.Dispose();
 
-                splineMesh = SharpMesh.Create(device, Points, ReadWriteCommon.Range(Points.Length), new List<SharpSubSet>() {
+                splineMesh = SharpMesh.Create(SharpRenderer.device, Points, ReadWriteCommon.Range(Points.Length), new List<SharpSubSet>() {
                     new SharpSubSet(0, Points.Length, null) }, SharpDX.Direct3D.PrimitiveTopology.LineStrip);
             }
 
@@ -44,17 +43,17 @@ namespace HeroesPowerPlant.Config
                 else
                     renderData.Color = new Vector4(0.8f, 0.8f, 0f, 1f);
                 
-                renderData.worldViewProjection = viewProjection;
+                renderData.worldViewProjection = SharpRenderer.viewProjection;
 
-                device.SetFillModeSolid();
-                device.SetCullModeNone();
-                device.SetDefaultBlendState();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
+                SharpRenderer.device.SetFillModeSolid();
+                SharpRenderer.device.SetCullModeNone();
+                SharpRenderer.device.SetDefaultBlendState();
+                SharpRenderer.device.ApplyRasterState();
+                SharpRenderer.device.UpdateAllStates();
 
-                device.UpdateData(basicBuffer, renderData);
-                device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-                basicShader.Apply();
+                SharpRenderer.device.UpdateData(SharpRenderer.basicBuffer, renderData);
+                SharpRenderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, SharpRenderer.basicBuffer);
+                SharpRenderer.basicShader.Apply();
                 
                 splineMesh.Draw();
             }
