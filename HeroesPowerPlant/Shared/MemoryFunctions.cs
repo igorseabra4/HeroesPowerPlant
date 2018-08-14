@@ -109,15 +109,19 @@ namespace HeroesPowerPlant
                 DeterminePointer1();
                 DeterminePointer2();
 
-                MemManager.Write4bytes(PointerCharacter0 + PositionXOffset, BitConverter.GetBytes(X));
-                MemManager.Write4bytes(PointerCharacter0 + PositionYOffset, BitConverter.GetBytes(Y));
-                MemManager.Write4bytes(PointerCharacter0 + PositionZOffset, BitConverter.GetBytes(Z));
-                MemManager.Write4bytes(PointerCharacter1 + PositionXOffset, BitConverter.GetBytes(X));
-                MemManager.Write4bytes(PointerCharacter1 + PositionYOffset, BitConverter.GetBytes(Y));
-                MemManager.Write4bytes(PointerCharacter1 + PositionZOffset, BitConverter.GetBytes(Z));
-                MemManager.Write4bytes(PointerCharacter2 + PositionXOffset, BitConverter.GetBytes(X));
-                MemManager.Write4bytes(PointerCharacter2 + PositionYOffset, BitConverter.GetBytes(Y));
-                MemManager.Write4bytes(PointerCharacter2 + PositionZOffset, BitConverter.GetBytes(Z));
+                byte[] XPosition = BitConverter.GetBytes(X);
+                byte[] YPosition = BitConverter.GetBytes(Y);
+                byte[] ZPosition = BitConverter.GetBytes(Z);
+
+                MemManager.Write4bytes(PointerCharacter0 + PositionXOffset, XPosition);
+                MemManager.Write4bytes(PointerCharacter0 + PositionYOffset, YPosition);
+                MemManager.Write4bytes(PointerCharacter0 + PositionZOffset, ZPosition);
+                MemManager.Write4bytes(PointerCharacter1 + PositionXOffset, XPosition);
+                MemManager.Write4bytes(PointerCharacter1 + PositionYOffset, YPosition);
+                MemManager.Write4bytes(PointerCharacter1 + PositionZOffset, ZPosition);
+                MemManager.Write4bytes(PointerCharacter2 + PositionXOffset, XPosition);
+                MemManager.Write4bytes(PointerCharacter2 + PositionYOffset, YPosition);
+                MemManager.Write4bytes(PointerCharacter2 + PositionZOffset, ZPosition);
 
                 return true;
             }

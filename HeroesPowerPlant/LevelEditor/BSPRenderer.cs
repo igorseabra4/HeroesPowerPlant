@@ -19,8 +19,6 @@ namespace HeroesPowerPlant
 
         public static void SetHeroesMeshStream(Archive heroesONEfile)
         {
-            ReadFileMethods.isShadow = false;
-
             foreach (RenderWareModelFile r in BSPStream)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
@@ -68,10 +66,11 @@ namespace HeroesPowerPlant
             whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
 
             string startupPath = System.Windows.Forms.Application.StartupPath;
-            if (! Directory.Exists(startupPath + "\\Textures\\Common\\"))
-                Directory.CreateDirectory(startupPath + "\\Textures\\Common\\");
+
             if (!Directory.Exists(startupPath + "\\Textures"))
                 Directory.CreateDirectory(startupPath + "\\Textures\\");
+            if (!Directory.Exists(startupPath + "\\Textures\\Common\\"))
+                Directory.CreateDirectory(startupPath + "\\Textures\\Common\\");
 
             List<string> FilesToLoad = new List<string>();
             FilesToLoad.AddRange(Directory.GetFiles(startupPath  + "\\Textures\\Common\\"));
@@ -103,18 +102,18 @@ namespace HeroesPowerPlant
         
         // Visibility functions
 
-        public static HashSet<int> VisibleChunks = new HashSet<int>();
+        private static HashSet<int> VisibleChunks = new HashSet<int>();
 
         public static void DetermineVisibleChunks()
         {
-            VisibleChunks = new HashSet<int>() { -1 };
-            Vector3 cameraPos = SharpRenderer.Camera.GetPosition();
+            VisibleChunks.Clear();
+            VisibleChunks.Add(-1);
+            Vector3 cameraPos = Camera.GetPosition();
 
             foreach (LevelEditor.VisibilityFunctions.Chunk c in LevelEditor.VisibilityFunctions.ChunkList)
             {
                 if ((cameraPos.X > c.Min.X) & (cameraPos.Y > c.Min.Y) & (cameraPos.Z > c.Min.Z) &
-                    (cameraPos.X < c.Max.X) & (cameraPos.Y < c.Max.Y) & (cameraPos.Z < c.Max.Z)
-                    & !VisibleChunks.Contains(c.number))
+                    (cameraPos.X < c.Max.X) & (cameraPos.Y < c.Max.Y) & (cameraPos.Z < c.Max.Z))
                 {
                     VisibleChunks.Add(c.number);
                 }

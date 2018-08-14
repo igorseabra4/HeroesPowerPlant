@@ -333,30 +333,31 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (currentlySelectedIndex < 0) return;
 
-            Ray ray = new Ray(GetSelectedObject().Position, Vector3.Down);
+            Vector3 Position = GetSelectedObject().Position;
+            Ray ray = new Ray(Position, Vector3.Down);
             float smallerDistance = 10000f;
             bool change = false;
 
-            for (int i = 0; i < BSPRenderer.BSPStream.Count; i++)
+            foreach (RenderWareModelFile rwmf in BSPRenderer.BSPStream)
             {
-                foreach (RenderWareFile.RWSection rw in BSPRenderer.BSPStream[i].GetAsRWSectionArray())
+                foreach (RenderWareFile.RWSection rw in rwmf.GetAsRWSectionArray())
                 {
                     if (rw is RenderWareFile.Sections.World_000B world)
                     {
-                        if (GetSelectedObject().Position.X < world.worldStruct.boxMinimum.X |
-                            GetSelectedObject().Position.Y < world.worldStruct.boxMinimum.Y |
-                            GetSelectedObject().Position.Z < world.worldStruct.boxMinimum.Z |
-                            GetSelectedObject().Position.X > world.worldStruct.boxMaximum.X |
-                            GetSelectedObject().Position.Y > world.worldStruct.boxMaximum.Y |
-                            GetSelectedObject().Position.Z > world.worldStruct.boxMaximum.Z) continue;
+                        if (Position.X < world.worldStruct.boxMinimum.X |
+                            Position.Y < world.worldStruct.boxMinimum.Y |
+                            Position.Z < world.worldStruct.boxMinimum.Z |
+                            Position.X > world.worldStruct.boxMaximum.X |
+                            Position.Y > world.worldStruct.boxMaximum.Y |
+                            Position.Z > world.worldStruct.boxMaximum.Z) continue;
                     }
                 }
 
-                foreach (RenderWareFile.Triangle t in BSPRenderer.BSPStream[i].triangleList)
+                foreach (RenderWareFile.Triangle t in rwmf.triangleList)
                 {
-                    Vector3 v1 = BSPRenderer.BSPStream[i].vertexList[t.vertex1];
-                    Vector3 v2 = BSPRenderer.BSPStream[i].vertexList[t.vertex2];
-                    Vector3 v3 = BSPRenderer.BSPStream[i].vertexList[t.vertex3];
+                    Vector3 v1 = rwmf.vertexList[t.vertex1];
+                    Vector3 v2 = rwmf.vertexList[t.vertex2];
+                    Vector3 v3 = rwmf.vertexList[t.vertex3];
 
                     if (ray.Intersects(ref v1, ref v2, ref v3, out float distance))
                         if (distance < smallerDistance)
@@ -368,7 +369,10 @@ namespace HeroesPowerPlant.LayoutEditor
             }
 
             if (change)
+            {
                 GetSelectedObject().Position.Y -= smallerDistance;
+                GetSelectedObject().CreateTransformMatrix();
+            }
         }
 
         #endregion
@@ -474,12 +478,12 @@ namespace HeroesPowerPlant.LayoutEditor
         #region Sorting Methods
         public void SortObjectsByID()
         {
-            setObjects.OrderBy(f => f.GetTypeAsOne()).ToList();
+            setObjects = setObjects.OrderBy(f => f.GetTypeAsOne()).ToList();
         }
 
         public void SortObjectsByDistance()
         {
-            setObjects.OrderBy(f => f.GetDistanceFromOrigin()).ToList();
+            setObjects = setObjects.OrderBy(f => f.GetDistanceFromOrigin()).ToList();
         }
         #endregion
 

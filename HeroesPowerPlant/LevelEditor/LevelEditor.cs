@@ -109,26 +109,22 @@ namespace HeroesPowerPlant.LevelEditor
 
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
+            progressBar1.Maximum = 0;
 
-            HeroesONE_R.Structures.Archive one = new HeroesONE_R.Structures.Archive(HeroesONE_R.Structures.CommonRWVersions.Heroes);
-           
-          //  HeroesONEFile oneFile = new HeroesONEFile();
+            Archive one = new Archive(CommonRWVersions.Heroes);
+
+            foreach (RenderWareModelFile i in BSPStream)
+                Program.levelEditor.progressBar1.Maximum += i.GetAsByteArray().Length;
+
             foreach (RenderWareModelFile i in BSPStream)
             {
-                //    HeroesONEFile.File item = new HeroesONEFile.File(i.fileName, i.GetAsByteArray());
-                //     oneFile.Files.Add(item);
+                one.Files.Add(new ArchiveFile(i.fileName, i.GetAsByteArray()));
 
-                HeroesONE_R.Structures.Subsctructures.ArchiveFile item = new HeroesONE_R.Structures.Subsctructures.ArchiveFile(i.fileName, i.GetAsByteArray());
-
-                one.Files.Add(item);
-
-                Program.levelEditor.progressBar1.Maximum += item.CompressedData.Length;
-                Program.levelEditor.progressBar1.Value += item.CompressedData.Length/2;
+                progressBar1.Value += i.GetAsByteArray().Length;
             }
 
             File.WriteAllBytes(file, one.BuildHeroesONEArchive().ToArray());
 
-            // oneFile.Save(file, ArchiveType.Heroes);
             openONEfilePath = file;
 
             SetFilenamePrefix(file);
@@ -183,6 +179,7 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     progressBar1.Minimum = 0;
                     progressBar1.Value = 0;
+                    progressBar1.Step = 1;
                     progressBar1.Maximum = a.FileNames.Count();
 
                     foreach (string i in a.FileNames)
@@ -454,13 +451,15 @@ namespace HeroesPowerPlant.LevelEditor
             if (visibilityONEpath == null)
                 visibilityONEpath = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_dat.one");
 
-
-            progressBar1.Minimum = 0;
-            progressBar1.Value = 0;
-
             List<RenderWareModelFile> fileList = new List<RenderWareModelFile>();
             fileList.AddRange(BSPStream);
             fileList.AddRange(ShadowCollisionBSPStream);
+
+            progressBar1.Minimum = 0;
+            progressBar1.Value = 0;
+            progressBar1.Maximum = 0;
+            foreach (RenderWareModelFile i in fileList)
+                progressBar1.Maximum += i.GetAsByteArray().Length;
 
             Dictionary<int, Archive> oneDict = new Dictionary<int, Archive>(fileList.Count);
 
@@ -474,29 +473,20 @@ namespace HeroesPowerPlant.LevelEditor
                     continue;
                 }
 
-                if (oneDict.ContainsKey(i.ChunkNumber))
-                {
-                    ArchiveFile item = new ArchiveFile(i.fileName, i.GetAsByteArray());
-                    oneDict[i.ChunkNumber].Files.Add(item);
-                    Program.levelEditor.progressBar1.Maximum += item.CompressedData.Length;
-                }
-                else
-                {
-                    oneDict.Add(i.ChunkNumber, new Archive(CommonRWVersions.Shadow050));
-                    ArchiveFile item = new ArchiveFile(i.fileName, i.GetAsByteArray());
-                    oneDict[i.ChunkNumber].Files.Add(item);
-                    Program.levelEditor.progressBar1.Maximum += item.CompressedData.Length;
-                }
+                if (!oneDict.ContainsKey(i.ChunkNumber))
+                    oneDict.Add(i.ChunkNumber, new Archive(CommonRWVersions.Shadow060));
+
+                ArchiveFile item = new ArchiveFile(i.fileName, i.GetAsByteArray());
+                oneDict[i.ChunkNumber].Files.Add(item);
+                progressBar1.Value += i.GetAsByteArray().Length;
             }
 
-            if (error) MessageBox.Show("Some of the files were not included in the archives because I could not figure out their chunk number.");
+            if (error) MessageBox.Show("Some of the files were not included in the archives because I could not figure out their chunk number. Please fix that and save again, otherwise those files will be lost.");
 
             foreach (int i in oneDict.Keys)
             {
                 string fileName = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_" + i.ToString("D2") + ".one");
-
-                List<byte> fileData = oneDict[i].BuildShadowONEArchive(true);
-                File.WriteAllBytes(fileName, fileData.ToArray());
+                File.WriteAllBytes(fileName, oneDict[i].BuildShadowONEArchive(true).ToArray());
             }
             
             InitBSPList();
