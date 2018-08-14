@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using GenericStageInjectionCommon.Structs;
+using System;
 
 namespace HeroesPowerPlant
 {

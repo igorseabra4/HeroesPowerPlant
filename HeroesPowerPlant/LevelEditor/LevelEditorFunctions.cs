@@ -725,14 +725,14 @@ namespace HeroesPowerPlant.LevelEditor
             if (AtomicSector.atomicStruct.colorArray != null)
                 foreach (RenderWareFile.Color i in AtomicSector.atomicStruct.colorArray)
                 {
-                    if (i.R < 255)
-                    {
-                        OBJWriter.WriteLine("vc " + ((byte)Math.Min(255, i.R * 2.5f)).ToString() + " " + ((byte)(i.G * 0.6f)).ToString() + " " + ((byte)(i.B * 0.3f)).ToString() + " " + i.A.ToString());
-                    }
-                    else
-                    {
+                    //if (i.R < 255)
+                    //{
+                    //    OBJWriter.WriteLine("vc " + ((byte)Math.Min(255, i.R * 2.5f)).ToString() + " " + ((byte)(i.G * 0.6f)).ToString() + " " + ((byte)(i.B * 0.3f)).ToString() + " " + i.A.ToString());
+                    //}
+                    //else
+                    //{
                         OBJWriter.WriteLine("vc " + i.R.ToString() + " " + i.G.ToString() + " " + i.B.ToString() + " " + i.A.ToString());
-                    }
+                    //}
                 }
 
             OBJWriter.WriteLine();
