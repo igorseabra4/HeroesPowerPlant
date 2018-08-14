@@ -4,7 +4,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using SharpDX;
-using HeroesONELib;
+using HeroesONE_R.Structures;
+using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using static HeroesPowerPlant.LevelEditor.VisibilityFunctions;
 using static HeroesPowerPlant.LevelEditor.LevelEditorFunctions;
@@ -61,7 +62,8 @@ namespace HeroesPowerPlant.LevelEditor
             openONEfilePath = fileName;
             SetFilenamePrefix(openONEfilePath);
 
-            SetHeroesMeshStream(new HeroesONEFile(openONEfilePath));
+            byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
+            SetHeroesMeshStream(Archive.FromONEFile(ref fileBytes));
 
             InitBSPList();
 
@@ -370,7 +372,7 @@ namespace HeroesPowerPlant.LevelEditor
         {
             SetShadowMode();
 
-            SetShadowMeshStream(new List<HeroesONEFile>());
+            SetShadowMeshStream(new List<Archive>());
             shadowCollisionEditor.InitBSPList();
 
             ResetEveryting();
@@ -460,7 +462,7 @@ namespace HeroesPowerPlant.LevelEditor
             fileList.AddRange(BSPStream);
             fileList.AddRange(ShadowCollisionBSPStream);
 
-            Dictionary<int, HeroesONEFile> oneDict = new Dictionary<int, HeroesONEFile>();
+            Dictionary<int, Archive> oneDict = new Dictionary<int, Archive>(fileList.Count);
 
             bool error = false;
 
@@ -474,16 +476,16 @@ namespace HeroesPowerPlant.LevelEditor
 
                 if (oneDict.ContainsKey(i.ChunkNumber))
                 {
-                    HeroesONEFile.File item = new HeroesONEFile.File(i.fileName, i.GetAsByteArray());
+                    ArchiveFile item = new ArchiveFile(i.fileName, i.GetAsByteArray());
                     oneDict[i.ChunkNumber].Files.Add(item);
-                    Program.levelEditor.progressBar1.Maximum += item.Data.Length;
+                    Program.levelEditor.progressBar1.Maximum += item.CompressedData.Length;
                 }
                 else
                 {
-                    oneDict.Add(i.ChunkNumber, new HeroesONEFile());
-                    HeroesONEFile.File item = new HeroesONEFile.File(i.fileName, i.GetAsByteArray());
+                    oneDict.Add(i.ChunkNumber, new Archive(CommonRWVersions.Shadow050));
+                    ArchiveFile item = new ArchiveFile(i.fileName, i.GetAsByteArray());
                     oneDict[i.ChunkNumber].Files.Add(item);
-                    Program.levelEditor.progressBar1.Maximum += item.Data.Length;
+                    Program.levelEditor.progressBar1.Maximum += item.CompressedData.Length;
                 }
             }
 
@@ -492,7 +494,9 @@ namespace HeroesPowerPlant.LevelEditor
             foreach (int i in oneDict.Keys)
             {
                 string fileName = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_" + i.ToString("D2") + ".one");
-                oneDict[i].Save(fileName, ArchiveType.Shadow060);
+
+                List<byte> fileData = oneDict[i].BuildShadowONEArchive(true);
+                File.WriteAllBytes(fileName, fileData.ToArray());
             }
             
             InitBSPList();
@@ -536,7 +540,8 @@ namespace HeroesPowerPlant.LevelEditor
             if (isShadow)
             {
                 openVisibilityFile = null;
-                ChunkList = LoadShadowVisibilityFile(new HeroesONEFile(fileName));
+                byte[] bytes = File.ReadAllBytes(fileName);
+                ChunkList = LoadShadowVisibilityFile(Archive.FromONEFile(ref bytes));
                 labelLoadedBLK.Text = "";
             }
             else

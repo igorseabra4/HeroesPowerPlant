@@ -1,0 +1,9 @@
+[submodule "HeroesONE-Reloaded"]
+	path = HeroesONE-Reloaded
+	url = https://github.com/sewer56lol/HeroesONE-Reloaded
+[submodule "RenderWareFile"]
+	path = RenderWareFile
+	url = https://github.com/igorseabra4/RenderWareFile
+[submodule "GenericStageInjectionCommon"]
+	path = GenericStageInjectionCommon
+	url = https://github.com/igorseabra4/GenericStageInjectionCommon

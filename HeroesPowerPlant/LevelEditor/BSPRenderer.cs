@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using SharpDX;
 using SharpDX.Direct3D11;
-using HeroesONELib;
+using HeroesONE_R.Structures;
+using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using static HeroesPowerPlant.SharpRenderer;
 
@@ -16,7 +17,7 @@ namespace HeroesPowerPlant
 
         public static List<RenderWareModelFile> BSPStream = new List<RenderWareModelFile>();
 
-        public static void SetHeroesMeshStream(HeroesONEFile heroesONEfile)
+        public static void SetHeroesMeshStream(Archive heroesONEfile)
         {
             ReadFileMethods.isShadow = false;
 
@@ -35,14 +36,15 @@ namespace HeroesPowerPlant
             ShadowCollisionBSPStream = new List<RenderWareModelFile>();
             BSPStream = new List<RenderWareModelFile>(heroesONEfile.Files.Count);
 
-            foreach (HeroesONEFile.File file in heroesONEfile.Files)
+            foreach (ArchiveFile file in heroesONEfile.Files)
             {
                 if (Path.GetExtension(file.Name).ToLower() != ".bsp")
                     continue;
                 
                 RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                 TempBSPFile.SetChunkNumberAndName();
-                TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(file.Data), file.Data);
+                byte[] uncompressedData = file.DecompressThis();
+                TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(uncompressedData), uncompressedData);
                 BSPStream.Add(TempBSPFile);
             }
         }
@@ -65,9 +67,15 @@ namespace HeroesPowerPlant
             TextureStream.Clear();            
             whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
 
+            string startupPath = System.Windows.Forms.Application.StartupPath;
+            if (! Directory.Exists(startupPath + "\\Textures\\Common\\"))
+                Directory.CreateDirectory(startupPath + "\\Textures\\Common\\");
+            if (!Directory.Exists(startupPath + "\\Textures"))
+                Directory.CreateDirectory(startupPath + "\\Textures\\");
+
             List<string> FilesToLoad = new List<string>();
-            FilesToLoad.AddRange(Directory.GetFiles(System.Windows.Forms.Application.StartupPath + "\\Textures\\Common\\"));
-            foreach (string s in Directory.EnumerateDirectories(System.Windows.Forms.Application.StartupPath + "\\Textures\\"))
+            FilesToLoad.AddRange(Directory.GetFiles(startupPath  + "\\Textures\\Common\\"));
+            foreach (string s in Directory.EnumerateDirectories(startupPath + "\\Textures\\"))
             {
                 if (Path.GetFileName(s).Equals(folderPrefix) | Path.GetFileName(s).StartsWith(folderPrefix + "_"))
                     FilesToLoad.AddRange(Directory.GetFiles(s));
@@ -194,7 +202,7 @@ namespace HeroesPowerPlant
 
         public static void LoadShadowLevelFolder(string Folder)
         {
-            List<HeroesONEFile> OpenShadowONEFiles = new List<HeroesONEFile>();
+            List<Archive> OpenShadowONEFiles = new List<Archive>();
             currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(Folder);
 
             foreach (string fileName in Directory.GetFiles(Folder))
@@ -205,7 +213,8 @@ namespace HeroesPowerPlant
                     & !fileName.Contains("gdt")
                     & !fileName.Contains("tex"))
                 {
-                    OpenShadowONEFiles.Add(new HeroesONEFile(fileName));
+                    byte[] oneDataBytes = File.ReadAllBytes(fileName);
+                    OpenShadowONEFiles.Add(Archive.FromONEFile(ref oneDataBytes));
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("dat"))
                 {
@@ -230,7 +239,7 @@ namespace HeroesPowerPlant
 
         public static List<RenderWareModelFile> ShadowCollisionBSPStream = new List<RenderWareModelFile>();
 
-        public static void SetShadowMeshStream(List<HeroesONEFile> OpenShadowONEFiles)
+        public static void SetShadowMeshStream(List<Archive> OpenShadowONEFiles)
         {
             foreach (RenderWareModelFile r in BSPStream)
                 foreach (SharpMesh mesh in r.meshList)
@@ -247,8 +256,8 @@ namespace HeroesPowerPlant
 
             ReadFileMethods.isShadow = true;
 
-            foreach (HeroesONEFile f in OpenShadowONEFiles)
-                foreach (HeroesONEFile.File file in f.Files)
+            foreach (Archive f in OpenShadowONEFiles)
+                foreach (ArchiveFile file in f.Files)
                 {
                     string ChunkName = Path.GetFileNameWithoutExtension(file.Name);
 
@@ -266,7 +275,8 @@ namespace HeroesPowerPlant
                         TempBSPFile.isShadowCollision = true;
                         try
                         {
-                            TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(file.Data), file.Data);
+                            byte[] data = file.DecompressThis();
+                            TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(data), data);
                         }
                         catch (Exception e)
                         {
@@ -280,7 +290,8 @@ namespace HeroesPowerPlant
                     {
                         RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                         TempBSPFile.SetChunkNumberAndName();
-                        TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(file.Data), file.Data);
+                        byte[] data = file.DecompressThis();
+                        TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(data), data);
                         BSPStream.Add(TempBSPFile);
                     }
                 }

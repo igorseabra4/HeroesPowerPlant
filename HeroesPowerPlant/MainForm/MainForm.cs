@@ -3,23 +3,61 @@ using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using HeroesPowerPlant.VisualGUI;
+using Reloaded_GUI;
+using Reloaded_GUI.Styles.Themes;
+using Reloaded_GUI.Styles.Themes.ApplyTheme;
+using Reloaded_GUI.Utilities.Windows;
 using static HeroesPowerPlant.PowerPlantPaths;
+using Message = System.Windows.Forms.Message;
 
 namespace HeroesPowerPlant
 {
     public partial class MainForm : Form
     {
+        #region Reloaded GUI
+        private Reloaded_GUI.Styles.Themes.Theme reloadedTheme;
+
+        private void InitReloadedGUI()
+        {
+            if (reloadedTheme == null)
+                reloadedTheme = new Theme();
+            
+            reloadedTheme.LoadCurrentTheme();
+            ApplyTheme.ThemeWindowsForm(this);
+        }
+        #endregion Reloaded GUI
+
+        #region Resize Hit Test Passthrough
+        private ControlParentResizeUtility renderPanelUtility;
+        private ControlParentResizeUtility categoryBarUtility;
+        private ControlParentResizeUtility statusBarUtility;
+
+        private void SetupResizeHitTestPassthrough()
+        {
+            renderPanelUtility = new ControlParentResizeUtility(renderPanel);
+            categoryBarUtility = new ControlParentResizeUtility(categoryBar_MenuStrip);
+            statusBarUtility = new ControlParentResizeUtility(categoryBar_StatusStrip);
+        }
+
+        #endregion
+
+
         public MainForm()
         {
             StartPosition = FormStartPosition.CenterScreen;
             
             InitializeComponent();
 
+            categoryBar_MenuStrip.Renderer = new MyRenderer();
             showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
 
             new SharpRenderer(renderPanel);
+
+            InitReloadedGUI();
+            SetupResizeHitTestPassthrough();
         }
-        
+
         string currentPathsFile;
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,7 +130,7 @@ namespace HeroesPowerPlant
 
         public void SetToolStripStatusLabel(string Text)
         {
-            toolStripStatusLabel1.Text = Text;
+            categoryBar_ToolStripStatusLabel.Text = Text;
         }
                 
         private void renderPanel_MouseClick(object sender, MouseEventArgs e)
@@ -442,6 +480,16 @@ namespace HeroesPowerPlant
             vSyncToolStripMenuItem.Checked = !vSyncToolStripMenuItem.Checked;
             SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
             SharpRenderer.dontRender = false;
+        }
+
+        private void categoryBar_Close_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void categoryBar_StatusStrip_Resize(object sender, EventArgs e)
+        {
+
         }
     }
 }

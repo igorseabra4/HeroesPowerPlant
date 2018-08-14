@@ -1,14 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using SharpDX;
-using SharpDX.Direct3D11;
-using HeroesONELib;
 using static HeroesPowerPlant.BSPRenderer;
 using RenderWareFile;
 using RenderWareFile.Sections;
 using System.Linq;
+using HeroesONE_R.Structures;
+using HeroesONE_R.Structures.Subsctructures;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LevelEditor
@@ -111,13 +110,13 @@ namespace HeroesPowerPlant.LevelEditor
             return list;
         }
 
-        public static List<Chunk> LoadShadowVisibilityFile(HeroesONEFile shadowDATONE)
+        public static List<Chunk> LoadShadowVisibilityFile(Archive shadowDATONE)
         {
             List<Chunk> list = new List<Chunk>();
 
-            foreach (HeroesONEFile.File i in shadowDATONE.Files)
+            foreach (var i in shadowDATONE.Files)
                 if (Path.GetExtension(i.Name).ToLower() == ".bdt")
-                    return (LoadShadowVisibilityFile(new MemoryStream(i.Data)));
+                    return (LoadShadowVisibilityFile(new MemoryStream(i.DecompressThis())));
 
             throw new Exception("No visibility BDT file found");
         }
@@ -195,33 +194,39 @@ namespace HeroesPowerPlant.LevelEditor
                 BLKFileWriter.Write(80);
             }
 
-            HeroesONEFile shadowDATONE;
+            Archive shadowDATONE;
 
             if (File.Exists(visibilityONEpath))
             {
-                shadowDATONE = new HeroesONEFile(visibilityONEpath);
+                byte[] fileContents = File.ReadAllBytes(visibilityONEpath);
+                shadowDATONE = Archive.FromONEFile(ref fileContents);
             }
             else
             {
-                shadowDATONE = new HeroesONEFile();
+                shadowDATONE = new Archive(CommonRWVersions.Shadow050);
             }
 
             bool found = false;
-            foreach (HeroesONEFile.File i in shadowDATONE.Files)
+            foreach (var file in shadowDATONE.Files)
             {
-                if (Path.GetExtension(i.Name).ToLower() == ".bdt")
+                if (Path.GetExtension(file.Name).ToLower() == ".bdt")
                 {
-                    i.Data = (BLKFileWriter.BaseStream as MemoryStream).ToArray();
+                    byte[] bytes = (BLKFileWriter.BaseStream as MemoryStream).ToArray();
+                    file.CompressedData = Prs.Compress(ref bytes);
                     found = true;
                     break;
                 }
             }
             if (!found)
             {
-                shadowDATONE.Files.Add(new HeroesONEFile.File((levelName + ".bdt").ToUpper(), (BLKFileWriter.BaseStream as MemoryStream).ToArray()));
+                byte[] bytes = (BLKFileWriter.BaseStream as MemoryStream).ToArray();
+                ArchiveFile file = new ArchiveFile((levelName + ".bdt").ToUpper(), bytes);
+                shadowDATONE.Files.Add(file);
             }
 
-            shadowDATONE.Save(visibilityONEpath, ArchiveType.Shadow060);
+            
+            List<byte> fileBytes = shadowDATONE.BuildShadowONEArchive(true);
+            File.WriteAllBytes(visibilityONEpath, fileBytes.ToArray());
 
             BLKFileWriter.Close();
         }

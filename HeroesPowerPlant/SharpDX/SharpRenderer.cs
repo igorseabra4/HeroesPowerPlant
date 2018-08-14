@@ -6,7 +6,6 @@ using SharpDX.Windows;
 using System.Collections.Generic;
 using HeroesPowerPlant.CollisionEditor;
 using HeroesPowerPlant.LevelEditor;
-using System;
 
 namespace HeroesPowerPlant
 {

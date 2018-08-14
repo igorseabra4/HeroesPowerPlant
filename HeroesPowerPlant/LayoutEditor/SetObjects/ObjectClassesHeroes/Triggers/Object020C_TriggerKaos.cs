@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020C_TriggerKaos : SetObjectManagerHeroes
     {

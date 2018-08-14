@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using GenericStageInjectionCommon.Structs.Positions.Substructures;
-using GenericStageInjectionCommon.Shared;
-using System.Linq;
 using GenericStageInjectionCommon.Shared.Enums;
 
 namespace HeroesPowerPlant.Config
@@ -402,11 +400,6 @@ namespace HeroesPowerPlant.Config
             GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
 
             Program.splineEditor.buttonSave.Enabled = true;
-
-            if (CurrentLevelConfig.SplinePointer == 0 & Program.splineEditor.SplineList.Count > 0)
-                MessageBox.Show("Notice that this level config doesn't have a spline pointer. Your splines won't work ingame.");
-            else if (CurrentLevelConfig.SplinePointer != 0 & Program.splineEditor.SplineList.Count == 0)
-                Program.splineEditor.AddBlankSpline();
 
             Program.splineEditor.Save();
         }
