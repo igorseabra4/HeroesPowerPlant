@@ -93,9 +93,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ColorMine, Version=1.2.0.0, Culture=neutral, PublicKeyToken=7a2c4d30138edc39, processorArchitecture=MSIL">
-      <HintPath>..\packages\ColorMine.1.2.0\lib\net45\ColorMine.dll</HintPath>
-    </Reference>
     <Reference Include="libReloaded-IO, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\libReloaded-IO.1.2.2-dev\lib\net472\libReloaded-IO.dll</HintPath>
     </Reference>
@@ -113,9 +110,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Reloaded-GUI, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reloaded-GUI.1.0.3\lib\net472\Reloaded-GUI.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
