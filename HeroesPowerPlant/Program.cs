@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using HeroesPowerPlant.ConfigEditor;
+
 namespace HeroesPowerPlant
 {
     static class Program
@@ -8,11 +10,11 @@ namespace HeroesPowerPlant
         public static AboutBox aboutBox;
 
         public static ViewConfig viewConfig;
-        public static Config.ConfigEditor configEditor;
+        public static ConfigEditor.ConfigEditor configEditor;
         public static LevelEditor.LevelEditor levelEditor;
         public static CollisionEditor.CollisionEditor collisionEditor;
         public static LayoutEditor.LayoutEditor layoutEditor;
-        public static Config.SplineEditor splineEditor;
+        public static SplineEditor splineEditor;
         public static CameraEditor.CameraEditor cameraEditor;
 
         /// <summary>
@@ -29,11 +31,11 @@ namespace HeroesPowerPlant
             mainForm = new MainForm();
             aboutBox = new AboutBox();
             viewConfig = new ViewConfig();
-            configEditor = new Config.ConfigEditor();
+            configEditor = new ConfigEditor.ConfigEditor();
             levelEditor = new LevelEditor.LevelEditor();
             collisionEditor = new CollisionEditor.CollisionEditor();
             layoutEditor = new LayoutEditor.LayoutEditor();
-            splineEditor = new Config.SplineEditor();
+            splineEditor = new SplineEditor();
             cameraEditor = new CameraEditor.CameraEditor();
             
             Application.Run(mainForm);

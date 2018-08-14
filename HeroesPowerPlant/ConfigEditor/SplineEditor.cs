@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace HeroesPowerPlant.Config
+namespace HeroesPowerPlant.ConfigEditor
 {
     public partial class SplineEditor : Form
     {

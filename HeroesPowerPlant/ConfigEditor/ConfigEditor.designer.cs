@@ -1,4 +1,4 @@
-﻿namespace HeroesPowerPlant.Config
+﻿namespace HeroesPowerPlant.ConfigEditor
 {
     partial class ConfigEditor
     {

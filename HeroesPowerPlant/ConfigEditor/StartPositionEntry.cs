@@ -1,8 +1,8 @@
-﻿using SharpDX;
+﻿using GenericStageInjectionCommon.Structs.Enums;
 using GenericStageInjectionCommon.Structs.Positions.Substructures;
-using GenericStageInjectionCommon.Structs.Enums;
+using SharpDX;
 
-namespace HeroesPowerPlant.Config
+namespace HeroesPowerPlant.ConfigEditor
 {
     public class StartPositionEntry
     {

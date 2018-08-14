@@ -1,12 +1,11 @@
 ﻿using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
-namespace HeroesPowerPlant.Config
+namespace HeroesPowerPlant.ConfigEditor
 {
     public class EntryRenderer
     {
         private Matrix world;
-        private DefaultRenderData renderData = new DefaultRenderData();
+        private SharpRenderer.DefaultRenderData renderData = new SharpRenderer.DefaultRenderData();
 
         public EntryRenderer(Vector3 Position, int Rotation, Vector3 v)
         {
@@ -21,19 +20,19 @@ namespace HeroesPowerPlant.Config
 
         public void Render()
         {
-            renderData.worldViewProjection = world * viewProjection;
+            renderData.worldViewProjection = world * SharpRenderer.viewProjection;
 
-            device.SetFillModeSolid();
-            device.SetCullModeNormal();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            SharpRenderer.device.SetFillModeSolid();
+            SharpRenderer.device.SetCullModeNormal();
+            SharpRenderer.device.SetBlendStateAlphaBlend();
+            SharpRenderer.device.ApplyRasterState();
+            SharpRenderer.device.UpdateAllStates();
 
-            device.UpdateData(basicBuffer, renderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-            basicShader.Apply();
+            SharpRenderer.device.UpdateData(SharpRenderer.basicBuffer, renderData);
+            SharpRenderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, SharpRenderer.basicBuffer);
+            SharpRenderer.basicShader.Apply();
 
-            Pyramid.Draw();
+            SharpRenderer.Pyramid.Draw();
         }
     }
 }
