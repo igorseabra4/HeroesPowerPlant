@@ -126,7 +126,11 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             OpenFileDialog openFile = new OpenFileDialog
             {
+#if DEBUG
+                Filter = ".bin files|*.bin|.dat files|*.dat"
+#else
                 Filter = layoutSystem.IsShadow ? ".dat files|*.dat" : ".bin files|*.bin"
+#endif
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
@@ -319,6 +323,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void OpenLayoutFile(string fileName)
         {
+            ProgramIsChangingStuff = true;
             layoutSystem.OpenLayoutFile(fileName);
             UpdateObjectComboBox();
             UpdateFileLabel();
@@ -353,21 +358,16 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void UpdateEntireObjectList()
         {
+            ProgramIsChangingStuff = true;
+            listBoxObjects.Items.Clear();
+
             for (int i = 0; i < layoutSystem.GetSetObjectAmount(); i++)
             {
-                if (listBoxObjects.Items.Count <= i)
-                    listBoxObjects.Items.Add(layoutSystem.GetSetObjectAt(i).ToString());
-
-                if (listBoxObjects.Items[i].ToString() != layoutSystem.GetSetObjectAt(i).ToString())
-                    listBoxObjects.Items[i] = layoutSystem.GetSetObjectAt(i).ToString();
+                listBoxObjects.Items.Add(layoutSystem.GetSetObjectAt(i).ToString());
             }
-
-            for (int i = listBoxObjects.Items.Count - 1; i >= layoutSystem.GetSetObjectAmount(); i--)
-            {
-                listBoxObjects.Items.RemoveAt(i);
-            }
-
+            
             UpdateObjectAmountLabel();
+            ProgramIsChangingStuff = false;
         }
 
         private void UpdateSingleObjectList()

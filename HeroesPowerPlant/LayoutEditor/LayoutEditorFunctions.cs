@@ -89,7 +89,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (i.objectEntry.HasMiscSettings == true)
                 {
                     layoutWriter.Write(Switch(j));
-                                        
+
                     long currentPos = layoutWriter.BaseStream.Position;
                     layoutWriter.BaseStream.Position = 0x18000 + (0x24 * j);
 
@@ -235,7 +235,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 {
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
                     SetObjectHeroes heroesSetObject = new SetObjectHeroes(objectEntry, new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), Vector3.Zero, 0, 10);
-                    
+
                     list.Add(heroesSetObject);
                 }
             }
@@ -421,230 +421,275 @@ namespace HeroesPowerPlant.LayoutEditor
             return list.ToArray();
         }
 
-        //public static List<HeroesSetObject> GetHeroesLayoutFromShadow(string fileName)
-        //{
-        //    List<ShadowSetObject> ShadowObjectList = GetShadowLayout(fileName);
+        public static List<SetObjectHeroes> GetHeroesLayoutFromShadow(string fileName, ObjectEntry[] HeroesEntries, ObjectEntry[] ShadowEntries)
+        {
+            List<SetObjectHeroes> list = new List<SetObjectHeroes>();
 
-        //    List<HeroesSetObject> list = new List<HeroesSetObject>();
+            foreach (SetObjectShadow i in GetShadowLayout(fileName, ShadowEntries))
+            {
+                SetObjectHeroes TempObject = SetObjectShadowToHeroes(i, HeroesEntries);
 
-        //    foreach (ShadowSetObject i in ShadowObjectList)
-        //    {
-        //        HeroesSetObject TempObject = new HeroesSetObject
-        //        {
-        //            Position = i.Position,
-        //            Rotation.X = DegreesToBAMS(i.Rotation.X),
-        //            Rotation.Y = DegreesToBAMS(i.Rotation.Y),
-        //            Rotation.Z = DegreesToBAMS(i.Rotation.Z),
+                if (TempObject != null)
+                {
+                    TempObject.CreateTransformMatrix();
+                    list.Add(TempObject);
+                }
+            }
 
-        //            //Link = i.Link,
-        //            Rend = (byte)(1.8f * i.Rend)
-        //        };
+            return list;
+        }
 
-        //        bool MatchNotFound = true;
+        private static SetObjectHeroes SetObjectShadowToHeroes(SetObjectShadow i, ObjectEntry[] HeroesEntries)
+        {
+            bool MatchNotFound = false;
+            byte List = 0;
+            byte Type = 0;
+            byte[] MiscSettings = new byte[36];
 
-        //        if (i.List == 0)
-        //        {
-        //            MatchNotFound = false;
-        //            if (i.Type == 0x00) TempObject.Type = 0x03; // Ring
-        //            else if (i.Type == 0x01) TempObject.Type = 0x01; // Spring
-        //            else if (i.Type == 0x02) TempObject.Type = 0x02; // 3Spring
-        //            else if (i.Type == 0x03) TempObject.Type = 0x0B; // Dash panel
-        //            else if (i.Type == 0x04) TempObject.Type = 0x0F; // Dash ramp
-        //            else if (i.Type == 0x05) TempObject.Type = 0x0E; // Checkpoint
-        //            else if (i.Type == 0x06) TempObject.Type = 0x0C; // Dash Ring
-        //            else if (i.Type == 0x07) TempObject.Type = 0x31; // Case
-        //            else if (i.Type == 0x08) TempObject.Type = 0x1D; // Pulley
-        //            else if (i.Type == 0x09) TempObject.Type = 0x20; // Gun Wood box
-        //            else if (i.Type == 0x0A) TempObject.Type = 0x21; // Metal box
-        //            else if (i.Type == 0x0B) TempObject.Type = 0x22; // Unbreakable box
-        //            else if (i.Type == 0x0C) TempObject.Type = 0x20; // Normal Wood box
-        //            else if (i.Type == 0x0F) // Moving platform
-        //            {
-        //                // TempObject.List = 0x13;
-        //                // TempObject.Type = 0x06; // Egg fleet square platform
-        //                TempObject.List = 0x5;
-        //                TempObject.Type = 0xA; // dice
-        //            }
-        //            else if (i.Type == 0x10)  // Ring
-        //            {
-        //                TempObject.Type = 0x03;
+            switch (i.objectEntry.List)
+            {
+                case 0:
+                    List = 0;
+                    if (i.objectEntry.Type == 0x00) Type = 0x03; // Ring
+                    else if (i.objectEntry.Type == 0x01) Type = 0x01; // Spring
+                    else if (i.objectEntry.Type == 0x02) Type = 0x02; // 3Spring
+                    else if (i.objectEntry.Type == 0x03) Type = 0x0B; // Dash panel
+                    else if (i.objectEntry.Type == 0x04) Type = 0x0F; // Dash ramp
+                    else if (i.objectEntry.Type == 0x05) Type = 0x0E; // Checkpoint
+                    else if (i.objectEntry.Type == 0x06) Type = 0x0C; // Dash Ring
+                    else if (i.objectEntry.Type == 0x07) Type = 0x31; // Case
+                    else if (i.objectEntry.Type == 0x08) Type = 0x1D; // Pulley
+                    else if (i.objectEntry.Type == 0x09) Type = 0x20; // Gun Wood box
+                    else if (i.objectEntry.Type == 0x0A) Type = 0x21; // Metal box
+                    else if (i.objectEntry.Type == 0x0B) Type = 0x22; // Unbreakable box
+                    else if (i.objectEntry.Type == 0x0C) Type = 0x20; // Normal Wood box
+                    else if (i.objectEntry.Type == 0x0F) // Moving platform
+                    {
+                        // List = 0x13;
+                        // Type = 0x06; // Egg fleet square platform
+                        List = 0x5;
+                        Type = 0xA; // dice
+                    }
+                    else if (i.objectEntry.Type == 0x10)  // Ring
+                    {
+                        Type = 0x03;
 
-        //                TempObject.MiscSettings[5] = i.MiscSettings[0];
-        //                TempObject.MiscSettings[4] = i.MiscSettings[1];
+                        MiscSettings[5] = i.objectManager.MiscSettings[0];
+                        MiscSettings[4] = i.objectManager.MiscSettings[1];
 
-        //                TempObject.MiscSettings[7] = i.MiscSettings[4];
-        //                TempObject.MiscSettings[6] = i.MiscSettings[5];
+                        MiscSettings[7] = i.objectManager.MiscSettings[4];
+                        MiscSettings[6] = i.objectManager.MiscSettings[5];
 
-        //                TempObject.MiscSettings[11] = i.MiscSettings[8];
-        //                TempObject.MiscSettings[10] = i.MiscSettings[9];
-        //                TempObject.MiscSettings[9] = i.MiscSettings[10];
-        //                TempObject.MiscSettings[8] = i.MiscSettings[11];
+                        MiscSettings[11] = i.objectManager.MiscSettings[8];
+                        MiscSettings[10] = i.objectManager.MiscSettings[9];
+                        MiscSettings[9] = i.objectManager.MiscSettings[10];
+                        MiscSettings[8] = i.objectManager.MiscSettings[11];
 
-        //                TempObject.MiscSettings[15] = i.MiscSettings[12];
-        //                TempObject.MiscSettings[14] = i.MiscSettings[13];
-        //                TempObject.MiscSettings[13] = i.MiscSettings[14];
-        //                TempObject.MiscSettings[12] = i.MiscSettings[15];
+                        MiscSettings[15] = i.objectManager.MiscSettings[12];
+                        MiscSettings[14] = i.objectManager.MiscSettings[13];
+                        MiscSettings[13] = i.objectManager.MiscSettings[14];
+                        MiscSettings[12] = i.objectManager.MiscSettings[15];
 
-        //                if (i.MiscSettings[0] == 1)
-        //                {
-        //                    TempObject.Rotation.Y += 0x10000 / 2;
-        //                }
-        //            }
-        //            else if (i.Type == 0x11) TempObject.Type = 0x04; // Hint
-        //            else if (i.Type == 0x12) TempObject.Type = 0x18; // Item balloon
-        //            else if (i.Type == 0x13) TempObject.Type = 0x19; // Item balloon
-        //            else if (i.Type == 0x14) TempObject.Type = 0x1B; // Goal ring
-        //            else if (i.Type == 0x15) TempObject.Type = 0x05; // Switch
-        //            //else if (i.Type == 0x1D) TempObject.Type = 0x67; // Key
-        //            else if (i.Type == 0x1F) TempObject.Type = 0x80; // Teleport
-        //            else if (i.Type == 0x3A) TempObject.Type = 0x24; // shadow box
-        //            else if (i.Type == 0x65) // Beetle
-        //            {
-        //                TempObject.List = 0x15;
-        //                TempObject.Type = 0x00;
-        //            }
-        //            else if (i.Type == 0x79 | i.Type == 0x8D) // Egg pawn
-        //            {
-        //                TempObject.List = 0x15;
-        //                TempObject.Type = 0x10;
-        //            }
-        //            else if (i.Type == 0x7A | i.Type == 0x90) // Shadow android / worm
-        //            {
-        //                TempObject.List = 0x15;
-        //                TempObject.Type = 0x70; // Cameron
-        //            }
-        //            else
-        //                MatchNotFound = true;
-        //        }
-        //        else if (i.List == 0x07)
-        //        {
-        //            MatchNotFound = false;
-        //            if (i.Type == 0xD1) // Digital searchlight
-        //            {
-        //                TempObject.List = 0x00;
-        //                TempObject.Type = 0x2E; // Fan
-        //                TempObject.Rotation.X = 0;
-        //                TempObject.Rotation.Y = 0;
-        //                TempObject.Rotation.Z = 0;
-        //            }
-        //            else if (i.Type == 0xD5) // Digital big block
-        //            {
-        //                float scale = BitConverter.ToSingle(i.MiscSettings, 4);
-        //                if (BitConverter.ToSingle(i.MiscSettings, 8) < scale)
-        //                    scale = BitConverter.ToSingle(i.MiscSettings, 8);
-        //                if (BitConverter.ToSingle(i.MiscSettings, 12) < scale)
-        //                    scale = BitConverter.ToSingle(i.MiscSettings, 12);
+                        if (i.objectManager.MiscSettings[0] == 1)
+                        {
+                            i.Rotation.Y += 180;
+                        }
+                    }
+                    else if (i.objectEntry.Type == 0x11) Type = 0x04; // Hint
+                    else if (i.objectEntry.Type == 0x12) Type = 0x18; // Item balloon
+                    else if (i.objectEntry.Type == 0x13) Type = 0x19; // Item balloon
+                    else if (i.objectEntry.Type == 0x14) Type = 0x1B; // Goal ring
+                    else if (i.objectEntry.Type == 0x15) Type = 0x05; // Switch
+                                                                      // else if (i.objectEntry.Type == 0x1D) Type = 0x67; // Key
+                    else if (i.objectEntry.Type == 0x1F) Type = 0x80; // Teleport
+                    else if (i.objectEntry.Type == 0x3A) Type = 0x24; // shadow box
+                    else if (i.objectEntry.Type == 0x65) // Beetle
+                    {
+                        List = 0x15;
+                        Type = 0x00;
+                    }
+                    else if (i.objectEntry.Type == 0x78) // Egg bommer
+                    {
+                        List = 0x15;
+                        Type = 0x20; //Klagen
+                    }
+                    else if (i.objectEntry.Type == 0x79 | i.objectEntry.Type == 0x8D) // Egg pawn
+                    {
+                        List = 0x15;
+                        Type = 0x10;
+                    }
+                    else if (i.objectEntry.Type == 0x7A | i.objectEntry.Type == 0x90) // Shadow android / worm
+                    {
+                        List = 0x15;
+                        Type = 0x70; // Cameron
+                    }
+                    else
+                        MatchNotFound = true;
+                    break;
+                case 0x07:
+                    if (i.objectEntry.Type == 0xD1) // Digital searchlight
+                    {
+                        List = 0x00;
+                        Type = 0x2E; // Fan
+                        i.Rotation.X = 0;
+                        i.Rotation.Y = 0;
+                        i.Rotation.Z = 0;
+                    }
+                    else if (i.objectEntry.Type == 0xD5) // Digital big block
+                    {
+                        float scale = BitConverter.ToSingle(i.objectManager.MiscSettings, 4);
+                        if (BitConverter.ToSingle(i.objectManager.MiscSettings, 8) < scale)
+                            scale = BitConverter.ToSingle(i.objectManager.MiscSettings, 8);
+                        if (BitConverter.ToSingle(i.objectManager.MiscSettings, 12) < scale)
+                            scale = BitConverter.ToSingle(i.objectManager.MiscSettings, 12);
 
-        //                if (i.MiscSettings[0] < 9)
-        //                {
-        //                    TempObject.List = 0x01;
-        //                    TempObject.Type = 0x80; // Flower
+                        if (i.objectManager.MiscSettings[0] < 9)
+                        {
+                            List = 0x01;
+                            Type = 0x80; // Flower
 
-        //                    TempObject.MiscSettings[4] = i.MiscSettings[0];
+                            MiscSettings[4] = i.objectManager.MiscSettings[0];
 
-        //                    TempObject.MiscSettings[8] = BitConverter.GetBytes(scale)[3];
-        //                    TempObject.MiscSettings[9] = BitConverter.GetBytes(scale)[2];
-        //                    TempObject.MiscSettings[10] = BitConverter.GetBytes(scale)[1];
-        //                    TempObject.MiscSettings[11] = BitConverter.GetBytes(scale)[0];
-        //                }
-        //                else
-        //                {
-        //                    TempObject.List = 0x01;
-        //                    TempObject.Type = 0x88; // stone
+                            MiscSettings[8] = BitConverter.GetBytes(scale)[3];
+                            MiscSettings[9] = BitConverter.GetBytes(scale)[2];
+                            MiscSettings[10] = BitConverter.GetBytes(scale)[1];
+                            MiscSettings[11] = BitConverter.GetBytes(scale)[0];
+                        }
+                        else
+                        {
+                            List = 0x01;
+                            Type = 0x88; // stone
 
-        //                    TempObject.MiscSettings[4] = BitConverter.GetBytes(scale)[3];
-        //                    TempObject.MiscSettings[5] = BitConverter.GetBytes(scale)[2];
-        //                    TempObject.MiscSettings[6] = BitConverter.GetBytes(scale)[1];
-        //                    TempObject.MiscSettings[7] = BitConverter.GetBytes(scale)[0];
-        //                }
-        //            }
-        //            else if (i.Type == 0xD7) // Digital panel
-        //            {
-        //                TempObject.Link = 0;
-        //                TempObject.List = 0x05;
-        //                TempObject.Type = 0x05; // Casino panel
+                            MiscSettings[4] = BitConverter.GetBytes(scale)[3];
+                            MiscSettings[5] = BitConverter.GetBytes(scale)[2];
+                            MiscSettings[6] = BitConverter.GetBytes(scale)[1];
+                            MiscSettings[7] = BitConverter.GetBytes(scale)[0];
+                        }
+                    }
+                    else if (i.objectEntry.Type == 0xD7) // Digital panel
+                    {
+                        List = 0x05;
+                        Type = 0x05; // Casino panel
 
-        //                if (i.MiscSettings[0] == 1)
-        //                {
-        //                    TempObject.Rotation.X -= (0x10000 / 4);
-        //                }
-        //                else
-        //                {
-        //                    TempObject.MiscSettings[4] = BitConverter.GetBytes(5f)[3];
-        //                    TempObject.MiscSettings[5] = BitConverter.GetBytes(5f)[2];
-        //                    TempObject.MiscSettings[6] = BitConverter.GetBytes(5f)[1];
-        //                    TempObject.MiscSettings[7] = BitConverter.GetBytes(5f)[0];
-        //                }
-        //            }
-        //            else if (i.Type == 0xDB) // Digital core
-        //            {
-        //                TempObject.List = 0x00;
-        //                TempObject.Type = 0x1B; // Goal
-        //            }
-        //            else if (i.Type == 0xDE) // Digital spring
-        //            {
-        //                TempObject.List = 0x05;
-        //                TempObject.Type = 0x01; // Green spring
+                        if (i.objectManager.MiscSettings[0] == 1)
+                        {
+                            i.Rotation.X -= 90;
+                        }
+                        else
+                        {
+                            MiscSettings[4] = BitConverter.GetBytes(5f)[3];
+                            MiscSettings[5] = BitConverter.GetBytes(5f)[2];
+                            MiscSettings[6] = BitConverter.GetBytes(5f)[1];
+                            MiscSettings[7] = BitConverter.GetBytes(5f)[0];
+                        }
+                    }
+                    else if (i.objectEntry.Type == 0xDB) // Digital core
+                    {
+                        List = 0x00;
+                        Type = 0x1B; // Goal
+                    }
+                    else if (i.objectEntry.Type == 0xDE) // Digital spring
+                    {
+                        List = 0x05;
+                        Type = 0x01; // Green spring
 
-        //                TempObject.MiscSettings[4] = BitConverter.GetBytes(4f)[3];
-        //                TempObject.MiscSettings[5] = BitConverter.GetBytes(4f)[2];
-        //                TempObject.MiscSettings[6] = BitConverter.GetBytes(4f)[1];
-        //                TempObject.MiscSettings[7] = BitConverter.GetBytes(4f)[0];
-        //            }
-        //            else if (i.Type == 0xDF) // Firewall
-        //            {
-        //                TempObject.List = 0x00;
-        //                TempObject.Type = 0x15; // Spikeball
+                        MiscSettings[4] = BitConverter.GetBytes(4f)[3];
+                        MiscSettings[5] = BitConverter.GetBytes(4f)[2];
+                        MiscSettings[6] = BitConverter.GetBytes(4f)[1];
+                        MiscSettings[7] = BitConverter.GetBytes(4f)[0];
+                    }
+                    else if (i.objectEntry.Type == 0xDF) // Firewall
+                    {
+                        List = 0x00;
+                        Type = 0x15; // Spikeball
 
-        //                TempObject.MiscSettings[8] = BitConverter.GetBytes(2f)[3];
-        //                TempObject.MiscSettings[9] = BitConverter.GetBytes(2f)[2];
-        //                TempObject.MiscSettings[10] = BitConverter.GetBytes(2f)[1];
-        //                TempObject.MiscSettings[11] = BitConverter.GetBytes(2f)[0];
-        //                TempObject.MiscSettings[12] = BitConverter.GetBytes(2f)[3];
-        //                TempObject.MiscSettings[13] = BitConverter.GetBytes(2f)[2];
-        //                TempObject.MiscSettings[14] = BitConverter.GetBytes(2f)[1];
-        //                TempObject.MiscSettings[15] = BitConverter.GetBytes(2f)[0];
-        //            }
-        //            else if (i.Type == 0xE2) // Spinning cube dark
-        //            {
-        //                TempObject.List = 0x05;
-        //                TempObject.Type = 0x84; // Dice big
-        //            }
-        //            else if (i.Type == 0xE5) // Spinning cube PURPLE
-        //            {
-        //                TempObject.List = 0x05;
-        //                TempObject.Type = 0x84; // Dice big
-        //                TempObject.MiscSettings[7] = 1;
-        //            }
-        //            else
-        //                MatchNotFound = true;
-        //        }
-        //        else if (i.List == 0x13)
-        //        {
-        //            MatchNotFound = false;
-        //            if (i.Type == 0xF1) // Lava shelter door
-        //            {
-        //                TempObject.List = 0x07;
-        //                TempObject.Type = 0x06; // Rail canyon door
-        //            }
-        //            else if (i.Type == 0xEF) // LASER
-        //            {
-        //                TempObject.List = 0x00;
-        //                TempObject.Type = 0x16;
-        //            }
-        //            else
-        //                MatchNotFound = true;
-        //        }
+                        MiscSettings[8] = BitConverter.GetBytes(2f)[3];
+                        MiscSettings[9] = BitConverter.GetBytes(2f)[2];
+                        MiscSettings[10] = BitConverter.GetBytes(2f)[1];
+                        MiscSettings[11] = BitConverter.GetBytes(2f)[0];
+                        MiscSettings[12] = BitConverter.GetBytes(2f)[3];
+                        MiscSettings[13] = BitConverter.GetBytes(2f)[2];
+                        MiscSettings[14] = BitConverter.GetBytes(2f)[1];
+                        MiscSettings[15] = BitConverter.GetBytes(2f)[0];
+                    }
+                    else if (i.objectEntry.Type == 0xE2) // Spinning cube dark
+                    {
+                        List = 0x05;
+                        Type = 0x84; // Dice big
+                    }
+                    else if (i.objectEntry.Type == 0xE5) // Spinning cube PURPLE
+                    {
+                        List = 0x05;
+                        Type = 0x84; // Dice big
+                        MiscSettings[7] = 1;
+                    }
+                    else
+                        MatchNotFound = true;
+                    break;
+                case 0x0B:
+                    if (i.objectEntry.Type == 0xBB | i.objectEntry.Type == 0xC9) // small lantern, castle file
+                    {
+                        List = 0x11;
+                        Type = 0x04; // flame torch
+                    }
+                    else
+                        MatchNotFound = true;
+                    break;
+                case 0x0C:
+                    if (i.objectEntry.Type == 0xDE) // bouncy ball
+                    {
+                        List = 0x05;
+                        Type = 0x01; // Green spring
 
-        //        if (MatchNotFound) continue;
+                        MiscSettings[4] = BitConverter.GetBytes(4f)[3];
+                        MiscSettings[5] = BitConverter.GetBytes(4f)[2];
+                        MiscSettings[6] = BitConverter.GetBytes(4f)[1];
+                        MiscSettings[7] = BitConverter.GetBytes(4f)[0];
+                    }
+                    else if (i.objectEntry.Type == 0x82) // ghost
+                    {
+                        List = 0x11;
+                        Type = 0x05; // ghost
+                    }
+                    else if (i.objectEntry.Type == 0x88) // zipline balloon
+                    {
+                        List = 0x11;
+                        Type = 0x00; // teleport switch
+                    }
+                    else
+                        MatchNotFound = true;
+                    break;
+                case 0x11:
+                    if (i.objectEntry.Type == 0x33) // Castle door
+                    {
+                        List = 0x11;
+                        Type = 0x01; // castle door
+                    }
+                    else
+                        MatchNotFound = true;
+                    break;
+                case 0x13:
+                    if (i.objectEntry.Type == 0xF1) // Lava shelter door
+                    {
+                        List = 0x07;
+                        Type = 0x06; // Rail canyon door
+                    }
+                    else if (i.objectEntry.Type == 0xEF) // LASER
+                    {
+                        List = 0x00;
+                        Type = 0x16;
+                    }
+                    else
+                        MatchNotFound = true;
+                    break;
+                default:
+                    MatchNotFound = true;
+                    break;
+            }
 
-        //        TempObject.FindNameAndModel();
-        //        TempObject.CreateTransformMatrix();
-
-        //        list.Add(TempObject);
-        //    }
-
-        //    return list;
-        //}
+            if (MatchNotFound) return null;
+            else return new SetObjectHeroes(List, Type, HeroesEntries, i.Position,
+                new Vector3(DegreesToBAMS(i.Rotation.X), DegreesToBAMS(i.Rotation.Y), DegreesToBAMS(i.Rotation.Z)), 0, (byte)(2 * i.Rend));
+        }
     }
 }

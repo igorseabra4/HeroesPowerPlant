@@ -63,7 +63,8 @@
     <Reference Include="GenericStageInjectionCommon">
       <HintPath>..\..\GenericStageInjectionCommon\GenericStageInjectionCommon\bin\Debug\netstandard2.0\GenericStageInjectionCommon.dll</HintPath>
     </Reference>
-    <Reference Include="HeroesONE_R">
+    <Reference Include="HeroesONE_R, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>G:\SonicHeroes\Tools\HeroesONE_R\HeroesONE_R.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">

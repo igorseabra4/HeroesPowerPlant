@@ -447,7 +447,7 @@ namespace HeroesPowerPlant.Config
                     streamWriter.WriteLine(team + "START_POSITIONY=" + StartPositions[i].PositionY.ToString());
                     streamWriter.WriteLine(team + "START_POSITIONZ=" + StartPositions[i].PositionZ.ToString());
                     streamWriter.WriteLine(team + "START_PITCH=" + StartPositions[i].Pitch.ToString());
-                    streamWriter.WriteLine(team + "START_MODE=" + StartPositions[i].Mode.ToString());
+                    streamWriter.WriteLine(team + "START_MODE=" + ((byte)StartPositions[i].Mode).ToString());
                     streamWriter.WriteLine(team + "START_RUNNING=" + StartPositions[i].HoldTime.ToString());
                     streamWriter.WriteLine();
                 }

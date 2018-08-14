@@ -22,13 +22,17 @@ namespace HeroesPowerPlant.LayoutEditor
         public virtual void Draw(string[] modelNames, bool isSelected)
         {
             if (modelNames != null)
-                for (int m = 0; m < modelNames.Length; m++)
-                    Draw(modelNames[m], isSelected);
-            else
-                DrawCube(isSelected);
+                if (modelNames.Length > 0)
+                {
+                    foreach (string s in modelNames)
+                        Draw(s, isSelected);
+                    return;
+                }
+
+            DrawCube(isSelected);
         }
 
-        public void Draw(string modelName, bool isSelected)
+        protected void Draw(string modelName, bool isSelected)
         {
             if (DFFRenderer.DFFStream.ContainsKey(modelName))
             {
@@ -57,7 +61,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public void DrawCube(bool isSelected)
+        protected void DrawCube(bool isSelected)
         {
             renderData.worldViewProjection = Matrix.Scaling(5) * transformMatrix * viewProjection;
 

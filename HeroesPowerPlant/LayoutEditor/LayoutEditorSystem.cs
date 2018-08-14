@@ -89,7 +89,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public void OpenLayoutFile(string fileName)
         {
             currentlyOpenFileName = fileName;
-            setObjects = new List<SetObject>();
+            setObjects.Clear();
 
             if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".bin")
             {
@@ -135,15 +135,22 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void ImportLayoutFile(string fileName)
         {
-            if (Path.GetExtension(fileName).ToLower() == ".bin")
-            {
-                setObjects.AddRange(GetHeroesLayout(fileName, heroesObjectEntries).ToArray());
-            }
-            else if (Path.GetExtension(fileName).ToLower() == ".dat")
+            if (isShadow)
             {
                 setObjects.AddRange(GetShadowLayout(fileName, shadowObjectEntries).ToArray());
             }
-            else throw new InvalidDataException("Unknown file type");
+            else
+            {
+                if (Path.GetExtension(fileName).ToLower() == ".bin")
+                {
+                    setObjects.AddRange(GetHeroesLayout(fileName, heroesObjectEntries).ToArray());
+                }
+                else if (Path.GetExtension(fileName).ToLower() == ".dat")
+                {
+                    setObjects.AddRange(GetHeroesLayoutFromShadow(fileName, heroesObjectEntries, shadowObjectEntries).ToArray());
+                }
+                else throw new InvalidDataException("Unknown file type");
+            }
         }
 
         public void ImportOBJ(string fileName)
