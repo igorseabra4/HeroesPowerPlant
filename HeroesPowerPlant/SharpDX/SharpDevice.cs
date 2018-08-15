@@ -155,7 +155,7 @@ namespace HeroesPowerPlant
                     Dimension = currentMode ? DepthStencilViewDimension.Texture2DMultisampled : DepthStencilViewDimension.Texture2D
                 });
             
-            SetDefaultTargers();
+            SetDefaultTargets();
 
             // End resize
             MustResize = false;
@@ -164,7 +164,7 @@ namespace HeroesPowerPlant
         /// <summary>
         /// Set default render and depth buffer inside device context
         /// </summary>
-        public void SetDefaultTargers()
+        public void SetDefaultTargets()
         {
             // Setup targets and viewport for rendering
             DeviceContext.Rasterizer.SetViewport(0, 0, Control.Width, Control.Height);
