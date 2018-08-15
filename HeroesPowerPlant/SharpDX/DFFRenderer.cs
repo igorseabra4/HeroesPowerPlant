@@ -13,32 +13,7 @@ namespace HeroesPowerPlant
         public static HashSet<string> filePaths = new HashSet<string>();
         public static HashSet<string> ObjectDFFNames = new HashSet<string>();
         public static Dictionary<string, RenderWareModelFile> DFFStream = new Dictionary<string, RenderWareModelFile>();
-
-        public static void importObjectONEFile()
-        {
-            OpenFileDialog openFile = new OpenFileDialog()
-            {
-                Filter = "ONE Files|*.one",
-                Multiselect = true
-            };
-
-            if (openFile.ShowDialog() == DialogResult.OK)
-            {
-                AddDFFFiles(openFile.FileNames);
-            }
-        }
-
-        public static void clearObjectONEFiles()
-        {
-            foreach (RenderWareModelFile rw in DFFStream.Values)
-                foreach (SharpMesh mesh in rw.meshList)
-                    mesh.Dispose();
-
-            filePaths = new HashSet<string>();
-            ObjectDFFNames = new HashSet<string>();
-            DFFStream = new Dictionary<string, RenderWareModelFile>();
-        }
-
+        
         public static void AddDFFFiles(IEnumerable<string> fileNames)
         {
             foreach (string s in fileNames)
@@ -62,19 +37,14 @@ namespace HeroesPowerPlant
         {
             foreach (ObjectEntry o in Program.LayoutEditor.layoutSystem.GetAllObjectEntries())
                 if (o.ModelNames != null)
-                {
                     foreach (string s in o.ModelNames)
                         if (!ObjectDFFNames.Contains(s))
                             ObjectDFFNames.Add(s);
-                }
 
             byte[] dataBytes = File.ReadAllBytes(fileName);
             foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
-            {
                 AddDFF(j);
-            }
         }
-
 
         private static void AddDFF(ArchiveFile j)
         {
@@ -99,6 +69,17 @@ namespace HeroesPowerPlant
                     DFFStream.Add(j.Name, d);
                 }
             }
+        }
+
+        public static void ClearObjectONEFiles()
+        {
+            foreach (RenderWareModelFile rw in DFFStream.Values)
+                foreach (SharpMesh mesh in rw.meshList)
+                    mesh.Dispose();
+
+            filePaths = new HashSet<string>();
+            ObjectDFFNames = new HashSet<string>();
+            DFFStream = new Dictionary<string, RenderWareModelFile>();
         }
     }
 }

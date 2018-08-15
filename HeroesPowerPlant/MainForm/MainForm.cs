@@ -62,12 +62,19 @@ namespace HeroesPowerPlant
 
         private void addObjectONEToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DFFRenderer.importObjectONEFile();
+            OpenFileDialog openFile = new OpenFileDialog()
+            {
+                Filter = "ONE Files|*.one",
+                Multiselect = true
+            };
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+                DFFRenderer.AddDFFFiles(openFile.FileNames);
         }
 
         private void clearObjectONEsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DFFRenderer.clearObjectONEFiles();
+            DFFRenderer.ClearObjectONEFiles();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

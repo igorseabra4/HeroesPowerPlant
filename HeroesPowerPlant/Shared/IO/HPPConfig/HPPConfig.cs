@@ -107,7 +107,7 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
             else
                 MessageBox.Show("Camera Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            DFFRenderer.clearObjectONEFiles();
+            DFFRenderer.ClearObjectONEFiles();
             DFFRenderer.AddDFFFiles(config.DFFONEPaths);
         }
     }
