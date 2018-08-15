@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0586_Roulette : SetObjectManagerHeroes
     {
@@ -10,7 +8,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(4, value); }
         }
 
-        public Int32 Speed
+        public int Speed
         {
             get { return ReadLong(8); }
             set { Write(8, value); }

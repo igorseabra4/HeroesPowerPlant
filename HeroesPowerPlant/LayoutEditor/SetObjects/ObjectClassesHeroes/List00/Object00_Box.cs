@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object00_Box : SetObjectManagerHeroes
     {
-        public enum CrashModeType : UInt16
+        public enum CrashModeType : short
         {
             CrashOut = 0,
             CrashThrough = 1
@@ -12,7 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public CrashModeType Type
         {
             get { return (CrashModeType)ReadShort(4); }
-            set { Int16 a = (Int16)value; Write(4, a); }
+            set { Write(4, (short)value); }
         }
     }
 }

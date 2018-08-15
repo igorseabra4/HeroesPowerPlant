@@ -2,7 +2,7 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object000F_DashRamp : SetObjectManagerHeroes
+    public class Object000C_DashRing : Object000B_DashPanel
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
@@ -14,24 +14,6 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
                 Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                 Matrix.Translation(Position);
-        }
-
-        public float SpeedHorizontal
-        {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
-        }
-
-        public float SpeedVertical
-        {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
-        }
-
-        public short ControlTime
-        {
-            get { return ReadShort(12); }
-            set { Write(12, value); }
         }
     }
 }

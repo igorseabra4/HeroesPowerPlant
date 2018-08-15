@@ -34,9 +34,9 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(12, value); }
         }
 
-        public ItemType Item
+        public Item Item
         {
-            get { return (ItemType)ReadByte(14); }
+            get { return (Item)ReadByte(14); }
             set { Write(14, (byte)value); }
         }
     }

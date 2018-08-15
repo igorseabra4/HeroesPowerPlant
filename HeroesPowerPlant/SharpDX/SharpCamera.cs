@@ -32,37 +32,37 @@ namespace HeroesPowerPlant
             UpdateCamera();
         }
 
-        internal void AddPositionForward(float factor)
+        public void AddPositionForward(float factor)
         {
             Position += Forward * Speed * factor;
             UpdateCamera();
         }
 
-        internal void AddPositionSideways(float factor)
+        public void AddPositionSideways(float factor)
         {
             Position -= Right * Speed * factor;
             UpdateCamera();
         }
 
-        internal void AddPositionUp(float factor)
+        public void AddPositionUp(float factor)
         {
             Position += Up * Speed * factor;
             UpdateCamera();
         }
 
-        internal void AddYaw(float factor)
+        public void AddYaw(float factor)
         {
             Yaw -= Speed * factor;
             UpdateCamera();
         }
 
-        internal void AddPitch(float factor)
+        public void AddPitch(float factor)
         {
             Pitch -= Speed * factor;
             UpdateCamera();
         }
 
-        internal void IncreaseCameraSpeed(float v)
+        public void IncreaseCameraSpeed(float v)
         {
             Speed += v;
             if (Speed < 1f)
@@ -82,7 +82,7 @@ namespace HeroesPowerPlant
             Program.ViewConfig.UpdateValues(Position, Yaw, Pitch, Speed);
         }
 
-        internal void Reset()
+        public void Reset()
         {
             Position = Vector3.Zero;
             Forward = Vector3.ForwardRH;

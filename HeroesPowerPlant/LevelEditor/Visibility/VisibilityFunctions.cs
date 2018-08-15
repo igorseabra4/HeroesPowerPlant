@@ -1,71 +1,19 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using SharpDX;
-using static HeroesPowerPlant.BSPRenderer;
 using RenderWareFile;
 using RenderWareFile.Sections;
-using System.Linq;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
+using static HeroesPowerPlant.BSPRenderer;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LevelEditor
 {
-    public class VisibilityFunctions
+    public static class VisibilityFunctions
     {
-        public class Chunk
-        {
-            public int number;
-            public Vector3 Min;
-            public Vector3 Max;
-
-            public bool isSelected;
-            public int index;
-
-            Matrix chunkTransform;
-            DefaultRenderData renderData = new DefaultRenderData();
-
-            public void CalculateModel()
-            {
-                chunkTransform = Matrix.Scaling(Max - Min) * Matrix.Translation((Max + Min) / 2);
-            }
-            
-            public void Render(Matrix viewProjection)
-            {
-                renderData.worldViewProjection = chunkTransform * viewProjection;
-
-                if (isSelected)
-                    renderData.Color = selectedChunkColor;
-                else
-                    renderData.Color = chunkColor;
-
-                device.SetFillModeDefault();
-                device.SetCullModeNone();
-                device.SetBlendStateAlphaBlend();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
-
-                device.UpdateData(basicBuffer, renderData);
-                device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-
-                Cube.Draw();
-
-                device.SetFillModeWireframe();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
-
-                renderData.Color = Vector4.One;
-                device.UpdateData(basicBuffer, renderData);
-                device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-
-                Cube.Draw();
-            }
-        }
-
-        public static Vector4 chunkColor = new Vector4(0.3f, 0.8f, 0.9f, 0.4f);
-        public static Vector4 selectedChunkColor = new Vector4(1f, 0.5f, 0.1f, 0.4f);
-
         public static void RenderChunkModels(Matrix viewProjection)
         {
             basicShader.Apply();
@@ -75,9 +23,16 @@ namespace HeroesPowerPlant.LevelEditor
             }
         }
 
+        public static void setSelectedChunkColor(System.Drawing.Color color)
+        {
+            Vector4 newColor = new SharpDX.Color(color.R, color.G, color.B).ToVector4();
+            newColor.W = Chunk.selectedChunkColor.W;
+            Chunk.selectedChunkColor = newColor;
+        }
+
         public static List<Chunk> ChunkList = new List<Chunk>();
 
-        public static List<Chunk> loadHeroesVisibilityFile(string fileName)
+        public static List<Chunk> LoadHeroesVisibilityFile(string fileName)
         {
             List<Chunk> list = new List<Chunk>();
 
@@ -148,7 +103,7 @@ namespace HeroesPowerPlant.LevelEditor
             return list;
         }
 
-        public static void saveHeroesVisibilityFile(IEnumerable<Chunk> chunkList, string fileName)
+        public static void SaveHeroesVisibilityFile(IEnumerable<Chunk> chunkList, string fileName)
         {
             BinaryWriter BLKFileWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
 

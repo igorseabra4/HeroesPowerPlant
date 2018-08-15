@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object002C_RollDoor : SetObjectManagerHeroes
     {
@@ -16,7 +14,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(8, value); }
         }
 
-        public Int16 NoControlTime
+        public short NoControlTime
         {
             get { return ReadShort(12); }
             set { Write(12, value); }

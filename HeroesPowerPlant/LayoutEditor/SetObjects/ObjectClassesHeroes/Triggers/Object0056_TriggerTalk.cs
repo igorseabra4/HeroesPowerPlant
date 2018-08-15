@@ -1,9 +1,22 @@
-﻿using System;
-using static HeroesPowerPlant.SharpRenderer;
+﻿using static HeroesPowerPlant.SharpRenderer;
 using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum TriggerTalkType : short
+    {
+        Event = 0,
+        Tutorial = 1,
+        Hint = 2
+    }
+
+    public enum TriggerTalkShape : int
+    {
+        Sphere = 0,
+        Cylinder = 1,
+        Cube = 2
+    }
+
     public class Object0056_TriggerTalk : SetObjectManagerHeroes
     {
         private BoundingSphere sphereBound;
@@ -59,31 +72,18 @@ namespace HeroesPowerPlant.LayoutEditor
                 base.Draw(modelNames, isSelected);
         }
 
-        public enum TypeType
+        public TriggerTalkType Type
         {
-            Event = 0,
-            Tutorial = 1,
-            Hint = 2
+            get { return (TriggerTalkType)ReadShort(4); }
+            set { Write(4, (short)value); }
         }
 
-        public TypeType Type
-        {
-            get { return (TypeType)ReadShort(4); }
-            set { Write(4, (Int16)value); }
-        }
-
-        public Int16 CommonLineToPlay
+        public short CommonLineToPlay
         {
             get { return ReadShort(6); }
             set { Write(6, value); }
         }
 
-        public enum TriggerTalkShape
-        {
-            Sphere = 0,
-            Cylinder = 1,
-            Cube = 2
-        }
         public TriggerTalkShape TriggerShape
         {
             get { return (TriggerTalkShape)ReadLong(8); }
@@ -108,37 +108,37 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public Int16 HintStart1
+        public short HintStart1
         {
             get { return ReadShort(24); }
             set { Write(24, value); }
         }
 
-        public Int16 HintEnd1
+        public short HintEnd1
         {
             get { return ReadShort(26); }
             set { Write(26, value); }
         }
 
-        public Int16 HintStart2
+        public short HintStart2
         {
             get { return ReadShort(28); }
             set { Write(28, value); }
         }
 
-        public Int16 HintEnd2
+        public short HintEnd2
         {
             get { return ReadShort(30); }
             set { Write(30, value); }
         }
 
-        public Int16 HintStart3
+        public short HintStart3
         {
             get { return ReadShort(32); }
             set { Write(32, value); }
         }
 
-        public Int16 HintEnd3
+        public short HintEnd3
         {
             get { return ReadShort(34); }
             set { Write(34, value); }

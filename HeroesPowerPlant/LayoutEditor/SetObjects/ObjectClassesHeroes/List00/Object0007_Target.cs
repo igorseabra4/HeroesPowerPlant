@@ -2,9 +2,9 @@
 {
     public class Object0007_Target : SetObjectManagerHeroes
     {
-        public ItemType Item
+        public Item Item
         {
-            get { return (ItemType)ReadByte(4); }
+            get { return (Item)ReadByte(4); }
             set { byte a = (byte)value; Write(4, a); }
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020A_ColliQuake : SetObjectManagerHeroes
     {
@@ -28,7 +26,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(16, value); }
         }
 
-        public Int32 Time
+        public int Time
         {
             get { return ReadLong(20); }
             set { Write(20, value); }

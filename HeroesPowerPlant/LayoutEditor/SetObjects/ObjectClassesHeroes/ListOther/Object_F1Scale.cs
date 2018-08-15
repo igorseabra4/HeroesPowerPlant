@@ -9,11 +9,11 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Position = Position;
             this.Rotation = Rotation;
 
-            transformMatrix = Matrix.Scaling(Scale != 0f ? Scale : 1f)
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                * Matrix.Translation(Position);
+            transformMatrix = Matrix.Scaling(Scale == 0f ? 1f : Scale) *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z)) *
+                Matrix.Translation(Position);
         }
 
         public float Scale

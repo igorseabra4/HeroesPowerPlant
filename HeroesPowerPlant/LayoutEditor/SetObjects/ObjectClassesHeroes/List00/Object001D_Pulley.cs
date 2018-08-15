@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object001D_Pulley : SetObjectManagerHeroes
     {
@@ -22,7 +20,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(12, value); }
         }
 
-        public enum PulleyType
+        public enum PulleyType : short
         {
             Up = 0,
             Down = 1
@@ -31,7 +29,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public PulleyType Type
         {
             get { return (PulleyType)ReadShort(16); }
-            set { Int16 a = (Int16)value; Write(16, a); }
+            set { Write(16, (short)value); }
         }
     }
 }

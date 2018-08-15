@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0900_Frog : SetObjectManagerHeroes
     {
@@ -40,13 +38,13 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(24, value); }
         }
 
-        public Int16 StopTimeSec
+        public short StopTimeSec
         {
             get { return ReadShort(28); }
             set { Write(28, value); }
         }
 
-        public Int16 LeaveTimeSec
+        public short LeaveTimeSec
         {
             get { return ReadShort(30); }
             set { Write(30, value); }

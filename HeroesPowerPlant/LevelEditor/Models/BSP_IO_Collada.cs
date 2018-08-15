@@ -4,56 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant.LevelEditor
 {
-    public partial class LevelEditorFunctions
+    public static class BSP_IO_Collada
     {
-        public class DAETriangleList
-        {
-            public string TextureName;
-            public List<Triangle> TriangleList = new List<Triangle>();
-        }
-
-        public class DAEObject
-        {
-            public string ObjectName;
-
-            public List<Vector3> PositionVertexList = new List<Vector3>();
-            public List<Vector2> TexCoordList = new List<Vector2>();
-            public List<Color> VColorList = new List<Color>();
-            public List<DAETriangleList> TriangleListList = new List<DAETriangleList>();
-
-            public Matrix TransformMatrix = new Matrix();
-
-            public void GetMatrix(matrix m)
-            {
-                TransformMatrix = new Matrix
-                {
-                    M11 = (float)m.Values[0],
-                    M21 = (float)m.Values[1],
-                    M31 = (float)m.Values[2],
-                    M41 = (float)m.Values[3],
-                    M12 = (float)m.Values[4],
-                    M22 = (float)m.Values[5],
-                    M32 = (float)m.Values[6],
-                    M42 = (float)m.Values[7],
-                    M13 = (float)m.Values[8],
-                    M23 = (float)m.Values[9],
-                    M33 = (float)m.Values[10],
-                    M43 = (float)m.Values[11],
-                    M14 = (float)m.Values[12],
-                    M24 = (float)m.Values[13],
-                    M34 = (float)m.Values[14],
-                    M44 = (float)m.Values[15]
-                };
-            }
-        }
-        
-        public static List<DAEObject> ReadDAEFile(string FileName)
+        public static List<ModelConverterDataCollada> ReadDAEFile(string FileName)
         {
             COLLADA model = COLLADA.Load(FileName);
-            List<DAEObject> DAEObjectList = new List<DAEObject>();
+            List<ModelConverterDataCollada> DAEObjectList = new List<ModelConverterDataCollada>();
 
             List<material> ColladaMaterialList = new List<material>();
             List<string[]> EffectList = new List<string[]>();
@@ -120,7 +80,7 @@ namespace HeroesPowerPlant.LevelEditor
                         if (mesh == null)
                             continue;
 
-                        DAEObject TempObject = new DAEObject
+                        ModelConverterDataCollada TempObject = new ModelConverterDataCollada
                         {
                             ObjectName = geom.id.Split('-').FirstOrDefault()
                         };
@@ -177,7 +137,7 @@ namespace HeroesPowerPlant.LevelEditor
                         {
                             if (meshItem is triangles triangles)
                             {
-                                DAETriangleList tl = new DAETriangleList();
+                                TriangleListCollada tl = new TriangleListCollada();
 
                                 List<string> TriangleData = triangles.p.Split().ToList();
                                 TriangleData.Remove("");
@@ -273,7 +233,7 @@ namespace HeroesPowerPlant.LevelEditor
             return DAEObjectList;
         }
 
-        public static ModelConverterData ConvertDataFromDAEObject(List<DAEObject> DAEObjectList, bool ignoreUVsAndColors)
+        public static ModelConverterData ConvertDataFromDAEObject(List<ModelConverterDataCollada> DAEObjectList, bool ignoreUVsAndColors)
         {
             ModelConverterData data = new ModelConverterData()
             {
@@ -289,7 +249,7 @@ namespace HeroesPowerPlant.LevelEditor
             int TotalUVs = 0;
             int TotalColors = 0;
 
-            foreach (DAEObject i in DAEObjectList)
+            foreach (ModelConverterDataCollada i in DAEObjectList)
             {
                 foreach (Vector3 j in i.PositionVertexList)
                 {
@@ -308,7 +268,7 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     data.ColorList.Add(j);
                 }
-                foreach (DAETriangleList j in i.TriangleListList)
+                foreach (TriangleListCollada j in i.TriangleListList)
                 {
                     if (j.TriangleList.Count == 0) continue;
 
@@ -351,102 +311,6 @@ namespace HeroesPowerPlant.LevelEditor
                 return data;
             
             return FixColors(FixUVCoords(data));
-        }
-
-        public static ModelConverterData FixColors(ModelConverterData d)
-        {
-            List<Vertex> VertexStream = d.VertexList;
-            List<Triangle> TriangleStream = d.TriangleList;
-            List<Color> ColorStream = d.ColorList;
-
-            for (int i = 0; i < TriangleStream.Count; i++)
-            {
-                if (VertexStream[TriangleStream[i].vertex1].HasColor == false)
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex1];
-
-                    TempVertex.Color = ColorStream[TriangleStream[i].Color1];
-                    TempVertex.HasColor = true;
-                    VertexStream[TriangleStream[i].vertex1] = TempVertex;
-                }
-                else
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex1];
-
-                    if (TempVertex.Color != ColorStream[TriangleStream[i].Color1])
-                    {
-                        TempVertex.Color.R = ColorStream[TriangleStream[i].Color1].R;
-                        TempVertex.Color.G = ColorStream[TriangleStream[i].Color1].G;
-                        TempVertex.Color.B = ColorStream[TriangleStream[i].Color1].B;
-                        TempVertex.Color.A = ColorStream[TriangleStream[i].Color1].A;
-
-                        Triangle TempTriangle = TriangleStream[i];
-                        TempTriangle.vertex1 = VertexStream.Count;
-                        TriangleStream[i] = TempTriangle;
-                        VertexStream.Add(TempVertex);
-                    }
-                }
-                if (VertexStream[TriangleStream[i].vertex2].HasColor == false)
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex2];
-
-                    TempVertex.Color = ColorStream[TriangleStream[i].Color2];
-                    TempVertex.HasColor = true;
-                    VertexStream[TriangleStream[i].vertex2] = TempVertex;
-                }
-                else
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex2];
-
-                    if (TempVertex.Color != ColorStream[TriangleStream[i].Color2])
-                    {
-                        TempVertex.Color.R = ColorStream[TriangleStream[i].Color2].R;
-                        TempVertex.Color.G = ColorStream[TriangleStream[i].Color2].G;
-                        TempVertex.Color.B = ColorStream[TriangleStream[i].Color2].B;
-                        TempVertex.Color.A = ColorStream[TriangleStream[i].Color2].A;
-
-                        Triangle TempTriangle = TriangleStream[i];
-                        TempTriangle.vertex2 = VertexStream.Count;
-                        TriangleStream[i] = TempTriangle;
-                        VertexStream.Add(TempVertex);
-                    }
-                }
-                if (VertexStream[TriangleStream[i].vertex3].HasColor == false)
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex3];
-
-                    TempVertex.Color = ColorStream[TriangleStream[i].Color3];
-                    TempVertex.HasColor = true;
-                    VertexStream[TriangleStream[i].vertex3] = TempVertex;
-                }
-                else
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex3];
-
-                    if (TempVertex.Color != ColorStream[TriangleStream[i].Color3])
-                    {
-                        TempVertex.Color.R = ColorStream[TriangleStream[i].Color3].R;
-                        TempVertex.Color.G = ColorStream[TriangleStream[i].Color3].G;
-                        TempVertex.Color.B = ColorStream[TriangleStream[i].Color3].B;
-                        TempVertex.Color.A = ColorStream[TriangleStream[i].Color3].A;
-
-                        Triangle TempTriangle = TriangleStream[i];
-                        TempTriangle.vertex3 = VertexStream.Count;
-                        TriangleStream[i] = TempTriangle;
-                        VertexStream.Add(TempVertex);
-                    }
-                }
-            }
-
-            return new ModelConverterData()
-            {
-                MaterialList = d.MaterialList,
-                VertexList = VertexStream,
-                UVList = d.UVList,
-                ColorList = ColorStream,
-                TriangleList = TriangleStream,
-                MTLLib = d.MTLLib
-            };
         }
 
         //public static void CreateDAEFile(string OutputFileName)

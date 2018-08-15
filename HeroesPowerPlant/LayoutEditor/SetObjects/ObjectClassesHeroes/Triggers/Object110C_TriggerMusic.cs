@@ -3,6 +3,13 @@ using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum TriggerMusicShape
+    {
+        Sphere = 0,
+        Cylinder = 1,
+        Cube = 2
+    }
+
     public class Object110C_TriggerMusic : SetObjectManagerHeroes
     {
         private BoundingSphere sphereBound;
@@ -66,13 +73,6 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get { return ReadShort(4); }
             set { Write(4, value); }
-        }
-
-        public enum TriggerMusicShape
-        {
-            Sphere = 0,
-            Cylinder = 1,
-            Cube = 2
         }
 
         public TriggerMusicShape TriggerShape

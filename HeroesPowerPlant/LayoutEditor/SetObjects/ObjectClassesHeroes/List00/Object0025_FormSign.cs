@@ -2,10 +2,10 @@
 {
     public class Object0025_FormSign : SetObjectManagerHeroes
     {
-        public Formations Formation
+        public Formation Formation
         {
-            get { return (Formations)ReadByte(4); }
-            set { byte a = (byte)value; Write(4, a); }
+            get { return (Formation)ReadByte(4); }
+            set { Write(4, (byte)value); }
         }
     }
 }

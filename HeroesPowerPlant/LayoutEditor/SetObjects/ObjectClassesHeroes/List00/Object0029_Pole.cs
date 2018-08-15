@@ -1,28 +1,26 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0029_Pole : SetObjectManagerHeroes
     {
-        public Int16 Length
+        public short Length
         {
             get { return ReadShort(4); }
             set { Write(4, value); }
         }
 
-        public Int16 Range
+        public short Range
         {
             get { return ReadShort(6); }
             set { Write(6, value); }
         }
 
-        public Int16 Start
+        public short StartOffset
         {
             get { return ReadShort(8); }
             set { Write(8, value); }
         }
 
-        public Int16 End
+        public short EndOffset
         {
             get { return ReadShort(10); }
             set { Write(10, value); }
@@ -46,10 +44,10 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(20, value); }
         }
 
-        public byte NoReference
+        public bool UseReference
         {
-            get { return ReadByte(24); }
-            set { Write(24, value); }
+            get { return ReadByte(24) != 0; }
+            set { Write(24, (byte)(value ? 1 : 0)); }
         }
 
         public byte ReferenceID
@@ -58,7 +56,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(25, value); }
         }
 
-        public Int16 NoControlTime
+        public short NoControlTime
         {
             get { return ReadShort(26); }
             set { Write(26, value); }

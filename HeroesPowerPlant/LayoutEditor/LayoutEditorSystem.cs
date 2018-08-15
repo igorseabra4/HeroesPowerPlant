@@ -194,8 +194,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void SelectedIndexChanged(int selectedIndex)
         {
-            if (CurrentlySelectedIndex > 0 & CurrentlySelectedIndex < setObjects.Count)
-                GetSelectedObject().isSelected = false;
+            for (int i = 0; i < setObjects.Count; i++)
+                setObjects[i].isSelected = false;
 
             currentlySelectedIndex = selectedIndex;
 
@@ -279,7 +279,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public void SetObjectPosition(float x, float y, float z)
         {
             if (currentlySelectedIndex < 0) return;
-            
+
             SetObjectPosition(new Vector3(x, y, z));
         }
 

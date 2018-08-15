@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using static HeroesPowerPlant.MemoryFunctions;
 using static HeroesPowerPlant.CameraEditor.CameraEditorFunctions;
 using SharpDX;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.CameraEditor
 {
@@ -434,6 +435,14 @@ namespace HeroesPowerPlant.CameraEditor
             }
 
             ListBoxCameras.SelectedIndex = index;
+        }
+
+        private void sortByDistanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IEnumerable<CameraHeroes> cameras = ListBoxCameras.Items.Cast<CameraHeroes>();
+            cameras = cameras.OrderBy(c => c.GetDistance()).ToList();
+            ListBoxCameras.Items.Clear();
+            ListBoxCameras.Items.AddRange(cameras.ToArray());
         }
     }
 }

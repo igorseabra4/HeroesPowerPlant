@@ -1,13 +1,13 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum CurtainType
+    {
+        Light = 0,
+        Dark = 1,
+    }
+
     public class Object1188_Curtain : SetObjectManagerHeroes
     {
-        public enum CurtainType
-        {
-            Light = 0,
-            Dark = 1,
-        }
-
         public CurtainType Type
         {
             get { return (CurtainType)ReadByte(4); }

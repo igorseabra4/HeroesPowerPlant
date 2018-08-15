@@ -1,17 +1,30 @@
-﻿using System;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum WeightType
+    {
+        Repeat = 0,
+        Shadow = 1,
+        Laser = 2,
+        RepeatSwitch = 3,
+        ShadowSwitch = 4,
+        LaserSwitch = 5
+    }
+
     public class Object00_Weight : SetObjectManagerHeroes
     {
-        public enum WeightType
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            Repeat = 0,
-            Shadow = 1,
-            Laser = 2,
-            RepeatSwitch = 3,
-            ShadowSwitch = 4,
-            LaserSwitch = 5
+            this.Position = Position;
+            this.Rotation = Rotation;
+
+            transformMatrix =
+                Matrix.Scaling(ScaleX + 1f, ScaleY + 1f, ScaleZ + 1f) *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
+                Matrix.Translation(Position);
         }
 
         public WeightType Type
@@ -26,7 +39,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(5, value); }
         }
 
-        public Int16 Height
+        public short Height
         {
             get { return ReadShort(6); }
             set { Write(6, value); }
@@ -38,28 +51,28 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(8, value); }
         }
 
+        public float ScaleY
+        {
+            get { return ReadFloat(20); }
+            set { Write(20, value); }
+        }
+
         public float ScaleZ
         {
             get { return ReadFloat(12); }
             set { Write(12, value); }
         }
 
-        public Int16 UpWaitTime
+        public short UpWaitTime
         {
             get { return ReadShort(16); }
             set { Write(16, value); }
         }
 
-        public Int16 DownWaitTime
+        public short DownWaitTime
         {
             get { return ReadShort(18); }
             set { Write(18, value); }
-        }
-
-        public float ScaleY
-        {
-            get { return ReadFloat(20); }
-            set { Write(20, value); }
         }
     }
 }

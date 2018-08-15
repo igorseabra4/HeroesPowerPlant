@@ -93,15 +93,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libReloaded-IO, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\libReloaded-IO.1.2.2-dev\lib\net472\libReloaded-IO.dll</HintPath>
-    </Reference>
-    <Reference Include="libReloaded-Native, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\libReloaded-Native.1.2.2-dev\lib\net472\libReloaded-Native.dll</HintPath>
-    </Reference>
-    <Reference Include="libReloaded-Paths, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\libReloaded-Paths.1.2.2-dev\lib\net472\libReloaded-Paths.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -111,23 +102,23 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.1.0\lib\net45\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.D3DCompiler, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.D3DCompiler.4.0.1\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
+    <Reference Include="SharpDX.D3DCompiler, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.D3DCompiler.4.1.0\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Desktop, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Desktop.4.0.1\lib\net45\SharpDX.Desktop.dll</HintPath>
+    <Reference Include="SharpDX.Desktop, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Desktop.4.1.0\lib\net45\SharpDX.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    <Reference Include="SharpDX.Direct3D11, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.1.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    <Reference Include="SharpDX.DXGI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.1.0\lib\net45\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Mathematics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Mathematics.4.0.1\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    <Reference Include="SharpDX.Mathematics, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.4.1.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -152,7 +143,7 @@
       <DependentUpon>CameraEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraEditor\CameraEditorFunctions.cs" />
-    <Compile Include="CameraEditor\CameraEntry.cs" />
+    <Compile Include="CameraEditor\CameraHeroes.cs" />
     <Compile Include="CollisionEditor\CLFile.cs" />
     <Compile Include="CollisionEditor\CLQuadNode.cs" />
     <Compile Include="CollisionEditor\CLTriangle.cs" />
@@ -177,6 +168,10 @@
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
     <Compile Include="Shared\IO\HPPConfig\HPPConfig.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Formation.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Item.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000B_DashPanel.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000C_DashRing.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1101_CastleDoor.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1102_CastleWall.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1105_Ghost.cs" />
@@ -189,6 +184,16 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object11_MansionWallThunder.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object00_TriggerCommon.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object110C_TriggerMusic.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_Collada.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_Heroes.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_ShadowCollision.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_Shared.cs" />
+    <Compile Include="LevelEditor\Models\Structures\ModelConverterData.cs" />
+    <Compile Include="LevelEditor\Models\Structures\ModelConverterDataCollada.cs" />
+    <Compile Include="LevelEditor\Models\Structures\Triangle.cs" />
+    <Compile Include="LevelEditor\Models\Structures\TriangleListCollada.cs" />
+    <Compile Include="LevelEditor\Models\Structures\Vertex.cs" />
+    <Compile Include="LevelEditor\Visibility\Chunk.cs" />
     <Compile Include="Shared\Extensions.cs" />
     <Compile Include="ConfigEditor\SplineEditor.cs">
       <SubType>Form</SubType>
@@ -212,8 +217,6 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0066_TriggerBobJump.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0584_GiantDice.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List09\Object0900_Frog.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ItemType.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Formations.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0001_Spring.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0002_TripleSpring.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0003_Ring.cs" />
@@ -243,7 +246,6 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0059_TriggerLight.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0080_TriggerTeleport.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Box.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_DashPadRing.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Weight.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0102_TruckRail.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0103_TruckPath.cs" />
@@ -324,14 +326,12 @@
     <Compile Include="LevelEditor\LevelEditor.designer.cs">
       <DependentUpon>LevelEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="LevelEditor\LevelEditorFunctions.cs" />
     <Compile Include="LevelEditor\ShadowCollisionEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LevelEditor\ShadowCollisionEditor.Designer.cs">
       <DependentUpon>ShadowCollisionEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="LevelEditor\ShadowCollisionFunctions.cs" />
     <Compile Include="MainForm\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -342,9 +342,8 @@
     <Compile Include="Shared\ReadWriteCommon.cs" />
     <Compile Include="Shared\ReadWriteMemory.cs" />
     <Compile Include="CollisionEditor\CollisionRendering.cs" />
-    <Compile Include="LevelEditor\ColladaFunctions.cs" />
-    <Compile Include="LevelEditor\collada_schema_1_4.cs" />
-    <Compile Include="LevelEditor\VisibilityFunctions.cs" />
+    <Compile Include="Shared\collada_schema_1_4.cs" />
+    <Compile Include="LevelEditor\Visibility\VisibilityFunctions.cs" />
     <Compile Include="MainForm\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -540,5 +539,6 @@
       <Name>RenderWareFile</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

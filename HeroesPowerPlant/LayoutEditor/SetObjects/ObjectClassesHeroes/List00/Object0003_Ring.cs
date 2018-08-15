@@ -7,6 +7,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0003_Ring : SetObjectManagerHeroes
     {
+        private List<Matrix> positionsList;
+
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             this.Position = Position;
@@ -18,44 +20,44 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                 * Matrix.Translation(Position);
 
-            positionsList = new List<Vector3>(NumberOfRings);
+            positionsList = new List<Matrix>(NumberOfRings);
 
-            if (Type == RingType.Normal) // single ring
+            switch (Type) // single ring
             {
-                positionsList.Add(Vector3.Zero);
-            }
-            else if (Type == RingType.Line) // line of rings
-            {
-                if (NumberOfRings < 2) return;
+                case RingType.Normal:
+                    positionsList.Add(Matrix.Identity);
+                    break;
 
-                for (int i = 0; i < NumberOfRings; i++)
-                    positionsList.Add(new Vector3(0, 0, TotalLenght * i / (NumberOfRings - 1)));
-            }
-            else if (Type == RingType.Circle) // circle
-            {
-                if (NumberOfRings < 1) return;
+                case RingType.Line: // line of rings
+                    if (NumberOfRings < 2) return;
+                    for (int i = 0; i < NumberOfRings; i++)
+                        positionsList.Add(Matrix.Translation(0, 0, TotalLenght * i / (NumberOfRings - 1)));
+                    break;
 
-                for (int i = 0; i < NumberOfRings; i++)
-                    positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -Radius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
-            }
-            else if (Type == RingType.Arch) // arch
-            {
-                if (NumberOfRings < 2) return;
+                case RingType.Circle: // circle
+                    if (NumberOfRings < 1) return;
+                    for (int i = 0; i < NumberOfRings; i++)
+                        //positionsList.Add(Matrix.Translation((Vector3)Vector3.Transform(new Vector3(0, 0, -Radius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings))));
+                        positionsList.Add(Matrix.Translation(0, 0, -Radius) * Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings));
+                    break;
 
-                float angle = TotalLenght / Radius;
+                case RingType.Arch: // arch
+                    if (NumberOfRings < 2) return;
+                    float angle = TotalLenght / Radius;
+                    for (int i = 0; i < NumberOfRings; i++)
+                    {
+                        Matrix Locator = Matrix.Translation(new Vector3(Radius, 0, 0));
 
-                for (int i = 0; i < NumberOfRings; i++)
-                {
-                    Matrix Locator = Matrix.Translation(new Vector3(Radius, 0, 0));
-
-                    positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
-                        * Matrix.RotationY(angle / (NumberOfRings - 1) * i)
-                        * Matrix.Invert(Locator)));
-                }
+                        //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                        //    * Matrix.RotationY(angle / (NumberOfRings - 1) * i)
+                        //    * Matrix.Invert(Locator)));
+                        positionsList.Add(Locator
+                           * Matrix.RotationY(angle / (NumberOfRings - 1) * i)
+                           * Matrix.Invert(Locator));
+                    }
+                    break;
             }
         }
-
-        private List<Vector3> positionsList;
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
@@ -73,9 +75,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 tintedShader.Apply();
 
-                foreach (Vector3 i in positionsList)
+                foreach (Matrix i in positionsList)
                 {
-                    renderData.worldViewProjection = Matrix.Translation(i) * transformMatrix * viewProjection;
+                    renderData.worldViewProjection = i * transformMatrix * viewProjection;
 
                     device.UpdateData(tintedBuffer, renderData);
                     device.DeviceContext.VertexShader.SetConstantBuffer(0, tintedBuffer);
@@ -96,9 +98,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 device.ApplyRasterState();
                 device.UpdateAllStates();
 
-                foreach (Vector3 i in positionsList)
+                foreach (Matrix i in positionsList)
                 {
-                    renderData.worldViewProjection = Matrix.Scaling(4) * Matrix.Translation(i) * transformMatrix * viewProjection;
+                    renderData.worldViewProjection = Matrix.Scaling(4) * i * transformMatrix * viewProjection;
                     
                     device.UpdateData(basicBuffer, renderData);
                     device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
@@ -112,7 +114,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public RingType Type
         {
             get { return (RingType)ReadShort(4); }
-            set { Write(4, (short)value); }
+            set { Write(4, (short)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public short NumberOfRings

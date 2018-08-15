@@ -8,7 +8,9 @@ using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using static HeroesPowerPlant.LevelEditor.VisibilityFunctions;
-using static HeroesPowerPlant.LevelEditor.LevelEditorFunctions;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
 using static HeroesPowerPlant.BSPRenderer;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -192,11 +194,11 @@ namespace HeroesPowerPlant.LevelEditor
 
                         if (Path.GetExtension(i).ToLower() == ".obj")
                         {
-                            file.SetForRendering(CreateBSPFile(i, ReadOBJFile(i, false)), null);
+                            file.SetForRendering(CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked), null);
                         }
                         else if (Path.GetExtension(i).ToLower() == ".dae")
                         {
-                            file.SetForRendering(CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false)), null);
+                            file.SetForRendering(CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked), null);
                         }
                         else if (new string[] { ".bsp", ".rg1", ".rp2", ".rx1" }.Contains(Path.GetExtension(i).ToLower()))
                         {
@@ -542,7 +544,7 @@ namespace HeroesPowerPlant.LevelEditor
                 else
                 {
                     OpenVisibilityFile = fileName;
-                    ChunkList = loadHeroesVisibilityFile(OpenVisibilityFile);
+                    ChunkList = LoadHeroesVisibilityFile(OpenVisibilityFile);
                     labelLoadedBLK.Text = "Loaded " + fileName;
                 }
 
@@ -559,7 +561,7 @@ namespace HeroesPowerPlant.LevelEditor
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (OpenVisibilityFile != null)
-                saveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
+                SaveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
             else
                 saveAsToolStripMenuItem1_Click(sender, e);
         }
@@ -578,7 +580,7 @@ namespace HeroesPowerPlant.LevelEditor
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 OpenVisibilityFile = saveFileDialog.FileName;
-                saveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
+                SaveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
                 labelLoadedBLK.Text = "Loaded " + OpenVisibilityFile;
             }
         }
@@ -597,7 +599,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 else if (Path.GetExtension(openFile.FileName).ToLower() == ".bin")
                 {
-                    ChunkList.AddRange(loadHeroesVisibilityFile(openFile.FileName));
+                    ChunkList.AddRange(LoadHeroesVisibilityFile(openFile.FileName));
                 }
 
                 numericCurrentChunk.Minimum = 1;
