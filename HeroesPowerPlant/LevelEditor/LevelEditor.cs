@@ -60,22 +60,19 @@ namespace HeroesPowerPlant.LevelEditor
 
         public void OpenONEHeroesFile(string fileName)
         {
-            if (File.Exists(fileName))
+            SetHeroesMode();
+            openONEfilePath = fileName;
+            SetFilenamePrefix(openONEfilePath);
+
+            byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
+            SetHeroesMeshStream(Archive.FromONEFile(ref fileBytes));
+
+            InitBSPList();
+
+            string SupposedBLK = Path.GetDirectoryName(openONEfilePath) + "\\" + currentFileNamePrefix + "_blk.bin";
+            if (File.Exists(SupposedBLK))
             {
-                SetHeroesMode();
-                openONEfilePath = fileName;
-                SetFilenamePrefix(openONEfilePath);
-
-                byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
-                SetHeroesMeshStream(Archive.FromONEFile(ref fileBytes));
-
-                InitBSPList();
-
-                string SupposedBLK = Path.GetDirectoryName(openONEfilePath) + "\\" + currentFileNamePrefix + "_blk.bin";
-                if (File.Exists(SupposedBLK))
-                {
-                    initVisibilityEditor(false, SupposedBLK);
-                }
+                initVisibilityEditor(false, SupposedBLK);
             }
         }
 
