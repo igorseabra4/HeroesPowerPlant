@@ -70,6 +70,9 @@ namespace HeroesPowerPlant
 
         public void UpdateValues(Vector3 position, float yaw, float pitch, float speed)
         {
+            if (!Visible)
+                return;
+
             programIsUpdatingValues = true;
 
             NumericCameraX.Value = (decimal)position.X;

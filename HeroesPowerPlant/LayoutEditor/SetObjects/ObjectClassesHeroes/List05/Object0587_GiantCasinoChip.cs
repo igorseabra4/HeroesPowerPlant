@@ -9,7 +9,7 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Position = Position;
             this.Rotation = Rotation;
 
-            transformMatrix = Matrix.Scaling(Scale)
+            transformMatrix = Matrix.Scaling(Scale + 1f)
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
@@ -18,7 +18,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (Type >= modelNames.Length | DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
+            if (Type >= modelNames.Length | !DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
                 DrawCube(isSelected);
             else
                 DFFRenderer.DFFStream[modelNames[Type]].Render();
