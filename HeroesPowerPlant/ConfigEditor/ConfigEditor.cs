@@ -78,7 +78,12 @@ namespace HeroesPowerPlant.ConfigEditor
             Program.SplineEditor.SplineEditorNewConfig();
         }
         
-        public string OpenConfigFileName = "";
+        private string OpenConfigFileName = "";
+
+        public string GetOpenConfigFileName()
+        {
+            return OpenConfigFileName;
+        }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -98,11 +103,9 @@ namespace HeroesPowerPlant.ConfigEditor
         /// Reads a specified Config editor config.
         /// </summary>
         /// <param name="fileName"></param>
-        /// <returns>True if suceeded, else false.</returns>
-        public bool ConfigEditorOpen(string fileName)
+        public void ConfigEditorOpen(string fileName)
         {
-            if (File.Exists(fileName))
-            {
+                OpenConfigFileName = fileName;
                 LabelFileLoaded.Text = "Loaded " + fileName;
                 if (ReadINIConfig(fileName))
                 {
@@ -113,14 +116,8 @@ namespace HeroesPowerPlant.ConfigEditor
                 else
                 {
                     MessageBox.Show("Error opening file");
-                    newToolStripMenuItem_Click(new object(), new EventArgs());
-                    return false;
+                    newToolStripMenuItem_Click(null, null);
                 }
-
-                return true;
-            }
-
-            return false;
         }
         
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

@@ -10,7 +10,7 @@ namespace HeroesPowerPlant
 {
     public class DFFRenderer
     {
-        public static List<string> filePaths = new List<string>();
+        public static HashSet<string> filePaths = new HashSet<string>();
         public static HashSet<string> ObjectDFFNames = new HashSet<string>();
         public static Dictionary<string, RenderWareModelFile> DFFStream = new Dictionary<string, RenderWareModelFile>();
 
@@ -24,7 +24,6 @@ namespace HeroesPowerPlant
 
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                filePaths.AddRange(openFile.FileNames);
                 AddDFFFiles(openFile.FileNames);
             }
         }
@@ -35,40 +34,49 @@ namespace HeroesPowerPlant
                 foreach (SharpMesh mesh in rw.meshList)
                     mesh.Dispose();
 
-            filePaths = new List<string>();
+            filePaths = new HashSet<string>();
             ObjectDFFNames = new HashSet<string>();
             DFFStream = new Dictionary<string, RenderWareModelFile>();
         }
 
-        public static void AddDFFFiles(string[] fileNames)
+        public static void AddDFFFiles(IEnumerable<string> fileNames)
         {
-            foreach (string s in fileNames) AddDFFFiles(s);
-        }
-
-        public static void AddDFFFiles(string fileName)
-        {
-            if (File.Exists(fileName))
+            foreach (string s in fileNames)
             {
-                foreach (ObjectEntry o in Program.LayoutEditor.layoutSystem.GetAllObjectEntries())
-                    if (o.ModelNames != null)
-                    {
-                        foreach (string s in o.ModelNames)
-                            if (!ObjectDFFNames.Contains(s))
-                                ObjectDFFNames.Add(s);
-                    }
-
-                byte[] dataBytes = File.ReadAllBytes(fileName);
-                foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
+                if (!File.Exists(s))
                 {
-                    AddDFF(j);
+                    MessageBox.Show("Error: file " + s + " not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    continue;
                 }
 
-                Program.LayoutEditor.layoutSystem.ResetMatrices();
+                if (!filePaths.Contains(s))
+                    filePaths.Add(s);
+
+                AddDFFFiles(s);
             }
 
+            Program.LayoutEditor.layoutSystem.ResetMatrices();
         }
 
-        public static void AddDFF(ArchiveFile j)
+        private static void AddDFFFiles(string fileName)
+        {
+            foreach (ObjectEntry o in Program.LayoutEditor.layoutSystem.GetAllObjectEntries())
+                if (o.ModelNames != null)
+                {
+                    foreach (string s in o.ModelNames)
+                        if (!ObjectDFFNames.Contains(s))
+                            ObjectDFFNames.Add(s);
+                }
+
+            byte[] dataBytes = File.ReadAllBytes(fileName);
+            foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
+            {
+                AddDFF(j);
+            }
+        }
+
+
+        private static void AddDFF(ArchiveFile j)
         {
             if (ObjectDFFNames.Contains(j.Name))
             {
