@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum Formations : byte
+    public enum Formation : byte
     {
         Speed = 0,
         Fly = 1,

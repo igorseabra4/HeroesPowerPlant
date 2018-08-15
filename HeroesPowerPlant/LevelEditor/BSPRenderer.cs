@@ -14,7 +14,6 @@ namespace HeroesPowerPlant
     public class BSPRenderer
     {
         public static string currentFileNamePrefix = "default";
-
         public static List<RenderWareModelFile> BSPStream = new List<RenderWareModelFile>();
 
         public static void SetHeroesMeshStream(Archive heroesONEfile)
@@ -110,7 +109,7 @@ namespace HeroesPowerPlant
             VisibleChunks.Add(-1);
             Vector3 cameraPos = Camera.GetPosition();
 
-            foreach (LevelEditor.VisibilityFunctions.Chunk c in LevelEditor.VisibilityFunctions.ChunkList)
+            foreach (LevelEditor.Chunk c in LevelEditor.VisibilityFunctions.ChunkList)
             {
                 if ((cameraPos.X > c.Min.X) & (cameraPos.Y > c.Min.Y) & (cameraPos.Z > c.Min.Z) &
                     (cameraPos.X < c.Max.X) & (cameraPos.Y < c.Max.Y) & (cameraPos.Z < c.Max.Z))

@@ -11,6 +11,8 @@ namespace HeroesPowerPlant
     public class DFFRenderer
     {
         public static List<string> filePaths = new List<string>();
+        public static HashSet<string> ObjectDFFNames = new HashSet<string>();
+        public static Dictionary<string, RenderWareModelFile> DFFStream = new Dictionary<string, RenderWareModelFile>();
 
         public static void importObjectONEFile()
         {
@@ -34,12 +36,9 @@ namespace HeroesPowerPlant
                     mesh.Dispose();
 
             filePaths = new List<string>();
-            ObjectDFFNames = new List<string>();
+            ObjectDFFNames = new HashSet<string>();
             DFFStream = new Dictionary<string, RenderWareModelFile>();
         }
-
-        public static List<string> ObjectDFFNames = new List<string>();
-        public static Dictionary<string, RenderWareModelFile> DFFStream = new Dictionary<string, RenderWareModelFile>();
 
         public static void AddDFFFiles(string[] fileNames)
         {

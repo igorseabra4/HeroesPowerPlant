@@ -48,7 +48,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(bool drawEveryObject)
         {
-            if (!drawEveryObject & Vector3.Distance(SharpRenderer.Camera.GetPosition(), Position) > Rend * SharpRenderer.far / 5000f)
+            if (!drawEveryObject & Vector3.Distance(SharpRenderer.Camera.GetPosition(), Position) > Rend * SharpRenderer.GetFar() / 5000f)
                 return;
 
             objectManager.Draw(objectEntry.ModelNames, isSelected);
@@ -80,7 +80,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x5: return new Object0005_Switch();
                         case 0x6: return new Object0006_SwitchPP();
                         case 0x7: return new Object0007_Target();
-                        case 0xB: case 0xC: return new Object00_DashPadRing();
+                        case 0xB: return new Object000B_DashPanel();
+                        case 0xC: return new Object000C_DashRing();
                         case 0xD: return new Object000D_BigRings();
                         case 0xE: return new Object000E_Checkpoint();
                         case 0xF: return new Object000F_DashRamp();

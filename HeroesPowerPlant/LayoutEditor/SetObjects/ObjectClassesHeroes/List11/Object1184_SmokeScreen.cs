@@ -1,9 +1,20 @@
 ﻿using SharpDX;
+using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1184_SmokeScreen : SetObjectManagerHeroes
     {
+        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        {
+            if (modelNames == null)
+                return BoundingBox.FromPoints(cubeVertices.ToArray());
+            else if (modelNames.Length == 0 | ModelNumber >= modelNames.Length | !DFFRenderer.DFFStream.ContainsKey(modelNames[ModelNumber]))
+                return BoundingBox.FromPoints(cubeVertices.ToArray());
+
+            return BoundingBox.FromPoints(DFFRenderer.DFFStream[modelNames[ModelNumber]].GetVertexList().ToArray());
+        }
+        
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             this.Position = Position;

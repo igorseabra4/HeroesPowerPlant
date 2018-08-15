@@ -1,5 +1,4 @@
-﻿using System;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -19,13 +18,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (Type <= 4)
-                if (DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
-                    DFFRenderer.DFFStream[modelNames[Type]].Render();
-                else
-                    DrawCube(isSelected);
-            else
+            if (Type >= modelNames.Length | DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
                 DrawCube(isSelected);
+            else
+                DFFRenderer.DFFStream[modelNames[Type]].Render();
         }
 
         public float Scale
@@ -34,13 +30,13 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public Int32 Type
+        public int Type
         {
             get { return ReadLong(8); }
             set { Write(8, value); }
         }
 
-        public Int32 Speed
+        public int Speed
         {
             get { return ReadLong(12); }
             set { Write(12, value); }

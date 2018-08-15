@@ -2,6 +2,13 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum StartMode
+    {
+        Lit = 0,
+        LitOnRange = 1,
+        Unlit = 2
+    }
+
     public class Object1104_FlameTorch : SetObjectManagerHeroes
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
@@ -45,15 +52,9 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(4, value ? 1 : 0); }
         }
 
-        public enum StartModeEnum
+        public StartMode StartMode
         {
-            Lit = 0,
-            LitOnRange = 1,
-            Unlit = 2
-        }
-        public StartModeEnum StartMode
-        {
-            get { return (StartModeEnum)ReadLong(8); }
+            get { return (StartMode)ReadLong(8); }
             set { Write(8, (int)value); }
         }
 

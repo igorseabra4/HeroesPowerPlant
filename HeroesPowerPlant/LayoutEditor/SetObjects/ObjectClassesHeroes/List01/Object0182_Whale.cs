@@ -4,6 +4,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0182_Whale : SetObjectManagerHeroes
     {
+        private Matrix triggerMatrix;
+
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             base.CreateTransformMatrix(Position, Rotation);
@@ -18,8 +20,6 @@ namespace HeroesPowerPlant.LayoutEditor
             if (isSelected)
                 SharpRenderer.DrawSphereTrigger(triggerMatrix, true);
         }
-
-        Matrix triggerMatrix;
 
         public byte WhaleType
         {

@@ -3,6 +3,20 @@ using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum EventActivatorType : byte
+    {
+        NotInUse = 0,
+        NotInUse2 = 1,
+        Elevator0402 = 2,
+        EnergyUp0412 = 3,
+        Shutter0410 = 4,
+        BallGLSOn0480 = 5,
+        BallGLSOff0480 = 6,
+        SenkanMov = 7,
+        Hakai1320 = 8,
+        FallAshiba1400 = 9
+    }
+
     public class Object020B_EventActivator : SetObjectManagerHeroes
     {
         public override BoundingBox CreateBoundingBox(string[] modelNames)
@@ -45,23 +59,10 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public enum TypeType
+        public EventActivatorType Type
         {
-            NotInUse = 0,
-            NotInUse2 = 1,
-            Elevator0402 = 2,
-            EnergyUp0412 = 3,
-            Shutter0410 = 4,
-            BallGLSOn0480 = 5,
-            BallGLSOff0480 = 6,
-            SenkanMov = 7,
-            Hakai1320 = 8,
-            FallAshiba1400 = 9
-        }
-        public TypeType Type
-        {
-            get { return (TypeType)ReadByte(16); }
-            set { Write(16, (float)(byte)value); }
+            get { return (EventActivatorType)ReadByte(16); }
+            set { Write(16, (byte)value); }
         }
 
         public bool OnlyLeader

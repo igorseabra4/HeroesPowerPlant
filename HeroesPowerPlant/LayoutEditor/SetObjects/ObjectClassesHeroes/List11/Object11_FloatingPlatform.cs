@@ -2,29 +2,31 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum PlatformType
+    {
+        Fixed = 0,
+        Moving = 1,
+        Alternate = 2,
+        Disappear = 3
+    }
+
     public class Object11_FloatingPlatform : SetObjectManagerHeroes
     {
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (AlternateType)
+            if (AlternateModel)
                 base.Draw(modelNames.Skip(2).ToArray(), isSelected);
             else
                 base.Draw(modelNames.Take(2).ToArray(), isSelected);
         }
-        public enum PlatformTypeEnum
+
+        public PlatformType PlatformType
         {
-            Fixed = 0,
-            Moving = 1,
-            Alternate = 2,
-            Disappear = 3
-        }
-        public PlatformTypeEnum PlatformType
-        {
-            get { return (PlatformTypeEnum)ReadByte(4); }
+            get { return (PlatformType)ReadByte(4); }
             set { byte a = (byte)value; Write(4, a); }
         }
 
-        public bool AlternateType
+        public bool AlternateModel
         {
             get { return ReadByte(5) != 0; }
             set { Write(5, (byte)(value ? 1 : 0)); }

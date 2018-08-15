@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0302_RoadCap : SetObjectManagerHeroes
     {
@@ -10,13 +8,13 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(4, value); }
         }
 
-        public Int16 ScaleX
+        public short ScaleX
         {
             get { return ReadShort(6); }
             set { Write(6, value); }
         }
 
-        public Int16 ScaleY
+        public short ScaleY
         {
             get { return ReadShort(8); }
             set { Write(8, value); }

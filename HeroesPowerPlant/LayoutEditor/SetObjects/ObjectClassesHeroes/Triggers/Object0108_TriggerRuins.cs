@@ -3,6 +3,12 @@ using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum RuinType : byte
+    {
+        SeasideHillRuin = 0,
+        OceanPalaceRuins = 1
+    }
+
     public class Object0108_TriggerRuins : SetObjectManagerHeroes
     {
         public override BoundingBox CreateBoundingBox(string[] modelNames)
@@ -43,12 +49,6 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get { return ReadFloat(12); }
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
-        }
-
-        public enum RuinType : byte
-        {
-            SeasideHillRuin = 0,
-            OceanPalaceRuins = 1
         }
 
         public RuinType Type

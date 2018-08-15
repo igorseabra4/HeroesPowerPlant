@@ -1,9 +1,16 @@
-﻿using System;
-using SharpDX;
+﻿using SharpDX;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum TriggerCommonShape : int
+    {
+        Sphere = 0,
+        Cylinder = 1,
+        Cube = 2,
+        CylinderXZ = 3,
+    }
+
     public class Object00_TriggerCommon : SetObjectManagerHeroes
     {
         private BoundingSphere sphereBound;
@@ -63,14 +70,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     DrawCylinderTrigger(transformMatrix, isSelected);
                     break;
             }
-        }
-
-        public enum TriggerCommonShape : Int32
-        {
-            Sphere = 0,
-            Cylinder = 1,
-            Cube = 2,
-            CylinderXZ = 3,
         }
 
         public TriggerCommonShape TriggerShape

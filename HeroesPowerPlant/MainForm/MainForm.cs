@@ -294,7 +294,7 @@ namespace HeroesPowerPlant
             {
                 SharpRenderer.selectedObjectColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedObjectColor.W);
                 SharpRenderer.selectedColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedColor.W);
-                LevelEditor.VisibilityFunctions.selectedChunkColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, LevelEditor.VisibilityFunctions.selectedChunkColor.W);
+                LevelEditor.VisibilityFunctions.setSelectedChunkColor(colorDialog.Color);
             }
         }
 

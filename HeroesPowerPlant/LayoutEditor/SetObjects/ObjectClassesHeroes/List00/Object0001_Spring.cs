@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0001_Spring : SetObjectManagerHeroes
     {
@@ -10,7 +8,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(4, value); }
         }
 
-        public Int16 NoControlTime
+        public short NoControlTime
         {
             get { return ReadShort(8); }
             set { Write(8, value); }

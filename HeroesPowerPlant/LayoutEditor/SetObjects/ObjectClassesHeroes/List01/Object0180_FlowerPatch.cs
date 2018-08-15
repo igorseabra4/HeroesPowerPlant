@@ -1,9 +1,20 @@
 ﻿using SharpDX;
+using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0180_FlowerPatch : SetObjectManagerHeroes
     {
+        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        {
+            if (modelNames == null)
+                return BoundingBox.FromPoints(cubeVertices.ToArray());
+            else if (modelNames.Length == 0 | Type >= modelNames.Length | !DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
+                return BoundingBox.FromPoints(cubeVertices.ToArray());
+            
+            return BoundingBox.FromPoints(DFFRenderer.DFFStream[modelNames[Type]].GetVertexList().ToArray());
+        }
+
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
             this.Position = Position;

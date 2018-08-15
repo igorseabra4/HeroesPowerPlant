@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object00_DashPadRing : SetObjectManagerHeroes
+    public class Object000B_DashPanel : SetObjectManagerHeroes
     {
         public float Speed
         {
@@ -10,7 +8,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(4, value); }
         }
 
-        public Int16 ControlTime
+        public short ControlTime
         {
             get { return ReadShort(8); }
             set { Write(8, value); }

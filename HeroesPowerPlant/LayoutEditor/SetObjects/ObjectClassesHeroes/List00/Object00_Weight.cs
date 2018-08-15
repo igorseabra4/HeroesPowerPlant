@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object00_Weight : SetObjectManagerHeroes
     {
@@ -26,7 +24,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(5, value); }
         }
 
-        public Int16 Height
+        public short Height
         {
             get { return ReadShort(6); }
             set { Write(6, value); }
@@ -44,13 +42,13 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(12, value); }
         }
 
-        public Int16 UpWaitTime
+        public short UpWaitTime
         {
             get { return ReadShort(16); }
             set { Write(16, value); }
         }
 
-        public Int16 DownWaitTime
+        public short DownWaitTime
         {
             get { return ReadShort(18); }
             set { Write(18, value); }

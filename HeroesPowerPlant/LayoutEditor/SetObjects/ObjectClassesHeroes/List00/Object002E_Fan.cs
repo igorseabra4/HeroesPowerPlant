@@ -37,7 +37,7 @@
         public FanMode Mode
         {
             get { return (FanMode)ReadByte(20); }
-            set { byte a = (byte)value; Write(20, a); }
+            set { Write(20, (byte)value); }
         }
 
         public byte LinkID
@@ -55,7 +55,7 @@
         public bool IsInvisible
         {
             get { return ReadByte(28) != 0; }
-            set { Write(28, value ? (byte)1 : (byte)0); }
+            set { Write(28, (byte)(value ? 1 : 0)); }
         }
     }
 }

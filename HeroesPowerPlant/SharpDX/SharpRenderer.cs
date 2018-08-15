@@ -4,8 +4,10 @@ using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using System.Collections.Generic;
-using HeroesPowerPlant.CollisionEditor;
 using HeroesPowerPlant.LevelEditor;
+using HeroesPowerPlant.CollisionEditor;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
+using System;
 
 namespace HeroesPowerPlant
 {
@@ -15,10 +17,10 @@ namespace HeroesPowerPlant
         public static SharpCamera Camera = new SharpCamera();
         public static SharpFPS sharpFPS;
 
-        public static float fovAngle;
+        private static float fovAngle;
         private static float aspectRatio;
-        public static float near = 0.1f;
-        public static float far;
+        private static float near = 0.1f;
+        private static float far;
         
         public SharpRenderer(Control control)
         {
@@ -36,26 +38,15 @@ namespace HeroesPowerPlant
             sharpFPS = new SharpFPS();
             sharpFPS.Reset();
 
-            SetSharpShader(device);
+            SetSharpShader();
+            LoadTextures();
         }
-        
-        public static SharpShader basicShader;
-        public static SharpDX.Direct3D11.Buffer basicBuffer;
-
-        public static SharpShader defaultShader;
-        public static SharpDX.Direct3D11.Buffer defaultBuffer;
-
-        public static SharpShader tintedShader;
-        public static SharpDX.Direct3D11.Buffer tintedBuffer;
 
         public struct DefaultRenderData
         {
             public Matrix worldViewProjection;
             public Vector4 Color;
         }
-
-        public static SharpShader collisionShader;
-        public static SharpDX.Direct3D11.Buffer collisionBuffer;
 
         public struct CollisionRenderData
         {
@@ -65,7 +56,19 @@ namespace HeroesPowerPlant
             public Vector4 lightDirection2;
         }
 
-        public static void SetSharpShader(SharpDevice device)
+        public static SharpShader basicShader;
+        public static SharpDX.Direct3D11.Buffer basicBuffer;
+
+        public static SharpShader defaultShader;
+        public static SharpDX.Direct3D11.Buffer defaultBuffer;
+
+        public static SharpShader tintedShader;
+        public static SharpDX.Direct3D11.Buffer tintedBuffer;
+        
+        public static SharpShader collisionShader;
+        public static SharpDX.Direct3D11.Buffer collisionBuffer;
+        
+        public static void SetSharpShader()
         {
             basicShader = new SharpShader(device, "Resources/SharpDX/Shader_Basic.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
@@ -106,6 +109,19 @@ namespace HeroesPowerPlant
             collisionBuffer = collisionShader.CreateBuffer<CollisionRenderData>();
         }
 
+        // Texture loader
+        public const string DefaultTexture = "default";
+        public static ShaderResourceView whiteDefault;
+
+        public static void LoadTextures()
+        {
+            if (whiteDefault != null)
+                if (!whiteDefault.IsDisposed)
+                    whiteDefault.Dispose();
+
+            whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
+        }
+
         private static DefaultRenderData cubeRenderData;
 
         public static Vector4 normalColor = new Vector4(0.2f, 0.6f, 0.8f, 0.8f);
@@ -136,7 +152,7 @@ namespace HeroesPowerPlant
 
         private static DefaultRenderData cylinderRenderData;
 
-        public static void DrawCylinderTrigger(Matrix world, bool isSelected)// = false)
+        public static void DrawCylinderTrigger(Matrix world, bool isSelected)
         {
             cylinderRenderData.worldViewProjection = world * viewProjection;
 
@@ -231,6 +247,26 @@ namespace HeroesPowerPlant
             mouseModeObjects = value;
         }
 
+        public static float GetFar()
+        {
+            return far;
+        }
+
+        public static void SetFar(float value)
+        {
+            far = value;
+        }
+
+        public static float GetFOV()
+        {
+            return fovAngle;
+        }
+
+        public static void SetFOV(float value)
+        {
+            fovAngle = value;
+        }
+
         public static SharpMesh Cube;
         public static SharpMesh Cylinder;
         public static SharpMesh Pyramid;
@@ -244,22 +280,22 @@ namespace HeroesPowerPlant
 
             for (int i = 0; i < 4; i++)// 3; i++)
             {
-                LevelEditorFunctions.ModelConverterData objData;
+                ModelConverterData objData;
 
-                if (i == 0) objData = LevelEditorFunctions.ReadOBJFile("Resources/Models/Box.obj", true);
-                else if (i == 1) objData = LevelEditorFunctions.ReadOBJFile("Resources/Models/Cylinder.obj", true);
-                else if (i == 2) objData = LevelEditorFunctions.ReadOBJFile("Resources/Models/Pyramid.obj", true);
-                else objData = LevelEditorFunctions.ReadOBJFile("Resources/Models/Sphere.obj", true);
+                if (i == 0) objData = ReadOBJFile("Resources/Models/Box.obj", true);
+                else if (i == 1) objData = ReadOBJFile("Resources/Models/Cylinder.obj", true);
+                else if (i == 2) objData = ReadOBJFile("Resources/Models/Pyramid.obj", true);
+                else objData = ReadOBJFile("Resources/Models/Sphere.obj", true);
 
                 List<Vertex> vertexList = new List<Vertex>();
-                foreach (LevelEditorFunctions.Vertex v in objData.VertexList)
+                foreach (LevelEditor.Vertex v in objData.VertexList)
                 {
                     vertexList.Add(new Vertex(v.Position));
                     if (i == 0) cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z) * 5);
                 }
 
                 List<int> indexList = new List<int>();
-                foreach (LevelEditorFunctions.Triangle t in objData.TriangleList)
+                foreach (Triangle t in objData.TriangleList)
                 {
                     indexList.Add(t.vertex1);
                     indexList.Add(t.vertex2);

@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-using static HeroesPowerPlant.LevelEditor.LevelEditorFunctions;
-using static HeroesPowerPlant.BSPRenderer;
 using RenderWareFile;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using static HeroesPowerPlant.BSPRenderer;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_ShadowCollision;
 
 namespace HeroesPowerPlant.LevelEditor
 {

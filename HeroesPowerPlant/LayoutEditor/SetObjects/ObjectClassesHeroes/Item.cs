@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum ItemType : byte
+    public enum Item : byte
     {
         None = 0,
         Rings5 = 1,

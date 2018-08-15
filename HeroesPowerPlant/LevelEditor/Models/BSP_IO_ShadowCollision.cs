@@ -6,7 +6,7 @@ using RenderWareFile.Sections;
 
 namespace HeroesPowerPlant.LevelEditor
 {
-    public partial class LevelEditorFunctions
+    public static class BSP_IO_ShadowCollision
     {
         public static int shadowRenderWareVersion = 0x1C020037;
 

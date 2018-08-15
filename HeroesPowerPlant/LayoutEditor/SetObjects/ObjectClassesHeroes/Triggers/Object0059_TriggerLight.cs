@@ -3,6 +3,43 @@ using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum TriggerLightNumber
+    {
+        Player0 = 0,
+        Player1 = 1,
+        Player2 = 2,
+        Player3 = 3,
+        Object0 = 4,
+        Object1 = 5,
+        Object2 = 6,
+        Object3 = 7,
+        Enemy0 = 8,
+        Enemy1 = 9,
+        Enemy2 = 10,
+        Enemy3 = 11,
+        NotInUnse = 12,
+        Other0 = 13,
+        Other1 = 14,
+        Other2 = 15,
+        Ignore = 16
+    }
+
+    public enum TriggerLightType
+    {
+        Area = 0,
+        Switch = 1,
+        AreaDef = 2,
+        SwitchOff = 3
+    }
+
+    public enum TriggerLightShape
+    {
+        Cube = 0,
+        Sphere = 1,
+        Cylinder = 2,
+        NotInUse = 3
+    }
+
     public class Object0059_TriggerLight : SetObjectManagerHeroes
     {
         private BoundingSphere sphereBound;
@@ -67,52 +104,16 @@ namespace HeroesPowerPlant.LayoutEditor
                 base.Draw(modelNames, isSelected);
         }
 
-        public enum NumberEnum
+        public TriggerLightNumber Number
         {
-            Player0 = 0,
-            Player1 = 1,
-            Player2 = 2,
-            Player3 = 3,
-            Object0 = 4,
-            Object1 = 5,
-            Object2 = 6,
-            Object3 = 7,
-            Enemy0 = 8,
-            Enemy1 = 9,
-            Enemy2 = 10,
-            Enemy3 = 11,
-            NotInUnse = 12,
-            Other0 = 13,
-            Other1 = 14,
-            Other2 = 15,
-            Ignore = 16
-        }
-
-        public NumberEnum Number
-        {
-            get { return (NumberEnum)ReadByte(4); }
+            get { return (TriggerLightNumber)ReadByte(4); }
             set { Write(4, (byte)value); }
         }
 
-        public enum TypeEnum
+        public TriggerLightType Type
         {
-            Area = 0,
-            Switch = 1,
-            AreaDef = 2,
-            SwitchOff = 3
-        }
-        public TypeEnum Type
-        {
-            get { return (TypeEnum)ReadByte(5); }
+            get { return (TriggerLightType)ReadByte(5); }
             set { Write(5, (byte)value); }
-        }
-
-        public enum TriggerLightShape
-        {
-            Cube = 0,
-            Sphere = 1,
-            Cylinder = 2,
-            NotInUse = 3
         }
 
         public TriggerLightShape TriggerShape
