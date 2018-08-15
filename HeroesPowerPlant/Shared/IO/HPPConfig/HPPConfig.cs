@@ -18,6 +18,7 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
         public string CameraEditorPath { get; set; }
         public List<string> DFFONEPaths { get; set; }
 
+
         /*
             ------------
             Constructors
@@ -74,7 +75,6 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
                 Program.LevelEditor.OpenONEHeroesFile(config.LevelEditorPath);
 
             Program.ConfigEditor.ConfigEditorOpen(config.StageConfigPath);
-            Program.LevelEditor.OpenONEHeroesFile(config.LevelEditorPath);
             Program.LevelEditor.initVisibilityEditor(false, config.VisibilityPath);
             Program.CollisionEditor.Open(config.CollisionEditorPath);
             Program.LayoutEditor.OpenLayoutFile(config.LayoutEditorPath);
