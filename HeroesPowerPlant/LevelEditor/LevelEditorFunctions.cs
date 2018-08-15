@@ -69,7 +69,7 @@ namespace HeroesPowerPlant.LevelEditor
             string[] OBJFile = File.ReadAllLines(InputFile);
 
             int CurrentMaterial = -1;
-            
+
             bool hasUVCoords = true;
 
             RenderWareFile.Color TempColFlags = new RenderWareFile.Color(0, 0, 0, 0);
@@ -202,7 +202,7 @@ namespace HeroesPowerPlant.LevelEditor
                 else if (a.StartsWith("map_Kd"))
                 {
                     if (!MaterialLibrary.ContainsKey(MaterialName))
-                    MaterialLibrary.Add(MaterialName, Path.GetFileNameWithoutExtension(a.Substring(6)));
+                        MaterialLibrary.Add(MaterialName, Path.GetFileNameWithoutExtension(a.Substring(6)));
                 }
             }
 
@@ -472,9 +472,9 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         textureStruct = new TextureStruct_0001()
                         {
-                            filterMode = FilterMode.FILTERLINEAR,
-                            addressModeU = AddressMode.TEXTUREADDRESSWRAP,
-                            addressModeV = AddressMode.TEXTUREADDRESSWRAP,
+                            filterMode = TextureFilterMode.FILTERLINEAR,
+                            addressModeU = TextureAddressMode.TEXTUREADDRESSWRAP,
+                            addressModeV = TextureAddressMode.TEXTUREADDRESSWRAP,
                             useMipLevels = 1
                         },
                         diffuseTextureName = new String_0002()
@@ -731,7 +731,7 @@ namespace HeroesPowerPlant.LevelEditor
                     //}
                     //else
                     //{
-                        OBJWriter.WriteLine("vc " + i.R.ToString() + " " + i.G.ToString() + " " + i.B.ToString() + " " + i.A.ToString());
+                    OBJWriter.WriteLine("vc " + i.R.ToString() + " " + i.G.ToString() + " " + i.B.ToString() + " " + i.A.ToString());
                     //}
                 }
 

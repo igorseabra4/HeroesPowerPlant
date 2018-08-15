@@ -9,7 +9,8 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Position = Position;
             this.Rotation = Rotation;
 
-            transformMatrix = Matrix.Scaling(Scale == 0f ? 1f : Scale + 1f) *
+            transformMatrix = IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity *
+                Matrix.Scaling(Scale + 1f) *
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
                 Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
@@ -43,7 +44,7 @@ namespace HeroesPowerPlant.LayoutEditor
             get { return ReadLong(4) != 0; }
             set { Write(4, value ? 1 : 0); }
         }
-        
+
         public enum StartModeEnum
         {
             Lit = 0,

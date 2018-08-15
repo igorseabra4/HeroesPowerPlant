@@ -95,6 +95,8 @@
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.buttonComeTrigger = new System.Windows.Forms.Button();
             this.buttonCopy = new System.Windows.Forms.Button();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortByDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrigShape)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownActType)).BeginInit();
@@ -744,7 +746,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(781, 24);
@@ -893,6 +896,21 @@
             this.buttonCopy.Text = "Copy";
             this.buttonCopy.UseVisualStyleBackColor = true;
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sortByDistanceToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // sortByDistanceToolStripMenuItem
+            // 
+            this.sortByDistanceToolStripMenuItem.Name = "sortByDistanceToolStripMenuItem";
+            this.sortByDistanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sortByDistanceToolStripMenuItem.Text = "Sort by Distance";
+            this.sortByDistanceToolStripMenuItem.Click += new System.EventHandler(this.sortByDistanceToolStripMenuItem_Click);
             // 
             // CameraEditor
             // 
@@ -1071,5 +1089,7 @@
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button buttonComeTrigger;
         private System.Windows.Forms.Button buttonCopy;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sortByDistanceToolStripMenuItem;
     }
 }

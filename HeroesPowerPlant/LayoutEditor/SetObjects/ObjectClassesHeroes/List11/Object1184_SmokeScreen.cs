@@ -1,7 +1,29 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using SharpDX;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1184_SmokeScreen : SetObjectManagerHeroes
     {
+        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
+            transformMatrix = IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
+                Matrix.Translation(Position);
+        }
+
+        public override void Draw(string[] modelNames, bool isSelected)
+        {
+            if (ModelNumber < modelNames.Length)
+                Draw(modelNames[ModelNumber], isSelected);
+            else
+                DrawCube(isSelected);
+        }
+
         public int ModelNumber
         {
             get { return ReadLong(4); }

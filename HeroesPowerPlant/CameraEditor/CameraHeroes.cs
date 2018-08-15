@@ -33,7 +33,7 @@ namespace HeroesPowerPlant.CameraEditor
         public int Integer37;
         public int Integer38;
         public int Integer39;
-        
+
         public CameraHeroes() { }
 
         public CameraHeroes(int cameraType, int cameraSpeed, int integer3, int activationType, int triggerShape,
@@ -199,6 +199,11 @@ namespace HeroesPowerPlant.CameraEditor
             basicShader.Apply();
 
             Cube.Draw();
+        }
+
+        public float GetDistance()
+        {
+            return TriggerPosition.Length();
         }
     }
 }
