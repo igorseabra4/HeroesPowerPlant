@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using SharpDX;
 
-namespace HeroesPowerPlant.Shared.IO.HPPConfig
+namespace HeroesPowerPlant.Shared.IO.Config
 {
     /// <summary>
     /// Stores an individual Heroes Power Plant project configuration (paths to recently opened files, etc.)
     /// </summary>
-    public class HPPConfig
+    public class ProjectConfig
     {
-        [JsonIgnore]
-        private static string LastConfigCopyPath;
-
         public bool IsShadow { get; set; }
         public string StageConfigPath { get; set; }
         public string LevelEditorPath { get; set; }
@@ -44,12 +40,7 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
             Constructors
             ------------
         */
-        private HPPConfig() { }
-
-        static HPPConfig()
-        {
-            LastConfigCopyPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\LastConfigCopy.json";
-        }
+        private ProjectConfig() { }
 
         /*
             ---------
@@ -64,38 +55,25 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
             Methods
             -------
         */
-        public static HPPConfig Open(string filePath)
+        public static ProjectConfig Open(string filePath)
         {
             string fileText = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<HPPConfig>(fileText);
+            return JsonConvert.DeserializeObject<ProjectConfig>(fileText);
         }
 
-        public static void Save(HPPConfig config, string filePath)
+        public static void Save(ProjectConfig config, string filePath)
         {
             string fileText = JsonConvert.SerializeObject(config, Formatting.Indented);
             File.WriteAllText(filePath, fileText);
-            File.WriteAllText(LastConfigCopyPath, fileText);
+            HPPConfig.GetInstance().LastProjectPath = filePath;
         }
 
         /// <summary>
-        /// Automates the config opening and applying process in order to automatically load the last
-        /// written user configuration.
+        /// Creates a ProjectConfig based on the currently opened files in each of the editors.
         /// </summary>
-        public static void LoadLastConfig()
+        public static ProjectConfig FromCurrentInstance()
         {
-            if (File.Exists(LastConfigCopyPath))
-            {
-                var config = Open(LastConfigCopyPath);
-                ApplyInstance(config);
-            }
-        }
-
-        /// <summary>
-        /// Creates a HPPConfig based on the currently opened files in each of the editors.
-        /// </summary>
-        public static HPPConfig FromCurrentInstance()
-        {
-            return new HPPConfig
+            return new ProjectConfig
             {
                 // Get info from existing editors.
                 IsShadow = Program.LevelEditor.isShadowMode,
@@ -117,9 +95,9 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
         }
 
         /// <summary>
-        /// Loads the appropriate paths stored in the <see cref="HPPConfig"/> instance into each of the editors.
+        /// Loads the appropriate paths stored in the <see cref="ProjectConfig"/> instance into each of the editors.
         /// </summary>
-        public static void ApplyInstance(HPPConfig config)
+        public static void ApplyInstance(ProjectConfig config)
         {
             ExecuteIfFilePresent("Config Editor error: file not found.", "Error", config.StageConfigPath, path => Program.ConfigEditor.ConfigEditorOpen(path));
 

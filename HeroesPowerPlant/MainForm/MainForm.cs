@@ -3,7 +3,7 @@ using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using HeroesPowerPlant.Shared.IO.HPPConfig;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant
 {
@@ -30,8 +30,8 @@ namespace HeroesPowerPlant
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                HPPConfig hppConfig = HPPConfig.Open(openFile.FileName);
-                HPPConfig.ApplyInstance(hppConfig);
+                ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
+                ProjectConfig.ApplyInstance(projectConfig);
             }
         }
 
@@ -39,8 +39,8 @@ namespace HeroesPowerPlant
         {
             if (currentSavePath != null)
             {
-                var hppConfig = HPPConfig.FromCurrentInstance();
-                HPPConfig.Save(hppConfig, currentSavePath);
+                var hppConfig = ProjectConfig.FromCurrentInstance();
+                ProjectConfig.Save(hppConfig, currentSavePath);
 
             }  
             else
@@ -55,8 +55,8 @@ namespace HeroesPowerPlant
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                var hppConfig = HPPConfig.FromCurrentInstance();
-                HPPConfig.Save(hppConfig, currentSavePath);
+                var hppConfig = ProjectConfig.FromCurrentInstance();
+                ProjectConfig.Save(hppConfig, currentSavePath);
             }
         }
 
@@ -442,6 +442,7 @@ namespace HeroesPowerPlant
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            HPPConfig.GetInstance().Save();
             Application.Exit();
         }
 
@@ -473,7 +474,8 @@ namespace HeroesPowerPlant
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            HPPConfig.LoadLastConfig();
+            var hppConfig = HPPConfig.GetInstance();
+            hppConfig.Load();
         }
     }
 }
