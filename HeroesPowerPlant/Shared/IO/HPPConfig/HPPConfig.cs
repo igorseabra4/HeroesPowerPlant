@@ -142,7 +142,7 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
                 SharpRenderer.Camera.SetSpeed(config.CameraSettings.Speed);
             }
 
-            DFFRenderer.clearObjectONEFiles();
+            DFFRenderer.ClearObjectONEFiles();
             DFFRenderer.AddDFFFiles(config.DFFONEPaths);
         }
 
