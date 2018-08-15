@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using SharpDX;
@@ -12,6 +13,9 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
     /// </summary>
     public class HPPConfig
     {
+        [JsonIgnore]
+        private static string LastConfigCopyPath;
+
         public bool IsShadow { get; set; }
         public string StageConfigPath { get; set; }
         public string LevelEditorPath { get; set; }
@@ -42,6 +46,11 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
         */
         private HPPConfig() { }
 
+        static HPPConfig()
+        {
+            LastConfigCopyPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\LastConfigCopy.json";
+        }
+
         /*
             ---------
             Delegates
@@ -65,6 +74,20 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
         {
             string fileText = JsonConvert.SerializeObject(config, Formatting.Indented);
             File.WriteAllText(filePath, fileText);
+            File.WriteAllText(LastConfigCopyPath, fileText);
+        }
+
+        /// <summary>
+        /// Automates the config opening and applying process in order to automatically load the last
+        /// written user configuration.
+        /// </summary>
+        public static void LoadLastConfig()
+        {
+            if (File.Exists(LastConfigCopyPath))
+            {
+                var config = Open(LastConfigCopyPath);
+                ApplyInstance(config);
+            }
         }
 
         /// <summary>

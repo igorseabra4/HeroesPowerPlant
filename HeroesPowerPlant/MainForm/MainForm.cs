@@ -463,5 +463,10 @@ namespace HeroesPowerPlant
             SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
             SharpRenderer.dontRender = false;
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            HPPConfig.LoadLastConfig();
+        }
     }
 }
