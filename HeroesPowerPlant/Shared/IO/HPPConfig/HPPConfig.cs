@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using SharpDX;
 
 namespace HeroesPowerPlant.Shared.IO.HPPConfig
 {
@@ -18,6 +20,20 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
         public string LayoutEditorPath { get; set; }
         public string CameraEditorPath { get; set; }
         public HashSet<string> DFFONEPaths { get; set; }
+        public Camera CameraSettings { get; set; }
+
+        /*
+            -------------
+            Camera Config
+            -------------
+        */
+        public class Camera
+        {
+            public Vector3 CameraPosition { get; set; }
+            public float Yaw { get; set; }
+            public float Pitch { get; set; }
+            public float Speed { get; set; }
+        }
 
         /*
             ------------
@@ -25,6 +41,14 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
             ------------
         */
         private HPPConfig() { }
+
+        /*
+            ---------
+            Delegates
+            ---------
+        */
+
+        public delegate void ExecuteWithFilePath(string filePath);
 
         /*
             -------
@@ -58,7 +82,14 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
                 CollisionEditorPath = Program.CollisionEditor.GetFileName(),
                 LayoutEditorPath = Program.LayoutEditor.GetOpenFileName(),
                 CameraEditorPath = Program.CameraEditor.CurrentCameraFile,
-                DFFONEPaths = DFFRenderer.filePaths
+                DFFONEPaths = DFFRenderer.filePaths,
+                CameraSettings = new Camera()
+                {
+                    CameraPosition = SharpRenderer.Camera.GetPosition(),
+                    Pitch = SharpRenderer.Camera.Pitch,
+                    Speed = SharpRenderer.Camera.Speed,
+                    Yaw   = SharpRenderer.Camera.Yaw
+                }
             };
         }
 
@@ -67,48 +98,40 @@ namespace HeroesPowerPlant.Shared.IO.HPPConfig
         /// </summary>
         public static void ApplyInstance(HPPConfig config)
         {
-            if (File.Exists(config.StageConfigPath))
-                Program.ConfigEditor.ConfigEditorOpen(config.StageConfigPath);
-            else
-                MessageBox.Show("Config Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ExecuteIfFilePresent("Config Editor error: file not found.", "Error", config.StageConfigPath, path => Program.ConfigEditor.ConfigEditorOpen(path));
 
             if (config.IsShadow)
-            {
-                if (File.Exists(config.LevelEditorPath))
-                    Program.LevelEditor.OpenONEShadowFolder(config.LevelEditorPath);
-                else
-                    MessageBox.Show("Level Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                ExecuteIfFilePresent("Level Editor error: file not found.", "Error", config.LevelEditorPath, path => Program.LevelEditor.OpenONEShadowFolder(path));
             else
             {
-                if (File.Exists(config.LevelEditorPath))
-                    Program.LevelEditor.OpenONEHeroesFile(config.LevelEditorPath);
-                else
-                    MessageBox.Show("Level Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                if (File.Exists(config.VisibilityPath))
-                    Program.LevelEditor.initVisibilityEditor(false, config.VisibilityPath);
-                else
-                    MessageBox.Show("Visibility Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExecuteIfFilePresent("Level Editor error: file not found.", "Error", config.LevelEditorPath, path => Program.LevelEditor.OpenONEHeroesFile(path));
+                ExecuteIfFilePresent("Visibility Editor error: file not found.", "Error", config.VisibilityPath, path => Program.LevelEditor.initVisibilityEditor(false, path));
             }
-            
-            if (File.Exists(config.CollisionEditorPath))
-                Program.CollisionEditor.Open(config.CollisionEditorPath);
-            else
-                MessageBox.Show("Collision Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            if (File.Exists(config.LayoutEditorPath))
-                Program.LayoutEditor.OpenLayoutFile(config.LayoutEditorPath);
-            else
-                MessageBox.Show("Layout Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ExecuteIfFilePresent("Collision Editor error: file not found.", "Error", config.CollisionEditorPath, path => Program.CollisionEditor.Open(path));
+            ExecuteIfFilePresent("Layout Editor error: file not found.", "Error", config.LayoutEditorPath, path => Program.LayoutEditor.OpenLayoutFile(path));
+            ExecuteIfFilePresent("Camera Editor error: file not found.", "Error", config.CameraEditorPath, path => Program.CameraEditor.Open(path));
 
-            if (File.Exists(config.CameraEditorPath))
-                Program.CameraEditor.Open(config.CameraEditorPath);
-            else
-                MessageBox.Show("Camera Editor error: file not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (config.CameraSettings != null)
+            {
+                SharpRenderer.Camera.SetPosition(config.CameraSettings.CameraPosition);
+                SharpRenderer.Camera.SetRotation(config.CameraSettings.Pitch, config.CameraSettings.Yaw);
+                SharpRenderer.Camera.SetSpeed(config.CameraSettings.Speed);
+            }
 
             DFFRenderer.ClearObjectONEFiles();
             DFFRenderer.AddDFFFiles(config.DFFONEPaths);
+        }
+
+        /// <summary>
+        /// Checks if a file exists, and if it does, executes the <see cref="executeIfPresentDelegate"/>
+        /// </summary>
+        private static void ExecuteIfFilePresent(string messageBoxMessage, string caption, string filePath, ExecuteWithFilePath executeIfPresentDelegate)
+        {
+            if (File.Exists(filePath))
+                executeIfPresentDelegate(filePath);
+            else
+                MessageBox.Show(messageBoxMessage, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
