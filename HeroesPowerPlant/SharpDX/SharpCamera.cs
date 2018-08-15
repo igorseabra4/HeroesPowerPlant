@@ -9,10 +9,10 @@ namespace HeroesPowerPlant
         private Vector3 Forward = Vector3.ForwardRH;
         private Vector3 Right = Vector3.Right;
         private Vector3 Up = Vector3.Up;
-        private float Yaw = 0;
-        private float Pitch = 0;
-        private float Speed = 20f;
-        
+        public float Yaw   { get; private set; } = 0F;
+        public float Pitch { get; private set; } = 0F;
+        public float Speed { get; private set; } = 20F;
+
         public void SetPosition(Vector3 Position)
         {
             this.Position = Position;
@@ -117,8 +117,8 @@ namespace HeroesPowerPlant
 
         public string GetInformation()
         {
-            return String.Format("Position: [{0:0.0000}, {1:0.0000}, {2:0.0000}] Rotation: [{3:0.0000}, {4:0.0000}]",
-                Position.X, Position.Y, Position.Z, Yaw, Pitch);
+            return
+                $"Position: [{Position.X:0.0000}, {Position.Y:0.0000}, {Position.Z:0.0000}] Rotation: [{Yaw:0.0000}, {Pitch:0.0000}] Speed: [{Speed:0.0000}]";
         }
     }
 }
