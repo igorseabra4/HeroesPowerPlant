@@ -40,13 +40,13 @@ namespace HeroesPowerPlant.LevelEditor
             foreach (Vertex v in data.VertexList)
                 cList.Add(new Color(v.Color.R, v.Color.G, v.Color.B, v.Color.A));
 
-            List<TextCoord> uvList = new List<TextCoord>(data.VertexList.Count);
+            List<Vertex2> uvList = new List<Vertex2>(data.VertexList.Count);
             if (Program.levelEditor.checkBoxFlipUVs.Checked)
                 foreach (Vertex v in data.VertexList)
-                    uvList.Add(new TextCoord(v.TexCoord.X, v.TexCoord.Y));
+                    uvList.Add(new Vertex2(v.TexCoord.X, v.TexCoord.Y));
             else
                 foreach (Vertex v in data.VertexList)
-                    uvList.Add(new TextCoord(v.TexCoord.X, -v.TexCoord.Y));
+                    uvList.Add(new Vertex2(v.TexCoord.X, -v.TexCoord.Y));
 
             List<RenderWareFile.Triangle> tList = new List<RenderWareFile.Triangle>(data.TriangleList.Count);
             foreach (Triangle t in data.TriangleList)
@@ -135,7 +135,7 @@ namespace HeroesPowerPlant.LevelEditor
 
                 firstWorldChunk = new AtomicSector_0009()
                 {
-                    atomicStruct = new AtomicSectorStruct_0001()
+                    atomicSectorStruct = new AtomicSectorStruct_0001()
                     {
                         matListWindowBase = 0,
                         numTriangles = data.TriangleList.Count(),
@@ -149,7 +149,7 @@ namespace HeroesPowerPlant.LevelEditor
                         uvArray = uvList.ToArray(),
                         triangleArray = tList.ToArray()
                     },
-                    atomicExtension = new Extension_0003()
+                    atomicSectorExtension = new Extension_0003()
                     {
                         extensionSectionList = new List<RWSection>() { new BinMeshPLG_050E()
                         {
@@ -407,62 +407,62 @@ namespace HeroesPowerPlant.LevelEditor
 
         private static void GetAtomicTriangleList(StreamWriter OBJWriter, AtomicSector_0009 AtomicSector, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision)
         {
-            if (AtomicSector.atomicStruct.isNativeData)
+            if (AtomicSector.atomicSectorStruct.isNativeData)
             {
-                GetNativeTriangleList(OBJWriter, AtomicSector.atomicExtension, ref triangleList, ref totalVertexIndices);
+                GetNativeTriangleList(OBJWriter, AtomicSector.atomicSectorExtension, ref triangleList, ref totalVertexIndices);
                 return;
             }
 
             //Write vertex list to obj
-            if (AtomicSector.atomicStruct.vertexArray != null)
-                foreach (Vertex3 i in AtomicSector.atomicStruct.vertexArray)
+            if (AtomicSector.atomicSectorStruct.vertexArray != null)
+                foreach (Vertex3 i in AtomicSector.atomicSectorStruct.vertexArray)
                     OBJWriter.WriteLine("v " + i.X.ToString() + " " + i.Y.ToString() + " " + i.Z.ToString());
 
             OBJWriter.WriteLine();
 
             //Write uv list to obj
-            if (AtomicSector.atomicStruct.uvArray != null)
+            if (AtomicSector.atomicSectorStruct.uvArray != null)
             {
                 if (Program.levelEditor.checkBoxFlipUVs.Checked)
-                    foreach (TextCoord i in AtomicSector.atomicStruct.uvArray)
+                    foreach (Vertex2 i in AtomicSector.atomicSectorStruct.uvArray)
                         OBJWriter.WriteLine("vt " + i.X.ToString() + " " + (-i.Y).ToString());
                 else
-                    foreach (TextCoord i in AtomicSector.atomicStruct.uvArray)
+                    foreach (Vertex2 i in AtomicSector.atomicSectorStruct.uvArray)
                         OBJWriter.WriteLine("vt " + i.X.ToString() + " " + i.Y.ToString());
             }
             OBJWriter.WriteLine();
 
             // Write vcolors to obj
-            if (AtomicSector.atomicStruct.colorArray != null)
-                foreach (Color i in AtomicSector.atomicStruct.colorArray)
+            if (AtomicSector.atomicSectorStruct.colorArray != null)
+                foreach (Color i in AtomicSector.atomicSectorStruct.colorArray)
                     OBJWriter.WriteLine("vc " + i.R.ToString() + " " + i.G.ToString() + " " + i.B.ToString() + " " + i.A.ToString());
 
             OBJWriter.WriteLine();
 
-            if (AtomicSector.atomicStruct.triangleArray != null)
+            if (AtomicSector.atomicSectorStruct.triangleArray != null)
             {
                 if (isCollision)
                 {
                     RenderWareFile.Color[] collisionFlagList = new RenderWareFile.Color[0];
-                    foreach (RWSection r in AtomicSector.atomicExtension.extensionSectionList)
+                    foreach (RWSection r in AtomicSector.atomicSectorExtension.extensionSectionList)
                         if (r is UserDataPLG_011F userdata)
                             collisionFlagList = userdata.collisionFlags;
 
-                    for (int i = 0; i < AtomicSector.atomicStruct.triangleArray.Length; i++)
+                    for (int i = 0; i < AtomicSector.atomicSectorStruct.triangleArray.Length; i++)
                     {
                         triangleList.Add(new TriangleExt
                         {
                             collisionFlag = collisionFlagList[i],
-                            MaterialIndex = AtomicSector.atomicStruct.triangleArray[i].materialIndex,
-                            vertex1 = AtomicSector.atomicStruct.triangleArray[i].vertex1 + totalVertexIndices,
-                            vertex2 = AtomicSector.atomicStruct.triangleArray[i].vertex2 + totalVertexIndices,
-                            vertex3 = AtomicSector.atomicStruct.triangleArray[i].vertex3 + totalVertexIndices,
+                            MaterialIndex = AtomicSector.atomicSectorStruct.triangleArray[i].materialIndex,
+                            vertex1 = AtomicSector.atomicSectorStruct.triangleArray[i].vertex1 + totalVertexIndices,
+                            vertex2 = AtomicSector.atomicSectorStruct.triangleArray[i].vertex2 + totalVertexIndices,
+                            vertex3 = AtomicSector.atomicSectorStruct.triangleArray[i].vertex3 + totalVertexIndices,
                         });
                     }
                 }
                 else
                 {
-                    foreach (RenderWareFile.Triangle i in AtomicSector.atomicStruct.triangleArray)
+                    foreach (RenderWareFile.Triangle i in AtomicSector.atomicSectorStruct.triangleArray)
                     {
                         triangleList.Add(new Triangle
                         {
@@ -475,8 +475,8 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
 
-            if (AtomicSector.atomicStruct.vertexArray != null)
-                totalVertexIndices += AtomicSector.atomicStruct.vertexArray.Count();
+            if (AtomicSector.atomicSectorStruct.vertexArray != null)
+                totalVertexIndices += AtomicSector.atomicSectorStruct.vertexArray.Count();
         }
 
         private static void GetNativeTriangleList(StreamWriter OBJWriter, Extension_0003 extension, ref List<Triangle> triangleList, ref int totalVertexIndices)
@@ -499,7 +499,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             List<Vertex3> vertexList_init = new List<Vertex3>();
             List<RenderWareFile.Color> colorList_init = new List<RenderWareFile.Color>();
-            List<TextCoord> textCoordList_init = new List<TextCoord>();
+            List<Vertex2> textCoordList_init = new List<Vertex2>();
 
             foreach (Declaration d in n.declarations)
             {
@@ -509,7 +509,7 @@ namespace HeroesPowerPlant.LevelEditor
                         vertexList_init.Add(v);
                     else if (o is Color c)
                         colorList_init.Add(c);
-                    else if (o is TextCoord t)
+                    else if (o is Vertex2 t)
                         textCoordList_init.Add(t);
                     else throw new Exception();
                 }
@@ -521,7 +521,7 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     List<Vertex3> vertexList_final = new List<Vertex3>();
                     List<Color> colorList_final = new List<Color>();
-                    List<TextCoord> textCoordList_final = new List<TextCoord>();
+                    List<Vertex2> textCoordList_final = new List<Vertex2>();
 
                     foreach (int[] objectList in tl.entries)
                     {
@@ -582,10 +582,10 @@ namespace HeroesPowerPlant.LevelEditor
                     if (textCoordList_final.Count() > 0)
                     {
                         if (Program.levelEditor.checkBoxFlipUVs.Checked)
-                            foreach (TextCoord i in textCoordList_final)
+                            foreach (Vertex2 i in textCoordList_final)
                                 OBJWriter.WriteLine("vt " + i.X.ToString() + " " + (-i.Y).ToString());
                         else
-                            foreach (TextCoord i in textCoordList_final)
+                            foreach (Vertex2 i in textCoordList_final)
                                 OBJWriter.WriteLine("vt " + i.X.ToString() + " " + i.Y.ToString());
                     }
                     OBJWriter.WriteLine();

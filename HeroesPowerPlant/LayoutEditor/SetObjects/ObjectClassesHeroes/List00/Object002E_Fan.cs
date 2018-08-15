@@ -1,5 +1,13 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum FanMode : byte
+    {
+        Normal = 0,
+        Switchable = 1,
+        Normal2 = 2,
+        Switchable2 = 3
+    }
+
     public class Object002E_Fan : SetObjectManagerHeroes
     {
         public float Scale
@@ -24,14 +32,6 @@
         {
             get { return ReadFloat(16); }
             set { Write(16, value); }
-        }
-
-        public enum FanMode : byte
-        {
-            Normal = 0,
-            Switchable = 1,
-            Normal2 = 2,
-            Switchable2 = 3
         }
 
         public FanMode Mode

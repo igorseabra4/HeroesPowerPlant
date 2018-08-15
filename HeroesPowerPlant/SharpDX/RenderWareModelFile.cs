@@ -126,15 +126,43 @@ namespace HeroesPowerPlant
                 }
                 else if (rwSection is Clump_0010 c)
                 {
-                    foreach (Geometry_000F g in c.geometryList.geometryList)
+                    for (int g = 0; g < c.geometryList.geometryList.Count; g++)
                     {
-                        AddGeometry(g);                        
+                        AddGeometry(c.geometryList.geometryList[g], CreateMatrix(c.frameList, c.atomicList[g].atomicStruct.frameIndex));                        
                     }
                 }
             }
         }
 
-        void AddPlane(PlaneSector_000A planeSection)
+        private Matrix CreateMatrix(FrameList_000E frameList, int frameIndex)
+        {
+            Matrix transform = Matrix.Identity;
+
+            for (int f = 0; f < frameList.frameListStruct.frames.Count; f++)
+            {
+                if (frameIndex == f)
+                {
+                    Frame cf = frameList.frameListStruct.frames[f];
+
+                    transform.M11 = cf.rotationMatrix.M11;
+                    transform.M12 = cf.rotationMatrix.M12;
+                    transform.M13 = cf.rotationMatrix.M13;
+                    transform.M21 = cf.rotationMatrix.M21;
+                    transform.M22 = cf.rotationMatrix.M22;
+                    transform.M23 = cf.rotationMatrix.M23;
+                    transform.M31 = cf.rotationMatrix.M31;
+                    transform.M32 = cf.rotationMatrix.M32;
+                    transform.M33 = cf.rotationMatrix.M33;
+
+                    transform *= Matrix.Translation(cf.position.X, cf.position.Y, cf.position.Z);
+                    break;
+                }
+            }
+
+            return transform;
+        }
+
+        private void AddPlane(PlaneSector_000A planeSection)
         {
             if (planeSection.leftSection is AtomicSector_0009 al)
             {
@@ -159,15 +187,15 @@ namespace HeroesPowerPlant
 
         void AddAtomic(AtomicSector_0009 AtomicSector)
         {
-            if (AtomicSector.atomicStruct.isNativeData)
+            if (AtomicSector.atomicSectorStruct.isNativeData)
             {
-                AddNativeData(AtomicSector.atomicExtension, MaterialList);
+                AddNativeData(AtomicSector.atomicSectorExtension, MaterialList, Matrix.Identity);
                 return;
             }
             
             List<VertexColoredTextured> vertexList = new List<VertexColoredTextured>();
 
-            foreach (Vertex3 v in AtomicSector.atomicStruct.vertexArray)
+            foreach (Vertex3 v in AtomicSector.atomicSectorStruct.vertexArray)
             {
                 vertexList.Add(new VertexColoredTextured(new Vector3(v.X, v.Y, v.Z), new Vector2(), new SharpDX.Color()));
                 this.vertexList.Add(new Vector3(v.X, v.Y, v.Z));
@@ -177,7 +205,7 @@ namespace HeroesPowerPlant
             {
                 for (int i = 0; i < vertexList.Count; i++)
                 {
-                    RenderWareFile.Color c = AtomicSector.atomicStruct.colorArray[i];
+                    RenderWareFile.Color c = AtomicSector.atomicSectorStruct.colorArray[i];
                     
                     VertexColoredTextured v = vertexList[i];
                     v.Color = new SharpDX.Color(c.R, c.G, c.B, c.A);
@@ -186,7 +214,7 @@ namespace HeroesPowerPlant
 
                 for (int i = 0; i < vertexList.Count; i++)
                 {
-                    TextCoord tc = AtomicSector.atomicStruct.uvArray[i];
+                    Vertex2 tc = AtomicSector.atomicSectorStruct.uvArray[i];
 
                     VertexColoredTextured v = vertexList[i];
                     v.TextureCoordinate = new Vector2(tc.X, tc.Y);
@@ -200,9 +228,9 @@ namespace HeroesPowerPlant
             
             for (int i = 0; i < MaterialList.Count; i++)
             {
-                for (int j = 0; j < AtomicSector.atomicStruct.triangleArray.Length; j++) // each (Triangle t in AtomicSector.atomicStruct.triangleArray)
+                for (int j = 0; j < AtomicSector.atomicSectorStruct.triangleArray.Length; j++) // each (Triangle t in AtomicSector.atomicStruct.triangleArray)
                 {
-                    Triangle t = AtomicSector.atomicStruct.triangleArray[j];
+                    Triangle t = AtomicSector.atomicSectorStruct.triangleArray[j];
                     if (t.materialIndex == i)
                     {
                         indexList.Add(t.vertex1);
@@ -246,7 +274,8 @@ namespace HeroesPowerPlant
                 meshList.Add(SharpMesh.Create(SharpRenderer.device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
         }
 
-        void AddGeometry(Geometry_000F g)
+
+        private void AddGeometry(Geometry_000F g, Matrix transformMatrix)
         {
             List<string> MaterialList = new List<string>();
             foreach (Material_0007 m in g.materialList.materialList)
@@ -263,7 +292,7 @@ namespace HeroesPowerPlant
 
             if (g.geometryStruct.geometryFlags2 == 0x0101)
             {
-                AddNativeData(g.geometryExtension, MaterialList);
+                AddNativeData(g.geometryExtension, MaterialList, transformMatrix);
                 return;
             }
 
@@ -273,11 +302,10 @@ namespace HeroesPowerPlant
             {
                 foreach (Vertex3 v in g.geometryStruct.morphTargets[0].vertices)
                 {
-                    vertexList.Add(new VertexColoredTextured(new Vector3(v.X, v.Y, v.Z),
-                        new Vector2(),
-                        SharpDX.Color.White
-                    ));
-                    this.vertexList.Add(new Vector3(v.X, v.Y, v.Z));
+                    Vector3 Position = (Vector3)Vector3.Transform(new Vector3(v.X, v.Y, v.Z), transformMatrix);
+                    
+                    vertexList.Add(new VertexColoredTextured(Position, new Vector2(), SharpDX.Color.White));
+                    this.vertexList.Add(Position);
                 }
             }
 
@@ -306,7 +334,7 @@ namespace HeroesPowerPlant
             {
                 for (int i = 0; i < vertexList.Count; i++)
                 {
-                    TextCoord tc = g.geometryStruct.textCoords[i];
+                    Vertex2 tc = g.geometryStruct.textCoords[i];
 
                     VertexColoredTextured v = vertexList[i];
                     v.TextureCoordinate = new Vector2(tc.X, tc.Y);
@@ -347,7 +375,7 @@ namespace HeroesPowerPlant
                 meshList.Add(SharpMesh.Create(SharpRenderer.device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
         }
 
-        void AddNativeData(Extension_0003 extension, List<string> MaterialStream)
+        void AddNativeData(Extension_0003 extension, List<string> MaterialStream, Matrix transformMatrix)
         {
             NativeDataGC n = null;
 
@@ -368,7 +396,7 @@ namespace HeroesPowerPlant
 
             List<Vertex3> vertexList1 = new List<Vertex3>();
             List<RenderWareFile.Color> colorList = new List<RenderWareFile.Color>();
-            List<TextCoord> textCoordList = new List<TextCoord>();
+            List<Vertex2> textCoordList = new List<Vertex2>();
             
             foreach (Declaration d in n.declarations)
             {
@@ -378,7 +406,7 @@ namespace HeroesPowerPlant
                         vertexList1.Add(v);
                     else if (o is RenderWareFile.Color c)
                         colorList.Add(c);
-                    else if (o is TextCoord t)
+                    else if (o is Vertex2 t)
                         textCoordList.Add(t);
                     else throw new Exception();
                 }
@@ -402,9 +430,12 @@ namespace HeroesPowerPlant
                         {
                             if (n.declarations[j].declarationType == Declarations.Vertex)
                             {
-                                v.Position.X = vertexList1[objectList[j]].X;
-                                v.Position.Y = vertexList1[objectList[j]].Y;
-                                v.Position.Z = vertexList1[objectList[j]].Z;
+                                v.Position = (Vector3)Vector3.Transform(
+                                    new Vector3(
+                                        vertexList1[objectList[j]].X,
+                                        vertexList1[objectList[j]].Y,
+                                        vertexList1[objectList[j]].Z),
+                                    transformMatrix);
                             }
                             else if (n.declarations[j].declarationType == Declarations.Color)
                             {

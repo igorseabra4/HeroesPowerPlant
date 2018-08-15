@@ -216,7 +216,7 @@ namespace HeroesPowerPlant.LevelEditor
 
                 firstWorldChunk = new AtomicSector_0009()
                 {
-                    atomicStruct = new AtomicSectorStruct_0001()
+                    atomicSectorStruct = new AtomicSectorStruct_0001()
                     {
                         matListWindowBase = 0,
                         numTriangles = data.TriangleList.Count(),
@@ -230,7 +230,7 @@ namespace HeroesPowerPlant.LevelEditor
                         uvArray = null,
                         triangleArray = tList.ToArray()
                     },
-                    atomicExtension = new Extension_0003()
+                    atomicSectorExtension = new Extension_0003()
                     {
                         extensionSectionList = new List<RWSection>()
                         {
