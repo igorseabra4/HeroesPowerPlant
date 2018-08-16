@@ -3,13 +3,13 @@ using SharpDX;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
-    public class CLVertex
+    public class CollisionVertex
     {
         public Vector3 Position;
         public List<Vector3> NormalList;
         public Color Color;
 
-        public CLVertex(float x, float y, float z)
+        public CollisionVertex(float x, float y, float z)
         {
             Position = new Vector3(x, y, z);
             NormalList = new List<Vector3>(3);

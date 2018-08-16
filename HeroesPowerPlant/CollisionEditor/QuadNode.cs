@@ -3,7 +3,7 @@ using SharpDX;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
-    public class CLQuadNode
+    public class QuadNode
     {
         public UInt16 Index;
         public UInt16 Parent;

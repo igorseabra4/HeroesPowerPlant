@@ -166,6 +166,7 @@
     </Compile>
     <Compile Include="ConfigEditor\EndPositionEntry.cs" />
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
+    <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object01FF_SetParticle.cs" />
     <Compile Include="ParticleEditor\ParticleEditor.cs">
@@ -204,15 +205,13 @@
     <Compile Include="LevelEditor\Models\Structures\Vertex.cs" />
     <Compile Include="LevelEditor\Visibility\Chunk.cs" />
     <Compile Include="Shared\Extensions.cs" />
-    <Compile Include="ConfigEditor\SplineEditor.cs">
+    <Compile Include="SplineEditor\SplineEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigEditor\SplineEditor.designer.cs">
+    <Compile Include="SplineEditor\SplineEditor.designer.cs">
       <DependentUpon>SplineEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigEditor\SplineEditorFunctions.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="SplineEditor\SplineEditorFunctions.cs" />
     <Compile Include="LayoutEditor\LayoutEditorSystem.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0281_TurtleFeet.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0282_KameWave.cs" />
@@ -397,7 +396,7 @@
     <EmbeddedResource Include="ConfigEditor\ConfigEditor.resx">
       <DependentUpon>ConfigEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfigEditor\SplineEditor.resx">
+    <EmbeddedResource Include="SplineEditor\SplineEditor.resx">
       <DependentUpon>SplineEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LayoutEditor\LayoutEditor.resx">

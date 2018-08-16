@@ -30,7 +30,7 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public override string ToString()
         {
-            return objectEntry.GetName() + (Link == 0 ? "" : $"({Link})");
+            return objectEntry.GetName() + (Link == 0 ? "" : $" ({Link})");
         }
 
         public abstract void CreateTransformMatrix();

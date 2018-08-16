@@ -18,8 +18,8 @@ namespace HeroesPowerPlant.CollisionEditor
         public UInt16 numVertices;
         public UInt16 numQuadnodes;
 
-        public List<CLQuadNode> CLQuadNodeList = new List<CLQuadNode>();
-        public CLTriangle[] CLTriangleArray;
+        public List<QuadNode> CLQuadNodeList = new List<QuadNode>();
+        public Triangle[] CLTriangleArray;
         public VertexColoredNormalized[] CLVertexArray;
         public byte MaxDepth;
 

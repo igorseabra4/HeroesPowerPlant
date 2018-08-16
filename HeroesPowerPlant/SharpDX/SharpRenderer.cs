@@ -295,7 +295,7 @@ namespace HeroesPowerPlant
                 }
 
                 List<int> indexList = new List<int>();
-                foreach (Triangle t in objData.TriangleList)
+                foreach (LevelEditor.Triangle t in objData.TriangleList)
                 {
                     indexList.Add(t.vertex1);
                     indexList.Add(t.vertex2);
@@ -337,9 +337,7 @@ namespace HeroesPowerPlant
                 }
 
                 sharpFPS.Update();
-
                 Program.MainForm.KeyboardController(60f / sharpFPS.FPS);
-
                 Program.MainForm.SetToolStripStatusLabel(Camera.GetInformation() + " FPS: " + sharpFPS.FPS.ToString());
 
                 //clear color
@@ -355,9 +353,7 @@ namespace HeroesPowerPlant
                     BSPRenderer.RenderShadowCollisionModel(viewProjection);
                 }
                 else
-                {
                     BSPRenderer.RenderLevelModel(viewProjection);
-                }
 
                 if (showChunkBoxes)
                     VisibilityFunctions.RenderChunkModels(viewProjection);
@@ -368,7 +364,7 @@ namespace HeroesPowerPlant
                     Program.LayoutEditor.RenderSetObjects(false);
 
                 if (showCameras)
-                    Program.CameraEditor.RenderAllCameras();
+                    Program.CameraEditor.RenderCameras();
 
                 if (showStartPositions)
                     Program.ConfigEditor.RenderStartPositions();
@@ -378,7 +374,7 @@ namespace HeroesPowerPlant
 
                 if (showQuadtree)
                     CollisionRendering.RenderQuadTree();
-                                
+
                 //present
                 device.Present();
             });
@@ -395,6 +391,8 @@ namespace HeroesPowerPlant
             foreach (RenderWareModelFile r in DFFRenderer.DFFStream.Values)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
+            
+            Program.SplineEditor.DisposeSplines();
 
             CollisionRendering.Dispose();
 

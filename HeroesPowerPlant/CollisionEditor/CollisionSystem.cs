@@ -78,8 +78,8 @@ namespace HeroesPowerPlant.CollisionEditor
             int CurrentMeshNum = -1;
             byte[] TempColFlags = { 0, 0, 0, 0x0 };
 
-            List<CLTriangle> CLTriangleList = new List<CLTriangle>(65535);
-            List<CLVertex> CLVertexList = new List<CLVertex>(65535);
+            List<Triangle> CLTriangleList = new List<Triangle>(65535);
+            List<CollisionVertex> CLVertexList = new List<CollisionVertex>(65535);
 
             foreach (string j in OBJFile)
             {
@@ -87,13 +87,13 @@ namespace HeroesPowerPlant.CollisionEditor
                 {
                     string a = Regex.Replace(j, @"\s+", " ");
                     string[] SubStrings = a.Split(' ');
-                    CLVertexList.Add(new CLVertex(Convert.ToSingle(SubStrings[1]), Convert.ToSingle(SubStrings[2]), Convert.ToSingle(SubStrings[3])));
+                    CLVertexList.Add(new CollisionVertex(Convert.ToSingle(SubStrings[1]), Convert.ToSingle(SubStrings[2]), Convert.ToSingle(SubStrings[3])));
                     Program.CollisionEditor.progressBar1.PerformStep();
                 }
                 else if (j.StartsWith("f "))
                 {
                     string[] SubStrings = j.Split(' ');
-                    CLTriangleList.Add(new CLTriangle(
+                    CLTriangleList.Add(new Triangle(
                     (ushort)(Convert.ToUInt16(SubStrings[1].Split('/')[0]) - 1),
                     (ushort)(Convert.ToUInt16(SubStrings[2].Split('/')[0]) - 1),
                     (ushort)(Convert.ToUInt16(SubStrings[3].Split('/')[0]) - 1),
@@ -242,7 +242,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public bool BuildQuadtree(ref CLFile data)
         {
-            CLQuadNode TempNode = new CLQuadNode();
+            QuadNode TempNode = new QuadNode();
 
             TempNode.NodeSquare.X = data.quadCenterX - (data.quadLenght / 2);
             TempNode.NodeSquare.Y = data.quadCenterZ - (data.quadLenght / 2);
@@ -278,9 +278,9 @@ namespace HeroesPowerPlant.CollisionEditor
             return true;
         }
 
-        public CLQuadNode CreateNode(CLQuadNode NodeParent, byte NodeOrient, ushort Count, int PowerFlag, CLTriangle[] CLTriangleArray)
+        public QuadNode CreateNode(QuadNode NodeParent, byte NodeOrient, ushort Count, int PowerFlag, Triangle[] CLTriangleArray)
         {
-            CLQuadNode NodeChild = new CLQuadNode
+            QuadNode NodeChild = new QuadNode
             {
                 Index = Count,
                 Parent = NodeParent.Index,
@@ -320,7 +320,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return NodeChild;
         }
 
-        public UInt16[] GetTrianglesInsideNode(CLQuadNode Node, ushort[] TriangleList, CLTriangle[] CLTriangleArray)
+        public UInt16[] GetTrianglesInsideNode(QuadNode Node, ushort[] TriangleList, Triangle[] CLTriangleArray)
         {
             List<UInt16> NodeTriangleList = new List<UInt16>();
 
@@ -358,7 +358,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
             data.pointQuadtree = (uint)FileWriter.BaseStream.Position;
 
-            foreach (CLQuadNode i in data.CLQuadNodeList)
+            foreach (QuadNode i in data.CLQuadNodeList)
             {
                 FileWriter.Write(Switch(i.Index));
                 FileWriter.Write(Switch(i.Parent));
@@ -381,7 +381,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
             data.pointTriangle = (uint)FileWriter.BaseStream.Position;
 
-            foreach (CLTriangle i in data.CLTriangleArray)
+            foreach (Triangle i in data.CLTriangleArray)
             {
                 FileWriter.Write(Switch(i.Vertices[0]));
                 FileWriter.Write(Switch(i.Vertices[1]));
@@ -457,7 +457,7 @@ namespace HeroesPowerPlant.CollisionEditor
                     TempByte[2].ToString("X2") + TempByte[3].ToString("X2"));
                 FileCloser.WriteLine();
 
-                foreach (CLTriangle j in data.CLTriangleArray)
+                foreach (Triangle j in data.CLTriangleArray)
                     if ((j.ColFlags[0] == TempByte[0]) & (j.ColFlags[1] == TempByte[1]) &
                         (j.ColFlags[2] == TempByte[2]) & (j.ColFlags[3] == TempByte[3]) &
                         (j.ColFlags[4] == TempByte[4]) & (j.ColFlags[5] == TempByte[5]))

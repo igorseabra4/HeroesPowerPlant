@@ -5,7 +5,7 @@ using SharpDX;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
-    public class CLTriangle
+    public class Triangle
     {
         public ushort[] Vertices = new ushort[3];
         public Vector3 Normals;
@@ -14,7 +14,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public RectangleF TasRect;
 
-        public CLTriangle(UInt16 a, UInt16 b, UInt16 c, int d, byte[] e, List<CLVertex> CLVertexList)
+        public Triangle(UInt16 a, UInt16 b, UInt16 c, int d, byte[] e, List<CollisionVertex> CLVertexList)
         {
             Vertices[0] = a;
 
@@ -36,14 +36,14 @@ namespace HeroesPowerPlant.CollisionEditor
             CalculateRectangle(CLVertexList);
         }
 
-        public CLTriangle(uint a, uint b, uint c)
+        public Triangle(uint a, uint b, uint c)
         {
             Vertices[0] = (ushort)a;
             Vertices[1] = (ushort)b;
             Vertices[2] = (ushort)c;
         }
 
-        public void CalculateNormals(List<CLVertex> CLVertexList)
+        public void CalculateNormals(List<CollisionVertex> CLVertexList)
         {
             Vector3 Vector1 = new Vector3(
                 CLVertexList[Vertices[1]].Position.X - CLVertexList[Vertices[0]].Position.X,
@@ -63,7 +63,7 @@ namespace HeroesPowerPlant.CollisionEditor
             CLVertexList[Vertices[2]].NormalList.Add(Normals);
         }
 
-        public void CalculateRectangle(List<CLVertex> CLVertexList)
+        public void CalculateRectangle(List<CollisionVertex> CLVertexList)
         {
             float MinX = CLVertexList[Vertices[0]].Position.X;
             if (CLVertexList[Vertices[1]].Position.X < MinX)

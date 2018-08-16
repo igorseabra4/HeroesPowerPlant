@@ -134,8 +134,8 @@ namespace HeroesPowerPlant.CollisionEditor
 
             Program.CollisionEditor.progressBar1.Maximum = data.numTriangles + data.numVertices + 3 * data.numQuadnodes;
 
-            List<CLTriangle> CLTriangleList = new List<CLTriangle>(data.numTriangles);
-            List<CLVertex> CLVertexList = new List<CLVertex>(data.numVertices);
+            List<Triangle> CLTriangleList = new List<Triangle>(data.numTriangles);
+            List<CollisionVertex> CLVertexList = new List<CollisionVertex>(data.numVertices);
             data.MeshTypeList = new List<UInt64>();
 
             Program.CollisionEditor.labelVertexNum.Text = "Number of Vertices: " + data.numVertices.ToString();
@@ -145,14 +145,14 @@ namespace HeroesPowerPlant.CollisionEditor
             for (int i = 0; i < data.numVertices; i++)
             {
                 CLReader.BaseStream.Position = data.pointVertex + i * 0xC;
-                CLVertexList.Add(new CLVertex(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle())));
+                CLVertexList.Add(new CollisionVertex(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle())));
                 Program.CollisionEditor.progressBar1.PerformStep();
             }
             
             for (int i = 0; i < data.numTriangles; i++)
             {
                 CLReader.BaseStream.Position = data.pointTriangle + i * 0x20;
-                CLTriangleList.Add(new CLTriangle(Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16())));
+                CLTriangleList.Add(new Triangle(Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16())));
                 CLReader.BaseStream.Position += 6;
 
                 Vector3 Normals = new Vector3(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()));
@@ -189,7 +189,7 @@ namespace HeroesPowerPlant.CollisionEditor
             for (int i = 0; i < data.numQuadnodes; i++)
             {
                 CLReader.BaseStream.Position = data.pointQuadtree + i * 0x20;
-                CLQuadNode TempNode = new CLQuadNode
+                QuadNode TempNode = new QuadNode
                 {
                     Index = Switch(CLReader.ReadUInt16()),
                     Parent = Switch(CLReader.ReadUInt16()),
@@ -251,7 +251,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
             //sewer's code
             Program.CollisionEditor.checkedListBox1.Items.Clear();
-            foreach (CLQuadNode i in data.CLQuadNodeList)
+            foreach (QuadNode i in data.CLQuadNodeList)
                 Program.CollisionEditor.checkedListBox1.Items.Add(i);
             // end
 
@@ -279,7 +279,7 @@ namespace HeroesPowerPlant.CollisionEditor
             List<Int32> QuadNodeIndexList = new List<Int32>();
 
             Int32 k = 0;
-            foreach (CLQuadNode i in data.CLQuadNodeList)
+            foreach (QuadNode i in data.CLQuadNodeList)
             {
                 Program.CollisionEditor.progressBar1.PerformStep();
                 if (i.Child == 0 | i.Index == 0)
@@ -312,7 +312,7 @@ namespace HeroesPowerPlant.CollisionEditor
             List<Int32> QuadNodeIndexList = new List<Int32>();
 
             Int32 k = 0;
-            foreach (CLQuadNode i in data.CLQuadNodeList)
+            foreach (QuadNode i in data.CLQuadNodeList)
             {
                 if (Program.CollisionEditor.checkedListBox1.CheckedIndices.Contains(i.Index))
                 {

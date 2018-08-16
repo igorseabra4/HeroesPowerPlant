@@ -1,4 +1,4 @@
-﻿namespace HeroesPowerPlant.ConfigEditor
+﻿namespace HeroesPowerPlant.SplineEditor
 {
     partial class SplineEditor
     {

@@ -412,7 +412,7 @@ namespace HeroesPowerPlant.CameraEditor
             numericUpDownCamPosZ.Value = (decimal)SharpRenderer.Camera.GetPosition().Z;
         }
 
-        public void RenderAllCameras()
+        public void RenderCameras()
         {
             foreach (CameraHeroes c in ListBoxCameras.Items)
                 if (SharpRenderer.frustum.Intersects(ref c.boundingBox))
