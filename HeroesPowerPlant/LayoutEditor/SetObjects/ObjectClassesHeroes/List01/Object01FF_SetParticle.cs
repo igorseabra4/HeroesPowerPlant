@@ -20,9 +20,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 this.Rotation = Rotation;
 
                 transformMatrix = Matrix.Scaling(box * 2) *
-                    Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X)) *
-                    Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y)) *
-                    Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z)) *
+                    Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
+                    Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
+                    Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                     Matrix.Translation(Position);
             }
             else base.CreateTransformMatrix(Position, Rotation);
@@ -36,7 +36,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Number
         {
             get { return ReadByte(4); }
-            set { Write(4, value); }
+            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float SpeedX

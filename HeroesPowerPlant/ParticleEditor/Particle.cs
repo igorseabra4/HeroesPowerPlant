@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HeroesONE_R.Utilities;
 using HeroesPowerPlant.Shared.Utilities;
 
 namespace HeroesPowerPlant.ParticleEditor
 {
-    public class ParticleEntry
+    public unsafe struct Particle
     {
+        /// <summary>
+        /// The size of this structure.
+        /// </summary>
+        public const int SIZE = 0x80;
+
         public byte SpreadUVType { get; set; }
         public byte UvFrameType { get; set; }
         public byte Unknown1 { get; set; }
@@ -51,22 +57,20 @@ namespace HeroesPowerPlant.ParticleEditor
 
         public float SpreadSize { get; set; }
         public float SameAsAbove { get; set; }
+        private fixed byte _textureName[0x18];
 
-        public string TextureName { get; set; }
-        //{
-        //    get => TextureName;
-        //    set => TextureName = ((value.Length > 0x18) ? value.Substring(0, 0x18) : value);
-        //}
-
-        /*
-            ------------
-            Constructors
-            ------------
-        */
-
-        public ParticleEntry()
+        public string TextureName
         {
-            TextureName = "";
+            get
+            {
+                fixed (byte* fileName = _textureName)
+                    return StringUtilities.CharPointerToString(fileName);
+            }
+            set
+            {
+                fixed (byte* fileNamePointer = _textureName)
+                    StringUtilities.StringToCharPointer(value, fileNamePointer);
+            }
         }
 
         /*
@@ -75,9 +79,33 @@ namespace HeroesPowerPlant.ParticleEditor
             -------
         */
 
-        public static ParticleEntry FromParticleEntry(ParticleEntry particleEntry)
+        /// <summary>
+        /// Returns a particle from a specified array of bytes.
+        /// </summary>
+        /// <param name="bytes">The bytes to return a particle from.</param>
+        /// <param name="offset">The offset into the byte array to get hte particle from.</param>
+        /// <returns></returns>
+        public static Particle FromBytes(ref byte[] bytes, int offset)
+        {
+            return StructUtilities.ArrayToStructureUnsafe<Particle>(ref bytes, offset);
+        }
+
+        public static Particle FromParticleEntry(Particle particleEntry)
         {
             return particleEntry.Clone();
+        }
+
+        public static Particle FromParticleEntry(ref Particle particleEntry)
+        {
+            return particleEntry.Clone();
+        }
+
+        /// <summary>
+        /// Converts this instance into a byte array.
+        /// </summary>
+        public static byte[] GetBytes(Particle particleEntry)
+        {
+            return StructUtilities.ConvertStructureToByteArrayUnsafe(ref particleEntry); // In HeroesONE-R
         }
     }
 }

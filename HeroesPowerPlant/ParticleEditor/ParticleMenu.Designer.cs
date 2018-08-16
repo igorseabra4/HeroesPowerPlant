@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.ParticleEditor
 {
-    partial class ParticleEditor
+    partial class ParticleMenu
     {
         /// <summary>
         /// Required designer variable.

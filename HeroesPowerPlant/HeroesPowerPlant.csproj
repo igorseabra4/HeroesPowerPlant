@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -61,6 +63,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -71,6 +74,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -81,6 +85,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -91,6 +96,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -145,9 +151,6 @@
     <Compile Include="CameraEditor\CameraEditorFunctions.cs" />
     <Compile Include="CameraEditor\CameraHeroes.cs" />
     <Compile Include="CollisionEditor\CLFile.cs" />
-    <Compile Include="CollisionEditor\CLQuadNode.cs" />
-    <Compile Include="CollisionEditor\CLTriangle.cs" />
-    <Compile Include="CollisionEditor\CLVertex.cs" />
     <Compile Include="CollisionEditor\CollisionEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +158,9 @@
       <DependentUpon>CollisionEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="CollisionEditor\CollisionSystem.cs" />
+    <Compile Include="CollisionEditor\CollisionVertex.cs" />
+    <Compile Include="CollisionEditor\QuadNode.cs" />
+    <Compile Include="CollisionEditor\Triangle.cs" />
     <Compile Include="ConfigEditor\ConfigEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,13 +175,14 @@
     <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object01FF_SetParticle.cs" />
-    <Compile Include="ParticleEditor\ParticleEditor.cs">
+    <Compile Include="ParticleEditor\ParticleMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ParticleEditor\ParticleEditor.Designer.cs">
-      <DependentUpon>ParticleEditor.cs</DependentUpon>
+    <Compile Include="ParticleEditor\ParticleMenu.Designer.cs">
+      <DependentUpon>ParticleMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParticleEditor\ParticleEntry.cs" />
+    <Compile Include="ParticleEditor\Particle.cs" />
+    <Compile Include="ParticleEditor\ParticleEditor.cs" />
     <Compile Include="Shared\IO\Config\HPPConfig.cs" />
     <Compile Include="Shared\IO\Config\ProjectConfig.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Formation.cs" />
@@ -417,8 +424,8 @@
     <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ParticleEditor\ParticleEditor.resx">
-      <DependentUpon>ParticleEditor.cs</DependentUpon>
+    <EmbeddedResource Include="ParticleEditor\ParticleMenu.resx">
+      <DependentUpon>ParticleMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
