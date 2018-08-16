@@ -363,9 +363,9 @@ namespace HeroesPowerPlant
                     VisibilityFunctions.RenderChunkModels(viewProjection);
 
                 if (showObjects == CheckState.Checked)
-                    Program.LayoutEditor.layoutSystem.RenderAllSetObjects(true);
+                    Program.LayoutEditor.RenderSetObjects(true);
                 else if (showObjects == CheckState.Indeterminate)
-                    Program.LayoutEditor.layoutSystem.RenderAllSetObjects(false);
+                    Program.LayoutEditor.RenderSetObjects(false);
 
                 if (showCameras)
                     Program.CameraEditor.RenderAllCameras();

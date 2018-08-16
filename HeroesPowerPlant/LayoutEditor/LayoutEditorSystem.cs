@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -175,19 +176,25 @@ namespace HeroesPowerPlant.LayoutEditor
                 SharpRenderer.Camera.SetPosition(GetSelectedObject().Position - 200 * SharpRenderer.Camera.GetForward());
         }
 
-        public void ResetMatrices()
+        public void UpdateAllMatrices()
         {
             foreach (SetObject s in setObjects)
                 s.CreateTransformMatrix();
         }
 
-        public void RenderAllSetObjects(bool drawEveryObject)
+        public void RenderSetObjects(bool drawEveryObject)
         {
             foreach (SetObject s in setObjects)
                 if (SharpRenderer.frustum.Intersects(ref s.boundingBox))
                     s.Draw(drawEveryObject);
         }
 
+        public void UpdateSetParticleMatrices()
+        {
+            foreach (SetObject s in setObjects)
+                if (s.objectEntry.List == 0x01 & s.objectEntry.Type == 0xFF)
+                    s.CreateTransformMatrix();
+        }
         #endregion
 
         #region Object Editing Methods

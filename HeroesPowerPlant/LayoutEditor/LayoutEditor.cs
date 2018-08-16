@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -43,7 +44,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Hide();
         }
 
-        public LayoutEditorSystem layoutSystem;
+        private LayoutEditorSystem layoutSystem;
         private bool ProgramIsChangingStuff = false;
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -436,6 +437,26 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 RichTextBoxDescription.Text = "";
             }
+        }
+
+        public void RenderSetObjects(bool drawEveryObject)
+        {
+            layoutSystem.RenderSetObjects(drawEveryObject);
+        }
+
+        public void UpdateAllMatrices()
+        {
+            layoutSystem.UpdateAllMatrices();
+        }
+
+        public void UpdateSetParticleMatrices()
+        {
+            layoutSystem.UpdateSetParticleMatrices();
+        }
+
+        public IEnumerable<ObjectEntry> GetAllObjectEntries()
+        {
+            return layoutSystem.GetAllObjectEntries();
         }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.ParticleEditor
@@ -19,7 +14,7 @@ namespace HeroesPowerPlant.ParticleEditor
             InitializeComponent();
             particleEntries = new List<ParticleEntry>();
         }
-        
+
         private void ParticleEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
@@ -38,6 +33,8 @@ namespace HeroesPowerPlant.ParticleEditor
             toolStripStatusLabel1.Text = "No file loaded";
             particleEntries = new List<ParticleEntry>();
             numericCurrentParticle.Maximum = 0;
+
+            Program.LayoutEditor.UpdateSetParticleMatrices();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -81,6 +78,8 @@ namespace HeroesPowerPlant.ParticleEditor
             numericCurrentParticle.Maximum = particleEntries.Count > 0 ? particleEntries.Count - 1 : 0;
             numericCurrentParticle.Value = 0;
             toolStripStatusLabel1.Text = CurrentlyOpenParticleFile;
+
+            Program.LayoutEditor.UpdateSetParticleMatrices();
         }
 
         private IEnumerable<ParticleEntry> GetParticleEntriesFromFile(string fileName)
@@ -225,6 +224,7 @@ namespace HeroesPowerPlant.ParticleEditor
                 particleEntries.RemoveAt(index);
                 numericCurrentParticle.Maximum = particleEntries.Count > 0 ? particleEntries.Count - 1 : 0;
             }
+            Program.LayoutEditor.UpdateSetParticleMatrices();
         }
 
         private void numericCurrentParticle_ValueChanged(object sender, EventArgs e)
@@ -232,6 +232,19 @@ namespace HeroesPowerPlant.ParticleEditor
             int index = (int)numericCurrentParticle.Value;
             if (index >= 0 & index < particleEntries.Count)
                 propertyGridParticles.SelectedObject = particleEntries[index];
+        }
+        
+        public Vector3 GetBoxForSetParticle(int index)
+        {
+            if (index < particleEntries.Count)
+                return new Vector3(particleEntries[index].EmitterScaleX, particleEntries[index].EmitterScaleY, particleEntries[index].EmitterScaleZ);
+            else
+                return Vector3.Zero;
+        }
+
+        private void propertyGridParticles_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            Program.LayoutEditor.UpdateSetParticleMatrices();
         }
     }
 }

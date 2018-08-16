@@ -30,12 +30,12 @@ namespace HeroesPowerPlant
                 AddDFFFiles(s);
             }
 
-            Program.LayoutEditor.layoutSystem.ResetMatrices();
+            Program.LayoutEditor.UpdateAllMatrices();
         }
 
         private static void AddDFFFiles(string fileName)
         {
-            foreach (ObjectEntry o in Program.LayoutEditor.layoutSystem.GetAllObjectEntries())
+            foreach (ObjectEntry o in Program.LayoutEditor.GetAllObjectEntries())
                 if (o.ModelNames != null)
                     foreach (string s in o.ModelNames)
                         if (!ObjectDFFNames.Contains(s))
