@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HeroesPowerPlant.Shared.Utilities;
 
 namespace HeroesPowerPlant.ParticleEditor
 {
@@ -13,12 +14,12 @@ namespace HeroesPowerPlant.ParticleEditor
         public byte UvFrameType { get; set; }
         public byte Unknown1 { get; set; }
         public byte Unknown2 { get; set; }
-        public int Unknown3 { get; set; }
+        public int  Unknown3 { get; set; }
         public byte ColorR { get; set; }
         public byte ColorG { get; set; }
         public byte ColorB { get; set; }
         public byte ColorA { get; set; }
-        public int FadeTime { get; set; }
+        public int  FadeTime { get; set; }
         public short BirthDelay { get; set; }
         public short AmountOfParticles { get; set; }
         public short Unknown4 { get; set; }
@@ -30,7 +31,7 @@ namespace HeroesPowerPlant.ParticleEditor
 
         public short Always05 { get; set; }
         public short BlendMode { get; set; }
-        public int Rotation { get; set; }
+        public int   Rotation { get; set; }
         public short RotateAnimationSpeed { get; set; }
         public short RotateAnimation { get; set; }
         public float InverseLifeTime { get; set; }
@@ -57,56 +58,26 @@ namespace HeroesPowerPlant.ParticleEditor
         //    set => TextureName = ((value.Length > 0x18) ? value.Substring(0, 0x18) : value);
         //}
 
+        /*
+            ------------
+            Constructors
+            ------------
+        */
+
         public ParticleEntry()
         {
             TextureName = "";
         }
 
-        public ParticleEntry(ParticleEntry p)
+        /*
+            -------
+            Methods
+            -------
+        */
+
+        public static ParticleEntry FromParticleEntry(ParticleEntry particleEntry)
         {
-            SpreadUVType = p.SpreadUVType;
-
-            UvFrameType = p.UvFrameType;
-            Unknown1 = p.Unknown1;
-            Unknown2 = p.Unknown2;
-            Unknown3 = p.Unknown3;
-            ColorR = p.ColorR;
-            ColorG = p.ColorG;
-            ColorB = p.ColorB;
-            ColorA = p.ColorA;
-            FadeTime = p.FadeTime;
-            BirthDelay = p.BirthDelay;
-            AmountOfParticles = p.AmountOfParticles;
-            Unknown4 = p.Unknown4;
-            Unknown5 = p.Unknown5;
-            Unknown6 = p.Unknown6;
-            Unknown7 = p.Unknown7;
-            Velocity = p.Velocity;
-            Unknown8 = p.Unknown8;
-
-            Always05 = p.Always05;
-            BlendMode = p.BlendMode;
-            Rotation = p.Rotation;
-            RotateAnimationSpeed = p.RotateAnimationSpeed;
-            RotateAnimation = p.RotateAnimation;
-            InverseLifeTime = p.InverseLifeTime;
-            LifeThreshold = p.LifeThreshold;
-            EmitterScaleX = p.EmitterScaleX;
-            EmitterScaleY = p.EmitterScaleY;
-            EmitterScaleZ = p.EmitterScaleZ;
-
-            SpreadSpeedRate = p.SpreadSpeedRate;
-            VelocityRate = p.VelocityRate;
-            Unknown9 = p.Unknown9;
-            Unknown10 = p.Unknown10;
-            Unknown11 = p.Unknown11;
-            Unknown12 = p.Unknown12;
-            ParticleSize = p.ParticleSize;
-            Unknown13 = p.Unknown13;
-
-            SpreadSize = p.SpreadSize;
-            SameAsAbove = p.SameAsAbove;
-            TextureName = p.TextureName;
+            return particleEntry.Clone();
         }
     }
 }

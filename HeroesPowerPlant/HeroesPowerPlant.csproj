@@ -362,6 +362,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LevelEditor\BSPRenderer.cs" />
+    <Compile Include="Shared\Utilities\ObjectCloner.cs" />
     <Compile Include="SharpDX\DFFRenderer.cs" />
     <Compile Include="SharpDX\RenderWareModelFile.cs" />
     <Compile Include="SharpDX\SharpCamera.cs" />
@@ -432,6 +433,7 @@
     </Compile>
     <EmbeddedResource Include="MainForm\ViewConfig.resx">
       <DependentUpon>ViewConfig.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TexturePatternEditor\TexturePatternEditor.resx">
       <DependentUpon>TexturePatternEditor.cs</DependentUpon>

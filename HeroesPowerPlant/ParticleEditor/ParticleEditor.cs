@@ -212,7 +212,7 @@ namespace HeroesPowerPlant.ParticleEditor
             int index = (int)numericCurrentParticle.Value;
             if (index >= 0 & index < particleEntries.Count)
             {
-                particleEntries.Add(new ParticleEntry(particleEntries[index]));
+                particleEntries.Add(ParticleEntry.FromParticleEntry(particleEntries[index]));
                 numericCurrentParticle.Maximum = particleEntries.Count > 0 ? particleEntries.Count - 1 : 0;
             }
         }
