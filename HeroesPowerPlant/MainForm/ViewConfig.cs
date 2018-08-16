@@ -1,41 +1,31 @@
-﻿using SharpDX;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using HeroesPowerPlant.Shared.IO.Config;
+using SharpDX;
 
-namespace HeroesPowerPlant
+namespace HeroesPowerPlant.MainForm
 {
     public partial class ViewConfig : Form
     {
+        public bool ProgramIsUpdatingValues = false;
+
+        /*
+            ------------
+            Constructors
+            ------------
+        */
+
+        // Default value assignments moved to SharpRenderer.
+
         public ViewConfig()
-        {
-            InitializeComponent();
+        { InitializeComponent(); }
 
-            NumericCameraX.Maximum = Decimal.MaxValue;
-            NumericCameraY.Maximum = Decimal.MaxValue;
-            NumericCameraZ.Maximum = Decimal.MaxValue;
-            NumericCameraPitch.Maximum = Decimal.MaxValue;
-            NumericCameraYaw.Maximum = Decimal.MaxValue;
-            NumericInterval.Maximum = Decimal.MaxValue;
-            NumericDrawD.Maximum = Decimal.MaxValue;
-            NumericQuadHeight.Maximum = Decimal.MaxValue;
-            NumericFOV.Maximum = 179.9999M;
 
-            NumericCameraX.Minimum = Decimal.MinValue;
-            NumericCameraY.Minimum = Decimal.MinValue;
-            NumericCameraZ.Minimum = Decimal.MinValue;
-            NumericCameraPitch.Minimum = Decimal.MinValue;
-            NumericCameraYaw.Minimum = Decimal.MinValue;
-            NumericInterval.Minimum = 0.0001M;
-            NumericDrawD.Minimum = 1;
-            NumericQuadHeight.Minimum = Decimal.MinValue;
-            NumericFOV.Minimum = 0.0001M;
-
-            NumericFOV.Value = 45M;
-            NumericDrawD.Value = 500000M;
-        }
-
-        public bool programIsUpdatingValues = false;
+        /*
+             ------
+             Events
+             ------
+        */
 
         private void ViewConfig_Load(object sender, EventArgs e)
         {
@@ -53,37 +43,20 @@ namespace HeroesPowerPlant
         
         private void NumericCamera_ValueChanged(object sender, EventArgs e)
         {
-            if (!programIsUpdatingValues)
+            if (!ProgramIsUpdatingValues)
                 SharpRenderer.Camera.SetPosition(new Vector3((float)NumericCameraX.Value, (float)NumericCameraY.Value, (float)NumericCameraZ.Value));
         }
 
         private void NumericCameraRot_ValueChanged(object sender, EventArgs e)
         {
-            if (!programIsUpdatingValues)
+            if (!ProgramIsUpdatingValues)
                 SharpRenderer.Camera.SetRotation((float)NumericCameraPitch.Value, (float)NumericCameraYaw.Value);
         }
 
         private void NumericInterval_ValueChanged(object sender, EventArgs e)
         {
-            if (!programIsUpdatingValues)
+            if (!ProgramIsUpdatingValues)
                 SharpRenderer.Camera.SetSpeed((float)NumericInterval.Value);
-        }
-
-        public void UpdateValues(Vector3 position, float yaw, float pitch, float speed)
-        {
-            if (!Visible)
-                return;
-
-            programIsUpdatingValues = true;
-
-            NumericCameraX.Value = (decimal)position.X;
-            NumericCameraY.Value = (decimal)position.Y;
-            NumericCameraZ.Value = (decimal)position.Z;
-            NumericInterval.Value = (decimal)speed;
-            NumericCameraPitch.Value = (decimal)pitch;
-            NumericCameraYaw.Value = (decimal)yaw;
-
-            programIsUpdatingValues = false;
         }
 
         private void NumericDrawD_ValueChanged(object sender, EventArgs e)
@@ -106,11 +79,41 @@ namespace HeroesPowerPlant
         private void ViewConfig_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
-            {
-                var currentConfig = ProjectConfig.FromCurrentInstance();
-                NumericFOV.Value = (decimal) MathUtil.RadiansToDegrees(currentConfig.CameraSettings.FieldOfView);
-                NumericDrawD.Value = (decimal)currentConfig.CameraSettings.DrawDistance;
-            }
+                UpdateValues();
+        }
+
+        /*
+            -------
+            Methods
+            -------
+        */
+
+        /// <summary>
+        /// Obtains the values from the current Power Plant instance and applies them to the
+        /// View Config.
+        /// </summary>
+        public void UpdateValues()
+        {
+            var currentConfig = ProjectConfig.FromCurrentInstance();
+            NumericFOV.Value = (decimal)MathUtil.RadiansToDegrees(currentConfig.CameraSettings.FieldOfView);
+            NumericDrawD.Value = (decimal)currentConfig.CameraSettings.DrawDistance;
+        }
+
+        public void SetValues(Vector3 position, float yaw, float pitch, float speed)
+        {
+            if (!Visible)
+                return;
+
+            ProgramIsUpdatingValues = true;
+
+            NumericCameraX.Value = (decimal)position.X;
+            NumericCameraY.Value = (decimal)position.Y;
+            NumericCameraZ.Value = (decimal)position.Z;
+            NumericInterval.Value = (decimal)speed;
+            NumericCameraPitch.Value = (decimal)pitch;
+            NumericCameraYaw.Value = (decimal)yaw;
+
+            ProgramIsUpdatingValues = false;
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
 using HeroesPowerPlant.ConfigEditor;
+using HeroesPowerPlant.MainForm;
 
 namespace HeroesPowerPlant
 {
     static class Program
     {
-        public static MainForm MainForm;
+        public static MainForm.MainForm MainForm;
         public static AboutBox AboutBox;
 
         public static ViewConfig ViewConfig;
@@ -30,7 +31,7 @@ namespace HeroesPowerPlant
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MainForm = new MainForm();
+            MainForm = new MainForm.MainForm();
             AboutBox = new AboutBox();
             ViewConfig = new ViewConfig();
             ConfigEditor = new ConfigEditor.ConfigEditor();

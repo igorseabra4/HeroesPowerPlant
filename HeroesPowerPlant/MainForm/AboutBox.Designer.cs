@@ -1,4 +1,4 @@
-﻿namespace HeroesPowerPlant
+﻿namespace HeroesPowerPlant.MainForm
 {
     partial class AboutBox
     {

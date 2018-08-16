@@ -1,11 +1,11 @@
-﻿using SharpDX;
-using SharpDX.Direct3D11;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using HeroesPowerPlant.Shared.IO.Config;
+using SharpDX;
+using SharpDX.Direct3D11;
 
-namespace HeroesPowerPlant
+namespace HeroesPowerPlant.MainForm
 {
     public partial class MainForm : Form
     {
@@ -32,6 +32,9 @@ namespace HeroesPowerPlant
                 currentSavePath = openFile.FileName;
                 ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
                 ProjectConfig.ApplyInstance(projectConfig);
+
+                // The ViewConfig screen should refresh in the case of loading new camera values.
+                Program.ViewConfig.UpdateValues();
             }
         }
 

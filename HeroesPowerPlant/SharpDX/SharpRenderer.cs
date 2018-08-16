@@ -17,10 +17,10 @@ namespace HeroesPowerPlant
         public static SharpCamera Camera = new SharpCamera();
         public static SharpFPS sharpFPS;
 
-        private static float fovAngle;
+        private static float fovAngle = 0.785398F;
         private static float aspectRatio;
         private static float near = 0.1f;
-        private static float far;
+        private static float far = 500000F;
         
         public SharpRenderer(Control control)
         {
