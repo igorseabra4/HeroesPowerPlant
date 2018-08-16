@@ -150,8 +150,7 @@
             this.propertyGridParticles.Size = new System.Drawing.Size(296, 461);
             this.propertyGridParticles.TabIndex = 5;
             this.propertyGridParticles.ToolbarVisible = false;
-            this.propertyGridParticles.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridParticles_PropertyValueChanged);
-            // 
+             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {

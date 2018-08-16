@@ -133,10 +133,5 @@ namespace HeroesPowerPlant.ParticleEditor
             if (index >= 0 & index < ParticleEditor.Particles.Count)
                 propertyGridParticles.SelectedObject = ParticleEditor.Particles[index];
         }
-
-        private void propertyGridParticles_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            Program.LayoutEditor.UpdateSetParticleMatrices();
-        }
     }
 }
