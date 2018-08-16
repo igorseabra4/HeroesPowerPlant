@@ -61,14 +61,14 @@ namespace HeroesPowerPlant.MainForm
 
         private void NumericDrawD_ValueChanged(object sender, EventArgs e)
         {
-            SharpRenderer.SetFar((float)NumericDrawD.Value);
+            SharpRenderer.far = (float)NumericDrawD.Value;
         }
 
         private void NumericFOV_ValueChanged(object sender, EventArgs e)
         {
             if (NumericFOV.Value < 1)
                 NumericFOV.Value = 1;
-            SharpRenderer.SetFOV(MathUtil.DegreesToRadians((float)NumericFOV.Value));
+            SharpRenderer.fov = MathUtil.DegreesToRadians((float)NumericFOV.Value);
         }
 
         private void NumericQuadHeight_ValueChanged(object sender, EventArgs e)

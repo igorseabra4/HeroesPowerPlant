@@ -80,6 +80,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 {
                     var config = ProjectConfig.Open(LastProjectPath);
                     ProjectConfig.ApplyInstance(config);
+                    Program.MainForm.currentSavePath = LastProjectPath;
                 }
             }
 

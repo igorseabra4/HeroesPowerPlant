@@ -23,9 +23,13 @@ namespace HeroesPowerPlant.LevelEditor
             }
         }
 
-        public static void setSelectedChunkColor(System.Drawing.Color color)
+        public static void SetSelectedChunkColor(System.Drawing.Color color)
         {
-            Vector4 newColor = new SharpDX.Color(color.R, color.G, color.B).ToVector4();
+            SetSelectedChunkColor(new SharpDX.Color(color.R, color.G, color.B).ToVector4());
+        }
+
+        public static void SetSelectedChunkColor(Vector4 newColor)
+        {
             newColor.W = Chunk.selectedChunkColor.W;
             Chunk.selectedChunkColor = newColor;
         }

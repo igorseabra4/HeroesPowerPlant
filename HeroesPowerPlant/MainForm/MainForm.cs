@@ -19,8 +19,14 @@ namespace HeroesPowerPlant.MainForm
 
             new SharpRenderer(renderPanel);
         }
-        
-        private string currentSavePath;
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            var hppConfig = HPPConfig.GetInstance();
+            hppConfig.Load();
+        }
+
+        public string currentSavePath;
 
         private void ToolstripFileOpen(object sender, EventArgs e)
         {
@@ -78,6 +84,63 @@ namespace HeroesPowerPlant.MainForm
         private void clearObjectONEsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DFFRenderer.ClearObjectONEFiles();
+        }
+
+        public void ApplyConfig(ProjectConfig.RenderOptions renderingOptions)
+        {
+            noCullingCToolStripMenuItem.Checked = renderingOptions.NoCulling;
+            if (noCullingCToolStripMenuItem.Checked)
+                SharpRenderer.device.SetNormalCullMode(CullMode.None);
+            else
+                SharpRenderer.device.SetNormalCullMode(CullMode.Back);
+
+            wireframeFToolStripMenuItem.Checked = renderingOptions.Wireframe;
+            if (wireframeFToolStripMenuItem.Checked)
+                SharpRenderer.device.SetNormalFillMode(FillMode.Wireframe);
+            else
+                SharpRenderer.device.SetNormalFillMode(FillMode.Solid);
+
+            SharpRenderer.backgroundColor = new Color(
+                renderingOptions.BackgroundColor.X,
+                renderingOptions.BackgroundColor.Y,
+                renderingOptions.BackgroundColor.Z,
+                renderingOptions.BackgroundColor.W);
+
+            SharpRenderer.selectedColor = new Vector4(
+                renderingOptions.SelectionColor.X,
+                renderingOptions.SelectionColor.Y,
+                renderingOptions.SelectionColor.Z,
+                SharpRenderer.selectedColor.W);
+            SharpRenderer.selectedObjectColor = new Vector4(
+                renderingOptions.SelectionColor.X,
+                renderingOptions.SelectionColor.Y,
+                renderingOptions.SelectionColor.Z,
+                SharpRenderer.selectedObjectColor.W);
+            LevelEditor.VisibilityFunctions.SetSelectedChunkColor(renderingOptions.SelectionColor);
+
+            startPosToolStripMenuItem.Checked = renderingOptions.ShowStartPos;
+            SharpRenderer.ShowStartPositions = startPosToolStripMenuItem.Checked;
+
+            splinesToolStripMenuItem.Checked = renderingOptions.ShowSplines;
+            SharpRenderer.ShowSplines = splinesToolStripMenuItem.Checked;
+
+            renderByChunkToolStripMenuItem.Checked = renderingOptions.RenderByChunk;
+            BSPRenderer.renderByChunk = renderByChunkToolStripMenuItem.Checked;
+
+            chunkBoxesToolStripMenuItem.Checked = renderingOptions.ShowChunkBoxes;
+            SharpRenderer.ShowChunkBoxes = chunkBoxesToolStripMenuItem.Checked;
+
+            showCollisionXToolStripMenuItem.Checked = renderingOptions.ShowCollision;
+            SharpRenderer.ShowCollision = showCollisionXToolStripMenuItem.Checked;
+
+            showQuadtreeTToolStripMenuItem.Checked = renderingOptions.ShowQuadtree;
+            SharpRenderer.ShowQuadtree = showQuadtreeTToolStripMenuItem.Checked;
+
+            showObjectsGToolStripMenuItem.CheckState = renderingOptions.ShowObjects;
+            SharpRenderer.ShowObjects = showObjectsGToolStripMenuItem.CheckState;
+
+            camerasVToolStripMenuItem.Checked = renderingOptions.ShowCameras;
+            SharpRenderer.ShowCameras = camerasVToolStripMenuItem.Checked;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -337,20 +400,20 @@ namespace HeroesPowerPlant.MainForm
             {
                 SharpRenderer.selectedObjectColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedObjectColor.W);
                 SharpRenderer.selectedColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedColor.W);
-                LevelEditor.VisibilityFunctions.setSelectedChunkColor(colorDialog.Color);
+                LevelEditor.VisibilityFunctions.SetSelectedChunkColor(colorDialog.Color);
             }
         }
 
         private void objectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SharpRenderer.SetMouseModeObjects(true);
+            SharpRenderer.MouseModeObjects = true;
             objectsToolStripMenuItem.Checked = true;
             camerasToolStripMenuItem.Checked = false;
         }
         
         private void camerasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SharpRenderer.SetMouseModeObjects(false);
+            SharpRenderer.MouseModeObjects = false;
             camerasToolStripMenuItem.Checked = true;
             objectsToolStripMenuItem.Checked = false;
         }
@@ -362,8 +425,8 @@ namespace HeroesPowerPlant.MainForm
 
         private void ToggleStartPos()
         {
-            startPosYToolStripMenuItem.Checked = !startPosYToolStripMenuItem.Checked;
-            SharpRenderer.SetShowStartPos(startPosYToolStripMenuItem.Checked);
+            startPosToolStripMenuItem.Checked = !startPosToolStripMenuItem.Checked;
+            SharpRenderer.ShowStartPositions = startPosToolStripMenuItem.Checked;
         }
 
         private void splinesUToolStripMenuItem_Click(object sender, EventArgs e)
@@ -373,8 +436,8 @@ namespace HeroesPowerPlant.MainForm
 
         private void ToggleSplines()
         {
-            splinesUToolStripMenuItem.Checked = !splinesUToolStripMenuItem.Checked;
-            SharpRenderer.SetSplines(splinesUToolStripMenuItem.Checked);
+            splinesToolStripMenuItem.Checked = !splinesToolStripMenuItem.Checked;
+            SharpRenderer.ShowSplines = splinesToolStripMenuItem.Checked;
         }
 
         private void renderByChunkHToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,8 +447,8 @@ namespace HeroesPowerPlant.MainForm
         
         public void ToggleRenderByChunk()
         {
-            renderByChunkHToolStripMenuItem.Checked = !renderByChunkHToolStripMenuItem.Checked;
-            BSPRenderer.SetRenderByChunk(renderByChunkHToolStripMenuItem.Checked);
+            renderByChunkToolStripMenuItem.Checked = !renderByChunkToolStripMenuItem.Checked;
+            BSPRenderer.renderByChunk = renderByChunkToolStripMenuItem.Checked;
         }
         
         private void chunkBoxesBToolStripMenuItem_Click(object sender, EventArgs e)
@@ -395,8 +458,8 @@ namespace HeroesPowerPlant.MainForm
 
         private void ToggleChunkBoxes()
         {
-            chunkBoxesBToolStripMenuItem.Checked = !chunkBoxesBToolStripMenuItem.Checked;
-            SharpRenderer.SetChunkBoxes(chunkBoxesBToolStripMenuItem.Checked);
+            chunkBoxesToolStripMenuItem.Checked = !chunkBoxesToolStripMenuItem.Checked;
+            SharpRenderer.ShowChunkBoxes = chunkBoxesToolStripMenuItem.Checked;
         }
 
         private void showCollisionXToolStripMenuItem_Click(object sender, EventArgs e)
@@ -407,7 +470,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleShowCollision()
         {
             showCollisionXToolStripMenuItem.Checked = !showCollisionXToolStripMenuItem.Checked;
-            SharpRenderer.SetShowCollision(showCollisionXToolStripMenuItem.Checked);
+            SharpRenderer.ShowCollision = showCollisionXToolStripMenuItem.Checked;
         }
 
         private void showQuadtreeTToolStripMenuItem_Click(object sender, EventArgs e)
@@ -418,7 +481,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleShowQuadtree()
         {
             showQuadtreeTToolStripMenuItem.Checked = !showQuadtreeTToolStripMenuItem.Checked;
-            SharpRenderer.SetShowQuadtree(showQuadtreeTToolStripMenuItem.Checked);
+            SharpRenderer.ShowQuadtree = showQuadtreeTToolStripMenuItem.Checked;
         }
 
         private void showObjectsGToolStripMenuItem_Click(object sender, EventArgs e)
@@ -437,7 +500,7 @@ namespace HeroesPowerPlant.MainForm
             else if (showObjectsGToolStripMenuItem.CheckState == CheckState.Unchecked)
                 showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
 
-            SharpRenderer.SetShowObjects(showObjectsGToolStripMenuItem.CheckState);
+            SharpRenderer.ShowObjects = showObjectsGToolStripMenuItem.CheckState;
         }
 
         private void camerasVToolStripMenuItem_Click(object sender, EventArgs e)
@@ -448,7 +511,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleShowCameras()
         {
             camerasVToolStripMenuItem.Checked = !camerasVToolStripMenuItem.Checked;
-            SharpRenderer.SetShowCameras(camerasVToolStripMenuItem.Checked);
+            SharpRenderer.ShowCameras = camerasVToolStripMenuItem.Checked;
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -498,12 +561,6 @@ namespace HeroesPowerPlant.MainForm
         {
             autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = value;
             HPPConfig.GetInstance().AutomaticallyLoadLastConfig = value;
-        }
-        
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            var hppConfig = HPPConfig.GetInstance();
-            hppConfig.Load();
         }
     }
 }

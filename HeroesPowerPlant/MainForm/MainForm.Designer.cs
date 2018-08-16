@@ -58,10 +58,10 @@ namespace HeroesPowerPlant.MainForm
             this.mouseModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.camerasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startPosYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splinesUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.renderByChunkHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chunkBoxesBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startPosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renderByChunkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chunkBoxesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCollisionXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showQuadtreeTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showObjectsGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -231,10 +231,10 @@ namespace HeroesPowerPlant.MainForm
             this.selectionColorToolStripMenuItem,
             this.toolStripSeparator3,
             this.mouseModeToolStripMenuItem,
-            this.startPosYToolStripMenuItem,
-            this.splinesUToolStripMenuItem,
-            this.renderByChunkHToolStripMenuItem,
-            this.chunkBoxesBToolStripMenuItem,
+            this.startPosToolStripMenuItem,
+            this.splinesToolStripMenuItem,
+            this.renderByChunkToolStripMenuItem,
+            this.chunkBoxesToolStripMenuItem,
             this.showCollisionXToolStripMenuItem,
             this.showQuadtreeTToolStripMenuItem,
             this.showObjectsGToolStripMenuItem,
@@ -306,37 +306,37 @@ namespace HeroesPowerPlant.MainForm
             // 
             // startPosYToolStripMenuItem
             // 
-            this.startPosYToolStripMenuItem.Checked = true;
-            this.startPosYToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.startPosYToolStripMenuItem.Name = "startPosYToolStripMenuItem";
-            this.startPosYToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.startPosYToolStripMenuItem.Text = "Start Pos (Y)";
-            this.startPosYToolStripMenuItem.Click += new System.EventHandler(this.startPosYToolStripMenuItem_Click);
+            this.startPosToolStripMenuItem.Checked = true;
+            this.startPosToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.startPosToolStripMenuItem.Name = "startPosYToolStripMenuItem";
+            this.startPosToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.startPosToolStripMenuItem.Text = "Start Pos (Y)";
+            this.startPosToolStripMenuItem.Click += new System.EventHandler(this.startPosYToolStripMenuItem_Click);
             // 
             // splinesUToolStripMenuItem
             // 
-            this.splinesUToolStripMenuItem.Checked = true;
-            this.splinesUToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.splinesUToolStripMenuItem.Name = "splinesUToolStripMenuItem";
-            this.splinesUToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.splinesUToolStripMenuItem.Text = "Splines (U)";
-            this.splinesUToolStripMenuItem.Click += new System.EventHandler(this.splinesUToolStripMenuItem_Click);
+            this.splinesToolStripMenuItem.Checked = true;
+            this.splinesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.splinesToolStripMenuItem.Name = "splinesUToolStripMenuItem";
+            this.splinesToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.splinesToolStripMenuItem.Text = "Splines (U)";
+            this.splinesToolStripMenuItem.Click += new System.EventHandler(this.splinesUToolStripMenuItem_Click);
             // 
             // renderByChunkHToolStripMenuItem
             // 
-            this.renderByChunkHToolStripMenuItem.Checked = true;
-            this.renderByChunkHToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.renderByChunkHToolStripMenuItem.Name = "renderByChunkHToolStripMenuItem";
-            this.renderByChunkHToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.renderByChunkHToolStripMenuItem.Text = "Render By Chunk (H)";
-            this.renderByChunkHToolStripMenuItem.Click += new System.EventHandler(this.renderByChunkHToolStripMenuItem_Click);
+            this.renderByChunkToolStripMenuItem.Checked = true;
+            this.renderByChunkToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.renderByChunkToolStripMenuItem.Name = "renderByChunkHToolStripMenuItem";
+            this.renderByChunkToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.renderByChunkToolStripMenuItem.Text = "Render By Chunk (H)";
+            this.renderByChunkToolStripMenuItem.Click += new System.EventHandler(this.renderByChunkHToolStripMenuItem_Click);
             // 
             // chunkBoxesBToolStripMenuItem
             // 
-            this.chunkBoxesBToolStripMenuItem.Name = "chunkBoxesBToolStripMenuItem";
-            this.chunkBoxesBToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.chunkBoxesBToolStripMenuItem.Text = "Chunk Boxes (B)";
-            this.chunkBoxesBToolStripMenuItem.Click += new System.EventHandler(this.chunkBoxesBToolStripMenuItem_Click);
+            this.chunkBoxesToolStripMenuItem.Name = "chunkBoxesBToolStripMenuItem";
+            this.chunkBoxesToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.chunkBoxesToolStripMenuItem.Text = "Chunk Boxes (B)";
+            this.chunkBoxesToolStripMenuItem.Click += new System.EventHandler(this.chunkBoxesBToolStripMenuItem_Click);
             // 
             // showCollisionXToolStripMenuItem
             // 
@@ -485,10 +485,10 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem showQuadtreeTToolStripMenuItem;
         private ToolStripMenuItem showObjectsGToolStripMenuItem;
         private ToolStripMenuItem camerasVToolStripMenuItem;
-        private ToolStripMenuItem startPosYToolStripMenuItem;
-        private ToolStripMenuItem splinesUToolStripMenuItem;
-        private ToolStripMenuItem chunkBoxesBToolStripMenuItem;
-        private ToolStripMenuItem renderByChunkHToolStripMenuItem;
+        private ToolStripMenuItem startPosToolStripMenuItem;
+        private ToolStripMenuItem splinesToolStripMenuItem;
+        private ToolStripMenuItem chunkBoxesToolStripMenuItem;
+        private ToolStripMenuItem renderByChunkToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem vSyncToolStripMenuItem;
         private ToolStripMenuItem selectionColorToolStripMenuItem;

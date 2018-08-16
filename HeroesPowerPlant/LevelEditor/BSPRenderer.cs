@@ -120,12 +120,7 @@ namespace HeroesPowerPlant
         }
 
         public static bool renderByChunk = true;
-
-        public static void SetRenderByChunk(bool value)
-        {
-            renderByChunk = value;
-        }
-        
+                
         // Rendering functions
         
         public static void RenderLevelModel(Matrix viewProjection)

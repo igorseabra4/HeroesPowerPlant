@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using HeroesPowerPlant.LevelEditor;
 using HeroesPowerPlant.CollisionEditor;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
-using System;
 
 namespace HeroesPowerPlant
 {
@@ -17,10 +16,10 @@ namespace HeroesPowerPlant
         public static SharpCamera Camera = new SharpCamera();
         public static SharpFPS sharpFPS;
 
-        private static float fovAngle = 0.785398F;
+        public static float fov { get; set; } = 0.785398F;
         private static float aspectRatio;
         private static float near = 0.1f;
-        private static float far = 500000F;
+        public static float far { get; set; } = 500000F;
         
         public SharpRenderer(Control control)
         {
@@ -198,79 +197,19 @@ namespace HeroesPowerPlant
             Sphere.Draw();
         }
 
-        private static bool showStartPositions = true;
-        private static bool showSplines = true;
-        private static bool showChunkBoxes = false;
-        private static bool showCollision = false;
-        private static bool showQuadtree = false;
-        private static CheckState showObjects = CheckState.Indeterminate;
-        private static bool showCameras = true;
-        private static bool mouseModeObjects = true;
-
-        public static void SetShowStartPos(bool value)
-        {
-            showStartPositions = value;
-        }
-
-        public static void SetSplines(bool value)
-        {
-            showSplines = value;
-        }
-
-        public static void SetChunkBoxes(bool value)
-        {
-            showChunkBoxes = value;
-        }
-
-        public static void SetShowCollision(bool value)
-        {
-            showCollision = value;
-        }
-
-        public static void SetShowQuadtree(bool value)
-        {
-            showQuadtree = value;
-        }
-
-        public static void SetShowObjects(CheckState checkState)
-        {
-            showObjects = checkState;
-        }
-
-        public static void SetShowCameras(bool value)
-        {
-            showCameras = value;
-        }
-
-        public static void SetMouseModeObjects(bool value)
-        {
-            mouseModeObjects = value;
-        }
-
-        public static float GetFar()
-        {
-            return far;
-        }
-
-        public static void SetFar(float value)
-        {
-            far = value;
-        }
-
-        public static float GetFOV()
-        {
-            return fovAngle;
-        }
-
-        public static void SetFOV(float value)
-        {
-            fovAngle = value;
-        }
-
-        public static SharpMesh Cube;
-        public static SharpMesh Cylinder;
-        public static SharpMesh Pyramid;
-        public static SharpMesh Sphere;
+        public static bool ShowStartPositions { get; set; } = true;
+        public static bool ShowSplines { get; set; } = true;
+        public static bool ShowChunkBoxes { get; set; } = false;
+        public static bool ShowCollision { get; set; } = false;
+        public static bool ShowQuadtree { get; set; } = false;
+        public static CheckState ShowObjects { get; set; } = CheckState.Indeterminate;
+        public static bool ShowCameras { get; set; } = true;
+        public static bool MouseModeObjects { get; set; } = true;
+        
+        public static SharpMesh Cube { get; private set; }
+        public static SharpMesh Cylinder { get; private set; }
+        public static SharpMesh Pyramid { get; private set; }
+        public static SharpMesh Sphere { get; private set; }
 
         public static List<Vector3> cubeVertices;
 
@@ -312,7 +251,7 @@ namespace HeroesPowerPlant
         public static void ScreenClicked(Rectangle viewRectangle, int X, int Y)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
-            if (mouseModeObjects)
+            if (MouseModeObjects)
                 Program.LayoutEditor.ScreenClicked(ray);
             else
                 Program.CameraEditor.ScreenClicked(ray);
@@ -344,10 +283,10 @@ namespace HeroesPowerPlant
                 device.Clear(backgroundColor);
 
                 //Set matrices
-                viewProjection = Camera.GenerateLookAtRH() * Matrix.PerspectiveFovRH(fovAngle, aspectRatio, near, far);
+                viewProjection = Camera.GenerateLookAtRH() * Matrix.PerspectiveFovRH(fov, aspectRatio, near, far);
                 frustum = new BoundingFrustum(viewProjection);
 
-                if (showCollision)
+                if (ShowCollision)
                 {
                     CollisionRendering.RenderCollisionModel(viewProjection, -Camera.GetForward(), Camera.GetUp());
                     BSPRenderer.RenderShadowCollisionModel(viewProjection);
@@ -355,24 +294,24 @@ namespace HeroesPowerPlant
                 else
                     BSPRenderer.RenderLevelModel(viewProjection);
 
-                if (showChunkBoxes)
+                if (ShowChunkBoxes)
                     VisibilityFunctions.RenderChunkModels(viewProjection);
 
-                if (showObjects == CheckState.Checked)
+                if (ShowObjects == CheckState.Checked)
                     Program.LayoutEditor.RenderSetObjects(true);
-                else if (showObjects == CheckState.Indeterminate)
+                else if (ShowObjects == CheckState.Indeterminate)
                     Program.LayoutEditor.RenderSetObjects(false);
 
-                if (showCameras)
+                if (ShowCameras)
                     Program.CameraEditor.RenderCameras();
 
-                if (showStartPositions)
+                if (ShowStartPositions)
                     Program.ConfigEditor.RenderStartPositions();
 
-                if (showSplines)
+                if (ShowSplines)
                     Program.SplineEditor.RenderSplines();
 
-                if (showQuadtree)
+                if (ShowQuadtree)
                     CollisionRendering.RenderQuadTree();
 
                 //present

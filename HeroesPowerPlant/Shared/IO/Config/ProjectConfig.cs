@@ -44,18 +44,18 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public class RenderOptions
         {
             public float QuadtreeHeight { get; set; }
-            public bool  NoCulling { get; set; }
-            public bool  Wireframe { get; set; }
-            public bool  ShowStartPos { get; set; }
-            public bool  ShowSplines { get; set; }
-            public bool  RenderByChunk { get; set; }
-            public bool  ShowChunkBoxes { get; set; }
-            public bool  ShowCollision { get; set; }
-            public bool  ShowQuadtree { get; set; }
-            public bool  ShowObjects { get; set; }
-            public bool  ShowCameras { get; set; }
-            public Vector4 BackgroundColour { get; set; }
-            public Vector4 SelectionColour  { get; set; }
+            public bool NoCulling { get; set; }
+            public bool Wireframe { get; set; }
+            public bool ShowStartPos { get; set; }
+            public bool ShowSplines { get; set; }
+            public bool RenderByChunk { get; set; }
+            public bool ShowChunkBoxes { get; set; }
+            public bool ShowCollision { get; set; }
+            public bool ShowQuadtree { get; set; }
+            public CheckState ShowObjects { get; set; }
+            public bool ShowCameras { get; set; }
+            public Vector4 BackgroundColor { get; set; }
+            public Vector4 SelectionColor  { get; set; }
         }
 
         /*
@@ -109,15 +109,34 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 CameraEditorPath = Program.CameraEditor.CurrentCameraFile,
                 ParticleEditorPath = Program.ParticleEditor.GetCurrentlyOpenParticleFile(),
                 TexturePatternEditorPath = Program.TexturePatternEditor.CurrentlyOpenTXC,
+
                 DFFONEPaths = DFFRenderer.filePaths,
+
                 CameraSettings = new Camera()
                 {
                     CameraPosition = SharpRenderer.Camera.GetPosition(),
                     Pitch = SharpRenderer.Camera.Pitch,
                     Speed = SharpRenderer.Camera.Speed,
                     Yaw   = SharpRenderer.Camera.Yaw,
-                    FieldOfView = SharpRenderer.GetFOV(),
-                    DrawDistance = SharpRenderer.GetFar()
+                    FieldOfView = SharpRenderer.fov,
+                    DrawDistance = SharpRenderer.far
+                },
+
+                RenderingOptions = new RenderOptions()
+                {
+                    QuadtreeHeight = (float)Program.ViewConfig.NumericQuadHeight.Value,
+                    NoCulling = SharpRenderer.device.GetCullMode() == SharpDX.Direct3D11.CullMode.None,
+                    Wireframe = SharpRenderer.device.GetFillMode() == SharpDX.Direct3D11.FillMode.Wireframe,
+                    ShowStartPos = SharpRenderer.ShowStartPositions,
+                    ShowSplines = SharpRenderer.ShowSplines,
+                    RenderByChunk = BSPRenderer.renderByChunk,
+                    ShowChunkBoxes = SharpRenderer.ShowChunkBoxes,
+                    ShowCollision = SharpRenderer.ShowCollision,
+                    ShowQuadtree = SharpRenderer.ShowQuadtree,
+                    ShowObjects = SharpRenderer.ShowObjects,
+                    ShowCameras = SharpRenderer.ShowCameras,
+                    BackgroundColor = SharpRenderer.backgroundColor,
+                    SelectionColor = SharpRenderer.selectedColor,
                 }
             };
         }
@@ -148,12 +167,18 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 SharpRenderer.Camera.SetPosition(config.CameraSettings.CameraPosition);
                 SharpRenderer.Camera.SetRotation(config.CameraSettings.Pitch, config.CameraSettings.Yaw);
                 SharpRenderer.Camera.SetSpeed(config.CameraSettings.Speed);
-                SharpRenderer.SetFOV(config.CameraSettings.FieldOfView);
-                SharpRenderer.SetFar(config.CameraSettings.DrawDistance);
+                SharpRenderer.fov = config.CameraSettings.FieldOfView;
+                SharpRenderer.far = config.CameraSettings.DrawDistance;
             }
 
             DFFRenderer.ClearObjectONEFiles();
             DFFRenderer.AddDFFFiles(config.DFFONEPaths);
+
+            if (config.RenderingOptions != null)
+            {
+                Program.MainForm.ApplyConfig(config.RenderingOptions);
+                Program.ViewConfig.NumericQuadHeight.Value = (decimal)config.RenderingOptions.QuadtreeHeight;
+            }
         }
 
         /// <summary>

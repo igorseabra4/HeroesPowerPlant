@@ -279,7 +279,12 @@ namespace HeroesPowerPlant
         {
             currentFillMode = FillMode.Wireframe;
         }
-        
+
+        public CullMode GetCullMode()
+        {
+            return normalCullMode;
+        }
+
         public FillMode GetFillMode()
         {
             return normalFillMode;
