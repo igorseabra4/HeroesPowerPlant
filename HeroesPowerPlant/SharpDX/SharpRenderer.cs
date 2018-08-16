@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using HeroesPowerPlant.LevelEditor;
 using HeroesPowerPlant.CollisionEditor;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
+using System;
 
 namespace HeroesPowerPlant
 {
@@ -16,7 +17,7 @@ namespace HeroesPowerPlant
         public static SharpCamera Camera = new SharpCamera();
         public static SharpFPS sharpFPS;
 
-        public static float fov { get; set; } = 0.785398F;
+        public static float fov { get; set; } = MathUtil.Pi / 4;
         private static float aspectRatio;
         private static float near = 0.1f;
         public static float far { get; set; } = 500000F;
@@ -28,6 +29,8 @@ namespace HeroesPowerPlant
                 MessageBox.Show("DirectX11 Not Supported");
                 return;
             }
+
+            ResetColors();
 
             device = new SharpDevice(control);
             LoadModels();
@@ -123,9 +126,17 @@ namespace HeroesPowerPlant
 
         private static DefaultRenderData cubeRenderData;
 
-        public static Vector4 normalColor = new Vector4(0.2f, 0.6f, 0.8f, 0.8f);
-        public static Vector4 selectedColor = new Vector4(1f, 0.5f, 0.1f, 0.8f);
-        public static Vector4 selectedObjectColor = new Vector4(1f, 0.4f, 0.4f, 1f);
+        public static Vector4 normalColor;
+        public static Vector4 selectedColor;
+        public static Vector4 selectedObjectColor;
+
+        public static void ResetColors()
+        {
+            normalColor = new Vector4(0.2f, 0.6f, 0.8f, 0.8f);
+            selectedColor = new Vector4(1f, 0.5f, 0.1f, 0.8f);
+            selectedObjectColor = new Vector4(1f, 0.4f, 0.4f, 1f);
+            backgroundColor = new Color4(0.05f, 0.05f, 0.15f, 1f);
+    }
 
         public static void DrawCubeTrigger(Matrix world, bool isSelected)
         {
@@ -258,7 +269,7 @@ namespace HeroesPowerPlant
         }
 
         public static Matrix viewProjection;
-        public static Color4 backgroundColor = new Color4(0.05f, 0.05f, 0.15f, 1f);
+        public static Color4 backgroundColor;
         public static bool dontRender = false;
         public static BoundingFrustum frustum;
 

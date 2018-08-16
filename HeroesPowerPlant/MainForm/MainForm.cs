@@ -404,6 +404,11 @@ namespace HeroesPowerPlant.MainForm
             }
         }
 
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SharpRenderer.ResetColors();
+        }
+
         private void objectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SharpRenderer.MouseModeObjects = true;

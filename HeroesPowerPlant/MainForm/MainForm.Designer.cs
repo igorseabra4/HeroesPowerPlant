@@ -49,11 +49,14 @@ namespace HeroesPowerPlant.MainForm
             this.splineEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.particleEditorF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.texturePatternEditorF9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noCullingCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframeFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.BackgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectionColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundColorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectionColorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.mouseModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +75,6 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.texturePatternEditorF9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -222,13 +224,19 @@ namespace HeroesPowerPlant.MainForm
             this.particleEditorF8ToolStripMenuItem.Text = "Particle Editor (F8)";
             this.particleEditorF8ToolStripMenuItem.Click += new System.EventHandler(this.particleEditorF8ToolStripMenuItem_Click);
             // 
+            // texturePatternEditorF9ToolStripMenuItem
+            // 
+            this.texturePatternEditorF9ToolStripMenuItem.Name = "texturePatternEditorF9ToolStripMenuItem";
+            this.texturePatternEditorF9ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.texturePatternEditorF9ToolStripMenuItem.Text = "Texture Pattern Editor (F9)";
+            this.texturePatternEditorF9ToolStripMenuItem.Click += new System.EventHandler(this.texturePatternEditorF9ToolStripMenuItem_Click);
+            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.noCullingCToolStripMenuItem,
             this.wireframeFToolStripMenuItem,
-            this.BackgroundColorToolStripMenuItem,
-            this.selectionColorToolStripMenuItem,
+            this.colorsToolStripMenuItem,
             this.toolStripSeparator3,
             this.mouseModeToolStripMenuItem,
             this.startPosToolStripMenuItem,
@@ -260,19 +268,36 @@ namespace HeroesPowerPlant.MainForm
             this.wireframeFToolStripMenuItem.Text = "Wireframe (F)";
             this.wireframeFToolStripMenuItem.Click += new System.EventHandler(this.wireframeFToolStripMenuItem_Click);
             // 
-            // BackgroundColorToolStripMenuItem
+            // colorsToolStripMenuItem
             // 
-            this.BackgroundColorToolStripMenuItem.Name = "BackgroundColorToolStripMenuItem";
-            this.BackgroundColorToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.BackgroundColorToolStripMenuItem.Text = "Background Color...";
-            this.BackgroundColorToolStripMenuItem.Click += new System.EventHandler(this.BackgroundColorToolStripMenuItem_Click);
+            this.colorsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.backgroundColorToolStripMenuItem1,
+            this.selectionColorToolStripMenuItem1,
+            this.resetToolStripMenuItem});
+            this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
+            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.colorsToolStripMenuItem.Text = "Colors";
             // 
-            // selectionColorToolStripMenuItem
+            // backgroundColorToolStripMenuItem1
             // 
-            this.selectionColorToolStripMenuItem.Name = "selectionColorToolStripMenuItem";
-            this.selectionColorToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.selectionColorToolStripMenuItem.Text = "Selection Color...";
-            this.selectionColorToolStripMenuItem.Click += new System.EventHandler(this.selectionColorToolStripMenuItem_Click);
+            this.backgroundColorToolStripMenuItem1.Name = "backgroundColorToolStripMenuItem1";
+            this.backgroundColorToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.backgroundColorToolStripMenuItem1.Text = "Background Color...";
+            this.backgroundColorToolStripMenuItem1.Click += new System.EventHandler(this.BackgroundColorToolStripMenuItem_Click);
+            // 
+            // selectionColorToolStripMenuItem1
+            // 
+            this.selectionColorToolStripMenuItem1.Name = "selectionColorToolStripMenuItem1";
+            this.selectionColorToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.selectionColorToolStripMenuItem1.Text = "Selection Color...";
+            this.selectionColorToolStripMenuItem1.Click += new System.EventHandler(this.selectionColorToolStripMenuItem_Click);
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -304,36 +329,36 @@ namespace HeroesPowerPlant.MainForm
             this.camerasToolStripMenuItem.Text = "Cameras";
             this.camerasToolStripMenuItem.Click += new System.EventHandler(this.camerasToolStripMenuItem_Click);
             // 
-            // startPosYToolStripMenuItem
+            // startPosToolStripMenuItem
             // 
             this.startPosToolStripMenuItem.Checked = true;
             this.startPosToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.startPosToolStripMenuItem.Name = "startPosYToolStripMenuItem";
+            this.startPosToolStripMenuItem.Name = "startPosToolStripMenuItem";
             this.startPosToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.startPosToolStripMenuItem.Text = "Start Pos (Y)";
             this.startPosToolStripMenuItem.Click += new System.EventHandler(this.startPosYToolStripMenuItem_Click);
             // 
-            // splinesUToolStripMenuItem
+            // splinesToolStripMenuItem
             // 
             this.splinesToolStripMenuItem.Checked = true;
             this.splinesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.splinesToolStripMenuItem.Name = "splinesUToolStripMenuItem";
+            this.splinesToolStripMenuItem.Name = "splinesToolStripMenuItem";
             this.splinesToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.splinesToolStripMenuItem.Text = "Splines (U)";
             this.splinesToolStripMenuItem.Click += new System.EventHandler(this.splinesUToolStripMenuItem_Click);
             // 
-            // renderByChunkHToolStripMenuItem
+            // renderByChunkToolStripMenuItem
             // 
             this.renderByChunkToolStripMenuItem.Checked = true;
             this.renderByChunkToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.renderByChunkToolStripMenuItem.Name = "renderByChunkHToolStripMenuItem";
+            this.renderByChunkToolStripMenuItem.Name = "renderByChunkToolStripMenuItem";
             this.renderByChunkToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.renderByChunkToolStripMenuItem.Text = "Render By Chunk (H)";
             this.renderByChunkToolStripMenuItem.Click += new System.EventHandler(this.renderByChunkHToolStripMenuItem_Click);
             // 
-            // chunkBoxesBToolStripMenuItem
+            // chunkBoxesToolStripMenuItem
             // 
-            this.chunkBoxesToolStripMenuItem.Name = "chunkBoxesBToolStripMenuItem";
+            this.chunkBoxesToolStripMenuItem.Name = "chunkBoxesToolStripMenuItem";
             this.chunkBoxesToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.chunkBoxesToolStripMenuItem.Text = "Chunk Boxes (B)";
             this.chunkBoxesToolStripMenuItem.Click += new System.EventHandler(this.chunkBoxesBToolStripMenuItem_Click);
@@ -420,13 +445,6 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
-            // texturePatternEditorF9ToolStripMenuItem
-            // 
-            this.texturePatternEditorF9ToolStripMenuItem.Name = "texturePatternEditorF9ToolStripMenuItem";
-            this.texturePatternEditorF9ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.texturePatternEditorF9ToolStripMenuItem.Text = "Texture Pattern Editor (F9)";
-            this.texturePatternEditorF9ToolStripMenuItem.Click += new System.EventHandler(this.texturePatternEditorF9ToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -479,7 +497,6 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem optionsToolStripMenuItem;
         private ToolStripMenuItem noCullingCToolStripMenuItem;
         private ToolStripMenuItem wireframeFToolStripMenuItem;
-        private ToolStripMenuItem BackgroundColorToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem showCollisionXToolStripMenuItem;
         private ToolStripMenuItem showQuadtreeTToolStripMenuItem;
@@ -491,13 +508,16 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem renderByChunkToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripMenuItem vSyncToolStripMenuItem;
-        private ToolStripMenuItem selectionColorToolStripMenuItem;
         private ToolStripMenuItem mouseModeToolStripMenuItem;
         private ToolStripMenuItem objectsToolStripMenuItem;
         private ToolStripMenuItem camerasToolStripMenuItem;
         private ToolStripMenuItem autoLoadLastProjectOnLaunchToolStripMenuItem;
         private ToolStripMenuItem particleEditorF8ToolStripMenuItem;
         private ToolStripMenuItem texturePatternEditorF9ToolStripMenuItem;
+        private ToolStripMenuItem colorsToolStripMenuItem;
+        private ToolStripMenuItem backgroundColorToolStripMenuItem1;
+        private ToolStripMenuItem selectionColorToolStripMenuItem1;
+        private ToolStripMenuItem resetToolStripMenuItem;
     }
 }
 
