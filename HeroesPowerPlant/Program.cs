@@ -17,7 +17,7 @@ namespace HeroesPowerPlant
         public static LayoutEditor.LayoutEditor LayoutEditor;
         public static SplineEditor SplineEditor;
         public static CameraEditor.CameraEditor CameraEditor;
-        public static ParticleEditor.ParticleEditor ParticleEditor;
+        public static ParticleEditor.ParticleMenu ParticleEditor;
         public static TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace HeroesPowerPlant
             LayoutEditor = new LayoutEditor.LayoutEditor();
             SplineEditor = new SplineEditor();
             CameraEditor = new CameraEditor.CameraEditor();
-            ParticleEditor = new ParticleEditor.ParticleEditor();
+            ParticleEditor = new ParticleEditor.ParticleMenu();
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
 
             Application.Run(MainForm);
