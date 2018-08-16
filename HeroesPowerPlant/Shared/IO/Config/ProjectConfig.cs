@@ -79,6 +79,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public static ProjectConfig Open(string filePath)
         {
             string fileText = File.ReadAllText(filePath);
+            HPPConfig.GetInstance().LastProjectPath = filePath;
             return JsonConvert.DeserializeObject<ProjectConfig>(fileText);
         }
 

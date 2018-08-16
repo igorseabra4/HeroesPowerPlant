@@ -40,7 +40,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (isSelected)
                     renderData.Color = selectedObjectColor;
                 else
-                    renderData.Color = Vector4.Zero;
+                    renderData.Color = Vector4.One;
 
                 device.SetFillModeDefault();
                 device.SetCullModeDefault();

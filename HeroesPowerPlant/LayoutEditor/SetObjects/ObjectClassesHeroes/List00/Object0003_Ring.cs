@@ -64,10 +64,10 @@ namespace HeroesPowerPlant.LayoutEditor
             if (DFFRenderer.DFFStream.ContainsKey(modelNames[0]))
             {
                 if (isSelected)
-                    renderData.Color = selectedColor;
+                    renderData.Color = selectedObjectColor;
                 else
-                    renderData.Color = normalColor;
-
+                    renderData.Color = Vector4.One;
+                
                 device.SetCullModeDefault();
                 device.SetDefaultBlendState();
                 device.ApplyRasterState();

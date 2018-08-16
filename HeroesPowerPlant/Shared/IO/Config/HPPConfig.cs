@@ -56,7 +56,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// </summary>
         public HPPConfig Load()
         {
-            if (! File.Exists(ConfigPath))
+            if (!File.Exists(ConfigPath))
                 Save();
 
             string fileText = File.ReadAllText(ConfigPath);
@@ -88,10 +88,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
             else
                 Program.MainForm.DisableVSync(); // In case the program default ever changes.
 
-            if (AutomaticallyLoadLastConfig)
-                Program.MainForm.EnableAutoLoadLastProject();
-            else
-                Program.MainForm.DisableAutoLoadLastProject();
+            Program.MainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);
         }
     }
 }

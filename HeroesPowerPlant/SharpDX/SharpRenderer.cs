@@ -126,7 +126,7 @@ namespace HeroesPowerPlant
 
         public static Vector4 normalColor = new Vector4(0.2f, 0.6f, 0.8f, 0.8f);
         public static Vector4 selectedColor = new Vector4(1f, 0.5f, 0.1f, 0.8f);
-        public static Vector4 selectedObjectColor = new Vector4(1f, 0f, 0f, 1f);
+        public static Vector4 selectedObjectColor = new Vector4(1f, 0.4f, 0.4f, 1f);
 
         public static void DrawCubeTrigger(Matrix world, bool isSelected)
         {
@@ -336,9 +336,9 @@ namespace HeroesPowerPlant
                     aspectRatio = (float)Panel.Width / Panel.Height;
                 }
 
-                Program.MainForm.KeyboardController();
-
                 sharpFPS.Update();
+
+                Program.MainForm.KeyboardController(60f / sharpFPS.FPS);
 
                 Program.MainForm.SetToolStripStatusLabel(Camera.GetInformation() + " FPS: " + sharpFPS.FPS.ToString());
 

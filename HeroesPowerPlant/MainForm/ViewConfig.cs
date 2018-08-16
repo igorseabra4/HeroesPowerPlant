@@ -30,6 +30,9 @@ namespace HeroesPowerPlant
             NumericDrawD.Minimum = 1;
             NumericQuadHeight.Minimum = Decimal.MinValue;
             NumericFOV.Minimum = 0.0001M;
+
+            NumericFOV.Value = 45M;
+            NumericDrawD.Value = 500000M;
         }
 
         public bool programIsUpdatingValues = false;

@@ -222,8 +222,7 @@ namespace HeroesPowerPlant
                 ToggleShowObjects();
             else if (e.KeyCode == Keys.V)
                 ToggleShowCameras();
-
-            if (e.KeyCode == Keys.F1)
+            else if (e.KeyCode == Keys.F1)
                 Program.ViewConfig.Show();
             else if (e.KeyCode == Keys.F2)
                 Program.ConfigEditor.Show();
@@ -249,31 +248,31 @@ namespace HeroesPowerPlant
             PressedKeys.Clear();
         }
 
-        public void KeyboardController()
+        public void KeyboardController(float speedMultiplier)
         {
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddYaw(-0.1f);
+                SharpRenderer.Camera.AddYaw(-0.1f * speedMultiplier);
             else if (PressedKeys.Contains(Keys.A))
-                SharpRenderer.Camera.AddPositionSideways(0.5f);
+                SharpRenderer.Camera.AddPositionSideways(0.5f * speedMultiplier);
 
             if (PressedKeys.Contains(Keys.D) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddYaw(0.1f);
+                SharpRenderer.Camera.AddYaw(0.1f * speedMultiplier);
             else if (PressedKeys.Contains(Keys.D))
-                SharpRenderer.Camera.AddPositionSideways(-0.5f);
+                SharpRenderer.Camera.AddPositionSideways(-0.5f * speedMultiplier);
 
             if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddPitch(-0.1f);
+                SharpRenderer.Camera.AddPitch(-0.1f * speedMultiplier);
             else if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ShiftKey))
-                SharpRenderer.Camera.AddPositionUp(0.5f);
+                SharpRenderer.Camera.AddPositionUp(0.5f * speedMultiplier);
             else if (PressedKeys.Contains(Keys.W))
-                SharpRenderer.Camera.AddPositionForward(0.5f);
+                SharpRenderer.Camera.AddPositionForward(0.5f * speedMultiplier);
 
             if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddPitch(0.1f);
+                SharpRenderer.Camera.AddPitch(0.1f * speedMultiplier);
             else if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ShiftKey))
-                SharpRenderer.Camera.AddPositionUp(-0.5f);
+                SharpRenderer.Camera.AddPositionUp(-0.5f * speedMultiplier);
             else if (PressedKeys.Contains(Keys.S))
-                SharpRenderer.Camera.AddPositionForward(-0.5f);
+                SharpRenderer.Camera.AddPositionForward(-0.5f * speedMultiplier);
 
             if (PressedKeys.Contains(Keys.R))
                 SharpRenderer.Camera.Reset();
@@ -443,7 +442,6 @@ namespace HeroesPowerPlant
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             HPPConfig.GetInstance().Save();
-            Application.Exit();
         }
 
         private void vSyncToolStripMenuItem_Click(object sender, EventArgs e)
@@ -476,24 +474,15 @@ namespace HeroesPowerPlant
 
         private void autoLoadLastProjectOnLaunchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (autoLoadLastProjectOnLaunchToolStripMenuItem.Checked)
-                DisableAutoLoadLastProject();
-            else
-                EnableAutoLoadLastProject();
+            SetAutoLoadLastProject(!autoLoadLastProjectOnLaunchToolStripMenuItem.Checked);
         }
 
-        public void EnableAutoLoadLastProject()
+        public void SetAutoLoadLastProject(bool value)
         {
-            autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = true;
-            HPPConfig.GetInstance().AutomaticallyLoadLastConfig = true;
+            autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = value;
+            HPPConfig.GetInstance().AutomaticallyLoadLastConfig = value;
         }
-
-        public void DisableAutoLoadLastProject()
-        {
-            autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = false;
-            HPPConfig.GetInstance().AutomaticallyLoadLastConfig = false;
-        }
-
+        
         private void MainForm_Load(object sender, EventArgs e)
         {
             var hppConfig = HPPConfig.GetInstance();
