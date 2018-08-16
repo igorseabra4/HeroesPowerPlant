@@ -94,7 +94,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             if (OpenConfigFile.ShowDialog() == DialogResult.OK)
             {
-                ConfigEditorOpen(OpenConfigFile.FileName);
+                OpenFile(OpenConfigFile.FileName);
             }
         }
 
@@ -103,7 +103,7 @@ namespace HeroesPowerPlant.ConfigEditor
         /// Reads a specified Config editor config.
         /// </summary>
         /// <param name="fileName"></param>
-        public void ConfigEditorOpen(string fileName)
+        public void OpenFile(string fileName)
         {
                 OpenConfigFileName = fileName;
                 LabelFileLoaded.Text = "Loaded " + fileName;

@@ -22,7 +22,13 @@ namespace HeroesPowerPlant.TexturePatternEditor
             Hide();
         }
 
-        private string CurrentlyOpenTXC;
+        private string currentlyOpenTXC;
+        public string CurrentlyOpenTXC
+        {
+            get => currentlyOpenTXC;
+            private set => currentlyOpenTXC = value;
+        }
+
         private bool programIsChangingStuff = false;
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -40,7 +46,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             };
 
             if (openFile.ShowDialog() == DialogResult.OK)
-                OpenTXC(openFile.FileName);
+                OpenFile(openFile.FileName);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -67,7 +73,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             }
         }
 
-        public void OpenTXC(string fileName)
+        public void OpenFile(string fileName)
         {
             CurrentlyOpenTXC = fileName;
 
@@ -76,6 +82,11 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 listBoxPatterns.Items.Add(p);
 
             toolStripStatusLabel1.Text = CurrentlyOpenTXC;
+        }
+
+        public string GetCurrentlyOpenTXC()
+        {
+            return CurrentlyOpenTXC;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)

@@ -20,6 +20,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public string CollisionEditorPath { get; set; }
         public string LayoutEditorPath { get; set; }
         public string CameraEditorPath { get; set; }
+        public string ParticleEditorPath { get; set; }
+        public string TexturePatternEditorPath { get; set; }
         public HashSet<string> DFFONEPaths { get; set; }
         public Camera CameraSettings { get; set; }
         public RenderOptions RenderingOptions { get; set; }
@@ -105,6 +107,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 CollisionEditorPath = Program.CollisionEditor.GetFileName(),
                 LayoutEditorPath = Program.LayoutEditor.GetOpenFileName(),
                 CameraEditorPath = Program.CameraEditor.CurrentCameraFile,
+                ParticleEditorPath = Program.ParticleEditor.GetCurrentlyOpenParticleFile(),
+                TexturePatternEditorPath = Program.TexturePatternEditor.CurrentlyOpenTXC,
                 DFFONEPaths = DFFRenderer.filePaths,
                 CameraSettings = new Camera()
                 {
@@ -123,7 +127,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// </summary>
         public static void ApplyInstance(ProjectConfig config)
         {
-            ExecuteIfFilePresent($"Config Editor error: file not found: {config.StageConfigPath}", "Error", config.StageConfigPath, path => Program.ConfigEditor.ConfigEditorOpen(path));
+            ExecuteIfFilePresent($"Config Editor error: file not found: {config.StageConfigPath}", "Error", config.StageConfigPath, path => Program.ConfigEditor.OpenFile(path));
 
             if (config.IsShadow)
                 ExecuteIfFilePresent($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", config.LevelEditorPath, path => Program.LevelEditor.OpenONEShadowFolder(path));
@@ -133,9 +137,11 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 ExecuteIfFilePresent($"Visibility Editor error: file not found: {config.VisibilityPath}", "Error", config.VisibilityPath, path => Program.LevelEditor.initVisibilityEditor(false, path));
             }
 
-            ExecuteIfFilePresent($"Collision Editor error: file not found: {config.CollisionEditorPath}", "Error", config.CollisionEditorPath, path => Program.CollisionEditor.Open(path));
-            ExecuteIfFilePresent($"Layout Editor error: file not found: {config.LayoutEditorPath}", "Error", config.LayoutEditorPath, path => Program.LayoutEditor.OpenLayoutFile(path));
-            ExecuteIfFilePresent($"Camera Editor error: file not found: {config.CameraEditorPath}", "Error", config.CameraEditorPath, path => Program.CameraEditor.Open(path));
+            ExecuteIfFilePresent($"Collision Editor error: file not found: {config.CollisionEditorPath}", "Error", config.CollisionEditorPath, path => Program.CollisionEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Layout Editor error: file not found: {config.LayoutEditorPath}", "Error", config.LayoutEditorPath, path => Program.LayoutEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Camera Editor error: file not found: {config.CameraEditorPath}", "Error", config.CameraEditorPath, path => Program.CameraEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Particle Editor error: file not found: {config.ParticleEditorPath}", "Error", config.ParticleEditorPath, path => Program.ParticleEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Texture Pattern Editor error: file not found: {config.TexturePatternEditorPath}", "Error", config.TexturePatternEditorPath, path => Program.TexturePatternEditor.OpenFile(path));
 
             if (config.CameraSettings != null)
             {

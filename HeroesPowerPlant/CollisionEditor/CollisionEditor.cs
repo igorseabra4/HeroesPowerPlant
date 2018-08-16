@@ -55,7 +55,7 @@ namespace HeroesPowerPlant.CollisionEditor
             };
             if (OpenCLFile.ShowDialog() == DialogResult.OK)
             {
-                Open(OpenCLFile.FileName);
+                OpenFile(OpenCLFile.FileName);
             }
         }
 
@@ -99,7 +99,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 newToolStripMenuItem_Click(sender, e);
         }
 
-        public void Open(string fileName)
+        public void OpenFile(string fileName)
         {
             if (File.Exists(fileName))
             {

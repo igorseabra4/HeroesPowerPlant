@@ -16,6 +16,13 @@ namespace HeroesPowerPlant.ParticleEditor
         /// </summary>
         public List<Particle> Particles;
 
+        private string currentlyOpenParticleFile;
+        public string CurrentlyOpenParticleFile
+        {
+            get => currentlyOpenParticleFile;
+            private set => currentlyOpenParticleFile = value;
+        }
+
         public ParticleEditor()
         {
             Particles = new List<Particle>();
@@ -26,6 +33,7 @@ namespace HeroesPowerPlant.ParticleEditor
         /// </summary>
         public ParticleEditor(string fileName)
         {
+            currentlyOpenParticleFile = fileName;
             byte[] particleBytes = File.ReadAllBytes(fileName);
             SetupParticleEditor(ref particleBytes);
         }
@@ -55,6 +63,8 @@ namespace HeroesPowerPlant.ParticleEditor
         
         public void Save(string fileName)
         {
+            currentlyOpenParticleFile = fileName;
+
             List<byte> finalFile = new List<byte>(Particles.Count * Particle.SIZE);
 
             foreach (var particle in Particles)

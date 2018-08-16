@@ -129,11 +129,11 @@ namespace HeroesPowerPlant.CameraEditor
             };
             if (OpenCamera.ShowDialog() == DialogResult.OK)
             {
-                Open(OpenCamera.FileName);
+                OpenFile(OpenCamera.FileName);
             }
         }
 
-        public void Open(string fileName)
+        public void OpenFile(string fileName)
         {
             if (File.Exists(fileName))
             {

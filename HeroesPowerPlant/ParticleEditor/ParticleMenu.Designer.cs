@@ -99,13 +99,23 @@ namespace HeroesPowerPlant.ParticleEditor
             // 
             this.numericCurrentParticle.Location = new System.Drawing.Point(12, 27);
             this.numericCurrentParticle.Maximum = new decimal(new int[] {
+            1,
             0,
             0,
+            -2147483648});
+            this.numericCurrentParticle.Minimum = new decimal(new int[] {
+            1,
             0,
-            0});
+            0,
+            -2147483648});
             this.numericCurrentParticle.Name = "numericCurrentParticle";
             this.numericCurrentParticle.Size = new System.Drawing.Size(96, 20);
             this.numericCurrentParticle.TabIndex = 1;
+            this.numericCurrentParticle.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.numericCurrentParticle.ValueChanged += new System.EventHandler(this.numericCurrentParticle_ValueChanged);
             // 
             // buttonAdd
@@ -150,7 +160,8 @@ namespace HeroesPowerPlant.ParticleEditor
             this.propertyGridParticles.Size = new System.Drawing.Size(296, 461);
             this.propertyGridParticles.TabIndex = 5;
             this.propertyGridParticles.ToolbarVisible = false;
-             // 
+            this.propertyGridParticles.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridParticles_PropertyValueChanged);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -167,7 +178,7 @@ namespace HeroesPowerPlant.ParticleEditor
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(81, 17);
             this.toolStripStatusLabel1.Text = "No file loaded";
             // 
-            // ParticleEditor
+            // ParticleMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -181,7 +192,7 @@ namespace HeroesPowerPlant.ParticleEditor
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "ParticleEditor";
+            this.Name = "ParticleMenu";
             this.ShowIcon = false;
             this.Text = "Particle Editor";
             this.TopMost = true;

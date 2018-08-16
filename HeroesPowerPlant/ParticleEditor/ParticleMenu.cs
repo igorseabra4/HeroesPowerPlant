@@ -16,8 +16,6 @@ namespace HeroesPowerPlant.ParticleEditor
     public partial class ParticleMenu : Form
     {
         private ParticleEditor ParticleEditor;
-        private string currentlyOpenParticleFile;
-        private int currentIndex = -1;
 
         /*
             ------------
@@ -29,6 +27,7 @@ namespace HeroesPowerPlant.ParticleEditor
         {
             InitializeComponent();
             ParticleEditor = new ParticleEditor();
+            UpdateValues();
         }
 
         /*
@@ -39,22 +38,30 @@ namespace HeroesPowerPlant.ParticleEditor
 
         public void UpdateValues()
         {
-            if (String.IsNullOrEmpty(currentlyOpenParticleFile))
+            if (String.IsNullOrEmpty(ParticleEditor.CurrentlyOpenParticleFile))
                 toolStripStatusLabel1.Text = "No file loaded";
             else
-                toolStripStatusLabel1.Text = currentlyOpenParticleFile;
+                toolStripStatusLabel1.Text = ParticleEditor.CurrentlyOpenParticleFile;
 
-            numericCurrentParticle.Maximum = ParticleEditor.Particles.Count > 0 ? ParticleEditor.Particles.Count - 1 : 0;
+            numericCurrentParticle.Minimum = ParticleEditor.Particles.Count == 0 ? -1 : 0;
+            numericCurrentParticle.Maximum = ParticleEditor.Particles.Count == 0 ? -1 : ParticleEditor.Particles.Count - 1;
+        }
+
+        public void OpenFile(string fileName)
+        {
+            ParticleEditor = new ParticleEditor(fileName);
+            UpdateValues();
         }
 
         private void SaveParticleFile(string fileName)
         {
-            if (currentIndex != -1)
-                ParticleEditor.Particles[currentIndex] = (Particle)propertyGridParticles.SelectedObject;
-
             ParticleEditor.Save(fileName);
-            currentlyOpenParticleFile = fileName;
             UpdateValues();
+        }
+
+        public string GetCurrentlyOpenParticleFile()
+        {
+            return ParticleEditor.CurrentlyOpenParticleFile;
         }
 
         public Vector3 GetBoxForSetParticle(int index)
@@ -89,25 +96,18 @@ namespace HeroesPowerPlant.ParticleEditor
             {
                 Filter = "BIN Files|*.bin"
             };
-
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                currentlyOpenParticleFile = openFile.FileName;
-                ParticleEditor = new ParticleEditor(openFile.FileName);
-
-                numericCurrentParticle.Maximum = ParticleEditor.Particles.Count > 0 ? ParticleEditor.Particles.Count - 1 : 0;
-                numericCurrentParticle.Value   = 0;
-
-                toolStripStatusLabel1.Text = currentlyOpenParticleFile;
+                OpenFile(openFile.FileName);
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentlyOpenParticleFile != null)
-                SaveParticleFile(currentlyOpenParticleFile);
-            else
+            if (String.IsNullOrEmpty(ParticleEditor.CurrentlyOpenParticleFile))
                 saveAsToolStripMenuItem_Click(sender, e);
+            else
+                ParticleEditor.Save(ParticleEditor.CurrentlyOpenParticleFile);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -115,11 +115,14 @@ namespace HeroesPowerPlant.ParticleEditor
             SaveFileDialog saveFile = new SaveFileDialog()
             {
                 Filter = "BIN Files|*.bin",
-                FileName = currentlyOpenParticleFile
+                FileName = ParticleEditor.CurrentlyOpenParticleFile
             };
 
             if (saveFile.ShowDialog() == DialogResult.OK)
+            {
                 SaveParticleFile(saveFile.FileName);
+                UpdateValues();
+            }
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -151,12 +154,22 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void numericCurrentParticle_ValueChanged(object sender, EventArgs e)
         {
-            if (currentIndex != -1)
-                ParticleEditor.Particles[currentIndex] = (Particle)propertyGridParticles.SelectedObject;
+            int index = (int)numericCurrentParticle.Value;
 
-            currentIndex = (int)numericCurrentParticle.Value;
-            if (currentIndex >= 0 & currentIndex < ParticleEditor.Particles.Count)
-                propertyGridParticles.SelectedObject = ParticleEditor.Particles[currentIndex];
+            if (index >= 0 & index < ParticleEditor.Particles.Count)
+                propertyGridParticles.SelectedObject = ParticleEditor.Particles[index];
+            else
+                propertyGridParticles.SelectedObject = null;
+        }
+
+        private void propertyGridParticles_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            int index = (int)numericCurrentParticle.Value;
+
+            if (index >= 0 & index < ParticleEditor.Particles.Count)
+                ParticleEditor.Particles[index] = (Particle)propertyGridParticles.SelectedObject;
+
+            Program.LayoutEditor.UpdateSetParticleMatrices();
         }
     }
 }
