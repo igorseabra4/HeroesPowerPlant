@@ -136,3 +136,22 @@ The camera layout editor allows you to add, remove and modify cameras.
 - For the selected camera, the camera location will be displayed as a pink cube and points A, B and C will be displayed as red, green and blue cubes.
 - Note that we don't know 100% about cameras yet, but if you take a look at the original camera files and the information on Sonic Retro you might be able to understand a bit of it.
 - Know something we don't? Tell us! Don't keep it to yourself.
+
+	= Particle Editor (F8) =
+The particle effect editor allows you to add, remove and modify particle entries.
+- You can open s*_ptcl.bin files or create new ones.
+- The selected particle entry's properties will be displayed and editable in the property box. Not everything about them is known yet, and some attributes might be wrongly labeled.
+- Particles can be emitted by the layout object Particle Emitter (01 FF). The reference in the object is offset by 50, so particle number 50 in the object will be number 0 in the ptcl.
+- Particles are referenced by certain objects by their index, so if you remove entries, you might break certain objects.
+- Know something we don't? Tell us! Don't keep it to yourself.
+
+	= Texture Pattern Editor (F9) =
+The texture pattern editor allows you to add, remove and modify texture pattern entries.
+- You can open s*_.txc files or create new ones. Each file can have a number of pattern entries.
+- Each pattern needs, in the TXD file for the level, a group of textures following a name such as text_animation.n, in which each frame of the animation has a different number n starting from 1.
+- The pattern's texture name is the name of the texture that will be replaced by the animation. The texture with this name will technically not show up ingame. It can be the name of one of the textures in the animation, but this is optional.
+- The animation name is the name of the textures that compose the animation without the number at the end. So, if in the TXD your images are named text_animation.n (with n going from 1 to 8), this field will have "text_animation" in it.
+- The frame count is the total lenght of the animation. Key frames with an offset higher than this will be ignored.
+- The key frames are the frames in which the image changes. You don't need to change it every frame.
+- The texture number is the number of the texture that will be set in that frame (the number after the dot at the end of the image name).
+- You can have multiple entries (with different texture names) which use the same images (same animation name), but with different frame counts and key frames (such as an animation which plays in a different speed, starts on a different frame, or even a different frame order).

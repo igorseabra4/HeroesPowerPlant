@@ -71,7 +71,7 @@ namespace HeroesPowerPlant.LayoutEditor
             };
 
             if (openFile.ShowDialog() == DialogResult.OK)
-                OpenLayoutFile(openFile.FileName);
+                OpenFile(openFile.FileName);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -325,7 +325,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return layoutSystem.CurrentlyOpenFileName;
         }
 
-        public void OpenLayoutFile(string fileName)
+        public void OpenFile(string fileName)
         {
             layoutSystem.SelectedIndexChanged(-1);
             ProgramIsChangingStuff = true;
