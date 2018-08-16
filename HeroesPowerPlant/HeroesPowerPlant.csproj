@@ -379,6 +379,14 @@
     <Compile Include="MainForm\ViewConfig.designer.cs">
       <DependentUpon>ViewConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="TexturePatternEditor\PatternEntry.cs" />
+    <Compile Include="TexturePatternEditor\TexturePatternEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TexturePatternEditor\TexturePatternEditor.Designer.cs">
+      <DependentUpon>TexturePatternEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TexturePatternEditor\TexturePatternEditorFunctions.cs" />
     <EmbeddedResource Include="CameraEditor\CameraEditor.resx">
       <DependentUpon>CameraEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -424,6 +432,9 @@
     </Compile>
     <EmbeddedResource Include="MainForm\ViewConfig.resx">
       <DependentUpon>ViewConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TexturePatternEditor\TexturePatternEditor.resx">
+      <DependentUpon>TexturePatternEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

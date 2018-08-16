@@ -49,6 +49,7 @@ namespace HeroesPowerPlant
             this.layoutEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splineEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.particleEditorF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noCullingCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframeFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +73,7 @@ namespace HeroesPowerPlant
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.particleEditorF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.texturePatternEditorF9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -166,7 +167,8 @@ namespace HeroesPowerPlant
             this.layoutEditorToolStripMenuItem,
             this.splineEditorToolStripMenuItem,
             this.cameraEditorToolStripMenuItem,
-            this.particleEditorF8ToolStripMenuItem});
+            this.particleEditorF8ToolStripMenuItem,
+            this.texturePatternEditorF9ToolStripMenuItem});
             this.editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
             this.editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.editorsToolStripMenuItem.Text = "Editors";
@@ -213,6 +215,13 @@ namespace HeroesPowerPlant
             this.cameraEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.cameraEditorToolStripMenuItem.Text = "Camera Editor (F7)";
             this.cameraEditorToolStripMenuItem.Click += new System.EventHandler(this.cameraEditorToolStripMenuItem_Click);
+            // 
+            // particleEditorF8ToolStripMenuItem
+            // 
+            this.particleEditorF8ToolStripMenuItem.Name = "particleEditorF8ToolStripMenuItem";
+            this.particleEditorF8ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.particleEditorF8ToolStripMenuItem.Text = "Particle Editor (F8)";
+            this.particleEditorF8ToolStripMenuItem.Click += new System.EventHandler(this.particleEditorF8ToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -412,12 +421,12 @@ namespace HeroesPowerPlant
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
-            // particleEditorF8ToolStripMenuItem
+            // texturePatternEditorF9ToolStripMenuItem
             // 
-            this.particleEditorF8ToolStripMenuItem.Name = "particleEditorF8ToolStripMenuItem";
-            this.particleEditorF8ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.particleEditorF8ToolStripMenuItem.Text = "Particle Editor (F8)";
-            this.particleEditorF8ToolStripMenuItem.Click += new System.EventHandler(this.particleEditorF8ToolStripMenuItem_Click);
+            this.texturePatternEditorF9ToolStripMenuItem.Name = "texturePatternEditorF9ToolStripMenuItem";
+            this.texturePatternEditorF9ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.texturePatternEditorF9ToolStripMenuItem.Text = "Texture Pattern Editor (F9)";
+            this.texturePatternEditorF9ToolStripMenuItem.Click += new System.EventHandler(this.texturePatternEditorF9ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -489,6 +498,7 @@ namespace HeroesPowerPlant
         private ToolStripMenuItem camerasToolStripMenuItem;
         private ToolStripMenuItem autoLoadLastProjectOnLaunchToolStripMenuItem;
         private ToolStripMenuItem particleEditorF8ToolStripMenuItem;
+        private ToolStripMenuItem texturePatternEditorF9ToolStripMenuItem;
     }
 }
 

@@ -209,8 +209,12 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
-            particleEntries.Add(new ParticleEntry(particleEntries[(int)numericCurrentParticle.Value]));
-            numericCurrentParticle.Maximum = particleEntries.Count > 0 ? particleEntries.Count - 1 : 0;
+            int index = (int)numericCurrentParticle.Value;
+            if (index >= 0 & index < particleEntries.Count)
+            {
+                particleEntries.Add(new ParticleEntry(particleEntries[index]));
+                numericCurrentParticle.Maximum = particleEntries.Count > 0 ? particleEntries.Count - 1 : 0;
+            }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)

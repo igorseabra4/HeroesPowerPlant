@@ -17,6 +17,7 @@ namespace HeroesPowerPlant
         public static SplineEditor SplineEditor;
         public static CameraEditor.CameraEditor CameraEditor;
         public static ParticleEditor.ParticleEditor ParticleEditor;
+        public static TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
 
         /// <summary>
         /// Ponto de entrada principal para o aplicativo.
@@ -39,6 +40,7 @@ namespace HeroesPowerPlant
             SplineEditor = new SplineEditor();
             CameraEditor = new CameraEditor.CameraEditor();
             ParticleEditor = new ParticleEditor.ParticleEditor();
+            TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
 
             Application.Run(MainForm);
         }
