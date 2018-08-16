@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using HeroesONE_R.Utilities;
@@ -87,7 +88,8 @@ namespace HeroesPowerPlant.ParticleEditor
         /// <returns></returns>
         public static Particle FromBytes(ref byte[] bytes, int offset)
         {
-            return StructUtilities.ArrayToStructureUnsafe<Particle>(ref bytes, offset);
+            Particle bigEndianParticle = StructUtilities.ArrayToStructureUnsafe<Particle>(ref bytes, offset);
+            return ConvertEndian(bigEndianParticle);
         }
 
         public static Particle FromParticleEntry(Particle particleEntry)
@@ -103,9 +105,59 @@ namespace HeroesPowerPlant.ParticleEditor
         /// <summary>
         /// Converts this instance into a byte array.
         /// </summary>
+        public static byte[] GetBytesBigEndian(Particle particleEntry)
+        {
+            Particle newParticleEntry = ConvertEndian(particleEntry);
+            return StructUtilities.ConvertStructureToByteArrayUnsafe(ref newParticleEntry); // In HeroesONE-R
+        }
+
+        /// <summary>
+        /// Converts this instance into a byte array.
+        /// </summary>
         public static byte[] GetBytes(Particle particleEntry)
         {
             return StructUtilities.ConvertStructureToByteArrayUnsafe(ref particleEntry); // In HeroesONE-R
+        }
+
+        /// <summary>
+        /// Changes the endian type from little endian to big endian or vice-versa.
+        /// </summary>
+        public static Particle ConvertEndian(Particle particle)
+        {
+            // If the lines below highlight red and complain, don't worry, it'll still build.
+            // The constraint on this is a very recent C# 7.3 language feature.
+            particle.Unknown3           = particle.Unknown3.ReverseEndian();
+            particle.FadeTime           = particle.FadeTime.ReverseEndian();
+            particle.BirthDelay         = particle.BirthDelay.ReverseEndian();
+            particle.AmountOfParticles  = particle.AmountOfParticles.ReverseEndian();
+            particle.Unknown4           = particle.Unknown4.ReverseEndian();
+            particle.Unknown5           = particle.Unknown5.ReverseEndian();
+            particle.Unknown6           = particle.Unknown6.ReverseEndian();
+            particle.Unknown7           = particle.Unknown7.ReverseEndian();
+            particle.Velocity           = particle.Velocity.ReverseEndian();
+            particle.Unknown8           = particle.Unknown8.ReverseEndian();
+            particle.Always05           = particle.Always05.ReverseEndian();
+            particle.BlendMode          = particle.BlendMode.ReverseEndian();
+            particle.Rotation           = particle.Rotation.ReverseEndian();
+            particle.RotateAnimationSpeed = particle.RotateAnimationSpeed.ReverseEndian();
+            particle.RotateAnimation    = particle.RotateAnimation.ReverseEndian();
+            particle.InverseLifeTime    = particle.InverseLifeTime.ReverseEndian();
+            particle.LifeThreshold      = particle.LifeThreshold.ReverseEndian();
+            particle.EmitterScaleX      = particle.EmitterScaleX.ReverseEndian();
+            particle.EmitterScaleY      = particle.EmitterScaleY.ReverseEndian();
+            particle.EmitterScaleZ      = particle.EmitterScaleZ.ReverseEndian();
+            particle.SpreadSpeedRate    = particle.SpreadSpeedRate.ReverseEndian();
+            particle.VelocityRate       = particle.VelocityRate.ReverseEndian();
+            particle.Unknown9           = particle.Unknown9.ReverseEndian();
+            particle.Unknown10          = particle.Unknown10.ReverseEndian();
+            particle.Unknown11          = particle.Unknown11.ReverseEndian();
+            particle.Unknown12          = particle.Unknown12.ReverseEndian();
+            particle.ParticleSize       = particle.ParticleSize.ReverseEndian();
+            particle.Unknown13          = particle.Unknown13.ReverseEndian();
+            particle.SpreadSize         = particle.SpreadSize.ReverseEndian();
+            particle.SameAsAbove        = particle.SameAsAbove.ReverseEndian();
+
+            return particle;
         }
     }
 }
