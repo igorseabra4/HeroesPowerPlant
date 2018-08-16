@@ -9,19 +9,20 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Position = Position;
             this.Rotation = Rotation;
 
-            transformMatrix = Matrix.Scaling(Scale + 1f)
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                * Matrix.Translation(Position);
+            transformMatrix =
+                Matrix.Scaling(Scale + 1f) *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
+                Matrix.Translation(Position);
         }
 
         public override void Draw(string[] modelNames, bool isSelected)
         {
-            if (Type >= modelNames.Length | !DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
+            if (Type >= modelNames.Length)
                 DrawCube(isSelected);
             else
-                DFFRenderer.DFFStream[modelNames[Type]].Render();
+                Draw(modelNames[Type], isSelected);
         }
 
         public float Scale

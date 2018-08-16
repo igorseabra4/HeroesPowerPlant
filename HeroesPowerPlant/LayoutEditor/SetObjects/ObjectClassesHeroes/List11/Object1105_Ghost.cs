@@ -2,6 +2,13 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum GhostType
+    {
+        NoMove = 0,
+        Line = 1,
+        Circle = 2
+    }
+
     public class Object1105_Ghost : SetObjectManagerHeroes
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
@@ -15,13 +22,6 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
                 Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                 Matrix.Translation(Position);
-        }
-
-        public enum GhostType
-        {
-            NoMove = 0,
-            Line = 1,
-            Circle = 2
         }
 
         public GhostType Type
@@ -51,7 +51,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Scale
         {
             get { return ReadFloat(20); }
-            set { Write(20, value); }
+            set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

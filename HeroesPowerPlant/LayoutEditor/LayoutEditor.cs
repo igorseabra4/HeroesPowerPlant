@@ -328,6 +328,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (File.Exists(fileName))
             {
+                layoutSystem.SelectedIndexChanged(-1);                
                 ProgramIsChangingStuff = true;
                 layoutSystem.OpenLayoutFile(fileName);
                 UpdateObjectComboBox();

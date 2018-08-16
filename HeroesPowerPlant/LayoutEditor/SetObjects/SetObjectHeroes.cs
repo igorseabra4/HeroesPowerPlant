@@ -134,7 +134,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x87: return new Object0187_Tides();
                         case 0x88: return new Object_F1Scale();
                         case 0x89: return new Object0189_WaterfallSmall();
-                        //case 0xFF: return new Object01FF_SetParticle();
+                        case 0xFF: return new Object01FF_SetParticle();
                         default: return new Object_HeroesDefault();
                     }
                 case 2:
