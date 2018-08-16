@@ -326,14 +326,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void OpenLayoutFile(string fileName)
         {
-            if (File.Exists(fileName))
-            {
-                layoutSystem.SelectedIndexChanged(-1);                
-                ProgramIsChangingStuff = true;
-                layoutSystem.OpenLayoutFile(fileName);
-                UpdateObjectComboBox();
-                UpdateFileLabel();
-            }
+            layoutSystem.SelectedIndexChanged(-1);
+            ProgramIsChangingStuff = true;
+            layoutSystem.OpenLayoutFile(fileName);
+            UpdateObjectComboBox();
+            UpdateFileLabel();
         }
 
         private void SaveAs()

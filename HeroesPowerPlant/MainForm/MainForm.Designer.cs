@@ -68,10 +68,11 @@ namespace HeroesPowerPlant
             this.camerasVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.vSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.autoLoadLastProjectOnLaunchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.particleEditorF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -107,52 +108,52 @@ namespace HeroesPowerPlant
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.ToolstripFileOpen);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ToolStripFileSave);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.ToolStripFileSaveAs);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
             // 
             // addObjectONEToolStripMenuItem
             // 
             this.addObjectONEToolStripMenuItem.Name = "addObjectONEToolStripMenuItem";
-            this.addObjectONEToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addObjectONEToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.addObjectONEToolStripMenuItem.Text = "Add Object ONE";
             this.addObjectONEToolStripMenuItem.Click += new System.EventHandler(this.addObjectONEToolStripMenuItem_Click);
             // 
             // clearObjectONEsToolStripMenuItem
             // 
             this.clearObjectONEsToolStripMenuItem.Name = "clearObjectONEsToolStripMenuItem";
-            this.clearObjectONEsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearObjectONEsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.clearObjectONEsToolStripMenuItem.Text = "Clear Object ONEs";
             this.clearObjectONEsToolStripMenuItem.Click += new System.EventHandler(this.clearObjectONEsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -164,7 +165,8 @@ namespace HeroesPowerPlant
             this.collisionEditorToolStripMenuItem,
             this.layoutEditorToolStripMenuItem,
             this.splineEditorToolStripMenuItem,
-            this.cameraEditorToolStripMenuItem});
+            this.cameraEditorToolStripMenuItem,
+            this.particleEditorF8ToolStripMenuItem});
             this.editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
             this.editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.editorsToolStripMenuItem.Text = "Editors";
@@ -372,6 +374,15 @@ namespace HeroesPowerPlant
             this.vSyncToolStripMenuItem.Text = "VSync";
             this.vSyncToolStripMenuItem.Click += new System.EventHandler(this.vSyncToolStripMenuItem_Click);
             // 
+            // autoLoadLastProjectOnLaunchToolStripMenuItem
+            // 
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = true;
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Name = "autoLoadLastProjectOnLaunchToolStripMenuItem";
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Text = "Auto-Load Last Project on Launch";
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Click += new System.EventHandler(this.autoLoadLastProjectOnLaunchToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -401,14 +412,12 @@ namespace HeroesPowerPlant
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
-            // autoLoadLastProjectOnLaunchToolStripMenuItem
+            // particleEditorF8ToolStripMenuItem
             // 
-            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = true;
-            this.autoLoadLastProjectOnLaunchToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Name = "autoLoadLastProjectOnLaunchToolStripMenuItem";
-            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Text = "Auto-Load Last Project on Launch";
-            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Click += new System.EventHandler(this.autoLoadLastProjectOnLaunchToolStripMenuItem_Click);
+            this.particleEditorF8ToolStripMenuItem.Name = "particleEditorF8ToolStripMenuItem";
+            this.particleEditorF8ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.particleEditorF8ToolStripMenuItem.Text = "Particle Editor (F8)";
+            this.particleEditorF8ToolStripMenuItem.Click += new System.EventHandler(this.particleEditorF8ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -479,6 +488,7 @@ namespace HeroesPowerPlant
         private ToolStripMenuItem objectsToolStripMenuItem;
         private ToolStripMenuItem camerasToolStripMenuItem;
         private ToolStripMenuItem autoLoadLastProjectOnLaunchToolStripMenuItem;
+        private ToolStripMenuItem particleEditorF8ToolStripMenuItem;
     }
 }
 

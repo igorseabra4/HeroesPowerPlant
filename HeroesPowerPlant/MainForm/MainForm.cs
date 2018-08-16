@@ -112,6 +112,11 @@ namespace HeroesPowerPlant
             Program.CameraEditor.Show();
         }
 
+        private void particleEditorF8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.ParticleEditor.Show();
+        }
+
         public void EnableSplineEditor()
         {
             splineEditorToolStripMenuItem.Enabled = true;
@@ -236,6 +241,8 @@ namespace HeroesPowerPlant
                 Program.SplineEditor.Show();
             else if (e.KeyCode == Keys.F7)
                 Program.CameraEditor.Show();
+            else if (e.KeyCode == Keys.F8)
+                Program.ParticleEditor.Show();
         }
 
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
