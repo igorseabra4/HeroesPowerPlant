@@ -1,4 +1,4 @@
-﻿namespace HeroesPowerPlant.ParticleEditor
+namespace HeroesPowerPlant.ParticleEditor
 {
     partial class ParticleMenu
     {

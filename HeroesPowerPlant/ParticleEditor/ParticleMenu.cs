@@ -17,13 +17,26 @@ namespace HeroesPowerPlant.ParticleEditor
     {
         private ParticleEditor ParticleEditor;
         private string currentlyOpenParticleFile;
-        
+        private int currentIndex = -1;
+
+        /*
+            ------------
+            Constructors
+            ------------
+        */
+
         public ParticleMenu()
         {
             InitializeComponent();
             ParticleEditor = new ParticleEditor();
         }
-        
+
+        /*
+            -------
+            Methods
+            -------
+        */
+
         public void UpdateValues()
         {
             if (String.IsNullOrEmpty(currentlyOpenParticleFile))
@@ -36,6 +49,9 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void SaveParticleFile(string fileName)
         {
+            if (currentIndex != -1)
+                ParticleEditor.Particles[currentIndex] = (Particle)propertyGridParticles.SelectedObject;
+
             ParticleEditor.Save(fileName);
             currentlyOpenParticleFile = fileName;
             UpdateValues();
@@ -45,6 +61,12 @@ namespace HeroesPowerPlant.ParticleEditor
         {
             return ParticleEditor.GetBoxForSetParticle(index);
         }
+
+        /*
+            -------
+            Methods
+            -------
+        */
 
         private void ParticleEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -129,9 +151,12 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void numericCurrentParticle_ValueChanged(object sender, EventArgs e)
         {
-            int index = (int)numericCurrentParticle.Value;
-            if (index >= 0 & index < ParticleEditor.Particles.Count)
-                propertyGridParticles.SelectedObject = ParticleEditor.Particles[index];
+            if (currentIndex != -1)
+                ParticleEditor.Particles[currentIndex] = (Particle)propertyGridParticles.SelectedObject;
+
+            currentIndex = (int)numericCurrentParticle.Value;
+            if (currentIndex >= 0 & currentIndex < ParticleEditor.Particles.Count)
+                propertyGridParticles.SelectedObject = ParticleEditor.Particles[currentIndex];
         }
     }
 }
