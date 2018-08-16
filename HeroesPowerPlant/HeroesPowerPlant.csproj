@@ -168,7 +168,8 @@
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object01FF_SetParticle.cs" />
-    <Compile Include="Shared\IO\HPPConfig\HPPConfig.cs" />
+    <Compile Include="Shared\IO\Config\HPPConfig.cs" />
+    <Compile Include="Shared\IO\Config\ProjectConfig.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Formation.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Item.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000B_DashPanel.cs" />

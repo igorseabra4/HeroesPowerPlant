@@ -67,11 +67,11 @@ namespace HeroesPowerPlant
             this.showObjectsGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.camerasVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.graphicsModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -107,52 +107,52 @@ namespace HeroesPowerPlant
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.ToolstripFileOpen);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ToolStripFileSave);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.ToolStripFileSaveAs);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // addObjectONEToolStripMenuItem
             // 
             this.addObjectONEToolStripMenuItem.Name = "addObjectONEToolStripMenuItem";
-            this.addObjectONEToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.addObjectONEToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addObjectONEToolStripMenuItem.Text = "Add Object ONE";
             this.addObjectONEToolStripMenuItem.Click += new System.EventHandler(this.addObjectONEToolStripMenuItem_Click);
             // 
             // clearObjectONEsToolStripMenuItem
             // 
             this.clearObjectONEsToolStripMenuItem.Name = "clearObjectONEsToolStripMenuItem";
-            this.clearObjectONEsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.clearObjectONEsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearObjectONEsToolStripMenuItem.Text = "Clear Object ONEs";
             this.clearObjectONEsToolStripMenuItem.Click += new System.EventHandler(this.clearObjectONEsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -230,8 +230,8 @@ namespace HeroesPowerPlant
             this.showObjectsGToolStripMenuItem,
             this.camerasVToolStripMenuItem,
             this.toolStripSeparator4,
-            this.graphicsModeToolStripMenuItem,
-            this.vSyncToolStripMenuItem});
+            this.vSyncToolStripMenuItem,
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -239,35 +239,35 @@ namespace HeroesPowerPlant
             // noCullingCToolStripMenuItem
             // 
             this.noCullingCToolStripMenuItem.Name = "noCullingCToolStripMenuItem";
-            this.noCullingCToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.noCullingCToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.noCullingCToolStripMenuItem.Text = "No Culling (C)";
             this.noCullingCToolStripMenuItem.Click += new System.EventHandler(this.noCullingCToolStripMenuItem_Click);
             // 
             // wireframeFToolStripMenuItem
             // 
             this.wireframeFToolStripMenuItem.Name = "wireframeFToolStripMenuItem";
-            this.wireframeFToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.wireframeFToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.wireframeFToolStripMenuItem.Text = "Wireframe (F)";
             this.wireframeFToolStripMenuItem.Click += new System.EventHandler(this.wireframeFToolStripMenuItem_Click);
             // 
             // BackgroundColorToolStripMenuItem
             // 
             this.BackgroundColorToolStripMenuItem.Name = "BackgroundColorToolStripMenuItem";
-            this.BackgroundColorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.BackgroundColorToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.BackgroundColorToolStripMenuItem.Text = "Background Color...";
             this.BackgroundColorToolStripMenuItem.Click += new System.EventHandler(this.BackgroundColorToolStripMenuItem_Click);
             // 
             // selectionColorToolStripMenuItem
             // 
             this.selectionColorToolStripMenuItem.Name = "selectionColorToolStripMenuItem";
-            this.selectionColorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.selectionColorToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.selectionColorToolStripMenuItem.Text = "Selection Color...";
             this.selectionColorToolStripMenuItem.Click += new System.EventHandler(this.selectionColorToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(182, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(251, 6);
             // 
             // mouseModeToolStripMenuItem
             // 
@@ -275,7 +275,7 @@ namespace HeroesPowerPlant
             this.objectsToolStripMenuItem,
             this.camerasToolStripMenuItem});
             this.mouseModeToolStripMenuItem.Name = "mouseModeToolStripMenuItem";
-            this.mouseModeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.mouseModeToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.mouseModeToolStripMenuItem.Text = "Mouse Mode";
             // 
             // objectsToolStripMenuItem
@@ -283,14 +283,14 @@ namespace HeroesPowerPlant
             this.objectsToolStripMenuItem.Checked = true;
             this.objectsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.objectsToolStripMenuItem.Name = "objectsToolStripMenuItem";
-            this.objectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectsToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.objectsToolStripMenuItem.Text = "Objects";
             this.objectsToolStripMenuItem.Click += new System.EventHandler(this.objectsToolStripMenuItem_Click);
             // 
             // camerasToolStripMenuItem
             // 
             this.camerasToolStripMenuItem.Name = "camerasToolStripMenuItem";
-            this.camerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.camerasToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.camerasToolStripMenuItem.Text = "Cameras";
             this.camerasToolStripMenuItem.Click += new System.EventHandler(this.camerasToolStripMenuItem_Click);
             // 
@@ -299,7 +299,7 @@ namespace HeroesPowerPlant
             this.startPosYToolStripMenuItem.Checked = true;
             this.startPosYToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.startPosYToolStripMenuItem.Name = "startPosYToolStripMenuItem";
-            this.startPosYToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.startPosYToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.startPosYToolStripMenuItem.Text = "Start Pos (Y)";
             this.startPosYToolStripMenuItem.Click += new System.EventHandler(this.startPosYToolStripMenuItem_Click);
             // 
@@ -308,7 +308,7 @@ namespace HeroesPowerPlant
             this.splinesUToolStripMenuItem.Checked = true;
             this.splinesUToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.splinesUToolStripMenuItem.Name = "splinesUToolStripMenuItem";
-            this.splinesUToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.splinesUToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.splinesUToolStripMenuItem.Text = "Splines (U)";
             this.splinesUToolStripMenuItem.Click += new System.EventHandler(this.splinesUToolStripMenuItem_Click);
             // 
@@ -317,35 +317,35 @@ namespace HeroesPowerPlant
             this.renderByChunkHToolStripMenuItem.Checked = true;
             this.renderByChunkHToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.renderByChunkHToolStripMenuItem.Name = "renderByChunkHToolStripMenuItem";
-            this.renderByChunkHToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.renderByChunkHToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.renderByChunkHToolStripMenuItem.Text = "Render By Chunk (H)";
             this.renderByChunkHToolStripMenuItem.Click += new System.EventHandler(this.renderByChunkHToolStripMenuItem_Click);
             // 
             // chunkBoxesBToolStripMenuItem
             // 
             this.chunkBoxesBToolStripMenuItem.Name = "chunkBoxesBToolStripMenuItem";
-            this.chunkBoxesBToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.chunkBoxesBToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.chunkBoxesBToolStripMenuItem.Text = "Chunk Boxes (B)";
             this.chunkBoxesBToolStripMenuItem.Click += new System.EventHandler(this.chunkBoxesBToolStripMenuItem_Click);
             // 
             // showCollisionXToolStripMenuItem
             // 
             this.showCollisionXToolStripMenuItem.Name = "showCollisionXToolStripMenuItem";
-            this.showCollisionXToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.showCollisionXToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.showCollisionXToolStripMenuItem.Text = "Collision (X)";
             this.showCollisionXToolStripMenuItem.Click += new System.EventHandler(this.showCollisionXToolStripMenuItem_Click);
             // 
             // showQuadtreeTToolStripMenuItem
             // 
             this.showQuadtreeTToolStripMenuItem.Name = "showQuadtreeTToolStripMenuItem";
-            this.showQuadtreeTToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.showQuadtreeTToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.showQuadtreeTToolStripMenuItem.Text = "Quadtree (T)";
             this.showQuadtreeTToolStripMenuItem.Click += new System.EventHandler(this.showQuadtreeTToolStripMenuItem_Click);
             // 
             // showObjectsGToolStripMenuItem
             // 
             this.showObjectsGToolStripMenuItem.Name = "showObjectsGToolStripMenuItem";
-            this.showObjectsGToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.showObjectsGToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.showObjectsGToolStripMenuItem.Text = "Objects (G)";
             this.showObjectsGToolStripMenuItem.Click += new System.EventHandler(this.showObjectsGToolStripMenuItem_Click);
             // 
@@ -354,30 +354,21 @@ namespace HeroesPowerPlant
             this.camerasVToolStripMenuItem.Checked = true;
             this.camerasVToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.camerasVToolStripMenuItem.Name = "camerasVToolStripMenuItem";
-            this.camerasVToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.camerasVToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.camerasVToolStripMenuItem.Text = "Cameras (V)";
             this.camerasVToolStripMenuItem.Click += new System.EventHandler(this.camerasVToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(182, 6);
-            // 
-            // graphicsModeToolStripMenuItem
-            // 
-            this.graphicsModeToolStripMenuItem.Checked = true;
-            this.graphicsModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.graphicsModeToolStripMenuItem.Name = "graphicsModeToolStripMenuItem";
-            this.graphicsModeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.graphicsModeToolStripMenuItem.Text = "Graphics Mode";
-            this.graphicsModeToolStripMenuItem.Click += new System.EventHandler(this.graphicsModeToolStripMenuItem_Click);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(251, 6);
             // 
             // vSyncToolStripMenuItem
             // 
             this.vSyncToolStripMenuItem.Checked = true;
             this.vSyncToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.vSyncToolStripMenuItem.Name = "vSyncToolStripMenuItem";
-            this.vSyncToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.vSyncToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.vSyncToolStripMenuItem.Text = "VSync";
             this.vSyncToolStripMenuItem.Click += new System.EventHandler(this.vSyncToolStripMenuItem_Click);
             // 
@@ -409,6 +400,15 @@ namespace HeroesPowerPlant
             this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MouseMoveControl);
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
+            // 
+            // autoLoadLastProjectOnLaunchToolStripMenuItem
+            // 
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = true;
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Name = "autoLoadLastProjectOnLaunchToolStripMenuItem";
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Text = "Auto-Load Last Project on Launch";
+            this.autoLoadLastProjectOnLaunchToolStripMenuItem.Click += new System.EventHandler(this.autoLoadLastProjectOnLaunchToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -473,12 +473,12 @@ namespace HeroesPowerPlant
         private ToolStripMenuItem chunkBoxesBToolStripMenuItem;
         private ToolStripMenuItem renderByChunkHToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator4;
-        private ToolStripMenuItem graphicsModeToolStripMenuItem;
         private ToolStripMenuItem vSyncToolStripMenuItem;
         private ToolStripMenuItem selectionColorToolStripMenuItem;
         private ToolStripMenuItem mouseModeToolStripMenuItem;
         private ToolStripMenuItem objectsToolStripMenuItem;
         private ToolStripMenuItem camerasToolStripMenuItem;
+        private ToolStripMenuItem autoLoadLastProjectOnLaunchToolStripMenuItem;
     }
 }
 

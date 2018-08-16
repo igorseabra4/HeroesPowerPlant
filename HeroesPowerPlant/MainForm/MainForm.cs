@@ -3,7 +3,7 @@ using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using HeroesPowerPlant.Shared.IO.HPPConfig;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant
 {
@@ -30,8 +30,8 @@ namespace HeroesPowerPlant
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                HPPConfig hppConfig = HPPConfig.Open(openFile.FileName);
-                HPPConfig.ApplyInstance(hppConfig);
+                ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
+                ProjectConfig.ApplyInstance(projectConfig);
             }
         }
 
@@ -39,8 +39,8 @@ namespace HeroesPowerPlant
         {
             if (currentSavePath != null)
             {
-                var hppConfig = HPPConfig.FromCurrentInstance();
-                HPPConfig.Save(hppConfig, currentSavePath);
+                var hppConfig = ProjectConfig.FromCurrentInstance();
+                ProjectConfig.Save(hppConfig, currentSavePath);
 
             }  
             else
@@ -55,8 +55,8 @@ namespace HeroesPowerPlant
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                var hppConfig = HPPConfig.FromCurrentInstance();
-                HPPConfig.Save(hppConfig, currentSavePath);
+                var hppConfig = ProjectConfig.FromCurrentInstance();
+                ProjectConfig.Save(hppConfig, currentSavePath);
             }
         }
 
@@ -442,38 +442,62 @@ namespace HeroesPowerPlant
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            HPPConfig.GetInstance().Save();
             Application.Exit();
-        }
-
-        private void graphicsModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ToggleGraphicsMode();
-        }
-
-        private void ToggleGraphicsMode()
-        {
-            SharpRenderer.dontRender = true;
-            graphicsModeToolStripMenuItem.Checked = !graphicsModeToolStripMenuItem.Checked;
-            SharpRenderer.device.SetGraphicsMode(graphicsModeToolStripMenuItem.Checked);
-            SharpRenderer.dontRender = false;
         }
 
         private void vSyncToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToggleVSync();
+            if (vSyncToolStripMenuItem.Checked)
+                DisableVSync();
+            else
+                EnableVSync();
         }
 
-        private void ToggleVSync()
+        public void EnableVSync()
         {
             SharpRenderer.dontRender = true;
-            vSyncToolStripMenuItem.Checked = !vSyncToolStripMenuItem.Checked;
+            vSyncToolStripMenuItem.Checked = true;
             SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
             SharpRenderer.dontRender = false;
+
+            HPPConfig.GetInstance().VSync = true;
+        }
+
+        public void DisableVSync()
+        {
+            SharpRenderer.dontRender = true;
+            vSyncToolStripMenuItem.Checked = false;
+            SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            SharpRenderer.dontRender = false;
+
+            HPPConfig.GetInstance().VSync = false;
+        }
+
+        private void autoLoadLastProjectOnLaunchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (autoLoadLastProjectOnLaunchToolStripMenuItem.Checked)
+                DisableAutoLoadLastProject();
+            else
+                EnableAutoLoadLastProject();
+        }
+
+        public void EnableAutoLoadLastProject()
+        {
+            autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = true;
+            HPPConfig.GetInstance().AutomaticallyLoadLastConfig = true;
+        }
+
+        public void DisableAutoLoadLastProject()
+        {
+            autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = false;
+            HPPConfig.GetInstance().AutomaticallyLoadLastConfig = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            HPPConfig.LoadLastConfig();
+            var hppConfig = HPPConfig.GetInstance();
+            hppConfig.Load();
         }
     }
 }
