@@ -194,6 +194,7 @@
             this.Name = "ViewConfig";
             this.ShowIcon = false;
             this.Load += new System.EventHandler(this.ViewConfig_Load);
+            this.VisibleChanged += new System.EventHandler(this.ViewConfig_VisibleChanged);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraYaw)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraPitch)).EndInit();

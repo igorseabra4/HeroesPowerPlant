@@ -137,7 +137,7 @@ namespace HeroesPowerPlant
             // Create a DepthStencil view on this surface to use on bind.
             var depthBuffer = new Texture2D(Device, new Texture2DDescription
             {
-                Format = currentMode ? Format.D32_Float : Format.D16_UNorm,
+                Format = Format.D32_Float,
                 ArraySize = 1,
                 MipLevels = 1,
                 Width = Control.Width,
@@ -150,9 +150,9 @@ namespace HeroesPowerPlant
             _zbufferView = new DepthStencilView(Device, depthBuffer,
                 new DepthStencilViewDescription()
                 {
-                    Format = currentMode ? Format.D32_Float : Format.D16_UNorm,
+                    Format = Format.D32_Float,
                     //Dimension = DepthStencilViewDimension.Texture2D
-                    Dimension = currentMode ? DepthStencilViewDimension.Texture2DMultisampled : DepthStencilViewDimension.Texture2D
+                    Dimension = DepthStencilViewDimension.Texture2DMultisampled
                 });
             
             SetDefaultTargets();
@@ -220,11 +220,11 @@ namespace HeroesPowerPlant
                 IsFrontCounterClockwise = true,
                 DepthBias = 0,
                 DepthBiasClamp = 0,
-                IsAntialiasedLineEnabled = currentMode,
+                IsAntialiasedLineEnabled = true,
                 SlopeScaledDepthBias = 0,
-                IsDepthClipEnabled = currentMode,
+                IsDepthClipEnabled = true,
                 IsScissorEnabled = false,
-                IsMultisampleEnabled = currentMode
+                IsMultisampleEnabled = true
             });
             DeviceContext.Rasterizer.State = _rasterState;
         }
@@ -363,7 +363,7 @@ namespace HeroesPowerPlant
         {
             Utilities.Dispose(ref _samplerState);
             SamplerStateDescription description = SamplerStateDescription.Default();
-            description.Filter = currentMode ? Filter.Anisotropic : Filter.MinMagMipPoint;
+            description.Filter = Filter.Anisotropic;
             description.AddressU = TextureAddressMode.Wrap;
             description.AddressV = TextureAddressMode.Wrap;
             _samplerState = new SamplerState(Device, description);
@@ -397,14 +397,6 @@ namespace HeroesPowerPlant
         public static bool IsDirectX11Supported()
         {
             return SharpDX.Direct3D11.Device.GetSupportedFeatureLevel() == FeatureLevel.Level_11_0;
-        }
-
-        private bool currentMode = true;
-
-        public void SetGraphicsMode(bool value)
-        {
-            currentMode = value;
-            Resize();
         }
 
         private int VSync = 1;

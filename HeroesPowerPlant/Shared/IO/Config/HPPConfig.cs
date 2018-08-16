@@ -19,6 +19,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
         public string LastProjectPath { get; set; }
         public bool   AutomaticallyLoadLastConfig { get; set; } = true;
+        public bool   VSync { get; set; } = true;
 
         /*
             ------------
@@ -55,12 +56,12 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// </summary>
         public HPPConfig Load()
         {
-            if (File.Exists(ConfigPath))
-            {
-                string fileText = File.ReadAllText(ConfigPath);
-                Instance = JsonConvert.DeserializeObject<HPPConfig>(fileText); // This line automatically applies our instance members, as they are static.
-                Instance.ApplyConfig();
-            }
+            if (! File.Exists(ConfigPath))
+                Save();
+
+            string fileText = File.ReadAllText(ConfigPath);
+            Instance = JsonConvert.DeserializeObject<HPPConfig>(fileText);
+            Instance.ApplyConfig();
 
             return Instance;
         }
@@ -81,6 +82,16 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     ProjectConfig.ApplyInstance(config);
                 }
             }
+
+            if (VSync)
+                Program.MainForm.EnableVSync();
+            else
+                Program.MainForm.DisableVSync(); // In case the program default ever changes.
+
+            if (AutomaticallyLoadLastConfig)
+                Program.MainForm.EnableAutoLoadLastProject();
+            else
+                Program.MainForm.DisableAutoLoadLastProject();
         }
     }
 }

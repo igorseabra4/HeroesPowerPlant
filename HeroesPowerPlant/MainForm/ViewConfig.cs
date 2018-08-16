@@ -1,6 +1,7 @@
 ﻿using SharpDX;
 using System;
 using System.Windows.Forms;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant
 {
@@ -29,9 +30,6 @@ namespace HeroesPowerPlant
             NumericDrawD.Minimum = 1;
             NumericQuadHeight.Minimum = Decimal.MinValue;
             NumericFOV.Minimum = 0.0001M;
-
-            NumericFOV.Value = (decimal)MathUtil.RadiansToDegrees(MathUtil.PiOverFour);
-            NumericDrawD.Value = 500000;
         }
 
         public bool programIsUpdatingValues = false;
@@ -97,6 +95,16 @@ namespace HeroesPowerPlant
         private void NumericQuadHeight_ValueChanged(object sender, EventArgs e)
         {
             CollisionEditor.CollisionRendering.SetQuadHeight((float)NumericQuadHeight.Value);
+        }
+
+        private void ViewConfig_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible)
+            {
+                var currentConfig = ProjectConfig.FromCurrentInstance();
+                NumericFOV.Value = (decimal) MathUtil.RadiansToDegrees(currentConfig.CameraSettings.FieldOfView);
+                NumericDrawD.Value = (decimal)currentConfig.CameraSettings.DrawDistance;
+            }
         }
     }
 }

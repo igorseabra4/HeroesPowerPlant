@@ -26,6 +26,11 @@ namespace HeroesPowerPlant
             UpdateCamera();
         }
 
+        public float GetSpeed()
+        {
+            return Speed;
+        }
+
         public void SetSpeed(float Speed)
         {
             this.Speed = Speed;

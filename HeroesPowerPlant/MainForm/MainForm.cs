@@ -446,30 +446,52 @@ namespace HeroesPowerPlant
             Application.Exit();
         }
 
-        private void graphicsModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ToggleGraphicsMode();
-        }
-
-        private void ToggleGraphicsMode()
-        {
-            SharpRenderer.dontRender = true;
-            graphicsModeToolStripMenuItem.Checked = !graphicsModeToolStripMenuItem.Checked;
-            SharpRenderer.device.SetGraphicsMode(graphicsModeToolStripMenuItem.Checked);
-            SharpRenderer.dontRender = false;
-        }
-
         private void vSyncToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToggleVSync();
+            if (vSyncToolStripMenuItem.Checked)
+                DisableVSync();
+            else
+                EnableVSync();
         }
 
-        private void ToggleVSync()
+        public void EnableVSync()
         {
             SharpRenderer.dontRender = true;
-            vSyncToolStripMenuItem.Checked = !vSyncToolStripMenuItem.Checked;
+            vSyncToolStripMenuItem.Checked = true;
             SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
             SharpRenderer.dontRender = false;
+
+            HPPConfig.GetInstance().VSync = true;
+        }
+
+        public void DisableVSync()
+        {
+            SharpRenderer.dontRender = true;
+            vSyncToolStripMenuItem.Checked = false;
+            SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            SharpRenderer.dontRender = false;
+
+            HPPConfig.GetInstance().VSync = false;
+        }
+
+        private void autoLoadLastProjectOnLaunchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (autoLoadLastProjectOnLaunchToolStripMenuItem.Checked)
+                DisableAutoLoadLastProject();
+            else
+                EnableAutoLoadLastProject();
+        }
+
+        public void EnableAutoLoadLastProject()
+        {
+            autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = true;
+            HPPConfig.GetInstance().AutomaticallyLoadLastConfig = true;
+        }
+
+        public void DisableAutoLoadLastProject()
+        {
+            autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = false;
+            HPPConfig.GetInstance().AutomaticallyLoadLastConfig = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
