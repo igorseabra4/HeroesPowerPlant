@@ -17,6 +17,11 @@ namespace HeroesPowerPlant.MainForm
 
             showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
 
+#if DEBUG
+            debugToolStripMenuItem.Visible = true;
+#else
+            debugToolStripMenuItem.Visible = false;
+#endif
             new SharpRenderer(renderPanel);
         }
 
@@ -66,6 +71,23 @@ namespace HeroesPowerPlant.MainForm
                 currentSavePath = openFile.FileName;
                 var hppConfig = ProjectConfig.FromCurrentInstance();
                 ProjectConfig.Save(hppConfig, currentSavePath);
+            }
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Procceed?",
+                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                Program.LevelEditor.New();
+                Program.CollisionEditor.CloseFile();
+                Program.ConfigEditor.New();
+                Program.LayoutEditor.New();
+                Program.CameraEditor.New();
+                Program.ParticleEditor.New();
+                Program.TexturePatternEditor.New();
+                DFFRenderer.ClearObjectONEFiles();
+                SharpRenderer.Camera.Reset();
             }
         }
 

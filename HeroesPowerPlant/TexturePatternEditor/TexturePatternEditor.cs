@@ -30,6 +30,11 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            New();
+        }
+
+        public void New()
+        {
             toolStripStatusLabel1.Text = "No file loaded";
             patternSystem = new PatternSystem();
             listBoxPatterns.Items.Clear();
@@ -48,10 +53,10 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (patternSystem.CurrentlyOpenTXC != null)
-                patternSystem.Save(patternSystem.CurrentlyOpenTXC);
-            else
+            if (String.IsNullOrEmpty(patternSystem.CurrentlyOpenTXC))
                 saveAsToolStripMenuItem_Click(sender, e);
+            else
+                patternSystem.Save();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -77,6 +82,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
             foreach (string p in patternSystem.GetPatternEntries())
                 listBoxPatterns.Items.Add(p);
 
+            listBoxFrames.Items.Clear();
+
             toolStripStatusLabel1.Text = patternSystem.CurrentlyOpenTXC;
         }
 
@@ -99,17 +106,24 @@ namespace HeroesPowerPlant.TexturePatternEditor
         private void buttonRemove_Click(object sender, EventArgs e)
         {
             if (listBoxPatterns.SelectedItem != null)
+            {
+                programIsChangingStuff = true;
                 listBoxPatterns.Items.RemoveAt(patternSystem.Remove(listBoxPatterns.SelectedIndex));
+                programIsChangingStuff = false;
+            }
         }
 
         private void listBoxPatterns_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff)
+            if (programIsChangingStuff | listBoxPatterns.SelectedItem == null)
                 return;
 
             programIsChangingStuff = true;
 
+            patternSystem.Deselect();
+
             PatternEntry selected = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
+            selected.isSelected = true;
 
             textBoxTextureName.Text = selected.TextureName;
             textBoxAnimationName.Text = selected.AnimationName;
@@ -162,7 +176,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void listBoxFrames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff) return;
+            if (programIsChangingStuff | listBoxPatterns.SelectedItem == null | listBoxFrames.SelectedItem == null) return;
             
             if (listBoxFrames.SelectedItem != null)
             {
@@ -252,13 +266,22 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            Play = true;
+            Play = !Play;
+            if (Play)
+            {
+                buttonPlay.Text = "Stop";
+            }
+            else
+            {
+                buttonPlay.Text = "Play";
+                patternSystem.StopAnimation();
+                labelFrame.Text = "Stopped";
+            }
         }
 
-        private void buttonStop_Click(object sender, EventArgs e)
+        public void SendPlaying(uint counter)
         {
-            Play = false;
-            patternSystem.StopAnimation();
+            labelFrame.Text = "Frame: " + counter.ToString();
         }
     }
 }

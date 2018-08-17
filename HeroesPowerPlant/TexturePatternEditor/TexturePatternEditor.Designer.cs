@@ -48,7 +48,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.numericFrameCount = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.buttonStop = new System.Windows.Forms.Button();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.numericTextureNumber = new System.Windows.Forms.NumericUpDown();
@@ -57,6 +56,7 @@
             this.listBoxFrames = new System.Windows.Forms.ListBox();
             this.buttonAddFrame = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.labelFrame = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -95,28 +95,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -244,7 +244,7 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.buttonStop);
+            this.groupBox5.Controls.Add(this.labelFrame);
             this.groupBox5.Controls.Add(this.buttonPlay);
             this.groupBox5.Controls.Add(this.groupBox7);
             this.groupBox5.Controls.Add(this.groupBox6);
@@ -258,21 +258,11 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Keyframes";
             // 
-            // buttonStop
-            // 
-            this.buttonStop.Location = new System.Drawing.Point(150, 125);
-            this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(44, 44);
-            this.buttonStop.TabIndex = 17;
-            this.buttonStop.Text = "Stop";
-            this.buttonStop.UseVisualStyleBackColor = true;
-            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
-            // 
             // buttonPlay
             // 
-            this.buttonPlay.Location = new System.Drawing.Point(103, 125);
+            this.buttonPlay.Location = new System.Drawing.Point(103, 146);
             this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(44, 44);
+            this.buttonPlay.Size = new System.Drawing.Size(91, 23);
             this.buttonPlay.TabIndex = 16;
             this.buttonPlay.Text = "Play";
             this.buttonPlay.UseVisualStyleBackColor = true;
@@ -343,6 +333,15 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.buttonRemoveFrame_Click);
             // 
+            // labelFrame
+            // 
+            this.labelFrame.AutoSize = true;
+            this.labelFrame.Location = new System.Drawing.Point(103, 127);
+            this.labelFrame.Name = "labelFrame";
+            this.labelFrame.Size = new System.Drawing.Size(47, 13);
+            this.labelFrame.TabIndex = 17;
+            this.labelFrame.Text = "Stopped";
+            // 
             // TexturePatternEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,6 +374,7 @@
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericFrameCount)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericTextureNumber)).EndInit();
             this.groupBox6.ResumeLayout(false);
@@ -413,7 +413,7 @@
         private System.Windows.Forms.NumericUpDown numericTextureNumber;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.NumericUpDown numericFrameOffset;
-        private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Button buttonPlay;
+        private System.Windows.Forms.Label labelFrame;
     }
 }

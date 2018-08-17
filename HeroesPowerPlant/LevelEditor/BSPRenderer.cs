@@ -152,7 +152,7 @@ namespace HeroesPowerPlant
                     }
         }
 
-        public static void SetTexture(string previousTexture, string newTexture)
+        public static void SetTexture(string diffuseMapName, string newMapName)
         {
             List<RenderWareModelFile> models = new List<RenderWareModelFile>();
             models.AddRange(BSPList);
@@ -163,8 +163,8 @@ namespace HeroesPowerPlant
                 foreach (SharpMesh mesh in m.meshList)
                     foreach (SharpSubSet sub in mesh.SubSets)
                     {
-                        if (sub.DiffuseMapName == previousTexture)
-                            sub.DiffuseMap = Textures[newTexture];
+                        if (sub.DiffuseMapName == diffuseMapName)
+                            sub.DiffuseMap = Textures[newMapName];
                     }
         }
 

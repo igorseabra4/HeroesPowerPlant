@@ -26,8 +26,9 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public PatternSystem(string fileName)
         {
             patterns = new List<PatternEntry>();
+            currentlyOpenTXC = fileName;
 
-            BinaryReader patternReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
+            BinaryReader patternReader = new BinaryReader(new FileStream(currentlyOpenTXC, FileMode.Open));
 
             uint frameCount = patternReader.ReadUInt32();
 
@@ -72,7 +73,12 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public void Save(string fileName)
         {
             currentlyOpenTXC = fileName;
-            BinaryWriter patternWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
+            Save();
+        }
+
+        public void Save()
+        {
+            BinaryWriter patternWriter = new BinaryWriter(new FileStream(currentlyOpenTXC, FileMode.Create));
 
             foreach (PatternEntry p in patterns)
             {
@@ -139,19 +145,29 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             if (index >= 0 & index < patterns.Count)
             {
-                PatternEntry p = patterns[index];
+                patterns[index].StopAnimation();
                 patterns.RemoveAt(index);
                 return index;
             }
             throw new IndexOutOfRangeException();
         }
 
+        public void Deselect()
+        {
+            foreach (PatternEntry p in patterns)
+                p.isSelected = false;
+        }
+
         // Rendering
+
+        private bool switcher = true;
 
         public void Animate()
         {
-            foreach (PatternEntry p in patterns)
-                p.Animate();
+            if (switcher)
+                foreach (PatternEntry p in patterns)
+                    p.Animate();
+            switcher = !switcher;
         }
 
         public void StopAnimation()

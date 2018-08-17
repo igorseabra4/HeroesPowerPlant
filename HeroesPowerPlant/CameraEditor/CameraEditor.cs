@@ -115,6 +115,11 @@ namespace HeroesPowerPlant.CameraEditor
                 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            New();
+        }
+
+        public void New()
+        {
             CurrentCameraFile = null;
             ListBoxCameras.Items.Clear();
             toolStripStatusFile.Text = "No file loaded";

@@ -178,7 +178,7 @@
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
     <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
-    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object01FF_SetParticle.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object01FF_SetParticle.cs" />
     <Compile Include="ParticleEditor\ParticleMenu.cs">
       <SubType>Form</SubType>
     </Compile>

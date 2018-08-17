@@ -86,6 +86,11 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            New();
+        }
+
+        public void New()
+        {
             ParticleEditor = new ParticleEditor();
             UpdateValues();
         }

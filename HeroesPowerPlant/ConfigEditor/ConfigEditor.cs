@@ -70,6 +70,11 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            New();
+        }
+
+        public void New()
+        {
             OpenConfigFileName = null;
             LabelFileLoaded.Text = "No file loaded";
             CleanFile();
@@ -77,7 +82,7 @@ namespace HeroesPowerPlant.ConfigEditor
             Program.MainForm.EnableSplineEditor();
             Program.SplineEditor.SplineEditorNewConfig();
         }
-        
+
         private string OpenConfigFileName = "";
 
         public string GetOpenConfigFileName()

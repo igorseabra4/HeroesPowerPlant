@@ -41,6 +41,11 @@ namespace HeroesPowerPlant.LevelEditor
         
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            New();
+        }
+
+        public void New()
+        {
             SetHeroesMode();
             ResetEveryting();
         }

@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -18,6 +19,10 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 this.Position = Position;
                 this.Rotation = Rotation;
+
+                box.X = Math.Max(1f, box.X);
+                box.Y = Math.Max(1f, box.Y);
+                box.Z = Math.Max(1f, box.Z);
 
                 transformMatrix = Matrix.Scaling(box * 2) *
                     Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *

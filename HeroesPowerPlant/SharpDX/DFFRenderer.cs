@@ -19,7 +19,7 @@ namespace HeroesPowerPlant
         {
             foreach (RenderWareModelFile r in DFFModels.Values)
                 foreach (SharpMesh mesh in r.meshList)
-                    mesh.DisposeWithTextures();
+                    mesh.Dispose();
         }
 
         public static void AddDFFFiles(IEnumerable<string> fileNames)

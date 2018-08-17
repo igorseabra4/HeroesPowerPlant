@@ -74,6 +74,11 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CloseFile();
+        }
+
+        public void CloseFile()
+        {
             collisionSystem.Close();
             labelFileLoaded.Text = "No CL loaded";
             labelVertexNum.Text = "Vertices: ";

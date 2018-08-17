@@ -53,6 +53,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         // Rendering
         private uint counter = 0;
+        public bool isSelected;
 
         public void Animate()
         {
@@ -69,6 +70,9 @@ namespace HeroesPowerPlant.TexturePatternEditor
                     if (BSPRenderer.HasTexture(newTextureName))
                         BSPRenderer.SetTexture(TextureName, newTextureName);
                 }
+
+            if (isSelected)
+                Program.TexturePatternEditor.SendPlaying(counter);
         }
 
         public void StopAnimation()

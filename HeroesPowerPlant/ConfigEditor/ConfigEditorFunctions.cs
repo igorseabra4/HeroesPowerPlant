@@ -99,7 +99,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             return list;
         }
-        
+
         public List<StartPositionEntry> StartPositions = new List<StartPositionEntry>();
         public List<EndPositionEntry> EndPositions = new List<EndPositionEntry>();
         public List<EndPositionEntry> BragPositions = new List<EndPositionEntry>();

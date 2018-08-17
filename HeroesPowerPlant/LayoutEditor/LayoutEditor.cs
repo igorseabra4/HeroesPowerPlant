@@ -49,12 +49,17 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            New();
+        }
+
+        public void New()
+        {
             layoutSystem.NewHeroesLayout();
 
             UpdateObjectComboBox();
             UpdateFileLabel();
         }
-        
+
         private void shadowLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             layoutSystem.NewShadowLayout();
