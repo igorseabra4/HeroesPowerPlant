@@ -345,7 +345,7 @@ namespace HeroesPowerPlant.LayoutEditor
             float smallerDistance = 10000f;
             bool change = false;
 
-            foreach (RenderWareModelFile rwmf in BSPRenderer.BSPStream)
+            foreach (RenderWareModelFile rwmf in BSPRenderer.BSPList)
             {
                 foreach (RenderWareFile.RWSection rw in rwmf.GetAsRWSectionArray())
                 {

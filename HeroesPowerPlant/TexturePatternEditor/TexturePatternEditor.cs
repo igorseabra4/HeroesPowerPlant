@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Data;
-using System.Linq;
 using System.Windows.Forms;
-using static HeroesPowerPlant.TexturePatternEditor.TexturePatternEditorFunctions;
 
 namespace HeroesPowerPlant.TexturePatternEditor
 {
@@ -11,6 +8,11 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public TexturePatternEditor()
         {
             InitializeComponent();
+            numericFrameCount.Maximum = decimal.MaxValue;
+            numericFrameOffset.Maximum = decimal.MaxValue;
+            numericTextureNumber.Maximum = decimal.MaxValue;
+
+            patternSystem = new PatternSystem();
         }
         
         private void PatternEditor_FormClosing(object sender, FormClosingEventArgs e)
@@ -21,20 +23,15 @@ namespace HeroesPowerPlant.TexturePatternEditor
             e.Cancel = true;
             Hide();
         }
-
-        private string currentlyOpenTXC;
-        public string CurrentlyOpenTXC
-        {
-            get => currentlyOpenTXC;
-            private set => currentlyOpenTXC = value;
-        }
-
+        
         private bool programIsChangingStuff = false;
+
+        private PatternSystem patternSystem;
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CurrentlyOpenTXC = null;
             toolStripStatusLabel1.Text = "No file loaded";
+            patternSystem = new PatternSystem();
             listBoxPatterns.Items.Clear();
         }
 
@@ -51,8 +48,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentlyOpenTXC != null)
-                SaveTXC(listBoxPatterns.Items.Cast<PatternEntry>(), CurrentlyOpenTXC);
+            if (patternSystem.CurrentlyOpenTXC != null)
+                patternSystem.Save(patternSystem.CurrentlyOpenTXC);
             else
                 saveAsToolStripMenuItem_Click(sender, e);
         }
@@ -62,55 +59,57 @@ namespace HeroesPowerPlant.TexturePatternEditor
             SaveFileDialog saveFile = new SaveFileDialog()
             {
                 Filter = "TXC Files|*.txc",
-                FileName = CurrentlyOpenTXC
+                FileName = patternSystem.CurrentlyOpenTXC
             };
 
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                CurrentlyOpenTXC = saveFile.FileName;
-                toolStripStatusLabel1.Text = CurrentlyOpenTXC;
-                SaveTXC(listBoxPatterns.Items.Cast<PatternEntry>(), CurrentlyOpenTXC);
+                patternSystem.Save(saveFile.FileName);
+                toolStripStatusLabel1.Text = patternSystem.CurrentlyOpenTXC;
             }
         }
 
         public void OpenFile(string fileName)
         {
-            CurrentlyOpenTXC = fileName;
-
+            patternSystem = new PatternSystem(fileName);
+            
             listBoxPatterns.Items.Clear();
-            foreach (PatternEntry p in GetPatternEntriesFromFile(CurrentlyOpenTXC))
+            foreach (string p in patternSystem.GetPatternEntries())
                 listBoxPatterns.Items.Add(p);
 
-            toolStripStatusLabel1.Text = CurrentlyOpenTXC;
+            toolStripStatusLabel1.Text = patternSystem.CurrentlyOpenTXC;
         }
 
         public string GetCurrentlyOpenTXC()
         {
-            return CurrentlyOpenTXC;
+            return patternSystem.CurrentlyOpenTXC;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            listBoxPatterns.Items.Add(new PatternEntry());
+            listBoxPatterns.Items.Add(patternSystem.Add());
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
             if (listBoxPatterns.SelectedItem != null)
-                listBoxPatterns.Items.Add(new PatternEntry((PatternEntry)listBoxPatterns.SelectedItem));
+                listBoxPatterns.Items.Add(patternSystem.Add(listBoxPatterns.SelectedIndex));
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
             if (listBoxPatterns.SelectedItem != null)
-                listBoxPatterns.Items.Remove(listBoxPatterns.SelectedItem);
+                listBoxPatterns.Items.RemoveAt(patternSystem.Remove(listBoxPatterns.SelectedIndex));
         }
 
         private void listBoxPatterns_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (programIsChangingStuff)
+                return;
+
             programIsChangingStuff = true;
 
-            PatternEntry selected = (PatternEntry)listBoxPatterns.SelectedItem;
+            PatternEntry selected = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
 
             textBoxTextureName.Text = selected.TextureName;
             textBoxAnimationName.Text = selected.AnimationName;
@@ -128,24 +127,37 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             if (programIsChangingStuff) return;
 
+            // ugly code
             if (listBoxPatterns.SelectedItem != null)
-                ((PatternEntry)listBoxPatterns.SelectedItem).TextureName = textBoxTextureName.Text;
+            {
+                programIsChangingStuff = true;
+                patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).TextureName = textBoxTextureName.Text;
+                listBoxPatterns.Items[listBoxPatterns.SelectedIndex] = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).ToString();
+                programIsChangingStuff = false;
+            }
         }
 
         private void textBoxAnimationName_TextChanged(object sender, EventArgs e)
         {
             if (programIsChangingStuff) return;
 
+            // ugly code
             if (listBoxPatterns.SelectedItem != null)
-                ((PatternEntry)listBoxPatterns.SelectedItem).AnimationName = textBoxAnimationName.Text;
+                patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).AnimationName = textBoxAnimationName.Text;
         }
 
         private void numericFrameCount_ValueChanged(object sender, EventArgs e)
         {
             if (programIsChangingStuff) return;
 
+            // ugly code
             if (listBoxPatterns.SelectedItem != null)
-                ((PatternEntry)listBoxPatterns.SelectedItem).FrameCount = (uint)numericFrameCount.Value;
+            {
+                programIsChangingStuff = true;
+                patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).FrameCount = (uint)numericFrameCount.Value;
+                listBoxPatterns.Items[listBoxPatterns.SelectedIndex] = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).ToString();
+                programIsChangingStuff = false;
+            }
         }
 
         private void listBoxFrames_SelectedIndexChanged(object sender, EventArgs e)
@@ -154,11 +166,16 @@ namespace HeroesPowerPlant.TexturePatternEditor
             
             if (listBoxFrames.SelectedItem != null)
             {
-                PatternEntry p = (PatternEntry)listBoxPatterns.SelectedItem;
+                programIsChangingStuff = true;
+
+                // ugly code
+                PatternEntry p = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
                 Frame f = p.frames[listBoxFrames.SelectedIndex];
 
                 numericFrameOffset.Value = f.FrameOffset;
                 numericTextureNumber.Value = f.TextureNumber;
+
+                programIsChangingStuff = false;
             }
         }
 
@@ -167,7 +184,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
             if (listBoxPatterns.SelectedItem != null)
             {
                 Frame f = new Frame();
-                ((PatternEntry)listBoxPatterns.SelectedItem).frames.Add(f);
+                PatternEntry p = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
+                p.frames.Add(f);
                 listBoxFrames.Items.Add(f.ToString());
             }
         }
@@ -178,8 +196,9 @@ namespace HeroesPowerPlant.TexturePatternEditor
             {
                 if (listBoxFrames.SelectedItem != null)
                 {
+                    PatternEntry p = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
                     int index = listBoxFrames.SelectedIndex;
-                    ((PatternEntry)listBoxPatterns.SelectedItem).frames.RemoveAt(index);
+                    p.frames.RemoveAt(index);
                     listBoxFrames.Items.RemoveAt(index);
                 }
             }
@@ -192,9 +211,11 @@ namespace HeroesPowerPlant.TexturePatternEditor
             if (listBoxPatterns.SelectedItem != null)
                 if (listBoxFrames.SelectedItem != null)
                 {
-                    Frame f = ((PatternEntry)listBoxPatterns.SelectedItem).frames[listBoxFrames.SelectedIndex];
+                    PatternEntry p = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
+
+                    Frame f = p.frames[listBoxFrames.SelectedIndex];
                     f.FrameOffset = (ushort)numericFrameOffset.Value;
-                    ((PatternEntry)listBoxPatterns.SelectedItem).frames[listBoxFrames.SelectedIndex] = f;
+                    p.frames[listBoxFrames.SelectedIndex] = f;
 
                     programIsChangingStuff = true;
                     listBoxFrames.Items[listBoxFrames.SelectedIndex] = f.ToString();
@@ -209,14 +230,35 @@ namespace HeroesPowerPlant.TexturePatternEditor
             if (listBoxPatterns.SelectedItem != null)
                 if (listBoxFrames.SelectedItem != null)
                 {
-                    Frame f = ((PatternEntry)listBoxPatterns.SelectedItem).frames[listBoxFrames.SelectedIndex];
+                    PatternEntry p = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
+
+                    Frame f = p.frames[listBoxFrames.SelectedIndex];
                     f.TextureNumber = (ushort)numericTextureNumber.Value;
-                    ((PatternEntry)listBoxPatterns.SelectedItem).frames[listBoxFrames.SelectedIndex] = f;
+                    p.frames[listBoxFrames.SelectedIndex] = f;
 
                     programIsChangingStuff = true;
                     listBoxFrames.Items[listBoxFrames.SelectedIndex] = f.ToString();
                     programIsChangingStuff = false;
                 }
+        }
+
+        public void Animate()
+        {
+            if (Play)
+                patternSystem.Animate();
+        }
+
+        private bool Play = false;
+
+        private void buttonPlay_Click(object sender, EventArgs e)
+        {
+            Play = true;
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            Play = false;
+            patternSystem.StopAnimation();
         }
     }
 }

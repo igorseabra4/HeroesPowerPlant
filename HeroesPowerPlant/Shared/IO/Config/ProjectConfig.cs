@@ -108,7 +108,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 LayoutEditorPath = Program.LayoutEditor.GetOpenFileName(),
                 CameraEditorPath = Program.CameraEditor.CurrentCameraFile,
                 ParticleEditorPath = Program.ParticleEditor.GetCurrentlyOpenParticleFile(),
-                TexturePatternEditorPath = Program.TexturePatternEditor.CurrentlyOpenTXC,
+                TexturePatternEditorPath = Program.TexturePatternEditor.GetCurrentlyOpenTXC(),
 
                 DFFONEPaths = DFFRenderer.filePaths,
 

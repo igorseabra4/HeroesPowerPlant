@@ -13,57 +13,68 @@ namespace HeroesPowerPlant
 {
     public class BSPRenderer
     {
-        public static string currentFileNamePrefix = "default";
-        public static List<RenderWareModelFile> BSPStream = new List<RenderWareModelFile>();
-
-        public static void SetHeroesMeshStream(Archive heroesONEfile)
+        public static void Dispose()
         {
-            foreach (RenderWareModelFile r in BSPStream)
+            foreach (RenderWareModelFile r in BSPList)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
 
-            foreach (RenderWareModelFile r in ShadowCollisionBSPStream)
+            foreach (RenderWareModelFile r in ShadowColBSPList)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
+            
+            foreach (ShaderResourceView texture in Textures.Values)
+                if (texture != null)
+                    texture.Dispose();
+        }
 
+        public static string currentFileNamePrefix = "default";
+        public static List<RenderWareModelFile> BSPList = new List<RenderWareModelFile>();
+
+        public static void SetHeroesBSPList(Archive heroesONEfile)
+        {
+            Dispose();
+            Textures.Clear();
             LoadTextures(currentFileNamePrefix);
 
             ReadFileMethods.isShadow = false;
 
-            ShadowCollisionBSPStream = new List<RenderWareModelFile>();
-            BSPStream = new List<RenderWareModelFile>(heroesONEfile.Files.Count);
+            BSPList = new List<RenderWareModelFile>(heroesONEfile.Files.Count);
+            ShadowColBSPList = new List<RenderWareModelFile>();
 
             foreach (ArchiveFile file in heroesONEfile.Files)
             {
-                if (Path.GetExtension(file.Name).ToLower() != ".bsp")
+                if (!(new string[] { ".bsp", ".rg1", ".rx1" }.Contains(Path.GetExtension(file.Name).ToLower())))
                     continue;
                 
                 RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                 TempBSPFile.SetChunkNumberAndName();
                 byte[] uncompressedData = file.DecompressThis();
                 TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(uncompressedData), uncompressedData);
-                BSPStream.Add(TempBSPFile);
+                BSPList.Add(TempBSPFile);
             }
         }
+
 
         // Texture loader
 
         public const string DefaultTexture = "default";
-        public static Dictionary<string, ShaderResourceView> TextureStream = new Dictionary<string, ShaderResourceView>();
-        public static ShaderResourceView whiteDefault;
+        private static Dictionary<string, ShaderResourceView> Textures = new Dictionary<string, ShaderResourceView>();
         
-        public static void LoadTextures(string folderPrefix)
+        public static ShaderResourceView GetTextureFromDictionary(string textureName)
         {
-            foreach (ShaderResourceView texture in TextureStream.Values)
-                texture.Dispose();
+            if (Textures.ContainsKey(textureName))
+                return Textures[textureName];
+            return null;
+        }
 
-            if (whiteDefault != null)
-                if (!whiteDefault.IsDisposed)
-                    whiteDefault.Dispose();
+        public static bool HasTexture(string textureName)
+        {
+            return Textures.ContainsKey(textureName);
+        }
 
-            TextureStream.Clear();            
-            whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
-
+        private static void LoadTextures(string folderPrefix)
+        {
             string startupPath = System.Windows.Forms.Application.StartupPath;
 
             if (!Directory.Exists(startupPath + "\\Textures"))
@@ -72,33 +83,91 @@ namespace HeroesPowerPlant
                 Directory.CreateDirectory(startupPath + "\\Textures\\Common\\");
 
             List<string> FilesToLoad = new List<string>();
-            FilesToLoad.AddRange(Directory.GetFiles(startupPath  + "\\Textures\\Common\\"));
+            FilesToLoad.AddRange(Directory.GetFiles(startupPath + "\\Textures\\Common\\"));
             foreach (string s in Directory.EnumerateDirectories(startupPath + "\\Textures\\"))
             {
                 if (Path.GetFileName(s).Equals(folderPrefix) | Path.GetFileName(s).StartsWith(folderPrefix + "_"))
                     FilesToLoad.AddRange(Directory.GetFiles(s));
             }
-            
-            bool showMessageBox = false;
+
             foreach (string i in FilesToLoad)
             {
                 string textureName = Path.GetFileNameWithoutExtension(i);
 
-                if (TextureStream.ContainsKey(textureName))
-                    showMessageBox = true;
+                if (Textures.ContainsKey(textureName))
+                {
+                    if (Textures[textureName] != null)
+                        if (!Textures[textureName].IsDisposed)
+                            Textures[textureName].Dispose();
+
+                    Textures[textureName] = device.LoadTextureFromFile(i);
+                }
                 else
-                    try
-                    {
-                        TextureStream.Add(textureName, device.LoadTextureFromFile(i));
-                    }
-                    catch (Exception e)
-                    {
-                        System.Windows.Forms.MessageBox.Show(e.Message);
-                    }
+                    Textures.Add(textureName, device.LoadTextureFromFile(i));
             }
-            if (showMessageBox) System.Windows.Forms.MessageBox.Show("HeroesPowerPlant found duplicates of one or more textures. The first one will be used.");
+
+            ReapplyTextures();
         }
-        
+
+        //private static void LoadTexturesFromTXD(string fileName)
+        //{
+        //    RWSection[] file = ReadFileMethods.ReadRenderWareFile(fileName);
+
+        //    foreach (string i in FilesToLoad)
+        //    {
+        //        string textureName = Path.GetFileNameWithoutExtension(i);
+
+        //        if (Textures.ContainsKey(textureName))
+        //        {
+        //            if (Textures[textureName] != null)
+        //                if (!Textures[textureName].IsDisposed)
+        //                    Textures[textureName].Dispose();
+
+        //            Textures[textureName] = device.LoadTextureFromFile(i);
+        //        }
+        //        else
+        //            Textures.Add(textureName, device.LoadTextureFromFile(i));
+        //    }
+
+        //    ReapplyTextures();
+        //}
+
+        private static void ReapplyTextures()
+        {
+            List<RenderWareModelFile> models = new List<RenderWareModelFile>();
+            models.AddRange(BSPList);
+            models.AddRange(ShadowColBSPList);
+            models.AddRange(DFFRenderer.DFFModels.Values);
+
+            foreach (RenderWareModelFile m in models)
+                foreach (SharpMesh mesh in m.meshList)
+                    foreach (SharpSubSet sub in mesh.SubSets)
+                    {
+                        if (sub.DiffuseMap != null)
+                            if (!sub.DiffuseMap.IsDisposed)
+                                sub.DiffuseMap.Dispose();
+
+                        if (Textures.ContainsKey(sub.DiffuseMapName))
+                            sub.DiffuseMap = Textures[sub.DiffuseMapName];
+                    }
+        }
+
+        public static void SetTexture(string previousTexture, string newTexture)
+        {
+            List<RenderWareModelFile> models = new List<RenderWareModelFile>();
+            models.AddRange(BSPList);
+            models.AddRange(ShadowColBSPList);
+            models.AddRange(DFFRenderer.DFFModels.Values);
+
+            foreach (RenderWareModelFile m in models)
+                foreach (SharpMesh mesh in m.meshList)
+                    foreach (SharpSubSet sub in mesh.SubSets)
+                    {
+                        if (sub.DiffuseMapName == previousTexture)
+                            sub.DiffuseMap = Textures[newTexture];
+                    }
+        }
+
         // Visibility functions
 
         private static HashSet<int> VisibleChunks = new HashSet<int>();
@@ -144,38 +213,38 @@ namespace HeroesPowerPlant
             device.UpdateData(defaultBuffer, viewProjection);
             device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
 
-            for (int j = 0; j < BSPStream.Count; j++)
+            for (int j = 0; j < BSPList.Count; j++)
             {
-                if ((renderByChunk & !VisibleChunks.Contains(BSPStream[j].ChunkNumber)) |
-                    (BSPStream[j].ChunkName == "A" | BSPStream[j].ChunkName == "P" | BSPStream[j].ChunkName == "K"))
+                if ((renderByChunk & !VisibleChunks.Contains(BSPList[j].ChunkNumber)) |
+                    (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P" | BSPList[j].ChunkName == "K"))
                     continue;
 
-                if (BSPStream[j].isNoCulling) device.SetCullModeNone();
+                if (BSPList[j].isNoCulling) device.SetCullModeNone();
                 else device.SetCullModeDefault();
 
                 device.ApplyRasterState();
                 device.UpdateAllStates();
 
-                BSPStream[j].Render();
+                BSPList[j].Render();
             }
         }
 
         private static void RenderAlpha(Matrix viewProjection)
         {
-            for (int j = 0; j < BSPStream.Count; j++)
+            for (int j = 0; j < BSPList.Count; j++)
             {
-                if ((renderByChunk & !VisibleChunks.Contains(BSPStream[j].ChunkNumber)) |
-                    (BSPStream[j].ChunkName == "O"))
+                if ((renderByChunk & !VisibleChunks.Contains(BSPList[j].ChunkNumber)) |
+                    (BSPList[j].ChunkName == "O"))
                     continue;
 
-                if (BSPStream[j].isNoCulling) device.SetCullModeNone();
+                if (BSPList[j].isNoCulling) device.SetCullModeNone();
                 else device.SetCullModeDefault();
 
-                if (BSPStream[j].ChunkName == "A" | BSPStream[j].ChunkName == "P")
+                if (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P")
                 {
                     device.SetBlendStateAlphaBlend();
                 }
-                else if (BSPStream[j].ChunkName == "K")
+                else if (BSPList[j].ChunkName == "K")
                 {
                     device.SetBlendStateAdditive();
                 }
@@ -186,7 +255,7 @@ namespace HeroesPowerPlant
                 device.UpdateData(defaultBuffer, viewProjection);
                 device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
 
-                BSPStream[j].Render();
+                BSPList[j].Render();
             }
         }
 
@@ -195,57 +264,52 @@ namespace HeroesPowerPlant
 
         public static void LoadShadowLevelFolder(string Folder)
         {
-            List<Archive> OpenShadowONEFiles = new List<Archive>();
+            List<Archive> ShadowONEFiles = new List<Archive>();
             currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(Folder);
 
             foreach (string fileName in Directory.GetFiles(Folder))
             {
-                if (Path.GetExtension(fileName).ToLower() == ".one"
-                    & !fileName.Contains("dat")
-                    & !fileName.Contains("fx")
-                    & !fileName.Contains("gdt")
-                    & !fileName.Contains("tex"))
-                {
-                    byte[] oneDataBytes = File.ReadAllBytes(fileName);
-                    OpenShadowONEFiles.Add(Archive.FromONEFile(ref oneDataBytes));
-                }
-                else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("dat"))
-                {
-                    Program.LevelEditor.initVisibilityEditor(true, fileName);
-                }
-                else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("fx"))
-                {
-                  //  OpenShadowFXONE = new HeroesONEFile(fileName);
-                }
-                else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("gdt"))
-                {
-                   // OpenShadowGDTONE = new HeroesONEFile(fileName);
-                }
-                else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("tex"))
-                {
-                   // OpenShadowTexONE = new HeroesONEFile(fileName);
-                }
+                if (Path.GetExtension(fileName).ToLower() == ".one")
+                    if (!(fileName.Contains("dat") |
+                        fileName.Contains("fx") |
+                        fileName.Contains("gdt") |
+                        fileName.Contains("tex")))
+                    {
+                        byte[] oneDataBytes = File.ReadAllBytes(fileName);
+                        ShadowONEFiles.Add(Archive.FromONEFile(ref oneDataBytes));
+                    }
+                    else if (fileName.Contains("dat"))
+                    {
+                        Program.LevelEditor.initVisibilityEditor(true, fileName);
+                    }
+                    else if (fileName.Contains("fx"))
+                    {
+                        //  OpenShadowFXONE = new HeroesONEFile(fileName);
+                    }
+                    else if (fileName.Contains("gdt"))
+                    {
+                        // OpenShadowGDTONE = new HeroesONEFile(fileName);
+                    }
+                    else if (fileName.Contains("tex"))
+                    {
+                        // OpenShadowTexONE = new HeroesONEFile(fileName);
+                    }
             }
 
-            SetShadowMeshStream(OpenShadowONEFiles);
+            SetShadowBSPList(ShadowONEFiles);
         }
 
-        public static List<RenderWareModelFile> ShadowCollisionBSPStream = new List<RenderWareModelFile>();
+        public static List<RenderWareModelFile> ShadowColBSPList = new List<RenderWareModelFile>();
 
-        public static void SetShadowMeshStream(List<Archive> OpenShadowONEFiles)
+        private static void SetShadowBSPList(List<Archive> OpenShadowONEFiles)
         {
-            foreach (RenderWareModelFile r in BSPStream)
-                foreach (SharpMesh mesh in r.meshList)
-                    mesh.Dispose();
+            Dispose();
 
-            foreach (RenderWareModelFile r in ShadowCollisionBSPStream)
-                foreach (SharpMesh mesh in r.meshList)
-                    mesh.Dispose();
-
+            Textures.Clear();
             LoadTextures(currentShadowFolderNamePrefix);
 
-            BSPStream = new List<RenderWareModelFile>();
-            ShadowCollisionBSPStream = new List<RenderWareModelFile>();
+            BSPList = new List<RenderWareModelFile>();
+            ShadowColBSPList = new List<RenderWareModelFile>();
 
             ReadFileMethods.isShadow = true;
 
@@ -275,7 +339,7 @@ namespace HeroesPowerPlant
                         {
                             System.Windows.Forms.MessageBox.Show("Error on opening " + file.Name + ": " + e.Message);
                         }
-                        ShadowCollisionBSPStream.Add(TempBSPFile);
+                        ShadowColBSPList.Add(TempBSPFile);
 
                         ReadFileMethods.isCollision = false;
                     }
@@ -285,7 +349,7 @@ namespace HeroesPowerPlant
                         TempBSPFile.SetChunkNumberAndName();
                         byte[] data = file.DecompressThis();
                         TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(data), data);
-                        BSPStream.Add(TempBSPFile);
+                        BSPList.Add(TempBSPFile);
                     }
                 }
         }
@@ -305,13 +369,24 @@ namespace HeroesPowerPlant
             device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
             defaultShader.Apply();
                         
-            for (int j = 0; j < ShadowCollisionBSPStream.Count; j++)
+            for (int j = 0; j < ShadowColBSPList.Count; j++)
             {
-                if (renderByChunk & !VisibleChunks.Contains(ShadowCollisionBSPStream[j].ChunkNumber))
+                if (renderByChunk & !VisibleChunks.Contains(ShadowColBSPList[j].ChunkNumber))
                     continue;
 
-                ShadowCollisionBSPStream[j].Render();
+                ShadowColBSPList[j].Render();
             }
+        }
+
+        // Debug
+
+        public static void ReloadTextures()
+        {
+            foreach (ShaderResourceView texture in Textures.Values)
+                if (texture != null)
+                    texture.Dispose();
+
+            LoadTextures(currentFileNamePrefix);
         }
     }
 }

@@ -567,5 +567,10 @@ namespace HeroesPowerPlant.MainForm
             autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = value;
             HPPConfig.GetInstance().AutomaticallyLoadLastConfig = value;
         }
+
+        private void reloadTexturesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BSPRenderer.ReloadTextures();
+        }
     }
 }

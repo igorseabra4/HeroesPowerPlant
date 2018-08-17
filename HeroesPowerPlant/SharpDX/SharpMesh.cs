@@ -117,13 +117,21 @@ namespace HeroesPowerPlant
         {
             VertexBuffer.Dispose();
             IndexBuffer.Dispose();
+        }
 
-            //foreach (var s in SubSets)
-            //{
-            //    if (s.DiffuseMap != null)
-            //        if (s.DiffuseMap != BSPRenderer.whiteDefault)
-            //            s.DiffuseMap.Dispose();
-            //}
+        /// <summary>
+        /// Release resource
+        /// </summary>
+        public void DisposeWithTextures()
+        {
+            VertexBuffer.Dispose();
+            IndexBuffer.Dispose();
+
+            foreach (var s in SubSets)
+            {
+                if (s.DiffuseMap != null)
+                    s.DiffuseMap.Dispose();
+            }
         }
     }
 }

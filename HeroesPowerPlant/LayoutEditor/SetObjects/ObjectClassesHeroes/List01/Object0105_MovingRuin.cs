@@ -9,10 +9,10 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (modelNames == null)
                 return BoundingBox.FromPoints(cubeVertices.ToArray());
-            else if (modelNames.Length == 0 | (byte)Type >= modelNames.Length | !DFFRenderer.DFFStream.ContainsKey(modelNames[(byte)Type]))
+            else if (modelNames.Length == 0 | (byte)Type >= modelNames.Length | !DFFRenderer.DFFModels.ContainsKey(modelNames[(byte)Type]))
                 return BoundingBox.FromPoints(cubeVertices.ToArray());
 
-            return BoundingBox.FromPoints(DFFRenderer.DFFStream[modelNames[(byte)Type]].GetVertexList().ToArray());
+            return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[(byte)Type]].GetVertexList().ToArray());
         }
         
         public override void Draw(string[] modelNames, bool isSelected)

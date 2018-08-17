@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.TexturePatternEditor
 {
@@ -47,6 +48,35 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public override string ToString()
         {
             return $"{TextureName} [{FrameCount}]";
+        }
+
+
+        // Rendering
+        private uint counter = 0;
+
+        public void Animate()
+        {
+            if (FrameCount == 0)
+                return;
+
+            counter++;
+            counter = counter % FrameCount;
+
+            for (int i = 0; i < frames.Count; i++)
+                if (frames[i].FrameOffset == counter)
+                {
+                    string newTextureName = AnimationName + "." + frames[i].TextureNumber;
+                    if (BSPRenderer.HasTexture(newTextureName))
+                        BSPRenderer.SetTexture(TextureName, newTextureName);
+                }
+        }
+
+        public void StopAnimation()
+        {
+            counter = 0;
+
+            if (BSPRenderer.HasTexture(TextureName))
+                BSPRenderer.SetTexture(TextureName, TextureName);
         }
     }
 }

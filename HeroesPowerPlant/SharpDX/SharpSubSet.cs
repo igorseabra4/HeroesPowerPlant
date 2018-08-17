@@ -9,6 +9,11 @@ namespace HeroesPowerPlant
     public class SharpSubSet
     {
         /// <summary>
+        /// Diffuse map name
+        /// </summary>
+        public string DiffuseMapName { get; set; }
+
+        /// <summary>
         /// Diffuse map
         /// </summary>
         public ShaderResourceView DiffuseMap { get; set; }
@@ -28,11 +33,12 @@ namespace HeroesPowerPlant
         /// </summary>
         public int IndexCount { get; set; }
 
-        public SharpSubSet(int StartIndex, int IndexCount, ShaderResourceView DiffuseMap)
+        public SharpSubSet(int StartIndex, int IndexCount, ShaderResourceView DiffuseMap, string DiffuseMapName = "")
         {
             this.StartIndex = StartIndex;
             this.IndexCount = IndexCount;
             this.DiffuseMap = DiffuseMap;
+            this.DiffuseMapName = DiffuseMapName;
 
             DiffuseColor = Vector4.One;
         }

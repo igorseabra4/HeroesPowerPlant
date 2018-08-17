@@ -107,7 +107,7 @@ namespace HeroesPowerPlant.SplineEditor
             splineEditorFunctions.RenderSplines();
         }
 
-        public void DisposeSplines()
+        public void Dispose()
         {
             splineEditorFunctions.DisposeSplines();
         }

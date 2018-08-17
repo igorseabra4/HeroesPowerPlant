@@ -35,7 +35,7 @@ namespace HeroesPowerPlant.LevelEditor
         public void InitBSPList()
         {
             listBoxLevelModels.Items.Clear();
-            foreach (RenderWareModelFile item in ShadowCollisionBSPStream)
+            foreach (RenderWareModelFile item in ShadowColBSPList)
             {
                 listBoxLevelModels.Items.Add(item.fileName);
             }
@@ -72,7 +72,7 @@ namespace HeroesPowerPlant.LevelEditor
                         file.SetForRendering(ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                     }
 
-                    ShadowCollisionBSPStream.Add(file);
+                    ShadowColBSPList.Add(file);
                     listBoxLevelModels.Items.Add(file.fileName);
 
                     ReadFileMethods.isCollision = false;
@@ -96,9 +96,9 @@ namespace HeroesPowerPlant.LevelEditor
                 if (a.ShowDialog() == DialogResult.OK)
                 {
                     if (Path.GetExtension(a.FileName).ToLower() == ".obj")
-                        ConvertBSPtoOBJ(a.FileName, ShadowCollisionBSPStream[listBoxLevelModels.SelectedIndex]);
+                        ConvertBSPtoOBJ(a.FileName, ShadowColBSPList[listBoxLevelModels.SelectedIndex]);
                     else if (Path.GetExtension(a.FileName).ToLower() == ".bsp")
-                        File.WriteAllBytes(a.FileName, ShadowCollisionBSPStream[listBoxLevelModels.SelectedIndex].GetAsByteArray());
+                        File.WriteAllBytes(a.FileName, ShadowColBSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
                 }
             }
             else
@@ -111,9 +111,9 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     if (listBoxLevelModels.SelectedIndices.Count > 1)
                         foreach (int i in listBoxLevelModels.SelectedIndices)
-                            ConvertBSPtoOBJ(Path.Combine(a.FileName, ShadowCollisionBSPStream[i].fileName), ShadowCollisionBSPStream[i]);
+                            ConvertBSPtoOBJ(Path.Combine(a.FileName, ShadowColBSPList[i].fileName), ShadowColBSPList[i]);
                     else
-                        foreach (RenderWareModelFile i in ShadowCollisionBSPStream)
+                        foreach (RenderWareModelFile i in ShadowColBSPList)
                             ConvertBSPtoOBJ(Path.Combine(a.FileName, i.fileName), i);
                 }
             }
@@ -121,14 +121,14 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < BSPStream.Count; i++)
+            for (int i = 0; i < BSPList.Count; i++)
             {
                 if (listBoxLevelModels.SelectedIndices.Contains(i))
                 {
-                    foreach (SharpMesh mesh in ShadowCollisionBSPStream[i].meshList)
+                    foreach (SharpMesh mesh in ShadowColBSPList[i].meshList)
                         mesh.Dispose();
 
-                    ShadowCollisionBSPStream.RemoveAt(i);
+                    ShadowColBSPList.RemoveAt(i);
                     listBoxLevelModels.Items.RemoveAt(i);
                     i -= 1;
                 }
@@ -138,11 +138,11 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            foreach (RenderWareModelFile r in ShadowCollisionBSPStream)
+            foreach (RenderWareModelFile r in ShadowColBSPList)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
 
-            ShadowCollisionBSPStream.Clear();
+            ShadowColBSPList.Clear();
             listBoxLevelModels.Items.Clear();
         }
 
@@ -153,8 +153,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             foreach (int i in listBoxLevelModels.SelectedIndices)
             {
-                vertices += ShadowCollisionBSPStream[i].vertexAmount;
-                triangles += ShadowCollisionBSPStream[i].triangleAmount;
+                vertices += ShadowColBSPList[i].vertexAmount;
+                triangles += ShadowColBSPList[i].triangleAmount;
             }
 
             labelVertexAmount.Text = "Vertices: " + vertices.ToString();
@@ -169,17 +169,17 @@ namespace HeroesPowerPlant.LevelEditor
             if (listBoxLevelModels.SelectedIndices.Count == 1)
             {
                 string newName = EditBSPName.GetName(listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex].ToString());
-                ShadowCollisionBSPStream[listBoxLevelModels.SelectedIndex].fileName = newName;
+                ShadowColBSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
                 listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex] = newName;
 
                 try
                 {
-                    ShadowCollisionBSPStream[listBoxLevelModels.SelectedIndex].ChunkNumber =
+                    ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber =
                         Convert.ToByte(Path.GetFileNameWithoutExtension(newName).Split('_').Last());
                 }
                 catch
                 {
-                    ShadowCollisionBSPStream[listBoxLevelModels.SelectedIndex].ChunkNumber = -1;
+                    ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber = -1;
                 };
             }
         }

@@ -814,7 +814,7 @@ namespace HeroesPowerPlant
             return InitTextureFromData(device, context, header, null, data, offset, 0, out isCubeMap);
         }
         
-        private static ShaderResourceView CreateTextureFromBitmap(Device device, DeviceContext context, string filename)
+        private static ShaderResourceView CreateTextureFromBitmap(Device device, string filename)
         {
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(filename);
 
@@ -831,30 +831,19 @@ namespace HeroesPowerPlant
                 SampleDescription = new SampleDescription(1, 0),
                 OptionFlags = ResourceOptionFlags.GenerateMipMaps
             };
-
-            //System.Drawing.Imaging.BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            //DataRectangle dataRectangle = new DataRectangle(data.Scan0, data.Stride);
-            //Texture2D buffer = new Texture2D(device, textureDesc, dataRectangle);
-            //bitmap.UnlockBits(data);
-
-            //ShaderResourceView resourceView = new ShaderResourceView(device, buffer);
-
-            //buffer.Dispose();
-            
-            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            DataRectangle[] dataRectangle = new DataRectangle[textureDesc.MipLevels];
-
-            dataRectangle[0] = new DataRectangle(data.Scan0, data.Stride);
                         
-            for (int i = 1; i < textureDesc.MipLevels; i++)
-                dataRectangle[i] = new DataRectangle(data.Scan0, data.Stride);
+            System.Drawing.Imaging.BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            DataRectangle[] dataRectangles = new DataRectangle[textureDesc.MipLevels];
+
+            for (int i = 0; i < textureDesc.MipLevels; i++)
+                dataRectangles[i] = new DataRectangle(data.Scan0, data.Stride);
 
             Texture2D buffer = null;
             while (buffer == null)
             {
                 try
                 {
-                    buffer = new Texture2D(device, textureDesc, dataRectangle);
+                    buffer = new Texture2D(device, textureDesc, dataRectangles);
                 }
                 catch
                 {
@@ -863,9 +852,9 @@ namespace HeroesPowerPlant
             }
             
             bitmap.UnlockBits(data);
-
-            ShaderResourceView resourceView = new ShaderResourceView(device, buffer);
             
+            ShaderResourceView resourceView = new ShaderResourceView(device, buffer);
+
             device.ImmediateContext.GenerateMips(resourceView);
             
             buffer.Dispose();
@@ -891,7 +880,7 @@ namespace HeroesPowerPlant
             }
             else if (ext.ToLower() == ".png")
             {
-                return CreateTextureFromBitmap(device.Device, device.DeviceContext, filename);
+                return CreateTextureFromBitmap(device.Device, filename);
             }
             else throw new Exception("Unsupported image format: " + filename);
         }

@@ -9,10 +9,10 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (modelNames == null)
                 return BoundingBox.FromPoints(cubeVertices.ToArray());
-            else if (modelNames.Length == 0 | Type >= modelNames.Length | !DFFRenderer.DFFStream.ContainsKey(modelNames[Type]))
+            else if (modelNames.Length == 0 | Type >= modelNames.Length | !DFFRenderer.DFFModels.ContainsKey(modelNames[Type]))
                 return BoundingBox.FromPoints(cubeVertices.ToArray());
             
-            return BoundingBox.FromPoints(DFFRenderer.DFFStream[modelNames[Type]].GetVertexList().ToArray());
+            return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[Type]].GetVertexList().ToArray());
         }
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)

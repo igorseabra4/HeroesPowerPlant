@@ -19,7 +19,7 @@ namespace HeroesPowerPlant
 
         public static float fov { get; set; } = MathUtil.Pi / 4;
         private static float aspectRatio;
-        private static float near = 0.1f;
+        private static readonly float near = 0.1f;
         public static float far { get; set; } = 500000F;
         
         public SharpRenderer(Control control)
@@ -38,7 +38,6 @@ namespace HeroesPowerPlant
             aspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
 
             sharpFPS = new SharpFPS();
-            sharpFPS.Reset();
 
             SetSharpShader();
             LoadTextures();
@@ -297,6 +296,8 @@ namespace HeroesPowerPlant
                 viewProjection = Camera.GenerateLookAtRH() * Matrix.PerspectiveFovRH(fov, aspectRatio, near, far);
                 frustum = new BoundingFrustum(viewProjection);
 
+                Program.TexturePatternEditor.Animate();
+
                 if (ShowCollision)
                 {
                     CollisionRendering.RenderCollisionModel(viewProjection, -Camera.GetForward(), Camera.GetUp());
@@ -330,28 +331,17 @@ namespace HeroesPowerPlant
             });
 
             //release resources
-            foreach (RenderWareModelFile r in BSPRenderer.BSPStream)
-                foreach (SharpMesh mesh in r.meshList)
-                    mesh.Dispose();
 
-            foreach (RenderWareModelFile r in BSPRenderer.ShadowCollisionBSPStream)
-                foreach (SharpMesh mesh in r.meshList)
-                    mesh.Dispose();
+            whiteDefault.Dispose();
 
-            foreach (RenderWareModelFile r in DFFRenderer.DFFStream.Values)
-                foreach (SharpMesh mesh in r.meshList)
-                    mesh.Dispose();
-            
-            Program.SplineEditor.DisposeSplines();
+            BSPRenderer.Dispose();
+
+            DFFRenderer.Dispose();
 
             CollisionRendering.Dispose();
 
-            if (BSPRenderer.whiteDefault != null)
-                BSPRenderer.whiteDefault.Dispose();
-
-            foreach (ShaderResourceView texture in BSPRenderer.TextureStream.Values)
-                texture.Dispose();
-
+            Program.SplineEditor.Dispose();
+            
             Cube.Dispose();
             Pyramid.Dispose();
             Cylinder.Dispose();
@@ -364,6 +354,9 @@ namespace HeroesPowerPlant
 
             collisionBuffer.Dispose();
             collisionShader.Dispose();
+
+            tintedBuffer.Dispose();
+            tintedShader.Dispose();
 
             device.Dispose();
         }

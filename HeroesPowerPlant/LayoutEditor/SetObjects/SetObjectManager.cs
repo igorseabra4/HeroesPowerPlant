@@ -33,7 +33,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         protected void Draw(string modelName, bool isSelected)
         {
-            if (DFFRenderer.DFFStream.ContainsKey(modelName))
+            if (DFFRenderer.DFFModels.ContainsKey(modelName))
             {
                 renderData.worldViewProjection = transformMatrix * viewProjection;
 
@@ -52,7 +52,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 device.DeviceContext.VertexShader.SetConstantBuffer(0, tintedBuffer);
                 tintedShader.Apply();
 
-                DFFRenderer.DFFStream[modelName].Render();
+                DFFRenderer.DFFModels[modelName].Render();
             }
             else
             {
@@ -91,8 +91,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
             List<Vector3> list = new List<Vector3>();
             foreach (string m in modelNames)
-                if (DFFRenderer.DFFStream.ContainsKey(m))
-                    list.AddRange(DFFRenderer.DFFStream[m].GetVertexList());
+                if (DFFRenderer.DFFModels.ContainsKey(m))
+                    list.AddRange(DFFRenderer.DFFModels[m].GetVertexList());
                 else
                     list.AddRange(cubeVertices);
 
@@ -108,13 +108,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
             foreach (string s in ModelNames)
             {
-                if (DFFRenderer.DFFStream.ContainsKey(s))
+                if (DFFRenderer.DFFModels.ContainsKey(s))
                 {
-                    foreach (RenderWareFile.Triangle t in DFFRenderer.DFFStream[s].triangleList)
+                    foreach (RenderWareFile.Triangle t in DFFRenderer.DFFModels[s].triangleList)
                     {
-                        Vector3 v1 = (Vector3)Vector3.Transform(DFFRenderer.DFFStream[s].vertexList[t.vertex1], transformMatrix);
-                        Vector3 v2 = (Vector3)Vector3.Transform(DFFRenderer.DFFStream[s].vertexList[t.vertex2], transformMatrix);
-                        Vector3 v3 = (Vector3)Vector3.Transform(DFFRenderer.DFFStream[s].vertexList[t.vertex3], transformMatrix);
+                        Vector3 v1 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexList[t.vertex1], transformMatrix);
+                        Vector3 v2 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexList[t.vertex2], transformMatrix);
+                        Vector3 v3 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexList[t.vertex3], transformMatrix);
 
                         if (r.Intersects(ref v1, ref v2, ref v3))
                             return true;

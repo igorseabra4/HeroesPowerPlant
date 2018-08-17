@@ -391,13 +391,13 @@
       <DependentUpon>ViewConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="TexturePatternEditor\PatternEntry.cs" />
+    <Compile Include="TexturePatternEditor\PatternSystem.cs" />
     <Compile Include="TexturePatternEditor\TexturePatternEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TexturePatternEditor\TexturePatternEditor.Designer.cs">
       <DependentUpon>TexturePatternEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="TexturePatternEditor\TexturePatternEditorFunctions.cs" />
     <EmbeddedResource Include="CameraEditor\CameraEditor.resx">
       <DependentUpon>CameraEditor.cs</DependentUpon>
     </EmbeddedResource>

@@ -261,10 +261,8 @@ namespace HeroesPowerPlant
 
                 if (indexList.Count - previousIndexCount > 0)
                 {
-                    if (BSPRenderer.TextureStream.ContainsKey(MaterialList[i]))
-                        SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount, BSPRenderer.TextureStream[MaterialList[i]]));
-                    else
-                        SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount, BSPRenderer.whiteDefault));
+                    SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount,
+                        BSPRenderer.GetTextureFromDictionary(MaterialList[i]), MaterialList[i]));
                 }
 
                 previousIndexCount = indexList.Count();
@@ -273,8 +271,7 @@ namespace HeroesPowerPlant
             if (SubsetList.Count > 0)
                 meshList.Add(SharpMesh.Create(SharpRenderer.device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
         }
-
-
+        
         private void AddGeometry(Geometry_000F g, Matrix transformMatrix)
         {
             List<string> MaterialList = new List<string>();
@@ -362,12 +359,10 @@ namespace HeroesPowerPlant
 
                 if (indexList.Count - previousIndexCount > 0)
                 {
-                    if (BSPRenderer.TextureStream.ContainsKey(MaterialList[i]))
-                        SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount, BSPRenderer.TextureStream[MaterialList[i]]));
-                    else
-                        SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount, BSPRenderer.whiteDefault));
+                    SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount,
+                        BSPRenderer.GetTextureFromDictionary(MaterialList[i]), MaterialList[i]));
                 }
-
+                
                 previousIndexCount = indexList.Count();
             }
 
@@ -455,11 +450,9 @@ namespace HeroesPowerPlant
                         this.vertexList.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                     }
 
-                    if (BSPRenderer.TextureStream.ContainsKey(MaterialStream[td.MaterialIndex]))
-                        subSetList.Add(new SharpSubSet(previousAmount, vertexList.Count() - previousAmount, BSPRenderer.TextureStream[MaterialStream[td.MaterialIndex]]));
-                    else
-                        subSetList.Add(new SharpSubSet(previousAmount, vertexList.Count() - previousAmount, BSPRenderer.whiteDefault));
-
+                    subSetList.Add(new SharpSubSet(previousAmount, vertexList.Count() - previousAmount,
+                        BSPRenderer.GetTextureFromDictionary(MaterialStream[td.MaterialIndex]), MaterialStream[td.MaterialIndex]));
+                    
                     previousAmount = vertexList.Count();
                 }
             }

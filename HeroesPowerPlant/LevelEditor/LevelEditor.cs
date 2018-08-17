@@ -42,7 +42,6 @@ namespace HeroesPowerPlant.LevelEditor
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetHeroesMode();
-
             ResetEveryting();
         }
 
@@ -65,7 +64,7 @@ namespace HeroesPowerPlant.LevelEditor
             SetFilenamePrefix(openONEfilePath);
 
             byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
-            SetHeroesMeshStream(Archive.FromONEFile(ref fileBytes));
+            SetHeroesBSPList(Archive.FromONEFile(ref fileBytes));
 
             InitBSPList();
 
@@ -115,10 +114,10 @@ namespace HeroesPowerPlant.LevelEditor
 
             Archive one = new Archive(CommonRWVersions.Heroes);
 
-            foreach (RenderWareModelFile i in BSPStream)
+            foreach (RenderWareModelFile i in BSPList)
                 Program.LevelEditor.progressBar1.Maximum += i.GetAsByteArray().Length;
 
-            foreach (RenderWareModelFile i in BSPStream)
+            foreach (RenderWareModelFile i in BSPList)
             {
                 one.Files.Add(new ArchiveFile(i.fileName, i.GetAsByteArray()));
 
@@ -163,7 +162,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 labelLoadedONE.Text = "Loaded " + openONEfilePath;
                 listBoxLevelModels.Items.Clear();
-                foreach (RenderWareModelFile item in BSPStream)
+                foreach (RenderWareModelFile item in BSPList)
                 {
                     listBoxLevelModels.Items.Add(item.fileName);
                 }
@@ -202,7 +201,7 @@ namespace HeroesPowerPlant.LevelEditor
                             file.SetForRendering(ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                         }
 
-                        BSPStream.Add(file);
+                        BSPList.Add(file);
                         listBoxLevelModels.Items.Add(file.fileName);
                         progressBar1.PerformStep();
                     }
@@ -225,9 +224,9 @@ namespace HeroesPowerPlant.LevelEditor
                 if (a.ShowDialog() == DialogResult.OK)
                 {
                     if (Path.GetExtension(a.FileName).ToLower() == ".obj")
-                        ConvertBSPtoOBJ(a.FileName, BSPStream[listBoxLevelModels.SelectedIndex]);
+                        ConvertBSPtoOBJ(a.FileName, BSPList[listBoxLevelModels.SelectedIndex]);
                     else if (Path.GetExtension(a.FileName).ToLower() == ".bsp")
-                        File.WriteAllBytes(a.FileName, BSPStream[listBoxLevelModels.SelectedIndex].GetAsByteArray());
+                        File.WriteAllBytes(a.FileName, BSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
                 }
             }
             else
@@ -242,24 +241,24 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     if (listBoxLevelModels.SelectedIndices.Count > 1)
                         foreach (int i in listBoxLevelModels.SelectedIndices)
-                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, BSPStream[i].fileName), BSPStream[i]);
+                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, BSPList[i].fileName), BSPList[i]);
                     else
-                        for (int i = 0; i < BSPStream.Count; i++)
-                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, BSPStream[i].fileName), BSPStream[i]);
+                        for (int i = 0; i < BSPList.Count; i++)
+                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, BSPList[i].fileName), BSPList[i]);
                 }
             }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < BSPStream.Count; i++)
+            for (int i = 0; i < BSPList.Count; i++)
             {
                 if (listBoxLevelModels.SelectedIndices.Contains(i))
                 {
-                    foreach (SharpMesh mesh in BSPStream[i].meshList)
+                    foreach (SharpMesh mesh in BSPList[i].meshList)
                         mesh.Dispose();
 
-                    BSPStream.RemoveAt(i);
+                    BSPList.RemoveAt(i);
                     listBoxLevelModels.Items.RemoveAt(i);
                     i -= 1;
                 }
@@ -269,11 +268,11 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            foreach (RenderWareModelFile r in BSPStream)
+            foreach (RenderWareModelFile r in BSPList)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
 
-            BSPStream.Clear();
+            BSPList.Clear();
             listBoxLevelModels.Items.Clear();
         }
         
@@ -284,8 +283,8 @@ namespace HeroesPowerPlant.LevelEditor
                 string newName = EditBSPName.GetName(listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex].ToString());
 
                 listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex] = newName;
-                BSPStream[listBoxLevelModels.SelectedIndex].fileName = newName;
-                BSPStream[listBoxLevelModels.SelectedIndex].SetChunkNumberAndName();
+                BSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
+                BSPList[listBoxLevelModels.SelectedIndex].SetChunkNumberAndName();
             }
         }
 
@@ -302,13 +301,15 @@ namespace HeroesPowerPlant.LevelEditor
 
             foreach (int i in listBoxLevelModels.SelectedIndices)
             {
-                vertices += BSPStream[i].vertexAmount;
-                triangles += BSPStream[i].triangleAmount;
+                vertices += BSPList[i].vertexAmount;
+                triangles += BSPList[i].triangleAmount;
             }
 
             labelVertexAmount.Text = "Vertices: " + vertices.ToString();
             labelTriangleAmount.Text = "Triangles: " + triangles.ToString();
         }
+
+        public bool isShadowMode = false;
 
         public void SetHeroesMode()
         {
@@ -351,8 +352,6 @@ namespace HeroesPowerPlant.LevelEditor
             isShadowMode = true;
         }
 
-        public bool isShadowMode = false;
-
         private void ResetEveryting()
         {
             listBoxLevelModels.Items.Clear();
@@ -360,6 +359,9 @@ namespace HeroesPowerPlant.LevelEditor
             currentFileNamePrefix = "default";
             currentShadowFolderNamePrefix = "default";
             labelLoadedONE.Text = "No stage loaded";
+            BSPRenderer.Dispose();
+            BSPList.Clear();
+            ShadowColBSPList.Clear();
             InitBSPList();
         }
 
@@ -371,7 +373,6 @@ namespace HeroesPowerPlant.LevelEditor
         {
             SetShadowMode();
 
-            SetShadowMeshStream(new List<Archive>());
             shadowCollisionEditor.InitBSPList();
 
             ResetEveryting();
@@ -454,8 +455,8 @@ namespace HeroesPowerPlant.LevelEditor
                 visibilityONEpath = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_dat.one");
 
             List<RenderWareModelFile> fileList = new List<RenderWareModelFile>();
-            fileList.AddRange(BSPStream);
-            fileList.AddRange(ShadowCollisionBSPStream);
+            fileList.AddRange(BSPList);
+            fileList.AddRange(ShadowColBSPList);
 
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;

@@ -5,6 +5,7 @@ using HeroesPowerPlant.LayoutEditor;
 using System.Windows.Forms;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
+using System;
 
 namespace HeroesPowerPlant
 {
@@ -12,10 +13,23 @@ namespace HeroesPowerPlant
     {
         public static HashSet<string> filePaths = new HashSet<string>();
         public static HashSet<string> ObjectDFFNames = new HashSet<string>();
-        public static Dictionary<string, RenderWareModelFile> DFFStream = new Dictionary<string, RenderWareModelFile>();
+        public static Dictionary<string, RenderWareModelFile> DFFModels = new Dictionary<string, RenderWareModelFile>();
         
+        public static void Dispose()
+        {
+            foreach (RenderWareModelFile r in DFFModels.Values)
+                foreach (SharpMesh mesh in r.meshList)
+                    mesh.DisposeWithTextures();
+        }
+
         public static void AddDFFFiles(IEnumerable<string> fileNames)
         {
+            foreach (ObjectEntry o in Program.LayoutEditor.GetAllObjectEntries())
+                if (o.ModelNames != null)
+                    foreach (string s in o.ModelNames)
+                        if (!ObjectDFFNames.Contains(s))
+                            ObjectDFFNames.Add(s);
+
             foreach (string s in fileNames)
             {
                 if (!File.Exists(s))
@@ -35,12 +49,6 @@ namespace HeroesPowerPlant
 
         private static void AddDFFFiles(string fileName)
         {
-            foreach (ObjectEntry o in Program.LayoutEditor.GetAllObjectEntries())
-                if (o.ModelNames != null)
-                    foreach (string s in o.ModelNames)
-                        if (!ObjectDFFNames.Contains(s))
-                            ObjectDFFNames.Add(s);
-
             byte[] dataBytes = File.ReadAllBytes(fileName);
             foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
                 AddDFF(j);
@@ -55,31 +63,29 @@ namespace HeroesPowerPlant
 
                 d.SetForRendering(ReadFileMethods.ReadRenderWareFile(dffData), dffData);
 
-                if (DFFStream.ContainsKey(j.Name))
+                if (DFFModels.ContainsKey(j.Name))
                 {
                     MessageBox.Show("Object model " + j.Name + " has already been loaded and will be replaced.");
                     
-                    foreach (SharpMesh mesh in DFFStream[j.Name].meshList)
+                    foreach (SharpMesh mesh in DFFModels[j.Name].meshList)
                         mesh.Dispose();
 
-                    DFFStream[j.Name] = d;
+                    DFFModels[j.Name] = d;
                 }
                 else
                 {
-                    DFFStream.Add(j.Name, d);
+                    DFFModels.Add(j.Name, d);
                 }
             }
         }
 
         public static void ClearObjectONEFiles()
         {
-            foreach (RenderWareModelFile rw in DFFStream.Values)
-                foreach (SharpMesh mesh in rw.meshList)
-                    mesh.Dispose();
+            Dispose();
 
             filePaths = new HashSet<string>();
             ObjectDFFNames = new HashSet<string>();
-            DFFStream = new Dictionary<string, RenderWareModelFile>();
+            DFFModels = new Dictionary<string, RenderWareModelFile>();
         }
     }
 }

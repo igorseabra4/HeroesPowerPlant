@@ -1,14 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HeroesPowerPlant.TexturePatternEditor
 {
-    public static class TexturePatternEditorFunctions
+    public class PatternSystem
     {
-        public static IEnumerable<PatternEntry> GetPatternEntriesFromFile(string fileName)
+        private string currentlyOpenTXC;
+        public string CurrentlyOpenTXC
         {
+            get => currentlyOpenTXC;
+            private set => currentlyOpenTXC = value;
+        }
+
+        public List<PatternEntry> patterns;
+
+        public PatternSystem()
+        {
+            patterns = new List<PatternEntry>();
+        }
+
+        public PatternSystem(string fileName)
+        {
+            patterns = new List<PatternEntry>();
+
             BinaryReader patternReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
-            List<PatternEntry> patterns = new List<PatternEntry>();
 
             uint frameCount = patternReader.ReadUInt32();
 
@@ -48,14 +67,14 @@ namespace HeroesPowerPlant.TexturePatternEditor
             }
 
             patternReader.Close();
-            return patterns;
         }
 
-        public static void SaveTXC(IEnumerable<PatternEntry> PatternEntries, string fileName)
+        public void Save(string fileName)
         {
+            currentlyOpenTXC = fileName;
             BinaryWriter patternWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
 
-            foreach (PatternEntry p in PatternEntries)
+            foreach (PatternEntry p in patterns)
             {
                 patternWriter.Write(p.FrameCount);
                 patternWriter.BaseStream.Position += 0x204;
@@ -80,6 +99,65 @@ namespace HeroesPowerPlant.TexturePatternEditor
             patternWriter.Write(0xFFFFFFFF);
 
             patternWriter.Close();
+        }
+
+        public IEnumerable<string> GetPatternEntries()
+        {
+            List<String> list = new List<string>();
+            foreach (PatternEntry p in patterns)
+                list.Add(p.ToString());
+            return list;
+        }
+
+        public int GetPatternCount()
+        {
+            return patterns.Count;
+        }
+
+        public PatternEntry GetPatternAt(int index)
+        {
+            if (index >= 0 & index < patterns.Count)
+                return patterns[index];
+            throw new IndexOutOfRangeException();
+        }
+
+        public string Add()
+        {
+            PatternEntry p = new PatternEntry();
+            patterns.Add(p);
+            return p.ToString();
+        }
+
+        public string Add(int index)
+        {
+            PatternEntry p = new PatternEntry(patterns[index]);
+            patterns.Add(p);
+            return p.ToString();
+        }
+
+        public int Remove(int index)
+        {
+            if (index >= 0 & index < patterns.Count)
+            {
+                PatternEntry p = patterns[index];
+                patterns.RemoveAt(index);
+                return index;
+            }
+            throw new IndexOutOfRangeException();
+        }
+
+        // Rendering
+
+        public void Animate()
+        {
+            foreach (PatternEntry p in patterns)
+                p.Animate();
+        }
+
+        public void StopAnimation()
+        {
+            foreach (PatternEntry p in patterns)
+                p.StopAnimation();
         }
     }
 }
