@@ -32,7 +32,7 @@ namespace HeroesPowerPlant
 
             ResetColors();
 
-            device = new SharpDevice(control);
+            device = new SharpDevice(control, false);
             LoadModels();
 
             aspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;

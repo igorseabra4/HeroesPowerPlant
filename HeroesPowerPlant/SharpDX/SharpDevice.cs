@@ -64,7 +64,7 @@ namespace HeroesPowerPlant
         /// </summary>
         /// <param name="form">Rendering form</param>
         /// <param name="debug">Active the debug mode</param>
-        public SharpDevice(System.Windows.Forms.Control control, bool debug = false)
+        public SharpDevice(System.Windows.Forms.Control control, bool useReference, bool debug = false)
         {
             Control = control;
             // SwapChain description
@@ -86,7 +86,7 @@ namespace HeroesPowerPlant
             if (debug)
                 flag = DeviceCreationFlags.Debug;
 
-            Device11.CreateWithSwapChain(DriverType.Hardware, flag, levels, desc, out _device, out _swapchain);
+            Device11.CreateWithSwapChain(useReference ? DriverType.Reference : DriverType.Hardware, flag, levels, desc, out _device, out _swapchain);
             
             //get context to device
             _deviceContext = Device.ImmediateContext;
