@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -33,6 +34,11 @@ namespace HeroesPowerPlant.LayoutEditor
             NumericRotY.Minimum = decimal.MinValue;
             NumericRotZ.Maximum = decimal.MaxValue;
             NumericRotZ.Minimum = decimal.MinValue;
+
+            gizmos = new Gizmo[3];
+            gizmos[0] = new Gizmo(GizmoType.X);
+            gizmos[1] = new Gizmo(GizmoType.Y);
+            gizmos[2] = new Gizmo(GizmoType.Z);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -171,12 +177,19 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 layoutSystem.SelectedIndexChanged(listBoxObjects.SelectedIndex);
                 if (listBoxObjects.SelectedIndex != -1)
+                {
                     UpdateDisplayData();
+                    UpdateGizmoPosition();
+                }
+                else
+                {
+                    ClearGizmos();
+                }
             }
 
             ProgramIsChangingStuff = false;
         }
-
+        
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
             layoutSystem.AddNewSetObject();
@@ -226,7 +239,9 @@ namespace HeroesPowerPlant.LayoutEditor
         private void NumericPos_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
+            {
                 layoutSystem.SetObjectPosition((float)NumericPosX.Value, (float)NumericPosY.Value, (float)NumericPosZ.Value);
+            }
         }
 
         private void NumericRot_ValueChanged(object sender, EventArgs e)
@@ -353,9 +368,12 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public void ScreenClicked(SharpDX.Ray r)
+        public void ScreenClicked(Ray r, bool isMouseDown)
         {
-            listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(r);
+            if (isMouseDown)
+                GizmoSelect(r);
+            else
+                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(r);
         }
 
         private void UpdateObjectComboBox()
@@ -447,6 +465,10 @@ namespace HeroesPowerPlant.LayoutEditor
         public void RenderSetObjects(bool drawEveryObject)
         {
             layoutSystem.RenderSetObjects(drawEveryObject);
+
+            if (DrawGizmos)
+                foreach (Gizmo g in gizmos)
+                    g.Draw();
         }
 
         public void UpdateAllMatrices()
@@ -462,6 +484,80 @@ namespace HeroesPowerPlant.LayoutEditor
         public IEnumerable<ObjectEntry> GetAllObjectEntries()
         {
             return layoutSystem.GetAllObjectEntries();
+        }
+
+        // Gizmos
+        private Gizmo[] gizmos;
+        private bool DrawGizmos = false;
+
+        public void UpdateGizmoPosition()
+        {
+            UpdateGizmoPosition(layoutSystem.GetSelectedObject().Position, layoutSystem.GetSelectedObject().boundingBox.Size);
+        }
+
+        private void UpdateGizmoPosition(Vector3 position, Vector3 distance)
+        {
+            DrawGizmos = true;
+            foreach (Gizmo g in gizmos)
+                g.SetPosition(position, distance);
+        }
+
+        private void ClearGizmos()
+        {
+            DrawGizmos = false;
+        }
+
+        private bool GizmoSelect(Ray r)
+        {
+            if (!DrawGizmos)
+                return false;
+
+            float dist = 10000f;
+            int index = -1;
+
+            for (int g = 0; g < gizmos.Length; g++)
+            {
+                float? distance = gizmos[g].IntersectsWith(r);
+                if (distance != null)
+                {
+                    if (distance < dist)
+                    {
+                        dist = (float)distance;
+                        index = g;
+                    }
+                }
+            }
+
+            if (index == -1)
+                return false;
+
+            gizmos[index].isSelected = true;
+            return true;
+        }
+
+        public void ScreenUnclicked()
+        {
+            foreach (Gizmo g in gizmos)
+                g.isSelected = false;
+        }
+
+        public void MouseMoveX(int distance)
+        {
+            if (gizmos[0].isSelected)
+                NumericPosX.Value += (
+                    (SharpRenderer.Camera.Yaw >= -360 & SharpRenderer.Camera.Yaw < -270) |
+                    (SharpRenderer.Camera.Yaw >= -90 & SharpRenderer.Camera.Yaw < 90) |
+                    (SharpRenderer.Camera.Yaw >= 270)) ? distance / 2 : -distance / 2;
+            else if (gizmos[2].isSelected)
+                NumericPosZ.Value +=(
+                    (SharpRenderer.Camera.Yaw >= -180 & SharpRenderer.Camera.Yaw < 0) |
+                    (SharpRenderer.Camera.Yaw >= 180)) ? distance / 2 : -distance / 2;
+        }
+
+        public void MouseMoveY(int distance)
+        {
+            if (gizmos[1].isSelected)
+                NumericPosY.Value -= distance / 2;
         }
     }
 }

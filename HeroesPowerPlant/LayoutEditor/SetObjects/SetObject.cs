@@ -35,6 +35,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public abstract void CreateTransformMatrix();
 
+        public bool DontDraw()
+        {
+            return Vector3.Distance(SharpRenderer.Camera.GetPosition(), Position) > Rend * SharpRenderer.far / 5000f;
+        }
+
         public abstract void Draw(bool drawEveryObject);
 
         public abstract void FindNewObjectManager();

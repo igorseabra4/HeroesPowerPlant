@@ -296,6 +296,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
             GetSelectedObject().Position = v;
             GetSelectedObject().CreateTransformMatrix();
+
+            Program.LayoutEditor.UpdateGizmoPosition();
         }
 
         public void SetObjectRotation(float x, float y, float z)
@@ -453,7 +455,7 @@ namespace HeroesPowerPlant.LayoutEditor
             float smallerDistance = 10000f;
             for (int i = 0; i < setObjects.Count; i++)
             {
-                if (setObjects[i].isSelected) continue;
+                if (setObjects[i].isSelected | setObjects[i].DontDraw()) continue;
 
                 float? distance = setObjects[i].IntersectsWith(r);
                 if (distance != null)

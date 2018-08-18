@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using HeroesPowerPlant.LevelEditor;
 using HeroesPowerPlant.CollisionEditor;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
-using System;
 
 namespace HeroesPowerPlant
 {
@@ -135,7 +134,7 @@ namespace HeroesPowerPlant
             selectedColor = new Vector4(1f, 0.5f, 0.1f, 0.8f);
             selectedObjectColor = new Vector4(1f, 0.4f, 0.4f, 1f);
             backgroundColor = new Color4(0.05f, 0.05f, 0.15f, 1f);
-    }
+        }
 
         public static void DrawCubeTrigger(Matrix world, bool isSelected)
         {
@@ -222,10 +221,14 @@ namespace HeroesPowerPlant
         public static SharpMesh Sphere { get; private set; }
 
         public static List<Vector3> cubeVertices;
+        public static List<Vector3> pyramidVertices;
+        public static List<LevelEditor.Triangle> pyramidTriangles;
 
         public static void LoadModels()
         {
             cubeVertices = new List<Vector3>();
+            pyramidVertices = new List<Vector3>();
+            pyramidTriangles = new List<LevelEditor.Triangle> ();
 
             for (int i = 0; i < 4; i++)// 3; i++)
             {
@@ -241,6 +244,7 @@ namespace HeroesPowerPlant
                 {
                     vertexList.Add(new Vertex(v.Position));
                     if (i == 0) cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z) * 5);
+                    else if (i == 2) pyramidVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                 }
 
                 List<int> indexList = new List<int>();
@@ -249,6 +253,7 @@ namespace HeroesPowerPlant
                     indexList.Add(t.vertex1);
                     indexList.Add(t.vertex2);
                     indexList.Add(t.vertex3);
+                    if (i == 2) pyramidTriangles.Add(t);
                 }
 
                 if (i == 0) Cube = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
@@ -258,12 +263,12 @@ namespace HeroesPowerPlant
             }
         }
 
-        public static void ScreenClicked(Rectangle viewRectangle, int X, int Y)
+        public static void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown = false)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
-            if (MouseModeObjects)
-                Program.LayoutEditor.ScreenClicked(ray);
-            else
+            if (MouseModeObjects & ShowObjects != CheckState.Unchecked)
+                Program.LayoutEditor.ScreenClicked(ray, isMouseDown);
+            else if (ShowCameras)
                 Program.CameraEditor.ScreenClicked(ray);
         }
 

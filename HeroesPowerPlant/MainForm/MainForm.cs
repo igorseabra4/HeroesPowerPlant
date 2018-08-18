@@ -250,16 +250,21 @@ namespace HeroesPowerPlant.MainForm
             }
             else
             {
+                int deltaX = e.X - oldMouseX;
+                int deltaY = e.Y - oldMouseY;
                 if (e.Button == MouseButtons.Middle)
                 {
-                    SharpRenderer.Camera.AddYaw(MathUtil.DegreesToRadians(e.X - oldMouseX));
-                    SharpRenderer.Camera.AddPitch(MathUtil.DegreesToRadians(e.Y - oldMouseY));
+                    SharpRenderer.Camera.AddYaw(MathUtil.DegreesToRadians(deltaX));
+                    SharpRenderer.Camera.AddPitch(MathUtil.DegreesToRadians(deltaY));
                 }
                 if (e.Button == MouseButtons.Right)
                 {
-                    SharpRenderer.Camera.AddPositionSideways(e.X - oldMouseX);
-                    SharpRenderer.Camera.AddPositionUp(e.Y - oldMouseY);
+                    SharpRenderer.Camera.AddPositionSideways(deltaX);
+                    SharpRenderer.Camera.AddPositionUp(deltaY);
                 }
+
+                Program.LayoutEditor.MouseMoveX(deltaX);
+                Program.LayoutEditor.MouseMoveY(deltaY);
             }
 
             oldMouseX = e.X;
@@ -588,6 +593,28 @@ namespace HeroesPowerPlant.MainForm
         {
             autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = value;
             HPPConfig.GetInstance().AutomaticallyLoadLastConfig = value;
+        }
+
+        private void renderPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                SharpRenderer.ScreenClicked(new Rectangle(
+                    renderPanel.ClientRectangle.X,
+                    renderPanel.ClientRectangle.Y,
+                    renderPanel.ClientRectangle.Width,
+                    renderPanel.ClientRectangle.Height), e.X, e.Y, true);
+            }
+        }
+
+        private void renderPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            Program.LayoutEditor.ScreenUnclicked();
+        }
+
+        private void renderPanel_MouseLeave(object sender, EventArgs e)
+        {
+            Program.LayoutEditor.ScreenUnclicked();
         }
 
         private void reloadTexturesToolStripMenuItem_Click(object sender, EventArgs e)

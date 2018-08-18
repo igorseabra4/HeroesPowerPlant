@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="ConfigEditor\EndPositionEntry.cs" />
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
+    <Compile Include="LayoutEditor\Gizmo.cs" />
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
     <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />

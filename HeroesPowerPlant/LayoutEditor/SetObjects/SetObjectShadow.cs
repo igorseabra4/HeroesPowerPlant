@@ -53,9 +53,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(bool drawEveryObject)
         {
-            if (!drawEveryObject & Vector3.Distance(SharpRenderer.Camera.GetPosition(), Position) > Rend * SharpRenderer.far / 5000f)
+            if (!drawEveryObject & DontDraw())
                 return;
-            
+
             objectManager.Draw(objectEntry.ModelNames, isSelected);
         }
 

@@ -439,7 +439,7 @@ namespace HeroesPowerPlant.MainForm
             // reloadTexturesToolStripMenuItem
             // 
             this.reloadTexturesToolStripMenuItem.Name = "reloadTexturesToolStripMenuItem";
-            this.reloadTexturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reloadTexturesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.reloadTexturesToolStripMenuItem.Text = "Reload Textures";
             this.reloadTexturesToolStripMenuItem.Click += new System.EventHandler(this.reloadTexturesToolStripMenuItem_Click);
             // 
@@ -468,7 +468,10 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.Size = new System.Drawing.Size(1263, 792);
             this.renderPanel.TabIndex = 4;
             this.renderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseClick);
+            this.renderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseDown);
+            this.renderPanel.MouseLeave += new System.EventHandler(this.renderPanel_MouseLeave);
             this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MouseMoveControl);
+            this.renderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseUp);
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
