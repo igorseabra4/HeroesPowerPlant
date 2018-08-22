@@ -177,6 +177,7 @@
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="LayoutEditor\Gizmo.cs" />
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
+    <Compile Include="SharpDX\SharpFPS.cs" />
     <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object01FF_SetParticle.cs" />
@@ -377,7 +378,6 @@
     <Compile Include="SharpDX\DFFRenderer.cs" />
     <Compile Include="SharpDX\RenderWareModelFile.cs" />
     <Compile Include="SharpDX\SharpCamera.cs" />
-    <Compile Include="SharpDX\SharpFPS.cs" />
     <Compile Include="SharpDX\SharpRenderer.cs" />
     <Compile Include="SharpDX\SharpDevice.cs" />
     <Compile Include="SharpDX\SharpMesh.cs" />
