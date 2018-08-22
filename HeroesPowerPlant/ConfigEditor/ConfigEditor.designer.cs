@@ -95,8 +95,13 @@
             // 
             // ComboBoxTeam
             // 
-            this.ComboBoxTeam.Enabled = false;
             this.ComboBoxTeam.FormattingEnabled = true;
+            this.ComboBoxTeam.Items.AddRange(new object[] {
+            "Team Sonic / Player 1",
+            "Team Dark / Player 2",
+            "Team Rose",
+            "Team Chaotix",
+            "Team Foredit"});
             this.ComboBoxTeam.Location = new System.Drawing.Point(12, 40);
             this.ComboBoxTeam.Name = "ComboBoxTeam";
             this.ComboBoxTeam.Size = new System.Drawing.Size(173, 21);
@@ -235,28 +240,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -401,7 +406,6 @@
             this.groupBoxStart.Controls.Add(this.GroupBox2);
             this.groupBoxStart.Controls.Add(this.groupBox4);
             this.groupBoxStart.Controls.Add(this.groupBox1);
-            this.groupBoxStart.Enabled = false;
             this.groupBoxStart.Location = new System.Drawing.Point(12, 67);
             this.groupBoxStart.Name = "groupBoxStart";
             this.groupBoxStart.Size = new System.Drawing.Size(399, 125);
@@ -413,7 +417,6 @@
             // 
             this.groupBoxEnd.Controls.Add(this.groupBox5);
             this.groupBoxEnd.Controls.Add(this.groupBox6);
-            this.groupBoxEnd.Enabled = false;
             this.groupBoxEnd.Location = new System.Drawing.Point(12, 198);
             this.groupBoxEnd.Name = "groupBoxEnd";
             this.groupBoxEnd.Size = new System.Drawing.Size(537, 71);
@@ -425,7 +428,6 @@
             // 
             this.groupBoxBrag.Controls.Add(this.groupBox10);
             this.groupBoxBrag.Controls.Add(this.groupBox11);
-            this.groupBoxBrag.Enabled = false;
             this.groupBoxBrag.Location = new System.Drawing.Point(12, 275);
             this.groupBoxBrag.Name = "groupBoxBrag";
             this.groupBoxBrag.Size = new System.Drawing.Size(537, 71);
@@ -518,13 +520,12 @@
             // 
             // ComboLevelConfig
             // 
-            this.ComboLevelConfig.Enabled = false;
             this.ComboLevelConfig.FormattingEnabled = true;
             this.ComboLevelConfig.Location = new System.Drawing.Point(191, 40);
             this.ComboLevelConfig.Name = "ComboLevelConfig";
             this.ComboLevelConfig.Size = new System.Drawing.Size(343, 21);
             this.ComboLevelConfig.TabIndex = 65;
-            this.ComboLevelConfig.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.ComboLevelConfig.SelectedIndexChanged += new System.EventHandler(this.ComboLevelConfig_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -535,7 +536,7 @@
             this.label1.TabIndex = 40;
             this.label1.Text = "Level Flag:";
             // 
-            // StartPositionEditor
+            // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -552,7 +553,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "StartPositionEditor";
+            this.Name = "ConfigEditor";
             this.ShowIcon = false;
             this.Text = "Mod Loader Config Editor";
             this.Load += new System.EventHandler(this.LayoutEditor_Load);

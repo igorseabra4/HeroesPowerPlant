@@ -459,9 +459,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\Lists\LevelConfigList.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Resources\Lists\HeroesObjectList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -496,6 +493,9 @@
     <None Include="Tools\importvcolorobj_v1.2.1.ms">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Tools\Resources\ObjectList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -520,9 +520,6 @@
     <Content Include="Resources\SharpDX\Shader_Tinted.hlsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Tools\Generic Stage Injection Mod\readme.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Tools\HeroesSETIDTBLEditor.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -530,6 +527,72 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tools\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Banner.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\GenericStageInjectionCommon.pdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\Costura.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\Fasm.NET.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\GenericStageInjectionCommon.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\libReloaded-121.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\libReloaded-IO-121.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\libReloaded-Native-121.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\libReloaded-Networking-121.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\libReloaded-Paths-121.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\LiteNetLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\main.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\SharpDisasm.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Libraries\System.Runtime.CompilerServices.Unsafe.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\LiteNetLib.pdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\main32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\main64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Reloaded-Assembler.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Stages\0\Files\dummy.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template\Stages\0\Splines\dummy.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tools\ShadowSETIDTableEditor.exe">

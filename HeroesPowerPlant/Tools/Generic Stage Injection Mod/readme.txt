@@ -1,1 +1,0 @@
-There's nothing in this folder just yet.

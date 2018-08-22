@@ -10,101 +10,11 @@ namespace HeroesPowerPlant.ConfigEditor
 {
     public partial class ConfigEditor : Form
     {
-        public enum ModeType
-        {
-            SinglePlayer,
-            MultiPlayer
-        }
-
-        public class LevelConfigEntry
-        {
-            public string Name;
-            public ModeType Mode;
-            public int SplinePointer;
-            public int StartPointer;
-            public int EndingPointer;
-            public int StartMultiPointer;
-            public int BragPointer;
-            public StageID StageID;
-
-            public override string ToString()
-            {
-                return Name;
-            }
-        }
-
-        public List<LevelConfigEntry> ReadConfigListData(string FileName)
-        {
-            List<LevelConfigEntry> list = new List<LevelConfigEntry>();
-
-            string[] ConfigListFile = File.ReadAllLines(FileName);
-
-            string Name = "";
-            ModeType Mode = ModeType.SinglePlayer;
-            int SplinePointer = 0;
-            int StartPointer = 0;
-            int EndingPointer = 0;
-            int StartMultiPointer = 0;
-            int BragPointer = 0;
-            int StageID = 0;
-
-            foreach (string i in ConfigListFile)
-            {
-                if (i.StartsWith("["))
-                {
-                    Name = i.Trim(new char[] { '[', ']' });
-                }
-                else if (i.StartsWith("Mode="))
-                {
-                    if (i.Contains("SinglePlayer"))
-                        Mode = ModeType.SinglePlayer;
-                    else if (i.Contains("MultiPlayer"))
-                        Mode = ModeType.MultiPlayer;
-                }
-                else if (i.StartsWith("Spline="))
-                    SplinePointer = Convert.ToInt32(i.Split('=')[1], 16);
-                else if (i.StartsWith("Start="))
-                    StartPointer = Convert.ToInt32(i.Split('=')[1], 16);
-                else if (i.StartsWith("Ending="))
-                    EndingPointer = Convert.ToInt32(i.Split('=')[1], 16);
-                else if (i.StartsWith("StartMulti="))
-                    StartMultiPointer = Convert.ToInt32(i.Split('=')[1], 16);
-                else if (i.StartsWith("Brag="))
-                    BragPointer = Convert.ToInt32(i.Split('=')[1], 16);
-                else if (i.StartsWith("StageID="))
-                    StageID = Convert.ToInt32(i.Split('=')[1], 16);
-                else if ((i.Length == 0) | (i.StartsWith("EndOfFile")))
-                {
-                    list.Add(new LevelConfigEntry()
-                    {
-                        Name = Name,
-                        Mode = Mode,
-                        SplinePointer = SplinePointer,
-                        StartPointer = StartPointer,
-                        EndingPointer = EndingPointer,
-                        StartMultiPointer = StartMultiPointer,
-                        BragPointer = BragPointer,
-                        StageID = (StageID)StageID
-                    });
-                    Name = "";
-                    Mode = ModeType.SinglePlayer;
-                    SplinePointer = 0;
-                    StartPointer = 0;
-                    EndingPointer = 0;
-                    StartMultiPointer = 0;
-                    BragPointer = 0;
-                    StageID = 0;
-                }
-            }
-
-            return list;
-        }
-
         public List<StartPositionEntry> StartPositions = new List<StartPositionEntry>();
         public List<EndPositionEntry> EndPositions = new List<EndPositionEntry>();
         public List<EndPositionEntry> BragPositions = new List<EndPositionEntry>();
 
-        LevelConfigEntry CurrentLevelConfig = new LevelConfigEntry();
+        StageID currentID;
 
         public void RenderStartPositions()
         {
@@ -115,18 +25,10 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void CleanFile()
         {
-            groupBoxStart.Enabled = false;
-            groupBoxEnd.Enabled = false;
-            groupBoxBrag.Enabled = false;
-
-            ComboLevelConfig.Enabled = true;
-            ComboLevelConfig.SelectedIndex = 1;
-            CurrentLevelConfig.Mode = ModeType.SinglePlayer;
-
             StartPositions = new List<StartPositionEntry>();
             EndPositions = new List<EndPositionEntry>();
             BragPositions = new List<EndPositionEntry>();
-                        
+
             for (int i = 0; i < 5; i++)
                 StartPositions.Add(new StartPositionEntry());
             StartPositions[0].NewColor(Color.Blue.ToVector3());
@@ -143,13 +45,16 @@ namespace HeroesPowerPlant.ConfigEditor
             EndPositions[3].NewColor(Color.LightGreen.ToVector3());
             EndPositions[4].NewColor(Color.Yellow.ToVector3());
 
-            groupBoxStart.Enabled = true;
-            groupBoxEnd.Enabled = true;
-            ComboBoxTeam.Enabled = true;
-            ComboBoxTeam.SelectedIndex = 0;
+            for (int i = 0; i < 5; i++)
+                BragPositions.Add(new EndPositionEntry());
+            BragPositions[0].NewColor(Color.DarkBlue.ToVector3());
+            BragPositions[1].NewColor(Color.DarkRed.ToVector3());
+            BragPositions[2].NewColor(Color.DarkMagenta.ToVector3());
+            BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
+            BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
         }
 
-        public bool ReadINIConfig(string FileName)
+        public void ReadINIConfig(string FileName)
         {
             StartPositions = new List<StartPositionEntry>();
             EndPositions = new List<EndPositionEntry>();
@@ -175,25 +80,27 @@ namespace HeroesPowerPlant.ConfigEditor
 
             string[] ConfigFile = File.ReadAllLines(FileName);
 
-            if (ConfigFile[0] != "HEROES_MOD_LOADER_LEVEL_CONFIG_FILE") throw new Exception();
+            if (ConfigFile[0] != "HEROES_MOD_LOADER_LEVEL_CONFIG_FILE")
+                throw new Exception("Error: unsupported file.");
 
             string seename;
             if (ConfigFile[1].Contains("LEVEL_FLAG"))
                 seename = ConfigFile[1].Split('=')[1];
-            else throw new Exception();
+            else
+                throw new Exception("Error: unsupported file.");
 
-            bool NotFoundEntry = true;
-            foreach (LevelConfigEntry i in ComboLevelConfig.Items)
+            currentID = StageID.Null;
+
+            foreach (StageID i in Enum.GetValues(typeof(StageID)))
             {
-                if (i.Name == seename)
+                if (i.ToString() == seename)
                 {
-                    ComboLevelConfig.SelectedItem = i;
-                    CurrentLevelConfig = i;
-                    NotFoundEntry = false;
+                    currentID = i;
                     break;
                 }
             }
-            if (NotFoundEntry) throw new Exception();
+            if (currentID == StageID.Null)
+                throw new Exception("Error: unsupported file.");
 
             for (int x = 2; x < ConfigFile.Length; x++)
             {
@@ -333,8 +240,14 @@ namespace HeroesPowerPlant.ConfigEditor
 
             StartPositions.Add(SonicStartPosition);
             StartPositions.Add(DarkStartPosition);
+            StartPositions.Add(RoseStartPosition);
+            StartPositions.Add(ChaotixStartPosition);
+            StartPositions.Add(ForeditStartPosition);
             StartPositions[0].NewColor(Color.Blue.ToVector3());
             StartPositions[1].NewColor(Color.Red.ToVector3());
+            StartPositions[2].NewColor(Color.HotPink.ToVector3());
+            StartPositions[3].NewColor(Color.Green.ToVector3());
+            StartPositions[4].NewColor(Color.Orange.ToVector3());
 
             EndPositions.Add(SonicEndPosition);
             EndPositions.Add(DarkEndPosition);
@@ -347,34 +260,93 @@ namespace HeroesPowerPlant.ConfigEditor
             EndPositions[3].NewColor(Color.LightGreen.ToVector3());
             EndPositions[4].NewColor(Color.Yellow.ToVector3());
 
-            if (CurrentLevelConfig.Mode == ModeType.SinglePlayer)
-            {
-                StartPositions.Add(RoseStartPosition);
-                StartPositions.Add(ChaotixStartPosition);
-                StartPositions.Add(ForeditStartPosition);
-                StartPositions[2].NewColor(Color.HotPink.ToVector3());
-                StartPositions[3].NewColor(Color.Green.ToVector3());
-                StartPositions[4].NewColor(Color.Orange.ToVector3());
-            }
+            BragPositions.Add(SonicBragPosition);
+            BragPositions.Add(DarkBragPosition);
+            BragPositions.Add(RoseBragPosition);
+            BragPositions.Add(ChaotixBragPosition);
+            BragPositions.Add(ForeditBragPosition);
+            BragPositions[0].NewColor(Color.DarkBlue.ToVector3());
+            BragPositions[1].NewColor(Color.DarkRed.ToVector3());
+            BragPositions[2].NewColor(Color.DarkMagenta.ToVector3());
+            BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
+            BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
 
-            if (CurrentLevelConfig.Mode == ModeType.MultiPlayer)
-            {
-                BragPositions.Add(SonicBragPosition);
-                BragPositions.Add(DarkBragPosition);
-                BragPositions.Add(RoseBragPosition);
-                BragPositions.Add(ChaotixBragPosition);
-                BragPositions.Add(ForeditBragPosition);
-                BragPositions[0].NewColor(Color.DarkBlue.ToVector3());
-                BragPositions[1].NewColor(Color.DarkRed.ToVector3());
-                BragPositions[2].NewColor(Color.DarkMagenta.ToVector3());
-                BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
-                BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
-            }
-
-            ComboLevelConfig.Enabled = true;
-            ComboBoxTeam.Enabled = true;
+            ComboLevelConfig.SelectedItem = currentID;
             ComboBoxTeam.SelectedIndex = 0;
-            return true;
+        }
+
+        private void ReadJSONConfig(string fileName)
+        {
+            GenericStageInjectionCommon.Shared.Config c = GenericStageInjectionCommon.Shared.Config.ParseConfig(fileName);
+
+            StartPositions.Clear();
+            EndPositions.Clear();
+            BragPositions.Clear();
+
+            foreach (PositionStart s in c.StartPositions)
+                StartPositions.Add(new StartPositionEntry()
+                {
+                    PositionX = s.Position.X,
+                    PositionY = s.Position.Y,
+                    PositionZ = s.Position.Z,
+                    HoldTime = s.HoldTime,
+                    Mode = s.Mode,
+                    Pitch = s.Pitch
+                });
+
+            while (StartPositions.Count < 5)
+                StartPositions.Add(new StartPositionEntry());
+            while (StartPositions.Count > 5)
+                StartPositions.RemoveAt(StartPositions.Count - 1);
+
+                foreach (PositionEnd s in c.EndPositions)
+                EndPositions.Add(new EndPositionEntry()
+                {
+                    PositionX = s.Position.X,
+                    PositionY = s.Position.Y,
+                    PositionZ = s.Position.Z,
+                    Pitch = s.Pitch
+                });
+
+            while (EndPositions.Count < 5)
+                EndPositions.Add(new EndPositionEntry());
+            while (EndPositions.Count > 5)
+                EndPositions.RemoveAt(EndPositions.Count - 1);
+
+            foreach (PositionEnd s in c.BragPositions)
+                BragPositions.Add(new EndPositionEntry()
+                {
+                    PositionX = s.Position.X,
+                    PositionY = s.Position.Y,
+                    PositionZ = s.Position.Z,
+                    Pitch = s.Pitch
+                });
+
+            while (BragPositions.Count < 5)
+                BragPositions.Add(new EndPositionEntry());
+            while (BragPositions.Count > 5)
+                BragPositions.RemoveAt(BragPositions.Count - 1);
+
+            StartPositions[0].NewColor(Color.Blue.ToVector3());
+            StartPositions[1].NewColor(Color.Red.ToVector3());
+            StartPositions[2].NewColor(Color.HotPink.ToVector3());
+            StartPositions[3].NewColor(Color.Green.ToVector3());
+            StartPositions[4].NewColor(Color.Orange.ToVector3());
+
+            EndPositions[0].NewColor(Color.LightBlue.ToVector3());
+            EndPositions[1].NewColor(Color.IndianRed.ToVector3());
+            EndPositions[2].NewColor(Color.Pink.ToVector3());
+            EndPositions[3].NewColor(Color.LightGreen.ToVector3());
+            EndPositions[4].NewColor(Color.Yellow.ToVector3());
+
+            BragPositions[0].NewColor(Color.DarkBlue.ToVector3());
+            BragPositions[1].NewColor(Color.DarkRed.ToVector3());
+            BragPositions[2].NewColor(Color.DarkMagenta.ToVector3());
+            BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
+            BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
+
+            currentID = c.StageId;
+            ComboLevelConfig.SelectedItem = currentID;
         }
 
         private void SaveFileJson(string FileName)
@@ -395,77 +367,11 @@ namespace HeroesPowerPlant.ConfigEditor
             foreach (EndPositionEntry s in BragPositions)
                 c.BragPositions.Add(s.Position);
 
-            c.StageId = CurrentLevelConfig.StageID;
+            c.StageId = currentID;
 
             GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
 
             Program.SplineEditor.buttonSave.Enabled = true;
-
-            Program.SplineEditor.Save();
-        }
-
-        private void SaveFileIni(string FileName)
-        {
-            StreamWriter streamWriter = new StreamWriter(new FileStream(FileName, FileMode.Create));
-
-            streamWriter.WriteLine("HEROES_MOD_LOADER_LEVEL_CONFIG_FILE");
-            streamWriter.WriteLine("LEVEL_FLAG=" + CurrentLevelConfig.Name);
-            streamWriter.WriteLine();
-
-            if (CurrentLevelConfig.SplinePointer != 0)
-                streamWriter.WriteLine("PUSH_INSTRUCTION_POINTER=0x" + (CurrentLevelConfig.SplinePointer + 0x400000 - 1).ToString("X"));
-            if (CurrentLevelConfig.StartPointer != 0)
-                streamWriter.WriteLine("START_POSITION_POINTER=0x" + (CurrentLevelConfig.StartPointer + 0x400000).ToString("X"));
-            else if (CurrentLevelConfig.StartMultiPointer != 0)
-                streamWriter.WriteLine("START_POSITION_POINTER=0x" + (CurrentLevelConfig.StartMultiPointer + 0x400000).ToString("X"));
-            if (CurrentLevelConfig.EndingPointer != 0)
-                streamWriter.WriteLine("END_POSITION_POINTER=0x" + (CurrentLevelConfig.EndingPointer + 0x400000).ToString("X"));
-            if (CurrentLevelConfig.BragPointer != 0)
-                streamWriter.WriteLine("BRAG_POSITION_POINTER=0x" + (CurrentLevelConfig.BragPointer + 0x400000).ToString("X"));
-            streamWriter.WriteLine();
-
-            string team;
-
-            for (int i = 0; i < 5; i++)
-            {
-                if (i == 0) team = "SONIC_";
-                else if (i == 1) team = "DARK_";
-                else if (i == 2) team = "ROSE_";
-                else if (i == 3) team = "CHAOTIX_";
-                else team = "FOREDIT_";
-
-                if (i < 2 | StartPositions.Count > 2)
-                {
-                    streamWriter.WriteLine(team + "START_POSITIONX=" + StartPositions[i].PositionX.ToString());
-                    streamWriter.WriteLine(team + "START_POSITIONY=" + StartPositions[i].PositionY.ToString());
-                    streamWriter.WriteLine(team + "START_POSITIONZ=" + StartPositions[i].PositionZ.ToString());
-                    streamWriter.WriteLine(team + "START_PITCH=" + StartPositions[i].Pitch.ToString());
-                    streamWriter.WriteLine(team + "START_MODE=" + ((byte)StartPositions[i].Mode).ToString());
-                    streamWriter.WriteLine(team + "START_RUNNING=" + StartPositions[i].HoldTime.ToString());
-                    streamWriter.WriteLine();
-                }
-
-                streamWriter.WriteLine(team + "END_POSITIONX=" + EndPositions[i].PositionX.ToString());
-                streamWriter.WriteLine(team + "END_POSITIONY=" + EndPositions[i].PositionY.ToString());
-                streamWriter.WriteLine(team + "END_POSITIONZ=" + EndPositions[i].PositionZ.ToString());
-                streamWriter.WriteLine(team + "END_PITCH=" + EndPositions[i].Pitch.ToString());
-                streamWriter.WriteLine();
-
-                if (BragPositions.Count > 0)
-                {
-                    streamWriter.WriteLine(team + "BRAG_POSITIONX=" + BragPositions[i].PositionX.ToString());
-                    streamWriter.WriteLine(team + "BRAG_POSITIONY=" + BragPositions[i].PositionY.ToString());
-                    streamWriter.WriteLine(team + "BRAG_POSITIONZ=" + BragPositions[i].PositionZ.ToString());
-                    streamWriter.WriteLine(team + "BRAG_PITCH=" + BragPositions[i].Pitch.ToString());
-                    streamWriter.WriteLine();
-                }
-            }
-
-            streamWriter.Close();
-            Program.SplineEditor.buttonSave.Enabled = true;
-
-            if (CurrentLevelConfig.SplinePointer == 0)
-                MessageBox.Show("Notice that this level config doesn't have a spline pointer. If you have custom splines, they won't load ingame.");
 
             Program.SplineEditor.Save();
         }

@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.ConfigEditor
         public EntryRenderer(Vector3 Position, int Rotation, Vector3 v)
         {
             NewMatrix(Position, Rotation);
-            renderData.Color = new Vector4(v, 0.3f);
+            renderData.Color = new Vector4(v, 0.6f);
         }
 
         public void NewMatrix(Vector3 Position, int Rotation)

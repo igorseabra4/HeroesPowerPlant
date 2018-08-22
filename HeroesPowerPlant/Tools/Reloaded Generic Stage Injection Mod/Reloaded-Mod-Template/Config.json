@@ -1,0 +1,11 @@
+{
+  "ModId": "sonicheroes.heroeshackingcentral.genericstageinjection",
+  "ModName": "Generic Stage Injection Template Mod",
+  "ModDescription": "Automatically overrides an individual level's properties such as splines and spawn points for user defined stages.",
+  "ModVersion": "1.0.0",
+  "ModAuthor": "Heroes Hacking Central",
+  "ModSite": "",
+  "ModSource": "",
+  "ConfigurationFile": "",
+  "Dependencies": [ ]
+}

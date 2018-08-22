@@ -48,7 +48,7 @@ The options to add and clear object ONEs let you pick ONE files containing (most
 Press F1 or click the status bar to display the view config window. Here you can set the view's position, rotation, movement speed (interval), draw distance (will affect object render distance), field of view and height to display the quadtree.
 
 	= Mod Loader Config Editor (F2) =
-- This editor allows you to create a new or open an existing Config.CC configuration file for the default Heroes Mod Loader Generic Stage Injection Mod DLL.
+- This editor allows you to create a new or open an existing Stage.json configuration file for the default Reloaded Mod Loader Generic Stage Injection Mod.
 - You can choose a level preset (required for the correct spline and position pointers to be saved) and edit start positions, ending positions and bragging positions for all teams (depending on which stage they are available for). You can get the original positions from the EXE using Heroes Tweaker. Note that not all level presets include spline pointers.
 - You can edit the Config.cc file in a text editor if you want to (and remove the spline pointer to leave them untouched, for example).
 - You can also save the file as Stage.json for the Reloaded Mod Loader version of the Generic Stage Injection Mod. This will become the standard format eventually.
@@ -155,3 +155,4 @@ The texture pattern editor allows you to add, remove and modify texture pattern 
 - The key frames are the frames in which the image changes. You don't need to change it every frame.
 - The texture number is the number of the texture that will be set in that frame (the number after the dot at the end of the image name).
 - You can have multiple entries (with different texture names) which use the same images (same animation name), but with different frame counts and key frames (such as an animation which plays in a different speed, starts on a different frame, or even a different frame order).
+- Note: the animations are only playing at the correct speed if the FPS is 60.
