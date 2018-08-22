@@ -493,7 +493,9 @@
     <None Include="Tools\importvcolorobj_v1.2.1.ms">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template.zip" />
+    <None Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Tools\Resources\ObjectList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
