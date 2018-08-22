@@ -543,15 +543,16 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void MouseMoveX(int distance)
         {
+            // TODO: The yaw checking code is probably redundant since Sewer's camera code but is kept here for now.
             if (gizmos[0].isSelected)
                 NumericPosX.Value += (
-                    (SharpRenderer.Camera.Yaw >= -360 & SharpRenderer.Camera.Yaw < -270) |
-                    (SharpRenderer.Camera.Yaw >= -90 & SharpRenderer.Camera.Yaw < 90) |
-                    (SharpRenderer.Camera.Yaw >= 270)) ? distance / 2 : -distance / 2;
+                    (SharpRenderer.Camera.ViewMatrix.Yaw >= -360 & SharpRenderer.Camera.ViewMatrix.Yaw < -270) |
+                    (SharpRenderer.Camera.ViewMatrix.Yaw >= -90 & SharpRenderer.Camera.ViewMatrix.Yaw < 90) |
+                    (SharpRenderer.Camera.ViewMatrix.Yaw >= 270)) ? distance / 2 : -distance / 2;
             else if (gizmos[2].isSelected)
                 NumericPosZ.Value +=(
-                    (SharpRenderer.Camera.Yaw >= -180 & SharpRenderer.Camera.Yaw < 0) |
-                    (SharpRenderer.Camera.Yaw >= 180)) ? distance / 2 : -distance / 2;
+                    (SharpRenderer.Camera.ViewMatrix.Yaw >= -180 & SharpRenderer.Camera.ViewMatrix.Yaw < 0) |
+                    (SharpRenderer.Camera.ViewMatrix.Yaw >= 180)) ? distance / 2 : -distance / 2;
         }
 
         public void MouseMoveY(int distance)

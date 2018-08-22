@@ -177,6 +177,9 @@
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="LayoutEditor\Gizmo.cs" />
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
+    <Compile Include="SharpDX\Camera\CameraVectors.cs" />
+    <Compile Include="SharpDX\Camera\ProjectionMatrix.cs" />
+    <Compile Include="SharpDX\Camera\ViewMatrix.cs" />
     <Compile Include="SharpDX\SharpFPS.cs" />
     <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />

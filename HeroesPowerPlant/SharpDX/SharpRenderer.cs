@@ -15,11 +15,6 @@ namespace HeroesPowerPlant
         public static SharpDevice device;
         public static SharpCamera Camera = new SharpCamera();
         public static SharpFPS sharpFPS;
-
-        public static float fov { get; set; } = MathUtil.Pi / 4;
-        private static float aspectRatio;
-        private static readonly float near = 0.1f;
-        public static float far { get; set; } = 500000F;
         
         public SharpRenderer(Control control)
         {
@@ -34,10 +29,11 @@ namespace HeroesPowerPlant
             device = new SharpDevice(control, false);
             LoadModels();
 
-            aspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
+            
 
             sharpFPS = new SharpFPS();
             sharpFPS.FPSLimit = float.MaxValue;
+            Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
 
             SetSharpShader();
             LoadTextures();
@@ -292,17 +288,17 @@ namespace HeroesPowerPlant
                 if (device.MustResize)
                 {
                     device.Resize();
-                    aspectRatio = (float)Panel.Width / Panel.Height;
+                    Camera.ProjectionMatrix.AspectRatio = (float)Panel.Width / Panel.Height;
                 }
 
-                Program.MainForm.KeyboardController((float)(60f / sharpFPS.FPS));
-                Program.MainForm.SetToolStripStatusLabel(Camera.GetInformation() + " FPS: " + $"{sharpFPS.FPS:0000.000}");
+                Program.MainForm.KeyboardController();
+                Program.MainForm.SetToolStripStatusLabel(Camera + " | FPS: " + $"{sharpFPS.FPS:0000.000}");
 
                 //clear color
                 device.Clear(backgroundColor);
 
                 //Set matrices
-                viewProjection = Camera.GenerateLookAtRH() * Matrix.PerspectiveFovRH(fov, aspectRatio, near, far);
+                viewProjection = Camera.ViewMatrix.GetViewMatrix() * Camera.ProjectionMatrix.GetProjectionMatrix();
                 frustum = new BoundingFrustum(viewProjection);
 
                 Program.TexturePatternEditor.Animate();

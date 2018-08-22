@@ -243,8 +243,8 @@ namespace HeroesPowerPlant.MainForm
         {
             if (mouseMode)
             {
-                SharpRenderer.Camera.AddYaw(MathUtil.DegreesToRadians(Cursor.Position.X - MouseCenter.X) / 4);
-                SharpRenderer.Camera.AddPitch(MathUtil.DegreesToRadians(Cursor.Position.Y - MouseCenter.Y) / 4);
+                SharpRenderer.Camera.AddYaw((Cursor.Position.X - MouseCenter.X) / 4F);
+                SharpRenderer.Camera.AddPitch((Cursor.Position.Y - MouseCenter.Y) / 4F);
 
                 Cursor.Position = MouseCenter;
             }
@@ -254,13 +254,13 @@ namespace HeroesPowerPlant.MainForm
                 int deltaY = e.Y - oldMouseY;
                 if (e.Button == MouseButtons.Middle)
                 {
-                    SharpRenderer.Camera.AddYaw(MathUtil.DegreesToRadians(deltaX));
-                    SharpRenderer.Camera.AddPitch(MathUtil.DegreesToRadians(deltaY));
+                    SharpRenderer.Camera.AddYaw(deltaX * SharpRenderer.Camera.MouseSensitivity);
+                    SharpRenderer.Camera.AddPitch(deltaY * SharpRenderer.Camera.MouseSensitivity);
                 }
                 if (e.Button == MouseButtons.Right)
                 {
                     SharpRenderer.Camera.AddPositionSideways(deltaX);
-                    SharpRenderer.Camera.AddPositionUp(deltaY);
+                    SharpRenderer.Camera.MoveUp(deltaY);
                 }
 
                 Program.LayoutEditor.MouseMoveX(deltaX);
@@ -279,7 +279,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void renderPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            SharpRenderer.Camera.AddPositionForward(e.Delta / 12);
+            SharpRenderer.Camera.AddPositionForward(e.Delta);
         }
 
         private void MouseModeToggle()
@@ -302,9 +302,9 @@ namespace HeroesPowerPlant.MainForm
             if (e.KeyCode == Keys.Z)
                 MouseModeToggle();
             else if (e.KeyCode == Keys.Q)
-                SharpRenderer.Camera.IncreaseCameraSpeed(-1);
+                SharpRenderer.Camera.IncreaseCameraSpeed(-0.1F);
             else if (e.KeyCode == Keys.E)
-                SharpRenderer.Camera.IncreaseCameraSpeed(1);
+                SharpRenderer.Camera.IncreaseCameraSpeed(0.1F);
             else if (e.KeyCode == Keys.C)
                 ToggleCulling();
             else if (e.KeyCode == Keys.F)
@@ -355,31 +355,31 @@ namespace HeroesPowerPlant.MainForm
             PressedKeys.Clear();
         }
 
-        public void KeyboardController(float speedMultiplier)
+        public void KeyboardController()
         {
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddYaw(-0.1f * speedMultiplier);
+                SharpRenderer.Camera.AddYaw(-0.1f);
             else if (PressedKeys.Contains(Keys.A))
-                SharpRenderer.Camera.AddPositionSideways(0.5f * speedMultiplier);
+                SharpRenderer.Camera.AddPositionSideways(1f);
 
             if (PressedKeys.Contains(Keys.D) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddYaw(0.1f * speedMultiplier);
+                SharpRenderer.Camera.AddYaw(0.1f);
             else if (PressedKeys.Contains(Keys.D))
-                SharpRenderer.Camera.AddPositionSideways(-0.5f * speedMultiplier);
+                SharpRenderer.Camera.AddPositionSideways(-1f);
 
             if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddPitch(-0.1f * speedMultiplier);
+                SharpRenderer.Camera.AddPitch(-0.1f);
             else if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ShiftKey))
-                SharpRenderer.Camera.AddPositionUp(0.5f * speedMultiplier);
+                SharpRenderer.Camera.MoveUp(1f);
             else if (PressedKeys.Contains(Keys.W))
-                SharpRenderer.Camera.AddPositionForward(0.5f * speedMultiplier);
+                SharpRenderer.Camera.AddPositionForward(1f);
 
             if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddPitch(0.1f * speedMultiplier);
+                SharpRenderer.Camera.AddPitch(0.1f);
             else if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ShiftKey))
-                SharpRenderer.Camera.AddPositionUp(-0.5f * speedMultiplier);
+                SharpRenderer.Camera.MoveDown(1f);
             else if (PressedKeys.Contains(Keys.S))
-                SharpRenderer.Camera.AddPositionForward(-0.5f * speedMultiplier);
+                SharpRenderer.Camera.AddPositionForward(-1f);
 
             if (PressedKeys.Contains(Keys.R))
                 SharpRenderer.Camera.Reset();

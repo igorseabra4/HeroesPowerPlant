@@ -402,19 +402,19 @@ namespace HeroesPowerPlant.CameraEditor
                 
         private void buttonComeHere_Click(object sender, EventArgs e)
         {
-            SharpRenderer.Camera.SetPosition(new Vector3((float)numericUpDownCamPosX.Value, (float)numericUpDownCamPosY.Value, (float)numericUpDownCamPosZ.Value));
+            SharpRenderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownCamPosX.Value, (float)numericUpDownCamPosY.Value, (float)numericUpDownCamPosZ.Value);
         }
 
         private void buttonComeTrigger_Click(object sender, EventArgs e)
         {
-            SharpRenderer.Camera.SetPosition(new Vector3((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value));
+            SharpRenderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value);
         }
 
         private void buttonGetView_Click(object sender, EventArgs e)
         {
-            numericUpDownCamPosX.Value = (decimal)SharpRenderer.Camera.GetPosition().X;
-            numericUpDownCamPosY.Value = (decimal)SharpRenderer.Camera.GetPosition().Y;
-            numericUpDownCamPosZ.Value = (decimal)SharpRenderer.Camera.GetPosition().Z;
+            numericUpDownCamPosX.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.X;
+            numericUpDownCamPosY.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Y;
+            numericUpDownCamPosZ.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Z;
         }
 
         public void RenderCameras()

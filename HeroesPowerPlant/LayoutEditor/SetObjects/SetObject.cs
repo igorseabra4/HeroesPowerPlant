@@ -37,7 +37,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool DontDraw()
         {
-            return Vector3.Distance(SharpRenderer.Camera.GetPosition(), Position) > Rend * SharpRenderer.far / 5000f;
+            return Vector3.Distance(SharpRenderer.Camera.GetPosition(), Position) > Rend * SharpRenderer.Camera.ProjectionMatrix.FarPlane / 5000f;
         }
 
         public abstract void Draw(bool drawEveryObject);

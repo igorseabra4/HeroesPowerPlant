@@ -18,7 +18,25 @@ namespace HeroesPowerPlant.MainForm
         // Default value assignments moved to SharpRenderer.
 
         public ViewConfig()
-        { InitializeComponent(); }
+        {
+            InitializeComponent();
+            SharpRenderer.Camera.CameraChangedEvent += CameraChanged;
+        }
+
+        private void CameraChanged(SharpCamera camera)
+        {
+            ProgramIsUpdatingValues = true;
+            NumericFOV.Value = (decimal) camera.ProjectionMatrix.FieldOfView;
+            NumericDrawD.Value = (decimal) camera.ProjectionMatrix.FarPlane;
+            NumericInterval.Value = (decimal) camera.Speed;
+            NumericCameraX.Value = (decimal) camera.ViewMatrix.Position.X;
+            NumericCameraY.Value = (decimal) camera.ViewMatrix.Position.Y;
+            NumericCameraZ.Value = (decimal) camera.ViewMatrix.Position.Z;
+
+            NumericCameraYaw.Value = (decimal)camera.ViewMatrix.Yaw;
+            NumericCameraPitch.Value = (decimal)camera.ViewMatrix.Pitch;
+            ProgramIsUpdatingValues = false;
+        }
 
 
         /*
@@ -50,25 +68,28 @@ namespace HeroesPowerPlant.MainForm
         private void NumericCameraRot_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsUpdatingValues)
-                SharpRenderer.Camera.SetRotation((float)NumericCameraPitch.Value, (float)NumericCameraYaw.Value);
+            {
+                SharpRenderer.Camera.ViewMatrix.Pitch = (float) NumericCameraPitch.Value;
+                SharpRenderer.Camera.ViewMatrix.Yaw = (float)NumericCameraYaw.Value;
+            }
         }
 
         private void NumericInterval_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsUpdatingValues)
-                SharpRenderer.Camera.SetSpeed((float)NumericInterval.Value);
+                SharpRenderer.Camera.Speed = (float)NumericInterval.Value;
         }
 
         private void NumericDrawD_ValueChanged(object sender, EventArgs e)
         {
-            SharpRenderer.far = (float)NumericDrawD.Value;
+            SharpRenderer.Camera.ProjectionMatrix.FarPlane = (float)NumericDrawD.Value;
         }
 
         private void NumericFOV_ValueChanged(object sender, EventArgs e)
         {
             if (NumericFOV.Value < 1)
                 NumericFOV.Value = 1;
-            SharpRenderer.fov = MathUtil.DegreesToRadians((float)NumericFOV.Value);
+            SharpRenderer.Camera.ProjectionMatrix.FieldOfView = (float)NumericFOV.Value;
         }
 
         private void NumericQuadHeight_ValueChanged(object sender, EventArgs e)
@@ -95,8 +116,15 @@ namespace HeroesPowerPlant.MainForm
         public void UpdateValues()
         {
             var currentConfig = ProjectConfig.FromCurrentInstance();
-            NumericFOV.Value = (decimal)MathUtil.RadiansToDegrees(currentConfig.CameraSettings.FieldOfView);
+            NumericFOV.Value = (decimal)currentConfig.CameraSettings.FieldOfView;
             NumericDrawD.Value = (decimal)currentConfig.CameraSettings.DrawDistance;
+            NumericInterval.Value = (decimal) currentConfig.CameraSettings.Speed;
+            NumericCameraX.Value = (decimal)currentConfig.CameraSettings.CameraPosition.X;
+            NumericCameraY.Value = (decimal)currentConfig.CameraSettings.CameraPosition.Y;
+            NumericCameraZ.Value = (decimal)currentConfig.CameraSettings.CameraPosition.Z;
+
+            NumericCameraYaw.Value = (decimal)currentConfig.CameraSettings.Yaw;
+            NumericCameraPitch.Value = (decimal)currentConfig.CameraSettings.Pitch;
         }
 
         public void SetValues(Vector3 position, float yaw, float pitch, float speed)

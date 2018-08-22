@@ -114,12 +114,12 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
                 CameraSettings = new Camera()
                 {
-                    CameraPosition = SharpRenderer.Camera.GetPosition(),
-                    Pitch = SharpRenderer.Camera.Pitch,
+                    CameraPosition = SharpRenderer.Camera.ViewMatrix.Position,
+                    Pitch = SharpRenderer.Camera.ViewMatrix.Pitch,
                     Speed = SharpRenderer.Camera.Speed,
-                    Yaw   = SharpRenderer.Camera.Yaw,
-                    FieldOfView = SharpRenderer.fov,
-                    DrawDistance = SharpRenderer.far
+                    Yaw   = SharpRenderer.Camera.ViewMatrix.Yaw,
+                    FieldOfView = SharpRenderer.Camera.ProjectionMatrix.FieldOfView,
+                    DrawDistance = SharpRenderer.Camera.ProjectionMatrix.FarPlane
                 },
 
                 RenderingOptions = new RenderOptions()
@@ -164,11 +164,12 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
             if (config.CameraSettings != null)
             {
-                SharpRenderer.Camera.SetPosition(config.CameraSettings.CameraPosition);
-                SharpRenderer.Camera.SetRotation(config.CameraSettings.Pitch, config.CameraSettings.Yaw);
-                SharpRenderer.Camera.SetSpeed(config.CameraSettings.Speed);
-                SharpRenderer.fov = config.CameraSettings.FieldOfView;
-                SharpRenderer.far = config.CameraSettings.DrawDistance;
+                SharpRenderer.Camera.ViewMatrix.Position = config.CameraSettings.CameraPosition;
+                SharpRenderer.Camera.ViewMatrix.Yaw = config.CameraSettings.Yaw;
+                SharpRenderer.Camera.ViewMatrix.Pitch = config.CameraSettings.Pitch;
+                SharpRenderer.Camera.Speed = config.CameraSettings.Speed;
+                SharpRenderer.Camera.ProjectionMatrix.FieldOfView = config.CameraSettings.FieldOfView;
+                SharpRenderer.Camera.ProjectionMatrix.FarPlane = config.CameraSettings.DrawDistance;
             }
 
             DFFRenderer.ClearObjectONEFiles();
