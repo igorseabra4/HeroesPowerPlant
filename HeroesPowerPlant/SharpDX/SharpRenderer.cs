@@ -37,6 +37,7 @@ namespace HeroesPowerPlant
             aspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
 
             sharpFPS = new SharpFPS();
+            sharpFPS.FPSLimit = float.MaxValue;
 
             SetSharpShader();
             LoadTextures();
@@ -279,8 +280,12 @@ namespace HeroesPowerPlant
 
         public static void RunMainLoop(Panel Panel)
         {
+
+
             RenderLoop.Run(Panel, () =>
             {
+                sharpFPS.StartFrame();
+
                 if (dontRender) return;
 
                 //Resizing
@@ -290,9 +295,8 @@ namespace HeroesPowerPlant
                     aspectRatio = (float)Panel.Width / Panel.Height;
                 }
 
-                sharpFPS.Update();
-                Program.MainForm.KeyboardController(60f / sharpFPS.FPS);
-                Program.MainForm.SetToolStripStatusLabel(Camera.GetInformation() + " FPS: " + sharpFPS.FPS.ToString());
+                Program.MainForm.KeyboardController((float)(60f / sharpFPS.FPS));
+                Program.MainForm.SetToolStripStatusLabel(Camera.GetInformation() + " FPS: " + $"{sharpFPS.FPS:0000.000}");
 
                 //clear color
                 device.Clear(backgroundColor);
@@ -333,6 +337,9 @@ namespace HeroesPowerPlant
 
                 //present
                 device.Present();
+
+                sharpFPS.EndFrame();
+                sharpFPS.Sleep();
             });
 
             //release resources
