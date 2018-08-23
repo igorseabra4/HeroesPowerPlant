@@ -554,6 +554,7 @@ namespace HeroesPowerPlant.MainForm
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             HPPConfig.GetInstance().Save();
+            Environment.Exit(0); // Ensure background threads close too!
         }
 
         private void vSyncToolStripMenuItem_Click(object sender, EventArgs e)
