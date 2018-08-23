@@ -292,7 +292,7 @@ namespace HeroesPowerPlant
                 }
 
                 Program.MainForm.KeyboardController();
-                Program.MainForm.SetToolStripStatusLabel(Camera + " | FPS: " + $"{sharpFPS.FPS:0000.000}");
+                Program.MainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{sharpFPS.FPS:0.0000}");
 
                 //clear color
                 device.Clear(backgroundColor);

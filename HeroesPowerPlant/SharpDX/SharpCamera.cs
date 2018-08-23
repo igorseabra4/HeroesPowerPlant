@@ -145,7 +145,7 @@ namespace HeroesPowerPlant
         ////////////
         public override string ToString()
         {
-            return $"Position: {ViewMatrix.Position.X:00000.00000},{ViewMatrix.Position.Y:00000.00000},{ViewMatrix.Position.Z:00000.00000} | Rotation: {ViewMatrix.Yaw:000.000},{ViewMatrix.Pitch:000.000} | Speed: {Speed:00.00}";
+            return $"Position [{ViewMatrix.Position.X:0.0000}, {ViewMatrix.Position.Y:0.0000}, {ViewMatrix.Position.Z:0.0000}] Rotation: [{ViewMatrix.Yaw:0.0000}, {ViewMatrix.Pitch:0.0000}] Speed: [{Speed:0.0000}]";
         }
 
         /// <summary>
