@@ -78,6 +78,7 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
+            this.loadTexturesFromTXDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -431,7 +432,8 @@ namespace HeroesPowerPlant.MainForm
             // debugToolStripMenuItem
             // 
             this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reloadTexturesToolStripMenuItem});
+            this.reloadTexturesToolStripMenuItem,
+            this.loadTexturesFromTXDToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -439,7 +441,7 @@ namespace HeroesPowerPlant.MainForm
             // reloadTexturesToolStripMenuItem
             // 
             this.reloadTexturesToolStripMenuItem.Name = "reloadTexturesToolStripMenuItem";
-            this.reloadTexturesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.reloadTexturesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.reloadTexturesToolStripMenuItem.Text = "Reload Textures";
             this.reloadTexturesToolStripMenuItem.Click += new System.EventHandler(this.reloadTexturesToolStripMenuItem_Click);
             // 
@@ -474,6 +476,13 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseUp);
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
+            // 
+            // loadTexturesFromTXDToolStripMenuItem
+            // 
+            this.loadTexturesFromTXDToolStripMenuItem.Name = "loadTexturesFromTXDToolStripMenuItem";
+            this.loadTexturesFromTXDToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.loadTexturesFromTXDToolStripMenuItem.Text = "Load Textures from TXD";
+            this.loadTexturesFromTXDToolStripMenuItem.Click += new System.EventHandler(this.loadTexturesFromTXDToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -551,6 +560,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem debugToolStripMenuItem;
         private ToolStripMenuItem reloadTexturesToolStripMenuItem;
         private ToolStripMenuItem closeToolStripMenuItem;
+        private ToolStripMenuItem loadTexturesFromTXDToolStripMenuItem;
     }
 }
 

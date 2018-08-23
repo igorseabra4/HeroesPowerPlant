@@ -1,9 +1,5 @@
 ﻿using SharpDX;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -27,13 +23,13 @@ namespace HeroesPowerPlant.LayoutEditor
             switch (type)
             {
                 case GizmoType.X:
-                    renderData.Color = new Vector4(1f, 0f, 0f, 0.6f);
+                    renderData.Color = new Vector4(1f, 0f, 0f, 0.4f);
                     break;
                 case GizmoType.Y:
-                    renderData.Color = new Vector4(0f, 1f, 0f, 0.6f);
+                    renderData.Color = new Vector4(0f, 1f, 0f, 0.4f);
                     break;
                 case GizmoType.Z:
-                    renderData.Color = new Vector4(0f, 0f, 1f, 0.6f);
+                    renderData.Color = new Vector4(0f, 0f, 1f, 0.4f);
                     break;
             }
             isSelected = false;
@@ -50,21 +46,21 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (dist < 10f) dist = 10f;
 
                     Position.X += dist;
-                    transformMatrix = Matrix.Scaling(5f) * Matrix.RotationY(MathUtil.Pi / 2) * Matrix.Translation(Position);
+                    transformMatrix = Matrix.Scaling(dist / 5f) * Matrix.RotationY(MathUtil.Pi / 2) * Matrix.Translation(Position);
                     break;
                 case GizmoType.Y:
                     dist = Math.Abs(distance.Y) + 2f;
                     if (dist < 10f) dist = 10f;
 
                     Position.Y += dist;
-                    transformMatrix = Matrix.Scaling(5f) * Matrix.RotationX(-MathUtil.Pi / 2) * Matrix.Translation(Position);
+                    transformMatrix = Matrix.Scaling(dist / 5f) * Matrix.RotationX(-MathUtil.Pi / 2) * Matrix.Translation(Position);
                     break;
                 case GizmoType.Z:
                     dist = Math.Abs(distance.Z) + 2f;
                     if (dist < 10f) dist = 10f;
 
                     Position.Z += dist;
-                    transformMatrix = Matrix.Scaling(5f) * Matrix.Translation(Position);
+                    transformMatrix = Matrix.Scaling(dist / 5f) * Matrix.Translation(Position);
                     break;
             }
             boundingBox = BoundingBox.FromPoints(pyramidVertices.ToArray());
@@ -78,10 +74,11 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             renderData.worldViewProjection = transformMatrix * viewProjection;
 
-            device.SetFillModeDefault();
+            device.SetFillModeSolid();
             device.SetCullModeNone();
             device.SetBlendStateAlphaBlend();
             device.ApplyRasterState();
+            device.SetDepthStateNone();
             device.UpdateAllStates();
 
             device.UpdateData(basicBuffer, renderData);
@@ -89,6 +86,8 @@ namespace HeroesPowerPlant.LayoutEditor
             basicShader.Apply();
 
             Pyramid.Draw();
+
+            device.SetDefaultDepthState();
         }
 
         public BoundingBox boundingBox;

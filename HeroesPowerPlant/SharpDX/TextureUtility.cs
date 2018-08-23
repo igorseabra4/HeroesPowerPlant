@@ -7,6 +7,7 @@ using SharpDX.DXGI;
 
 namespace HeroesPowerPlant
 {
+    using RenderWareFile.Sections;
     using SharpDX.Direct3D11;
 
     /// <summary>
@@ -311,8 +312,6 @@ namespace HeroesPowerPlant
             outNumBytes = numBytes;
             outRowBytes = rowBytes;
             outNumRows = numRows;
-
-
         }
 
 
@@ -540,6 +539,41 @@ namespace HeroesPowerPlant
             T stuff = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
             handle.Free();
             return stuff;
+        }
+
+        private static DataRectangle[] FillInitData(MipMapEntry[] mipMaps, int width, int height, int depth, byte mipMapCount, Format format)
+        {
+            List<DataRectangle> rects = new List<DataRectangle>();
+
+            int NumBytes = 0;
+            int RowBytes = 0;
+            int NumRows = 0;
+            
+            for (int i = 0; i < mipMaps.Length; i++)
+            {
+                GetSurfaceInfo(width, height, format, out NumBytes, out RowBytes, out NumRows);
+
+                GCHandle pinnedArray = GCHandle.Alloc(mipMaps[i].data, GCHandleType.Pinned);
+                IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+                
+                rects.Add(new DataRectangle(pointer, RowBytes));
+                
+                width = width >> 1;
+                if (width == 0)
+                    width = 1;
+
+                height = height >> 1;
+                if (height == 0)
+                    height = 1;
+
+                depth = depth >> 1;
+                if (depth == 0)
+                    depth = 1;
+
+                pinnedArray.Free();
+            }
+            
+            return rects.ToArray();
         }
 
         private static List<DataBox> FillInitData(IntPtr pointer, int width, int height, int depth, int mipCount, int arraySize, Format format, int maxsize, int bitSize, int offset)
@@ -883,6 +917,84 @@ namespace HeroesPowerPlant
                 return CreateTextureFromBitmap(device.Device, filename);
             }
             else throw new Exception("Unsupported image format: " + filename);
+        }
+
+        public static ShaderResourceView LoadTextureFromRenderWareNative(this SharpDevice device, TextureNativeStruct_0001 tnStruct)
+        {
+            Format format = Format.Unknown;
+
+            if (tnStruct.compression == 0)
+            {
+                //if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C1555) != 0)
+                //    format = Format.B5G5R5A1_UNorm;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C4444) != 0)
+                //    format = Format.B4G4R4A4_UNorm;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C555) != 0)
+                //    format = Format.B5G6R5_UNorm;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C565) != 0)
+                //    format = Format.B5G6R5_UNorm;
+                if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C888) != 0)
+                    format = Format.B8G8R8A8_UNorm;
+                else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C8888) != 0)
+                    format = Format.B8G8R8A8_UNorm;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_D16) != 0)
+                //    format = Format.D16_UNorm;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_D24) != 0)
+                //    format = Format.D24_UNorm_S8_UInt;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_D32) != 0)
+                //    format = Format.D32_Float;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_DEFAULT) != 0)
+                //    format = Format.Unknown;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_LUM8) != 0)
+                //    format = Format.A8_UNorm;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL4) != 0)
+                //    format = Format.P8;
+                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL8) != 0)
+                //    format = Format.P8;
+            }
+            else if (tnStruct.compression == 1)
+            {
+                format = Format.BC1_UNorm;
+            }
+            else
+                return null;
+
+            if (format == Format.Unknown)
+                throw new Exception(tnStruct.textureName);
+            
+            Texture2DDescription textureDesc = new Texture2DDescription()
+            {
+                MipLevels = tnStruct.mipMapCount,
+                Format = format,
+                Width = tnStruct.width,
+                Height = tnStruct.height,
+                ArraySize = 1,
+                BindFlags = BindFlags.ShaderResource,
+                Usage = ResourceUsage.Default,
+                SampleDescription = new SampleDescription(1, 0),
+                OptionFlags = ResourceOptionFlags.None,
+            };
+
+            DataRectangle[] dataRectangles = FillInitData(tnStruct.mipMaps, tnStruct.width, tnStruct.height, tnStruct.bitDepth, tnStruct.mipMapCount, format);
+
+            Texture2D buffer = null;
+            while (buffer == null)
+            {
+                try
+                {
+                    buffer = new Texture2D(device.Device, textureDesc, dataRectangles);
+                }
+                catch
+                {
+
+                }
+            }
+            
+            ShaderResourceView resourceView = new ShaderResourceView(device.Device, buffer);
+
+            buffer.Dispose();
+
+            return resourceView;
         }
     }
 }

@@ -368,12 +368,12 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public void ScreenClicked(Ray r, bool isMouseDown)
+        public void ScreenClicked(Ray r, bool isMouseDown, bool showAllObjects)
         {
             if (isMouseDown)
                 GizmoSelect(r);
             else
-                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(r);
+                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(r, showAllObjects);
         }
 
         private void UpdateObjectComboBox()

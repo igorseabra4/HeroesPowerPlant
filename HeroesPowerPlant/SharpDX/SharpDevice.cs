@@ -360,7 +360,18 @@ namespace HeroesPowerPlant
 
             _depthState = new DepthStencilState(Device, description);
         }
-                
+
+        /// <summary>
+        /// Set current depth state to default
+        /// </summary>
+        public void SetDepthStateNone()
+        {
+            Utilities.Dispose(ref _depthState);
+            DepthStencilStateDescription description = DepthStencilStateDescription.Default();
+            description.IsDepthEnabled = false;
+            _depthState = new DepthStencilState(Device, description);
+        }
+
         /// <summary>
         /// Set current sampler state to default
         /// </summary>
@@ -369,8 +380,8 @@ namespace HeroesPowerPlant
             Utilities.Dispose(ref _samplerState);
             SamplerStateDescription description = SamplerStateDescription.Default();
             description.Filter = Filter.Anisotropic;
-            description.AddressU = TextureAddressMode.Wrap;
-            description.AddressV = TextureAddressMode.Wrap;
+            description.AddressU = SharpDX.Direct3D11.TextureAddressMode.Wrap;
+            description.AddressV = SharpDX.Direct3D11.TextureAddressMode.Wrap;
             _samplerState = new SamplerState(Device, description);
         }
 

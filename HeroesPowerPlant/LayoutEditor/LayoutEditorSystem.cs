@@ -448,14 +448,14 @@ namespace HeroesPowerPlant.LayoutEditor
                 return ((SetObjectHeroes)GetSelectedObject()).objectManager;
         }
 
-        public int ScreenClicked(Ray r)
+        public int ScreenClicked(Ray r, bool seeAllObjects)
         {
             int index = currentlySelectedIndex;
 
             float smallerDistance = 10000f;
             for (int i = 0; i < setObjects.Count; i++)
             {
-                if (setObjects[i].isSelected | setObjects[i].DontDraw()) continue;
+                if (setObjects[i].isSelected | (seeAllObjects ? false : setObjects[i].DontDraw())) continue;
 
                 float? distance = setObjects[i].IntersectsWith(r);
                 if (distance != null)

@@ -622,5 +622,15 @@ namespace HeroesPowerPlant.MainForm
         {
             BSPRenderer.ReloadTextures();
         }
+
+        private void loadTexturesFromTXDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openTXD = new OpenFileDialog()
+            {
+                Filter = "TXD files|*.txd"
+            };
+            if (openTXD.ShowDialog() == DialogResult.OK)
+                BSPRenderer.LoadTexturesFromTXD(openTXD.FileName);
+        }
     }
 }

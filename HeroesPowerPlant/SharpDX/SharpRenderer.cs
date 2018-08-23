@@ -264,7 +264,7 @@ namespace HeroesPowerPlant
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
             if (MouseModeObjects & ShowObjects != CheckState.Unchecked)
-                Program.LayoutEditor.ScreenClicked(ray, isMouseDown);
+                Program.LayoutEditor.ScreenClicked(ray, isMouseDown, ShowObjects == CheckState.Checked);
             else if (ShowCameras)
                 Program.CameraEditor.ScreenClicked(ray);
         }

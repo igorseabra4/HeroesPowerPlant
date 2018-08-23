@@ -8,6 +8,7 @@ using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using static HeroesPowerPlant.SharpRenderer;
+using RenderWareFile.Sections;
 
 namespace HeroesPowerPlant
 {
@@ -109,28 +110,37 @@ namespace HeroesPowerPlant
             ReapplyTextures();
         }
 
-        //private static void LoadTexturesFromTXD(string fileName)
-        //{
-        //    RWSection[] file = ReadFileMethods.ReadRenderWareFile(fileName);
+        public static void LoadTexturesFromTXD(string fileName)
+        {
+            RWSection[] file = ReadFileMethods.ReadRenderWareFile(fileName);
 
-        //    foreach (string i in FilesToLoad)
-        //    {
-        //        string textureName = Path.GetFileNameWithoutExtension(i);
+            foreach (RWSection rw in file)
+            {
+                if (rw is TextureDictionary_0016 td)
+                {
+                    foreach (TextureNative_0015 tn in td.textureNativeList)
+                    {
+                        AddTextureNative(tn.textureNativeStruct);
+                    }
+                }
+            }
 
-        //        if (Textures.ContainsKey(textureName))
-        //        {
-        //            if (Textures[textureName] != null)
-        //                if (!Textures[textureName].IsDisposed)
-        //                    Textures[textureName].Dispose();
+            ReapplyTextures();
+        }
 
-        //            Textures[textureName] = device.LoadTextureFromFile(i);
-        //        }
-        //        else
-        //            Textures.Add(textureName, device.LoadTextureFromFile(i));
-        //    }
+        private static void AddTextureNative(TextureNativeStruct_0001 tnStruct)
+        {
+            if (Textures.ContainsKey(tnStruct.textureName))
+            {
+                if (Textures[tnStruct.textureName] != null)
+                    if (!Textures[tnStruct.textureName].IsDisposed)
+                        Textures[tnStruct.textureName].Dispose();
 
-        //    ReapplyTextures();
-        //}
+                Textures[tnStruct.textureName] = device.LoadTextureFromRenderWareNative(tnStruct);
+            }
+            else
+                Textures.Add(tnStruct.textureName, device.LoadTextureFromRenderWareNative(tnStruct));
+        }
 
         private static void ReapplyTextures()
         {
@@ -143,12 +153,15 @@ namespace HeroesPowerPlant
                 foreach (SharpMesh mesh in m.meshList)
                     foreach (SharpSubSet sub in mesh.SubSets)
                     {
-                        if (sub.DiffuseMap != null)
-                            if (!sub.DiffuseMap.IsDisposed)
-                                sub.DiffuseMap.Dispose();
-
                         if (Textures.ContainsKey(sub.DiffuseMapName))
+                        {
+                            if (sub.DiffuseMap != Textures[sub.DiffuseMapName])
+                                if (sub.DiffuseMap != null)
+                                    if (!sub.DiffuseMap.IsDisposed)
+                                        sub.DiffuseMap.Dispose();
+
                             sub.DiffuseMap = Textures[sub.DiffuseMapName];
+                        }
                     }
         }
 

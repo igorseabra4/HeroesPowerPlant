@@ -68,7 +68,7 @@ namespace HeroesPowerPlant.ParticleEditor
             List<byte> finalFile = new List<byte>(Particles.Count * Particle.SIZE);
 
             foreach (var particle in Particles)
-                finalFile.AddRange(StructUtilities.ConvertStructureToByteArrayUnsafe(particle));
+                finalFile.AddRange(Particle.GetBytesBigEndian(particle));
 
             File.WriteAllBytes(fileName, finalFile.ToArray());
         }
