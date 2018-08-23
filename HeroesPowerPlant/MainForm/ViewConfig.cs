@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
@@ -7,7 +9,9 @@ namespace HeroesPowerPlant.MainForm
 {
     public partial class ViewConfig : Form
     {
-        public bool ProgramIsUpdatingValues = false;
+        public static bool ProgramIsUpdatingValues { get; set; } = true;
+        private static bool _invalidCameraValues { get; set; } = false;
+        private Thread _updateViewValuesThread;
 
         /*
             ------------
@@ -23,19 +27,29 @@ namespace HeroesPowerPlant.MainForm
             SharpRenderer.Camera.CameraChangedEvent += CameraChanged;
         }
 
+        /// <summary>
+        /// Updates the GUI if the invalid flag has been set.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void UpdateGUIValues(object obj)
+        {
+            while (true)
+            {
+                if (_invalidCameraValues)
+                {
+                    NumericFOV.Invoke((MethodInvoker)UpdateValues);
+                }
+
+                Thread.Sleep(33);
+            }
+        }
+
+        /// <summary>
+        /// Signal no longer valid camera values when event thrown.
+        /// </summary>
         private void CameraChanged(SharpCamera camera)
         {
-            ProgramIsUpdatingValues = true;
-            NumericFOV.Value = (decimal) camera.ProjectionMatrix.FieldOfView;
-            NumericDrawD.Value = (decimal) camera.ProjectionMatrix.FarPlane;
-            NumericInterval.Value = (decimal) camera.Speed;
-            NumericCameraX.Value = (decimal) camera.ViewMatrix.Position.X;
-            NumericCameraY.Value = (decimal) camera.ViewMatrix.Position.Y;
-            NumericCameraZ.Value = (decimal) camera.ViewMatrix.Position.Z;
-
-            NumericCameraYaw.Value = (decimal)camera.ViewMatrix.Yaw;
-            NumericCameraPitch.Value = (decimal)camera.ViewMatrix.Pitch;
-            ProgramIsUpdatingValues = false;
+            _invalidCameraValues = true;
         }
 
 
@@ -100,7 +114,16 @@ namespace HeroesPowerPlant.MainForm
         private void ViewConfig_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
+            {
                 UpdateValues();
+                _updateViewValuesThread = new Thread(UpdateGUIValues);
+                _updateViewValuesThread.Start();
+            }
+            else
+            {
+                _updateViewValuesThread?.Abort();
+            }
+                
         }
 
         /*
@@ -115,16 +138,18 @@ namespace HeroesPowerPlant.MainForm
         /// </summary>
         public void UpdateValues()
         {
-            var currentConfig = ProjectConfig.FromCurrentInstance();
-            NumericFOV.Value = (decimal)currentConfig.CameraSettings.FieldOfView;
-            NumericDrawD.Value = (decimal)currentConfig.CameraSettings.DrawDistance;
-            NumericInterval.Value = (decimal) currentConfig.CameraSettings.Speed;
-            NumericCameraX.Value = (decimal)currentConfig.CameraSettings.CameraPosition.X;
-            NumericCameraY.Value = (decimal)currentConfig.CameraSettings.CameraPosition.Y;
-            NumericCameraZ.Value = (decimal)currentConfig.CameraSettings.CameraPosition.Z;
+            ProgramIsUpdatingValues = true;
+            NumericFOV.Value = (decimal)SharpRenderer.Camera.ProjectionMatrix.FieldOfView;
+            NumericDrawD.Value = (decimal)SharpRenderer.Camera.ProjectionMatrix.FarPlane;
+            NumericInterval.Value = (decimal)SharpRenderer.Camera.Speed;
+            NumericCameraX.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.X;
+            NumericCameraY.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Y;
+            NumericCameraZ.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Z;
 
-            NumericCameraYaw.Value = (decimal)currentConfig.CameraSettings.Yaw;
-            NumericCameraPitch.Value = (decimal)currentConfig.CameraSettings.Pitch;
+            NumericCameraYaw.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Yaw;
+            NumericCameraPitch.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Pitch;
+            ProgramIsUpdatingValues = false;
+            _invalidCameraValues = false;
         }
 
         public void SetValues(Vector3 position, float yaw, float pitch, float speed)
@@ -142,6 +167,7 @@ namespace HeroesPowerPlant.MainForm
             NumericCameraYaw.Value = (decimal)yaw;
 
             ProgramIsUpdatingValues = false;
+            _invalidCameraValues = false;
         }
     }
 }
