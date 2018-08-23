@@ -262,7 +262,7 @@ namespace HeroesPowerPlant
                 if (indexList.Count - previousIndexCount > 0)
                 {
                     SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount,
-                        BSPRenderer.GetTextureFromDictionary(MaterialList[i]), MaterialList[i]));
+                        TextureManager.GetTextureFromDictionary(MaterialList[i]), MaterialList[i]));
                 }
 
                 previousIndexCount = indexList.Count();
@@ -360,7 +360,7 @@ namespace HeroesPowerPlant
                 if (indexList.Count - previousIndexCount > 0)
                 {
                     SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount,
-                        BSPRenderer.GetTextureFromDictionary(MaterialList[i]), MaterialList[i]));
+                        TextureManager.GetTextureFromDictionary(MaterialList[i]), MaterialList[i]));
                 }
                 
                 previousIndexCount = indexList.Count();
@@ -451,7 +451,7 @@ namespace HeroesPowerPlant
                     }
 
                     subSetList.Add(new SharpSubSet(previousAmount, vertexList.Count() - previousAmount,
-                        BSPRenderer.GetTextureFromDictionary(MaterialStream[td.MaterialIndex]), MaterialStream[td.MaterialIndex]));
+                        TextureManager.GetTextureFromDictionary(MaterialStream[td.MaterialIndex]), MaterialStream[td.MaterialIndex]));
                     
                     previousAmount = vertexList.Count();
                 }

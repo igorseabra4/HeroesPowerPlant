@@ -18,7 +18,7 @@ namespace HeroesPowerPlant
         // Our position and rotation ^-^
         private Vector3 _position;
         private CameraVectors _cameraVectors;
-        private float _yaw = -3.14159F;
+        private float _yaw;
         private float _pitch;
 
         // If set to false, instructs the view/projection matrix to be rebuilt on next acquisition.

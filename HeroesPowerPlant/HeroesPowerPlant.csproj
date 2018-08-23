@@ -181,6 +181,7 @@
     <Compile Include="SharpDX\Camera\ProjectionMatrix.cs" />
     <Compile Include="SharpDX\Camera\ViewMatrix.cs" />
     <Compile Include="SharpDX\SharpFPS.cs" />
+    <Compile Include="SharpDX\TextureManager.cs" />
     <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object01FF_SetParticle.cs" />

@@ -3,12 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using SharpDX;
-using SharpDX.Direct3D11;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using static HeroesPowerPlant.SharpRenderer;
-using RenderWareFile.Sections;
 
 namespace HeroesPowerPlant
 {
@@ -23,10 +21,6 @@ namespace HeroesPowerPlant
             foreach (RenderWareModelFile r in ShadowColBSPList)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
-            
-            foreach (ShaderResourceView texture in Textures.Values)
-                if (texture != null)
-                    texture.Dispose();
         }
 
         public static string currentFileNamePrefix = "default";
@@ -35,9 +29,6 @@ namespace HeroesPowerPlant
         public static void SetHeroesBSPList(Archive heroesONEfile)
         {
             Dispose();
-            Textures.Clear();
-            LoadTextures(currentFileNamePrefix);
-
             ReadFileMethods.isShadow = false;
 
             BSPList = new List<RenderWareModelFile>(heroesONEfile.Files.Count);
@@ -55,132 +46,7 @@ namespace HeroesPowerPlant
                 BSPList.Add(TempBSPFile);
             }
         }
-
-
-        // Texture loader
-
-        public const string DefaultTexture = "default";
-        private static Dictionary<string, ShaderResourceView> Textures = new Dictionary<string, ShaderResourceView>();
         
-        public static ShaderResourceView GetTextureFromDictionary(string textureName)
-        {
-            if (Textures.ContainsKey(textureName))
-                return Textures[textureName];
-            return null;
-        }
-
-        public static bool HasTexture(string textureName)
-        {
-            return Textures.ContainsKey(textureName);
-        }
-
-        private static void LoadTextures(string folderPrefix)
-        {
-            string startupPath = System.Windows.Forms.Application.StartupPath;
-
-            if (!Directory.Exists(startupPath + "\\Textures"))
-                Directory.CreateDirectory(startupPath + "\\Textures\\");
-            if (!Directory.Exists(startupPath + "\\Textures\\Common\\"))
-                Directory.CreateDirectory(startupPath + "\\Textures\\Common\\");
-
-            List<string> FilesToLoad = new List<string>();
-            FilesToLoad.AddRange(Directory.GetFiles(startupPath + "\\Textures\\Common\\"));
-            foreach (string s in Directory.EnumerateDirectories(startupPath + "\\Textures\\"))
-            {
-                if (Path.GetFileName(s).Equals(folderPrefix) | Path.GetFileName(s).StartsWith(folderPrefix + "_"))
-                    FilesToLoad.AddRange(Directory.GetFiles(s));
-            }
-
-            foreach (string i in FilesToLoad)
-            {
-                string textureName = Path.GetFileNameWithoutExtension(i);
-
-                if (Textures.ContainsKey(textureName))
-                {
-                    if (Textures[textureName] != null)
-                        if (!Textures[textureName].IsDisposed)
-                            Textures[textureName].Dispose();
-
-                    Textures[textureName] = device.LoadTextureFromFile(i);
-                }
-                else
-                    Textures.Add(textureName, device.LoadTextureFromFile(i));
-            }
-
-            ReapplyTextures();
-        }
-
-        public static void LoadTexturesFromTXD(string fileName)
-        {
-            RWSection[] file = ReadFileMethods.ReadRenderWareFile(fileName);
-
-            foreach (RWSection rw in file)
-            {
-                if (rw is TextureDictionary_0016 td)
-                {
-                    foreach (TextureNative_0015 tn in td.textureNativeList)
-                    {
-                        AddTextureNative(tn.textureNativeStruct);
-                    }
-                }
-            }
-
-            ReapplyTextures();
-        }
-
-        private static void AddTextureNative(TextureNativeStruct_0001 tnStruct)
-        {
-            if (Textures.ContainsKey(tnStruct.textureName))
-            {
-                if (Textures[tnStruct.textureName] != null)
-                    if (!Textures[tnStruct.textureName].IsDisposed)
-                        Textures[tnStruct.textureName].Dispose();
-
-                Textures[tnStruct.textureName] = device.LoadTextureFromRenderWareNative(tnStruct);
-            }
-            else
-                Textures.Add(tnStruct.textureName, device.LoadTextureFromRenderWareNative(tnStruct));
-        }
-
-        private static void ReapplyTextures()
-        {
-            List<RenderWareModelFile> models = new List<RenderWareModelFile>();
-            models.AddRange(BSPList);
-            models.AddRange(ShadowColBSPList);
-            models.AddRange(DFFRenderer.DFFModels.Values);
-
-            foreach (RenderWareModelFile m in models)
-                foreach (SharpMesh mesh in m.meshList)
-                    foreach (SharpSubSet sub in mesh.SubSets)
-                    {
-                        if (Textures.ContainsKey(sub.DiffuseMapName))
-                        {
-                            if (sub.DiffuseMap != Textures[sub.DiffuseMapName])
-                                if (sub.DiffuseMap != null)
-                                    if (!sub.DiffuseMap.IsDisposed)
-                                        sub.DiffuseMap.Dispose();
-
-                            sub.DiffuseMap = Textures[sub.DiffuseMapName];
-                        }
-                    }
-        }
-
-        public static void SetTexture(string diffuseMapName, string newMapName)
-        {
-            List<RenderWareModelFile> models = new List<RenderWareModelFile>();
-            models.AddRange(BSPList);
-            models.AddRange(ShadowColBSPList);
-            models.AddRange(DFFRenderer.DFFModels.Values);
-
-            foreach (RenderWareModelFile m in models)
-                foreach (SharpMesh mesh in m.meshList)
-                    foreach (SharpSubSet sub in mesh.SubSets)
-                    {
-                        if (sub.DiffuseMapName == diffuseMapName)
-                            sub.DiffuseMap = Textures[newMapName];
-                    }
-        }
-
         // Visibility functions
 
         private static HashSet<int> VisibleChunks = new HashSet<int>();
@@ -317,10 +183,7 @@ namespace HeroesPowerPlant
         private static void SetShadowBSPList(List<Archive> OpenShadowONEFiles)
         {
             Dispose();
-
-            Textures.Clear();
-            LoadTextures(currentShadowFolderNamePrefix);
-
+            
             BSPList = new List<RenderWareModelFile>();
             ShadowColBSPList = new List<RenderWareModelFile>();
 
@@ -389,17 +252,6 @@ namespace HeroesPowerPlant
 
                 ShadowColBSPList[j].Render();
             }
-        }
-
-        // Debug
-
-        public static void ReloadTextures()
-        {
-            foreach (ShaderResourceView texture in Textures.Values)
-                if (texture != null)
-                    texture.Dispose();
-
-            LoadTextures(currentFileNamePrefix);
         }
     }
 }

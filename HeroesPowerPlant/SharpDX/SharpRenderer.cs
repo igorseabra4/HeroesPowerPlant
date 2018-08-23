@@ -343,6 +343,7 @@ namespace HeroesPowerPlant
             whiteDefault.Dispose();
 
             BSPRenderer.Dispose();
+            TextureManager.DisposeTextures();
 
             DFFRenderer.Dispose();
 

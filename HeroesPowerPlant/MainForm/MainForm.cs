@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using HeroesPowerPlant.Shared.IO.Config;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using SharpDX;
 using SharpDX.Direct3D11;
 
@@ -90,24 +91,7 @@ namespace HeroesPowerPlant.MainForm
                 SharpRenderer.Camera.Reset();
             }
         }
-
-        private void addObjectONEToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFile = new OpenFileDialog()
-            {
-                Filter = "ONE Files|*.one",
-                Multiselect = true
-            };
-
-            if (openFile.ShowDialog() == DialogResult.OK)
-                DFFRenderer.AddDFFFiles(openFile.FileNames);
-        }
-
-        private void clearObjectONEsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DFFRenderer.ClearObjectONEFiles();
-        }
-
+        
         public void ApplyConfig(ProjectConfig.RenderOptions renderingOptions)
         {
             noCullingCToolStripMenuItem.Checked = renderingOptions.NoCulling;
@@ -617,20 +601,47 @@ namespace HeroesPowerPlant.MainForm
         {
             Program.LayoutEditor.ScreenUnclicked();
         }
-
-        private void reloadTexturesToolStripMenuItem_Click(object sender, EventArgs e)
+                
+        private void addObjectONEToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            BSPRenderer.ReloadTextures();
+            OpenFileDialog openFile = new OpenFileDialog()
+            {
+                Filter = "ONE Files|*.one",
+                Multiselect = true
+            };
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+                DFFRenderer.AddDFFFiles(openFile.FileNames);
         }
 
-        private void loadTexturesFromTXDToolStripMenuItem_Click(object sender, EventArgs e)
+        private void clearObjectONEsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DFFRenderer.ClearObjectONEFiles();
+        }
+
+        private void addTXDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openTXD = new OpenFileDialog()
             {
                 Filter = "TXD files|*.txd"
             };
             if (openTXD.ShowDialog() == DialogResult.OK)
-                BSPRenderer.LoadTexturesFromTXD(openTXD.FileName);
+                TextureManager.LoadTexturesFromTXD(openTXD.FileName);
+        }
+
+        private void addTextureFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFile = new CommonOpenFileDialog()
+            {
+                IsFolderPicker = true
+            };
+            if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
+                TextureManager.LoadTexturesFromTXD(openFile.FileName);
+        }
+
+        private void clearTXDsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TextureManager.ClearTextures();
         }
     }
 }

@@ -67,8 +67,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 if (frames[i].FrameOffset == counter)
                 {
                     string newTextureName = AnimationName + "." + frames[i].TextureNumber;
-                    if (BSPRenderer.HasTexture(newTextureName))
-                        BSPRenderer.SetTexture(TextureName, newTextureName);
+                    if (TextureManager.HasTexture(newTextureName))
+                        TextureManager.SetTextureForAnimation(TextureName, newTextureName);
                 }
 
             if (isSelected)
@@ -79,8 +79,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             counter = 0;
 
-            if (BSPRenderer.HasTexture(TextureName))
-                BSPRenderer.SetTexture(TextureName, TextureName);
+            if (TextureManager.HasTexture(TextureName))
+                TextureManager.SetTextureForAnimation(TextureName, TextureName);
         }
     }
 }
