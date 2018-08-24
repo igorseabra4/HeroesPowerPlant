@@ -97,7 +97,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// <summary>
         /// Creates a ProjectConfig based on the currently opened files in each of the editors.
         /// </summary>
-        public static ProjectConfig FromCurrentInstance()
+        public static ProjectConfig FromCurrentInstance(SharpRenderer renderer)
         {
             return new ProjectConfig
             {
@@ -118,29 +118,29 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
                 CameraSettings = new Camera()
                 {
-                    CameraPosition = SharpRenderer.Camera.ViewMatrix.Position,
-                    Pitch = SharpRenderer.Camera.ViewMatrix.Pitch,
-                    Speed = SharpRenderer.Camera.Speed,
-                    Yaw   = SharpRenderer.Camera.ViewMatrix.Yaw,
-                    FieldOfView = SharpRenderer.Camera.ProjectionMatrix.FieldOfView,
-                    DrawDistance = SharpRenderer.Camera.ProjectionMatrix.FarPlane
+                    CameraPosition = renderer.Camera.ViewMatrix.Position,
+                    Pitch = renderer.Camera.ViewMatrix.Pitch,
+                    Speed = renderer.Camera.Speed,
+                    Yaw   = renderer.Camera.ViewMatrix.Yaw,
+                    FieldOfView = renderer.Camera.ProjectionMatrix.FieldOfView,
+                    DrawDistance = renderer.Camera.ProjectionMatrix.FarPlane
                 },
 
                 RenderingOptions = new RenderOptions()
                 {
                     QuadtreeHeight = (float)Program.ViewConfig.NumericQuadHeight.Value,
-                    NoCulling = SharpRenderer.device.GetCullMode() == SharpDX.Direct3D11.CullMode.None,
-                    Wireframe = SharpRenderer.device.GetFillMode() == SharpDX.Direct3D11.FillMode.Wireframe,
-                    ShowStartPos = SharpRenderer.ShowStartPositions,
-                    ShowSplines = SharpRenderer.ShowSplines,
+                    NoCulling = renderer.device.GetCullMode() == SharpDX.Direct3D11.CullMode.None,
+                    Wireframe = renderer.device.GetFillMode() == SharpDX.Direct3D11.FillMode.Wireframe,
+                    ShowStartPos = renderer.ShowStartPositions,
+                    ShowSplines = renderer.ShowSplines,
                     RenderByChunk = BSPRenderer.renderByChunk,
-                    ShowChunkBoxes = SharpRenderer.ShowChunkBoxes,
-                    ShowCollision = SharpRenderer.ShowCollision,
-                    ShowQuadtree = SharpRenderer.ShowQuadtree,
-                    ShowObjects = SharpRenderer.ShowObjects,
-                    ShowCameras = SharpRenderer.ShowCameras,
-                    BackgroundColor = SharpRenderer.backgroundColor,
-                    SelectionColor = SharpRenderer.selectedColor,
+                    ShowChunkBoxes = renderer.ShowChunkBoxes,
+                    ShowCollision = renderer.ShowCollision,
+                    ShowQuadtree = renderer.ShowQuadtree,
+                    ShowObjects = renderer.ShowObjects,
+                    ShowCameras = renderer.ShowCameras,
+                    BackgroundColor = renderer.backgroundColor,
+                    SelectionColor = renderer.selectedColor,
                 }
             };
         }
@@ -148,7 +148,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// <summary>
         /// Loads the appropriate paths stored in the <see cref="ProjectConfig"/> instance into each of the editors.
         /// </summary>
-        public static void ApplyInstance(ProjectConfig config)
+        public static void ApplyInstance(SharpRenderer renderer, ProjectConfig config)
         {
             ExecuteIfFilePresent($"Config Editor error: file not found: {config.StageConfigPath}", "Error", config.StageConfigPath, path => Program.ConfigEditor.OpenFile(path));
 
@@ -167,14 +167,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
             ExecuteIfFilePresent($"Texture Pattern Editor error: file not found: {config.TexturePatternEditorPath}", "Error", config.TexturePatternEditorPath, path => Program.TexturePatternEditor.OpenFile(path));
 
             if (config.CameraSettings != null)
-            {
-                SharpRenderer.Camera.ViewMatrix.Position = config.CameraSettings.CameraPosition;
-                SharpRenderer.Camera.ViewMatrix.Yaw = config.CameraSettings.Yaw;
-                SharpRenderer.Camera.ViewMatrix.Pitch = config.CameraSettings.Pitch;
-                SharpRenderer.Camera.Speed = config.CameraSettings.Speed;
-                SharpRenderer.Camera.ProjectionMatrix.FieldOfView = config.CameraSettings.FieldOfView;
-                SharpRenderer.Camera.ProjectionMatrix.FarPlane = config.CameraSettings.DrawDistance;
-            }
+                renderer.Camera.ApplyConfig(config.CameraSettings);
 
             TextureManager.ClearTextures();
             if (config.TXDPaths != null)

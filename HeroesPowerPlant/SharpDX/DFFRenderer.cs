@@ -62,7 +62,7 @@ namespace HeroesPowerPlant
                 RenderWareModelFile d = new RenderWareModelFile(j.Name);
                 byte[] dffData = j.DecompressThis();
 
-                d.SetForRendering(ReadFileMethods.ReadRenderWareFile(dffData), dffData);
+                d.SetForRendering(Program.MainForm.renderer.device, ReadFileMethods.ReadRenderWareFile(dffData), dffData);
 
                 if (DFFModels.ContainsKey(j.Name))
                 {

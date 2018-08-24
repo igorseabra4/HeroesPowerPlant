@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -13,26 +12,12 @@ namespace HeroesPowerPlant.LayoutEditor
             destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(DestinationX, DestinationY, DestinationZ);
         }
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
-            base.Draw(modelNames, isSelected);
+            base.Draw(renderer, modelNames, isSelected);
 
             if (isSelected)
-            {
-                renderData.worldViewProjection = destinationMatrix * viewProjection;
-
-                device.SetFillModeDefault();
-                device.SetCullModeNone();
-                device.SetBlendStateAlphaBlend();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
-
-                device.UpdateData(basicBuffer, renderData);
-                device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-                basicShader.Apply();
-
-                Sphere.Draw();
-            }
+                renderer.DrawSphereTrigger(destinationMatrix, isSelected);
         }
 
         public float DestinationX

@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -8,9 +7,9 @@ namespace HeroesPowerPlant.LayoutEditor
         public override BoundingBox CreateBoundingBox(string[] modelNames)
         {
             if (modelNames == null)
-                return BoundingBox.FromPoints(cubeVertices.ToArray());
+                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
             else if (modelNames.Length == 0 | ModelNumber >= modelNames.Length | !DFFRenderer.DFFModels.ContainsKey(modelNames[ModelNumber]))
-                return BoundingBox.FromPoints(cubeVertices.ToArray());
+                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
 
             return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[ModelNumber]].GetVertexList().ToArray());
         }
@@ -27,12 +26,12 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.Translation(Position);
         }
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (ModelNumber < modelNames.Length)
-                Draw(modelNames[ModelNumber], isSelected);
+                Draw(renderer, modelNames[ModelNumber], isSelected);
             else
-                DrawCube(isSelected);
+                DrawCube(renderer, isSelected);
         }
 
         public int ModelNumber

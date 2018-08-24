@@ -19,12 +19,12 @@ namespace HeroesPowerPlant.MainForm
             ------------
         */
 
-        // Default value assignments moved to SharpRenderer.
+        // Default value assignments moved to Program.MainForm.renderer.
 
         public ViewConfig()
         {
             InitializeComponent();
-            SharpRenderer.Camera.CameraChangedEvent += CameraChanged;
+            Program.MainForm.renderer.Camera.CameraChangedEvent += CameraChanged;
         }
 
         /// <summary>
@@ -76,34 +76,34 @@ namespace HeroesPowerPlant.MainForm
         private void NumericCamera_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsUpdatingValues)
-                SharpRenderer.Camera.SetPosition(new Vector3((float)NumericCameraX.Value, (float)NumericCameraY.Value, (float)NumericCameraZ.Value));
+                Program.MainForm.renderer.Camera.SetPosition(new Vector3((float)NumericCameraX.Value, (float)NumericCameraY.Value, (float)NumericCameraZ.Value));
         }
 
         private void NumericCameraRot_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsUpdatingValues)
             {
-                SharpRenderer.Camera.ViewMatrix.Pitch = (float) NumericCameraPitch.Value;
-                SharpRenderer.Camera.ViewMatrix.Yaw = (float)NumericCameraYaw.Value;
+                Program.MainForm.renderer.Camera.ViewMatrix.Pitch = (float) NumericCameraPitch.Value;
+                Program.MainForm.renderer.Camera.ViewMatrix.Yaw = (float)NumericCameraYaw.Value;
             }
         }
 
         private void NumericInterval_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsUpdatingValues)
-                SharpRenderer.Camera.Speed = (float)NumericInterval.Value;
+                Program.MainForm.renderer.Camera.Speed = (float)NumericInterval.Value;
         }
 
         private void NumericDrawD_ValueChanged(object sender, EventArgs e)
         {
-            SharpRenderer.Camera.ProjectionMatrix.FarPlane = (float)NumericDrawD.Value;
+            Program.MainForm.renderer.Camera.ProjectionMatrix.FarPlane = (float)NumericDrawD.Value;
         }
 
         private void NumericFOV_ValueChanged(object sender, EventArgs e)
         {
             if (NumericFOV.Value < 1)
                 NumericFOV.Value = 1;
-            SharpRenderer.Camera.ProjectionMatrix.FieldOfView = (float)NumericFOV.Value;
+            Program.MainForm.renderer.Camera.ProjectionMatrix.FieldOfView = (float)NumericFOV.Value;
         }
 
         private void NumericQuadHeight_ValueChanged(object sender, EventArgs e)
@@ -139,15 +139,15 @@ namespace HeroesPowerPlant.MainForm
         public void UpdateValues()
         {
             ProgramIsUpdatingValues = true;
-            NumericFOV.Value = (decimal)SharpRenderer.Camera.ProjectionMatrix.FieldOfView;
-            NumericDrawD.Value = (decimal)SharpRenderer.Camera.ProjectionMatrix.FarPlane;
-            NumericInterval.Value = (decimal)SharpRenderer.Camera.Speed;
-            NumericCameraX.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.X;
-            NumericCameraY.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Y;
-            NumericCameraZ.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Z;
+            NumericFOV.Value = (decimal)Program.MainForm.renderer.Camera.ProjectionMatrix.FieldOfView;
+            NumericDrawD.Value = (decimal)Program.MainForm.renderer.Camera.ProjectionMatrix.FarPlane;
+            NumericInterval.Value = (decimal)Program.MainForm.renderer.Camera.Speed;
+            NumericCameraX.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.X;
+            NumericCameraY.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.Y;
+            NumericCameraZ.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.Z;
 
-            NumericCameraYaw.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Yaw;
-            NumericCameraPitch.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Pitch;
+            NumericCameraYaw.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Yaw;
+            NumericCameraPitch.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Pitch;
             ProgramIsUpdatingValues = false;
             _invalidCameraValues = false;
         }

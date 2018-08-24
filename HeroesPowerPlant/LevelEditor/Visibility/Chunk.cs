@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -23,35 +22,35 @@ namespace HeroesPowerPlant.LevelEditor
             chunkTransform = Matrix.Scaling(Max - Min) * Matrix.Translation((Max + Min) / 2);
         }
 
-        public void Render(Matrix viewProjection)
+        public void Render(SharpRenderer renderer)
         {
-            renderData.worldViewProjection = chunkTransform * viewProjection;
+            renderData.worldViewProjection = chunkTransform * renderer.viewProjection;
 
             if (isSelected)
                 renderData.Color = selectedChunkColor;
             else
                 renderData.Color = chunkColor;
 
-            device.SetFillModeDefault();
-            device.SetCullModeNone();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            renderer.device.SetFillModeDefault();
+            renderer.device.SetCullModeNone();
+            renderer.device.SetBlendStateAlphaBlend();
+            renderer.device.ApplyRasterState();
+            renderer.device.UpdateAllStates();
 
-            device.UpdateData(basicBuffer, renderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+            renderer.device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
 
-            Cube.Draw();
+            renderer.Cube.Draw(renderer.device);
 
-            device.SetFillModeWireframe();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            renderer.device.SetFillModeWireframe();
+            renderer.device.ApplyRasterState();
+            renderer.device.UpdateAllStates();
 
             renderData.Color = Vector4.One;
-            device.UpdateData(basicBuffer, renderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+            renderer.device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
 
-            Cube.Draw();
+            renderer.Cube.Draw(renderer.device);
         }
     }
 }

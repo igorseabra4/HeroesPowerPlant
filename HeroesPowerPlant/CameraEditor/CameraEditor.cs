@@ -287,7 +287,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            CameraHeroes newCamera = new CameraHeroes() { TriggerPosition = SharpRenderer.Camera.GetPosition() };
+            CameraHeroes newCamera = new CameraHeroes() { TriggerPosition = Program.MainForm.renderer.Camera.GetPosition() };
             ListBoxCameras.Items.Add(newCamera);
             ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
             UpdateLabelCameraCount();
@@ -402,26 +402,26 @@ namespace HeroesPowerPlant.CameraEditor
                 
         private void buttonComeHere_Click(object sender, EventArgs e)
         {
-            SharpRenderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownCamPosX.Value, (float)numericUpDownCamPosY.Value, (float)numericUpDownCamPosZ.Value);
+            Program.MainForm.renderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownCamPosX.Value, (float)numericUpDownCamPosY.Value, (float)numericUpDownCamPosZ.Value);
         }
 
         private void buttonComeTrigger_Click(object sender, EventArgs e)
         {
-            SharpRenderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value);
+            Program.MainForm.renderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value);
         }
 
         private void buttonGetView_Click(object sender, EventArgs e)
         {
-            numericUpDownCamPosX.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.X;
-            numericUpDownCamPosY.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Y;
-            numericUpDownCamPosZ.Value = (decimal)SharpRenderer.Camera.ViewMatrix.Position.Z;
+            numericUpDownCamPosX.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.X;
+            numericUpDownCamPosY.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.Y;
+            numericUpDownCamPosZ.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.Z;
         }
 
-        public void RenderCameras()
+        public void RenderCameras(SharpRenderer renderer)
         {
             foreach (CameraHeroes c in ListBoxCameras.Items)
-                if (SharpRenderer.frustum.Intersects(ref c.boundingBox))
-                    c.Draw();
+                if (renderer.frustum.Intersects(ref c.boundingBox))
+                    c.Draw(renderer);
         }
 
         public void ScreenClicked(Ray r)

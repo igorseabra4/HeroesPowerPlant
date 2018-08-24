@@ -1,7 +1,6 @@
 ﻿using SharpDX;
 using System;
 using System.Collections.Generic;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -52,54 +51,54 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private List<Vector3> positionsList;
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (DFFRenderer.DFFModels.ContainsKey(modelNames[0]))
             {
                 if (isSelected)
-                    renderData.Color = selectedColor;
+                    renderData.Color = renderer.selectedColor;
                 else
-                    renderData.Color = normalColor;
+                    renderData.Color = renderer.normalColor;
 
-                device.SetCullModeDefault();
-                device.SetDefaultBlendState();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
+                renderer.device.SetCullModeDefault();
+                renderer.device.SetDefaultBlendState();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
 
-                tintedShader.Apply();
+                renderer.tintedShader.Apply();
 
                 foreach (Vector3 i in positionsList)
                 {
-                    renderData.worldViewProjection = Matrix.Translation(i) * transformMatrix * viewProjection;
+                    renderData.worldViewProjection = Matrix.Translation(i) * transformMatrix * renderer.viewProjection;
 
-                    device.UpdateData(tintedBuffer, renderData);
-                    device.DeviceContext.VertexShader.SetConstantBuffer(0, tintedBuffer);
+                    renderer.device.UpdateData(renderer.tintedBuffer, renderData);
+                    renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                    DFFRenderer.DFFModels[modelNames[0]].Render();
+                    DFFRenderer.DFFModels[modelNames[0]].Render(renderer.device);
                 }
             }
             else
             {
                 if (isSelected)
-                    renderData.Color = selectedColor;
+                    renderData.Color = renderer.selectedColor;
                 else
-                    renderData.Color = normalColor;
+                    renderData.Color = renderer.normalColor;
 
-                device.SetFillModeDefault();
-                device.SetCullModeNone();
-                device.SetBlendStateAlphaBlend();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
+                renderer.device.SetFillModeDefault();
+                renderer.device.SetCullModeNone();
+                renderer.device.SetBlendStateAlphaBlend();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
 
                 foreach (Vector3 i in positionsList)
                 {
-                    renderData.worldViewProjection = Matrix.Scaling(4) * Matrix.Translation(i) * transformMatrix * viewProjection;
+                    renderData.worldViewProjection = Matrix.Scaling(4) * Matrix.Translation(i) * transformMatrix * renderer.viewProjection;
 
-                    device.UpdateData(basicBuffer, renderData);
-                    device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-                    basicShader.Apply();
+                    renderer.device.UpdateData(renderer.basicBuffer, renderData);
+                    renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+                    renderer.basicShader.Apply();
 
-                    Cube.Draw();
+                    renderer.Cube.Draw(renderer.device);
                 }
             }
         }

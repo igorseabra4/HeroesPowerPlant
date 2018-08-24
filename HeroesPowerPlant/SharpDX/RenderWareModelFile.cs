@@ -75,7 +75,7 @@ namespace HeroesPowerPlant
             return rwSectionArray;
         }
 
-        public void SetForRendering(RWSection[] rwChunkList, byte[] rwByteArray)
+        public void SetForRendering(SharpDevice device, RWSection[] rwChunkList, byte[] rwByteArray)
         {
             rwSectionArray = rwChunkList;
 
@@ -117,18 +117,18 @@ namespace HeroesPowerPlant
                     }
                     if (w.firstWorldChunk is AtomicSector_0009 a)
                     {
-                        AddAtomic(a);
+                        AddAtomic(device, a);
                     }
                     else if (w.firstWorldChunk is PlaneSector_000A p)
                     {
-                        AddPlane(p);
+                        AddPlane(device, p);
                     }
                 }
                 else if (rwSection is Clump_0010 c)
                 {
                     for (int g = 0; g < c.geometryList.geometryList.Count; g++)
                     {
-                        AddGeometry(c.geometryList.geometryList[g], CreateMatrix(c.frameList, c.atomicList[g].atomicStruct.frameIndex));                        
+                        AddGeometry(device, c.geometryList.geometryList[g], CreateMatrix(c.frameList, c.atomicList[g].atomicStruct.frameIndex));                        
                     }
                 }
             }
@@ -162,34 +162,34 @@ namespace HeroesPowerPlant
             return transform;
         }
 
-        private void AddPlane(PlaneSector_000A planeSection)
+        private void AddPlane(SharpDevice device, PlaneSector_000A planeSection)
         {
             if (planeSection.leftSection is AtomicSector_0009 al)
             {
-                AddAtomic(al);
+                AddAtomic(device, al);
             }
             else if (planeSection.leftSection is PlaneSector_000A pl)
             {
-                AddPlane(pl);
+                AddPlane(device, pl);
             }
             else throw new Exception();
 
             if (planeSection.rightSection is AtomicSector_0009 ar)
             {
-                AddAtomic(ar);
+                AddAtomic(device, ar);
             }
             else if (planeSection.rightSection is PlaneSector_000A pr)
             {
-                AddPlane(pr);
+                AddPlane(device, pr);
             }
             else throw new Exception();
         }
 
-        void AddAtomic(AtomicSector_0009 AtomicSector)
+        void AddAtomic(SharpDevice device, AtomicSector_0009 AtomicSector)
         {
             if (AtomicSector.atomicSectorStruct.isNativeData)
             {
-                AddNativeData(AtomicSector.atomicSectorExtension, MaterialList, Matrix.Identity);
+                AddNativeData(device, AtomicSector.atomicSectorExtension, MaterialList, Matrix.Identity);
                 return;
             }
             
@@ -269,10 +269,10 @@ namespace HeroesPowerPlant
             }
 
             if (SubsetList.Count > 0)
-                meshList.Add(SharpMesh.Create(SharpRenderer.device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
+                meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
         }
         
-        private void AddGeometry(Geometry_000F g, Matrix transformMatrix)
+        private void AddGeometry(SharpDevice device, Geometry_000F g, Matrix transformMatrix)
         {
             List<string> MaterialList = new List<string>();
             foreach (Material_0007 m in g.materialList.materialList)
@@ -289,7 +289,7 @@ namespace HeroesPowerPlant
 
             if (g.geometryStruct.geometryFlags2 == 0x0101)
             {
-                AddNativeData(g.geometryExtension, MaterialList, transformMatrix);
+                AddNativeData(device, g.geometryExtension, MaterialList, transformMatrix);
                 return;
             }
 
@@ -367,10 +367,10 @@ namespace HeroesPowerPlant
             }
 
             if (SubsetList.Count > 0)
-                meshList.Add(SharpMesh.Create(SharpRenderer.device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
+                meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
         }
 
-        void AddNativeData(Extension_0003 extension, List<string> MaterialStream, Matrix transformMatrix)
+        void AddNativeData(SharpDevice device, Extension_0003 extension, List<string> MaterialStream, Matrix transformMatrix)
         {
             NativeDataGC n = null;
 
@@ -458,20 +458,20 @@ namespace HeroesPowerPlant
             }
 
             if (vertexList.Count > 0)
-                meshList.Add(SharpMesh.Create(SharpRenderer.device, vertexList.ToArray(), indexList.ToArray(), subSetList, SharpDX.Direct3D.PrimitiveTopology.TriangleStrip));
+                meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), subSetList, SharpDX.Direct3D.PrimitiveTopology.TriangleStrip));
         }
 
-        public void Render()
+        public void Render(SharpDevice device)
         {
             foreach (SharpMesh mesh in meshList)
             {
                 if (mesh == null) continue;
 
-                mesh.Begin();
+                mesh.Begin(device);
                 for (int i = 0; i < mesh.SubSets.Count(); i++)
                 {
-                    SharpRenderer.device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
-                    mesh.Draw(i);
+                    device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
+                    mesh.Draw(device, i);
                 }
             }
         }

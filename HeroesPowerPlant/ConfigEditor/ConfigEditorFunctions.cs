@@ -16,11 +16,11 @@ namespace HeroesPowerPlant.ConfigEditor
 
         StageID currentID;
 
-        public void RenderStartPositions()
+        public void RenderStartPositions(SharpRenderer renderer)
         {
-            foreach (StartPositionEntry p in StartPositions) p.Render();
-            foreach (EndPositionEntry p in EndPositions) p.Render();
-            foreach (EndPositionEntry p in BragPositions) p.Render();
+            foreach (StartPositionEntry p in StartPositions) p.Render(renderer);
+            foreach (EndPositionEntry p in EndPositions) p.Render(renderer);
+            foreach (EndPositionEntry p in BragPositions) p.Render(renderer);
         }
 
         private void CleanFile()

@@ -54,7 +54,7 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             CollisionRendering.Dispose();
 
-            data = CollisionRendering.LoadCLFile(CurrentCLfileName);
+            data = CollisionRendering.LoadCLFile(CurrentCLfileName, Program.MainForm.renderer.device);
         }
 
         public void ConvertOBJtoCL(string InputFile, string OutputFile, byte depthLevel)

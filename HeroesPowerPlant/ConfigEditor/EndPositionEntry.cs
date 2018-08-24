@@ -49,9 +49,9 @@ namespace HeroesPowerPlant.ConfigEditor
             entryRenderer.NewMatrix(position.Position.ToVector3(), position.Pitch);
         }
 
-        public void Render()
+        public void Render(SharpRenderer renderer)
         {
-            entryRenderer.Render();
+            entryRenderer.Render(renderer);
         }
     }
 }

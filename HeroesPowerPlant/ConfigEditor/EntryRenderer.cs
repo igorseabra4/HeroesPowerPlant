@@ -5,7 +5,7 @@ namespace HeroesPowerPlant.ConfigEditor
     public class EntryRenderer
     {
         private Matrix world;
-        private SharpRenderer.DefaultRenderData renderData = new SharpRenderer.DefaultRenderData();
+        private DefaultRenderData renderData = new DefaultRenderData();
 
         public EntryRenderer(Vector3 Position, int Rotation, Vector3 v)
         {
@@ -18,21 +18,21 @@ namespace HeroesPowerPlant.ConfigEditor
             world = Matrix.Scaling(20f, 20f, 30f) * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation)) * Matrix.Translation(Position);
         }
 
-        public void Render()
+        public void Render(SharpRenderer renderer)
         {
-            renderData.worldViewProjection = world * SharpRenderer.viewProjection;
+            renderData.worldViewProjection = world * renderer.viewProjection;
 
-            SharpRenderer.device.SetFillModeSolid();
-            SharpRenderer.device.SetCullModeNormal();
-            SharpRenderer.device.SetBlendStateAlphaBlend();
-            SharpRenderer.device.ApplyRasterState();
-            SharpRenderer.device.UpdateAllStates();
+            renderer.device.SetFillModeSolid();
+            renderer.device.SetCullModeNormal();
+            renderer.device.SetBlendStateAlphaBlend();
+            renderer.device.ApplyRasterState();
+            renderer.device.UpdateAllStates();
 
-            SharpRenderer.device.UpdateData(SharpRenderer.basicBuffer, renderData);
-            SharpRenderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, SharpRenderer.basicBuffer);
-            SharpRenderer.basicShader.Apply();
+            renderer.device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.basicShader.Apply();
 
-            SharpRenderer.Pyramid.Draw();
+            renderer.Pyramid.Draw(renderer.device);
         }
     }
 }

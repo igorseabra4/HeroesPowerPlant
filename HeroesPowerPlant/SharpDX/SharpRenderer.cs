@@ -10,11 +10,25 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant
 {
+    public struct DefaultRenderData
+    {
+        public Matrix worldViewProjection;
+        public Vector4 Color;
+    }
+
+    public struct CollisionRenderData
+    {
+        public Matrix viewProjection;
+        public Vector4 ambientColor;
+        public Vector4 lightDirection;
+        public Vector4 lightDirection2;
+    }
+
     public class SharpRenderer
     {
-        public static SharpDevice device;
-        public static SharpCamera Camera = new SharpCamera();
-        public static SharpFPS sharpFPS;
+        public SharpDevice device;
+        public SharpCamera Camera = new SharpCamera();
+        public SharpFPS sharpFPS;
         
         public SharpRenderer(Control control)
         {
@@ -36,36 +50,22 @@ namespace HeroesPowerPlant
             Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
 
             SetSharpShader();
-            LoadTextures();
+            LoadTexture();
         }
 
-        public struct DefaultRenderData
-        {
-            public Matrix worldViewProjection;
-            public Vector4 Color;
-        }
+        public SharpShader basicShader;
+        public SharpDX.Direct3D11.Buffer basicBuffer;
 
-        public struct CollisionRenderData
-        {
-            public Matrix viewProjection;
-            public Vector4 ambientColor;
-            public Vector4 lightDirection;
-            public Vector4 lightDirection2;
-        }
+        public SharpShader defaultShader;
+        public SharpDX.Direct3D11.Buffer defaultBuffer;
 
-        public static SharpShader basicShader;
-        public static SharpDX.Direct3D11.Buffer basicBuffer;
-
-        public static SharpShader defaultShader;
-        public static SharpDX.Direct3D11.Buffer defaultBuffer;
-
-        public static SharpShader tintedShader;
-        public static SharpDX.Direct3D11.Buffer tintedBuffer;
+        public SharpShader tintedShader;
+        public SharpDX.Direct3D11.Buffer tintedBuffer;
         
-        public static SharpShader collisionShader;
-        public static SharpDX.Direct3D11.Buffer collisionBuffer;
+        public SharpShader collisionShader;
+        public SharpDX.Direct3D11.Buffer collisionBuffer;
         
-        public static void SetSharpShader()
+        public void SetSharpShader()
         {
             basicShader = new SharpShader(device, "Resources/SharpDX/Shader_Basic.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
@@ -110,7 +110,7 @@ namespace HeroesPowerPlant
         public const string DefaultTexture = "default";
         public static ShaderResourceView whiteDefault;
 
-        public static void LoadTextures()
+        public void LoadTexture()
         {
             if (whiteDefault != null)
                 if (!whiteDefault.IsDisposed)
@@ -119,13 +119,13 @@ namespace HeroesPowerPlant
             whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
         }
 
-        private static DefaultRenderData cubeRenderData;
+        private DefaultRenderData cubeRenderData;
 
-        public static Vector4 normalColor;
-        public static Vector4 selectedColor;
-        public static Vector4 selectedObjectColor;
+        public Vector4 normalColor;
+        public Vector4 selectedColor;
+        public Vector4 selectedObjectColor;
 
-        public static void ResetColors()
+        public void ResetColors()
         {
             normalColor = new Vector4(0.2f, 0.6f, 0.8f, 0.8f);
             selectedColor = new Vector4(1f, 0.5f, 0.1f, 0.8f);
@@ -133,7 +133,7 @@ namespace HeroesPowerPlant
             backgroundColor = new Color4(0.05f, 0.05f, 0.15f, 1f);
         }
 
-        public static void DrawCubeTrigger(Matrix world, bool isSelected)
+        public void DrawCubeTrigger(Matrix world, bool isSelected)
         {
             cubeRenderData.worldViewProjection = world * viewProjection;
 
@@ -152,12 +152,12 @@ namespace HeroesPowerPlant
             device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
 
-            Cube.Draw();
+            Cube.Draw(device);
         }
 
-        private static DefaultRenderData cylinderRenderData;
+        private DefaultRenderData cylinderRenderData;
 
-        public static void DrawCylinderTrigger(Matrix world, bool isSelected)
+        public void DrawCylinderTrigger(Matrix world, bool isSelected)
         {
             cylinderRenderData.worldViewProjection = world * viewProjection;
 
@@ -176,12 +176,12 @@ namespace HeroesPowerPlant
             device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
 
-            Cylinder.Draw();
+            Cylinder.Draw(device);
         }
 
-        private static DefaultRenderData sphereRenderData;
+        private DefaultRenderData sphereRenderData;
 
-        public static void DrawSphereTrigger(Matrix world, bool isSelected)
+        public void DrawSphereTrigger(Matrix world, bool isSelected)
         {
             sphereRenderData.worldViewProjection = world * viewProjection;
 
@@ -200,28 +200,28 @@ namespace HeroesPowerPlant
             device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
 
-            Sphere.Draw();
+            Sphere.Draw(device);
         }
 
-        public static bool ShowStartPositions { get; set; } = true;
-        public static bool ShowSplines { get; set; } = true;
-        public static bool ShowChunkBoxes { get; set; } = false;
-        public static bool ShowCollision { get; set; } = false;
-        public static bool ShowQuadtree { get; set; } = false;
-        public static CheckState ShowObjects { get; set; } = CheckState.Indeterminate;
-        public static bool ShowCameras { get; set; } = true;
-        public static bool MouseModeObjects { get; set; } = true;
+        public bool ShowStartPositions { get; set; } = true;
+        public bool ShowSplines { get; set; } = true;
+        public bool ShowChunkBoxes { get; set; } = false;
+        public bool ShowCollision { get; set; } = false;
+        public bool ShowQuadtree { get; set; } = false;
+        public CheckState ShowObjects { get; set; } = CheckState.Indeterminate;
+        public bool ShowCameras { get; set; } = true;
+        public bool MouseModeObjects { get; set; } = true;
         
-        public static SharpMesh Cube { get; private set; }
-        public static SharpMesh Cylinder { get; private set; }
-        public static SharpMesh Pyramid { get; private set; }
-        public static SharpMesh Sphere { get; private set; }
+        public SharpMesh Cube { get; private set; }
+        public SharpMesh Cylinder { get; private set; }
+        public SharpMesh Pyramid { get; private set; }
+        public SharpMesh Sphere { get; private set; }
 
-        public static List<Vector3> cubeVertices;
-        public static List<Vector3> pyramidVertices;
-        public static List<LevelEditor.Triangle> pyramidTriangles;
+        public List<Vector3> cubeVertices;
+        public List<Vector3> pyramidVertices;
+        public List<LevelEditor.Triangle> pyramidTriangles;
 
-        public static void LoadModels()
+        public void LoadModels()
         {
             cubeVertices = new List<Vector3>();
             pyramidVertices = new List<Vector3>();
@@ -260,24 +260,22 @@ namespace HeroesPowerPlant
             }
         }
 
-        public static void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown = false)
+        public void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown = false)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
             if (MouseModeObjects & ShowObjects != CheckState.Unchecked)
-                Program.LayoutEditor.ScreenClicked(ray, isMouseDown, ShowObjects == CheckState.Checked);
+                Program.LayoutEditor.ScreenClicked(this, ray, isMouseDown, ShowObjects == CheckState.Checked);
             else if (ShowCameras)
                 Program.CameraEditor.ScreenClicked(ray);
         }
 
-        public static Matrix viewProjection;
-        public static Color4 backgroundColor;
-        public static bool dontRender = false;
-        public static BoundingFrustum frustum;
+        public Matrix viewProjection;
+        public Color4 backgroundColor;
+        public bool dontRender = false;
+        public BoundingFrustum frustum;
 
-        public static void RunMainLoop(Panel Panel)
+        public void RunMainLoop(Panel Panel)
         {
-
-
             RenderLoop.Run(Panel, () =>
             {
                 sharpFPS.StartFrame();
@@ -305,31 +303,31 @@ namespace HeroesPowerPlant
 
                 if (ShowCollision)
                 {
-                    CollisionRendering.RenderCollisionModel(viewProjection, -Camera.GetForward(), Camera.GetUp());
-                    BSPRenderer.RenderShadowCollisionModel(viewProjection);
+                    CollisionRendering.RenderCollisionModel(this);
+                    BSPRenderer.RenderShadowCollisionModel(this);
                 }
                 else
-                    BSPRenderer.RenderLevelModel(viewProjection);
+                    BSPRenderer.RenderLevelModel(this);
 
                 if (ShowChunkBoxes)
-                    VisibilityFunctions.RenderChunkModels(viewProjection);
+                    VisibilityFunctions.RenderChunkModels(this);
 
                 if (ShowObjects == CheckState.Checked)
-                    Program.LayoutEditor.RenderSetObjects(true);
+                    Program.LayoutEditor.RenderSetObjects(this, true);
                 else if (ShowObjects == CheckState.Indeterminate)
-                    Program.LayoutEditor.RenderSetObjects(false);
+                    Program.LayoutEditor.RenderSetObjects(this, false);
 
                 if (ShowCameras)
-                    Program.CameraEditor.RenderCameras();
+                    Program.CameraEditor.RenderCameras(this);
 
                 if (ShowStartPositions)
-                    Program.ConfigEditor.RenderStartPositions();
+                    Program.ConfigEditor.RenderStartPositions(this);
 
                 if (ShowSplines)
-                    Program.SplineEditor.RenderSplines();
+                    Program.SplineEditor.RenderSplines(this);
 
                 if (ShowQuadtree)
-                    CollisionRendering.RenderQuadTree();
+                    CollisionRendering.RenderQuadTree(this);
 
                 //present
                 device.Present();
@@ -349,7 +347,7 @@ namespace HeroesPowerPlant
 
             CollisionRendering.Dispose();
 
-            Program.SplineEditor.Dispose();
+            Program.SplineEditor.DisposeSplines();
             
             Cube.Dispose();
             Pyramid.Dispose();

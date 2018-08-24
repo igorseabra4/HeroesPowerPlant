@@ -1,6 +1,6 @@
 ﻿using SharpDX;
 using System;
-using static HeroesPowerPlant.SharpRenderer;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -20,6 +20,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public Gizmo(GizmoType type)
         {
             this.type = type;
+
             switch (type)
             {
                 case GizmoType.X:
@@ -46,48 +47,48 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (dist < 10f) dist = 10f;
 
                     Position.X += dist;
-                    transformMatrix = Matrix.Scaling(dist / 5f) * Matrix.RotationY(MathUtil.Pi / 2) * Matrix.Translation(Position);
+                    transformMatrix = Matrix.Scaling(dist / 5f > 5f ? dist / 5f : 5f) * Matrix.RotationY(MathUtil.Pi / 2) * Matrix.Translation(Position);
                     break;
                 case GizmoType.Y:
                     dist = Math.Abs(distance.Y) + 2f;
                     if (dist < 10f) dist = 10f;
 
                     Position.Y += dist;
-                    transformMatrix = Matrix.Scaling(dist / 5f) * Matrix.RotationX(-MathUtil.Pi / 2) * Matrix.Translation(Position);
+                    transformMatrix = Matrix.Scaling(dist / 5f > 5f ? dist / 5f : 5f) * Matrix.RotationX(-MathUtil.Pi / 2) * Matrix.Translation(Position);
                     break;
                 case GizmoType.Z:
                     dist = Math.Abs(distance.Z) + 2f;
                     if (dist < 10f) dist = 10f;
 
                     Position.Z += dist;
-                    transformMatrix = Matrix.Scaling(dist / 5f) * Matrix.Translation(Position);
+                    transformMatrix = Matrix.Scaling(dist / 5f > 5f ? dist / 5f : 5f) * Matrix.Translation(Position);
                     break;
             }
-            boundingBox = BoundingBox.FromPoints(pyramidVertices.ToArray());
+            boundingBox = BoundingBox.FromPoints(Program.MainForm.renderer.pyramidVertices.ToArray());
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, transformMatrix);
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, transformMatrix);
         }
 
         private DefaultRenderData renderData;
 
-        public void Draw()
+        public void Draw(SharpRenderer renderer)
         {
-            renderData.worldViewProjection = transformMatrix * viewProjection;
+            renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
 
-            device.SetFillModeSolid();
-            device.SetCullModeNone();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.SetDepthStateNone();
-            device.UpdateAllStates();
+            renderer.device.SetFillModeSolid();
+            renderer.device.SetCullModeNone();
+            renderer.device.SetBlendStateAlphaBlend();
+            renderer.device.ApplyRasterState();
+            renderer.device.SetDepthStateNone();
+            renderer.device.UpdateAllStates();
 
-            device.UpdateData(basicBuffer, renderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-            basicShader.Apply();
+            renderer.device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.basicShader.Apply();
 
-            Pyramid.Draw();
+            renderer.Pyramid.Draw(renderer.device);
 
-            device.SetDefaultDepthState();
+            renderer.device.SetDefaultDepthState();
         }
 
         public BoundingBox boundingBox;
@@ -103,7 +104,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool TriangleIntersection(Ray r)
         {
-            foreach (LevelEditor.Triangle t in pyramidTriangles)
+            List<Vector3> pyramidVertices = Program.MainForm.renderer.pyramidVertices;
+
+            foreach (LevelEditor.Triangle t in Program.MainForm.renderer.pyramidTriangles)
             {
                 Vector3 v1 = (Vector3)Vector3.Transform(pyramidVertices[t.vertex1], transformMatrix);
                 Vector3 v2 = (Vector3)Vector3.Transform(pyramidVertices[t.vertex2], transformMatrix);

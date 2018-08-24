@@ -17,12 +17,12 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.Translation(Position);
         }
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (Type >= modelNames.Length)
-                DrawCube(isSelected);
+                DrawCube(renderer, isSelected);
             else
-                Draw(modelNames[Type], isSelected);
+                Draw(renderer, modelNames[Type], isSelected);
         }
 
         public float Scale

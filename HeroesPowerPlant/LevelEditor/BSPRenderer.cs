@@ -6,7 +6,6 @@ using SharpDX;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant
 {
@@ -26,7 +25,7 @@ namespace HeroesPowerPlant
         public static string currentFileNamePrefix = "default";
         public static List<RenderWareModelFile> BSPList = new List<RenderWareModelFile>();
 
-        public static void SetHeroesBSPList(Archive heroesONEfile)
+        public static void SetHeroesBSPList(SharpDevice device, Archive heroesONEfile)
         {
             Dispose();
             ReadFileMethods.isShadow = false;
@@ -42,7 +41,7 @@ namespace HeroesPowerPlant
                 RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                 TempBSPFile.SetChunkNumberAndName();
                 byte[] uncompressedData = file.DecompressThis();
-                TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(uncompressedData), uncompressedData);
+                TempBSPFile.SetForRendering(device, ReadFileMethods.ReadRenderWareFile(uncompressedData), uncompressedData);
                 BSPList.Add(TempBSPFile);
             }
         }
@@ -51,11 +50,11 @@ namespace HeroesPowerPlant
 
         private static HashSet<int> VisibleChunks = new HashSet<int>();
 
-        public static void DetermineVisibleChunks()
+        public static void DetermineVisibleChunks(SharpRenderer renderer)
         {
             VisibleChunks.Clear();
             VisibleChunks.Add(-1);
-            Vector3 cameraPos = Camera.GetPosition();
+            Vector3 cameraPos = renderer.Camera.GetPosition();
 
             foreach (LevelEditor.Chunk c in LevelEditor.VisibilityFunctions.ChunkList)
             {
@@ -71,26 +70,26 @@ namespace HeroesPowerPlant
                 
         // Rendering functions
         
-        public static void RenderLevelModel(Matrix viewProjection)
+        public static void RenderLevelModel(SharpRenderer renderer)
         {
             if (renderByChunk)
-                DetermineVisibleChunks();
+                DetermineVisibleChunks(renderer);
 
-            device.SetFillModeDefault();
-            defaultShader.Apply();
+            renderer.device.SetFillModeDefault();
+            renderer.defaultShader.Apply();
 
-            RenderOpaque(viewProjection);
-            RenderAlpha(viewProjection);
+            RenderOpaque(renderer);
+            RenderAlpha(renderer);
         }
 
-        private static void RenderOpaque(Matrix viewProjection)
+        private static void RenderOpaque(SharpRenderer renderer)
         {
-            device.SetDefaultBlendState();
-            device.SetDefaultDepthState();
-            device.SetCullModeDefault();
+            renderer.device.SetDefaultBlendState();
+            renderer.device.SetDefaultDepthState();
+            renderer.device.SetCullModeDefault();
 
-            device.UpdateData(defaultBuffer, viewProjection);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
+            renderer.device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
 
             for (int j = 0; j < BSPList.Count; j++)
             {
@@ -98,17 +97,17 @@ namespace HeroesPowerPlant
                     (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P" | BSPList[j].ChunkName == "K"))
                     continue;
 
-                if (BSPList[j].isNoCulling) device.SetCullModeNone();
-                else device.SetCullModeDefault();
+                if (BSPList[j].isNoCulling) renderer.device.SetCullModeNone();
+                else renderer.device.SetCullModeDefault();
 
-                device.ApplyRasterState();
-                device.UpdateAllStates();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
 
-                BSPList[j].Render();
+                BSPList[j].Render(renderer.device);
             }
         }
 
-        private static void RenderAlpha(Matrix viewProjection)
+        private static void RenderAlpha(SharpRenderer renderer)
         {
             for (int j = 0; j < BSPList.Count; j++)
             {
@@ -116,32 +115,32 @@ namespace HeroesPowerPlant
                     (BSPList[j].ChunkName == "O"))
                     continue;
 
-                if (BSPList[j].isNoCulling) device.SetCullModeNone();
-                else device.SetCullModeDefault();
+                if (BSPList[j].isNoCulling) renderer.device.SetCullModeNone();
+                else renderer.device.SetCullModeDefault();
 
                 if (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P")
                 {
-                    device.SetBlendStateAlphaBlend();
+                    renderer.device.SetBlendStateAlphaBlend();
                 }
                 else if (BSPList[j].ChunkName == "K")
                 {
-                    device.SetBlendStateAdditive();
+                    renderer.device.SetBlendStateAdditive();
                 }
 
-                device.ApplyRasterState();
-                device.UpdateAllStates();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
 
-                device.UpdateData(defaultBuffer, viewProjection);
-                device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
+                renderer.device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
+                renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
 
-                BSPList[j].Render();
+                BSPList[j].Render(renderer.device);
             }
         }
 
         // Shadow functions
         public static string currentShadowFolderNamePrefix = "default";
 
-        public static void LoadShadowLevelFolder(string Folder)
+        public static void LoadShadowLevelFolder(SharpRenderer renderer, string Folder)
         {
             List<Archive> ShadowONEFiles = new List<Archive>();
             currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(Folder);
@@ -175,12 +174,12 @@ namespace HeroesPowerPlant
                     }
             }
 
-            SetShadowBSPList(ShadowONEFiles);
+            SetShadowBSPList(renderer, ShadowONEFiles);
         }
 
         public static List<RenderWareModelFile> ShadowColBSPList = new List<RenderWareModelFile>();
 
-        private static void SetShadowBSPList(List<Archive> OpenShadowONEFiles)
+        private static void SetShadowBSPList(SharpRenderer renderer, List<Archive> OpenShadowONEFiles)
         {
             Dispose();
             
@@ -209,7 +208,7 @@ namespace HeroesPowerPlant
                         try
                         {
                             byte[] data = file.DecompressThis();
-                            TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(data), data);
+                            TempBSPFile.SetForRendering(renderer.device, ReadFileMethods.ReadRenderWareFile(data), data);
                         }
                         catch (Exception e)
                         {
@@ -224,33 +223,33 @@ namespace HeroesPowerPlant
                         RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                         TempBSPFile.SetChunkNumberAndName();
                         byte[] data = file.DecompressThis();
-                        TempBSPFile.SetForRendering(ReadFileMethods.ReadRenderWareFile(data), data);
+                        TempBSPFile.SetForRendering(renderer.device, ReadFileMethods.ReadRenderWareFile(data), data);
                         BSPList.Add(TempBSPFile);
                     }
                 }
         }
 
-        public static void RenderShadowCollisionModel(Matrix viewProjection)
+        public static void RenderShadowCollisionModel(SharpRenderer renderer)
         {
             if (renderByChunk)
-                DetermineVisibleChunks();
+                DetermineVisibleChunks(renderer);
 
-            device.SetDefaultBlendState();
-            device.SetFillModeDefault();
-            device.SetCullModeDefault();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            renderer.device.SetDefaultBlendState();
+            renderer.device.SetFillModeDefault();
+            renderer.device.SetCullModeDefault();
+            renderer.device.ApplyRasterState();
+            renderer.device.UpdateAllStates();
 
-            device.UpdateData(defaultBuffer, viewProjection);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, defaultBuffer);
-            defaultShader.Apply();
+            renderer.device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
+            renderer.defaultShader.Apply();
                         
             for (int j = 0; j < ShadowColBSPList.Count; j++)
             {
                 if (renderByChunk & !VisibleChunks.Contains(ShadowColBSPList[j].ChunkNumber))
                     continue;
 
-                ShadowColBSPList[j].Render();
+                ShadowColBSPList[j].Render(renderer.device);
             }
         }
     }

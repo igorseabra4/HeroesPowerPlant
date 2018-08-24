@@ -32,7 +32,7 @@ namespace HeroesPowerPlant.SplineEditor
             Points[0] = new Vertex(0, 0, 0);
             Points[1] = new Vertex(0, 0, 0);
             SplineList.Add(new Spline { Points = Points });
-            SplineList.Last().SetRenderStuff();
+            SplineList.Last().SetRenderStuff(Program.MainForm.renderer);
         }
 
         public void DeleteSelectedSpline()
@@ -78,15 +78,15 @@ namespace HeroesPowerPlant.SplineEditor
             AddBlankSpline();
         }
 
-        public void RenderSplines()
+        public void RenderSplines(SharpRenderer renderer)
         {
-            foreach (Spline s in SplineList) s.Render();
+            foreach (Spline s in SplineList) s.Render(renderer);
         }
 
         public void ViewHere()
         {
             if (CurrentlySelectedObject != -1 & CurrentlySelectedObject < SplineList.Count)
-                SharpRenderer.Camera.SetPosition(SplineList[CurrentlySelectedObject].Points[0].Position - 200 * SharpRenderer.Camera.GetForward());
+                Program.MainForm.renderer.Camera.SetPosition(SplineList[CurrentlySelectedObject].Points[0].Position - 200 * Program.MainForm.renderer.Camera.GetForward());
         }
 
         public void DisposeSplines()

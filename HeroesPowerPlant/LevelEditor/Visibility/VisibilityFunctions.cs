@@ -8,19 +8,16 @@ using RenderWareFile.Sections;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using static HeroesPowerPlant.BSPRenderer;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LevelEditor
 {
     public static class VisibilityFunctions
     {
-        public static void RenderChunkModels(Matrix viewProjection)
+        public static void RenderChunkModels(SharpRenderer renderer)
         {
-            basicShader.Apply();
+            renderer.basicShader.Apply();
             for (int j = 0; j < ChunkList.Count; j++)
-            {
-                ChunkList[j].Render(viewProjection);
-            }
+                ChunkList[j].Render(renderer);
         }
 
         public static void SetSelectedChunkColor(System.Drawing.Color color)

@@ -368,12 +368,12 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public void ScreenClicked(Ray r, bool isMouseDown, bool showAllObjects)
+        public void ScreenClicked(SharpRenderer renderer, Ray r, bool isMouseDown, bool showAllObjects)
         {
             if (isMouseDown)
                 GizmoSelect(r);
             else
-                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(r, showAllObjects);
+                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(renderer, r, showAllObjects);
         }
 
         private void UpdateObjectComboBox()
@@ -462,13 +462,13 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public void RenderSetObjects(bool drawEveryObject)
+        public void RenderSetObjects(SharpRenderer renderer, bool drawEveryObject)
         {
-            layoutSystem.RenderSetObjects(drawEveryObject);
+            layoutSystem.RenderSetObjects(renderer, drawEveryObject);
 
             if (DrawGizmos)
                 foreach (Gizmo g in gizmos)
-                    g.Draw();
+                    g.Draw(renderer);
         }
 
         public void UpdateAllMatrices()
@@ -541,21 +541,23 @@ namespace HeroesPowerPlant.LayoutEditor
                 g.isSelected = false;
         }
 
-        public void MouseMoveX(int distance)
+        public void MouseMoveX(SharpCamera camera, int distance)
         {
             // TODO: The yaw checking code is probably redundant since Sewer's camera code but is kept here for now.
+            // It's not redundant, the movement needs to be done in a different direction depending on the yaw.
+
             if (gizmos[0].isSelected)
                 NumericPosX.Value += (
-                    (SharpRenderer.Camera.ViewMatrix.Yaw >= -360 & SharpRenderer.Camera.ViewMatrix.Yaw < -270) |
-                    (SharpRenderer.Camera.ViewMatrix.Yaw >= -90 & SharpRenderer.Camera.ViewMatrix.Yaw < 90) |
-                    (SharpRenderer.Camera.ViewMatrix.Yaw >= 270)) ? distance / 2 : -distance / 2;
+                    (camera.ViewMatrix.Yaw >= -360 & camera.ViewMatrix.Yaw < -270) |
+                    (camera.ViewMatrix.Yaw >= -90 & camera.ViewMatrix.Yaw < 90) |
+                    (camera.ViewMatrix.Yaw >= 270)) ? distance / 2 : -distance / 2;
             else if (gizmos[2].isSelected)
                 NumericPosZ.Value +=(
-                    (SharpRenderer.Camera.ViewMatrix.Yaw >= -180 & SharpRenderer.Camera.ViewMatrix.Yaw < 0) |
-                    (SharpRenderer.Camera.ViewMatrix.Yaw >= 180)) ? distance / 2 : -distance / 2;
+                    (camera.ViewMatrix.Yaw >= -180 & camera.ViewMatrix.Yaw < 0) |
+                    (camera.ViewMatrix.Yaw >= 180)) ? distance / 2 : -distance / 2;
         }
 
-        public void MouseMoveY(int distance)
+        public void MouseMoveY(SharpCamera camera, int distance)
         {
             if (gizmos[1].isSelected)
                 NumericPosY.Value -= distance / 2;

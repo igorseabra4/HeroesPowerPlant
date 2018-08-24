@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using SharpDX;
 using System;
 
 namespace HeroesPowerPlant
@@ -31,7 +32,7 @@ namespace HeroesPowerPlant
         /// <returns></returns>
         public float GetScaledSpeed()
         {
-            return (float)(NormalFPS / SharpRenderer.sharpFPS.FPS) * Speed;
+            return (float)(NormalFPS / Program.MainForm.renderer.sharpFPS.FPS) * Speed;
         }
 
         //////////////////////////
@@ -152,5 +153,15 @@ namespace HeroesPowerPlant
         /// Delegate type called when the internal camera details change.
         /// </summary>
         public delegate void CameraChangedDelegate(SharpCamera camera);
+
+        public void ApplyConfig(ProjectConfig.Camera CameraSettings)
+        {
+            ViewMatrix.Position = CameraSettings.CameraPosition;
+            ViewMatrix.Yaw = CameraSettings.Yaw;
+            ViewMatrix.Pitch = CameraSettings.Pitch;
+            Speed = CameraSettings.Speed;
+            ProjectionMatrix.FieldOfView = CameraSettings.FieldOfView;
+            ProjectionMatrix.FarPlane = CameraSettings.DrawDistance;
+        }
     }
 }

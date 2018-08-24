@@ -1,6 +1,5 @@
 ﻿using SharpDX;
 using System;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.CameraEditor
 {
@@ -154,25 +153,25 @@ namespace HeroesPowerPlant.CameraEditor
             CreateBounding();
         }
 
-        public void Draw()
+        public void Draw(SharpRenderer renderer)
         {
-            if (Vector3.Distance(Camera.GetPosition(), TriggerPosition) <= 15000f)
+            if (Vector3.Distance(renderer.Camera.GetPosition(), TriggerPosition) <= 15000f)
                 if (TriggerShape == 1) //plane
-                    DrawCubeTrigger(cameraWorld, isSelected);
+                    renderer.DrawCubeTrigger(cameraWorld, isSelected);
                 else if (TriggerShape == 3) // cube
-                    DrawCubeTrigger(cameraWorld, isSelected);
+                    renderer.DrawCubeTrigger(cameraWorld, isSelected);
                 else if (TriggerShape == 4) // cyl
-                    DrawCylinderTrigger(cameraWorld, isSelected);
+                    renderer.DrawCylinderTrigger(cameraWorld, isSelected);
                 else // sphere
-                    DrawSphereTrigger(cameraWorld, isSelected);
+                    renderer.DrawSphereTrigger(cameraWorld, isSelected);
 
             if (!isSelected)
                 return;
 
-            DrawCube(pointAWorld, Color.Red.ToVector4());
-            DrawCube(pointBWorld, Color.Blue.ToVector4());
-            DrawCube(pointCWorld, Color.Green.ToVector4());
-            DrawCube(camPosWorld, Color.Pink.ToVector4());
+            DrawCube(renderer, pointAWorld, Color.Red.ToVector4());
+            DrawCube(renderer, pointBWorld, Color.Blue.ToVector4());
+            DrawCube(renderer, pointCWorld, Color.Green.ToVector4());
+            DrawCube(renderer, camPosWorld, Color.Pink.ToVector4());
         }
 
         public float? IntersectsWith(Ray r)
@@ -183,22 +182,22 @@ namespace HeroesPowerPlant.CameraEditor
                 return null;
         }
 
-        public void DrawCube(Matrix transformMatrix, Vector4 color)
+        public void DrawCube(SharpRenderer renderer, Matrix transformMatrix, Vector4 color)
         {
-            renderData.worldViewProjection = transformMatrix * viewProjection;
+            renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
             renderData.Color = color;
 
-            device.SetFillModeDefault();
-            device.SetCullModeNone();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            renderer.device.SetFillModeDefault();
+            renderer.device.SetCullModeNone();
+            renderer.device.SetBlendStateAlphaBlend();
+            renderer.device.ApplyRasterState();
+            renderer.device.UpdateAllStates();
 
-            device.UpdateData(basicBuffer, renderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-            basicShader.Apply();
+            renderer.device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.basicShader.Apply();
 
-            Cube.Draw();
+            renderer.Cube.Draw(renderer.device);
         }
 
         public float GetDistance()

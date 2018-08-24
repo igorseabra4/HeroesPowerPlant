@@ -1,6 +1,5 @@
 ﻿using SharpDX;
 using System.Collections.Generic;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -18,83 +17,83 @@ namespace HeroesPowerPlant.LayoutEditor
 
         protected static DefaultRenderData renderData;
 
-        public virtual void Draw(string[] modelNames, bool isSelected)
+        public virtual void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (modelNames != null)
                 if (modelNames.Length > 0)
                 {
                     foreach (string s in modelNames)
-                        Draw(s, isSelected);
+                        Draw(renderer, s, isSelected);
                     return;
                 }
 
-            DrawCube(isSelected);
+            DrawCube(renderer, isSelected);
         }
 
-        protected void Draw(string modelName, bool isSelected)
+        protected void Draw(SharpRenderer renderer, string modelName, bool isSelected)
         {
             if (DFFRenderer.DFFModels.ContainsKey(modelName))
             {
-                renderData.worldViewProjection = transformMatrix * viewProjection;
+                renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
 
                 if (isSelected)
-                    renderData.Color = selectedObjectColor;
+                    renderData.Color = renderer.selectedObjectColor;
                 else
                     renderData.Color = Vector4.One;
 
-                device.SetFillModeDefault();
-                device.SetCullModeDefault();
-                device.SetBlendStateAlphaBlend();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
+                renderer.device.SetFillModeDefault();
+                renderer.device.SetCullModeDefault();
+                renderer.device.SetBlendStateAlphaBlend();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
 
-                device.UpdateData(tintedBuffer, renderData);
-                device.DeviceContext.VertexShader.SetConstantBuffer(0, tintedBuffer);
-                tintedShader.Apply();
+                renderer.device.UpdateData(renderer.tintedBuffer, renderData);
+                renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
+                renderer.tintedShader.Apply();
 
-                DFFRenderer.DFFModels[modelName].Render();
+                DFFRenderer.DFFModels[modelName].Render(renderer.device);
             }
             else
             {
-                DrawCube(isSelected);
+                DrawCube(renderer, isSelected);
             }
         }
 
-        protected void DrawCube(bool isSelected)
+        protected void DrawCube(SharpRenderer renderer, bool isSelected)
         {
-            renderData.worldViewProjection = Matrix.Scaling(5) * transformMatrix * viewProjection;
+            renderData.worldViewProjection = Matrix.Scaling(5) * transformMatrix * renderer.viewProjection;
 
             if (isSelected)
-                renderData.Color = selectedColor;
+                renderData.Color = renderer.selectedColor;
             else
-                renderData.Color = normalColor;
+                renderData.Color = renderer.normalColor;
 
-            device.SetFillModeDefault();
-            device.SetCullModeNone();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            renderer.device.SetFillModeDefault();
+            renderer.device.SetCullModeNone();
+            renderer.device.SetBlendStateAlphaBlend();
+            renderer.device.ApplyRasterState();
+            renderer.device.UpdateAllStates();
 
-            device.UpdateData(basicBuffer, renderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-            basicShader.Apply();
+            renderer.device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.basicShader.Apply();
 
-            Cube.Draw();
+            renderer.Cube.Draw(renderer.device);
         }
 
         public virtual BoundingBox CreateBoundingBox(string[] modelNames)
         {
             if (modelNames == null)
-                return BoundingBox.FromPoints(cubeVertices.ToArray());
+                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
             else if (modelNames.Length == 0)
-                return BoundingBox.FromPoints(cubeVertices.ToArray());
+                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
 
             List<Vector3> list = new List<Vector3>();
             foreach (string m in modelNames)
                 if (DFFRenderer.DFFModels.ContainsKey(m))
                     list.AddRange(DFFRenderer.DFFModels[m].GetVertexList());
                 else
-                    list.AddRange(cubeVertices);
+                    list.AddRange(Program.MainForm.renderer.cubeVertices);
 
             return BoundingBox.FromPoints(list.ToArray());
         }

@@ -1,5 +1,4 @@
-﻿using static HeroesPowerPlant.SharpRenderer;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -60,16 +59,16 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.Translation(Position);
         }
         
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (TriggerShape == TriggerTalkShape.Sphere)
-                DrawSphereTrigger(transformMatrix, isSelected);
+                renderer.DrawSphereTrigger(transformMatrix, isSelected);
             else if (TriggerShape == TriggerTalkShape.Cylinder)
-                DrawCylinderTrigger(transformMatrix, isSelected);
+                renderer.DrawCylinderTrigger(transformMatrix, isSelected);
             else if (TriggerShape == TriggerTalkShape.Cube)
-                DrawCubeTrigger(transformMatrix, isSelected);
+                renderer.DrawCubeTrigger(transformMatrix, isSelected);
             else
-                base.Draw(modelNames, isSelected);
+                base.Draw(renderer, modelNames, isSelected);
         }
 
         public TriggerTalkType Type

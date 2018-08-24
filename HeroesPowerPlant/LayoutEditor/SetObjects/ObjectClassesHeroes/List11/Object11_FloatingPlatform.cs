@@ -12,12 +12,12 @@ namespace HeroesPowerPlant.LayoutEditor
 
     public class Object11_FloatingPlatform : SetObjectManagerHeroes
     {
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (AlternateModel)
-                base.Draw(modelNames.Skip(2).ToArray(), isSelected);
+                base.Draw(renderer, modelNames.Skip(2).ToArray(), isSelected);
             else
-                base.Draw(modelNames.Take(2).ToArray(), isSelected);
+                base.Draw(renderer, modelNames.Take(2).ToArray(), isSelected);
         }
 
         public PlatformType PlatformType

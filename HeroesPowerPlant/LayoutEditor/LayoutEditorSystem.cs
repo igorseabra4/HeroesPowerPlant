@@ -173,7 +173,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public void ViewHere()
         {
             if (CurrentlySelectedIndex != -1)
-                SharpRenderer.Camera.SetPosition(GetSelectedObject().Position - 200 * SharpRenderer.Camera.GetForward());
+               Program.MainForm.renderer.Camera.SetPosition(GetSelectedObject().Position - 200 * Program.MainForm.renderer.Camera.GetForward());
         }
 
         public void UpdateAllMatrices()
@@ -182,11 +182,11 @@ namespace HeroesPowerPlant.LayoutEditor
                 s.CreateTransformMatrix();
         }
 
-        public void RenderSetObjects(bool drawEveryObject)
+        public void RenderSetObjects(SharpRenderer renderer, bool drawEveryObject)
         {
             foreach (SetObject s in setObjects)
-                if (SharpRenderer.frustum.Intersects(ref s.boundingBox))
-                    s.Draw(drawEveryObject);
+                if (renderer.frustum.Intersects(ref s.boundingBox))
+                    s.Draw(renderer, drawEveryObject);
         }
 
         public void UpdateSetParticleMatrices()
@@ -216,14 +216,16 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (isShadow)
             {
-                SetObjectShadow newObject = new SetObjectShadow(0, 0, shadowObjectEntries, SharpRenderer.Camera.GetPosition() + 100 * SharpRenderer.Camera.GetForward(), Vector3.Zero, 0, 10, 0);
+                SetObjectShadow newObject = new SetObjectShadow(0, 0, shadowObjectEntries, Program.MainForm.renderer.Camera.GetPosition()
+                    + 100 * Program.MainForm.renderer.Camera.GetForward(), Vector3.Zero, 0, 10, 0);
                 newObject.CreateTransformMatrix();
 
                 setObjects.Add(newObject);
             }
             else
             {
-                SetObjectHeroes newObject = new SetObjectHeroes(0, 0, heroesObjectEntries, SharpRenderer.Camera.GetPosition() + 100 * SharpRenderer.Camera.GetForward(), Vector3.Zero, 0, 10);
+                SetObjectHeroes newObject = new SetObjectHeroes(0, 0, heroesObjectEntries, Program.MainForm.renderer.Camera.GetPosition()
+                    + 100 * Program.MainForm.renderer.Camera.GetForward(), Vector3.Zero, 0, 10);
                 newObject.CreateTransformMatrix();
 
                 setObjects.Add(newObject);
@@ -448,14 +450,14 @@ namespace HeroesPowerPlant.LayoutEditor
                 return ((SetObjectHeroes)GetSelectedObject()).objectManager;
         }
 
-        public int ScreenClicked(Ray r, bool seeAllObjects)
+        public int ScreenClicked(SharpRenderer renderer, Ray r, bool seeAllObjects)
         {
             int index = currentlySelectedIndex;
 
             float smallerDistance = 10000f;
             for (int i = 0; i < setObjects.Count; i++)
             {
-                if (setObjects[i].isSelected | (seeAllObjects ? false : setObjects[i].DontDraw())) continue;
+                if (setObjects[i].isSelected | (seeAllObjects ? false : setObjects[i].DontDraw(renderer))) continue;
 
                 float? distance = setObjects[i].IntersectsWith(r);
                 if (distance != null)

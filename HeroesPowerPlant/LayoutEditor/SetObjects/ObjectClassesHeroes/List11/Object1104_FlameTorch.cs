@@ -24,25 +24,25 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.Translation(Position);
         }
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (BaseType == BaseTypeEnum.None)
-                DrawCube(isSelected);
+                DrawCube(renderer, isSelected);
             else if (BaseType == BaseTypeEnum.Floor)
             {
-                Draw("S11_ON_FIREA_BASE.DFF", isSelected);
+                Draw(renderer, "S11_ON_FIREA_BASE.DFF", isSelected);
                 if (IsBlue)
-                    Draw("S11_ON_FIREA_BLUE.DFF", isSelected);
+                    Draw(renderer, "S11_ON_FIREA_BLUE.DFF", isSelected);
                 else
-                    Draw("S11_ON_FIREA_RED.DFF", isSelected);
+                    Draw(renderer, "S11_ON_FIREA_RED.DFF", isSelected);
             }
             else if (BaseType == BaseTypeEnum.Air)
             {
-                Draw("S11_ON_FIREB_BASE.DFF", isSelected);
+                Draw(renderer, "S11_ON_FIREB_BASE.DFF", isSelected);
                 if (IsBlue)
-                    Draw("S11_ON_FIREB_BLUE.DFF", isSelected);
+                    Draw(renderer, "S11_ON_FIREB_BLUE.DFF", isSelected);
                 else
-                    Draw("S11_ON_FIREB_RED.DFF", isSelected);
+                    Draw(renderer, "S11_ON_FIREB_RED.DFF", isSelected);
             }
         }
 

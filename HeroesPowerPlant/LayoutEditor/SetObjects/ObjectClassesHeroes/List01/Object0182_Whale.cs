@@ -13,12 +13,12 @@ namespace HeroesPowerPlant.LayoutEditor
             triggerMatrix = Matrix.Scaling(TriggerSize) * Matrix.Translation(TriggerX, TriggerY, TriggerZ);
         }
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
-            base.Draw(modelNames, isSelected);
+            base.Draw(renderer, modelNames, isSelected);
 
             if (isSelected)
-                SharpRenderer.DrawSphereTrigger(triggerMatrix, true);
+                renderer.DrawSphereTrigger(triggerMatrix, true);
         }
 
         public byte WhaleType

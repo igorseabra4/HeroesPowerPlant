@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -35,12 +34,28 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.Translation(Position);
         }
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
-            DrawSphereTrigger(transformMatrix, isSelected);
+            renderer.DrawSphereTrigger(transformMatrix, isSelected);
 
             if (isSelected)
-                DrawCube(true);
+            {
+                renderData.worldViewProjection = Matrix.Scaling(5) * destinationMatrix * renderer.viewProjection;
+
+                renderData.Color = renderer.selectedColor;
+
+                renderer.device.SetFillModeDefault();
+                renderer.device.SetCullModeNone();
+                renderer.device.SetBlendStateAlphaBlend();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
+
+                renderer.device.UpdateData(renderer.basicBuffer, renderData);
+                renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+                renderer.basicShader.Apply();
+
+                renderer.Cube.Draw(renderer.device);
+            }
         }
 
         public float Radius

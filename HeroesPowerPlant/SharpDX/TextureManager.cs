@@ -4,7 +4,6 @@ using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant
 {
@@ -59,10 +58,10 @@ namespace HeroesPowerPlant
                     if (!Textures[tnStruct.textureName].IsDisposed)
                         Textures[tnStruct.textureName].Dispose();
 
-                Textures[tnStruct.textureName] = device.LoadTextureFromRenderWareNative(tnStruct);
+                Textures[tnStruct.textureName] = Program.MainForm.renderer.device.LoadTextureFromRenderWareNative(tnStruct);
             }
             else
-                Textures.Add(tnStruct.textureName, device.LoadTextureFromRenderWareNative(tnStruct));
+                Textures.Add(tnStruct.textureName, Program.MainForm.renderer.device.LoadTextureFromRenderWareNative(tnStruct));
         }
 
         public static void LoadTexturesFromFolder(HashSet<string> fileNames)
@@ -92,10 +91,10 @@ namespace HeroesPowerPlant
                     if (!Textures[textureName].IsDisposed)
                         Textures[textureName].Dispose();
 
-                Textures[textureName] = device.LoadTextureFromFile(path);
+                Textures[textureName] = Program.MainForm.renderer.device.LoadTextureFromFile(path);
             }
             else
-                Textures.Add(textureName, device.LoadTextureFromFile(path));
+                Textures.Add(textureName, Program.MainForm.renderer.device.LoadTextureFromFile(path));
         }
 
         public static void ReapplyTextures()
@@ -126,7 +125,7 @@ namespace HeroesPowerPlant
                                 if (!sub.DiffuseMap.IsDisposed)
                                     sub.DiffuseMap.Dispose();
 
-                            sub.DiffuseMap = whiteDefault;
+                            sub.DiffuseMap = SharpRenderer.whiteDefault;
                         }
                     }
         }

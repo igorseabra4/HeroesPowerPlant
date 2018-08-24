@@ -1,7 +1,6 @@
 ﻿using SharpDX;
 using System;
 using System.Collections.Generic;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -59,54 +58,54 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (DFFRenderer.DFFModels.ContainsKey(modelNames[0]))
             {
                 if (isSelected)
-                    renderData.Color = selectedObjectColor;
+                    renderData.Color = renderer.selectedObjectColor;
                 else
                     renderData.Color = Vector4.One;
-                
-                device.SetCullModeDefault();
-                device.SetDefaultBlendState();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
 
-                tintedShader.Apply();
+                renderer.device.SetCullModeDefault();
+                renderer.device.SetDefaultBlendState();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
+
+                renderer.tintedShader.Apply();
 
                 foreach (Matrix i in positionsList)
                 {
-                    renderData.worldViewProjection = i * transformMatrix * viewProjection;
+                    renderData.worldViewProjection = i * transformMatrix * renderer.viewProjection;
 
-                    device.UpdateData(tintedBuffer, renderData);
-                    device.DeviceContext.VertexShader.SetConstantBuffer(0, tintedBuffer);
+                    renderer.device.UpdateData(renderer.tintedBuffer, renderData);
+                    renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                    DFFRenderer.DFFModels[modelNames[0]].Render();
+                    DFFRenderer.DFFModels[modelNames[0]].Render(renderer.device);
                 }
             }
             else
             {
                 if (isSelected)
-                    renderData.Color = selectedColor;
+                    renderData.Color = renderer.selectedColor;
                 else
-                    renderData.Color = normalColor;
+                    renderData.Color = renderer.normalColor;
 
-                device.SetFillModeDefault();
-                device.SetCullModeNone();
-                device.SetBlendStateAlphaBlend();
-                device.ApplyRasterState();
-                device.UpdateAllStates();
+                renderer.device.SetFillModeDefault();
+                renderer.device.SetCullModeNone();
+                renderer.device.SetBlendStateAlphaBlend();
+                renderer.device.ApplyRasterState();
+                renderer.device.UpdateAllStates();
 
                 foreach (Matrix i in positionsList)
                 {
-                    renderData.worldViewProjection = Matrix.Scaling(4) * i * transformMatrix * viewProjection;
-                    
-                    device.UpdateData(basicBuffer, renderData);
-                    device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
-                    basicShader.Apply();
+                    renderData.worldViewProjection = Matrix.Scaling(4) * i * transformMatrix * renderer.viewProjection;
 
-                    Cube.Draw();
+                    renderer.device.UpdateData(renderer.basicBuffer, renderData);
+                    renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+                    renderer.basicShader.Apply();
+
+                    renderer.Cube.Draw(renderer.device);
                 }
             }
         }

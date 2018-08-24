@@ -51,14 +51,14 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// <summary>
         /// Loads the current Power Plant Config. Note: Returns a new instance on successful load, throw the old instance away.
         /// </summary>
-        public HPPConfig Load()
+        public HPPConfig Load(SharpRenderer renderer)
         {
             if (!File.Exists(ConfigPath))
                 Save();
 
             string fileText = File.ReadAllText(ConfigPath);
             Instance = JsonConvert.DeserializeObject<HPPConfig>(fileText);
-            Instance.ApplyConfig();
+            Instance.ApplyConfig(renderer);
 
             return Instance;
         }
@@ -69,14 +69,14 @@ namespace HeroesPowerPlant.Shared.IO.Config
             File.WriteAllText(ConfigPath, fileText);
         }
 
-        private void ApplyConfig()
+        private void ApplyConfig(SharpRenderer renderer)
         {
             if (AutomaticallyLoadLastConfig)
             {
                 if (File.Exists(LastProjectPath))
                 {
                     var config = ProjectConfig.Open(LastProjectPath);
-                    ProjectConfig.ApplyInstance(config);
+                    ProjectConfig.ApplyInstance(renderer, config);
                     Program.MainForm.currentSavePath = LastProjectPath;
                 }
             }

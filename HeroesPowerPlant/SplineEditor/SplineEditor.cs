@@ -102,12 +102,12 @@ namespace HeroesPowerPlant.SplineEditor
             ProgramIsChangingStuff = false;
         }
 
-        public void RenderSplines()
+        public void RenderSplines(SharpRenderer renderer)
         {
-            splineEditorFunctions.RenderSplines();
+            splineEditorFunctions.RenderSplines(renderer);
         }
 
-        public void Dispose()
+        public void DisposeSplines()
         {
             splineEditorFunctions.DisposeSplines();
         }

@@ -46,12 +46,12 @@ namespace HeroesPowerPlant.LayoutEditor
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, objectManager.transformMatrix);
         }
 
-        public override void Draw(bool drawEveryObject)
+        public override void Draw(SharpRenderer renderer, bool drawEveryObject)
         {
-            if (!drawEveryObject & DontDraw())
+            if (!drawEveryObject & DontDraw(renderer))
                 return;
 
-            objectManager.Draw(objectEntry.ModelNames, isSelected);
+            objectManager.Draw(renderer, objectEntry.ModelNames, isSelected);
         }
 
         public override bool TriangleIntersection(Ray r)

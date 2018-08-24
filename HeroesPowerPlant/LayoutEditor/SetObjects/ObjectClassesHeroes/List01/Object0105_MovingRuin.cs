@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using static HeroesPowerPlant.SharpRenderer;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -8,19 +7,19 @@ namespace HeroesPowerPlant.LayoutEditor
         public override BoundingBox CreateBoundingBox(string[] modelNames)
         {
             if (modelNames == null)
-                return BoundingBox.FromPoints(cubeVertices.ToArray());
+                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
             else if (modelNames.Length == 0 | (byte)Type >= modelNames.Length | !DFFRenderer.DFFModels.ContainsKey(modelNames[(byte)Type]))
-                return BoundingBox.FromPoints(cubeVertices.ToArray());
+                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
 
             return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[(byte)Type]].GetVertexList().ToArray());
         }
         
-        public override void Draw(string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if ((byte)Type < modelNames.Length)
-                Draw(modelNames[(byte)Type], isSelected);
+                Draw(renderer, modelNames[(byte)Type], isSelected);
             else
-                DrawCube(isSelected);
+                DrawCube(renderer, isSelected);
         }
 
         public enum RuinType : byte

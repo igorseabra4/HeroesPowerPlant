@@ -23,13 +23,15 @@ namespace HeroesPowerPlant.MainForm
 #else
             debugToolStripMenuItem.Visible = false;
 #endif
-            new SharpRenderer(renderPanel);
+            renderer = new SharpRenderer(renderPanel);
         }
+
+        public SharpRenderer renderer;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             var hppConfig = HPPConfig.GetInstance();
-            hppConfig.Load();
+            hppConfig.Load(renderer);
         }
 
         public string currentSavePath;
@@ -43,7 +45,7 @@ namespace HeroesPowerPlant.MainForm
             {
                 currentSavePath = openFile.FileName;
                 ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
-                ProjectConfig.ApplyInstance(projectConfig);
+                ProjectConfig.ApplyInstance(renderer, projectConfig);
 
                 // The ViewConfig screen should refresh in the case of loading new camera values.
                 Program.ViewConfig.UpdateValues();
@@ -54,7 +56,7 @@ namespace HeroesPowerPlant.MainForm
         {
             if (currentSavePath != null)
             {
-                var hppConfig = ProjectConfig.FromCurrentInstance();
+                var hppConfig = ProjectConfig.FromCurrentInstance(renderer);
                 ProjectConfig.Save(hppConfig, currentSavePath);
             }  
             else
@@ -69,7 +71,7 @@ namespace HeroesPowerPlant.MainForm
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                var hppConfig = ProjectConfig.FromCurrentInstance();
+                var hppConfig = ProjectConfig.FromCurrentInstance(renderer);
                 ProjectConfig.Save(hppConfig, currentSavePath);
             }
         }
@@ -88,7 +90,7 @@ namespace HeroesPowerPlant.MainForm
                 Program.TexturePatternEditor.New();
                 DFFRenderer.ClearObjectONEFiles();
                 TextureManager.ClearTextures();
-                SharpRenderer.Camera.Reset();
+                renderer.Camera.Reset();
                 currentSavePath = null;
             }
         }
@@ -97,57 +99,57 @@ namespace HeroesPowerPlant.MainForm
         {
             noCullingCToolStripMenuItem.Checked = renderingOptions.NoCulling;
             if (noCullingCToolStripMenuItem.Checked)
-                SharpRenderer.device.SetNormalCullMode(CullMode.None);
+                renderer.device.SetNormalCullMode(CullMode.None);
             else
-                SharpRenderer.device.SetNormalCullMode(CullMode.Back);
+                renderer.device.SetNormalCullMode(CullMode.Back);
 
             wireframeFToolStripMenuItem.Checked = renderingOptions.Wireframe;
             if (wireframeFToolStripMenuItem.Checked)
-                SharpRenderer.device.SetNormalFillMode(FillMode.Wireframe);
+                renderer.device.SetNormalFillMode(FillMode.Wireframe);
             else
-                SharpRenderer.device.SetNormalFillMode(FillMode.Solid);
+                renderer.device.SetNormalFillMode(FillMode.Solid);
 
-            SharpRenderer.backgroundColor = new Color(
+            renderer.backgroundColor = new Color(
                 renderingOptions.BackgroundColor.X,
                 renderingOptions.BackgroundColor.Y,
                 renderingOptions.BackgroundColor.Z,
                 renderingOptions.BackgroundColor.W);
 
-            SharpRenderer.selectedColor = new Vector4(
+            renderer.selectedColor = new Vector4(
                 renderingOptions.SelectionColor.X,
                 renderingOptions.SelectionColor.Y,
                 renderingOptions.SelectionColor.Z,
-                SharpRenderer.selectedColor.W);
-            SharpRenderer.selectedObjectColor = new Vector4(
+                renderer.selectedColor.W);
+            renderer.selectedObjectColor = new Vector4(
                 renderingOptions.SelectionColor.X,
                 renderingOptions.SelectionColor.Y,
                 renderingOptions.SelectionColor.Z,
-                SharpRenderer.selectedObjectColor.W);
+                renderer.selectedObjectColor.W);
             LevelEditor.VisibilityFunctions.SetSelectedChunkColor(renderingOptions.SelectionColor);
 
             startPosToolStripMenuItem.Checked = renderingOptions.ShowStartPos;
-            SharpRenderer.ShowStartPositions = startPosToolStripMenuItem.Checked;
+            renderer.ShowStartPositions = startPosToolStripMenuItem.Checked;
 
             splinesToolStripMenuItem.Checked = renderingOptions.ShowSplines;
-            SharpRenderer.ShowSplines = splinesToolStripMenuItem.Checked;
+            renderer.ShowSplines = splinesToolStripMenuItem.Checked;
 
             renderByChunkToolStripMenuItem.Checked = renderingOptions.RenderByChunk;
             BSPRenderer.renderByChunk = renderByChunkToolStripMenuItem.Checked;
 
             chunkBoxesToolStripMenuItem.Checked = renderingOptions.ShowChunkBoxes;
-            SharpRenderer.ShowChunkBoxes = chunkBoxesToolStripMenuItem.Checked;
+            renderer.ShowChunkBoxes = chunkBoxesToolStripMenuItem.Checked;
 
             showCollisionXToolStripMenuItem.Checked = renderingOptions.ShowCollision;
-            SharpRenderer.ShowCollision = showCollisionXToolStripMenuItem.Checked;
+            renderer.ShowCollision = showCollisionXToolStripMenuItem.Checked;
 
             showQuadtreeTToolStripMenuItem.Checked = renderingOptions.ShowQuadtree;
-            SharpRenderer.ShowQuadtree = showQuadtreeTToolStripMenuItem.Checked;
+            renderer.ShowQuadtree = showQuadtreeTToolStripMenuItem.Checked;
 
             showObjectsGToolStripMenuItem.CheckState = renderingOptions.ShowObjects;
-            SharpRenderer.ShowObjects = showObjectsGToolStripMenuItem.CheckState;
+            renderer.ShowObjects = showObjectsGToolStripMenuItem.CheckState;
 
             camerasVToolStripMenuItem.Checked = renderingOptions.ShowCameras;
-            SharpRenderer.ShowCameras = camerasVToolStripMenuItem.Checked;
+            renderer.ShowCameras = camerasVToolStripMenuItem.Checked;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -209,7 +211,7 @@ namespace HeroesPowerPlant.MainForm
         {
             if (e.Button == MouseButtons.Left)
             {
-                SharpRenderer.ScreenClicked(new Rectangle(
+                renderer.ScreenClicked(new Rectangle(
                     renderPanel.ClientRectangle.X,
                     renderPanel.ClientRectangle.Y,
                     renderPanel.ClientRectangle.Width,
@@ -228,8 +230,8 @@ namespace HeroesPowerPlant.MainForm
         {
             if (mouseMode)
             {
-                SharpRenderer.Camera.AddYaw((Cursor.Position.X - MouseCenter.X) / 4F);
-                SharpRenderer.Camera.AddPitch((Cursor.Position.Y - MouseCenter.Y) / 4F);
+                renderer.Camera.AddYaw((Cursor.Position.X - MouseCenter.X) / 4F);
+                renderer.Camera.AddPitch((Cursor.Position.Y - MouseCenter.Y) / 4F);
 
                 Cursor.Position = MouseCenter;
             }
@@ -239,17 +241,17 @@ namespace HeroesPowerPlant.MainForm
                 int deltaY = e.Y - oldMouseY;
                 if (e.Button == MouseButtons.Middle)
                 {
-                    SharpRenderer.Camera.AddYaw(deltaX * SharpRenderer.Camera.MouseSensitivity);
-                    SharpRenderer.Camera.AddPitch(deltaY * SharpRenderer.Camera.MouseSensitivity);
+                    renderer.Camera.AddYaw(deltaX * renderer.Camera.MouseSensitivity);
+                    renderer.Camera.AddPitch(deltaY * renderer.Camera.MouseSensitivity);
                 }
                 if (e.Button == MouseButtons.Right)
                 {
-                    SharpRenderer.Camera.AddPositionSideways(deltaX);
-                    SharpRenderer.Camera.MoveUp(deltaY);
+                    renderer.Camera.AddPositionSideways(deltaX);
+                    renderer.Camera.MoveUp(deltaY);
                 }
 
-                Program.LayoutEditor.MouseMoveX(deltaX);
-                Program.LayoutEditor.MouseMoveY(deltaY);
+                Program.LayoutEditor.MouseMoveX(renderer.Camera, deltaX);
+                Program.LayoutEditor.MouseMoveY(renderer.Camera, deltaY);
             }
 
             oldMouseX = e.X;
@@ -258,13 +260,13 @@ namespace HeroesPowerPlant.MainForm
             if (loopNotStarted)
             {
                 loopNotStarted = false;
-                SharpRenderer.RunMainLoop(renderPanel);
+                renderer.RunMainLoop(renderPanel);
             }
         }
 
         private void renderPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            SharpRenderer.Camera.AddPositionForward(e.Delta);
+            renderer.Camera.AddPositionForward(e.Delta);
         }
 
         private void MouseModeToggle()
@@ -287,9 +289,9 @@ namespace HeroesPowerPlant.MainForm
             if (e.KeyCode == Keys.Z)
                 MouseModeToggle();
             else if (e.KeyCode == Keys.Q)
-                SharpRenderer.Camera.IncreaseCameraSpeed(-0.1F);
+                renderer.Camera.IncreaseCameraSpeed(-0.1F);
             else if (e.KeyCode == Keys.E)
-                SharpRenderer.Camera.IncreaseCameraSpeed(0.1F);
+                renderer.Camera.IncreaseCameraSpeed(0.1F);
             else if (e.KeyCode == Keys.C)
                 ToggleCulling();
             else if (e.KeyCode == Keys.F)
@@ -343,31 +345,31 @@ namespace HeroesPowerPlant.MainForm
         public void KeyboardController()
         {
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddYaw(-0.1f);
+                renderer.Camera.AddYaw(-0.1f);
             else if (PressedKeys.Contains(Keys.A))
-                SharpRenderer.Camera.AddPositionSideways(1f);
+                renderer.Camera.AddPositionSideways(1f);
 
             if (PressedKeys.Contains(Keys.D) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddYaw(0.1f);
+                renderer.Camera.AddYaw(0.1f);
             else if (PressedKeys.Contains(Keys.D))
-                SharpRenderer.Camera.AddPositionSideways(-1f);
+                renderer.Camera.AddPositionSideways(-1f);
 
             if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddPitch(-0.1f);
+                renderer.Camera.AddPitch(-0.1f);
             else if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ShiftKey))
-                SharpRenderer.Camera.MoveUp(1f);
+                renderer.Camera.MoveUp(1f);
             else if (PressedKeys.Contains(Keys.W))
-                SharpRenderer.Camera.AddPositionForward(1f);
+                renderer.Camera.AddPositionForward(1f);
 
             if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ControlKey))
-                SharpRenderer.Camera.AddPitch(0.1f);
+                renderer.Camera.AddPitch(0.1f);
             else if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ShiftKey))
-                SharpRenderer.Camera.MoveDown(1f);
+                renderer.Camera.MoveDown(1f);
             else if (PressedKeys.Contains(Keys.S))
-                SharpRenderer.Camera.AddPositionForward(-1f);
+                renderer.Camera.AddPositionForward(-1f);
 
             if (PressedKeys.Contains(Keys.R))
-                SharpRenderer.Camera.Reset();
+                renderer.Camera.Reset();
         }
 
         private void noCullingCToolStripMenuItem_Click(object sender, EventArgs e)
@@ -379,9 +381,9 @@ namespace HeroesPowerPlant.MainForm
         {
             noCullingCToolStripMenuItem.Checked = !noCullingCToolStripMenuItem.Checked;
             if (noCullingCToolStripMenuItem.Checked)
-                SharpRenderer.device.SetNormalCullMode(CullMode.None);
+                renderer.device.SetNormalCullMode(CullMode.None);
             else
-                SharpRenderer.device.SetNormalCullMode(CullMode.Back);
+                renderer.device.SetNormalCullMode(CullMode.Back);
         }
 
         private void wireframeFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -393,16 +395,16 @@ namespace HeroesPowerPlant.MainForm
         {
             wireframeFToolStripMenuItem.Checked = !wireframeFToolStripMenuItem.Checked;
             if (wireframeFToolStripMenuItem.Checked)
-                SharpRenderer.device.SetNormalFillMode(FillMode.Wireframe);
+                renderer.device.SetNormalFillMode(FillMode.Wireframe);
             else
-                SharpRenderer.device.SetNormalFillMode(FillMode.Solid);
+                renderer.device.SetNormalFillMode(FillMode.Solid);
         }
 
         private void BackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog();
             if (colorDialog.ShowDialog() == DialogResult.OK)
-                SharpRenderer.backgroundColor = new Color(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, colorDialog.Color.A);
+                renderer.backgroundColor = new Color(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, colorDialog.Color.A);
         }
 
         private void selectionColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -410,27 +412,27 @@ namespace HeroesPowerPlant.MainForm
             ColorDialog colorDialog = new ColorDialog();
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                SharpRenderer.selectedObjectColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedObjectColor.W);
-                SharpRenderer.selectedColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, SharpRenderer.selectedColor.W);
+                renderer.selectedObjectColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, renderer.selectedObjectColor.W);
+                renderer.selectedColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, renderer.selectedColor.W);
                 LevelEditor.VisibilityFunctions.SetSelectedChunkColor(colorDialog.Color);
             }
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SharpRenderer.ResetColors();
+            renderer.ResetColors();
         }
 
         private void objectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SharpRenderer.MouseModeObjects = true;
+            renderer.MouseModeObjects = true;
             objectsToolStripMenuItem.Checked = true;
             camerasToolStripMenuItem.Checked = false;
         }
         
         private void camerasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SharpRenderer.MouseModeObjects = false;
+            renderer.MouseModeObjects = false;
             camerasToolStripMenuItem.Checked = true;
             objectsToolStripMenuItem.Checked = false;
         }
@@ -443,7 +445,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleStartPos()
         {
             startPosToolStripMenuItem.Checked = !startPosToolStripMenuItem.Checked;
-            SharpRenderer.ShowStartPositions = startPosToolStripMenuItem.Checked;
+            renderer.ShowStartPositions = startPosToolStripMenuItem.Checked;
         }
 
         private void splinesUToolStripMenuItem_Click(object sender, EventArgs e)
@@ -454,7 +456,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleSplines()
         {
             splinesToolStripMenuItem.Checked = !splinesToolStripMenuItem.Checked;
-            SharpRenderer.ShowSplines = splinesToolStripMenuItem.Checked;
+            renderer.ShowSplines = splinesToolStripMenuItem.Checked;
         }
 
         private void renderByChunkHToolStripMenuItem_Click(object sender, EventArgs e)
@@ -476,7 +478,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleChunkBoxes()
         {
             chunkBoxesToolStripMenuItem.Checked = !chunkBoxesToolStripMenuItem.Checked;
-            SharpRenderer.ShowChunkBoxes = chunkBoxesToolStripMenuItem.Checked;
+            renderer.ShowChunkBoxes = chunkBoxesToolStripMenuItem.Checked;
         }
 
         private void showCollisionXToolStripMenuItem_Click(object sender, EventArgs e)
@@ -487,7 +489,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleShowCollision()
         {
             showCollisionXToolStripMenuItem.Checked = !showCollisionXToolStripMenuItem.Checked;
-            SharpRenderer.ShowCollision = showCollisionXToolStripMenuItem.Checked;
+            renderer.ShowCollision = showCollisionXToolStripMenuItem.Checked;
         }
 
         private void showQuadtreeTToolStripMenuItem_Click(object sender, EventArgs e)
@@ -498,7 +500,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleShowQuadtree()
         {
             showQuadtreeTToolStripMenuItem.Checked = !showQuadtreeTToolStripMenuItem.Checked;
-            SharpRenderer.ShowQuadtree = showQuadtreeTToolStripMenuItem.Checked;
+            renderer.ShowQuadtree = showQuadtreeTToolStripMenuItem.Checked;
         }
 
         private void showObjectsGToolStripMenuItem_Click(object sender, EventArgs e)
@@ -517,7 +519,7 @@ namespace HeroesPowerPlant.MainForm
             else if (showObjectsGToolStripMenuItem.CheckState == CheckState.Unchecked)
                 showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
 
-            SharpRenderer.ShowObjects = showObjectsGToolStripMenuItem.CheckState;
+            renderer.ShowObjects = showObjectsGToolStripMenuItem.CheckState;
         }
 
         private void camerasVToolStripMenuItem_Click(object sender, EventArgs e)
@@ -528,7 +530,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToggleShowCameras()
         {
             camerasVToolStripMenuItem.Checked = !camerasVToolStripMenuItem.Checked;
-            SharpRenderer.ShowCameras = camerasVToolStripMenuItem.Checked;
+            renderer.ShowCameras = camerasVToolStripMenuItem.Checked;
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -542,7 +544,7 @@ namespace HeroesPowerPlant.MainForm
             if (HPPConfig.GetInstance().AutomaticallySaveConfig)
                 if (currentSavePath != null)
                 {
-                    var hppConfig = ProjectConfig.FromCurrentInstance();
+                    var hppConfig = ProjectConfig.FromCurrentInstance(renderer);
                     ProjectConfig.Save(hppConfig, currentSavePath);
                 }
 
@@ -559,20 +561,20 @@ namespace HeroesPowerPlant.MainForm
 
         public void EnableVSync()
         {
-            SharpRenderer.dontRender = true;
+            renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = true;
-            SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
-            SharpRenderer.dontRender = false;
+            renderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = true;
         }
 
         public void DisableVSync()
         {
-            SharpRenderer.dontRender = true;
+            renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = false;
-            SharpRenderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
-            SharpRenderer.dontRender = false;
+            renderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = false;
         }
@@ -603,7 +605,7 @@ namespace HeroesPowerPlant.MainForm
         {
             if (e.Button == MouseButtons.Left)
             {
-                SharpRenderer.ScreenClicked(new Rectangle(
+                renderer.ScreenClicked(new Rectangle(
                     renderPanel.ClientRectangle.X,
                     renderPanel.ClientRectangle.Y,
                     renderPanel.ClientRectangle.Width,
