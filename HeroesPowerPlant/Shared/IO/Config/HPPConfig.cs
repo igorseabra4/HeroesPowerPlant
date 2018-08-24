@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 using Newtonsoft.Json;
-using SharpDX;
 
 namespace HeroesPowerPlant.Shared.IO.Config
 {
@@ -19,6 +15,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
         public string LastProjectPath { get; set; }
         public bool   AutomaticallyLoadLastConfig { get; set; } = true;
+        public bool   AutomaticallySaveConfig { get; set; } = true;
         public bool   VSync { get; set; } = true;
 
         /*
@@ -90,6 +87,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 Program.MainForm.DisableVSync(); // In case the program default ever changes.
 
             Program.MainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);
+            Program.MainForm.SetAutomaticallySaveConfig(AutomaticallySaveConfig);
         }
     }
 }

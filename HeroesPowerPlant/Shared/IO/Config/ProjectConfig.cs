@@ -23,6 +23,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public string ParticleEditorPath { get; set; }
         public string TexturePatternEditorPath { get; set; }
         public HashSet<string> DFFONEPaths { get; set; }
+        public HashSet<string> TXDPaths { get; set; }
+        public HashSet<string> TextureFolderPaths { get; set; }
         public Camera CameraSettings { get; set; }
         public RenderOptions RenderingOptions { get; set; }
 
@@ -109,6 +111,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 CameraEditorPath = Program.CameraEditor.CurrentCameraFile,
                 ParticleEditorPath = Program.ParticleEditor.GetCurrentlyOpenParticleFile(),
                 TexturePatternEditorPath = Program.TexturePatternEditor.GetCurrentlyOpenTXC(),
+                TXDPaths = TextureManager.OpenTXDfiles,
+                TextureFolderPaths = TextureManager.OpenTextureFolders,
 
                 DFFONEPaths = DFFRenderer.filePaths,
 
@@ -172,8 +176,18 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 SharpRenderer.Camera.ProjectionMatrix.FarPlane = config.CameraSettings.DrawDistance;
             }
 
+            TextureManager.ClearTextures();
+            if (config.TXDPaths != null)
+                foreach (string s in config.TXDPaths)
+                    ExecuteIfFilePresent($"Error: TXD file not found: {s}", "Error", s, path => TextureManager.LoadTexturesFromTXD(s));
+
+            if (config.TextureFolderPaths != null)
+                foreach (string s in config.TextureFolderPaths)
+                    ExecuteIfFilePresent($"Error: Folder not found: {s}", "Error", s, path => TextureManager.LoadTexturesFromFolder(s));
+
             DFFRenderer.ClearObjectONEFiles();
-            DFFRenderer.AddDFFFiles(config.DFFONEPaths);
+            if (config.DFFONEPaths != null)
+                DFFRenderer.AddDFFFiles(config.DFFONEPaths);
 
             if (config.RenderingOptions != null)
             {

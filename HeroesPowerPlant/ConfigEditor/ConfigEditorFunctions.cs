@@ -283,6 +283,7 @@ namespace HeroesPowerPlant.ConfigEditor
             EndPositions.Clear();
             BragPositions.Clear();
 
+            if (c.StartPositions != null)
             foreach (PositionStart s in c.StartPositions)
                 StartPositions.Add(new StartPositionEntry()
                 {
@@ -299,6 +300,7 @@ namespace HeroesPowerPlant.ConfigEditor
             while (StartPositions.Count > 5)
                 StartPositions.RemoveAt(StartPositions.Count - 1);
 
+            if (c.EndPositions != null)
                 foreach (PositionEnd s in c.EndPositions)
                 EndPositions.Add(new EndPositionEntry()
                 {
@@ -313,7 +315,8 @@ namespace HeroesPowerPlant.ConfigEditor
             while (EndPositions.Count > 5)
                 EndPositions.RemoveAt(EndPositions.Count - 1);
 
-            foreach (PositionEnd s in c.BragPositions)
+            if (c.BragPositions != null)
+                foreach (PositionEnd s in c.BragPositions)
                 BragPositions.Add(new EndPositionEntry()
                 {
                     PositionX = s.Position.X,

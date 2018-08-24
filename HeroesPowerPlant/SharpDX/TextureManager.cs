@@ -1,6 +1,7 @@
 ﻿using RenderWareFile;
 using RenderWareFile.Sections;
 using SharpDX.Direct3D11;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using static HeroesPowerPlant.SharpRenderer;
@@ -11,9 +12,10 @@ namespace HeroesPowerPlant
     {
         public const string DefaultTexture = "default";
         private static Dictionary<string, ShaderResourceView> Textures = new Dictionary<string, ShaderResourceView>();
-        private static List<string> OpenTXDfiles = new List<string>();
-        private static List<string> OpenTextureFolders = new List<string>();
 
+        public static HashSet<string> OpenTXDfiles { get; private set; } = new HashSet<string>();
+        public static HashSet<string> OpenTextureFolders { get; private set; } = new HashSet<string>();
+        
         public static bool HasTexture(string textureName)
         {
             return Textures.ContainsKey(textureName);
@@ -30,8 +32,18 @@ namespace HeroesPowerPlant
         {
             OpenTXDfiles.Add(fileName);
             RWSection[] file = ReadFileMethods.ReadRenderWareFile(fileName);
+            LoadTexturesFromTXD(fileName, file);
+        }
 
-            foreach (RWSection rw in file)
+        public static void LoadTexturesFromTXD(string fileName, byte[] txdData)
+        {
+            RWSection[] file = ReadFileMethods.ReadRenderWareFile(txdData);
+            LoadTexturesFromTXD(fileName, file);
+        }
+
+        public static void LoadTexturesFromTXD(string fileName, RWSection[] txdFile)
+        {
+            foreach (RWSection rw in txdFile)
                 if (rw is TextureDictionary_0016 td)
                     foreach (TextureNative_0015 tn in td.textureNativeList)
                         AddTextureNative(tn.textureNativeStruct);
@@ -51,6 +63,12 @@ namespace HeroesPowerPlant
             }
             else
                 Textures.Add(tnStruct.textureName, device.LoadTextureFromRenderWareNative(tnStruct));
+        }
+
+        public static void LoadTexturesFromFolder(HashSet<string> fileNames)
+        {
+            foreach (string s in fileNames)
+                LoadTexturesFromFolder(s);
         }
 
         public static void LoadTexturesFromFolder(string folderName)
@@ -80,7 +98,7 @@ namespace HeroesPowerPlant
                 Textures.Add(textureName, device.LoadTextureFromFile(path));
         }
 
-        private static void ReapplyTextures()
+        public static void ReapplyTextures()
         {
             List<RenderWareModelFile> models = new List<RenderWareModelFile>();
             models.AddRange(BSPRenderer.BSPList);
@@ -94,11 +112,21 @@ namespace HeroesPowerPlant
                         if (Textures.ContainsKey(sub.DiffuseMapName))
                         {
                             if (sub.DiffuseMap != Textures[sub.DiffuseMapName])
+                            {
                                 if (sub.DiffuseMap != null)
                                     if (!sub.DiffuseMap.IsDisposed)
                                         sub.DiffuseMap.Dispose();
 
-                            sub.DiffuseMap = Textures[sub.DiffuseMapName];
+                                sub.DiffuseMap = Textures[sub.DiffuseMapName];
+                            }
+                        }
+                        else
+                        {
+                            if (sub.DiffuseMap != null)
+                                if (!sub.DiffuseMap.IsDisposed)
+                                    sub.DiffuseMap.Dispose();
+
+                            sub.DiffuseMap = whiteDefault;
                         }
                     }
         }
@@ -131,6 +159,7 @@ namespace HeroesPowerPlant
             OpenTextureFolders.Clear();
             DisposeTextures();
             Textures.Clear();
+            ReapplyTextures();
         }
     }
 }

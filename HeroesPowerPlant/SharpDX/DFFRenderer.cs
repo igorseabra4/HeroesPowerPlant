@@ -34,7 +34,7 @@ namespace HeroesPowerPlant
             {
                 if (!File.Exists(s))
                 {
-                    MessageBox.Show("Error: file " + s + " not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error: file not found: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     continue;
                 }
 
@@ -45,6 +45,7 @@ namespace HeroesPowerPlant
             }
 
             Program.LayoutEditor.UpdateAllMatrices();
+            TextureManager.ReapplyTextures();
         }
 
         private static void AddDFFFiles(string fileName)
@@ -76,6 +77,11 @@ namespace HeroesPowerPlant
                 {
                     DFFModels.Add(j.Name, d);
                 }
+            }
+            else if (Path.GetExtension(j.Name).ToLower().Equals(".txd"))
+            {
+                byte[] txdData = j.DecompressThis();
+                TextureManager.LoadTexturesFromTXD(j.Name, txdData);
             }
         }
 

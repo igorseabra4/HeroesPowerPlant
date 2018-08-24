@@ -7,6 +7,7 @@ using SharpDX.DXGI;
 
 namespace HeroesPowerPlant
 {
+    using RenderWareFile;
     using RenderWareFile.Sections;
     using SharpDX.Direct3D11;
 
@@ -576,6 +577,32 @@ namespace HeroesPowerPlant
             return rects.ToArray();
         }
 
+        private static MipMapEntry[] ConvertFromPalette(MipMapEntry[] mipMaps, byte mipMapCount, TextureRasterFormat format, Color[] palette)
+        {
+            MipMapEntry[] newMipMaps = new MipMapEntry[mipMapCount];
+
+            for (int i = 0; i < mipMapCount; i++)
+            {
+                List<byte> newData = new List<byte>();
+                foreach (byte j in mipMaps[i].data)
+                {
+                    byte color = j;
+                    if ((format & TextureRasterFormat.RASTER_PAL4) != 0)
+                        color = (byte)(j & 0x0F);
+
+                    newData.Add(palette[color].B);
+                    newData.Add(palette[color].G);
+                    newData.Add(palette[color].R);
+                    newData.Add(palette[color].A);
+                }
+
+                newMipMaps[i].dataSize = newData.Count;
+                newMipMaps[i].data = newData.ToArray();
+            }
+
+            return newMipMaps;
+        }
+
         private static List<DataBox> FillInitData(IntPtr pointer, int width, int height, int depth, int mipCount, int arraySize, Format format, int maxsize, int bitSize, int offset)
         {
             pointer += offset;
@@ -927,10 +954,10 @@ namespace HeroesPowerPlant
             {
                 //if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C1555) != 0)
                 //    format = Format.B5G5R5A1_UNorm;
-                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C4444) != 0)
+                //if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C4444) != 0)
                 //    format = Format.B4G4R4A4_UNorm;
                 //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C555) != 0)
-                //    format = Format.B5G6R5_UNorm;
+                //    format = Format.B5G5R5A1_UNorm;
                 //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C565) != 0)
                 //    format = Format.B5G6R5_UNorm;
                 if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C888) != 0)
@@ -943,10 +970,6 @@ namespace HeroesPowerPlant
                 //    format = Format.D24_UNorm_S8_UInt;
                 //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_D32) != 0)
                 //    format = Format.D32_Float;
-                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_DEFAULT) != 0)
-                //    format = Format.Unknown;
-                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_LUM8) != 0)
-                //    format = Format.A8_UNorm;
                 //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL4) != 0)
                 //    format = Format.P8;
                 //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL8) != 0)
@@ -975,9 +998,19 @@ namespace HeroesPowerPlant
                 OptionFlags = ResourceOptionFlags.None,
             };
 
-            DataRectangle[] dataRectangles = FillInitData(tnStruct.mipMaps, tnStruct.width, tnStruct.height, tnStruct.bitDepth, tnStruct.mipMapCount, format);
+            MipMapEntry[] mipMaps;
 
+            if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL4) != 0 | (tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL8) != 0)
+            {
+                mipMaps = ConvertFromPalette(tnStruct.mipMaps, tnStruct.mipMapCount, tnStruct.rasterFormatFlags, tnStruct.palette);
+                format = Format.B8G8R8A8_UNorm;
+            }
+            else
+                mipMaps = tnStruct.mipMaps;
+            
+            DataRectangle[] dataRectangles = FillInitData(mipMaps, tnStruct.width, tnStruct.height, tnStruct.bitDepth, tnStruct.mipMapCount, format);
             Texture2D buffer = null;
+
             while (buffer == null)
             {
                 try

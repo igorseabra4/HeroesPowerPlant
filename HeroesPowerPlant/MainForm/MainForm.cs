@@ -56,7 +56,6 @@ namespace HeroesPowerPlant.MainForm
             {
                 var hppConfig = ProjectConfig.FromCurrentInstance();
                 ProjectConfig.Save(hppConfig, currentSavePath);
-
             }  
             else
                 ToolStripFileSaveAs(null, null);
@@ -77,7 +76,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Procceed?",
+            if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
                 "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 Program.LevelEditor.New();
@@ -88,7 +87,9 @@ namespace HeroesPowerPlant.MainForm
                 Program.ParticleEditor.New();
                 Program.TexturePatternEditor.New();
                 DFFRenderer.ClearObjectONEFiles();
+                TextureManager.ClearTextures();
                 SharpRenderer.Camera.Reset();
+                currentSavePath = null;
             }
         }
         
@@ -538,6 +539,13 @@ namespace HeroesPowerPlant.MainForm
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             HPPConfig.GetInstance().Save();
+            if (HPPConfig.GetInstance().AutomaticallySaveConfig)
+                if (currentSavePath != null)
+                {
+                    var hppConfig = ProjectConfig.FromCurrentInstance();
+                    ProjectConfig.Save(hppConfig, currentSavePath);
+                }
+
             Environment.Exit(0); // Ensure background threads close too!
         }
 
@@ -578,6 +586,17 @@ namespace HeroesPowerPlant.MainForm
         {
             autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = value;
             HPPConfig.GetInstance().AutomaticallyLoadLastConfig = value;
+        }
+
+        private void autoSaveProjectOnClosingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetAutomaticallySaveConfig(!autoSaveProjectOnClosingToolStripMenuItem.Checked);
+        }
+
+        public void SetAutomaticallySaveConfig(bool value)
+        {
+            autoSaveProjectOnClosingToolStripMenuItem.Checked = value;
+            HPPConfig.GetInstance().AutomaticallySaveConfig = value;
         }
 
         private void renderPanel_MouseDown(object sender, MouseEventArgs e)
