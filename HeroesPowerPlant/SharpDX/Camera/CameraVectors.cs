@@ -50,7 +50,7 @@ namespace HeroesPowerPlant
             cameraVectors._leftVector = Vector3.Cross(Vector3.Up, cameraVectors._forwardVector);
             cameraVectors._leftVector.Normalize();
 
-            cameraVectors._upVector = Vector3.Cross(cameraVectors._upVector, cameraVectors._leftVector);
+            cameraVectors._upVector = Vector3.Cross(cameraVectors._forwardVector, cameraVectors._leftVector);
             cameraVectors._upVector.Normalize();
 
             return cameraVectors;

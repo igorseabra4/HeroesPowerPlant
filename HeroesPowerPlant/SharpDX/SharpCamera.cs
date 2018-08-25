@@ -62,31 +62,7 @@ namespace HeroesPowerPlant
             ViewMatrix.Position += GetLeft() * multiplier * GetScaledSpeed() * Speed;
             RaiseCameraChangedEvent();
         }
-
-        public void MoveUp()
-        {
-            ViewMatrix.Position += (Vector3.Up * GetScaledSpeed() * Speed);
-            RaiseCameraChangedEvent();
-        }
-
-        public void MoveUp(float multiplier)
-        {
-            ViewMatrix.Position += (Vector3.Up * multiplier * GetScaledSpeed() * Speed);
-            RaiseCameraChangedEvent();
-        }
-
-        public void MoveDown()
-        {
-            ViewMatrix.Position -= (Vector3.Up * GetScaledSpeed() * Speed);
-            RaiseCameraChangedEvent();
-        }
-
-        public void MoveDown(float multiplier)
-        {
-            ViewMatrix.Position -= (Vector3.Up * multiplier * GetScaledSpeed() * Speed);
-            RaiseCameraChangedEvent();
-        }
-
+        
         public void IncreaseCameraSpeed(float amount)
         {
             Speed += amount;
@@ -129,7 +105,8 @@ namespace HeroesPowerPlant
         {
             Speed = 5F;
             ViewMatrix = new ViewMatrix();
-            ProjectionMatrix = new ProjectionMatrix();
+            ProjectionMatrix = new ProjectionMatrix(ProjectionMatrix.FarPlane, ProjectionMatrix.FieldOfView);
+            RaiseCameraChangedEvent();
         }
 
         /// <summary>

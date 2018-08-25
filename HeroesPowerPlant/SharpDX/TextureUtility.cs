@@ -304,7 +304,7 @@ namespace HeroesPowerPlant
             else
             {
                 int bpp = BitsPerPixel(fmt);
-                rowBytes = (width * bpp + 7) / 8; // round up to nearest byte
+                rowBytes = (width * bpp) / 8;
                 numRows = height;
             }
 
@@ -588,12 +588,20 @@ namespace HeroesPowerPlant
                 {
                     byte color = j;
                     if ((format & TextureRasterFormat.RASTER_PAL4) != 0)
+                    {
                         color = (byte)(j & 0x0F);
-
-                    newData.Add(palette[color].B);
-                    newData.Add(palette[color].G);
-                    newData.Add(palette[color].R);
-                    newData.Add(palette[color].A);
+                        newData.Add(palette[color].B);
+                        newData.Add(palette[color].G);
+                        newData.Add(palette[color].R);
+                        newData.Add(palette[color].A);
+                    }
+                    else
+                    {
+                        newData.Add(palette[color].B);
+                        newData.Add(palette[color].G);
+                        newData.Add(palette[color].R);
+                        newData.Add(palette[color].A);
+                    }
                 }
 
                 newMipMaps[i].dataSize = newData.Count;
@@ -958,11 +966,11 @@ namespace HeroesPowerPlant
                 //    format = Format.B4G4R4A4_UNorm;
                 //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C555) != 0)
                 //    format = Format.B5G5R5A1_UNorm;
-                //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C565) != 0)
-                //    format = Format.B5G6R5_UNorm;
-                if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C888) != 0)
+                if ((tnStruct.rasterFormatFlags & (TextureRasterFormat)0x0F00) == TextureRasterFormat.RASTER_C565)
+                    format = Format.B5G6R5_UNorm;
+                if ((tnStruct.rasterFormatFlags & (TextureRasterFormat)0x0F00) == TextureRasterFormat.RASTER_C8888)
                     format = Format.B8G8R8A8_UNorm;
-                else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_C8888) != 0)
+                if ((tnStruct.rasterFormatFlags & (TextureRasterFormat)0x0F00) == TextureRasterFormat.RASTER_C888)
                     format = Format.B8G8R8A8_UNorm;
                 //else if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_D16) != 0)
                 //    format = Format.D16_UNorm;
@@ -985,25 +993,13 @@ namespace HeroesPowerPlant
             if (format == Format.Unknown)
                 throw new Exception(tnStruct.textureName);
             
-            Texture2DDescription textureDesc = new Texture2DDescription()
-            {
-                MipLevels = tnStruct.mipMapCount,
-                Format = format,
-                Width = tnStruct.width,
-                Height = tnStruct.height,
-                ArraySize = 1,
-                BindFlags = BindFlags.ShaderResource,
-                Usage = ResourceUsage.Default,
-                SampleDescription = new SampleDescription(1, 0),
-                OptionFlags = ResourceOptionFlags.None,
-            };
-
             MipMapEntry[] mipMaps;
 
             if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL4) != 0 | (tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL8) != 0)
             {
                 mipMaps = ConvertFromPalette(tnStruct.mipMaps, tnStruct.mipMapCount, tnStruct.rasterFormatFlags, tnStruct.palette);
-                format = Format.B8G8R8A8_UNorm;
+                if (tnStruct.platformType == 5)
+                    format = Format.R8G8B8A8_UNorm;
             }
             else
                 mipMaps = tnStruct.mipMaps;
@@ -1015,7 +1011,18 @@ namespace HeroesPowerPlant
             {
                 try
                 {
-                    buffer = new Texture2D(device.Device, textureDesc, dataRectangles);
+                    buffer = new Texture2D(device.Device, new Texture2DDescription()
+                    {
+                        MipLevels = tnStruct.mipMapCount,
+                        Format = format,
+                        Width = tnStruct.width,
+                        Height = tnStruct.height,
+                        ArraySize = 1,
+                        BindFlags = BindFlags.ShaderResource,
+                        Usage = ResourceUsage.Default,
+                        SampleDescription = new SampleDescription(1, 0),
+                        OptionFlags = ResourceOptionFlags.None,
+                    }, dataRectangles);
                 }
                 catch
                 {

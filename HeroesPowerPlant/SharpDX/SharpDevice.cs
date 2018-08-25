@@ -145,7 +145,7 @@ namespace HeroesPowerPlant
                 SampleDescription = new SampleDescription(1, 0),
                 BindFlags = BindFlags.DepthStencil
             });
-                        
+
             // Create the view for binding to the device.
             _zbufferView = new DepthStencilView(Device, depthBuffer,
                 new DepthStencilViewDescription()

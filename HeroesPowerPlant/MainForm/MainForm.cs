@@ -17,12 +17,10 @@ namespace HeroesPowerPlant.MainForm
             InitializeComponent();
 
             showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
+            
+            LostFocus += new EventHandler(MainForm_LostFocus);
+            GotFocus += new EventHandler(MainForm_GotFocus);
 
-#if DEBUG
-            debugToolStripMenuItem.Visible = true;
-#else
-            debugToolStripMenuItem.Visible = false;
-#endif
             renderer = new SharpRenderer(renderPanel);
         }
 
@@ -247,7 +245,7 @@ namespace HeroesPowerPlant.MainForm
                 if (e.Button == MouseButtons.Right)
                 {
                     renderer.Camera.AddPositionSideways(deltaX);
-                    renderer.Camera.MoveUp(deltaY);
+                    renderer.Camera.AddPositionUp(deltaY);
                 }
 
                 Program.LayoutEditor.MouseMoveX(renderer.Camera, deltaX);
@@ -357,14 +355,14 @@ namespace HeroesPowerPlant.MainForm
             if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ControlKey))
                 renderer.Camera.AddPitch(-0.1f);
             else if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ShiftKey))
-                renderer.Camera.MoveUp(1f);
+                renderer.Camera.AddPositionUp(1f);
             else if (PressedKeys.Contains(Keys.W))
                 renderer.Camera.AddPositionForward(1f);
 
             if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ControlKey))
                 renderer.Camera.AddPitch(0.1f);
             else if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ShiftKey))
-                renderer.Camera.MoveDown(1f);
+                renderer.Camera.AddPositionUp(-1f);
             else if (PressedKeys.Contains(Keys.S))
                 renderer.Camera.AddPositionForward(-1f);
 
@@ -644,7 +642,7 @@ namespace HeroesPowerPlant.MainForm
         {
             OpenFileDialog openTXD = new OpenFileDialog()
             {
-                Filter = "TXD files|*.txd"
+                Filter = "All supported filetypes|*.txd;*.one|TXD files|*.txd|ONE files|*.one"
             };
             if (openTXD.ShowDialog() == DialogResult.OK)
                 TextureManager.LoadTexturesFromTXD(openTXD.FileName);
@@ -657,12 +655,49 @@ namespace HeroesPowerPlant.MainForm
                 IsFolderPicker = true
             };
             if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
-                TextureManager.LoadTexturesFromTXD(openFile.FileName);
+                TextureManager.LoadTexturesFromFolder(openFile.FileName);
         }
 
         private void clearTXDsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TextureManager.ClearTextures();
+        }
+        
+        private void SetAllTopMost(bool value)
+        {
+            Program.ViewConfig.TopMost = value;
+            Program.ConfigEditor.TopMost = value;
+            Program.LevelEditor.TopMost = value;
+            Program.CollisionEditor.TopMost = value;
+            Program.LayoutEditor.TopMost = value;
+            Program.SplineEditor.TopMost = value;
+            Program.CameraEditor.TopMost = value;
+            Program.ParticleEditor.TopMost = value;
+            Program.TexturePatternEditor.TopMost = value;
+
+            allTopMost = value;
+        }
+
+        bool allTopMost = true;
+
+        private void MainForm_LostFocus(object sender, EventArgs e)
+        {
+            if (allTopMost)
+                SetAllTopMost(false);
+        }
+
+        private void MainForm_GotFocus(object sender, EventArgs e)
+        {
+            if (!allTopMost)
+                SetAllTopMost(true);
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+                renderer.dontRender = true;
+            else
+                renderer.dontRender = false;
         }
     }
 }

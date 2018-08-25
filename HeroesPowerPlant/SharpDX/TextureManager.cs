@@ -1,9 +1,10 @@
-﻿using RenderWareFile;
-using RenderWareFile.Sections;
-using SharpDX.Direct3D11;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using SharpDX.Direct3D11;
+using HeroesONE_R.Structures;
+using HeroesONE_R.Structures.Subsctructures;
+using RenderWareFile;
+using RenderWareFile.Sections;
 
 namespace HeroesPowerPlant
 {
@@ -24,29 +25,56 @@ namespace HeroesPowerPlant
         {
             if (Textures.ContainsKey(textureName))
                 return Textures[textureName];
-            return null;
+            return SharpRenderer.whiteDefault;
         }
 
-        public static void LoadTexturesFromTXD(string fileName)
+        public static void LoadTexturesFromTXD(string filePath)
         {
-            OpenTXDfiles.Add(fileName);
-            RWSection[] file = ReadFileMethods.ReadRenderWareFile(fileName);
-            LoadTexturesFromTXD(fileName, file);
-        }
+            OpenTXDfiles.Add(filePath);
 
-        public static void LoadTexturesFromTXD(string fileName, byte[] txdData)
+            //try
+            {
+                if (Path.GetExtension(filePath).ToLower().Equals(".one"))
+                {
+                    byte[] oneFile = File.ReadAllBytes(filePath);
+                    Archive archive = Archive.FromONEFile(ref oneFile);
+
+                    foreach (ArchiveFile archiveFile in archive.Files)
+                    {
+                        if (Path.GetExtension(archiveFile.Name).ToLower().Equals(".txd"))
+                        {
+                            RWSection[] txdFile = ReadFileMethods.ReadRenderWareFile(archiveFile.DecompressThis());
+                            LoadTexturesFromTXD(txdFile);
+                        }
+                    }
+                }
+                else if (Path.GetExtension(filePath).ToLower().Equals(".txd"))
+                {
+                    RWSection[] file = ReadFileMethods.ReadRenderWareFile(filePath);
+                    LoadTexturesFromTXD(file);
+                }
+                else throw new InvalidDataException(filePath);
+            }
+            //catch (Exception ex)
+            //{
+            //    System.Windows.Forms.MessageBox.Show("Error opening" + filePath + ": " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            //    OpenTXDfiles.Remove(filePath);
+            //}
+        }
+    
+        public static void LoadTexturesFromTXD(byte[] txdData)
         {
             RWSection[] file = ReadFileMethods.ReadRenderWareFile(txdData);
-            LoadTexturesFromTXD(fileName, file);
+            LoadTexturesFromTXD(file);
         }
 
-        public static void LoadTexturesFromTXD(string fileName, RWSection[] txdFile)
+        public static void LoadTexturesFromTXD(RWSection[] txdFile)
         {
-            foreach (RWSection rw in txdFile)
-                if (rw is TextureDictionary_0016 td)
-                    foreach (TextureNative_0015 tn in td.textureNativeList)
-                        AddTextureNative(tn.textureNativeStruct);
-
+                foreach (RWSection rw in txdFile)
+                    if (rw is TextureDictionary_0016 td)
+                        foreach (TextureNative_0015 tn in td.textureNativeList)
+                            AddTextureNative(tn.textureNativeStruct);
+            
             ReapplyTextures();
         }
 
@@ -114,7 +142,8 @@ namespace HeroesPowerPlant
                             {
                                 if (sub.DiffuseMap != null)
                                     if (!sub.DiffuseMap.IsDisposed)
-                                        sub.DiffuseMap.Dispose();
+                                        if (sub.DiffuseMap != SharpRenderer.whiteDefault)
+                                            sub.DiffuseMap.Dispose();
 
                                 sub.DiffuseMap = Textures[sub.DiffuseMapName];
                             }
@@ -123,7 +152,8 @@ namespace HeroesPowerPlant
                         {
                             if (sub.DiffuseMap != null)
                                 if (!sub.DiffuseMap.IsDisposed)
-                                    sub.DiffuseMap.Dispose();
+                                    if (sub.DiffuseMap != SharpRenderer.whiteDefault)
+                                        sub.DiffuseMap.Dispose();
 
                             sub.DiffuseMap = SharpRenderer.whiteDefault;
                         }

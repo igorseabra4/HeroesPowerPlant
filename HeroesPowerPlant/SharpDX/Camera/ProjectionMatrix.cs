@@ -24,6 +24,16 @@ namespace HeroesPowerPlant
         private Matrix _projectionMatrix;
         private bool _validProjectonMatrix;
 
+        public ProjectionMatrix()
+        {
+        }
+
+        public ProjectionMatrix(float farPlane, float fieldOfView)
+        {
+            FarPlane = farPlane;
+            FieldOfView = fieldOfView;
+        }
+
         /////////////
         // Properties
         /////////////

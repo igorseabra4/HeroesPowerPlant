@@ -10,20 +10,6 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant
 {
-    public struct DefaultRenderData
-    {
-        public Matrix worldViewProjection;
-        public Vector4 Color;
-    }
-
-    public struct CollisionRenderData
-    {
-        public Matrix viewProjection;
-        public Vector4 ambientColor;
-        public Vector4 lightDirection;
-        public Vector4 lightDirection2;
-    }
-
     public class SharpRenderer
     {
         public SharpDevice device;
@@ -43,10 +29,10 @@ namespace HeroesPowerPlant
             device = new SharpDevice(control, false);
             LoadModels();
 
-            
-
-            sharpFPS = new SharpFPS();
-            sharpFPS.FPSLimit = float.MaxValue;
+            sharpFPS = new SharpFPS
+            {
+                FPSLimit = float.MaxValue
+            };
             Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
 
             SetSharpShader();
@@ -113,10 +99,12 @@ namespace HeroesPowerPlant
         public void LoadTexture()
         {
             if (whiteDefault != null)
-                if (!whiteDefault.IsDisposed)
-                    whiteDefault.Dispose();
-
-            whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
+            {
+                if (whiteDefault.IsDisposed)
+                    whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
+            }
+            else
+                whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
         }
 
         private DefaultRenderData cubeRenderData;

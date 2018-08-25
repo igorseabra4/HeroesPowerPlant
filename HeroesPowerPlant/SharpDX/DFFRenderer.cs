@@ -81,7 +81,7 @@ namespace HeroesPowerPlant
             else if (Path.GetExtension(j.Name).ToLower().Equals(".txd"))
             {
                 byte[] txdData = j.DecompressThis();
-                TextureManager.LoadTexturesFromTXD(j.Name, txdData);
+                TextureManager.LoadTexturesFromTXD(txdData);
             }
         }
 

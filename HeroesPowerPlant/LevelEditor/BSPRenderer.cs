@@ -166,11 +166,11 @@ namespace HeroesPowerPlant
                     }
                     else if (fileName.Contains("gdt"))
                     {
-                        // OpenShadowGDTONE = new HeroesONEFile(fileName);
+                        DFFRenderer.AddDFFFiles(new string[] { fileName });
                     }
                     else if (fileName.Contains("tex"))
                     {
-                        // OpenShadowTexONE = new HeroesONEFile(fileName);
+                        TextureManager.LoadTexturesFromTXD(fileName);
                     }
             }
 
