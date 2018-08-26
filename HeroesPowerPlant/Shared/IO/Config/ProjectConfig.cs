@@ -22,6 +22,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public string CameraEditorPath { get; set; }
         public string ParticleEditorPath { get; set; }
         public string TexturePatternEditorPath { get; set; }
+        public string SetIdTableEditorPath { get; set; }
+        public bool SetIdTableEditorIsShadow { get; set; }
         public HashSet<string> DFFONEPaths { get; set; }
         public HashSet<string> TXDPaths { get; set; }
         public HashSet<string> TextureFolderPaths { get; set; }
@@ -111,6 +113,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 CameraEditorPath = Program.CameraEditor.CurrentCameraFile,
                 ParticleEditorPath = Program.ParticleEditor.GetCurrentlyOpenParticleFile(),
                 TexturePatternEditorPath = Program.TexturePatternEditor.GetCurrentlyOpenTXC(),
+                SetIdTableEditorPath = Program.SetIdTableEditor.GetCurrentFileName(),
+                SetIdTableEditorIsShadow = Program.SetIdTableEditor.GetIsShadow(),
                 TXDPaths = TextureManager.OpenTXDfiles,
                 TextureFolderPaths = TextureManager.OpenTextureFolders,
 
@@ -165,6 +169,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
             ExecuteIfFilePresent($"Camera Editor error: file not found: {config.CameraEditorPath}", "Error", config.CameraEditorPath, path => Program.CameraEditor.OpenFile(path));
             ExecuteIfFilePresent($"Particle Editor error: file not found: {config.ParticleEditorPath}", "Error", config.ParticleEditorPath, path => Program.ParticleEditor.OpenFile(path));
             ExecuteIfFilePresent($"Texture Pattern Editor error: file not found: {config.TexturePatternEditorPath}", "Error", config.TexturePatternEditorPath, path => Program.TexturePatternEditor.OpenFile(path));
+            ExecuteIfFilePresent($"SET ID Table Editor error: file not found: {config.SetIdTableEditorPath}", "Error", config.SetIdTableEditorPath, path => Program.SetIdTableEditor.OpenExternal(path, config.SetIdTableEditorIsShadow));
 
             if (config.CameraSettings != null)
                 renderer.Camera.ApplyConfig(config.CameraSettings);

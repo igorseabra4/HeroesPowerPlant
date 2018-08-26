@@ -19,6 +19,7 @@ namespace HeroesPowerPlant
         public static CameraEditor.CameraEditor CameraEditor;
         public static ParticleEditor.ParticleMenu ParticleEditor;
         public static TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
+        public static SetIdTableEditor.SetIdTableEditor SetIdTableEditor;
 
         /// <summary>
         /// Ponto de entrada principal para o aplicativo.
@@ -42,6 +43,7 @@ namespace HeroesPowerPlant
             CameraEditor = new CameraEditor.CameraEditor();
             ParticleEditor = new ParticleEditor.ParticleMenu();
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
+            SetIdTableEditor = new SetIdTableEditor.SetIdTableEditor();
 
             Application.Run(MainForm);
         }

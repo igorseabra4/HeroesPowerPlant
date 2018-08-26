@@ -176,6 +176,15 @@
     <Compile Include="ConfigEditor\EndPositionEntry.cs" />
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="LayoutEditor\Gizmo.cs" />
+    <Compile Include="SetIdTableEditor\SetIdTableEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetIdTableEditor\SetIdTableEditor.designer.cs">
+      <DependentUpon>SetIdTableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetIdTableEditor\SetIdTableFunctions.cs" />
+    <Compile Include="SetIdTableEditor\StageEntry.cs" />
+    <Compile Include="SetIdTableEditor\TableEntry.cs" />
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
     <Compile Include="SharpDX\Camera\CameraVectors.cs" />
     <Compile Include="SharpDX\Camera\ProjectionMatrix.cs" />
@@ -414,6 +423,9 @@
     <EmbeddedResource Include="ConfigEditor\ConfigEditor.resx">
       <DependentUpon>ConfigEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SetIdTableEditor\SetIdTableEditor.resx">
+      <DependentUpon>SetIdTableEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SplineEditor\SplineEditor.resx">
       <DependentUpon>SplineEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -505,16 +517,10 @@
     <None Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Tools\Resources\ObjectList.ini">
+    <None Include="Resources\Lists\ShadowStageList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Tools\Resources\ShadowObjectList.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\Resources\ShadowStageList.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\Resources\StageList.ini">
+    <None Include="Resources\Lists\HeroesStageList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -526,9 +532,6 @@
     <Content Include="Resources\SharpDX\Shader_Tinted.hlsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Tools\HeroesSETIDTBLEditor.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Tools\HeroesSPLTool.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -536,9 +539,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tools\Reloaded Generic Stage Injection Mod\readme.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\ShadowSETIDTableEditor.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\AboutImage.png" />

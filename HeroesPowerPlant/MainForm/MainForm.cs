@@ -86,6 +86,7 @@ namespace HeroesPowerPlant.MainForm
                 Program.CameraEditor.New();
                 Program.ParticleEditor.New();
                 Program.TexturePatternEditor.New();
+                Program.SetIdTableEditor.New();
                 DFFRenderer.ClearObjectONEFiles();
                 TextureManager.ClearTextures();
                 renderer.Camera.Reset();
@@ -193,6 +194,11 @@ namespace HeroesPowerPlant.MainForm
         private void texturePatternEditorF9ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Program.TexturePatternEditor.Show();
+        }
+
+        private void sETIDTableEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.SetIdTableEditor.Show();
         }
 
         public void EnableSplineEditor()
@@ -674,6 +680,7 @@ namespace HeroesPowerPlant.MainForm
             Program.CameraEditor.TopMost = value;
             Program.ParticleEditor.TopMost = value;
             Program.TexturePatternEditor.TopMost = value;
+            Program.SetIdTableEditor.TopMost = value;
 
             allTopMost = value;
         }

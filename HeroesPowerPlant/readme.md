@@ -21,7 +21,7 @@
 
 ## Project:
 A project JSON is Heroes Power Plant's way of saving a group of file paths and settings - this way, when you're editing your level, you don't have to open all your files individually again. When you save a Project, the following data is saved and reapllied when opened:
-* Paths for the Config, Level, Visibility, Collision, Layout, Camera, Particle and Pattern editors
+* Paths for the Config, Level, Visibility, Collision, Layout, Camera, Particle, Pattern and SET ID Table editors
 * TXD files, texture folders and object ONEs
 * No culling, wireframe, background and selection colors
 * Which items are being displayed (on/off)
@@ -170,3 +170,12 @@ The texture pattern editor allows you to add, remove and modify texture pattern 
 * The texture number is the number of the texture that will be set in that frame (the number after the dot at the end of the image name).
 * You can have multiple entries (with different texture names) which use the same images (same animation name), but with different frame counts and key frames (such as an animation which plays in a different speed, starts on a different frame, or even a different frame order).
 * Note: the animations are only playing at the correct speed if the FPS is 60.
+
+## SET ID Table Editor
+The SET ID Table Editor allows you to edit the object avaliability setidtbl.bin (Heroes) or setid.bin (Shadow) file.
+* You can open an existing SET ID Table file, but you can't create a new one. Object entries cannot be added or removed from the file either.
+* You can, hoewever, choose in which stages that specific layout object will be available for placement.
+* If you wish to use a layout object in a level, it must be enabled for that level, otherwise the game will crash.
+* Note that enabling an object in the SET ID Table Editor is not enough for it to work ingame. All of the object's models and animations must be present in the s**obj.one file, and in many cases specific textures are also needed.
+* Also, not all objects will work properly in level slots they were not intended to. They might use different sounds, particle effects, or simply not work at all.
+* The AutoLevel function will get the object entries from the currently opened Layout Editor file and apply them as available on the stage you have selected on the box. Use this with caution, as you might enable an object and forget to put its required files in the s*obj.one.

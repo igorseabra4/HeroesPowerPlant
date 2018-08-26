@@ -60,10 +60,42 @@ namespace HeroesPowerPlant.LayoutEditor
             return CurrentlySelectedIndex;
         }
 
+        public IEnumerable<ObjectEntry> GetAllObjectEntries()
+        {
+            List<ObjectEntry> list = new List<ObjectEntry>();
+            list.AddRange(heroesObjectEntries);
+            list.AddRange(shadowObjectEntries);
+
+            return list;
+        }
+
         public ObjectEntry[] GetActiveObjectEntries()
         {
             if (isShadow) return shadowObjectEntries;
             else return heroesObjectEntries;
+        }
+
+        public ObjectEntry[] GetHeroesObjectEntries()
+        {
+            return heroesObjectEntries;
+        }
+
+        public ObjectEntry[] GetShadowObjectEntries()
+        {
+            return shadowObjectEntries;
+        }
+
+        public ObjectEntry[] GetAllCurrentObjectEntries()
+        {
+            HashSet<ObjectEntry> objectEntries = new HashSet<ObjectEntry>();
+
+            foreach (SetObject s in setObjects)
+            {
+                if (!objectEntries.Contains(s.objectEntry))
+                    objectEntries.Add(s.objectEntry);
+            }
+
+            return objectEntries.ToArray();
         }
 
         public void NewHeroesLayout()
@@ -160,15 +192,6 @@ namespace HeroesPowerPlant.LayoutEditor
         #endregion
 
         #region View/Rendering Methods
-
-        public IEnumerable<ObjectEntry> GetAllObjectEntries()
-        {
-            List<ObjectEntry> list = new List<ObjectEntry>();
-            list.AddRange(heroesObjectEntries);
-            list.AddRange(shadowObjectEntries);
-
-            return list;
-        }
 
         public void ViewHere()
         {

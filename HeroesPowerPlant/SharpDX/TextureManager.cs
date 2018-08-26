@@ -5,6 +5,7 @@ using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using RenderWareFile.Sections;
+using System;
 
 namespace HeroesPowerPlant
 {
@@ -32,7 +33,7 @@ namespace HeroesPowerPlant
         {
             OpenTXDfiles.Add(filePath);
 
-            //try
+            try
             {
                 if (Path.GetExtension(filePath).ToLower().Equals(".one"))
                 {
@@ -55,11 +56,11 @@ namespace HeroesPowerPlant
                 }
                 else throw new InvalidDataException(filePath);
             }
-            //catch (Exception ex)
-            //{
-            //    System.Windows.Forms.MessageBox.Show("Error opening" + filePath + ": " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-            //    OpenTXDfiles.Remove(filePath);
-            //}
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Error opening" + filePath + ": " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                OpenTXDfiles.Remove(filePath);
+            }
         }
     
         public static void LoadTexturesFromTXD(byte[] txdData)
@@ -91,13 +92,7 @@ namespace HeroesPowerPlant
             else
                 Textures.Add(tnStruct.textureName, Program.MainForm.renderer.device.LoadTextureFromRenderWareNative(tnStruct));
         }
-
-        public static void LoadTexturesFromFolder(HashSet<string> fileNames)
-        {
-            foreach (string s in fileNames)
-                LoadTexturesFromFolder(s);
-        }
-
+        
         public static void LoadTexturesFromFolder(string folderName)
         {
             OpenTextureFolders.Add(folderName);

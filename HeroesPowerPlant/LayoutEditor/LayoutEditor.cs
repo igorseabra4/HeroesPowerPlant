@@ -486,6 +486,21 @@ namespace HeroesPowerPlant.LayoutEditor
             return layoutSystem.GetAllObjectEntries();
         }
 
+        public ObjectEntry[] GetHeroesObjectEntries()
+        {
+            return layoutSystem.GetHeroesObjectEntries();
+        }
+
+        public ObjectEntry[] GetShadowObjectEntries()
+        {
+            return layoutSystem.GetShadowObjectEntries();
+        }
+
+        public ObjectEntry[] GetAllCurrentObjectEntries()
+        {
+            return layoutSystem.GetAllCurrentObjectEntries();
+        }
+
         // Gizmos
         private Gizmo[] gizmos;
         private bool DrawGizmos = false;
