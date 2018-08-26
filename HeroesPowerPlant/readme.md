@@ -58,16 +58,16 @@ In the resources tab, you can open or clear the currently loaded textures and ob
 * Auto-Save Project on Closing: if this is on, Heroes Power Plant will automatically save the Project file when closing, if one is open.
 If these two last settings are on, you can close the program and when you open it again it will be showing the exact same it was before.
 
-## View Config (F1) =
+## View Config (F1)
 Press F1 or click the status bar to display the view config window. Here you can set the view's position, rotation, movement speed (interval), draw distance, field of view and height to display the quadtree.
 
-## Mod Loader Config Editor (F2) =
+## Mod Loader Config Editor (F2)
 * This editor allows you to create a new or open an existing Stage.json configuration file for the default Reloaded Mod Loader Generic Stage Injection Mod.
 * You can choose a level preset (required for the correct spline and position pointers to be saved) and edit start positions, ending positions and bragging positions for all teams. You can get the original positions from the EXE using Heroes Tweaker.
 * Note that splines will not work on levels which did not previously contain them.
 * You can open Config.cc files (legacy Heroes Mod Loader Generic Stage Injection Mod) as well, but not save them.
 
-## Level Editor (F3) =
+## Level Editor (F3)
 * For Heroes: this tool allows you to create new, open and edit .ONE level model archives and *_blk.bin visibility files.
 * For Shadow: this tool allows you to create new, open and edit stage folders which contain level models and collision files.
 Note that the level editor only works on the PC, XBOX and GameCube versions of Heroes and Shadow; it can't display or extract the models from the PS2 versions, but can import new ones for it.
