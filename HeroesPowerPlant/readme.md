@@ -88,18 +88,18 @@ Note that the level editor only works on the PC, XBOX and GameCube versions of H
 ### Shadow Collision Editor:
 The Shadow collision editor allows you to import OBJ files for Shadow collision, which will be converted to BSP.
 * Append one of the following letters to the material names (not mesh names, not texture names!) in your 3D model editor to set up collision flags:
-	*_a - angled wall
-	*_c - ceiling
-	*_f - normal floor/wall
-	*_fm - metal floor/wall
-	*_fs - stone floor/wall
-	*_g - green goo
-	*_i - invisible wall
-	*_i2 - another invisible wall
-	*_k - protection barrier (ground-only wall)
-	*_m - metal floor
-	*_t - triangle jumpable wall
-	*_x - death collision
+	* _a - angled wall
+	* _c - ceiling
+	* _f - normal floor/wall
+	* _fm - metal floor/wall
+	* _fs - stone floor/wall
+	* _g - green goo
+	* _i - invisible wall
+	* _i2 - another invisible wall
+	* _k - protection barrier (ground-only wall)
+	* _m - metal floor
+	* _t - triangle jumpable wall
+	* _x - death collision
 * You can double click on a BSP to rename it.
 
 ## Collision Editor (F4)
@@ -110,16 +110,16 @@ The collision editor allows you to import an OBJ file, which will be converted t
 * Import OBJ: lets you choose an OBJ file to import and overwrite the current CL.
 *  You can choose the maximum depth of the quadtree or let it be chosen automatically (I recommend setting it to 5).
 *  Append one of the following letters to the mesh names (not material names, not texture names!) in your 3D model editor to set up collision flags:
-	*_a - water collision (for _wt.CL)
-	*_b - bingo slide
-	*_i - invisible wall
-	*_k - protection barrier (ground-only wall)
-	*_l - slippery wall
-	*_p - pinball Table
-	*_s - stairs
-	*_t - triangle jumpable wall
-	*_w - wall
-	*_x - death collision (for _xx.CL)
+	* _a - water collision (for _wt.CL)
+	* _b - bingo slide
+	* _i - invisible wall
+	* _k - protection barrier (ground-only wall)
+	* _l - slippery wall
+	* _p - pinball Table
+	* _s - stairs
+	* _t - triangle jumpable wall
+	* _w - wall
+	* _x - death collision (for _xx.CL)
 * Note: if your collision model appears completely black after importing, just open the file again and it should display correctly.
 * If you're looking at _xx (death) or _wt (water) models, normals are reversed, so you should disable culling as the models will show up upside down.
 * To import _xx or _wt, append the appropriate flag to the mesh names, check "flip normals" and set the quadtree depth to 1 or 2 before importing.
