@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using System;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.CameraEditor
 {
@@ -105,7 +106,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         private static DefaultRenderData renderData;
 
-        private Matrix cameraWorld;
+        private Matrix triggerPosWorld;
         private Matrix pointAWorld;
         private Matrix pointBWorld;
         private Matrix pointCWorld;
@@ -122,24 +123,24 @@ namespace HeroesPowerPlant.CameraEditor
         public void CreateBounding()
         {
             boundingBox = new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-            boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, cameraWorld);
-            boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, cameraWorld);
+            boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, triggerPosWorld);
+            boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, triggerPosWorld);
 
-            boundingSphere = new BoundingSphere(CamPos, Math.Max(Math.Max(TriggerScale.X, TriggerScale.Y), TriggerScale.Z));
+            boundingSphere = new BoundingSphere(TriggerPosition, Math.Max(Math.Max(TriggerScale.X, TriggerScale.Y), TriggerScale.Z));
         }
 
         public void CreateTransformMatrix()
         {
             if (TriggerShape == 1) //plane
-                cameraWorld = Matrix.Scaling(TriggerScale.X, TriggerScale.Y, 1f);
+                triggerPosWorld = Matrix.Scaling(TriggerScale.X, TriggerScale.Y, 1f);
             else if (TriggerShape == 3) // cube
-                cameraWorld = Matrix.Scaling(TriggerScale);
+                triggerPosWorld = Matrix.Scaling(TriggerScale);
             else if (TriggerShape == 4) // cyl
-                cameraWorld = Matrix.Scaling(TriggerScale.X, TriggerScale.Y, TriggerScale.X);
+                triggerPosWorld = Matrix.Scaling(TriggerScale.X, TriggerScale.Y, TriggerScale.X);
             else // sphere
-                cameraWorld = Matrix.Scaling(TriggerScale / 2);
+                triggerPosWorld = Matrix.Scaling(TriggerScale / 2);
 
-            cameraWorld = cameraWorld
+            triggerPosWorld = triggerPosWorld
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(TriggerRotX))
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(TriggerRotY))
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(TriggerRotZ))
@@ -157,29 +158,22 @@ namespace HeroesPowerPlant.CameraEditor
         {
             if (Vector3.Distance(renderer.Camera.GetPosition(), TriggerPosition) <= 15000f)
                 if (TriggerShape == 1) //plane
-                    renderer.DrawCubeTrigger(cameraWorld, isSelected);
+                    renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
                 else if (TriggerShape == 3) // cube
-                    renderer.DrawCubeTrigger(cameraWorld, isSelected);
+                    renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
                 else if (TriggerShape == 4) // cyl
-                    renderer.DrawCylinderTrigger(cameraWorld, isSelected);
+                    renderer.DrawCylinderTrigger(triggerPosWorld, isSelected);
                 else // sphere
-                    renderer.DrawSphereTrigger(cameraWorld, isSelected);
+                    renderer.DrawSphereTrigger(triggerPosWorld, isSelected);
 
-            if (!isSelected)
-                return;
+            if (isSelected)
+            {
 
-            DrawCube(renderer, pointAWorld, Color.Red.ToVector4());
-            DrawCube(renderer, pointBWorld, Color.Blue.ToVector4());
-            DrawCube(renderer, pointCWorld, Color.Green.ToVector4());
-            DrawCube(renderer, camPosWorld, Color.Pink.ToVector4());
-        }
-
-        public float? IntersectsWith(Ray r)
-        {
-            if (r.Intersects(ref boundingBox, out float distance))
-                return distance;
-            else
-                return null;
+                DrawCube(renderer, pointAWorld, Color.Red.ToVector4());
+                DrawCube(renderer, pointBWorld, Color.Blue.ToVector4());
+                DrawCube(renderer, pointCWorld, Color.Green.ToVector4());
+                DrawCube(renderer, camPosWorld, Color.Pink.ToVector4());
+            }
         }
 
         public void DrawCube(SharpRenderer renderer, Matrix transformMatrix, Vector4 color)
@@ -203,6 +197,45 @@ namespace HeroesPowerPlant.CameraEditor
         public float GetDistance()
         {
             return TriggerPosition.Length();
+        }
+
+        public float? IntersectsWith(Ray r)
+        {
+            if (r.Intersects(ref boundingBox, out float distance))
+                if (TriangleIntersection(r))
+                    return distance;
+
+            return null;
+        }
+
+        public bool TriangleIntersection(Ray r)
+        {
+            List<Vector3> vertices;
+            List<LevelEditor.Triangle> triangles;
+
+            if (TriggerShape == 1 | TriggerShape == 3)//plane, cube
+            {
+                vertices = Program.MainForm.renderer.cubeVertices;
+                triangles = Program.MainForm.renderer.cubeTriangles;
+            }
+            else if (TriggerShape == 4) // cyl
+            {
+                vertices = Program.MainForm.renderer.cylinderVertices;
+                triangles = Program.MainForm.renderer.cylinderTriangles;
+            }
+            else
+                return r.Intersects(boundingSphere);
+
+            foreach (LevelEditor.Triangle t in triangles)
+            {
+                Vector3 v1 = (Vector3)Vector3.Transform(vertices[t.vertex1], triggerPosWorld);
+                Vector3 v2 = (Vector3)Vector3.Transform(vertices[t.vertex2], triggerPosWorld);
+                Vector3 v3 = (Vector3)Vector3.Transform(vertices[t.vertex3], triggerPosWorld);
+
+                if (r.Intersects(ref v1, ref v2, ref v3))
+                    return true;
+            }
+            return false;
         }
     }
 }

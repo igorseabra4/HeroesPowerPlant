@@ -419,9 +419,14 @@ namespace HeroesPowerPlant.CameraEditor
 
         public void RenderCameras(SharpRenderer renderer)
         {
+            Vector4 oldColor = renderer.normalColor;
+            renderer.normalColor = new Vector4(0.6f, 0.25f, 0.7f, 0.8f);
+
             foreach (CameraHeroes c in ListBoxCameras.Items)
                 if (renderer.frustum.Intersects(ref c.boundingBox))
                     c.Draw(renderer);
+
+            renderer.normalColor = oldColor;
         }
 
         public void ScreenClicked(Ray r)

@@ -74,20 +74,20 @@
             this.heroesSetidtblbinToolStripMenuItem,
             this.shadowSetidbinToolStripMenuItem});
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // heroesSetidtblbinToolStripMenuItem
             // 
             this.heroesSetidtblbinToolStripMenuItem.Name = "heroesSetidtblbinToolStripMenuItem";
-            this.heroesSetidtblbinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.heroesSetidtblbinToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.heroesSetidtblbinToolStripMenuItem.Text = "Heroes setidtbl.bin";
             this.heroesSetidtblbinToolStripMenuItem.Click += new System.EventHandler(this.heroesSetidtblbinToolStripMenuItem_Click);
             // 
             // shadowSetidbinToolStripMenuItem
             // 
             this.shadowSetidbinToolStripMenuItem.Name = "shadowSetidbinToolStripMenuItem";
-            this.shadowSetidbinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shadowSetidbinToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.shadowSetidbinToolStripMenuItem.Text = "Shadow setid.bin";
             this.shadowSetidbinToolStripMenuItem.Click += new System.EventHandler(this.shadowSetidbinToolStripMenuItem_Click);
             // 
@@ -95,7 +95,7 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -103,7 +103,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -180,9 +180,9 @@
             // buttonPerformAutoLevel
             // 
             this.buttonPerformAutoLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPerformAutoLevel.Location = new System.Drawing.Point(244, 17);
+            this.buttonPerformAutoLevel.Location = new System.Drawing.Point(244, 19);
             this.buttonPerformAutoLevel.Name = "buttonPerformAutoLevel";
-            this.buttonPerformAutoLevel.Size = new System.Drawing.Size(105, 23);
+            this.buttonPerformAutoLevel.Size = new System.Drawing.Size(105, 21);
             this.buttonPerformAutoLevel.TabIndex = 6;
             this.buttonPerformAutoLevel.Text = "Perform";
             this.buttonPerformAutoLevel.UseVisualStyleBackColor = true;

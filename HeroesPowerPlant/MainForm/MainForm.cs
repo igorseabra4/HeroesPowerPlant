@@ -290,50 +290,79 @@ namespace HeroesPowerPlant.MainForm
             if (!PressedKeys.Contains(e.KeyCode))
                 PressedKeys.Add(e.KeyCode);
 
-            if (e.KeyCode == Keys.Z)
-                MouseModeToggle();
-            else if (e.KeyCode == Keys.Q)
-                renderer.Camera.IncreaseCameraSpeed(-0.1F);
-            else if (e.KeyCode == Keys.E)
-                renderer.Camera.IncreaseCameraSpeed(0.1F);
-            else if (e.KeyCode == Keys.C)
-                ToggleCulling();
-            else if (e.KeyCode == Keys.F)
-                ToggleWireFrame();
-            else if (e.KeyCode == Keys.H)
-                ToggleRenderByChunk();
-            else if (e.KeyCode == Keys.B)
-                ToggleChunkBoxes();
-            else if (e.KeyCode == Keys.X)
-                ToggleShowCollision();
-            else if (e.KeyCode == Keys.T)
-                ToggleShowQuadtree();
-            else if (e.KeyCode == Keys.Y)
-                ToggleStartPos();
-            else if (e.KeyCode == Keys.U)
-                ToggleSplines();
-            else if (e.KeyCode == Keys.G)
-                ToggleShowObjects();
-            else if (e.KeyCode == Keys.V)
-                ToggleShowCameras();
-            else if (e.KeyCode == Keys.F1)
-                Program.ViewConfig.Show();
-            else if (e.KeyCode == Keys.F2)
-                Program.ConfigEditor.Show();
-            else if (e.KeyCode == Keys.F3)
-                Program.LevelEditor.Show();
-            else if (e.KeyCode == Keys.F4)
-                Program.CollisionEditor.Show();
-            else if (e.KeyCode == Keys.F5)
-                Program.LayoutEditor.Show();
-            else if (e.KeyCode == Keys.F6 & splineEditorToolStripMenuItem.Enabled)
-                Program.SplineEditor.Show();
-            else if (e.KeyCode == Keys.F7)
-                Program.CameraEditor.Show();
-            else if (e.KeyCode == Keys.F8)
-                Program.ParticleEditor.Show();
-            else if (e.KeyCode == Keys.F9)
-                Program.TexturePatternEditor.Show();
+            switch (e.KeyCode)
+            {
+                case Keys.Z:
+                    MouseModeToggle();
+                    break;
+                case Keys.Q:
+                    renderer.Camera.IncreaseCameraSpeed(-0.1F);
+                    break;
+                case Keys.E:
+                    renderer.Camera.IncreaseCameraSpeed(0.1F);
+                    break;
+                case Keys.C:
+                    ToggleCulling();
+                    break;
+                case Keys.F:
+                    ToggleWireFrame();
+                    break;
+                case Keys.H:
+                    ToggleRenderByChunk();
+                    break;
+                case Keys.B:
+                    ToggleChunkBoxes();
+                    break;
+                case Keys.X:
+                    ToggleShowCollision();
+                    break;
+                case Keys.T:
+                    ToggleShowQuadtree();
+                    break;
+                case Keys.Y:
+                    ToggleStartPos();
+                    break;
+                case Keys.U:
+                    ToggleSplines();
+                    break;
+                case Keys.G:
+                    ToggleShowObjects();
+                    break;
+                case Keys.V:
+                    ToggleShowCameras();
+                    break;
+                case Keys.M:
+                    ToggleSelectionMode();
+                    break;
+                case Keys.F1:
+                    Program.ViewConfig.Show();
+                    break;
+                case Keys.F2:
+                    Program.ConfigEditor.Show();
+                    break;
+                case Keys.F3:
+                    Program.LevelEditor.Show();
+                    break;
+                case Keys.F4:
+                    Program.CollisionEditor.Show();
+                    break;
+                case Keys.F5:
+                    Program.LayoutEditor.Show();
+                    break;
+                case Keys.F6:
+                    if (splineEditorToolStripMenuItem.Enabled)
+                        Program.SplineEditor.Show();
+                    break;
+                case Keys.F7:
+                    Program.CameraEditor.Show();
+                    break;
+                case Keys.F8:
+                    Program.ParticleEditor.Show();
+                    break;
+                case Keys.F9:
+                    Program.TexturePatternEditor.Show();
+                    break;
+            }
         }
 
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
@@ -441,6 +470,14 @@ namespace HeroesPowerPlant.MainForm
             objectsToolStripMenuItem.Checked = false;
         }
 
+        private void ToggleSelectionMode()
+        {
+            if (renderer.MouseModeObjects)
+                camerasToolStripMenuItem_Click(null, null);
+            else
+                objectsToolStripMenuItem_Click(null, null);
+        }
+
         private void startPosYToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleStartPos();
@@ -536,7 +573,7 @@ namespace HeroesPowerPlant.MainForm
             camerasVToolStripMenuItem.Checked = !camerasVToolStripMenuItem.Checked;
             renderer.ShowCameras = camerasVToolStripMenuItem.Checked;
         }
-
+        
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
             Program.ViewConfig.Show();

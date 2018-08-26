@@ -48,6 +48,7 @@ namespace HeroesPowerPlant.MainForm
             this.cameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.particleEditorF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.texturePatternEditorF9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sETIDTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTXDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTextureFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +81,6 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.sETIDTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -225,6 +225,13 @@ namespace HeroesPowerPlant.MainForm
             this.texturePatternEditorF9ToolStripMenuItem.Text = "Texture Pattern Editor (F9)";
             this.texturePatternEditorF9ToolStripMenuItem.Click += new System.EventHandler(this.texturePatternEditorF9ToolStripMenuItem_Click);
             // 
+            // sETIDTableEditorToolStripMenuItem
+            // 
+            this.sETIDTableEditorToolStripMenuItem.Name = "sETIDTableEditorToolStripMenuItem";
+            this.sETIDTableEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.sETIDTableEditorToolStripMenuItem.Text = "SET ID Table Editor";
+            this.sETIDTableEditorToolStripMenuItem.Click += new System.EventHandler(this.sETIDTableEditorToolStripMenuItem_Click);
+            // 
             // resourceToolStripMenuItem
             // 
             this.resourceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -240,35 +247,35 @@ namespace HeroesPowerPlant.MainForm
             // addTXDToolStripMenuItem
             // 
             this.addTXDToolStripMenuItem.Name = "addTXDToolStripMenuItem";
-            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addTXDToolStripMenuItem.Text = "Add TXD";
             this.addTXDToolStripMenuItem.Click += new System.EventHandler(this.addTXDToolStripMenuItem_Click);
             // 
             // addTextureFolderToolStripMenuItem
             // 
             this.addTextureFolderToolStripMenuItem.Name = "addTextureFolderToolStripMenuItem";
-            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addTextureFolderToolStripMenuItem.Text = "Add Texture Folder";
             this.addTextureFolderToolStripMenuItem.Click += new System.EventHandler(this.addTextureFolderToolStripMenuItem_Click);
             // 
             // clearTXDsToolStripMenuItem
             // 
             this.clearTXDsToolStripMenuItem.Name = "clearTXDsToolStripMenuItem";
-            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearTXDsToolStripMenuItem.Text = "Clear Textures";
             this.clearTXDsToolStripMenuItem.Click += new System.EventHandler(this.clearTXDsToolStripMenuItem_Click);
             // 
             // addObjectONEToolStripMenuItem1
             // 
             this.addObjectONEToolStripMenuItem1.Name = "addObjectONEToolStripMenuItem1";
-            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
+            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.addObjectONEToolStripMenuItem1.Text = "Add Object ONE";
             this.addObjectONEToolStripMenuItem1.Click += new System.EventHandler(this.addObjectONEToolStripMenuItem1_Click);
             // 
             // clearObjectONEsToolStripMenuItem1
             // 
             this.clearObjectONEsToolStripMenuItem1.Name = "clearObjectONEsToolStripMenuItem1";
-            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
+            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.clearObjectONEsToolStripMenuItem1.Text = "Clear Object ONEs";
             this.clearObjectONEsToolStripMenuItem1.Click += new System.EventHandler(this.clearObjectONEsToolStripMenuItem1_Click);
             // 
@@ -353,21 +360,21 @@ namespace HeroesPowerPlant.MainForm
             this.camerasToolStripMenuItem});
             this.mouseModeToolStripMenuItem.Name = "mouseModeToolStripMenuItem";
             this.mouseModeToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.mouseModeToolStripMenuItem.Text = "Mouse Mode";
+            this.mouseModeToolStripMenuItem.Text = "Selection Mode (M)";
             // 
             // objectsToolStripMenuItem
             // 
             this.objectsToolStripMenuItem.Checked = true;
             this.objectsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.objectsToolStripMenuItem.Name = "objectsToolStripMenuItem";
-            this.objectsToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.objectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.objectsToolStripMenuItem.Text = "Objects";
             this.objectsToolStripMenuItem.Click += new System.EventHandler(this.objectsToolStripMenuItem_Click);
             // 
             // camerasToolStripMenuItem
             // 
             this.camerasToolStripMenuItem.Name = "camerasToolStripMenuItem";
-            this.camerasToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.camerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.camerasToolStripMenuItem.Text = "Cameras";
             this.camerasToolStripMenuItem.Click += new System.EventHandler(this.camerasToolStripMenuItem_Click);
             // 
@@ -496,13 +503,6 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseUp);
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
-            // 
-            // sETIDTableEditorToolStripMenuItem
-            // 
-            this.sETIDTableEditorToolStripMenuItem.Name = "sETIDTableEditorToolStripMenuItem";
-            this.sETIDTableEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.sETIDTableEditorToolStripMenuItem.Text = "SET ID Table Editor";
-            this.sETIDTableEditorToolStripMenuItem.Click += new System.EventHandler(this.sETIDTableEditorToolStripMenuItem_Click);
             // 
             // MainForm
             // 

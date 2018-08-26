@@ -206,14 +206,22 @@ namespace HeroesPowerPlant
         public SharpMesh Sphere { get; private set; }
 
         public List<Vector3> cubeVertices;
+        public List<LevelEditor.Triangle> cubeTriangles;
+        public List<Vector3> cylinderVertices;
+        public List<LevelEditor.Triangle> cylinderTriangles;
         public List<Vector3> pyramidVertices;
         public List<LevelEditor.Triangle> pyramidTriangles;
 
         public void LoadModels()
         {
             cubeVertices = new List<Vector3>();
+            cubeTriangles = new List<LevelEditor.Triangle>();
+
+            cylinderVertices = new List<Vector3>();
+            cylinderTriangles = new List<LevelEditor.Triangle>();
+
             pyramidVertices = new List<Vector3>();
-            pyramidTriangles = new List<LevelEditor.Triangle> ();
+            pyramidTriangles = new List<LevelEditor.Triangle>();
 
             for (int i = 0; i < 4; i++)// 3; i++)
             {
@@ -229,6 +237,7 @@ namespace HeroesPowerPlant
                 {
                     vertexList.Add(new Vertex(v.Position));
                     if (i == 0) cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z) * 5);
+                    else if (i == 1) cylinderVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                     else if (i == 2) pyramidVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                 }
 
@@ -238,7 +247,9 @@ namespace HeroesPowerPlant
                     indexList.Add(t.vertex1);
                     indexList.Add(t.vertex2);
                     indexList.Add(t.vertex3);
-                    if (i == 2) pyramidTriangles.Add(t);
+                    if (i == 0) cubeTriangles.Add(t);
+                    else if (i == 1) cylinderTriangles.Add(t);
+                    else if (i == 2) pyramidTriangles.Add(t);
                 }
 
                 if (i == 0) Cube = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
@@ -253,7 +264,7 @@ namespace HeroesPowerPlant
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
             if (MouseModeObjects & ShowObjects != CheckState.Unchecked)
                 Program.LayoutEditor.ScreenClicked(this, ray, isMouseDown, ShowObjects == CheckState.Checked);
-            else if (ShowCameras)
+            else if (ShowCameras & !isMouseDown)
                 Program.CameraEditor.ScreenClicked(ray);
         }
 

@@ -212,6 +212,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
         private void buttonPerformAutoLevel_Click(object sender, EventArgs e)
         {
             if (comboBoxAutoLevel.SelectedItem != null)
+            {
                 for (int i = 0; i < comboBoxTableEntries.Items.Count; i++)
                     foreach (ObjectEntry o in Program.LayoutEditor.GetAllCurrentObjectEntries())
                         if ((comboBoxTableEntries.Items[i] as TableEntry).objectEntry.List == o.List & (comboBoxTableEntries.Items[i] as TableEntry).objectEntry.Type == o.Type)
@@ -220,6 +221,10 @@ namespace HeroesPowerPlant.SetIdTableEditor
                             (comboBoxTableEntries.Items[i] as TableEntry).values1 = (comboBoxTableEntries.SelectedItem as TableEntry).values1 | (comboBoxAutoLevel.SelectedItem as StageEntry).flag1;
                             (comboBoxTableEntries.Items[i] as TableEntry).values2 = (comboBoxTableEntries.SelectedItem as TableEntry).values2 | (comboBoxAutoLevel.SelectedItem as StageEntry).flag2;
                         }
+
+                if (comboBoxTableEntries.SelectedItem != null)
+                    comboBoxTableEntries_SelectedIndexChanged(null, null);
+            }
 
         }
     }
