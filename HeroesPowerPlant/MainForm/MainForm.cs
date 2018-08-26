@@ -402,7 +402,7 @@ namespace HeroesPowerPlant.MainForm
         {
             ColorDialog colorDialog = new ColorDialog();
             if (colorDialog.ShowDialog() == DialogResult.OK)
-                renderer.backgroundColor = new Color(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, colorDialog.Color.A);
+                renderer.backgroundColor = new Color(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, (byte)(renderer.backgroundColor.Alpha * 255));
         }
 
         private void selectionColorToolStripMenuItem_Click(object sender, EventArgs e)
