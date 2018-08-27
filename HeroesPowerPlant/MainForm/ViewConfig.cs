@@ -117,6 +117,7 @@ namespace HeroesPowerPlant.MainForm
             {
                 UpdateValues();
                 _updateViewValuesThread = new Thread(UpdateGUIValues);
+                _updateViewValuesThread.IsBackground = true;
                 _updateViewValuesThread.Start();
             }
             else
