@@ -11,8 +11,8 @@ Here's how to set it up:
 6. There's a default folder named "0" there. Rename it to your stage's name (for example, My Stage). You should see files named dummy.txt inside the folders. You can delete those files.
 7. This is the folder where you'll save Heroes Power Plant's Config Editor's Stage.json (it must be named exactly Stage.json).
 8. The \Splines\ folder will contain the stage's splines. Don't mess with this folder, let Heroes Power Plant's Spline Editor manage it. It'll be created automatically if needed.
-9. The \Files\ folder is where all the stage's files will go. This is the equivalent of dvdroot. For example, s**.one files would go straight into \Files\. s**.txd would go in \Files\textures\ and s**.cl would go into \Files\collisions.
+9. The \Files\ folder is where all the stage's files will go. This is the equivalent of dvdroot. For example, s**.one files would go straight into \Files\. s**.txd would go in \Files\textures\ and s**.cl would go into \Files\collisions\.
 10. Reloaded Mod Loader should find the mod and allow you to enable it. All file redirection, start/ending/bragging position replacement and spline replacement should happen automatically if you set up everything correctly.
-11. Files will be updated in real time, so you can edit them without closing the game. You need to quit and reenter the stage to see the changes.
+11. Files will be updated in real time, so you can edit them without closing the game. You need to quit and reenter the stage to see the changes. Changes on splines and start positions require you to close the game though.
 
 Note: if you're working with multiple stages in the same mod, be sure to have only one setidtbl.bin file which is common to all of them. This file is loaded by all stages and the mod will not solve conflicts if there are different setidtbl.bin files in multiple stage folders.

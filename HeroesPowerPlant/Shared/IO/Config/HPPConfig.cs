@@ -54,7 +54,11 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public HPPConfig Load(SharpRenderer renderer)
         {
             if (!File.Exists(ConfigPath))
+            {
                 Save();
+                System.Windows.Forms.MessageBox.Show("It appears this is your first time using Heroes Power Plant.\nIf you haven't yet, please check out readme.md as that file has useful info regarding use of the program.\nThere are also tutorials available on YouTube and Sonic Retro.");
+                Program.AboutBox.Show();
+            }
 
             string fileText = File.ReadAllText(ConfigPath);
             Instance = JsonConvert.DeserializeObject<HPPConfig>(fileText);

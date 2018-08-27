@@ -15,6 +15,7 @@ namespace HeroesPowerPlant.MainForm
             this.labelCompanyName.Text = AssemblyCompany;
             ComponentResourceManager resources = new ComponentResourceManager(typeof(AboutBox));
             this.textBoxDescription.Text = resources.GetString("textBoxDescription.Text");
+            TopMost = true;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

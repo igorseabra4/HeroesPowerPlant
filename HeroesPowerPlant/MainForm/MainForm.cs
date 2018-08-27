@@ -708,6 +708,7 @@ namespace HeroesPowerPlant.MainForm
         
         private void SetAllTopMost(bool value)
         {
+            Program.AboutBox.TopMost = value;
             Program.ViewConfig.TopMost = value;
             Program.ConfigEditor.TopMost = value;
             Program.LevelEditor.TopMost = value;
