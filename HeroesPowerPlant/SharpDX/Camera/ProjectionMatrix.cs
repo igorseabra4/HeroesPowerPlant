@@ -13,7 +13,7 @@ namespace HeroesPowerPlant
     public class ProjectionMatrix
     {
         private float _fieldOfView = MathUtil.PiOverFour;
-        private float _aspectRatio = (float)(16 / 9F);
+        private float _aspectRatio;
         private float _nearPlane = 0.1F;
         private float _farPlane = 80000F;
 

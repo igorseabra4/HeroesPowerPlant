@@ -351,6 +351,7 @@ namespace HeroesPowerPlant
             Cube.Dispose();
             Pyramid.Dispose();
             Cylinder.Dispose();
+            Sphere.Dispose();
 
             basicBuffer.Dispose();
             basicShader.Dispose();

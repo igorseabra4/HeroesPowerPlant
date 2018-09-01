@@ -1,4 +1,12 @@
 ------------------------------------------------------------------
+--HeroesPowerPlant vertex colored obj importer
+
+--Heavily altered from Chris Cookson's original import script
+--by Shadowth117
+
+------------------------------------------------------------------
+--Original script
+
 -- Wavefront OBJ/MTL Import Utility	for gmax, v1.1				--
 -- by Chris Cookson (cjcookson@hotmail.com)						--
 --																--
@@ -15,8 +23,32 @@
 --																--
 ------------------------------------------------------------------
 
-utility objImport "Vcolor OBJ Import"
+rollout objImport "Vcolor OBJ Import"
 (
+		--------------------
+	-- User Interface --
+	--------------------
+	group "About"
+	(
+		label lab1 "VColor OBJ Importer"
+		HyperLink addy "Originally by Chris Cookson" align:#center address:"mailto:cjcookson@hotmail.com" color:(color 0 0 170) hoverColor:(color 170 0 0)
+		Label lab2 "Edited by Shadowth117"
+	)
+	group "Settings"
+	(
+		checkBox autoSizeCheckBox "Rescale" checked:false align:#center
+		spinner autoSizeSpinner "Scale by:" align:#center type:#float range:[0,10000,64] enabled:false
+		checkBox YZCheckBox "Y-Z Axis Flip" checked: true align:#center
+		checkBox UVFlip "Vertical UV Flip" checked: false align:#center
+	)	
+	group "Import"
+	(
+		button importButton "Import..."
+	)
+	group "Import from Path"
+	(
+		button importPath "Import..."
+	)
 	----------
 	-- Vars --
 	----------
@@ -53,30 +85,7 @@ utility objImport "Vcolor OBJ Import"
 		)
 	)
 	
-	--------------------
-	-- User Interface --
-	--------------------
-	group "About"
-	(
-		label lab1 "VColor OBJ Importer"
-		HyperLink addy "Originally by Chris Cookson" align:#center address:"mailto:cjcookson@hotmail.com" color:(color 0 0 170) hoverColor:(color 170 0 0)
-		Label lab2 "Edited by Shadowth117"
-	)
-	group "Settings"
-	(
-		checkBox autoSizeCheckBox "Rescale" checked:false align:#center
-		spinner autoSizeSpinner "Scale by:" align:#center type:#float range:[0,10000,64] enabled:false
-		checkBox YZCheckBox "Y-Z Axis Flip" checked: true align:#center
-		checkBox UVFlip "Vertical UV Flip" checked: false align:#center
-	)	
-	group "Import"
-	(
-		button importButton "Import..."
-	)
-	group "Import from Path"
-	(
-		button importPath "Import..."
-	)
+
 	
 	----------------------
 	-- Helper Functions --
@@ -140,12 +149,10 @@ utility objImport "Vcolor OBJ Import"
 		-- Check file exists
 		if (getFiles filename).count == 0 then
 		(
-			format "Error: Cannot find material file %\n" filename
 			newMaterial.numsubs = 1
 			newMaterial[1] = standard name:(getFilenameFile filename)
 			return newMaterial
 		)
-		print filepath
 		newMaterial.name = (getFilenameFile filename)
 		
 		local curIndex = 0
@@ -171,7 +178,6 @@ utility objImport "Vcolor OBJ Import"
 					"newmtl": -- Define a new material
 					(
 						local materialName = lineTokenizer.ReadToken()
-						format "Loading material %\n" materialName
 						
 						curIndex += 1
 						newMaterial.numsubs += 1
@@ -222,7 +228,6 @@ utility objImport "Vcolor OBJ Import"
 						if (getFiles (diffuseMapFile)).count != 0 then
 						(
 							-- Texture map file exists, so set it up and make it visible in viewports
-							format "Loading diffuse texture map '%'\n" (diffuseMapFile)
 							local diffuseMap = bitmapTexture filename: (filepath + diffuseMapFile) name:(getFilenameFile diffuseMapFile)
 							newMaterial[curIndex].maps[2] = diffuseMap	
 							newMaterial[curIndex].mapEnables[2] = true
@@ -230,7 +235,7 @@ utility objImport "Vcolor OBJ Import"
 						) else
 						(
 							-- Can't find texture map file :(
-							format "Warning: Cannot find texture map file %\n" diffuseMapFile
+							--format "Warning: Cannot find texture map file %\n" diffuseMapFile
 							newMaterial[curIndex].mapEnables[2] = true
 						)
 					)
@@ -270,7 +275,9 @@ utility objImport "Vcolor OBJ Import"
 		local faceGroupIDs = #()
 	
 		local materialNames = #()
+		local groupNames = #()
 	
+		local groupName = undefined
 		local objectName = undefined
 		local materialLib = undefined
 
@@ -281,6 +288,7 @@ utility objImport "Vcolor OBJ Import"
 			-- Open up the file
 			objStream = openFile objFileName mode:"r"	
 			local curMaterialID = 0
+			local curGroup = 0
 			local lineNum = 0
 			local isValid = true
 		
@@ -310,7 +318,9 @@ utility objImport "Vcolor OBJ Import"
 							
 							"g": -- Define group
 							(
-								-- Ignore groups for now
+								groupName = lineTokenizer.ReadToken()
+								append groupNames groupName
+								curGroup = groupNames.count
 							)
 							
 							"mtllib": -- Set material library file
@@ -398,6 +408,7 @@ utility objImport "Vcolor OBJ Import"
 								(
 								    append faces [ v1[1], v2[1], v3[1] ]
 								    append faceMaterialIDs curMaterialID
+									append faceGroupIDs curGroup
 								    append texFaces [ v1[2], v2[2], v3[2] ]
 								)
 							)
@@ -418,9 +429,6 @@ utility objImport "Vcolor OBJ Import"
 			
 			-- Close the file stream
 			close objStream
-			
-			-- Print out a bit of info
-			format "Read % verts, % faces.\n" verts.count faces.count
 	
 			if isValid then
 			(
@@ -460,73 +468,106 @@ utility objImport "Vcolor OBJ Import"
 				(
 					objectName = (getFilenameFile objFileName)
 				)
-										
-				-- Construct the mesh object
-				local newMesh = mesh name:objectName pos:[0,0,0] \
-									 vertices:verts faces:faces \
-									 material:newMaterial
-				                     setNumCPVVerts newMesh newMesh.numverts
-				                     defaultVCFaces newMesh
-									         -- Set vertex coloring -- 
-                for i = 1 to colorArray.count do
-                (
-                    setvertcolor newMesh i colorArray[i]
-					meshop.setvertalpha newMesh -2 i colorArray[i].alpha
-
-                )  
-				-- Set face material IDs
-				for i = 1 to faceMaterialIDs.count do
-				(
-					setFaceMatID newMesh i faceMaterialIDs[i]					
-				)
 				
-				-- Add texcoords
-				if texcoords.count > 0 do
-				(
+				local importList = #()
+				
+				for k = 1 to groupNames.count do
+				(				
+					
+					--Start a sub array of faces per group, store original face id as well for later use
+					local faceArray = #()
+				    local faceOrigID = #()
+					
+					for j = 1 to faces.count do
+					(
+						if(faceGroupIDs[j] == k) then 
+						(
+							append faceArray faces[j]
+							append faceOrigID j
+						)
+					)
+					-- Construct the mesh object
+					local newMesh = mesh name:groupNames[k] pos:[0,0,0] \
+										 vertices:verts faces:faceArray \
+										 material:newMaterial
+										 setNumCPVVerts newMesh newMesh.numverts
+										 
+					-- Set vertex coloring -- 
+					for i = 1 to colorArray.count do
+					(
+						setvertcolor newMesh i colorArray[i]
+						meshop.setvertalpha newMesh -2 i colorArray[i].alpha
+					)  
+					-- Set face material IDs
+					for i = 1 to (meshop.getNumFaces newMesh) do
+					(
+						setFaceMatID newMesh i faceMaterialIDs[faceOrigID[i]]					
+					)
+					
+					
 					-- Add texcoords
-					setNumTVerts newMesh texcoords.count
-					
-					for i = 1 to texcoords.count do
+					if texcoords.count > 0 then
 					(
-						setTVert newMesh i texcoords[i]
-					)
-				
-					-- Build texcoord faces
-					buildTVFaces newMesh
-				
-					-- Set texcoord faces
-					for i = 1 to texFaces.count do
-					(
-						setTVFace newMesh i texFaces[i]
-					)
-				
-				) 
-				
-				-- Crude scaling, need to make this a bit more intelligent
-				if autoSizeCheckBox.checked then
-				(
-					local scale = [autoSizeSpinner.value, autoSizeSpinner.value, autoSizeSpinner.value]
+						-- Add texcoords
+						setNumTVerts newMesh texcoords.count
+						
+						for i = 1 to texcoords.count do
+						(
+							setTVert newMesh i texcoords[i]
+						)
 					
-					for i = 1 to newMesh.numverts do
-					(
-						local v = getvert newMesh i
-						v *= scale
-						setvert newMesh i v
+						meshop.deleteIsoVerts newMesh
+						
+						-- Build texcoord faces
+						buildTVFaces newMesh
 					
+						-- Set texcoord faces
+						for i = 1 to (meshop.getNumFaces newMesh) do
+						(
+							try
+							(
+								setTVFace newMesh i faceArray[i]
+							)
+							catch
+							(
+							)
+						)
+					
+					) else 
+					(
+						meshop.deleteIsoVerts newMesh
 					)
+					meshop.deleteIsoVerts newMesh
+					defaultVCFaces newMesh
+					
+					-- Crude scaling, need to make this a bit more intelligent
+					if autoSizeCheckBox.checked then
+					(
+						local scale = [autoSizeSpinner.value, autoSizeSpinner.value, autoSizeSpinner.value]
+						
+						for i = 1 to newMesh.numverts do
+						(
+							local v = getvert newMesh i
+							v *= scale
+							setvert newMesh i v
+						)
+					)
+					
+					-- Convert to Editable_Poly to avoid vert color destroying nonsense
+					ConvertTo newMesh Editable_Poly
+					
+					
+					--Update mesh
+					newMesh.showVertexColors = true 
+					update newMesh
+					gc()
 				)
 				
-				-- Update mesh
-				newMesh.showVertexColors = true 
-				update newMesh
-							
-				-- Redraw gmax viewports
+				-- Redraw max viewports
 				max views redraw
-							
 			)
 		)
 	)
-	
 	
 	on importButton pressed do
 	(
@@ -537,7 +578,7 @@ utility objImport "Vcolor OBJ Import"
 		importObject objFileName
 		
 		-- Ta-daa! You should now see a lovely new imported model in all its glory.
-		print "Import completed."
+		--print "Import completed."
 	)
 
 	on importPath pressed do
@@ -559,7 +600,7 @@ utility objImport "Vcolor OBJ Import"
 	    )
 			
 		-- Ta-daa! You should now see a lovely new imported model in all its glory.
-		print "Import completed."
+		--print "Import completed."
 	)
 	
 	on autoSizeCheckBox changed nowChecked do
@@ -567,4 +608,4 @@ utility objImport "Vcolor OBJ Import"
 		autoSizeSpinner.enabled = nowChecked
 	)
 )
-
+createDialog objImport 160 320

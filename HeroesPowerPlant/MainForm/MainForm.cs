@@ -18,8 +18,8 @@ namespace HeroesPowerPlant.MainForm
 
             showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
             
-            LostFocus += new EventHandler(MainForm_LostFocus);
-            GotFocus += new EventHandler(MainForm_GotFocus);
+            //LostFocus += new EventHandler(MainForm_LostFocus);
+            //GotFocus += new EventHandler(MainForm_GotFocus);
 
             renderer = new SharpRenderer(renderPanel);
         }
@@ -740,9 +740,15 @@ namespace HeroesPowerPlant.MainForm
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
+            {
                 renderer.dontRender = true;
+                SetAllTopMost(false);
+            }
             else
+            {
                 renderer.dontRender = false;
+                SetAllTopMost(true);
+            }
         }
     }
 }
