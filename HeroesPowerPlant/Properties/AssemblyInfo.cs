@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Heroes Hacking Central")]
 [assembly: AssemblyProduct("Heroes Power Plant")]
-[assembly: AssemblyCopyright("Copyright © 2018")]
+[assembly: AssemblyCopyright("Copyright © 2018 igorseabra4, Sewer56")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

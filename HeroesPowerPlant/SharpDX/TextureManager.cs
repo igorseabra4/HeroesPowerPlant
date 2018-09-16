@@ -58,13 +58,13 @@ namespace HeroesPowerPlant
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Error opening" + filePath + ": " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show("Error opening " + filePath + ": " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 OpenTXDfiles.Remove(filePath);
             }
         }
     
         public static void LoadTexturesFromTXD(byte[] txdData)
-        {
+        {            
             RWSection[] file = ReadFileMethods.ReadRenderWareFile(txdData);
             LoadTexturesFromTXD(file);
         }

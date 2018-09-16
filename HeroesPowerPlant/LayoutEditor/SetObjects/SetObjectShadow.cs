@@ -5,7 +5,7 @@ namespace HeroesPowerPlant.LayoutEditor
     public class SetObjectShadow : SetObject
     {
         public int MiscSettingCount;
-
+        
         public SetObjectShadow() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10, 0) { }
 
         public SetObjectShadow(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount)

@@ -52,7 +52,7 @@ namespace HeroesPowerPlant
         {
             byte[] dataBytes = File.ReadAllBytes(fileName);
             foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
-                AddDFF(j);
+                    AddDFF(j);
         }
 
         private static void AddDFF(ArchiveFile j)
@@ -62,7 +62,15 @@ namespace HeroesPowerPlant
                 RenderWareModelFile d = new RenderWareModelFile(j.Name);
                 byte[] dffData = j.DecompressThis();
 
-                d.SetForRendering(Program.MainForm.renderer.device, ReadFileMethods.ReadRenderWareFile(dffData), dffData);
+              //  try
+              //  {
+                    d.SetForRendering(Program.MainForm.renderer.device, ReadFileMethods.ReadRenderWareFile(dffData), dffData);
+               // }
+             //   catch (Exception ex)
+             //   {
+            //        MessageBox.Show("Unable to set DFF file " + j.Name + " for rendering: " + ex.Message);
+            //        return;
+               // }
 
                 if (DFFModels.ContainsKey(j.Name))
                 {
@@ -80,8 +88,15 @@ namespace HeroesPowerPlant
             }
             else if (Path.GetExtension(j.Name).ToLower().Equals(".txd"))
             {
-                byte[] txdData = j.DecompressThis();
-                TextureManager.LoadTexturesFromTXD(txdData);
+                try
+                {
+                    byte[] txdData = j.DecompressThis();
+                    TextureManager.LoadTexturesFromTXD(txdData);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to load textures from TXD: " + ex.Message);
+                }
             }
         }
 

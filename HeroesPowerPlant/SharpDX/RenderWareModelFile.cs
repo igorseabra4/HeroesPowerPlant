@@ -287,7 +287,7 @@ namespace HeroesPowerPlant
                     MaterialList.Add(DefaultTexture);
             }
 
-            if (g.geometryStruct.geometryFlags2 == 0x0101)
+            if ((g.geometryStruct.geometryFlags2 & GeometryFlags2.isNativeGeometry) != 0)
             {
                 AddNativeData(device, g.geometryExtension, MaterialList, transformMatrix);
                 return;
@@ -295,7 +295,7 @@ namespace HeroesPowerPlant
 
             List<VertexColoredTextured> vertexList = new List<VertexColoredTextured>();
 
-            if ((g.geometryStruct.geometryFlags & (int)GeometryFlags.hasVertexPositions) != 0)
+            if ((g.geometryStruct.geometryFlags & GeometryFlags.hasVertexPositions) != 0)
             {
                 foreach (Vertex3 v in g.geometryStruct.morphTargets[0].vertices)
                 {
@@ -306,7 +306,7 @@ namespace HeroesPowerPlant
                 }
             }
 
-            if ((g.geometryStruct.geometryFlags & (int)GeometryFlags.hasVertexColors) != 0)
+            if ((g.geometryStruct.geometryFlags & GeometryFlags.hasVertexColors) != 0)
             {
                 for (int i = 0; i < vertexList.Count; i++)
                 {
@@ -327,7 +327,7 @@ namespace HeroesPowerPlant
                 }
             }
 
-            if ((g.geometryStruct.geometryFlags & (int)GeometryFlags.hasTextCoords) != 0)
+            if ((g.geometryStruct.geometryFlags & GeometryFlags.hasTextCoords) != 0)
             {
                 for (int i = 0; i < vertexList.Count; i++)
                 {

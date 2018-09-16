@@ -105,7 +105,7 @@ namespace HeroesPowerPlant
         {
             Speed = 5F;
             ViewMatrix = new ViewMatrix();
-            ProjectionMatrix = new ProjectionMatrix(ProjectionMatrix.FarPlane, ProjectionMatrix.FieldOfView);
+            ProjectionMatrix = new ProjectionMatrix(ProjectionMatrix.AspectRatio, ProjectionMatrix.FarPlane, ProjectionMatrix.FieldOfView);
             RaiseCameraChangedEvent();
         }
 

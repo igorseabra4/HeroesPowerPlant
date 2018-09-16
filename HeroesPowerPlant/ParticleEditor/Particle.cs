@@ -19,14 +19,14 @@ namespace HeroesPowerPlant.ParticleEditor
 
         public byte SpreadUVType { get; set; }
         public byte UvFrameType { get; set; }
-        public byte Unknown1 { get; set; }
+        public byte InverseParticleDelay { get; set; }
         public byte Unknown2 { get; set; }
-        public int  Unknown3 { get; set; }
+        public int Unknown3 { get; set; }
         public byte ColorR { get; set; }
-        public byte ColorG { get; set; }
         public byte ColorB { get; set; }
+        public byte ColorG { get; set; }
         public byte ColorA { get; set; }
-        public int  FadeTime { get; set; }
+        public int FadeTime { get; set; }
         public short BirthDelay { get; set; }
         public short AmountOfParticles { get; set; }
         public short Unknown4 { get; set; }
@@ -36,9 +36,9 @@ namespace HeroesPowerPlant.ParticleEditor
         public short Velocity { get; set; }
         public short Unknown8 { get; set; }
 
-        public short Always05 { get; set; }
+        public short Always05 { get; set; } 
         public short BlendMode { get; set; }
-        public int   Rotation { get; set; }
+        public int Rotation { get; set; }
         public short RotateAnimationSpeed { get; set; }
         public short RotateAnimation { get; set; }
         public float InverseLifeTime { get; set; }

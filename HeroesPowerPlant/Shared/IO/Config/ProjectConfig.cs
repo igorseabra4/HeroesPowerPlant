@@ -157,7 +157,12 @@ namespace HeroesPowerPlant.Shared.IO.Config
             ExecuteIfFilePresent($"Config Editor error: file not found: {config.StageConfigPath}", "Error", config.StageConfigPath, path => Program.ConfigEditor.OpenFile(path));
 
             if (config.IsShadow)
-                ExecuteIfFilePresent($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", config.LevelEditorPath, path => Program.LevelEditor.OpenONEShadowFolder(path));
+            {
+                if (Directory.Exists(config.LevelEditorPath))
+                    Program.LevelEditor.OpenONEShadowFolder(config.LevelEditorPath);
+                else if (!string.IsNullOrEmpty(config.LevelEditorPath))
+                    MessageBox.Show($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
                 ExecuteIfFilePresent($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", config.LevelEditorPath, path => Program.LevelEditor.OpenONEHeroesFile(path));

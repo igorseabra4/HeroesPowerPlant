@@ -22,8 +22,8 @@ namespace HeroesPowerPlant
         private float _pitch;
 
         // If set to false, instructs the view/projection matrix to be rebuilt on next acquisition.
-        private bool _validViewMatrix;
-        private bool _validCameraVectors;
+        private bool _validViewMatrix = false;
+        private bool _validCameraVectors = false;
 
         /// <summary>
         /// The left-right rotation component of the camera.

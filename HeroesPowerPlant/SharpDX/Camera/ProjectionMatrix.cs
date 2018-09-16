@@ -22,14 +22,15 @@ namespace HeroesPowerPlant
         /// three dimensions into two.
         /// </summary>
         private Matrix _projectionMatrix;
-        private bool _validProjectonMatrix;
+        private bool _validProjectonMatrix = false;
 
         public ProjectionMatrix()
         {
         }
 
-        public ProjectionMatrix(float farPlane, float fieldOfView)
+        public ProjectionMatrix(float aspectRatio, float farPlane, float fieldOfView)
         {
+            AspectRatio = aspectRatio;
             FarPlane = farPlane;
             FieldOfView = fieldOfView;
         }
