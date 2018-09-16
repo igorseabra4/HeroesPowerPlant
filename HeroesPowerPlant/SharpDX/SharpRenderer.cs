@@ -119,6 +119,7 @@ namespace HeroesPowerPlant
             selectedColor = new Vector4(1f, 0.5f, 0.1f, 0.8f);
             selectedObjectColor = new Vector4(1f, 0.4f, 0.4f, 1f);
             backgroundColor = new Color4(0.05f, 0.05f, 0.15f, 1f);
+            VisibilityFunctions.ResetSelectedChunkColor();
         }
 
         public void DrawCubeTrigger(Matrix world, bool isSelected)

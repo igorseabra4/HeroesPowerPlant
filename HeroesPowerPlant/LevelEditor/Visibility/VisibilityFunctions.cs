@@ -31,6 +31,13 @@ namespace HeroesPowerPlant.LevelEditor
             Chunk.selectedChunkColor = newColor;
         }
 
+        public static void ResetSelectedChunkColor()
+        {
+            Chunk.selectedChunkColor = defaultSelectedChunkColor;
+        }
+
+        private static Vector4 defaultSelectedChunkColor = new Vector4(1f, 0.5f, 0.1f, 0.3f);
+
         public static List<Chunk> ChunkList = new List<Chunk>();
 
         public static List<Chunk> LoadHeroesVisibilityFile(string fileName)
