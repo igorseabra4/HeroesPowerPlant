@@ -77,7 +77,33 @@ namespace HeroesPowerPlant.LayoutEditor
                 case 0x00:
                     switch (ObjectType)
                     {
+                        case 0x01: case 0x02: case 0x03: case 0x06: return new Object00_SpringShadow();
+                        case 0x04: return new Object0004_DashRamp();
+                        case 0x0E: return new Object000E_Rocket();
+                        case 0x0F: return new Object000F_Platform();
                         case 0x10: return new Object0010_Ring();
+                        case 0x12: return new Object0012_ItemCapsule();
+                        case 0x14: return new Object0014_GoalRing();
+                        case 0x20: return new Object0020_Weapon();
+                        case 0x4F: return new Object004F_Vehicle();
+                        default: return new Object_ShadowEmpty();
+                    }
+                case 0x01:
+                    switch (ObjectType)
+                    {
+                        case 0x90: return new Object0190_Partner();
+                        default: return new Object_ShadowEmpty();
+                    }
+                case 0x0B:
+                    switch (ObjectType)
+                    {
+                        case 0xBE: return new Object0BBE_Chao();
+                        default: return new Object_ShadowEmpty();
+                    }
+                case 0x18:
+                    switch (ObjectType)
+                    {
+                        case 0x9E: return new Object189E_ARKDriftingPlat1();
                         default: return new Object_ShadowEmpty();
                     }
                 default: return new Object_ShadowEmpty();
