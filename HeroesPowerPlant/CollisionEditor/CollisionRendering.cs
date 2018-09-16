@@ -126,7 +126,7 @@ namespace HeroesPowerPlant.CollisionEditor
             data.quadLenght = Switch(CLReader.ReadSingle());
 
             //Get amount of stuff
-            data.PowerFlag = Switch(CLReader.ReadUInt16());
+            data.basePower = Switch(CLReader.ReadUInt16());
             data.numTriangles = Switch(CLReader.ReadUInt16());
             data.numVertices = Switch(CLReader.ReadUInt16());
             data.numQuadnodes = Switch(CLReader.ReadUInt16());

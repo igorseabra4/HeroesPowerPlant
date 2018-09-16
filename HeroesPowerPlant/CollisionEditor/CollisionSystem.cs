@@ -228,7 +228,7 @@ namespace HeroesPowerPlant.CollisionEditor
             data.numVertices = (ushort)data.CLVertexArray.Count();
 
             //Now let's build the quadtree
-            data.PowerFlag = (ushort)Program.CollisionEditor.numericUpDownPowerFlag.Value;
+            data.basePower = (ushort)Program.CollisionEditor.numericUpDownPowerFlag.Value;
 
             if (BuildQuadtree(ref data))
             {
@@ -262,10 +262,10 @@ namespace HeroesPowerPlant.CollisionEditor
                 {
                     data.CLQuadNodeList[i].Child = (ushort)data.CLQuadNodeList.Count;
 
-                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 0, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
-                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 1, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
-                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 2, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
-                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 3, (ushort)data.CLQuadNodeList.Count, data.PowerFlag, data.CLTriangleArray));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 0, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 1, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 2, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
+                    data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 3, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
 
                     data.CLQuadNodeList[i].NodeTriangleArray = null;
                     data.CLQuadNodeList[i].NodeTriangleAmount = 0;
@@ -326,6 +326,10 @@ namespace HeroesPowerPlant.CollisionEditor
             foreach (ushort i in TriangleList)
                 if (Node.NodeSquare.Intersects(CLTriangleArray[i].TasRect))
                     NodeTriangleList.Add(i);
+
+            if (NodeTriangleList.Count != 0)
+                while (NodeTriangleList.Count < 3)
+                    NodeTriangleList.Add(0);
 
             return NodeTriangleList.ToArray();
         }
@@ -423,7 +427,7 @@ namespace HeroesPowerPlant.CollisionEditor
             FileWriter.Write(Switch(data.quadCenterY));
             FileWriter.Write(Switch(data.quadCenterZ));
             FileWriter.Write(Switch(data.quadLenght));
-            FileWriter.Write(Switch(data.PowerFlag));
+            FileWriter.Write(Switch(data.basePower));
             FileWriter.Write(Switch(data.numTriangles));
             FileWriter.Write(Switch(data.numVertices));
             FileWriter.Write(Switch(data.numQuadnodes));

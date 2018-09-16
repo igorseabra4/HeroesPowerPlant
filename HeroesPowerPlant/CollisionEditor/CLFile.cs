@@ -13,7 +13,7 @@ namespace HeroesPowerPlant.CollisionEditor
         public float quadCenterY;
         public float quadCenterZ;
         public float quadLenght;
-        public UInt16 PowerFlag;
+        public UInt16 basePower;
         public UInt16 numTriangles;
         public UInt16 numVertices;
         public UInt16 numQuadnodes;

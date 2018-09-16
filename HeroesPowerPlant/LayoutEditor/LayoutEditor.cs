@@ -507,7 +507,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void UpdateGizmoPosition()
         {
-            UpdateGizmoPosition(layoutSystem.GetSelectedObject().Position, layoutSystem.GetSelectedObject().boundingBox.Size);
+            UpdateGizmoPosition(layoutSystem.GetSelectedObject().Position, layoutSystem.GetSelectedObject().boundingBox.Maximum - layoutSystem.GetSelectedObject().boundingBox.Minimum);
         }
 
         private void UpdateGizmoPosition(Vector3 position, Vector3 distance)

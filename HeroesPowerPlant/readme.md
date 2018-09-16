@@ -20,7 +20,7 @@
 * Middle click and drag to rotate view
 
 ## Project:
-A project JSON is Heroes Power Plant's way of saving a group of file paths and settings - this way, when you're editing your level, you don't have to open all your files individually again. When you save a Project, the following data is saved and reapllied when opened:
+A project JSON is Heroes Power Plant's way of saving a group of file paths and settings - this way, when you're editing your level, you don't have to open all your files individually again. When you save a Project, the following data is saved and reapplied when opened:
 * Paths for the Config, Level, Visibility, Collision, Layout, Camera, Particle, Pattern and SET ID Table editors
 * TXD files, texture folders and object ONEs
 * No culling, wireframe, background and selection colors
