@@ -62,20 +62,10 @@ namespace HeroesPowerPlant
                 RenderWareModelFile d = new RenderWareModelFile(j.Name);
                 byte[] dffData = j.DecompressThis();
 
-              //  try
-              //  {
-                    d.SetForRendering(Program.MainForm.renderer.device, ReadFileMethods.ReadRenderWareFile(dffData), dffData);
-               // }
-             //   catch (Exception ex)
-             //   {
-            //        MessageBox.Show("Unable to set DFF file " + j.Name + " for rendering: " + ex.Message);
-            //        return;
-               // }
+                d.SetForRendering(Program.MainForm.renderer.device, ReadFileMethods.ReadRenderWareFile(dffData), dffData);
 
                 if (DFFModels.ContainsKey(j.Name))
                 {
-                    MessageBox.Show("Object model " + j.Name + " has already been loaded and will be replaced.");
-                    
                     foreach (SharpMesh mesh in DFFModels[j.Name].meshList)
                         mesh.Dispose();
 
@@ -95,7 +85,9 @@ namespace HeroesPowerPlant
                 }
                 catch (Exception ex)
                 {
+                    #if DEBUG
                     MessageBox.Show("Unable to load textures from TXD: " + ex.Message);
+                    #endif
                 }
             }
         }

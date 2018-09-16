@@ -589,7 +589,7 @@ namespace HeroesPowerPlant.MainForm
                     ProjectConfig.Save(hppConfig, currentSavePath);
                 }
 
-            Environment.Exit(0); // Ensure background threads close too!
+            //Environment.Exit(0); // Ensure background threads close too!
         }
 
         private void vSyncToolStripMenuItem_Click(object sender, EventArgs e)

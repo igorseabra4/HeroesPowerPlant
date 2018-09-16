@@ -210,13 +210,12 @@ namespace HeroesPowerPlant.CollisionEditor
             data.quadCenterY = (MaxY + MinY) / 2.0f;
             data.quadCenterZ = (MaxZ + MinZ) / 2.0f;
 
-            data.quadLenght = MaxX - MinX;
-            if (data.quadLenght < MaxZ - MinZ)
-                data.quadLenght = MaxZ - MinZ;
+            data.quadLenght = Math.Max(MaxX - MinX, MaxZ - MinZ);
 
             data.quadLenght = (float)Math.Ceiling(data.quadLenght);
-            while (data.quadLenght % 16 != 0)
-                data.quadLenght++;
+
+            if (data.quadLenght % 16 != 0)
+                data.quadLenght = (((int)(data.quadLenght) / 16) + 1) * 16;
 
             if (data.MaxDepth == 0)
             {

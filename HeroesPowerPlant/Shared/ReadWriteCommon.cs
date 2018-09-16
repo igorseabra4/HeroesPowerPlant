@@ -24,7 +24,12 @@ namespace HeroesPowerPlant
         {
             return BitConverter.ToUInt16(BitConverter.GetBytes(a).Reverse().ToArray(), 0);
         }
-        
+
+        public static byte Switch(byte a)
+        {
+            return a;
+        }
+
         public static float Switch(float a)
         {
             return BitConverter.ToSingle(BitConverter.GetBytes(a).Reverse().ToArray(), 0);

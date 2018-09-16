@@ -112,7 +112,7 @@ namespace HeroesPowerPlant.CollisionEditor
             //Get total number of bytes in file
 
             if (data.numBytes != CLReader.BaseStream.Length)
-                throw new Exception("Not a valid CL file.");
+                throw new ArgumentException("Not a valid CL file.");
 
             //Get offset of structs
             data.pointQuadtree = Switch(CLReader.ReadUInt32());

@@ -67,7 +67,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void FindNewObjectManager()
         {
             objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
-            objectManager.MiscSettings = new byte[MiscSettingCount];
+            objectManager.MiscSettings = new byte[objectEntry.MiscSettingCount == -1 ? 0 : objectEntry.MiscSettingCount];
         }
 
         private SetObjectManagerShadow FindObjectManager(byte ObjectList, byte ObjectType)

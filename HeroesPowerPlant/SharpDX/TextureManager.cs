@@ -58,7 +58,9 @@ namespace HeroesPowerPlant
             }
             catch (Exception ex)
             {
+#if DEBUG
                 System.Windows.Forms.MessageBox.Show("Error opening " + filePath + ": " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+#endif
                 OpenTXDfiles.Remove(filePath);
             }
         }

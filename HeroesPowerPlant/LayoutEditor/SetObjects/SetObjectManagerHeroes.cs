@@ -18,25 +18,13 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.Translation(Position);
         }
 
-        public float ReadFloat(int j)
-        {
-            return BitConverter.ToSingle(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
-        }
+        public float ReadFloat(int j) => BitConverter.ToSingle(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
 
-        public byte ReadByte(int j)
-        {
-            return MiscSettings[j];
-        }
+        public byte ReadByte(int j) => MiscSettings[j];
 
-        public short ReadShort(int j)
-        {
-            return BitConverter.ToInt16(new byte[] { MiscSettings[j + 1], MiscSettings[j] }, 0);
-        }
-        
-        public int ReadLong(int j)
-        {
-            return BitConverter.ToInt32(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
-        }
+        public short ReadShort(int j) => BitConverter.ToInt16(new byte[] { MiscSettings[j + 1], MiscSettings[j] }, 0);
+
+        public int ReadLong(int j) => BitConverter.ToInt32(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
 
         public void Write(int j, float value)
         {

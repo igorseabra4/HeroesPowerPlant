@@ -126,7 +126,6 @@ The collision editor allows you to import an OBJ file, which will be converted t
 
 ## Layout Editor (F5)
 The object layout editor allows you to add, remove and modify objects.
-Note: currently, adding new objects (or changing their types) to Shadow layouts is unsupported, due to the misc. setting editor being incomplete. You can try doing so, but the file certainly will not work ingame. Deleting, copying and editing existing ones is fine though.
 * You can open s*_*.bin files (from Heroes) or stg*_*.dat (from Shadow) or create new ones.
 * Objects will mostly be displayed as small cubes. You can click on the objects to select them.
 * To render using their actual models, you must add the ONE archive which contains the DFF to the object ONEs (explained above). This works for Heroes and Shadow files.

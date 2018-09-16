@@ -361,6 +361,7 @@ namespace HeroesPowerPlant.LayoutEditor
             byte Type = 0;
             string Name = "";
             bool HasMiscSettings = true;
+            int MiscSettingCount = -1;
             string DebugName = "";
             string Description = "";
             List<string> Model = new List<string>();
@@ -376,6 +377,8 @@ namespace HeroesPowerPlant.LayoutEditor
                     Name = i.Split('=')[1];
                 else if (i.StartsWith("NoMiscSettings="))
                     HasMiscSettings = !Convert.ToBoolean(i.Split('=')[1]);
+                else if (i.StartsWith("MiscSettingCount="))
+                    MiscSettingCount = Convert.ToInt32(i.Split('=')[1]);
                 else if (i.StartsWith("Debug="))
                     DebugName = i.Split('=')[1];
                 else if (i.StartsWith("Description="))
@@ -393,6 +396,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         DebugName = DebugName,
                         ModelNames = Model.ToArray(),
                         Description = Description,
+                        MiscSettingCount = MiscSettingCount
                     });
                     break;
                 }
@@ -407,6 +411,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         DebugName = DebugName,
                         ModelNames = Model.ToArray(),
                         Description = Description,
+                        MiscSettingCount = MiscSettingCount
                     });
                     List = 0;
                     Type = 0;
@@ -415,6 +420,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     DebugName = "";
                     Model = new List<string>();
                     Description = "";
+                    MiscSettingCount = -1;
                 }
             }
 
