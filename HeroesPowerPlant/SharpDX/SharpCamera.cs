@@ -22,9 +22,15 @@ namespace HeroesPowerPlant
         public event CameraChangedDelegate CameraChangedEvent;
         public float MouseSensitivity { get; set; } = 0.2F;
 
-        ////////////////////////////////////////////////
-        // Constructor is implicit/no constructor needed
-        ////////////////////////////////////////////////
+        private readonly SharpFPS _sharpFPS;
+
+        //////////////
+        // Constructor 
+        //////////////
+        public SharpCamera(SharpFPS sharpFPS)
+        {
+            _sharpFPS = sharpFPS;
+        }
 
         /// <summary>
         /// Returns the <see cref="Speed"/> member, with respect to the current framerate.
@@ -32,7 +38,7 @@ namespace HeroesPowerPlant
         /// <returns></returns>
         public float GetScaledSpeed()
         {
-            return (float)(NormalFPS / Program.MainForm.renderer.sharpFPS.FPS) * Speed;
+            return (float)(NormalFPS / _sharpFPS.FPS) * Speed;
         }
 
         //////////////////////////
@@ -45,21 +51,33 @@ namespace HeroesPowerPlant
             RaiseCameraChangedEvent();
         }
 
-        public void AddPositionForward(float multiplier)
+        public void AddPositionForward(float multiplier, bool scaleWithFramerate = true)
         {
-            ViewMatrix.Position += GetForward() * multiplier * GetScaledSpeed() * Speed;
+            if (scaleWithFramerate)
+                ViewMatrix.Position += GetForward() * multiplier * GetScaledSpeed() * Speed;
+            else
+                ViewMatrix.Position += GetForward() * multiplier * Speed;
+
             RaiseCameraChangedEvent();
         }
 
-        public void AddPositionUp(float multiplier)
+        public void AddPositionUp(float multiplier, bool scaleWithFramerate = true)
         {
-            ViewMatrix.Position += GetUp() * multiplier * GetScaledSpeed() * Speed;
+            if (scaleWithFramerate)
+                ViewMatrix.Position += GetUp() * multiplier * GetScaledSpeed() * Speed;
+            else
+                ViewMatrix.Position += GetUp() * multiplier * Speed;
+
             RaiseCameraChangedEvent();
         }
 
-        public void AddPositionSideways(float multiplier)
+        public void AddPositionSideways(float multiplier, bool scaleWithFramerate = true)
         {
-            ViewMatrix.Position += GetLeft() * multiplier * GetScaledSpeed() * Speed;
+            if (scaleWithFramerate)
+                ViewMatrix.Position += GetLeft() * multiplier * GetScaledSpeed() * Speed;
+            else
+                ViewMatrix.Position += GetLeft() * multiplier * Speed;
+
             RaiseCameraChangedEvent();
         }
         

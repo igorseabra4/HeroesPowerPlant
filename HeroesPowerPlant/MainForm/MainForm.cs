@@ -250,8 +250,9 @@ namespace HeroesPowerPlant.MainForm
                 }
                 if (e.Button == MouseButtons.Right)
                 {
-                    renderer.Camera.AddPositionSideways(deltaX);
-                    renderer.Camera.AddPositionUp(deltaY);
+                    // Do not scale with framerate; WinForms events are not scalable with FPS.
+                    renderer.Camera.AddPositionSideways(deltaX, false);
+                    renderer.Camera.AddPositionUp(deltaY, false);
                 }
 
                 Program.LayoutEditor.MouseMoveX(renderer.Camera, deltaX);
@@ -270,7 +271,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void renderPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            renderer.Camera.AddPositionForward(e.Delta);
+            renderer.Camera.AddPositionForward(e.Delta, false);
         }
 
         private void MouseModeToggle()

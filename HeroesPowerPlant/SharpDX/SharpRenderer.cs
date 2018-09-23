@@ -13,8 +13,8 @@ namespace HeroesPowerPlant
     public class SharpRenderer
     {
         public SharpDevice device;
-        public SharpCamera Camera = new SharpCamera();
-        public SharpFPS sharpFPS;
+        public SharpCamera Camera;
+        public SharpFPS SharpFps;
         
         public SharpRenderer(Control control)
         {
@@ -29,10 +29,12 @@ namespace HeroesPowerPlant
             device = new SharpDevice(control, false);
             LoadModels();
 
-            sharpFPS = new SharpFPS
+            SharpFps = new SharpFPS
             {
                 FPSLimit = float.MaxValue
             };
+            Camera = new SharpCamera(SharpFps);
+
             Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
 
             SetSharpShader();
@@ -278,7 +280,7 @@ namespace HeroesPowerPlant
         {
             RenderLoop.Run(Panel, () =>
             {
-                sharpFPS.StartFrame();
+                SharpFps.StartFrame();
 
                 if (dontRender) return;
 
@@ -290,7 +292,7 @@ namespace HeroesPowerPlant
                 }
 
                 Program.MainForm.KeyboardController();
-                Program.MainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{sharpFPS.FPS:0.0000}");
+                Program.MainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{SharpFps.FPS:0.0000}");
 
                 //clear color
                 device.Clear(backgroundColor);
@@ -332,21 +334,17 @@ namespace HeroesPowerPlant
                 //present
                 device.Present();
 
-                sharpFPS.EndFrame();
-                sharpFPS.Sleep();
+                SharpFps.EndFrame();
+                SharpFps.Sleep();
             });
 
             //release resources
 
             whiteDefault.Dispose();
-
             BSPRenderer.Dispose();
             TextureManager.DisposeTextures();
-
             DFFRenderer.Dispose();
-
             CollisionRendering.Dispose();
-
             Program.SplineEditor.DisposeSplines();
             
             Cube.Dispose();
