@@ -44,6 +44,8 @@
             this.NumericQuadHeight = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.NumericFOV = new System.Windows.Forms.NumericUpDown();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.NumericMouseSens = new System.Windows.Forms.NumericUpDown();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraYaw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraPitch)).BeginInit();
@@ -59,6 +61,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericQuadHeight)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericFOV)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericMouseSens)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -269,10 +273,40 @@
             0});
             this.NumericFOV.ValueChanged += new System.EventHandler(this.NumericFOV_ValueChanged);
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.NumericMouseSens);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // NumericMouseSens
+            // 
+            this.NumericMouseSens.DecimalPlaces = 4;
+            this.NumericMouseSens.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            resources.ApplyResources(this.NumericMouseSens, "NumericMouseSens");
+            this.NumericMouseSens.Maximum = new decimal(new int[] {
+            666666,
+            0,
+            0,
+            0});
+            this.NumericMouseSens.Name = "NumericMouseSens";
+            this.NumericMouseSens.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
+            this.NumericMouseSens.ValueChanged += new System.EventHandler(this.NumericMouseSens_ValueChanged);
+            // 
             // ViewConfig
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox2);
@@ -300,6 +334,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericQuadHeight)).EndInit();
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumericFOV)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NumericMouseSens)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -321,5 +357,7 @@
         public System.Windows.Forms.NumericUpDown NumericQuadHeight;
         private System.Windows.Forms.GroupBox groupBox5;
         public System.Windows.Forms.NumericUpDown NumericFOV;
+        private System.Windows.Forms.GroupBox groupBox7;
+        public System.Windows.Forms.NumericUpDown NumericMouseSens;
     }
 }

@@ -751,5 +751,13 @@ namespace HeroesPowerPlant.MainForm
                 SetAllTopMost(true);
             }
         }
+
+        /// <summary>
+        /// This is just a shortcut for opening the view menu.
+        /// </summary>
+        private void cameraViewSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.ViewConfig.Show();
+        }
     }
 }
