@@ -78,10 +78,10 @@ namespace HeroesPowerPlant.MainForm
             this.vSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoLoadLastProjectOnLaunchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoSaveProjectOnClosingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cameraViewSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.cameraViewSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -248,35 +248,35 @@ namespace HeroesPowerPlant.MainForm
             // addTXDToolStripMenuItem
             // 
             this.addTXDToolStripMenuItem.Name = "addTXDToolStripMenuItem";
-            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.addTXDToolStripMenuItem.Text = "Add TXD";
+            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addTXDToolStripMenuItem.Text = "Add TXD(s)";
             this.addTXDToolStripMenuItem.Click += new System.EventHandler(this.addTXDToolStripMenuItem_Click);
             // 
             // addTextureFolderToolStripMenuItem
             // 
             this.addTextureFolderToolStripMenuItem.Name = "addTextureFolderToolStripMenuItem";
-            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addTextureFolderToolStripMenuItem.Text = "Add Texture Folder";
             this.addTextureFolderToolStripMenuItem.Click += new System.EventHandler(this.addTextureFolderToolStripMenuItem_Click);
             // 
             // clearTXDsToolStripMenuItem
             // 
             this.clearTXDsToolStripMenuItem.Name = "clearTXDsToolStripMenuItem";
-            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearTXDsToolStripMenuItem.Text = "Clear Textures";
             this.clearTXDsToolStripMenuItem.Click += new System.EventHandler(this.clearTXDsToolStripMenuItem_Click);
             // 
             // addObjectONEToolStripMenuItem1
             // 
             this.addObjectONEToolStripMenuItem1.Name = "addObjectONEToolStripMenuItem1";
-            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
+            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.addObjectONEToolStripMenuItem1.Text = "Add Object ONE";
             this.addObjectONEToolStripMenuItem1.Click += new System.EventHandler(this.addObjectONEToolStripMenuItem1_Click);
             // 
             // clearObjectONEsToolStripMenuItem1
             // 
             this.clearObjectONEsToolStripMenuItem1.Name = "clearObjectONEsToolStripMenuItem1";
-            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
+            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.clearObjectONEsToolStripMenuItem1.Text = "Clear Object ONEs";
             this.clearObjectONEsToolStripMenuItem1.Click += new System.EventHandler(this.clearObjectONEsToolStripMenuItem1_Click);
             // 
@@ -474,6 +474,13 @@ namespace HeroesPowerPlant.MainForm
             this.autoSaveProjectOnClosingToolStripMenuItem.Text = "Auto-Save Project on Closing";
             this.autoSaveProjectOnClosingToolStripMenuItem.Click += new System.EventHandler(this.autoSaveProjectOnClosingToolStripMenuItem_Click);
             // 
+            // cameraViewSettingsToolStripMenuItem
+            // 
+            this.cameraViewSettingsToolStripMenuItem.Name = "cameraViewSettingsToolStripMenuItem";
+            this.cameraViewSettingsToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.cameraViewSettingsToolStripMenuItem.Text = "Camera/View Settings";
+            this.cameraViewSettingsToolStripMenuItem.Click += new System.EventHandler(this.cameraViewSettingsToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -505,13 +512,6 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseUp);
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
-            // 
-            // cameraViewSettingsToolStripMenuItem
-            // 
-            this.cameraViewSettingsToolStripMenuItem.Name = "cameraViewSettingsToolStripMenuItem";
-            this.cameraViewSettingsToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.cameraViewSettingsToolStripMenuItem.Text = "Camera/View Settings";
-            this.cameraViewSettingsToolStripMenuItem.Click += new System.EventHandler(this.cameraViewSettingsToolStripMenuItem_Click);
             // 
             // MainForm
             // 

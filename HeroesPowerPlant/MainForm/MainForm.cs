@@ -686,10 +686,12 @@ namespace HeroesPowerPlant.MainForm
         {
             OpenFileDialog openTXD = new OpenFileDialog()
             {
-                Filter = "All supported filetypes|*.txd;*.one|TXD files|*.txd|ONE files|*.one"
+                Filter = "All supported filetypes|*.txd;*.one|TXD files|*.txd|ONE files|*.one",
+                Multiselect = true
             };
             if (openTXD.ShowDialog() == DialogResult.OK)
-                TextureManager.LoadTexturesFromTXD(openTXD.FileName);
+                foreach (var fileName in openTXD.FileNames)
+                    TextureManager.LoadTexturesFromTXD(fileName);
         }
 
         private void addTextureFolderToolStripMenuItem_Click(object sender, EventArgs e)
