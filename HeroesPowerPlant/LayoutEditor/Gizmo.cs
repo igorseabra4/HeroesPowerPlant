@@ -75,20 +75,20 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
 
-            renderer.device.SetFillModeSolid();
-            renderer.device.SetCullModeNone();
-            renderer.device.SetBlendStateAlphaBlend();
-            renderer.device.ApplyRasterState();
-            renderer.device.SetDepthStateNone();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetFillModeSolid();
+            renderer.Device.SetCullModeNone();
+            renderer.Device.SetBlendStateAlphaBlend();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.SetDepthStateNone();
+            renderer.Device.UpdateAllStates();
 
-            renderer.device.UpdateData(renderer.basicBuffer, renderData);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.Device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
             renderer.basicShader.Apply();
 
-            renderer.Pyramid.Draw(renderer.device);
+            renderer.Pyramid.Draw(renderer.Device);
 
-            renderer.device.SetDefaultDepthState();
+            renderer.Device.SetDefaultDepthState();
         }
 
         public BoundingBox boundingBox;

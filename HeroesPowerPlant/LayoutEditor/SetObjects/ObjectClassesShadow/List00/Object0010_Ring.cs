@@ -60,10 +60,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 else
                     renderData.Color = renderer.normalColor;
 
-                renderer.device.SetCullModeDefault();
-                renderer.device.SetDefaultBlendState();
-                renderer.device.ApplyRasterState();
-                renderer.device.UpdateAllStates();
+                renderer.Device.SetCullModeDefault();
+                renderer.Device.SetDefaultBlendState();
+                renderer.Device.ApplyRasterState();
+                renderer.Device.UpdateAllStates();
 
                 renderer.tintedShader.Apply();
 
@@ -71,10 +71,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 {
                     renderData.worldViewProjection = Matrix.Translation(i) * transformMatrix * renderer.viewProjection;
 
-                    renderer.device.UpdateData(renderer.tintedBuffer, renderData);
-                    renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
+                    renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+                    renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                    DFFRenderer.DFFModels[modelNames[0]].Render(renderer.device);
+                    DFFRenderer.DFFModels[modelNames[0]].Render(renderer.Device);
                 }
             }
             else
@@ -84,21 +84,21 @@ namespace HeroesPowerPlant.LayoutEditor
                 else
                     renderData.Color = renderer.normalColor;
 
-                renderer.device.SetFillModeDefault();
-                renderer.device.SetCullModeNone();
-                renderer.device.SetBlendStateAlphaBlend();
-                renderer.device.ApplyRasterState();
-                renderer.device.UpdateAllStates();
+                renderer.Device.SetFillModeDefault();
+                renderer.Device.SetCullModeNone();
+                renderer.Device.SetBlendStateAlphaBlend();
+                renderer.Device.ApplyRasterState();
+                renderer.Device.UpdateAllStates();
 
                 foreach (Vector3 i in positionsList)
                 {
                     renderData.worldViewProjection = Matrix.Scaling(4) * Matrix.Translation(i) * transformMatrix * renderer.viewProjection;
 
-                    renderer.device.UpdateData(renderer.basicBuffer, renderData);
-                    renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+                    renderer.Device.UpdateData(renderer.basicBuffer, renderData);
+                    renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
                     renderer.basicShader.Apply();
 
-                    renderer.Cube.Draw(renderer.device);
+                    renderer.Cube.Draw(renderer.Device);
                 }
             }
         }

@@ -81,7 +81,7 @@ namespace HeroesPowerPlant
         public InputLayout Layout { get; private set; }
 
         /// <summary>
-        /// Pointer to current device
+        /// Pointer to current Device
         /// </summary>
         public SharpDevice Device { get; private set; }
 

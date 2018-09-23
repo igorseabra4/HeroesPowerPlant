@@ -45,7 +45,7 @@ namespace HeroesPowerPlant
         public System.Windows.Forms.Control Control { get; private set; }
 
         /// <summary>
-        /// Indicate that device must be resized
+        /// Indicate that Device must be resized
         /// </summary>
         public bool MustResize { get; private set; }
 
@@ -81,14 +81,14 @@ namespace HeroesPowerPlant
 
             FeatureLevel[] levels = new FeatureLevel[] { FeatureLevel.Level_11_0 };
 
-            //create device and swapchain
+            //create Device and swapchain
             DeviceCreationFlags flag = DeviceCreationFlags.None | DeviceCreationFlags.BgraSupport;
             if (debug)
                 flag = DeviceCreationFlags.Debug;
 
             Device11.CreateWithSwapChain(useReference ? DriverType.Reference : DriverType.Hardware, flag, levels, desc, out _device, out _swapchain);
             
-            //get context to device
+            //get context to Device
             _deviceContext = Device.ImmediateContext;
             
             //Ignore all windows events
@@ -146,7 +146,7 @@ namespace HeroesPowerPlant
                 BindFlags = BindFlags.DepthStencil
             });
 
-            // Create the view for binding to the device.
+            // Create the view for binding to the Device.
             _zbufferView = new DepthStencilView(Device, depthBuffer,
                 new DepthStencilViewDescription()
                 {
@@ -162,7 +162,7 @@ namespace HeroesPowerPlant
         }
 
         /// <summary>
-        /// Set default render and depth buffer inside device context
+        /// Set default render and depth buffer inside Device context
         /// </summary>
         public void SetDefaultTargets()
         {

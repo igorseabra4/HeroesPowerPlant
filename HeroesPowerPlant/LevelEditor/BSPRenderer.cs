@@ -75,7 +75,7 @@ namespace HeroesPowerPlant
             if (renderByChunk)
                 DetermineVisibleChunks(renderer);
 
-            renderer.device.SetFillModeDefault();
+            renderer.Device.SetFillModeDefault();
             renderer.defaultShader.Apply();
 
             RenderOpaque(renderer);
@@ -84,12 +84,12 @@ namespace HeroesPowerPlant
 
         private static void RenderOpaque(SharpRenderer renderer)
         {
-            renderer.device.SetDefaultBlendState();
-            renderer.device.SetDefaultDepthState();
-            renderer.device.SetCullModeDefault();
+            renderer.Device.SetDefaultBlendState();
+            renderer.Device.SetDefaultDepthState();
+            renderer.Device.SetCullModeDefault();
 
-            renderer.device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
+            renderer.Device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
 
             for (int j = 0; j < BSPList.Count; j++)
             {
@@ -97,13 +97,13 @@ namespace HeroesPowerPlant
                     (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P" | BSPList[j].ChunkName == "K"))
                     continue;
 
-                if (BSPList[j].isNoCulling) renderer.device.SetCullModeNone();
-                else renderer.device.SetCullModeDefault();
+                if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
+                else renderer.Device.SetCullModeDefault();
 
-                renderer.device.ApplyRasterState();
-                renderer.device.UpdateAllStates();
+                renderer.Device.ApplyRasterState();
+                renderer.Device.UpdateAllStates();
 
-                BSPList[j].Render(renderer.device);
+                BSPList[j].Render(renderer.Device);
             }
         }
 
@@ -115,25 +115,25 @@ namespace HeroesPowerPlant
                     (BSPList[j].ChunkName == "O"))
                     continue;
 
-                if (BSPList[j].isNoCulling) renderer.device.SetCullModeNone();
-                else renderer.device.SetCullModeDefault();
+                if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
+                else renderer.Device.SetCullModeDefault();
 
                 if (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P")
                 {
-                    renderer.device.SetBlendStateAlphaBlend();
+                    renderer.Device.SetBlendStateAlphaBlend();
                 }
                 else if (BSPList[j].ChunkName == "K")
                 {
-                    renderer.device.SetBlendStateAdditive();
+                    renderer.Device.SetBlendStateAdditive();
                 }
 
-                renderer.device.ApplyRasterState();
-                renderer.device.UpdateAllStates();
+                renderer.Device.ApplyRasterState();
+                renderer.Device.UpdateAllStates();
 
-                renderer.device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
-                renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
+                renderer.Device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
+                renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
 
-                BSPList[j].Render(renderer.device);
+                BSPList[j].Render(renderer.Device);
             }
         }
 
@@ -208,7 +208,7 @@ namespace HeroesPowerPlant
                         try
                         {
                             byte[] data = file.DecompressThis();
-                            TempBSPFile.SetForRendering(renderer.device, ReadFileMethods.ReadRenderWareFile(data), data);
+                            TempBSPFile.SetForRendering(renderer.Device, ReadFileMethods.ReadRenderWareFile(data), data);
                         }
                         catch (Exception e)
                         {
@@ -223,7 +223,7 @@ namespace HeroesPowerPlant
                         RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                         TempBSPFile.SetChunkNumberAndName();
                         byte[] data = file.DecompressThis();
-                        TempBSPFile.SetForRendering(renderer.device, ReadFileMethods.ReadRenderWareFile(data), data);
+                        TempBSPFile.SetForRendering(renderer.Device, ReadFileMethods.ReadRenderWareFile(data), data);
                         BSPList.Add(TempBSPFile);
                     }
                 }
@@ -234,14 +234,14 @@ namespace HeroesPowerPlant
             if (renderByChunk)
                 DetermineVisibleChunks(renderer);
 
-            renderer.device.SetDefaultBlendState();
-            renderer.device.SetFillModeDefault();
-            renderer.device.SetCullModeDefault();
-            renderer.device.ApplyRasterState();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetDefaultBlendState();
+            renderer.Device.SetFillModeDefault();
+            renderer.Device.SetCullModeDefault();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
 
-            renderer.device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
+            renderer.Device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
             renderer.defaultShader.Apply();
                         
             for (int j = 0; j < ShadowColBSPList.Count; j++)
@@ -249,7 +249,7 @@ namespace HeroesPowerPlant
                 if (renderByChunk & !VisibleChunks.Contains(ShadowColBSPList[j].ChunkNumber))
                     continue;
 
-                ShadowColBSPList[j].Render(renderer.device);
+                ShadowColBSPList[j].Render(renderer.Device);
             }
         }
     }

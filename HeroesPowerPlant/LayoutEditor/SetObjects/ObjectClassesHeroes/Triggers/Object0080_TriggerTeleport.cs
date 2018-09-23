@@ -44,17 +44,17 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 renderData.Color = renderer.selectedColor;
 
-                renderer.device.SetFillModeDefault();
-                renderer.device.SetCullModeNone();
-                renderer.device.SetBlendStateAlphaBlend();
-                renderer.device.ApplyRasterState();
-                renderer.device.UpdateAllStates();
+                renderer.Device.SetFillModeDefault();
+                renderer.Device.SetCullModeNone();
+                renderer.Device.SetBlendStateAlphaBlend();
+                renderer.Device.ApplyRasterState();
+                renderer.Device.UpdateAllStates();
 
-                renderer.device.UpdateData(renderer.basicBuffer, renderData);
-                renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+                renderer.Device.UpdateData(renderer.basicBuffer, renderData);
+                renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
                 renderer.basicShader.Apply();
 
-                renderer.Cube.Draw(renderer.device);
+                renderer.Cube.Draw(renderer.Device);
             }
         }
 

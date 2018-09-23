@@ -31,26 +31,26 @@ namespace HeroesPowerPlant.LevelEditor
             else
                 renderData.Color = chunkColor;
 
-            renderer.device.SetFillModeDefault();
-            renderer.device.SetCullModeNone();
-            renderer.device.SetBlendStateAlphaBlend();
-            renderer.device.ApplyRasterState();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetFillModeDefault();
+            renderer.Device.SetCullModeNone();
+            renderer.Device.SetBlendStateAlphaBlend();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
 
-            renderer.device.UpdateData(renderer.basicBuffer, renderData);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.Device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
 
-            renderer.Cube.Draw(renderer.device);
+            renderer.Cube.Draw(renderer.Device);
 
-            renderer.device.SetFillModeWireframe();
-            renderer.device.ApplyRasterState();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetFillModeWireframe();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
 
             renderData.Color = Vector4.One;
-            renderer.device.UpdateData(renderer.basicBuffer, renderData);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.Device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
 
-            renderer.Cube.Draw(renderer.device);
+            renderer.Cube.Draw(renderer.Device);
         }
     }
 }

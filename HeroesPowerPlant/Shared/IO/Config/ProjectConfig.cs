@@ -133,8 +133,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 RenderingOptions = new RenderOptions()
                 {
                     QuadtreeHeight = (float)Program.ViewConfig.NumericQuadHeight.Value,
-                    NoCulling = renderer.device.GetCullMode() == SharpDX.Direct3D11.CullMode.None,
-                    Wireframe = renderer.device.GetFillMode() == SharpDX.Direct3D11.FillMode.Wireframe,
+                    NoCulling = renderer.Device.GetCullMode() == SharpDX.Direct3D11.CullMode.None,
+                    Wireframe = renderer.Device.GetFillMode() == SharpDX.Direct3D11.FillMode.Wireframe,
                     ShowStartPos = renderer.ShowStartPositions,
                     ShowSplines = renderer.ShowSplines,
                     RenderByChunk = BSPRenderer.renderByChunk,

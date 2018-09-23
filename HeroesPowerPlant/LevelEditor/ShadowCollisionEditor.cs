@@ -65,11 +65,11 @@ namespace HeroesPowerPlant.LevelEditor
 
                     if (Path.GetExtension(i).ToLower() == ".obj")
                     {
-                        file.SetForRendering(Program.MainForm.renderer.device, CreateShadowCollisionBSPFile(ReadOBJFile(i, true)), null);
+                        file.SetForRendering(Program.MainForm.renderer.Device, CreateShadowCollisionBSPFile(ReadOBJFile(i, true)), null);
                     }
                     else
                     {
-                        file.SetForRendering(Program.MainForm.renderer.device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
+                        file.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                     }
 
                     ShadowColBSPList.Add(file);

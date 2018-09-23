@@ -98,15 +98,15 @@ namespace HeroesPowerPlant.MainForm
         {
             noCullingCToolStripMenuItem.Checked = renderingOptions.NoCulling;
             if (noCullingCToolStripMenuItem.Checked)
-                renderer.device.SetNormalCullMode(CullMode.None);
+                renderer.Device.SetNormalCullMode(CullMode.None);
             else
-                renderer.device.SetNormalCullMode(CullMode.Back);
+                renderer.Device.SetNormalCullMode(CullMode.Back);
 
             wireframeFToolStripMenuItem.Checked = renderingOptions.Wireframe;
             if (wireframeFToolStripMenuItem.Checked)
-                renderer.device.SetNormalFillMode(FillMode.Wireframe);
+                renderer.Device.SetNormalFillMode(FillMode.Wireframe);
             else
-                renderer.device.SetNormalFillMode(FillMode.Solid);
+                renderer.Device.SetNormalFillMode(FillMode.Solid);
 
             renderer.backgroundColor = new Color(
                 renderingOptions.BackgroundColor.X,
@@ -415,9 +415,9 @@ namespace HeroesPowerPlant.MainForm
         {
             noCullingCToolStripMenuItem.Checked = !noCullingCToolStripMenuItem.Checked;
             if (noCullingCToolStripMenuItem.Checked)
-                renderer.device.SetNormalCullMode(CullMode.None);
+                renderer.Device.SetNormalCullMode(CullMode.None);
             else
-                renderer.device.SetNormalCullMode(CullMode.Back);
+                renderer.Device.SetNormalCullMode(CullMode.Back);
         }
 
         private void wireframeFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -429,9 +429,9 @@ namespace HeroesPowerPlant.MainForm
         {
             wireframeFToolStripMenuItem.Checked = !wireframeFToolStripMenuItem.Checked;
             if (wireframeFToolStripMenuItem.Checked)
-                renderer.device.SetNormalFillMode(FillMode.Wireframe);
+                renderer.Device.SetNormalFillMode(FillMode.Wireframe);
             else
-                renderer.device.SetNormalFillMode(FillMode.Solid);
+                renderer.Device.SetNormalFillMode(FillMode.Solid);
         }
 
         private void BackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -605,7 +605,7 @@ namespace HeroesPowerPlant.MainForm
         {
             renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = true;
-            renderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            renderer.Device.SetVSync(vSyncToolStripMenuItem.Checked);
             renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = true;
@@ -615,7 +615,7 @@ namespace HeroesPowerPlant.MainForm
         {
             renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = false;
-            renderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            renderer.Device.SetVSync(vSyncToolStripMenuItem.Checked);
             renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = false;
