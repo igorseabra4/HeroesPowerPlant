@@ -52,7 +52,7 @@ namespace HeroesPowerPlant
         {
             byte[] dataBytes = File.ReadAllBytes(fileName);
             foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
-                    AddDFF(j);
+                AddDFF(j);
         }
 
         private static void AddDFF(ArchiveFile j)
@@ -62,18 +62,27 @@ namespace HeroesPowerPlant
                 RenderWareModelFile d = new RenderWareModelFile(j.Name);
                 byte[] dffData = j.DecompressThis();
 
-                d.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(dffData), dffData);
-
-                if (DFFModels.ContainsKey(j.Name))
+                try
                 {
-                    foreach (SharpMesh mesh in DFFModels[j.Name].meshList)
-                        mesh.Dispose();
+                    d.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(dffData),
+                        dffData);
 
-                    DFFModels[j.Name] = d;
+                    if (DFFModels.ContainsKey(j.Name))
+                    {
+                        foreach (SharpMesh mesh in DFFModels[j.Name].meshList)
+                            mesh.Dispose();
+
+                        DFFModels[j.Name] = d;
+                    }
+                    else
+                    {
+                        DFFModels.Add(j.Name, d);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    DFFModels.Add(j.Name, d);
+                    // TODO: Investigate RenderWareFile failing to open certain DFFs.
+                    MessageBox.Show($"RenderWareFile: Failed to open DFF model file; {j.Name} | Exception Message: {ex.Message}");
                 }
             }
             else if (Path.GetExtension(j.Name).ToLower().Equals(".txd"))
