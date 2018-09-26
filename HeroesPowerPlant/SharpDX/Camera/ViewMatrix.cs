@@ -51,11 +51,11 @@ namespace HeroesPowerPlant
                 _validCameraVectors = false;
 
                 // Further than looking directly up not allowed.
-                if (value > 90F)
-                    value = 90F;
+                if (value > 89.5F)
+                    value = 89.5F;
 
-                if (value < -90F)
-                    value = -90F;
+                if (value < -89.5F)
+                    value = -89.5F;
 
                 // Set new pitch.
                 _pitch = MathUtil.DegreesToRadians(value);
