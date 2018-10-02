@@ -742,15 +742,22 @@ namespace HeroesPowerPlant.MainForm
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized)
+            try
             {
-                renderer.dontRender = true;
-                SetAllTopMost(false);
+                if (WindowState == FormWindowState.Minimized)
+                {
+                    renderer.dontRender = true;
+                    SetAllTopMost(false);
+                }
+                else
+                {
+                    renderer.dontRender = false;
+                    SetAllTopMost(true);
+                }
             }
-            else
+            catch
             {
-                renderer.dontRender = false;
-                SetAllTopMost(true);
+                // Ignored; Renderer might not be initialized.
             }
         }
 

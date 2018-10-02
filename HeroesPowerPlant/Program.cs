@@ -27,25 +27,32 @@ namespace HeroesPowerPlant
         [STAThread]
         static void Main()
         {
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-us");
+            try
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-us");
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            MainForm = new MainForm.MainForm();
-            AboutBox = new AboutBox();
-            ViewConfig = new ViewConfig();
-            ConfigEditor = new ConfigEditor.ConfigEditor();
-            LevelEditor = new LevelEditor.LevelEditor();
-            CollisionEditor = new CollisionEditor.CollisionEditor();
-            LayoutEditor = new LayoutEditor.LayoutEditor();
-            SplineEditor = new SplineEditor.SplineEditor();
-            CameraEditor = new CameraEditor.CameraEditor();
-            ParticleEditor = new ParticleEditor.ParticleMenu();
-            TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
-            SetIdTableEditor = new SetIdTableEditor.SetIdTableEditor();
+                MainForm = new MainForm.MainForm();
+                AboutBox = new AboutBox();
+                ViewConfig = new ViewConfig();
+                ConfigEditor = new ConfigEditor.ConfigEditor();
+                LevelEditor = new LevelEditor.LevelEditor();
+                CollisionEditor = new CollisionEditor.CollisionEditor();
+                LayoutEditor = new LayoutEditor.LayoutEditor();
+                SplineEditor = new SplineEditor.SplineEditor();
+                CameraEditor = new CameraEditor.CameraEditor();
+                ParticleEditor = new ParticleEditor.ParticleMenu();
+                TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
+                SetIdTableEditor = new SetIdTableEditor.SetIdTableEditor();
 
-            Application.Run(MainForm);
+                Application.Run(MainForm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unhandled Exception in Power Plant: {ex.Message} {ex.InnerException} {ex.StackTrace}");
+            }
         }
     }
 }
