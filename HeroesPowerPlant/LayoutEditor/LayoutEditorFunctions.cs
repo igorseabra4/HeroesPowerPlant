@@ -207,7 +207,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(i.objectEntry.List);
                 layoutWriter.Write(i.Link);
                 layoutWriter.Write(i.Rend);
-                layoutWriter.Write(i.MiscSettingCount);
+                layoutWriter.Write(i.objectManager.MiscSettings.Length);
                 layoutWriter.Write(0);
             }
 

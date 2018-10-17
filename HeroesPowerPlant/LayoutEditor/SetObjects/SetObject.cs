@@ -16,7 +16,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     return;
                 }
             }
-            throw new Exception($"Object entry not found: {List} {Type}");
+            throw new Exception($"Object entry not found: {List.ToString("X2")} {Type.ToString("X2")}");
         }
         
         public Vector3 Position;
