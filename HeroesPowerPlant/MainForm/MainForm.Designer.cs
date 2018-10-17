@@ -78,6 +78,7 @@ namespace HeroesPowerPlant.MainForm
             this.vSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoLoadLastProjectOnLaunchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoSaveProjectOnClosingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cameraViewSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
@@ -248,7 +249,7 @@ namespace HeroesPowerPlant.MainForm
             // 
             this.addTXDToolStripMenuItem.Name = "addTXDToolStripMenuItem";
             this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addTXDToolStripMenuItem.Text = "Add TXD";
+            this.addTXDToolStripMenuItem.Text = "Add TXD(s)";
             this.addTXDToolStripMenuItem.Click += new System.EventHandler(this.addTXDToolStripMenuItem_Click);
             // 
             // addTextureFolderToolStripMenuItem
@@ -298,7 +299,8 @@ namespace HeroesPowerPlant.MainForm
             this.toolStripSeparator4,
             this.vSyncToolStripMenuItem,
             this.autoLoadLastProjectOnLaunchToolStripMenuItem,
-            this.autoSaveProjectOnClosingToolStripMenuItem});
+            this.autoSaveProjectOnClosingToolStripMenuItem,
+            this.cameraViewSettingsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -367,14 +369,14 @@ namespace HeroesPowerPlant.MainForm
             this.objectsToolStripMenuItem.Checked = true;
             this.objectsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.objectsToolStripMenuItem.Name = "objectsToolStripMenuItem";
-            this.objectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectsToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.objectsToolStripMenuItem.Text = "Objects";
             this.objectsToolStripMenuItem.Click += new System.EventHandler(this.objectsToolStripMenuItem_Click);
             // 
             // camerasToolStripMenuItem
             // 
             this.camerasToolStripMenuItem.Name = "camerasToolStripMenuItem";
-            this.camerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.camerasToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.camerasToolStripMenuItem.Text = "Cameras";
             this.camerasToolStripMenuItem.Click += new System.EventHandler(this.camerasToolStripMenuItem_Click);
             // 
@@ -471,6 +473,13 @@ namespace HeroesPowerPlant.MainForm
             this.autoSaveProjectOnClosingToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.autoSaveProjectOnClosingToolStripMenuItem.Text = "Auto-Save Project on Closing";
             this.autoSaveProjectOnClosingToolStripMenuItem.Click += new System.EventHandler(this.autoSaveProjectOnClosingToolStripMenuItem_Click);
+            // 
+            // cameraViewSettingsToolStripMenuItem
+            // 
+            this.cameraViewSettingsToolStripMenuItem.Name = "cameraViewSettingsToolStripMenuItem";
+            this.cameraViewSettingsToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.cameraViewSettingsToolStripMenuItem.Text = "Camera/View Settings";
+            this.cameraViewSettingsToolStripMenuItem.Click += new System.EventHandler(this.cameraViewSettingsToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -585,6 +594,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem addTextureFolderToolStripMenuItem;
         private ToolStripMenuItem autoSaveProjectOnClosingToolStripMenuItem;
         private ToolStripMenuItem sETIDTableEditorToolStripMenuItem;
+        private ToolStripMenuItem cameraViewSettingsToolStripMenuItem;
     }
 }
 

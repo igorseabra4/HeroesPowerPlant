@@ -98,15 +98,15 @@ namespace HeroesPowerPlant.MainForm
         {
             noCullingCToolStripMenuItem.Checked = renderingOptions.NoCulling;
             if (noCullingCToolStripMenuItem.Checked)
-                renderer.device.SetNormalCullMode(CullMode.None);
+                renderer.Device.SetNormalCullMode(CullMode.None);
             else
-                renderer.device.SetNormalCullMode(CullMode.Back);
+                renderer.Device.SetNormalCullMode(CullMode.Back);
 
             wireframeFToolStripMenuItem.Checked = renderingOptions.Wireframe;
             if (wireframeFToolStripMenuItem.Checked)
-                renderer.device.SetNormalFillMode(FillMode.Wireframe);
+                renderer.Device.SetNormalFillMode(FillMode.Wireframe);
             else
-                renderer.device.SetNormalFillMode(FillMode.Solid);
+                renderer.Device.SetNormalFillMode(FillMode.Solid);
 
             renderer.backgroundColor = new Color(
                 renderingOptions.BackgroundColor.X,
@@ -250,8 +250,9 @@ namespace HeroesPowerPlant.MainForm
                 }
                 if (e.Button == MouseButtons.Right)
                 {
-                    renderer.Camera.AddPositionSideways(deltaX);
-                    renderer.Camera.AddPositionUp(deltaY);
+                    // Do not scale with framerate; WinForms events are not scalable with FPS.
+                    renderer.Camera.AddPositionSideways(deltaX, false);
+                    renderer.Camera.AddPositionUp(deltaY, false);
                 }
 
                 Program.LayoutEditor.MouseMoveX(renderer.Camera, deltaX);
@@ -270,7 +271,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void renderPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            renderer.Camera.AddPositionForward(e.Delta);
+            renderer.Camera.AddPositionForward(e.Delta, false);
         }
 
         private void MouseModeToggle()
@@ -414,9 +415,9 @@ namespace HeroesPowerPlant.MainForm
         {
             noCullingCToolStripMenuItem.Checked = !noCullingCToolStripMenuItem.Checked;
             if (noCullingCToolStripMenuItem.Checked)
-                renderer.device.SetNormalCullMode(CullMode.None);
+                renderer.Device.SetNormalCullMode(CullMode.None);
             else
-                renderer.device.SetNormalCullMode(CullMode.Back);
+                renderer.Device.SetNormalCullMode(CullMode.Back);
         }
 
         private void wireframeFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -428,9 +429,9 @@ namespace HeroesPowerPlant.MainForm
         {
             wireframeFToolStripMenuItem.Checked = !wireframeFToolStripMenuItem.Checked;
             if (wireframeFToolStripMenuItem.Checked)
-                renderer.device.SetNormalFillMode(FillMode.Wireframe);
+                renderer.Device.SetNormalFillMode(FillMode.Wireframe);
             else
-                renderer.device.SetNormalFillMode(FillMode.Solid);
+                renderer.Device.SetNormalFillMode(FillMode.Solid);
         }
 
         private void BackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -604,7 +605,7 @@ namespace HeroesPowerPlant.MainForm
         {
             renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = true;
-            renderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            renderer.Device.SetVSync(vSyncToolStripMenuItem.Checked);
             renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = true;
@@ -614,7 +615,7 @@ namespace HeroesPowerPlant.MainForm
         {
             renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = false;
-            renderer.device.SetVSync(vSyncToolStripMenuItem.Checked);
+            renderer.Device.SetVSync(vSyncToolStripMenuItem.Checked);
             renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = false;
@@ -685,10 +686,12 @@ namespace HeroesPowerPlant.MainForm
         {
             OpenFileDialog openTXD = new OpenFileDialog()
             {
-                Filter = "All supported filetypes|*.txd;*.one|TXD files|*.txd|ONE files|*.one"
+                Filter = "All supported filetypes|*.txd;*.one|TXD files|*.txd|ONE files|*.one",
+                Multiselect = true
             };
             if (openTXD.ShowDialog() == DialogResult.OK)
-                TextureManager.LoadTexturesFromTXD(openTXD.FileName);
+                foreach (var fileName in openTXD.FileNames)
+                    TextureManager.LoadTexturesFromTXD(fileName);
         }
 
         private void addTextureFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -739,16 +742,31 @@ namespace HeroesPowerPlant.MainForm
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized)
+            try
             {
-                renderer.dontRender = true;
-                SetAllTopMost(false);
+                if (WindowState == FormWindowState.Minimized)
+                {
+                    renderer.dontRender = true;
+                    SetAllTopMost(false);
+                }
+                else
+                {
+                    renderer.dontRender = false;
+                    SetAllTopMost(true);
+                }
             }
-            else
+            catch
             {
-                renderer.dontRender = false;
-                SetAllTopMost(true);
+                // Ignored; Renderer might not be initialized.
             }
+        }
+
+        /// <summary>
+        /// This is just a shortcut for opening the view menu.
+        /// </summary>
+        private void cameraViewSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.ViewConfig.Show();
         }
     }
 }

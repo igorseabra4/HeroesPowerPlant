@@ -12,9 +12,9 @@ namespace HeroesPowerPlant
 {
     public class SharpRenderer
     {
-        public SharpDevice device;
-        public SharpCamera Camera = new SharpCamera();
-        public SharpFPS sharpFPS;
+        public SharpDevice Device;
+        public SharpCamera Camera;
+        public SharpFPS SharpFps;
         
         public SharpRenderer(Control control)
         {
@@ -26,13 +26,15 @@ namespace HeroesPowerPlant
 
             ResetColors();
 
-            device = new SharpDevice(control, false);
+            Device = new SharpDevice(control, false);
             LoadModels();
 
-            sharpFPS = new SharpFPS
+            SharpFps = new SharpFPS
             {
                 FPSLimit = float.MaxValue
             };
+            Camera = new SharpCamera(SharpFps);
+
             Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
 
             SetSharpShader();
@@ -53,7 +55,7 @@ namespace HeroesPowerPlant
         
         public void SetSharpShader()
         {
-            basicShader = new SharpShader(device, "Resources/SharpDX/Shader_Basic.hlsl",
+            basicShader = new SharpShader(Device, "Resources/SharpDX/Shader_Basic.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0)
@@ -61,7 +63,7 @@ namespace HeroesPowerPlant
 
             basicBuffer = basicShader.CreateBuffer<DefaultRenderData>();
 
-            defaultShader = new SharpShader(device, "Resources/SharpDX/Shader_Default.hlsl",
+            defaultShader = new SharpShader(Device, "Resources/SharpDX/Shader_Default.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -71,7 +73,7 @@ namespace HeroesPowerPlant
 
             defaultBuffer = defaultShader.CreateBuffer<Matrix>();
 
-            tintedShader = new SharpShader(device, "Resources/SharpDX/Shader_Tinted.hlsl",
+            tintedShader = new SharpShader(Device, "Resources/SharpDX/Shader_Tinted.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -81,7 +83,7 @@ namespace HeroesPowerPlant
 
             tintedBuffer = defaultShader.CreateBuffer<DefaultRenderData>();
 
-            collisionShader = new SharpShader(device, "Resources/SharpDX/Shader_Collision.hlsl",
+            collisionShader = new SharpShader(Device, "Resources/SharpDX/Shader_Collision.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0),
@@ -101,10 +103,10 @@ namespace HeroesPowerPlant
             if (whiteDefault != null)
             {
                 if (whiteDefault.IsDisposed)
-                    whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
+                    whiteDefault = Device.LoadTextureFromFile("Resources\\WhiteDefault.png");
             }
             else
-                whiteDefault = device.LoadTextureFromFile("Resources\\WhiteDefault.png");
+                whiteDefault = Device.LoadTextureFromFile("Resources\\WhiteDefault.png");
         }
 
         private DefaultRenderData cubeRenderData;
@@ -131,17 +133,17 @@ namespace HeroesPowerPlant
             else
                 cubeRenderData.Color = normalColor;
 
-            device.SetFillModeDefault();
-            device.SetCullModeNone();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            Device.SetFillModeDefault();
+            Device.SetCullModeNone();
+            Device.SetBlendStateAlphaBlend();
+            Device.ApplyRasterState();
+            Device.UpdateAllStates();
             
-            device.UpdateData(basicBuffer, cubeRenderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+            Device.UpdateData(basicBuffer, cubeRenderData);
+            Device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
 
-            Cube.Draw(device);
+            Cube.Draw(Device);
         }
 
         private DefaultRenderData cylinderRenderData;
@@ -155,17 +157,17 @@ namespace HeroesPowerPlant
             else
                 cylinderRenderData.Color = normalColor;
 
-            device.SetFillModeDefault();
-            device.SetCullModeNone();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            Device.SetFillModeDefault();
+            Device.SetCullModeNone();
+            Device.SetBlendStateAlphaBlend();
+            Device.ApplyRasterState();
+            Device.UpdateAllStates();
 
-            device.UpdateData(basicBuffer, cylinderRenderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+            Device.UpdateData(basicBuffer, cylinderRenderData);
+            Device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
 
-            Cylinder.Draw(device);
+            Cylinder.Draw(Device);
         }
 
         private DefaultRenderData sphereRenderData;
@@ -179,17 +181,17 @@ namespace HeroesPowerPlant
             else
                 sphereRenderData.Color = normalColor;
 
-            device.SetFillModeDefault();
-            device.SetCullModeNone();
-            device.SetBlendStateAlphaBlend();
-            device.ApplyRasterState();
-            device.UpdateAllStates();
+            Device.SetFillModeDefault();
+            Device.SetCullModeNone();
+            Device.SetBlendStateAlphaBlend();
+            Device.ApplyRasterState();
+            Device.UpdateAllStates();
 
-            device.UpdateData(basicBuffer, sphereRenderData);
-            device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+            Device.UpdateData(basicBuffer, sphereRenderData);
+            Device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
 
-            Sphere.Draw(device);
+            Sphere.Draw(Device);
         }
 
         public bool ShowStartPositions { get; set; } = true;
@@ -253,10 +255,10 @@ namespace HeroesPowerPlant
                     else if (i == 2) pyramidTriangles.Add(t);
                 }
 
-                if (i == 0) Cube = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
-                else if (i == 1) Cylinder = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
-                else if (i == 2) Pyramid = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
-                else Sphere = SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                if (i == 0) Cube = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                else if (i == 1) Cylinder = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                else if (i == 2) Pyramid = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                else Sphere = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
             }
         }
 
@@ -278,22 +280,22 @@ namespace HeroesPowerPlant
         {
             RenderLoop.Run(Panel, () =>
             {
-                sharpFPS.StartFrame();
+                SharpFps.StartFrame();
 
                 if (dontRender) return;
 
                 //Resizing
-                if (device.MustResize)
+                if (Device.MustResize)
                 {
-                    device.Resize();
+                    Device.Resize();
                     Camera.ProjectionMatrix.AspectRatio = (float)Panel.Width / Panel.Height;
                 }
 
                 Program.MainForm.KeyboardController();
-                Program.MainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{sharpFPS.FPS:0.0000}");
+                Program.MainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{SharpFps.FPS:0.0000}");
 
                 //clear color
-                device.Clear(backgroundColor);
+                Device.Clear(backgroundColor);
 
                 //Set matrices
                 viewProjection = Camera.ViewMatrix.GetViewMatrix() * Camera.ProjectionMatrix.GetProjectionMatrix();
@@ -330,23 +332,19 @@ namespace HeroesPowerPlant
                     CollisionRendering.RenderQuadTree(this);
 
                 //present
-                device.Present();
+                Device.Present();
 
-                sharpFPS.EndFrame();
-                sharpFPS.Sleep();
+                SharpFps.EndFrame();
+                SharpFps.Sleep();
             });
 
             //release resources
 
             whiteDefault.Dispose();
-
             BSPRenderer.Dispose();
             TextureManager.DisposeTextures();
-
             DFFRenderer.Dispose();
-
             CollisionRendering.Dispose();
-
             Program.SplineEditor.DisposeSplines();
             
             Cube.Dispose();
@@ -366,7 +364,7 @@ namespace HeroesPowerPlant
             tintedBuffer.Dispose();
             tintedShader.Dispose();
 
-            device.Dispose();
+            Device.Dispose();
         }
     }
 }

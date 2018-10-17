@@ -69,7 +69,7 @@ namespace HeroesPowerPlant.LevelEditor
             SetFilenamePrefix(openONEfilePath);
 
             byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
-            SetHeroesBSPList(Program.MainForm.renderer.device, Archive.FromONEFile(ref fileBytes));
+            SetHeroesBSPList(Program.MainForm.renderer.Device, Archive.FromONEFile(ref fileBytes));
 
             InitBSPList();
 
@@ -195,15 +195,15 @@ namespace HeroesPowerPlant.LevelEditor
 
                         if (Path.GetExtension(i).ToLower() == ".obj")
                         {
-                            file.SetForRendering(Program.MainForm.renderer.device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked), null);
+                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked), null);
                         }
                         else if (Path.GetExtension(i).ToLower() == ".dae")
                         {
-                            file.SetForRendering(Program.MainForm.renderer.device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked), null);
+                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked), null);
                         }
                         else if (new string[] { ".bsp", ".rg1", ".rp2", ".rx1" }.Contains(Path.GetExtension(i).ToLower()))
                         {
-                            file.SetForRendering(Program.MainForm.renderer.device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
+                            file.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                         }
 
                         BSPList.Add(file);

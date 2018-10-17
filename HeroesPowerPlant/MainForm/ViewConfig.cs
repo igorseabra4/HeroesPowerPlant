@@ -111,6 +111,11 @@ namespace HeroesPowerPlant.MainForm
             CollisionEditor.CollisionRendering.SetQuadHeight((float)NumericQuadHeight.Value);
         }
 
+        private void NumericMouseSens_ValueChanged(object sender, EventArgs e)
+        {
+            Program.MainForm.renderer.Camera.MouseSensitivity = (float) NumericMouseSens.Value;
+        }
+
         private void ViewConfig_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
@@ -149,24 +154,7 @@ namespace HeroesPowerPlant.MainForm
 
             NumericCameraYaw.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Yaw;
             NumericCameraPitch.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Pitch;
-            ProgramIsUpdatingValues = false;
-            _invalidCameraValues = false;
-        }
-
-        public void SetValues(Vector3 position, float yaw, float pitch, float speed)
-        {
-            if (!Visible)
-                return;
-
-            ProgramIsUpdatingValues = true;
-
-            NumericCameraX.Value = (decimal)position.X;
-            NumericCameraY.Value = (decimal)position.Y;
-            NumericCameraZ.Value = (decimal)position.Z;
-            NumericInterval.Value = (decimal)speed;
-            NumericCameraPitch.Value = (decimal)pitch;
-            NumericCameraYaw.Value = (decimal)yaw;
-
+            NumericMouseSens.Value = (decimal)Program.MainForm.renderer.Camera.MouseSensitivity;
             ProgramIsUpdatingValues = false;
             _invalidCameraValues = false;
         }

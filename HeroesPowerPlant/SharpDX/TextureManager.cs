@@ -89,10 +89,10 @@ namespace HeroesPowerPlant
                     if (!Textures[tnStruct.textureName].IsDisposed)
                         Textures[tnStruct.textureName].Dispose();
 
-                Textures[tnStruct.textureName] = Program.MainForm.renderer.device.LoadTextureFromRenderWareNative(tnStruct);
+                Textures[tnStruct.textureName] = Program.MainForm.renderer.Device.LoadTextureFromRenderWareNative(tnStruct);
             }
             else
-                Textures.Add(tnStruct.textureName, Program.MainForm.renderer.device.LoadTextureFromRenderWareNative(tnStruct));
+                Textures.Add(tnStruct.textureName, Program.MainForm.renderer.Device.LoadTextureFromRenderWareNative(tnStruct));
         }
         
         public static void LoadTexturesFromFolder(string folderName)
@@ -116,10 +116,10 @@ namespace HeroesPowerPlant
                     if (!Textures[textureName].IsDisposed)
                         Textures[textureName].Dispose();
 
-                Textures[textureName] = Program.MainForm.renderer.device.LoadTextureFromFile(path);
+                Textures[textureName] = Program.MainForm.renderer.Device.LoadTextureFromFile(path);
             }
             else
-                Textures.Add(textureName, Program.MainForm.renderer.device.LoadTextureFromFile(path));
+                Textures.Add(textureName, Program.MainForm.renderer.Device.LoadTextureFromFile(path));
         }
 
         public static void ReapplyTextures()

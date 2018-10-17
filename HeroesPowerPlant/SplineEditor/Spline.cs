@@ -28,7 +28,7 @@ namespace HeroesPowerPlant.SplineEditor
             if (splineMesh != null)
                 splineMesh.Dispose();
 
-            splineMesh = SharpMesh.Create(renderer.device, Points, ReadWriteCommon.Range(Points.Length), new List<SharpSubSet>() {
+            splineMesh = SharpMesh.Create(renderer.Device, Points, ReadWriteCommon.Range(Points.Length), new List<SharpSubSet>() {
                     new SharpSubSet(0, Points.Length, null) }, SharpDX.Direct3D.PrimitiveTopology.LineStrip);
         }
 
@@ -41,17 +41,17 @@ namespace HeroesPowerPlant.SplineEditor
 
             renderData.worldViewProjection = renderer.viewProjection;
 
-            renderer.device.SetFillModeSolid();
-            renderer.device.SetCullModeNone();
-            renderer.device.SetDefaultBlendState();
-            renderer.device.ApplyRasterState();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetFillModeSolid();
+            renderer.Device.SetCullModeNone();
+            renderer.Device.SetDefaultBlendState();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
 
-            renderer.device.UpdateData(renderer.basicBuffer, renderData);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.Device.UpdateData(renderer.basicBuffer, renderData);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
             renderer.basicShader.Apply();
 
-            splineMesh.Draw(renderer.device);
+            splineMesh.Draw(renderer.Device);
         }
 
         public void Dispose()

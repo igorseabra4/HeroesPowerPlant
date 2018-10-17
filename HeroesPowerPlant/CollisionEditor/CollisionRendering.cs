@@ -26,17 +26,17 @@ namespace HeroesPowerPlant.CollisionEditor
 
             mainQuadtreeRenderData.worldViewProjection = quadTreeTranslation * renderer.viewProjection;
 
-            renderer.device.SetFillModeSolid();
-            renderer.device.SetCullModeNone();
-            renderer.device.SetDefaultBlendState();
-            renderer.device.ApplyRasterState();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetFillModeSolid();
+            renderer.Device.SetCullModeNone();
+            renderer.Device.SetDefaultBlendState();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
 
-            renderer.device.UpdateData(renderer.basicBuffer, mainQuadtreeRenderData);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.Device.UpdateData(renderer.basicBuffer, mainQuadtreeRenderData);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
             renderer.basicShader.Apply();
 
-            quadTreeMesh.Draw(renderer.device);
+            quadTreeMesh.Draw(renderer.Device);
         }
 
         private static SharpMesh secondQuadTreeMesh;
@@ -49,17 +49,17 @@ namespace HeroesPowerPlant.CollisionEditor
 
             secondQuadtreeRenderData.worldViewProjection = quadTreeTranslation * renderer.viewProjection;
 
-            renderer.device.SetFillModeSolid();
-            renderer.device.SetCullModeNone();
-            renderer.device.SetDefaultBlendState();
-            renderer.device.ApplyRasterState();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetFillModeSolid();
+            renderer.Device.SetCullModeNone();
+            renderer.Device.SetDefaultBlendState();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
 
-            renderer.device.UpdateData(renderer.basicBuffer, secondQuadtreeRenderData);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
+            renderer.Device.UpdateData(renderer.basicBuffer, secondQuadtreeRenderData);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
             renderer.basicShader.Apply();
 
-            secondQuadTreeMesh.Draw(renderer.device);
+            secondQuadTreeMesh.Draw(renderer.Device);
         }
 
         private static SharpMesh collisionMesh;
@@ -77,17 +77,17 @@ namespace HeroesPowerPlant.CollisionEditor
                 lightDirection2 = new Vector4(renderer.Camera.GetUp(), 1f)
             };
 
-            renderer.device.SetDefaultBlendState();
-            renderer.device.SetCullModeDefault();
-            renderer.device.SetFillModeDefault();
-            renderer.device.ApplyRasterState();
-            renderer.device.UpdateAllStates();
+            renderer.Device.SetDefaultBlendState();
+            renderer.Device.SetCullModeDefault();
+            renderer.Device.SetFillModeDefault();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
 
-            renderer.device.UpdateData(renderer.collisionBuffer, sceneInformation);
-            renderer.device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.collisionBuffer);
+            renderer.Device.UpdateData(renderer.collisionBuffer, sceneInformation);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.collisionBuffer);
             renderer.collisionShader.Apply();
 
-            collisionMesh.Draw(renderer.device);
+            collisionMesh.Draw(renderer.Device);
         }
 
         public static void Dispose()
