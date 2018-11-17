@@ -583,5 +583,19 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutSystem.DropToCurrentView();
             UpdateDisplayData();
         }
+
+        private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Shift && e.KeyCode == Keys.Tab)
+            {
+                this.SelectNextControl(ActiveControl, false, true, true, true);
+                e.Handled = e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Tab)
+            {
+                this.SelectNextControl(ActiveControl, true, true, true, true);
+                e.Handled = e.SuppressKeyPress = true;
+            }
+        }
     }
 }
