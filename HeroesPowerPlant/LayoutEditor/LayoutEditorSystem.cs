@@ -413,9 +413,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (currentlySelectedIndex < 0) return;
 
-            GetSelectedObject().Position.X = (float)Program.MainForm.renderer.Camera.ViewMatrix.Position.X;
-            GetSelectedObject().Position.Y = (float)Program.MainForm.renderer.Camera.ViewMatrix.Position.Y;
-            GetSelectedObject().Position.Z = (float)Program.MainForm.renderer.Camera.ViewMatrix.Position.Z;
+            GetSelectedObject().Position = Program.MainForm.renderer.Camera.GetPosition() + 200 * Program.MainForm.renderer.Camera.GetForward();
             GetSelectedObject().CreateTransformMatrix();
         }
 
