@@ -577,5 +577,11 @@ namespace HeroesPowerPlant.LayoutEditor
             if (gizmos[1].isSelected)
                 NumericPosY.Value -= distance / 2;
         }
+
+        private void buttonCurrentViewDrop_Click(object sender, EventArgs e)
+        {
+            layoutSystem.DropToCurrentView();
+            UpdateDisplayData();
+        }
     }
 }

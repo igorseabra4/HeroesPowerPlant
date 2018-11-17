@@ -71,6 +71,7 @@
             this.NumericPosX = new System.Windows.Forms.NumericUpDown();
             this.buttonViewHere = new System.Windows.Forms.Button();
             this.GroupBoxGameStuff = new System.Windows.Forms.GroupBox();
+            this.buttonForceReload = new System.Windows.Forms.Button();
             this.ButtonTeleport = new System.Windows.Forms.Button();
             this.GroupBoxGetRot = new System.Windows.Forms.GroupBox();
             this.ButtonPowRot = new System.Windows.Forms.Button();
@@ -83,7 +84,7 @@
             this.RichTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.PropertyGridMisc = new System.Windows.Forms.PropertyGrid();
             this.buttonDrop = new System.Windows.Forms.Button();
-            this.buttonForceReload = new System.Windows.Forms.Button();
+            this.buttonCurrentViewDrop = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -534,6 +535,17 @@
             this.GroupBoxGameStuff.TabStop = false;
             this.GroupBoxGameStuff.Text = "Sonic Heroes Stuff";
             // 
+            // buttonForceReload
+            // 
+            this.buttonForceReload.Enabled = false;
+            this.buttonForceReload.Location = new System.Drawing.Point(7, 169);
+            this.buttonForceReload.Name = "buttonForceReload";
+            this.buttonForceReload.Size = new System.Drawing.Size(168, 23);
+            this.buttonForceReload.TabIndex = 6;
+            this.buttonForceReload.Text = "Force Reload";
+            this.buttonForceReload.UseVisualStyleBackColor = true;
+            this.buttonForceReload.Click += new System.EventHandler(this.buttonForceReload_Click);
+            // 
             // ButtonTeleport
             // 
             this.ButtonTeleport.Location = new System.Drawing.Point(7, 140);
@@ -663,22 +675,22 @@
             this.buttonDrop.UseVisualStyleBackColor = true;
             this.buttonDrop.Click += new System.EventHandler(this.buttonDrop_Click);
             // 
-            // buttonForceReload
+            // buttonCurrentViewDrop
             // 
-            this.buttonForceReload.Enabled = false;
-            this.buttonForceReload.Location = new System.Drawing.Point(7, 169);
-            this.buttonForceReload.Name = "buttonForceReload";
-            this.buttonForceReload.Size = new System.Drawing.Size(168, 23);
-            this.buttonForceReload.TabIndex = 6;
-            this.buttonForceReload.Text = "Force Reload";
-            this.buttonForceReload.UseVisualStyleBackColor = true;
-            this.buttonForceReload.Click += new System.EventHandler(this.buttonForceReload_Click);
+            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(591, 62);
+            this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
+            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(69, 20);
+            this.buttonCurrentViewDrop.TabIndex = 80;
+            this.buttonCurrentViewDrop.Text = "C-Drop";
+            this.buttonCurrentViewDrop.UseVisualStyleBackColor = true;
+            this.buttonCurrentViewDrop.Click += new System.EventHandler(this.buttonCurrentViewDrop_Click);
             // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 454);
+            this.Controls.Add(this.buttonCurrentViewDrop);
             this.Controls.Add(this.buttonDrop);
             this.Controls.Add(this.PropertyGridMisc);
             this.Controls.Add(this.RichTextBoxDescription);
@@ -787,5 +799,6 @@
         private System.Windows.Forms.ToolStripMenuItem byDistanceFromOriginToolStripMenuItem;
         private System.Windows.Forms.Button buttonDrop;
         internal System.Windows.Forms.Button buttonForceReload;
+        private System.Windows.Forms.Button buttonCurrentViewDrop;
     }
 }

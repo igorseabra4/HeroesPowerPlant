@@ -409,6 +409,16 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        public void DropToCurrentView()
+        {
+            if (currentlySelectedIndex < 0) return;
+
+            GetSelectedObject().Position.X = (float)Program.MainForm.renderer.Camera.ViewMatrix.Position.X;
+            GetSelectedObject().Position.Y = (float)Program.MainForm.renderer.Camera.ViewMatrix.Position.Y;
+            GetSelectedObject().Position.Z = (float)Program.MainForm.renderer.Camera.ViewMatrix.Position.Z;
+            GetSelectedObject().CreateTransformMatrix();
+        }
+
         #endregion
 
         #region GUI Return Methods
