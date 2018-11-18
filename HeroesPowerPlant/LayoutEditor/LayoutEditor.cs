@@ -577,5 +577,25 @@ namespace HeroesPowerPlant.LayoutEditor
             if (gizmos[1].isSelected)
                 NumericPosY.Value -= distance / 2;
         }
+
+        private void buttonCurrentViewDrop_Click(object sender, EventArgs e)
+        {
+            layoutSystem.DropToCurrentView();
+            UpdateDisplayData();
+        }
+
+        private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Shift && e.KeyCode == Keys.Tab)
+            {
+                this.SelectNextControl(ActiveControl, false, true, true, true);
+                e.Handled = e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Tab)
+            {
+                this.SelectNextControl(ActiveControl, true, true, true, true);
+                e.Handled = e.SuppressKeyPress = true;
+            }
+        }
     }
 }

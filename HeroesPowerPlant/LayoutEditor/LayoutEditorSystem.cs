@@ -409,6 +409,14 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        public void DropToCurrentView()
+        {
+            if (currentlySelectedIndex < 0) return;
+
+            GetSelectedObject().Position = Program.MainForm.renderer.Camera.GetPosition() + 200 * Program.MainForm.renderer.Camera.GetForward();
+            GetSelectedObject().CreateTransformMatrix();
+        }
+
         #endregion
 
         #region GUI Return Methods

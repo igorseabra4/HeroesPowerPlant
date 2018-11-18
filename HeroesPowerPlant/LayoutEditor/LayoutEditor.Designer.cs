@@ -65,12 +65,9 @@
             this.NumericRotZ = new System.Windows.Forms.NumericUpDown();
             this.NumericRotY = new System.Windows.Forms.NumericUpDown();
             this.NumericRotX = new System.Windows.Forms.NumericUpDown();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.NumericPosZ = new System.Windows.Forms.NumericUpDown();
-            this.NumericPosY = new System.Windows.Forms.NumericUpDown();
-            this.NumericPosX = new System.Windows.Forms.NumericUpDown();
             this.buttonViewHere = new System.Windows.Forms.Button();
             this.GroupBoxGameStuff = new System.Windows.Forms.GroupBox();
+            this.buttonForceReload = new System.Windows.Forms.Button();
             this.ButtonTeleport = new System.Windows.Forms.Button();
             this.GroupBoxGetRot = new System.Windows.Forms.GroupBox();
             this.ButtonPowRot = new System.Windows.Forms.Button();
@@ -83,7 +80,11 @@
             this.RichTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.PropertyGridMisc = new System.Windows.Forms.PropertyGrid();
             this.buttonDrop = new System.Windows.Forms.Button();
-            this.buttonForceReload = new System.Windows.Forms.Button();
+            this.buttonCurrentViewDrop = new System.Windows.Forms.Button();
+            this.NumericPosX = new System.Windows.Forms.NumericUpDown();
+            this.NumericPosY = new System.Windows.Forms.NumericUpDown();
+            this.NumericPosZ = new System.Windows.Forms.NumericUpDown();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -92,13 +93,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericRotZ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericRotY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericRotX)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosX)).BeginInit();
             this.GroupBoxGameStuff.SuspendLayout();
             this.GroupBoxGetRot.SuspendLayout();
             this.GroupBoxGetPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericPosX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -281,6 +282,7 @@
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(88, 23);
             this.buttonCopy.TabIndex = 61;
+            this.buttonCopy.TabStop = false;
             this.buttonCopy.Text = "Copy";
             this.buttonCopy.UseVisualStyleBackColor = true;
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
@@ -291,6 +293,7 @@
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(88, 23);
             this.buttonClear.TabIndex = 64;
+            this.buttonClear.TabStop = false;
             this.buttonClear.Text = "Clear";
             this.buttonClear.UseVisualStyleBackColor = true;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
@@ -301,6 +304,7 @@
             this.ButtonRemove.Name = "ButtonRemove";
             this.ButtonRemove.Size = new System.Drawing.Size(88, 23);
             this.ButtonRemove.TabIndex = 63;
+            this.ButtonRemove.TabStop = false;
             this.ButtonRemove.Text = "Remove";
             this.ButtonRemove.UseVisualStyleBackColor = true;
             this.ButtonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
@@ -311,6 +315,7 @@
             this.ButtonAdd.Name = "ButtonAdd";
             this.ButtonAdd.Size = new System.Drawing.Size(88, 23);
             this.ButtonAdd.TabIndex = 62;
+            this.ButtonAdd.TabStop = false;
             this.ButtonAdd.Text = "Add";
             this.ButtonAdd.UseVisualStyleBackColor = true;
             this.ButtonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
@@ -322,6 +327,7 @@
             this.ButtonFindNextLink.Name = "ButtonFindNextLink";
             this.ButtonFindNextLink.Size = new System.Drawing.Size(42, 18);
             this.ButtonFindNextLink.TabIndex = 73;
+            this.ButtonFindNextLink.TabStop = false;
             this.ButtonFindNextLink.Text = "Find";
             this.ButtonFindNextLink.UseVisualStyleBackColor = true;
             this.ButtonFindNextLink.Click += new System.EventHandler(this.ButtonFindNextLink_Click);
@@ -332,7 +338,7 @@
             this.ComboBoxObject.Location = new System.Drawing.Point(206, 42);
             this.ComboBoxObject.Name = "ComboBoxObject";
             this.ComboBoxObject.Size = new System.Drawing.Size(281, 21);
-            this.ComboBoxObject.TabIndex = 70;
+            this.ComboBoxObject.TabIndex = 23;
             this.ComboBoxObject.SelectedIndexChanged += new System.EventHandler(this.ComboBoxObject_SelectedIndexChanged);
             // 
             // LabelRend
@@ -457,66 +463,13 @@
             this.NumericRotX.TabIndex = 27;
             this.NumericRotX.ValueChanged += new System.EventHandler(this.NumericRot_ValueChanged);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.NumericPosZ);
-            this.groupBox3.Controls.Add(this.NumericPosY);
-            this.groupBox3.Controls.Add(this.NumericPosX);
-            this.groupBox3.Location = new System.Drawing.Point(200, 69);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(385, 47);
-            this.groupBox3.TabIndex = 65;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Position (X, Y, Z)";
-            // 
-            // NumericPosZ
-            // 
-            this.NumericPosZ.DecimalPlaces = 4;
-            this.NumericPosZ.Location = new System.Drawing.Point(256, 19);
-            this.NumericPosZ.Maximum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.NumericPosZ.Name = "NumericPosZ";
-            this.NumericPosZ.Size = new System.Drawing.Size(119, 20);
-            this.NumericPosZ.TabIndex = 26;
-            this.NumericPosZ.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
-            // 
-            // NumericPosY
-            // 
-            this.NumericPosY.DecimalPlaces = 4;
-            this.NumericPosY.Location = new System.Drawing.Point(131, 19);
-            this.NumericPosY.Maximum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.NumericPosY.Name = "NumericPosY";
-            this.NumericPosY.Size = new System.Drawing.Size(119, 20);
-            this.NumericPosY.TabIndex = 25;
-            this.NumericPosY.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
-            // 
-            // NumericPosX
-            // 
-            this.NumericPosX.DecimalPlaces = 4;
-            this.NumericPosX.Location = new System.Drawing.Point(6, 19);
-            this.NumericPosX.Maximum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.NumericPosX.Name = "NumericPosX";
-            this.NumericPosX.Size = new System.Drawing.Size(119, 20);
-            this.NumericPosX.TabIndex = 24;
-            this.NumericPosX.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
-            // 
             // buttonViewHere
             // 
             this.buttonViewHere.Location = new System.Drawing.Point(493, 40);
             this.buttonViewHere.Name = "buttonViewHere";
             this.buttonViewHere.Size = new System.Drawing.Size(82, 23);
             this.buttonViewHere.TabIndex = 74;
+            this.buttonViewHere.TabStop = false;
             this.buttonViewHere.Text = "View Here";
             this.buttonViewHere.UseVisualStyleBackColor = true;
             this.buttonViewHere.Click += new System.EventHandler(this.buttonViewHere_Click);
@@ -534,12 +487,25 @@
             this.GroupBoxGameStuff.TabStop = false;
             this.GroupBoxGameStuff.Text = "Sonic Heroes Stuff";
             // 
+            // buttonForceReload
+            // 
+            this.buttonForceReload.Enabled = false;
+            this.buttonForceReload.Location = new System.Drawing.Point(7, 169);
+            this.buttonForceReload.Name = "buttonForceReload";
+            this.buttonForceReload.Size = new System.Drawing.Size(168, 23);
+            this.buttonForceReload.TabIndex = 6;
+            this.buttonForceReload.TabStop = false;
+            this.buttonForceReload.Text = "Force Reload";
+            this.buttonForceReload.UseVisualStyleBackColor = true;
+            this.buttonForceReload.Click += new System.EventHandler(this.buttonForceReload_Click);
+            // 
             // ButtonTeleport
             // 
             this.ButtonTeleport.Location = new System.Drawing.Point(7, 140);
             this.ButtonTeleport.Name = "ButtonTeleport";
             this.ButtonTeleport.Size = new System.Drawing.Size(168, 23);
             this.ButtonTeleport.TabIndex = 3;
+            this.ButtonTeleport.TabStop = false;
             this.ButtonTeleport.Text = "Teleport";
             this.ButtonTeleport.UseVisualStyleBackColor = true;
             this.ButtonTeleport.Click += new System.EventHandler(this.ButtonTeleport_Click);
@@ -562,6 +528,7 @@
             this.ButtonPowRot.Name = "ButtonPowRot";
             this.ButtonPowRot.Size = new System.Drawing.Size(69, 23);
             this.ButtonPowRot.TabIndex = 2;
+            this.ButtonPowRot.TabStop = false;
             this.ButtonPowRot.Text = "Other2";
             this.ButtonPowRot.UseVisualStyleBackColor = true;
             this.ButtonPowRot.Click += new System.EventHandler(this.ButtonPowRot_Click);
@@ -572,6 +539,7 @@
             this.ButtonSpeedRot.Name = "ButtonSpeedRot";
             this.ButtonSpeedRot.Size = new System.Drawing.Size(69, 23);
             this.ButtonSpeedRot.TabIndex = 0;
+            this.ButtonSpeedRot.TabStop = false;
             this.ButtonSpeedRot.Text = "Leader";
             this.ButtonSpeedRot.UseVisualStyleBackColor = true;
             this.ButtonSpeedRot.Click += new System.EventHandler(this.ButtonSpeedRot_Click);
@@ -582,6 +550,7 @@
             this.ButtonFlyRot.Name = "ButtonFlyRot";
             this.ButtonFlyRot.Size = new System.Drawing.Size(69, 23);
             this.ButtonFlyRot.TabIndex = 1;
+            this.ButtonFlyRot.TabStop = false;
             this.ButtonFlyRot.Text = "Other";
             this.ButtonFlyRot.UseVisualStyleBackColor = true;
             this.ButtonFlyRot.Click += new System.EventHandler(this.ButtonFlyRot_Click);
@@ -604,6 +573,7 @@
             this.ButtonGetPow.Name = "ButtonGetPow";
             this.ButtonGetPow.Size = new System.Drawing.Size(69, 23);
             this.ButtonGetPow.TabIndex = 2;
+            this.ButtonGetPow.TabStop = false;
             this.ButtonGetPow.Text = "Other2";
             this.ButtonGetPow.UseVisualStyleBackColor = true;
             this.ButtonGetPow.Click += new System.EventHandler(this.ButtonGetPow_Click);
@@ -614,6 +584,7 @@
             this.ButtonGetFly.Name = "ButtonGetFly";
             this.ButtonGetFly.Size = new System.Drawing.Size(69, 23);
             this.ButtonGetFly.TabIndex = 1;
+            this.ButtonGetFly.TabStop = false;
             this.ButtonGetFly.Text = "Other";
             this.ButtonGetFly.UseVisualStyleBackColor = true;
             this.ButtonGetFly.Click += new System.EventHandler(this.ButtonGetFly_Click);
@@ -624,6 +595,7 @@
             this.ButtonGetSpeed.Name = "ButtonGetSpeed";
             this.ButtonGetSpeed.Size = new System.Drawing.Size(69, 23);
             this.ButtonGetSpeed.TabIndex = 0;
+            this.ButtonGetSpeed.TabStop = false;
             this.ButtonGetSpeed.Text = "Leader";
             this.ButtonGetSpeed.UseVisualStyleBackColor = true;
             this.ButtonGetSpeed.Click += new System.EventHandler(this.ButtonGetSpeed_Click);
@@ -640,6 +612,7 @@
             this.RichTextBoxDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.RichTextBoxDescription.Size = new System.Drawing.Size(181, 50);
             this.RichTextBoxDescription.TabIndex = 77;
+            this.RichTextBoxDescription.TabStop = false;
             this.RichTextBoxDescription.Text = "";
             // 
             // PropertyGridMisc
@@ -651,6 +624,7 @@
             this.PropertyGridMisc.PropertySort = System.Windows.Forms.PropertySort.NoSort;
             this.PropertyGridMisc.Size = new System.Drawing.Size(279, 213);
             this.PropertyGridMisc.TabIndex = 78;
+            this.PropertyGridMisc.TabStop = false;
             this.PropertyGridMisc.ToolbarVisible = false;
             // 
             // buttonDrop
@@ -659,26 +633,82 @@
             this.buttonDrop.Name = "buttonDrop";
             this.buttonDrop.Size = new System.Drawing.Size(69, 20);
             this.buttonDrop.TabIndex = 79;
+            this.buttonDrop.TabStop = false;
             this.buttonDrop.Text = "Drop";
             this.buttonDrop.UseVisualStyleBackColor = true;
             this.buttonDrop.Click += new System.EventHandler(this.buttonDrop_Click);
             // 
-            // buttonForceReload
+            // buttonCurrentViewDrop
             // 
-            this.buttonForceReload.Enabled = false;
-            this.buttonForceReload.Location = new System.Drawing.Point(7, 169);
-            this.buttonForceReload.Name = "buttonForceReload";
-            this.buttonForceReload.Size = new System.Drawing.Size(168, 23);
-            this.buttonForceReload.TabIndex = 6;
-            this.buttonForceReload.Text = "Force Reload";
-            this.buttonForceReload.UseVisualStyleBackColor = true;
-            this.buttonForceReload.Click += new System.EventHandler(this.buttonForceReload_Click);
+            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(591, 62);
+            this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
+            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(69, 20);
+            this.buttonCurrentViewDrop.TabIndex = 80;
+            this.buttonCurrentViewDrop.TabStop = false;
+            this.buttonCurrentViewDrop.Text = "C-Drop";
+            this.buttonCurrentViewDrop.UseVisualStyleBackColor = true;
+            this.buttonCurrentViewDrop.Click += new System.EventHandler(this.buttonCurrentViewDrop_Click);
+            // 
+            // NumericPosX
+            // 
+            this.NumericPosX.DecimalPlaces = 4;
+            this.NumericPosX.Location = new System.Drawing.Point(6, 19);
+            this.NumericPosX.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.NumericPosX.Name = "NumericPosX";
+            this.NumericPosX.Size = new System.Drawing.Size(119, 20);
+            this.NumericPosX.TabIndex = 24;
+            this.NumericPosX.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
+            // 
+            // NumericPosY
+            // 
+            this.NumericPosY.DecimalPlaces = 4;
+            this.NumericPosY.Location = new System.Drawing.Point(131, 19);
+            this.NumericPosY.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.NumericPosY.Name = "NumericPosY";
+            this.NumericPosY.Size = new System.Drawing.Size(119, 20);
+            this.NumericPosY.TabIndex = 25;
+            this.NumericPosY.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
+            // 
+            // NumericPosZ
+            // 
+            this.NumericPosZ.DecimalPlaces = 4;
+            this.NumericPosZ.Location = new System.Drawing.Point(256, 19);
+            this.NumericPosZ.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.NumericPosZ.Name = "NumericPosZ";
+            this.NumericPosZ.Size = new System.Drawing.Size(119, 20);
+            this.NumericPosZ.TabIndex = 26;
+            this.NumericPosZ.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.NumericPosZ);
+            this.groupBox3.Controls.Add(this.NumericPosY);
+            this.groupBox3.Controls.Add(this.NumericPosX);
+            this.groupBox3.Location = new System.Drawing.Point(200, 69);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(385, 47);
+            this.groupBox3.TabIndex = 65;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Position (X, Y, Z)";
             // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 454);
+            this.Controls.Add(this.buttonCurrentViewDrop);
             this.Controls.Add(this.buttonDrop);
             this.Controls.Add(this.PropertyGridMisc);
             this.Controls.Add(this.RichTextBoxDescription);
@@ -701,12 +731,14 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "LayoutEditor";
             this.ShowIcon = false;
             this.Text = "Layout Editor";
             this.TopMost = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LayoutEditor_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -717,13 +749,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericRotZ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericRotY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericRotX)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosX)).EndInit();
             this.GroupBoxGameStuff.ResumeLayout(false);
             this.GroupBoxGetRot.ResumeLayout(false);
             this.GroupBoxGetPos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NumericPosX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).EndInit();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -763,10 +795,6 @@
         internal System.Windows.Forms.NumericUpDown NumericRotZ;
         internal System.Windows.Forms.NumericUpDown NumericRotY;
         internal System.Windows.Forms.NumericUpDown NumericRotX;
-        internal System.Windows.Forms.GroupBox groupBox3;
-        internal System.Windows.Forms.NumericUpDown NumericPosZ;
-        internal System.Windows.Forms.NumericUpDown NumericPosY;
-        internal System.Windows.Forms.NumericUpDown NumericPosX;
         private System.Windows.Forms.Button buttonViewHere;
         internal System.Windows.Forms.GroupBox GroupBoxGameStuff;
         internal System.Windows.Forms.Button ButtonTeleport;
@@ -787,5 +815,10 @@
         private System.Windows.Forms.ToolStripMenuItem byDistanceFromOriginToolStripMenuItem;
         private System.Windows.Forms.Button buttonDrop;
         internal System.Windows.Forms.Button buttonForceReload;
+        private System.Windows.Forms.Button buttonCurrentViewDrop;
+        internal System.Windows.Forms.NumericUpDown NumericPosX;
+        internal System.Windows.Forms.NumericUpDown NumericPosY;
+        internal System.Windows.Forms.NumericUpDown NumericPosZ;
+        internal System.Windows.Forms.GroupBox groupBox3;
     }
 }
