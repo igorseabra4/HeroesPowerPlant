@@ -64,10 +64,16 @@ namespace HeroesPowerPlant.LayoutEditor
             return objectManager.TriangleIntersection(r, objectEntry.ModelNames);
         }
 
-        public override void FindNewObjectManager()
+        public override void FindNewObjectManager(bool replaceMiscSettings = true)
         {
+            byte[] oldMiscSettings = objectManager.MiscSettings;
+
             objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
-            objectManager.MiscSettings = new byte[objectEntry.MiscSettingCount == -1 ? 0 : objectEntry.MiscSettingCount];
+
+            if (replaceMiscSettings)
+                objectManager.MiscSettings = new byte[objectEntry.MiscSettingCount == -1 ? 0 : objectEntry.MiscSettingCount];
+            else
+                objectManager.MiscSettings = oldMiscSettings;
         }
 
         private SetObjectManagerShadow FindObjectManager(byte ObjectList, byte ObjectType)

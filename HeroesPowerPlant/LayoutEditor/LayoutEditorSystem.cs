@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using Newtonsoft.Json;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -262,22 +263,19 @@ namespace HeroesPowerPlant.LayoutEditor
 
             SetObject original = GetSelectedObject();
             SetObject destination;
-
+            
             if (isShadow)
             {
-                destination = new SetObjectShadow(original.objectEntry, original.Position, original.Rotation, original.Link, original.Rend, (original as SetObjectShadow).MiscSettingCount);
-
-                for (int i = 0; i < (destination as SetObjectShadow).objectManager.MiscSettings.Length; i++)
-                    (destination as SetObjectShadow).objectManager.MiscSettings[i] = (original as SetObjectShadow).objectManager.MiscSettings[i];
+                destination = JsonConvert.DeserializeObject<SetObjectShadow>(JsonConvert.SerializeObject(original));
             }
             else
             {
-                destination = new SetObjectHeroes(original.objectEntry, original.Position, original.Rotation, original.Link, original.Rend);
-
-                for (int i = 0; i < (destination as SetObjectHeroes).objectManager.MiscSettings.Length; i++)
-                    (destination as SetObjectHeroes).objectManager.MiscSettings[i] = (original as SetObjectHeroes).objectManager.MiscSettings[i];
+                destination = JsonConvert.DeserializeObject<SetObjectHeroes>(JsonConvert.SerializeObject(original));
             }
 
+            destination.objectEntry = original.objectEntry;
+
+            destination.FindNewObjectManager(false);
             destination.CreateTransformMatrix();
 
             setObjects.Add(destination);

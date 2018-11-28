@@ -78,6 +78,16 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 initVisibilityEditor(false, SupposedBLK);
             }
+
+            foreach (string s in TextureManager.OpenTXDfiles)
+                if (Path.GetFileNameWithoutExtension(s).ToLower() == currentFileNamePrefix.ToLower())
+                    return;
+
+            string SupposedTXD = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + currentFileNamePrefix + ".txd";
+            if (File.Exists(SupposedTXD))
+            {
+                TextureManager.LoadTexturesFromTXD(SupposedTXD);
+            }
         }
 
         public string GetOpenONEFilePath()
