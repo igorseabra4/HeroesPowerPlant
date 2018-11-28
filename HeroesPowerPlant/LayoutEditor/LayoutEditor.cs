@@ -247,7 +247,10 @@ namespace HeroesPowerPlant.LayoutEditor
         private void NumericRot_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
+            {
                 layoutSystem.SetObjectRotation((float)NumericRotX.Value, (float)NumericRotY.Value, (float)NumericRotZ.Value);
+                UpdateGizmoPosition();
+            }
         }
 
         private void NumericObjLink_ValueChanged(object sender, EventArgs e)
@@ -333,6 +336,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             layoutSystem.Drop();
             UpdateDisplayData();
+            UpdateGizmoPosition();
         }
 
         private void buttonForceReload_Click(object sender, EventArgs e)
@@ -507,14 +511,14 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void UpdateGizmoPosition()
         {
-            UpdateGizmoPosition(layoutSystem.GetSelectedObject().Position, layoutSystem.GetSelectedObject().boundingBox.Maximum - layoutSystem.GetSelectedObject().boundingBox.Minimum);
+            UpdateGizmoPosition(layoutSystem.GetSelectedObject().GetGizmoCenter());
         }
 
-        private void UpdateGizmoPosition(Vector3 position, Vector3 distance)
+        private void UpdateGizmoPosition(BoundingSphere position)
         {
             DrawGizmos = true;
             foreach (Gizmo g in gizmos)
-                g.SetPosition(position, distance);
+                g.SetPosition(position);
         }
 
         private void ClearGizmos()
@@ -582,6 +586,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             layoutSystem.DropToCurrentView();
             UpdateDisplayData();
+            UpdateGizmoPosition();
         }
 
         private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)

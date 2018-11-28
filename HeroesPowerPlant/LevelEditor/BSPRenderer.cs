@@ -252,5 +252,47 @@ namespace HeroesPowerPlant
                 ShadowColBSPList[j].Render(renderer.Device);
             }
         }
+
+        public static Vector3 GetDroppedPosition(Vector3 InitialPosition)
+        {
+            Ray ray = new Ray(InitialPosition, Vector3.Down);
+            float smallerDistance = 10000f;
+            bool change = false;
+
+            foreach (RenderWareModelFile rwmf in BSPList)
+            {
+                foreach (RWSection rw in rwmf.GetAsRWSectionArray())
+                {
+                    if (rw is RenderWareFile.Sections.World_000B world)
+                    {
+                        if (InitialPosition.X < world.worldStruct.boxMinimum.X ||
+                            InitialPosition.Y < world.worldStruct.boxMinimum.Y ||
+                            InitialPosition.Z < world.worldStruct.boxMinimum.Z ||
+                            InitialPosition.X > world.worldStruct.boxMaximum.X ||
+                            InitialPosition.Y > world.worldStruct.boxMaximum.Y ||
+                            InitialPosition.Z > world.worldStruct.boxMaximum.Z) continue;
+                    }
+                }
+
+                foreach (Triangle t in rwmf.triangleList)
+                {
+                    Vector3 v1 = rwmf.vertexListG[t.vertex1];
+                    Vector3 v2 = rwmf.vertexListG[t.vertex2];
+                    Vector3 v3 = rwmf.vertexListG[t.vertex3];
+
+                    if (ray.Intersects(ref v1, ref v2, ref v3, out float distance))
+                        if (distance < smallerDistance)
+                        {
+                            smallerDistance = distance;
+                            change = true;
+                        }
+                }
+            }
+
+            if (change)
+                InitialPosition.Y -= smallerDistance;
+
+            return InitialPosition;
+        }
     }
 }

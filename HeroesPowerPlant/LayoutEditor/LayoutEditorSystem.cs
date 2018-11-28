@@ -367,46 +367,8 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (currentlySelectedIndex < 0) return;
 
-            Vector3 Position = GetSelectedObject().Position;
-            Ray ray = new Ray(Position, Vector3.Down);
-            float smallerDistance = 10000f;
-            bool change = false;
-
-            foreach (RenderWareModelFile rwmf in BSPRenderer.BSPList)
-            {
-                foreach (RenderWareFile.RWSection rw in rwmf.GetAsRWSectionArray())
-                {
-                    if (rw is RenderWareFile.Sections.World_000B world)
-                    {
-                        if (Position.X < world.worldStruct.boxMinimum.X |
-                            Position.Y < world.worldStruct.boxMinimum.Y |
-                            Position.Z < world.worldStruct.boxMinimum.Z |
-                            Position.X > world.worldStruct.boxMaximum.X |
-                            Position.Y > world.worldStruct.boxMaximum.Y |
-                            Position.Z > world.worldStruct.boxMaximum.Z) continue;
-                    }
-                }
-
-                foreach (RenderWareFile.Triangle t in rwmf.triangleList)
-                {
-                    Vector3 v1 = rwmf.vertexList[t.vertex1];
-                    Vector3 v2 = rwmf.vertexList[t.vertex2];
-                    Vector3 v3 = rwmf.vertexList[t.vertex3];
-
-                    if (ray.Intersects(ref v1, ref v2, ref v3, out float distance))
-                        if (distance < smallerDistance)
-                        {
-                            smallerDistance = distance;
-                            change = true;
-                        }
-                }
-            }
-
-            if (change)
-            {
-                GetSelectedObject().Position.Y -= smallerDistance;
-                GetSelectedObject().CreateTransformMatrix();
-            }
+            GetSelectedObject().Position = BSPRenderer.GetDroppedPosition(GetSelectedObject().Position);
+            GetSelectedObject().CreateTransformMatrix();
         }
 
         public void DropToCurrentView()

@@ -11,7 +11,7 @@ namespace HeroesPowerPlant.LayoutEditor
             else if (modelNames.Length == 0 | Type >= modelNames.Length | !DFFRenderer.DFFModels.ContainsKey(modelNames[Type]))
                 return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
             
-            return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[Type]].GetVertexList().ToArray());
+            return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[Type]].vertexListG.ToArray());
         }
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)

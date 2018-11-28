@@ -65,6 +65,15 @@
             this.NumericBragRot = new System.Windows.Forms.NumericUpDown();
             this.ComboLevelConfig = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonCurrentViewDrop = new System.Windows.Forms.Button();
+            this.buttonDrop = new System.Windows.Forms.Button();
+            this.buttonViewHere = new System.Windows.Forms.Button();
+            this.buttonCurrentViewDropEnding = new System.Windows.Forms.Button();
+            this.buttonDropEnding = new System.Windows.Forms.Button();
+            this.buttonViewHereEnding = new System.Windows.Forms.Button();
+            this.buttonCurrentViewDropBrag = new System.Windows.Forms.Button();
+            this.buttonViewHereBrag = new System.Windows.Forms.Button();
+            this.buttonDropBrag = new System.Windows.Forms.Button();
             this.GroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericStartRot)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -204,9 +213,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LabelFileLoaded});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 350);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 457);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(552, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(520, 22);
             this.statusStrip1.TabIndex = 56;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -222,7 +231,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(552, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(520, 24);
             this.menuStrip1.TabIndex = 59;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -240,28 +249,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -374,7 +383,7 @@
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.NumericEndRot);
-            this.groupBox6.Location = new System.Drawing.Point(397, 18);
+            this.groupBox6.Location = new System.Drawing.Point(6, 71);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(134, 47);
             this.groupBox6.TabIndex = 39;
@@ -402,35 +411,44 @@
             // 
             // groupBoxStart
             // 
+            this.groupBoxStart.Controls.Add(this.buttonCurrentViewDrop);
             this.groupBoxStart.Controls.Add(this.groupBox3);
+            this.groupBoxStart.Controls.Add(this.buttonDrop);
             this.groupBoxStart.Controls.Add(this.GroupBox2);
+            this.groupBoxStart.Controls.Add(this.buttonViewHere);
             this.groupBoxStart.Controls.Add(this.groupBox4);
             this.groupBoxStart.Controls.Add(this.groupBox1);
             this.groupBoxStart.Location = new System.Drawing.Point(12, 67);
             this.groupBoxStart.Name = "groupBoxStart";
-            this.groupBoxStart.Size = new System.Drawing.Size(399, 125);
+            this.groupBoxStart.Size = new System.Drawing.Size(503, 125);
             this.groupBoxStart.TabIndex = 63;
             this.groupBoxStart.TabStop = false;
             this.groupBoxStart.Text = "Start Position";
             // 
             // groupBoxEnd
             // 
+            this.groupBoxEnd.Controls.Add(this.buttonCurrentViewDropEnding);
             this.groupBoxEnd.Controls.Add(this.groupBox5);
             this.groupBoxEnd.Controls.Add(this.groupBox6);
+            this.groupBoxEnd.Controls.Add(this.buttonViewHereEnding);
+            this.groupBoxEnd.Controls.Add(this.buttonDropEnding);
             this.groupBoxEnd.Location = new System.Drawing.Point(12, 198);
             this.groupBoxEnd.Name = "groupBoxEnd";
-            this.groupBoxEnd.Size = new System.Drawing.Size(537, 71);
+            this.groupBoxEnd.Size = new System.Drawing.Size(503, 125);
             this.groupBoxEnd.TabIndex = 64;
             this.groupBoxEnd.TabStop = false;
             this.groupBoxEnd.Text = "Ending Position";
             // 
             // groupBoxBrag
             // 
+            this.groupBoxBrag.Controls.Add(this.buttonCurrentViewDropBrag);
             this.groupBoxBrag.Controls.Add(this.groupBox10);
+            this.groupBoxBrag.Controls.Add(this.buttonViewHereBrag);
+            this.groupBoxBrag.Controls.Add(this.buttonDropBrag);
             this.groupBoxBrag.Controls.Add(this.groupBox11);
-            this.groupBoxBrag.Location = new System.Drawing.Point(12, 275);
+            this.groupBoxBrag.Location = new System.Drawing.Point(12, 329);
             this.groupBoxBrag.Name = "groupBoxBrag";
-            this.groupBoxBrag.Size = new System.Drawing.Size(537, 71);
+            this.groupBoxBrag.Size = new System.Drawing.Size(503, 125);
             this.groupBoxBrag.TabIndex = 64;
             this.groupBoxBrag.TabStop = false;
             this.groupBoxBrag.Text = "Bragging Position";
@@ -492,7 +510,7 @@
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.NumericBragRot);
-            this.groupBox11.Location = new System.Drawing.Point(397, 19);
+            this.groupBox11.Location = new System.Drawing.Point(6, 72);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(134, 47);
             this.groupBox11.TabIndex = 39;
@@ -523,7 +541,7 @@
             this.ComboLevelConfig.FormattingEnabled = true;
             this.ComboLevelConfig.Location = new System.Drawing.Point(191, 40);
             this.ComboLevelConfig.Name = "ComboLevelConfig";
-            this.ComboLevelConfig.Size = new System.Drawing.Size(343, 21);
+            this.ComboLevelConfig.Size = new System.Drawing.Size(317, 21);
             this.ComboLevelConfig.TabIndex = 65;
             this.ComboLevelConfig.SelectedIndexChanged += new System.EventHandler(this.ComboLevelConfig_SelectedIndexChanged);
             // 
@@ -536,11 +554,110 @@
             this.label1.TabIndex = 40;
             this.label1.Text = "Level Flag:";
             // 
+            // buttonCurrentViewDrop
+            // 
+            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(397, 48);
+            this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
+            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(99, 23);
+            this.buttonCurrentViewDrop.TabIndex = 83;
+            this.buttonCurrentViewDrop.TabStop = false;
+            this.buttonCurrentViewDrop.Text = "C-Drop";
+            this.buttonCurrentViewDrop.UseVisualStyleBackColor = true;
+            this.buttonCurrentViewDrop.Click += new System.EventHandler(this.buttonCurrentViewDrop_Click);
+            // 
+            // buttonDrop
+            // 
+            this.buttonDrop.Location = new System.Drawing.Point(397, 77);
+            this.buttonDrop.Name = "buttonDrop";
+            this.buttonDrop.Size = new System.Drawing.Size(99, 23);
+            this.buttonDrop.TabIndex = 82;
+            this.buttonDrop.TabStop = false;
+            this.buttonDrop.Text = "Drop";
+            this.buttonDrop.UseVisualStyleBackColor = true;
+            this.buttonDrop.Click += new System.EventHandler(this.buttonDrop_Click);
+            // 
+            // buttonViewHere
+            // 
+            this.buttonViewHere.Location = new System.Drawing.Point(397, 19);
+            this.buttonViewHere.Name = "buttonViewHere";
+            this.buttonViewHere.Size = new System.Drawing.Size(99, 23);
+            this.buttonViewHere.TabIndex = 81;
+            this.buttonViewHere.TabStop = false;
+            this.buttonViewHere.Text = "View Here";
+            this.buttonViewHere.UseVisualStyleBackColor = true;
+            this.buttonViewHere.Click += new System.EventHandler(this.buttonViewHere_Click);
+            // 
+            // buttonCurrentViewDropEnding
+            // 
+            this.buttonCurrentViewDropEnding.Location = new System.Drawing.Point(397, 48);
+            this.buttonCurrentViewDropEnding.Name = "buttonCurrentViewDropEnding";
+            this.buttonCurrentViewDropEnding.Size = new System.Drawing.Size(99, 23);
+            this.buttonCurrentViewDropEnding.TabIndex = 86;
+            this.buttonCurrentViewDropEnding.TabStop = false;
+            this.buttonCurrentViewDropEnding.Text = "C-Drop";
+            this.buttonCurrentViewDropEnding.UseVisualStyleBackColor = true;
+            this.buttonCurrentViewDropEnding.Click += new System.EventHandler(this.buttonCurrentViewDropEnding_Click);
+            // 
+            // buttonDropEnding
+            // 
+            this.buttonDropEnding.Location = new System.Drawing.Point(397, 77);
+            this.buttonDropEnding.Name = "buttonDropEnding";
+            this.buttonDropEnding.Size = new System.Drawing.Size(99, 23);
+            this.buttonDropEnding.TabIndex = 85;
+            this.buttonDropEnding.TabStop = false;
+            this.buttonDropEnding.Text = "Drop";
+            this.buttonDropEnding.UseVisualStyleBackColor = true;
+            this.buttonDropEnding.Click += new System.EventHandler(this.buttonDropEnding_Click);
+            // 
+            // buttonViewHereEnding
+            // 
+            this.buttonViewHereEnding.Location = new System.Drawing.Point(397, 19);
+            this.buttonViewHereEnding.Name = "buttonViewHereEnding";
+            this.buttonViewHereEnding.Size = new System.Drawing.Size(99, 23);
+            this.buttonViewHereEnding.TabIndex = 84;
+            this.buttonViewHereEnding.TabStop = false;
+            this.buttonViewHereEnding.Text = "View Here";
+            this.buttonViewHereEnding.UseVisualStyleBackColor = true;
+            this.buttonViewHereEnding.Click += new System.EventHandler(this.buttonViewHereEnding_Click);
+            // 
+            // buttonCurrentViewDropBrag
+            // 
+            this.buttonCurrentViewDropBrag.Location = new System.Drawing.Point(397, 48);
+            this.buttonCurrentViewDropBrag.Name = "buttonCurrentViewDropBrag";
+            this.buttonCurrentViewDropBrag.Size = new System.Drawing.Size(99, 23);
+            this.buttonCurrentViewDropBrag.TabIndex = 89;
+            this.buttonCurrentViewDropBrag.TabStop = false;
+            this.buttonCurrentViewDropBrag.Text = "C-Drop";
+            this.buttonCurrentViewDropBrag.UseVisualStyleBackColor = true;
+            this.buttonCurrentViewDropBrag.Click += new System.EventHandler(this.buttonCurrentViewDropBrag_Click);
+            // 
+            // buttonViewHereBrag
+            // 
+            this.buttonViewHereBrag.Location = new System.Drawing.Point(397, 19);
+            this.buttonViewHereBrag.Name = "buttonViewHereBrag";
+            this.buttonViewHereBrag.Size = new System.Drawing.Size(99, 23);
+            this.buttonViewHereBrag.TabIndex = 87;
+            this.buttonViewHereBrag.TabStop = false;
+            this.buttonViewHereBrag.Text = "View Here";
+            this.buttonViewHereBrag.UseVisualStyleBackColor = true;
+            this.buttonViewHereBrag.Click += new System.EventHandler(this.buttonViewHereBrag_Click);
+            // 
+            // buttonDropBrag
+            // 
+            this.buttonDropBrag.Location = new System.Drawing.Point(397, 77);
+            this.buttonDropBrag.Name = "buttonDropBrag";
+            this.buttonDropBrag.Size = new System.Drawing.Size(99, 23);
+            this.buttonDropBrag.TabIndex = 88;
+            this.buttonDropBrag.TabStop = false;
+            this.buttonDropBrag.Text = "Drop";
+            this.buttonDropBrag.UseVisualStyleBackColor = true;
+            this.buttonDropBrag.Click += new System.EventHandler(this.buttonDropBrag_Click);
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(552, 372);
+            this.ClientSize = new System.Drawing.Size(520, 479);
             this.Controls.Add(this.ComboLevelConfig);
             this.Controls.Add(this.groupBoxBrag);
             this.Controls.Add(this.groupBoxEnd);
@@ -628,5 +745,14 @@
         internal System.Windows.Forms.NumericUpDown NumericBragRot;
         private System.Windows.Forms.ComboBox ComboLevelConfig;
         internal System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonCurrentViewDrop;
+        private System.Windows.Forms.Button buttonDrop;
+        private System.Windows.Forms.Button buttonViewHere;
+        private System.Windows.Forms.Button buttonCurrentViewDropEnding;
+        private System.Windows.Forms.Button buttonViewHereEnding;
+        private System.Windows.Forms.Button buttonDropEnding;
+        private System.Windows.Forms.Button buttonCurrentViewDropBrag;
+        private System.Windows.Forms.Button buttonViewHereBrag;
+        private System.Windows.Forms.Button buttonDropBrag;
     }
 }

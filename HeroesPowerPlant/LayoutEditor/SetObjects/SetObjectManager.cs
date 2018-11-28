@@ -83,15 +83,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public virtual BoundingBox CreateBoundingBox(string[] modelNames)
         {
-            if (modelNames == null)
-                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
-            else if (modelNames.Length == 0)
+            if (modelNames == null || modelNames.Length == 0)
                 return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
 
             List<Vector3> list = new List<Vector3>();
             foreach (string m in modelNames)
                 if (DFFRenderer.DFFModels.ContainsKey(m))
-                    list.AddRange(DFFRenderer.DFFModels[m].GetVertexList());
+                    list.AddRange(DFFRenderer.DFFModels[m].vertexListG);
                 else
                     list.AddRange(Program.MainForm.renderer.cubeVertices);
 
@@ -111,9 +109,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 {
                     foreach (RenderWareFile.Triangle t in DFFRenderer.DFFModels[s].triangleList)
                     {
-                        Vector3 v1 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexList[t.vertex1], transformMatrix);
-                        Vector3 v2 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexList[t.vertex2], transformMatrix);
-                        Vector3 v3 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexList[t.vertex3], transformMatrix);
+                        Vector3 v1 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexListG[t.vertex1], transformMatrix);
+                        Vector3 v2 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexListG[t.vertex2], transformMatrix);
+                        Vector3 v3 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexListG[t.vertex3], transformMatrix);
 
                         if (r.Intersects(ref v1, ref v2, ref v3))
                             return true;

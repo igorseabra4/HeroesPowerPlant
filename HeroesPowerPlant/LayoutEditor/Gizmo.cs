@@ -34,36 +34,28 @@ namespace HeroesPowerPlant.LayoutEditor
                     break;
             }
             isSelected = false;
-            SetPosition(Vector3.Zero, Vector3.Zero);
+            SetPosition(new BoundingSphere());
         }
 
-        public void SetPosition(Vector3 Position, Vector3 distance)
+        public void SetPosition(BoundingSphere Sphere)
         {
-            float dist;
+            if (Sphere.Radius < 10f) Sphere.Radius = 10f;
             switch (type)
             {
                 case GizmoType.X:
-                    dist = Math.Abs(distance.X) + 2f;
-                    if (dist < 10f) dist = 10f;
-
-                    Position.X += dist;
-                    transformMatrix = Matrix.Scaling(dist / 5f > 5f ? dist / 5f : 5f) * Matrix.RotationY(MathUtil.Pi / 2) * Matrix.Translation(Position);
+                    Sphere.Center.X += Sphere.Radius;
+                    transformMatrix = Matrix.Scaling(Sphere.Radius / 2f) * Matrix.RotationY(MathUtil.Pi / 2) * Matrix.Translation(Sphere.Center);
                     break;
                 case GizmoType.Y:
-                    dist = Math.Abs(distance.Y) + 2f;
-                    if (dist < 10f) dist = 10f;
-
-                    Position.Y += dist;
-                    transformMatrix = Matrix.Scaling(dist / 5f > 5f ? dist / 5f : 5f) * Matrix.RotationX(-MathUtil.Pi / 2) * Matrix.Translation(Position);
+                    Sphere.Center.Y += Sphere.Radius;
+                    transformMatrix = Matrix.Scaling(Sphere.Radius / 2f) * Matrix.RotationX(-MathUtil.Pi / 2) * Matrix.Translation(Sphere.Center);
                     break;
                 case GizmoType.Z:
-                    dist = Math.Abs(distance.Z) + 2f;
-                    if (dist < 10f) dist = 10f;
-
-                    Position.Z += dist;
-                    transformMatrix = Matrix.Scaling(dist / 5f > 5f ? dist / 5f : 5f) * Matrix.Translation(Position);
+                    Sphere.Center.Z += Sphere.Radius;
+                    transformMatrix = Matrix.Scaling(Sphere.Radius / 2f) * Matrix.Translation(Sphere.Center);
                     break;
             }
+
             boundingBox = BoundingBox.FromPoints(Program.MainForm.renderer.pyramidVertices.ToArray());
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, transformMatrix);
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, transformMatrix);

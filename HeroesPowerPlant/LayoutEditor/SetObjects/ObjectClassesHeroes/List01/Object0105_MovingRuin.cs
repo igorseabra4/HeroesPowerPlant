@@ -11,7 +11,7 @@ namespace HeroesPowerPlant.LayoutEditor
             else if (modelNames.Length == 0 | (byte)Type >= modelNames.Length | !DFFRenderer.DFFModels.ContainsKey(modelNames[(byte)Type]))
                 return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
 
-            return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[(byte)Type]].GetVertexList().ToArray());
+            return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[(byte)Type]].vertexListG.ToArray());
         }
         
         public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)

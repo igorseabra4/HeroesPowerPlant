@@ -64,5 +64,12 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         public abstract bool TriangleIntersection(Ray r);
+
+        public BoundingSphere GetGizmoCenter()
+        {
+            BoundingSphere boundingSphere = BoundingSphere.FromBox(boundingBox);
+            boundingSphere.Radius *= 0.9f;
+            return boundingSphere;
+        }
     }
 }

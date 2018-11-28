@@ -10,7 +10,7 @@ namespace HeroesPowerPlant
     public class RenderWareModelFile
     {
         public string fileName;
-
+        
         private const string DefaultTexture = "default";
         private byte[] rwSectionByteArray;
         private RWSection[] rwSectionArray;
@@ -26,8 +26,9 @@ namespace HeroesPowerPlant
         public uint vertexAmount;
         public uint triangleAmount;
 
-        public List<Vector3> vertexList;
+        public List<Vector3> vertexListG;
         public List<Triangle> triangleList;
+        private int triangleListOffset;
 
         public RenderWareModelFile(string fileName)
         {
@@ -60,11 +61,6 @@ namespace HeroesPowerPlant
                 catch { ChunkNumber = -1; }
         }
 
-        public List<Vector3> GetVertexList()
-        {
-            return vertexList;
-        }
-
         public byte[] GetAsByteArray()
         {
             return rwSectionByteArray;
@@ -90,8 +86,9 @@ namespace HeroesPowerPlant
                 rwSectionByteArray = rwByteArray;
             meshList = new List<SharpMesh>();
 
-            vertexList = new List<Vector3>();
+            vertexListG = new List<Vector3>();
             triangleList = new List<Triangle>();
+            triangleListOffset = 0;
 
             foreach (RWSection rwSection in rwSectionArray)
             {
@@ -198,7 +195,7 @@ namespace HeroesPowerPlant
             foreach (Vertex3 v in AtomicSector.atomicSectorStruct.vertexArray)
             {
                 vertexList.Add(new VertexColoredTextured(new Vector3(v.X, v.Y, v.Z), new Vector2(), new SharpDX.Color()));
-                this.vertexList.Add(new Vector3(v.X, v.Y, v.Z));
+                vertexListG.Add(new Vector3(v.X, v.Y, v.Z));
             }
 
             if (!isShadowCollision)
@@ -255,7 +252,7 @@ namespace HeroesPowerPlant
                             vertexList[t.vertex3] = v3;
                         }
 
-                        triangleList.Add(t);
+                        triangleList.Add(new Triangle(t.materialIndex, (ushort)(t.vertex1 + triangleListOffset), (ushort)(t.vertex2 + triangleListOffset), (ushort)(t.vertex3 + triangleListOffset)));
                     }
                 }
 
@@ -267,6 +264,8 @@ namespace HeroesPowerPlant
 
                 previousIndexCount = indexList.Count();
             }
+
+            triangleListOffset += AtomicSector.atomicSectorStruct.vertexArray.Length;
 
             if (SubsetList.Count > 0)
                 meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
@@ -302,7 +301,7 @@ namespace HeroesPowerPlant
                     Vector3 Position = (Vector3)Vector3.Transform(new Vector3(v.X, v.Y, v.Z), transformMatrix);
                     
                     vertexList.Add(new VertexColoredTextured(Position, new Vector2(), SharpDX.Color.White));
-                    this.vertexList.Add(Position);
+                    vertexListG.Add(Position);
                 }
             }
 
@@ -353,7 +352,7 @@ namespace HeroesPowerPlant
                         indexList.Add(t.vertex2);
                         indexList.Add(t.vertex3);
 
-                        triangleList.Add(t);
+                        triangleList.Add(new Triangle(t.materialIndex, (ushort)(t.vertex1 + triangleListOffset), (ushort)(t.vertex2 + triangleListOffset), (ushort)(t.vertex3 + triangleListOffset)));
                     }
                 }
 
@@ -365,6 +364,8 @@ namespace HeroesPowerPlant
                 
                 previousIndexCount = indexList.Count();
             }
+
+            triangleListOffset += vertexList.Count;
 
             if (SubsetList.Count > 0)
                 meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
@@ -390,6 +391,7 @@ namespace HeroesPowerPlant
             if (n == null) throw new Exception(ChunkName + ChunkNumber.ToString());
 
             List<Vertex3> vertexList1 = new List<Vertex3>();
+            List<Vertex3> normalList = new List<Vertex3>();
             List<RenderWareFile.Color> colorList = new List<RenderWareFile.Color>();
             List<Vertex2> textCoordList = new List<Vertex2>();
             
@@ -397,12 +399,14 @@ namespace HeroesPowerPlant
             {
                 foreach (object o in d.entryList)
                 {
-                    if (o is Vertex3 v)
-                        vertexList1.Add(v);
-                    else if (o is RenderWareFile.Color c)
-                        colorList.Add(c);
-                    else if (o is Vertex2 t)
-                        textCoordList.Add(t);
+                    if (d.declarationType == Declarations.Vertex)
+                        vertexList1.Add((Vertex3)o);
+                    else if (d.declarationType == Declarations.Color)
+                        colorList.Add((RenderWareFile.Color)o);
+                    else if (d.declarationType == Declarations.TextCoord)
+                        textCoordList.Add((Vertex2)o);
+                    else if (d.declarationType == Declarations.Normal)
+                        normalList.Add((Vertex3)o);
                     else throw new Exception();
                 }
             }
@@ -419,13 +423,16 @@ namespace HeroesPowerPlant
                 {
                     foreach (int[] objectList in tl.entries)
                     {
-                        VertexColoredTextured v = new VertexColoredTextured();
+                        Vector3 position = new Vector3();
+                        SharpDX.Color color = new SharpDX.Color(255, 255, 255, 255);
+                        Vector2 textureCoordinate = new Vector2();
+                        Vector3 normal = new Vector3();
 
                         for (int j = 0; j < objectList.Count(); j++)
                         {
                             if (n.declarations[j].declarationType == Declarations.Vertex)
                             {
-                                v.Position = (Vector3)Vector3.Transform(
+                                position = (Vector3)Vector3.Transform(
                                     new Vector3(
                                         vertexList1[objectList[j]].X,
                                         vertexList1[objectList[j]].Y,
@@ -434,20 +441,30 @@ namespace HeroesPowerPlant
                             }
                             else if (n.declarations[j].declarationType == Declarations.Color)
                             {
-                                v.Color = new SharpDX.Color(colorList[objectList[j]].R, colorList[objectList[j]].G, colorList[objectList[j]].B, colorList[objectList[j]].A);
+                                color = new SharpDX.Color(colorList[objectList[j]].R, colorList[objectList[j]].G, colorList[objectList[j]].B, colorList[objectList[j]].A);
+                                if (color.A == 0 || (color.R == 0 && color.G == 0 && color.B == 0))
+                                    color = new SharpDX.Color(255, 255, 255, 255);
                             }
                             else if (n.declarations[j].declarationType == Declarations.TextCoord)
                             {
-                                v.TextureCoordinate.X = textCoordList[objectList[j]].X;
-                                v.TextureCoordinate.Y = textCoordList[objectList[j]].Y;
+                                textureCoordinate.X = textCoordList[objectList[j]].X;
+                                textureCoordinate.Y = textCoordList[objectList[j]].Y;
+                            }
+                            else if (n.declarations[j].declarationType == Declarations.Normal)
+                            {
+                                normal = new Vector3(
+                                        normalList[objectList[j]].X,
+                                        normalList[objectList[j]].Y,
+                                        normalList[objectList[j]].Z);
                             }
                         }
 
-                        vertexList.Add(v);
+                        vertexList.Add(new VertexColoredTextured(position, textureCoordinate, color));
+
                         indexList.Add(k);
                         k++;
 
-                        this.vertexList.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
+                        vertexListG.Add(position);
                     }
 
                     subSetList.Add(new SharpSubSet(previousAmount, vertexList.Count() - previousAmount,
@@ -458,7 +475,14 @@ namespace HeroesPowerPlant
             }
 
             if (vertexList.Count > 0)
+            {
+                for (int i = 2; i < indexList.Count; i++)
+                    triangleList.Add(new Triangle(0, (ushort)(i + triangleListOffset - 2), (ushort)(i + triangleListOffset - 1), (ushort)(i + triangleListOffset)));
+
+                triangleListOffset += vertexList.Count;
+
                 meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), subSetList, SharpDX.Direct3D.PrimitiveTopology.TriangleStrip));
+            }
         }
 
         public void Render(SharpDevice device)
