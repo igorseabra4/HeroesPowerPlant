@@ -14,6 +14,7 @@ namespace HeroesPowerPlant
     {
         private float _fieldOfView = MathUtil.PiOverFour;
         private float _aspectRatio;
+        private float _aspectRatioLimit = 16F / 9F;
         private float _nearPlane = 0.1F;
         private float _farPlane = 80000F;
 
@@ -62,6 +63,13 @@ namespace HeroesPowerPlant
             {
                 _validProjectonMatrix = false;
                 _aspectRatio = value;
+                if (_aspectRatio < _aspectRatioLimit)
+                {
+                    float aspectYScale = _aspectRatio / _aspectRatioLimit;
+                    float aspectYScaleTangent = Math.Tan(_fieldOfView / 2F);
+                    aspectYScaleTangent = 1F / aspectYScaleTangent * aspectYScale;
+                    _fieldOfView = Math.Atan(1F / aspectYScaleTangent) * 2F;
+                }
             }
         }
 
