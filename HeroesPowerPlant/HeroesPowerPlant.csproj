@@ -526,7 +526,7 @@
     <None Include="Resources\Models\Sphere.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Tools\importvcolorobj_v1.3.ms">
+    <None Include="Tools\importvcolorobj_v1.3.7.ms">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template.zip">

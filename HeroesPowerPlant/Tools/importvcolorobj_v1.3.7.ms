@@ -37,7 +37,7 @@ rollout objImport "Vcolor OBJ Import"
 	group "Settings"
 	(
 		checkBox autoSizeCheckBox "Rescale" checked:false align:#center
-		spinner autoSizeSpinner "Scale by:" align:#center type:#float range:[0,10000,64] enabled:false
+		spinner autoSizeSpinner "Scale by:" align:#center type:#float range:[0,10000,100] enabled:false
 		checkBox YZCheckBox "Y-Z Axis Flip" checked: true align:#center
 		checkBox UVFlip "Vertical UV Flip" checked: false align:#center
 	)	
@@ -267,6 +267,8 @@ rollout objImport "Vcolor OBJ Import"
 		local normals = #()
 	
 		local texCoords = #()
+		local texCoords2 = #()
+
 		local vertColors = #()
 		local colorArray = #()
 		local texFaces = #()
@@ -372,7 +374,21 @@ rollout objImport "Vcolor OBJ Import"
 								local v = (ReadFloat lineTokenizer)
 								)
 								local w = ReadFloat lineTokenizer
-								append texcoords [ u, v, w ]
+								append texCoords [ u, v, w ]
+							)
+							
+							"vu": -- Set vertex texcoord
+							(
+								local u = ReadFloat lineTokenizer
+								if UVFlip.checked then
+								(
+								local v = -(ReadFloat lineTokenizer)
+								) else
+								(
+								local v = (ReadFloat lineTokenizer)
+								)
+								local w = ReadFloat lineTokenizer
+								append texCoords2 [ u, v, w ]
 							)
 							"vc": -- Set vertex color
 							(
@@ -490,7 +506,53 @@ rollout objImport "Vcolor OBJ Import"
 					local newMesh = mesh name:groupNames[k] pos:[0,0,0] \
 										 vertices:verts faces:faceArray \
 										 material:newMaterial
-										 setNumCPVVerts newMesh newMesh.numverts
+
+					
+					-- Add texCoords
+					if texCoords.count > 0 then
+					(
+
+						
+						-- Add UV channel 2 if it exists
+						if texCoords2.count > 0 do
+						(
+							meshop.setNumMaps newMesh ((meshop.getNumMaps newMesh) + 1) keep:true
+							meshop.setMapSupport newMesh 2 true
+							meshop.setNumMapVerts newMesh 2 texCoords2.count
+							meshop.setNumMapFaces newMesh 2 (meshop.getNumFaces newMesh) 
+							
+							for i = 1 to texCoords2.count do
+							(
+								meshop.setMapVert newMesh 2 i texCoords2[i]
+							)
+							try(
+								for i = 1 to (meshop.getNumFaces newMesh) do
+								(
+									meshop.setMapFace newMesh 2 i faceArray[i]
+									
+								)
+							)
+							catch()
+						)
+						meshop.setMapSupport newMesh 1 true
+						meshop.setMapSupport newMesh 0 true
+						meshop.setMapSupport newMesh -2 true
+						meshop.setNumMapVerts newMesh 1 texCoords.count
+						meshop.setNumMapFaces newMesh 1 (meshop.getNumFaces newMesh) 
+							
+						for i = 1 to texCoords.count do
+						(
+							meshop.setMapVert newMesh 1 i texCoords[i]
+						)
+							
+						for i = 1 to (meshop.getNumFaces newMesh) do
+						(
+	
+							meshop.setMapFace newMesh 1 i faceArray[i]
+								
+						)
+					)
+					setNumCPVVerts newMesh newMesh.numverts
 										 
 					-- Set vertex coloring -- 
 					for i = 1 to colorArray.count do
@@ -503,42 +565,8 @@ rollout objImport "Vcolor OBJ Import"
 					(
 						setFaceMatID newMesh i faceMaterialIDs[faceOrigID[i]]					
 					)
-					
-					
-					-- Add texcoords
-					if texcoords.count > 0 then
-					(
-						-- Add texcoords
-						setNumTVerts newMesh texcoords.count
-						
-						for i = 1 to texcoords.count do
-						(
-							setTVert newMesh i texcoords[i]
-						)
-					
-						meshop.deleteIsoVerts newMesh
-						
-						-- Build texcoord faces
-						buildTVFaces newMesh
-					
-						-- Set texcoord faces
-						for i = 1 to (meshop.getNumFaces newMesh) do
-						(
-							try
-							(
-								setTVFace newMesh i faceArray[i]
-							)
-							catch
-							(
-							)
-						)
-					
-					) else 
-					(
-						meshop.deleteIsoVerts newMesh
-					)
-					meshop.deleteIsoVerts newMesh
 					defaultVCFaces newMesh
+					meshop.deleteIsoVerts newMesh
 					
 					-- Crude scaling, need to make this a bit more intelligent
 					if autoSizeCheckBox.checked then
