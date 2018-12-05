@@ -14,7 +14,7 @@ namespace HeroesPowerPlant
     {
         private float _fieldOfView = MathUtil.PiOverFour;
         private float _aspectRatio;
-        private float _aspectRatioLimit = 16 / 9F;
+        private float _aspectRatioLimit = 16F / 9F;
         private float _nearPlane = 0.1F;
         private float _farPlane = 80000F;
 
