@@ -16,6 +16,9 @@ namespace HeroesPowerPlant
         public SharpCamera Camera;
         public SharpFPS SharpFps;
         
+        public float AspectLimit = 16F / 9F;
+        public float AspectRatioYScale;
+        
         public SharpRenderer(Control control)
         {
             if (!SharpDevice.IsDirectX11Supported())
@@ -36,6 +39,14 @@ namespace HeroesPowerPlant
             Camera = new SharpCamera(SharpFps);
 
             Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
+            if (Camera.ProjectionMatrix.AspectRatio < AspectLimit)
+            {
+                AspectRatioYScale = Camera.ProjectionMatrix.AspectRatio / AspectLimit;
+            }
+            else
+            {
+                AspectRatioYScale = 1F;
+            }
 
             SetSharpShader();
             LoadTexture();
@@ -289,6 +300,14 @@ namespace HeroesPowerPlant
                 {
                     Device.Resize();
                     Camera.ProjectionMatrix.AspectRatio = (float)Panel.Width / Panel.Height;
+                    if (Camera.ProjectionMatrix.AspectRatio < AspectLimit)
+                    {
+                        AspectRatioYScale = Camera.ProjectionMatrix.AspectRatio / AspectLimit;
+                    }
+                    else
+                    {
+                        AspectRatioYScale = 1F;
+                    }
                 }
 
                 Program.MainForm.KeyboardController();
@@ -298,8 +317,12 @@ namespace HeroesPowerPlant
                 Device.Clear(backgroundColor);
 
                 //Set matrices
+                Camera.ProjectionMatrix.FieldOfView = 1F / (float)Math.Tan(Camera.ProjectionMatrix.FieldOfView / 2F) * AspectRatioYScale;
+                Camera.ProjectionMatrix.FieldOfView = (float)Math.Atan(1F / Camera.ProjectionMatrix.FieldOfView) * 2F;
                 viewProjection = Camera.ViewMatrix.GetViewMatrix() * Camera.ProjectionMatrix.GetProjectionMatrix();
                 frustum = new BoundingFrustum(viewProjection);
+                Camera.ProjectionMatrix.FieldOfView = 1F / (float)Math.Tan(Camera.ProjectionMatrix.FieldOfView / 2F) / AspectRatioYScale;
+                Camera.ProjectionMatrix.FieldOfView = (float)Math.Atan(1F / Camera.ProjectionMatrix.FieldOfView) * 2F;
 
                 Program.TexturePatternEditor.Animate();
 
