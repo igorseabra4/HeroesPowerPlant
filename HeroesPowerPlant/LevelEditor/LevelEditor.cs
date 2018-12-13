@@ -13,6 +13,7 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
 using static HeroesPowerPlant.BSPRenderer;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using HeroesPowerPlant.ShadowSplineEditor;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -341,6 +342,7 @@ namespace HeroesPowerPlant.LevelEditor
             saveAsToolStripMenuItem2.Enabled = false;
 
             collisionEditorToolStripMenuItem.Enabled = false;
+            splineEditorToolStripMenuItem.Enabled = false;
             shadowCollisionEditor.Hide();
             buttonImport.Enabled = true;
 
@@ -362,6 +364,7 @@ namespace HeroesPowerPlant.LevelEditor
             saveAsToolStripMenuItem2.Enabled = true;
 
             collisionEditorToolStripMenuItem.Enabled = true;
+            splineEditorToolStripMenuItem.Enabled = true;
             buttonImport.Enabled = true;
 
             isShadowMode = true;
@@ -383,6 +386,7 @@ namespace HeroesPowerPlant.LevelEditor
         // Shadow Level Editor
 
         public ShadowCollisionEditor shadowCollisionEditor = new ShadowCollisionEditor();
+        public ShadowSplineMenu shadowSplineEditor = new ShadowSplineMenu();
 
         private void newToolStripMenuItem2_Click(object sender, EventArgs e)
         {
@@ -511,6 +515,7 @@ namespace HeroesPowerPlant.LevelEditor
             shadowCollisionEditor.InitBSPList();
 
             SaveShadowVisibilityFile(ChunkList, currentShadowFolderNamePrefix, visibilityONEpath);
+            shadowSplineEditor.Save(visibilityONEpath);
 
             progressBar1.Value = 0;
         }
@@ -518,6 +523,11 @@ namespace HeroesPowerPlant.LevelEditor
         private void collisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             shadowCollisionEditor.Show();
+        }
+
+        private void splineEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            shadowSplineEditor.Show();
         }
 
         // BLK Editor

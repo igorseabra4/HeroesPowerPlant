@@ -159,6 +159,7 @@ namespace HeroesPowerPlant
                     else if (fileName.Contains("dat"))
                     {
                         Program.LevelEditor.initVisibilityEditor(true, fileName);
+                        Program.LevelEditor.shadowSplineEditor.Init(fileName);
                     }
                     else if (fileName.Contains("fx"))
                     {

@@ -200,6 +200,13 @@
     <Compile Include="SetIdTableEditor\SetIdTableFunctions.cs" />
     <Compile Include="SetIdTableEditor\StageEntry.cs" />
     <Compile Include="SetIdTableEditor\TableEntry.cs" />
+    <Compile Include="ShadowSplineEditor\ShadowSplineMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShadowSplineEditor\ShadowSplineMenu.Designer.cs">
+      <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShadowSplineEditor\ShadowSplineEditor.cs" />
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
     <Compile Include="SharpDX\Camera\CameraVectors.cs" />
     <Compile Include="SharpDX\Camera\ProjectionMatrix.cs" />
@@ -440,6 +447,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SetIdTableEditor\SetIdTableEditor.resx">
       <DependentUpon>SetIdTableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShadowSplineEditor\ShadowSplineMenu.resx">
+      <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SplineEditor\SplineEditor.resx">
       <DependentUpon>SplineEditor.cs</DependentUpon>

@@ -326,7 +326,10 @@ namespace HeroesPowerPlant
                     Program.ConfigEditor.RenderStartPositions(this);
 
                 if (ShowSplines)
+                {
                     Program.SplineEditor.RenderSplines(this);
+                    Program.LevelEditor.shadowSplineEditor.RenderSplines(this);
+                }
 
                 if (ShowQuadtree)
                     CollisionRendering.RenderQuadTree(this);
