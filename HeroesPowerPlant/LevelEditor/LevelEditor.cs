@@ -344,6 +344,7 @@ namespace HeroesPowerPlant.LevelEditor
             collisionEditorToolStripMenuItem.Enabled = false;
             splineEditorToolStripMenuItem.Enabled = false;
             shadowCollisionEditor.Hide();
+            shadowSplineEditor.Hide();
             buttonImport.Enabled = true;
 
             isShadowMode = false;
@@ -393,6 +394,7 @@ namespace HeroesPowerPlant.LevelEditor
             SetShadowMode();
 
             shadowCollisionEditor.InitBSPList();
+            shadowSplineEditor.Init();
 
             ResetEveryting();
         }
@@ -451,7 +453,7 @@ namespace HeroesPowerPlant.LevelEditor
             openONEfilePath = levelPath;
             currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(levelPath);
 
-            string visibilityONEpath = null;
+            string datONEpath = null;
 
             foreach (string fileName in Directory.GetFiles(levelPath))
             {
@@ -466,12 +468,12 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("dat"))
                 {
-                    visibilityONEpath = fileName;
+                    datONEpath = fileName;
                 }
             }
 
-            if (visibilityONEpath == null)
-                visibilityONEpath = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_dat.one");
+            if (datONEpath == null)
+                datONEpath = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_dat.one");
 
             List<RenderWareModelFile> fileList = new List<RenderWareModelFile>();
             fileList.AddRange(BSPList);
@@ -514,8 +516,8 @@ namespace HeroesPowerPlant.LevelEditor
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
 
-            SaveShadowVisibilityFile(ChunkList, currentShadowFolderNamePrefix, visibilityONEpath);
-            shadowSplineEditor.Save(visibilityONEpath);
+            SaveShadowVisibilityFile(ChunkList, currentShadowFolderNamePrefix, datONEpath);
+            shadowSplineEditor.Save(datONEpath);
 
             progressBar1.Value = 0;
         }

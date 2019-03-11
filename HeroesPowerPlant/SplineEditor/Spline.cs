@@ -3,41 +3,34 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using SharpDX;
+using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.SplineEditor
 {
-    public enum SplineType
+    public abstract class AbstractSpline
     {
-        Null,
-        Loop,
-        Rail,
-        Ball
-    }
-
-    public class Spline
-    {
-        public Vertex[] Points;
-        public SplineType Type;
         public bool isSelected = false;
 
-        private SharpMesh splineMesh;
-        private DefaultRenderData renderData = new DefaultRenderData();
-
-        public void SetRenderStuff(SharpRenderer renderer)
+        protected SharpMesh splineMesh;
+        protected DefaultRenderData renderData = new DefaultRenderData();
+        
+        protected void CreateMesh(SharpRenderer renderer, Vector3[] vertices)
         {
             if (splineMesh != null)
                 splineMesh.Dispose();
 
-            splineMesh = SharpMesh.Create(renderer.Device, Points, ReadWriteCommon.Range(Points.Length), new List<SharpSubSet>() {
-                    new SharpSubSet(0, Points.Length, null) }, SharpDX.Direct3D.PrimitiveTopology.LineStrip);
+            if (vertices.Length > 1)
+                splineMesh = SharpMesh.Create(renderer.Device, vertices, Range(vertices.Length), new List<SharpSubSet>() {
+                    new SharpSubSet(0, vertices.Length, null) }, SharpDX.Direct3D.PrimitiveTopology.LineStrip);
+            else
+                splineMesh = null;
         }
 
         public void Render(SharpRenderer renderer)
         {
-            if (isSelected)
-                renderData.Color = new Vector4(0.3f, 0.9f, 0.5f, 1f);
-            else
-                renderData.Color = new Vector4(0.8f, 0.8f, 0f, 1f);
+            if (splineMesh == null) return;
+
+            renderData.Color = isSelected ? new Vector4(0.3f, 0.9f, 0.5f, 1f) : new Vector4(0.8f, 0.8f, 0f, 1f);
 
             renderData.worldViewProjection = renderer.viewProjection;
 
@@ -58,6 +51,29 @@ namespace HeroesPowerPlant.SplineEditor
         {
             if (splineMesh != null)
                 splineMesh.Dispose();
+        }
+    }
+
+    public enum SplineType
+    {
+        Null,
+        Loop,
+        Rail,
+        Ball
+    }
+
+    public class Spline : AbstractSpline
+    {
+        public Vertex[] Points;
+        public SplineType Type;
+
+        public void SetRenderStuff(SharpRenderer renderer)
+        {
+            List<Vector3> vertices = new List<Vector3>(Points.Length);
+            foreach (Vertex v in Points)
+                vertices.Add(v.Position);
+
+            CreateMesh(renderer, vertices.ToArray());
         }
 
         public static Spline FromFile(string FileName)

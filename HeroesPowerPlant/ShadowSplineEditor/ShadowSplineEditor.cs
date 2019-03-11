@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
-using HeroesONE_R.Utilities;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Linq;
+using HeroesPowerPlant.SplineEditor;
 
 namespace HeroesPowerPlant.ShadowSplineEditor
 {
@@ -49,17 +49,16 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             set => Rotation.Z = value;
         }
 
-        public float DistanceToNext;
-        public int Unknown;
+        public int Unknown { get; set; }
     }
 
-    public class ShadowSpline
+    public class ShadowSpline : AbstractSpline
     {
-        public byte Unknown1 { get; set; }
-        public byte Unknown2 { get; set; }
-        public byte Unknown3 { get; set; }
-        public byte Unknown4 { get; set; }
-        public int UnknownInt { get; set; }
+        public byte Setting1 { get; set; }
+        public byte Setting2 { get; set; }
+        public byte Setting3 { get; set; }
+        public byte Setting4 { get; set; }
+        public int SettingInt { get; set; }
         public string Name { get; set; }
 
         public ShadowSplineVertex[] Vertices { get; set; }
@@ -79,60 +78,23 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             return new ShadowSpline()
             {
-                Unknown1 = Unknown1,
-                Unknown2 = Unknown2,
-                Unknown3 = Unknown3,
-                Unknown4 = Unknown4,
-                UnknownInt = UnknownInt,
+                Setting1 = Setting1,
+                Setting2 = Setting2,
+                Setting3 = Setting3,
+                Setting4 = Setting4,
+                SettingInt = SettingInt,
                 Name = Name,
                 Vertices = JsonConvert.DeserializeObject<ShadowSplineVertex[]>(JsonConvert.SerializeObject(Vertices))
             };
         }
 
-        public bool isSelected = false;
-        private SharpMesh splineMesh;
-        private DefaultRenderData renderData = new DefaultRenderData();
-
         public void SetRenderStuff(SharpRenderer renderer)
         {
-            if (splineMesh != null)
-                splineMesh.Dispose();
-
             List<Vector3> vertices = new List<Vector3>(Vertices.Length);
             foreach (ShadowSplineVertex v in Vertices)
                 vertices.Add(v.Position);
 
-            if (vertices.Count > 1)
-                splineMesh = SharpMesh.Create(renderer.Device, vertices.ToArray(), Range(vertices.Count), new List<SharpSubSet>() {
-                    new SharpSubSet(0, vertices.Count, null) }, SharpDX.Direct3D.PrimitiveTopology.LineStrip);
-            else splineMesh = null;
-        }
-
-        public void Render(SharpRenderer renderer)
-        {
-            if (splineMesh == null) return;
-
-            renderData.Color = isSelected ? new Vector4(0.3f, 0.9f, 0.5f, 1f) : new Vector4(0.8f, 0.8f, 0f, 1f);
-
-            renderData.worldViewProjection = renderer.viewProjection;
-
-            renderer.Device.SetFillModeSolid();
-            renderer.Device.SetCullModeNone();
-            renderer.Device.SetDefaultBlendState();
-            renderer.Device.ApplyRasterState();
-            renderer.Device.UpdateAllStates();
-
-            renderer.Device.UpdateData(renderer.basicBuffer, renderData);
-            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
-            renderer.basicShader.Apply();
-
-            splineMesh.Draw(renderer.Device);
-        }
-
-        public void Dispose()
-        {
-            if (splineMesh != null)
-                splineMesh.Dispose();
+            CreateMesh(renderer, vertices.ToArray());
         }
 
         public static ShadowSpline FromFile(string FileName)
@@ -171,7 +133,13 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             foreach (ShadowSpline ss in Splines)
                 ss.SetRenderStuff(Program.MainForm.renderer);
         }
-        
+
+        public void Dispose()
+        {
+            foreach (ShadowSpline ss in Splines)
+                ss.Dispose();
+        }
+
         private static string ReadString(BinaryReader binaryReader)
         {
             List<char> list = new List<char>();
@@ -229,14 +197,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                     splineReader.BaseStream.Position += 8;
 
-                    spline.Unknown1 = splineReader.ReadByte();
-                    spline.Unknown2 = splineReader.ReadByte();
-                    spline.Unknown3 = splineReader.ReadByte();
-                    spline.Unknown4 = splineReader.ReadByte();
+                    spline.Setting1 = splineReader.ReadByte();
+                    spline.Setting2 = splineReader.ReadByte();
+                    spline.Setting3 = splineReader.ReadByte();
+                    spline.Setting4 = splineReader.ReadByte();
 
                     splineReader.BaseStream.Position += 0xC;
 
-                    spline.UnknownInt = Switch(splineReader.ReadInt32());
+                    spline.SettingInt = Switch(splineReader.ReadInt32());
 
                     splineReader.BaseStream.Position += 0xC;
 
@@ -347,7 +315,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         public bool Copy(int index)
         {
-            if (index < Splines.Count)
+            if (index > -1 && index < Splines.Count)
             {
                 Splines.Add(Splines[index].GetCopy());
                 Splines.Last().SetRenderStuff(Program.MainForm.renderer);
@@ -359,7 +327,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         public bool Remove(int index)
         {
-            if (index < Splines.Count)
+            if (index > -1 && index < Splines.Count)
             {
                 Splines[index].Dispose();
                 Splines.RemoveAt(index);
@@ -376,7 +344,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             foreach (ShadowSpline ss in Splines)
                 ss.isSelected = false;
 
-            if (index < Splines.Count)
+            if (index > -1 && index < Splines.Count)
             {
                 selectedSpline = index;
                 Splines[index].isSelected = true;

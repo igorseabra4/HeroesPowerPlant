@@ -22,8 +22,20 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             Hide();
         }
 
+        public void Init()
+        {
+            if (SplineEditor != null)
+                SplineEditor.Dispose();
+            propertyGridSplines.SelectedObject = null;
+            SplineEditor = new ShadowSplineEditor();
+            UpdateSplineList();
+        }
+
         public void Init(string fileName)
         {
+            if (SplineEditor != null)
+                SplineEditor.Dispose();
+            propertyGridSplines.SelectedObject = null;
             SplineEditor = new ShadowSplineEditor(fileName);
             UpdateSplineList();
         }
