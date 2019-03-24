@@ -39,7 +39,7 @@ namespace HeroesPowerPlant.LevelEditor
         }
 
         private string openONEfilePath;
-        
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             New();
@@ -173,7 +173,7 @@ namespace HeroesPowerPlant.LevelEditor
         }
 
         private void InitBSPList()
-        { 
+        {
             if (openONEfilePath != null)
             {
                 labelLoadedONE.Text = "Loaded " + openONEfilePath;
@@ -291,7 +291,7 @@ namespace HeroesPowerPlant.LevelEditor
             BSPList.Clear();
             listBoxLevelModels.Items.Clear();
         }
-        
+
         private void listBoxLevelModelsDoubleClick(object sender, EventArgs e)
         {
             if (listBoxLevelModels.SelectedIndices.Count == 1)
@@ -309,7 +309,7 @@ namespace HeroesPowerPlant.LevelEditor
             if (e.KeyCode == Keys.Delete)
                 buttonRemove_Click(sender, new EventArgs());
         }
-        
+
         private void listBoxLevelModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             uint vertices = 0;
@@ -337,7 +337,7 @@ namespace HeroesPowerPlant.LevelEditor
             openToolStripMenuItem1.Enabled = true;
             saveToolStripMenuItem1.Enabled = true;
             saveAsToolStripMenuItem1.Enabled = true;
-            
+
             saveToolStripMenuItem2.Enabled = false;
             saveAsToolStripMenuItem2.Enabled = false;
 
@@ -424,7 +424,7 @@ namespace HeroesPowerPlant.LevelEditor
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
         }
-        
+
         private void saveToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (openONEfilePath != null)
@@ -512,7 +512,7 @@ namespace HeroesPowerPlant.LevelEditor
                 string fileName = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_" + i.ToString("D2") + ".one");
                 File.WriteAllBytes(fileName, oneDict[i].BuildShadowONEArchive(true).ToArray());
             }
-            
+
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
 
@@ -542,7 +542,7 @@ namespace HeroesPowerPlant.LevelEditor
             labelChunkAmount.Text = "Amount: " + ChunkList.Count();
             labelLoadedBLK.Text = "No BLK loaded";
         }
-        
+
         private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog()
@@ -639,14 +639,14 @@ namespace HeroesPowerPlant.LevelEditor
 
         public string OpenVisibilityFile;
         bool ProgramIsChangingStuff = false;
-        
+
         private void numericCurrentChunk_ValueChanged(object sender, EventArgs e)
         {
             ProgramIsChangingStuff = true;
 
             foreach (Chunk c in ChunkList)
                 c.isSelected = false;
-            
+
             int i = (int)numericCurrentChunk.Value - 1;
 
             if (ChunkList.Count > 0)
@@ -709,7 +709,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
         }
-        
+
         private void NumChunkNum_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
@@ -730,6 +730,48 @@ namespace HeroesPowerPlant.LevelEditor
                     ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)NumMaxZ.Value;
                     ChunkList[(int)numericCurrentChunk.Value - 1].CalculateModel();
                 }
+        }
+
+        private void importVisibilityChunkDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog()
+            {
+                Filter = "All supported files|*.bdt"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                if (Path.GetExtension(openFile.FileName).ToLower() == ".bdt")
+                {
+                    ChunkList.AddRange(LoadShadowVisibilityFile(new FileStream(openFile.FileName, FileMode.Open)));
+                }
+                numericCurrentChunk.Minimum = 1;
+                numericCurrentChunk.Maximum = ChunkList.Count();
+                numericCurrentChunk.Value = ChunkList.Count();
+                if (numericCurrentChunk.Maximum != 0)
+                    numericCurrentChunk.Value = 1;
+
+                labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+            }
+        }
+
+        private void buttonChunkShift_Click(object sender, EventArgs e)
+        {
+            if (chunkShiftRangeEnd.Value <= ChunkList.Count && chunkShiftRangeStart.Value > 0)
+            {
+                for (int i = (int)chunkShiftRangeStart.Value; i <= (int)chunkShiftRangeEnd.Value; i++)
+                {
+                    ChunkList[i - 1].Min.X += (int)chunkShiftX.Value;
+                    ChunkList[i - 1].Min.Y += (int)chunkShiftY.Value;
+                    ChunkList[i - 1].Min.Z += (int)chunkShiftZ.Value;
+                    ChunkList[i - 1].Max.X += (int)chunkShiftX.Value;
+                    ChunkList[i - 1].Max.Y += (int)chunkShiftY.Value;
+                    ChunkList[i - 1].Max.Z += (int)chunkShiftZ.Value;
+                    ChunkList[i - 1].CalculateModel();
+                }
+                MessageBox.Show("Operation Completed");
+            } else {
+                MessageBox.Show("Failed. Check Start/End");
+            }
         }
     }
 }

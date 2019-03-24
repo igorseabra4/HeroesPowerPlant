@@ -39,6 +39,15 @@
             this.buttonExport = new System.Windows.Forms.Button();
             this.listBoxLevelModels = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonChunkShift = new System.Windows.Forms.Button();
+            this.chunkShiftRangeEnd = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.chunkShiftRangeStart = new System.Windows.Forms.NumericUpDown();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.chunkShiftZ = new System.Windows.Forms.NumericUpDown();
+            this.chunkShiftY = new System.Windows.Forms.NumericUpDown();
+            this.chunkShiftX = new System.Windows.Forms.NumericUpDown();
             this.labelChunkAmount = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.numericCurrentChunk = new System.Windows.Forms.NumericUpDown();
@@ -79,10 +88,17 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.collisionEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splineEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importVisibilityChunkDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelLoadedBLK = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftRangeEnd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftRangeStart)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftZ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericCurrentChunk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAdd)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -209,6 +225,12 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.buttonChunkShift);
+            this.groupBox2.Controls.Add(this.chunkShiftRangeEnd);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.chunkShiftRangeStart);
+            this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.labelChunkAmount);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.numericCurrentChunk);
@@ -223,10 +245,125 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(224, 27);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(231, 261);
+            this.groupBox2.Size = new System.Drawing.Size(231, 349);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visibility Editor";
+            // 
+            // buttonChunkShift
+            // 
+            this.buttonChunkShift.Location = new System.Drawing.Point(139, 315);
+            this.buttonChunkShift.Name = "buttonChunkShift";
+            this.buttonChunkShift.Size = new System.Drawing.Size(86, 23);
+            this.buttonChunkShift.TabIndex = 32;
+            this.buttonChunkShift.Text = "Chunk Shift";
+            this.buttonChunkShift.UseVisualStyleBackColor = true;
+            this.buttonChunkShift.Click += new System.EventHandler(this.buttonChunkShift_Click);
+            // 
+            // chunkShiftRangeEnd
+            // 
+            this.chunkShiftRangeEnd.Location = new System.Drawing.Point(176, 289);
+            this.chunkShiftRangeEnd.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.chunkShiftRangeEnd.Name = "chunkShiftRangeEnd";
+            this.chunkShiftRangeEnd.Size = new System.Drawing.Size(49, 20);
+            this.chunkShiftRangeEnd.TabIndex = 31;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(136, 291);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "End";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(136, 269);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.TabIndex = 29;
+            this.label4.Text = "Begin";
+            // 
+            // chunkShiftRangeStart
+            // 
+            this.chunkShiftRangeStart.Location = new System.Drawing.Point(176, 267);
+            this.chunkShiftRangeStart.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.chunkShiftRangeStart.Name = "chunkShiftRangeStart";
+            this.chunkShiftRangeStart.Size = new System.Drawing.Size(49, 20);
+            this.chunkShiftRangeStart.TabIndex = 28;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.chunkShiftZ);
+            this.groupBox5.Controls.Add(this.chunkShiftY);
+            this.groupBox5.Controls.Add(this.chunkShiftX);
+            this.groupBox5.Location = new System.Drawing.Point(6, 255);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(104, 97);
+            this.groupBox5.TabIndex = 21;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Chunk Shifter";
+            // 
+            // chunkShiftZ
+            // 
+            this.chunkShiftZ.Location = new System.Drawing.Point(6, 71);
+            this.chunkShiftZ.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.chunkShiftZ.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
+            this.chunkShiftZ.Name = "chunkShiftZ";
+            this.chunkShiftZ.Size = new System.Drawing.Size(92, 20);
+            this.chunkShiftZ.TabIndex = 16;
+            // 
+            // chunkShiftY
+            // 
+            this.chunkShiftY.Location = new System.Drawing.Point(6, 45);
+            this.chunkShiftY.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.chunkShiftY.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
+            this.chunkShiftY.Name = "chunkShiftY";
+            this.chunkShiftY.Size = new System.Drawing.Size(92, 20);
+            this.chunkShiftY.TabIndex = 15;
+            // 
+            // chunkShiftX
+            // 
+            this.chunkShiftX.Location = new System.Drawing.Point(6, 19);
+            this.chunkShiftX.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.chunkShiftX.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
+            this.chunkShiftX.Name = "chunkShiftX";
+            this.chunkShiftX.Size = new System.Drawing.Size(92, 20);
+            this.chunkShiftX.TabIndex = 14;
             // 
             // labelChunkAmount
             // 
@@ -609,7 +746,8 @@
             this.saveAsToolStripMenuItem2,
             this.toolStripSeparator1,
             this.collisionEditorToolStripMenuItem,
-            this.splineEditorToolStripMenuItem});
+            this.splineEditorToolStripMenuItem,
+            this.importVisibilityChunkDataToolStripMenuItem});
             this.shadowLevelToolStripMenuItem.Name = "shadowLevelToolStripMenuItem";
             this.shadowLevelToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
             this.shadowLevelToolStripMenuItem.Text = "Shadow Level";
@@ -617,14 +755,14 @@
             // newToolStripMenuItem2
             // 
             this.newToolStripMenuItem2.Name = "newToolStripMenuItem2";
-            this.newToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem2.Size = new System.Drawing.Size(222, 22);
             this.newToolStripMenuItem2.Text = "New";
             this.newToolStripMenuItem2.Click += new System.EventHandler(this.newToolStripMenuItem2_Click);
             // 
             // openToolStripMenuItem2
             // 
             this.openToolStripMenuItem2.Name = "openToolStripMenuItem2";
-            this.openToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem2.Size = new System.Drawing.Size(222, 22);
             this.openToolStripMenuItem2.Text = "Open";
             this.openToolStripMenuItem2.Click += new System.EventHandler(this.openToolStripMenuItem2_Click);
             // 
@@ -632,7 +770,7 @@
             // 
             this.saveToolStripMenuItem2.Enabled = false;
             this.saveToolStripMenuItem2.Name = "saveToolStripMenuItem2";
-            this.saveToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem2.Size = new System.Drawing.Size(222, 22);
             this.saveToolStripMenuItem2.Text = "Save";
             this.saveToolStripMenuItem2.Click += new System.EventHandler(this.saveToolStripMenuItem2_Click);
             // 
@@ -640,20 +778,20 @@
             // 
             this.saveAsToolStripMenuItem2.Enabled = false;
             this.saveAsToolStripMenuItem2.Name = "saveAsToolStripMenuItem2";
-            this.saveAsToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem2.Size = new System.Drawing.Size(222, 22);
             this.saveAsToolStripMenuItem2.Text = "Save As...";
             this.saveAsToolStripMenuItem2.Click += new System.EventHandler(this.saveAsToolStripMenuItem2_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(219, 6);
             // 
             // collisionEditorToolStripMenuItem
             // 
             this.collisionEditorToolStripMenuItem.Enabled = false;
             this.collisionEditorToolStripMenuItem.Name = "collisionEditorToolStripMenuItem";
-            this.collisionEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.collisionEditorToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.collisionEditorToolStripMenuItem.Text = "Collision Editor";
             this.collisionEditorToolStripMenuItem.Click += new System.EventHandler(this.collisionEditorToolStripMenuItem_Click);
             // 
@@ -661,9 +799,16 @@
             // 
             this.splineEditorToolStripMenuItem.Enabled = false;
             this.splineEditorToolStripMenuItem.Name = "splineEditorToolStripMenuItem";
-            this.splineEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.splineEditorToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.splineEditorToolStripMenuItem.Text = "Spline Editor";
             this.splineEditorToolStripMenuItem.Click += new System.EventHandler(this.splineEditorToolStripMenuItem_Click);
+            // 
+            // importVisibilityChunkDataToolStripMenuItem
+            // 
+            this.importVisibilityChunkDataToolStripMenuItem.Name = "importVisibilityChunkDataToolStripMenuItem";
+            this.importVisibilityChunkDataToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.importVisibilityChunkDataToolStripMenuItem.Text = "Import Visibility Chunk Data";
+            this.importVisibilityChunkDataToolStripMenuItem.Click += new System.EventHandler(this.importVisibilityChunkDataToolStripMenuItem_Click);
             // 
             // labelLoadedBLK
             // 
@@ -703,6 +848,12 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftRangeEnd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftRangeStart)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftZ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkShiftX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericCurrentChunk)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAdd)).EndInit();
             this.groupBox3.ResumeLayout(false);
@@ -776,5 +927,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem splineEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importVisibilityChunkDataToolStripMenuItem;
+        private System.Windows.Forms.Button buttonChunkShift;
+        internal System.Windows.Forms.NumericUpDown chunkShiftRangeEnd;
+        internal System.Windows.Forms.Label label5;
+        internal System.Windows.Forms.Label label4;
+        internal System.Windows.Forms.NumericUpDown chunkShiftRangeStart;
+        internal System.Windows.Forms.GroupBox groupBox5;
+        internal System.Windows.Forms.NumericUpDown chunkShiftZ;
+        internal System.Windows.Forms.NumericUpDown chunkShiftY;
+        internal System.Windows.Forms.NumericUpDown chunkShiftX;
     }
 }
