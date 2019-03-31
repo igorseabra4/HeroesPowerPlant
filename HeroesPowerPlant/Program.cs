@@ -19,6 +19,7 @@ namespace HeroesPowerPlant
         public static CameraEditor.CameraEditor CameraEditor;
         public static ParticleEditor.ParticleMenu ParticleEditor;
         public static TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
+        public static LightEditor.LightMenu LightEditor;
         public static SetIdTableEditor.SetIdTableEditor SetIdTableEditor;
 
         /// <summary>
@@ -45,6 +46,7 @@ namespace HeroesPowerPlant
                 CameraEditor = new CameraEditor.CameraEditor();
                 ParticleEditor = new ParticleEditor.ParticleMenu();
                 TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
+                LightEditor = new LightEditor.LightMenu();
                 SetIdTableEditor = new SetIdTableEditor.SetIdTableEditor();
 
                 Application.Run(MainForm);

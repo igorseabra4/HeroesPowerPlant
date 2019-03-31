@@ -5,7 +5,7 @@ using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.CameraEditor
 {
-    public class CameraEditorFunctions
+    public static class CameraEditorFunctions
     {
         public static List<CameraHeroes> ImportCameraFile(string fileName)
         {

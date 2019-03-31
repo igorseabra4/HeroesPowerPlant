@@ -343,6 +343,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             collisionEditorToolStripMenuItem.Enabled = false;
             splineEditorToolStripMenuItem.Enabled = false;
+            importBLKToolStripMenuItem.Enabled = false;
+
             shadowCollisionEditor.Hide();
             shadowSplineEditor.Hide();
             buttonImport.Enabled = true;
@@ -366,6 +368,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             collisionEditorToolStripMenuItem.Enabled = true;
             splineEditorToolStripMenuItem.Enabled = true;
+            importBLKToolStripMenuItem.Enabled = true;
             buttonImport.Enabled = true;
 
             isShadowMode = true;
@@ -515,7 +518,7 @@ namespace HeroesPowerPlant.LevelEditor
             
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
-
+            
             SaveShadowVisibilityFile(ChunkList, currentShadowFolderNamePrefix, datONEpath);
             shadowSplineEditor.Save(datONEpath);
 
@@ -609,8 +612,8 @@ namespace HeroesPowerPlant.LevelEditor
                 labelLoadedBLK.Text = "Loaded " + OpenVisibilityFile;
             }
         }
-
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        
+        private void importBLKToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog()
             {

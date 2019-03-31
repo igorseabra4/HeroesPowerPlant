@@ -191,6 +191,14 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List01\Object0190_Partner.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List0B\Object0BBE_Chao.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List18\Object189E_ARKDriftingPlat1.cs" />
+    <Compile Include="LightEditor\Light.cs" />
+    <Compile Include="LightEditor\LightEditor.cs" />
+    <Compile Include="LightEditor\LightMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LightEditor\LightMenu.Designer.cs">
+      <DependentUpon>LightMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="SetIdTableEditor\SetIdTableEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -444,6 +452,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigEditor\ConfigEditor.resx">
       <DependentUpon>ConfigEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LightEditor\LightMenu.resx">
+      <DependentUpon>LightMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SetIdTableEditor\SetIdTableEditor.resx">
       <DependentUpon>SetIdTableEditor.cs</DependentUpon>
