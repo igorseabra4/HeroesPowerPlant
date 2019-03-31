@@ -44,11 +44,6 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public abstract void FindNewObjectManager(bool replaceMiscSettings = true);
 
-        public int GetTypeAsOne()
-        {
-            return BitConverter.ToInt32(new byte[] { Link, objectEntry.Type, objectEntry.List, 0 }, 0);
-        }
-
         public float GetDistanceFromOrigin()
         {
             return Position.Length();

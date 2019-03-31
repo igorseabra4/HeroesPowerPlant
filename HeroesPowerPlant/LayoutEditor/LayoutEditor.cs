@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using SharpDX;
 
@@ -20,7 +21,9 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 MessageBox.Show("Error: failed to load one or more files during startup. Program will not work correctly.");
             }
-            
+
+            listBoxObjects.DataSource = layoutSystem.setObjects;
+
             NumericPosX.Maximum = decimal.MaxValue;
             NumericPosX.Minimum = decimal.MinValue;
             NumericPosY.Maximum = decimal.MaxValue;
@@ -52,6 +55,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private LayoutEditorSystem layoutSystem;
         private bool ProgramIsChangingStuff = false;
+        private int SelectedIndex
+        {
+            get => listBoxObjects.SelectedIndex;
+            set => listBoxObjects.SelectedIndex = value;
+        }
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -60,7 +68,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void New()
         {
+            listBoxObjects.BeginUpdate();
             layoutSystem.NewHeroesLayout();
+            listBoxObjects.EndUpdate();
 
             UpdateObjectComboBox();
             UpdateFileLabel();
@@ -68,7 +78,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void shadowLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            listBoxObjects.BeginUpdate();
             layoutSystem.NewShadowLayout();
+            listBoxObjects.EndUpdate();
 
             UpdateObjectComboBox();
             UpdateFileLabel();
@@ -81,8 +93,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 Filter = "All supported types|*.bin; *.dat|BIN Files|*.bin|DAT Files|*.dat"
             };
 
+            listBoxObjects.BeginUpdate();
             if (openFile.ShowDialog() == DialogResult.OK)
                 OpenFile(openFile.FileName);
+            listBoxObjects.EndUpdate();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -98,14 +112,16 @@ namespace HeroesPowerPlant.LayoutEditor
         
         private void byIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            listBoxObjects.BeginUpdate();
             layoutSystem.SortObjectsByID();
-            UpdateEntireObjectList();
+            listBoxObjects.EndUpdate();
         }
 
         private void byDistanceFromOriginToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            listBoxObjects.BeginUpdate();
             layoutSystem.SortObjectsByDistance();
-            UpdateEntireObjectList();
+            listBoxObjects.EndUpdate();
         }
 
         private void exportINIToolStripMenuItem_Click(object sender, EventArgs e)
@@ -129,8 +145,9 @@ namespace HeroesPowerPlant.LayoutEditor
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
+                listBoxObjects.BeginUpdate();
                 layoutSystem.ImportINI(openFile.FileName);
-                UpdateEntireObjectList();
+                listBoxObjects.EndUpdate();
             }
         }
 
@@ -146,8 +163,9 @@ namespace HeroesPowerPlant.LayoutEditor
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
+                listBoxObjects.BeginUpdate();
                 layoutSystem.ImportLayoutFile(openFile.FileName);
-                UpdateEntireObjectList();
+                listBoxObjects.EndUpdate();
             }
         }
 
@@ -159,24 +177,25 @@ namespace HeroesPowerPlant.LayoutEditor
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
+                listBoxObjects.BeginUpdate();
                 layoutSystem.ImportOBJ(openFile.FileName);
-                UpdateEntireObjectList();
+                listBoxObjects.EndUpdate();
             }
         }
 
         private void buttonViewHere_Click(object sender, EventArgs e)
         {
-            layoutSystem.ViewHere();
+            layoutSystem.ViewHere(SelectedIndex);
         }
 
         private void listBoxObjects_SelectedIndexChanged(object sender, EventArgs e)
         {
             ProgramIsChangingStuff = true;
 
-            if (listBoxObjects.SelectedIndex < layoutSystem.GetSetObjectAmount())
+            if (SelectedIndex < layoutSystem.GetSetObjectAmount())
             {
-                layoutSystem.SelectedIndexChanged(listBoxObjects.SelectedIndex);
-                if (listBoxObjects.SelectedIndex != -1)
+                layoutSystem.SelectedIndexChanged(SelectedIndex);
+                if (SelectedIndex != -1)
                 {
                     UpdateDisplayData();
                     UpdateGizmoPosition();
@@ -193,46 +212,45 @@ namespace HeroesPowerPlant.LayoutEditor
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
             layoutSystem.AddNewSetObject();
-            listBoxObjects.Items.Add(layoutSystem.GetSetObjectAt(layoutSystem.GetSetObjectAmount() - 1));
-            listBoxObjects.SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
-            UpdateSingleObjectList();
+            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
-            layoutSystem.CopySetObject();
-            listBoxObjects.Items.Add(layoutSystem.GetSetObjectAt(layoutSystem.GetSetObjectAmount() - 1));
-            listBoxObjects.SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
-            UpdateSingleObjectList();
+            layoutSystem.CopySetObject(SelectedIndex);
+            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.CurrentlySelectedIndex >= 0)
+            if (SelectedIndex >= 0)
             {
                 ProgramIsChangingStuff = true;
-                int Temp = layoutSystem.RemoveSetObject();
-                listBoxObjects.Items.RemoveAt(Temp);
-                try { listBoxObjects.SelectedIndex = Temp; }
-                catch { listBoxObjects.SelectedIndex = Temp - 1; }
+                int Temp = SelectedIndex;
+
+                layoutSystem.RemoveSetObject(SelectedIndex);
+
+                try { SelectedIndex = Temp; }
+                catch { SelectedIndex = Temp - 1; }
                 ProgramIsChangingStuff = false;
             }
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
+            listBoxObjects.BeginUpdate();
             layoutSystem.ClearList();
-            UpdateEntireObjectList();
+            listBoxObjects.EndUpdate();
         }
 
         private void ComboBoxObject_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
             {
-                layoutSystem.ComboBoxObjectChanged(ComboBoxObject.SelectedItem as ObjectEntry);
-                UpdateSingleObjectList();
-                PropertyGridMisc.SelectedObject = layoutSystem.GetSelectedObjectManager();
-                UpdateDescriptionBox(layoutSystem.GetSelectedSetObjectEntry());
+                layoutSystem.ComboBoxObjectChanged(listBoxObjects.SelectedIndex, ComboBoxObject.SelectedItem as ObjectEntry);
+                UpdateList();
+                PropertyGridMisc.SelectedObject = layoutSystem.GetObjectManager(SelectedIndex);
+                UpdateDescriptionBox(layoutSystem.GetSetObjectEntry(SelectedIndex));
             }
         }
 
@@ -240,7 +258,8 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (!ProgramIsChangingStuff)
             {
-                layoutSystem.SetObjectPosition((float)NumericPosX.Value, (float)NumericPosY.Value, (float)NumericPosZ.Value);
+                layoutSystem.SetObjectPosition(SelectedIndex, (float)NumericPosX.Value, (float)NumericPosY.Value, (float)NumericPosZ.Value);
+                UpdateGizmoPosition();
             }
         }
 
@@ -248,7 +267,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (!ProgramIsChangingStuff)
             {
-                layoutSystem.SetObjectRotation((float)NumericRotX.Value, (float)NumericRotY.Value, (float)NumericRotZ.Value);
+                layoutSystem.SetObjectRotation(SelectedIndex, (float)NumericRotX.Value, (float)NumericRotY.Value, (float)NumericRotZ.Value);
                 UpdateGizmoPosition();
             }
         }
@@ -257,30 +276,30 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (!ProgramIsChangingStuff)
             {
-                layoutSystem.SetObjectLink((byte)NumericObjLink.Value);
-                UpdateSingleObjectList();
+                layoutSystem.SetObjectLink(SelectedIndex, (byte)NumericObjLink.Value);
+                UpdateList();
             }
         }
 
         private void ButtonFindNextLink_Click(object sender, EventArgs e)
         {
-            int newIndex = layoutSystem.FindNext();
+            int newIndex = layoutSystem.FindNext(SelectedIndex);
 
-            if (newIndex == listBoxObjects.SelectedIndex)
+            if (newIndex == SelectedIndex)
                 MessageBox.Show("No other object has this same Link ID!");
             else
-                listBoxObjects.SelectedIndex = newIndex;
+                SelectedIndex = newIndex;
         }
 
         private void NumericObjRend_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
-                layoutSystem.SetObjectRend((byte)NumericObjRend.Value);
+                layoutSystem.SetObjectRend(SelectedIndex, (byte)NumericObjRend.Value);
         }
 
         private void ButtonGetSpeed_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetSpeedMemory())
+            if (layoutSystem.GetSpeedMemory(SelectedIndex))
                 UpdateDisplayData();
             else
                 MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -288,7 +307,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void ButtonGetFly_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetFlyMemory())
+            if (layoutSystem.GetFlyMemory(SelectedIndex))
                 UpdateDisplayData();
             else
                 MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -296,7 +315,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void ButtonGetPow_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetPowMemory())
+            if (layoutSystem.GetPowMemory(SelectedIndex))
                 UpdateDisplayData();
             else
                 MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -304,7 +323,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void ButtonSpeedRot_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetSpeedRotMemory())
+            if (layoutSystem.GetSpeedRotMemory(SelectedIndex))
                 UpdateDisplayData();
             else
                 MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -312,7 +331,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void ButtonFlyRot_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetFlyRotMemory())
+            if (layoutSystem.GetFlyRotMemory(SelectedIndex))
                 UpdateDisplayData();
             else
                 MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -320,7 +339,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void ButtonPowRot_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetPowRotMemory())
+            if (layoutSystem.GetPowRotMemory(SelectedIndex))
                 UpdateDisplayData();
             else
                 MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -328,13 +347,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void ButtonTeleport_Click(object sender, EventArgs e)
         {
-            if (!layoutSystem.Teleport())
+            if (!layoutSystem.Teleport(SelectedIndex))
                 MessageBox.Show("Error writing data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonDrop_Click(object sender, EventArgs e)
         {
-            layoutSystem.Drop();
+            layoutSystem.Drop(SelectedIndex);
             UpdateDisplayData();
             UpdateGizmoPosition();
         }
@@ -377,7 +396,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (isMouseDown)
                 GizmoSelect(r);
             else
-                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(renderer, r, showAllObjects);
+                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(renderer, r, showAllObjects, SelectedIndex);
         }
 
         private void UpdateObjectComboBox()
@@ -385,48 +404,51 @@ namespace HeroesPowerPlant.LayoutEditor
             ComboBoxObject.Items.Clear();
             ComboBoxObject.Items.AddRange(layoutSystem.GetActiveObjectEntries());
 
-            UpdateEntireObjectList();
+            UpdateList();
         }
 
-        private void UpdateEntireObjectList()
+        private void UpdateList()
         {
-            ProgramIsChangingStuff = true;
-            listBoxObjects.Items.Clear();
+            typeof(ListBox).InvokeMember("RefreshItems",
+              BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod,
+              null, listBoxObjects, new object[] { });
 
-            for (int i = 0; i < layoutSystem.GetSetObjectAmount(); i++)
-            {
-                listBoxObjects.Items.Add(layoutSystem.GetSetObjectAt(i).ToString());
-            }
-            
             UpdateObjectAmountLabel();
-            ProgramIsChangingStuff = false;
         }
 
-        private void UpdateSingleObjectList()
+        public static void BindField(Control control, string propertyName, object dataSource, string dataMember)
         {
-            if (listBoxObjects.SelectedIndex != -1)
-                listBoxObjects.Items[listBoxObjects.SelectedIndex] = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).ToString();
+            Binding bd;
+
+            for (int index = control.DataBindings.Count - 1; (index == 0); index--)
+            {
+                bd = control.DataBindings[index];
+                if (bd.PropertyName == propertyName)
+                    control.DataBindings.Remove(bd);
+            }
+            control.DataBindings.Add(propertyName, dataSource, dataMember);
         }
 
         private void UpdateDisplayData()
         {
-            if (listBoxObjects.SelectedIndex != -1)
+            if (SelectedIndex != -1)
             {
                 ProgramIsChangingStuff = true;
-                NumericPosX.Value = layoutSystem.GetPosX();
-                NumericPosY.Value = layoutSystem.GetPosY();
-                NumericPosZ.Value = layoutSystem.GetPosZ();
-                NumericRotX.Value = layoutSystem.GetRotX();
-                NumericRotY.Value = layoutSystem.GetRotY();
-                NumericRotZ.Value = layoutSystem.GetRotZ();
 
-                ComboBoxObject.SelectedItem = layoutSystem.GetSelectedSetObjectEntry();
+                NumericPosX.Value = layoutSystem.GetPosX(SelectedIndex);
+                NumericPosY.Value = layoutSystem.GetPosY(SelectedIndex);
+                NumericPosZ.Value = layoutSystem.GetPosZ(SelectedIndex);
+                NumericRotX.Value = layoutSystem.GetRotX(SelectedIndex);
+                NumericRotY.Value = layoutSystem.GetRotY(SelectedIndex);
+                NumericRotZ.Value = layoutSystem.GetRotZ(SelectedIndex);
 
-                NumericObjLink.Value = layoutSystem.GetSelectedObjectLink();
-                NumericObjRend.Value = layoutSystem.GetSelectedObjectRend();
+                ComboBoxObject.SelectedItem = layoutSystem.GetSetObjectEntry(SelectedIndex);
 
-                PropertyGridMisc.SelectedObject = layoutSystem.GetSelectedObjectManager();
-                UpdateDescriptionBox(layoutSystem.GetSelectedSetObjectEntry());
+                NumericObjLink.Value = layoutSystem.GetObjectLink(SelectedIndex);
+                NumericObjRend.Value = layoutSystem.GetObjectRend(SelectedIndex);
+
+                PropertyGridMisc.SelectedObject = layoutSystem.GetObjectManager(SelectedIndex);
+                UpdateDescriptionBox(layoutSystem.GetSetObjectEntry(SelectedIndex));
                 ProgramIsChangingStuff = false;
             }
 
@@ -439,10 +461,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 objectAmountLabel.Text = "0 objects";
             else
             {
-                if (layoutSystem.GetSelectedObject() == null)
+                if (layoutSystem.GetSetObjectAt(SelectedIndex) == null)
                     objectAmountLabel.Text = layoutSystem.GetSetObjectAmount().ToString() + " objects";
                 else
-                    objectAmountLabel.Text = String.Format("{0}/{1} objects", layoutSystem.GetSelectedIndex() + 1, layoutSystem.GetSetObjectAmount());
+                    objectAmountLabel.Text = string.Format("{0}/{1} objects", SelectedIndex + 1, layoutSystem.GetSetObjectAmount());
             }
         }
 
@@ -511,7 +533,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void UpdateGizmoPosition()
         {
-            UpdateGizmoPosition(layoutSystem.GetSelectedObject().GetGizmoCenter());
+            UpdateGizmoPosition(layoutSystem.GetSetObjectAt(SelectedIndex).GetGizmoCenter());
         }
 
         private void UpdateGizmoPosition(BoundingSphere position)
@@ -560,31 +582,48 @@ namespace HeroesPowerPlant.LayoutEditor
                 g.isSelected = false;
         }
 
-        public void MouseMoveX(SharpCamera camera, int distance)
+        public void MouseMoveForPosition(Matrix viewProjection, int distanceX, int distanceY)
         {
-            // TODO: The yaw checking code is probably redundant since Sewer's camera code but is kept here for now.
-            // It's not redundant, the movement needs to be done in a different direction depending on the yaw.
+            if (gizmos[0].isSelected || gizmos[1].isSelected || gizmos[2].isSelected)
+            {
+                Vector3 gizmoCenter = layoutSystem.GetSetObjectAt(SelectedIndex).GetGizmoCenter().Center;
+                Vector3 direction1 = (Vector3)Vector3.Transform(gizmoCenter, viewProjection);
 
-            if (gizmos[0].isSelected)
-                NumericPosX.Value += (
-                    (camera.ViewMatrix.Yaw >= -360 & camera.ViewMatrix.Yaw < -270) |
-                    (camera.ViewMatrix.Yaw >= -90 & camera.ViewMatrix.Yaw < 90) |
-                    (camera.ViewMatrix.Yaw >= 270)) ? distance / 2 : -distance / 2;
-            else if (gizmos[2].isSelected)
-                NumericPosZ.Value +=(
-                    (camera.ViewMatrix.Yaw >= -180 & camera.ViewMatrix.Yaw < 0) |
-                    (camera.ViewMatrix.Yaw >= 180)) ? distance / 2 : -distance / 2;
+                if (gizmos[0].isSelected)
+                {
+                    Vector3 direction2 = (Vector3)Vector3.Transform(gizmoCenter + Vector3.UnitX, viewProjection);
+                    Vector3 direction = direction2 - direction1;
+                    direction.Z = 0;
+                    direction.Normalize();
+
+                    NumericPosX.Value += (decimal)((distanceX * direction.X - distanceY * direction.Y) / 2);
+                }
+                else if (gizmos[1].isSelected)
+                {
+                    Vector3 direction2 = (Vector3)Vector3.Transform(gizmoCenter + Vector3.UnitY, viewProjection);
+                    Vector3 direction = direction2 - direction1;
+                    direction.Z = 0;
+                    direction.Normalize();
+
+                    NumericPosY.Value += (decimal)((distanceX * direction.X - distanceY * direction.Y) / 2);
+                }
+                else if (gizmos[2].isSelected)
+                {
+                    Vector3 direction2 = (Vector3)Vector3.Transform(gizmoCenter + Vector3.UnitZ, viewProjection);
+                    Vector3 direction = direction2 - direction1;
+                    direction.Z = 0;
+                    direction.Normalize();
+
+                    NumericPosZ.Value += (decimal)((distanceX * direction.X - distanceY * direction.Y) / 2);
+                }
+
+                UpdateGizmoPosition();
+            }
         }
-
-        public void MouseMoveY(SharpCamera camera, int distance)
-        {
-            if (gizmos[1].isSelected)
-                NumericPosY.Value -= distance / 2;
-        }
-
+        
         private void buttonCurrentViewDrop_Click(object sender, EventArgs e)
         {
-            layoutSystem.DropToCurrentView();
+            layoutSystem.DropToCurrentView(SelectedIndex);
             UpdateDisplayData();
             UpdateGizmoPosition();
         }

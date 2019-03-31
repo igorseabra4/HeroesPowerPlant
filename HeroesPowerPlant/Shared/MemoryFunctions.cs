@@ -101,6 +101,11 @@ namespace HeroesPowerPlant
             return new Vector3(MemManager.ReadFloat(CameraX), MemManager.ReadFloat(CameraY), MemManager.ReadFloat(CameraZ));
         }
 
+        public static bool Teleport(Vector3 position)
+        {
+            return Teleport(position.X, position.Y, position.Z);
+        }
+
         public static bool Teleport(float X, float Y, float Z)
         {
             if (TryAttach())

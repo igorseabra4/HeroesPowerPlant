@@ -255,8 +255,8 @@ namespace HeroesPowerPlant.MainForm
                     renderer.Camera.AddPositionUp(deltaY, false);
                 }
 
-                Program.LayoutEditor.MouseMoveX(renderer.Camera, deltaX);
-                Program.LayoutEditor.MouseMoveY(renderer.Camera, deltaY);
+                Program.LayoutEditor.MouseMoveForPosition(renderer.viewProjection, deltaX, deltaY);
+                //Program.LayoutEditor.MouseMoveY(renderer.Camera, deltaY);
             }
 
             oldMouseX = e.X;

@@ -2,6 +2,8 @@
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using static HeroesPowerPlant.LayoutEditor.LayoutEditorFunctions;
@@ -14,16 +16,13 @@ namespace HeroesPowerPlant.LayoutEditor
         private bool isShadow;
         public bool IsShadow { get => isShadow; }
 
-        private int currentlySelectedIndex = -1;
-        public int CurrentlySelectedIndex { get => currentlySelectedIndex; }
-
         private string currentlyOpenFileName;
         public string CurrentlyOpenFileName { get => currentlyOpenFileName; }
 
         private ObjectEntry[] heroesObjectEntries;
         private ObjectEntry[] shadowObjectEntries;
 
-        private List<SetObject> setObjects = new List<SetObject>();
+        public BindingList<SetObject> setObjects { get; set; } = new BindingList<SetObject>();
 
         public LayoutEditorSystem()
         {
@@ -36,31 +35,16 @@ namespace HeroesPowerPlant.LayoutEditor
             return setObjects.Count;
         }
 
-        public SetObject GetSetObjectAt(int i)
+        public SetObject GetSetObjectAt(int index)
         {
-            return setObjects[i];
+            return setObjects[index];
         }
 
-        public SetObject GetSelectedObject()
+        public ObjectEntry GetSetObjectEntry(int index)
         {
-            if (CurrentlySelectedIndex < 0)
-                return null;
-
-            return setObjects[CurrentlySelectedIndex];
+            return setObjects[index].objectEntry;
         }
-
-        public ObjectEntry GetSelectedSetObjectEntry()
-        {
-            if (CurrentlySelectedIndex < 0)
-                return null;
-            return setObjects[CurrentlySelectedIndex].objectEntry;
-        }
-
-        public int GetSelectedIndex()
-        {
-            return CurrentlySelectedIndex;
-        }
-
+        
         public IEnumerable<ObjectEntry> GetAllObjectEntries()
         {
             List<ObjectEntry> list = new List<ObjectEntry>();
@@ -103,16 +87,14 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             isShadow = false;
             currentlyOpenFileName = null;
-            currentlySelectedIndex = -1;
-            setObjects = new List<SetObject>();
+            setObjects.Clear();
         }
 
         public void NewShadowLayout()
         {
             isShadow = true;
             currentlyOpenFileName = null;
-            currentlySelectedIndex = -1;
-            setObjects = new List<SetObject>();
+            setObjects.Clear();
         }
 
         #region Import/Export Methods
@@ -125,12 +107,12 @@ namespace HeroesPowerPlant.LayoutEditor
             if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".bin")
             {
                 isShadow = false;
-                setObjects.AddRange(GetHeroesLayout(CurrentlyOpenFileName, heroesObjectEntries).ToArray());
+                GetHeroesLayout(CurrentlyOpenFileName, heroesObjectEntries).ForEach(setObjects.Add);
             }
             else if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".dat")
             {
                 isShadow = true;
-                setObjects.AddRange(GetShadowLayout(CurrentlyOpenFileName, shadowObjectEntries).ToArray());
+                GetShadowLayout(CurrentlyOpenFileName, shadowObjectEntries).ForEach(setObjects.Add);
             }
             else throw new InvalidDataException("Unknown file type");
         }
@@ -161,24 +143,25 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void ImportINI(string fileName)
         {
-            setObjects.AddRange(GetHeroesLayoutFromINI(fileName, heroesObjectEntries));
+            foreach (var v in GetHeroesLayoutFromINI(fileName, heroesObjectEntries))
+                setObjects.Add(v);
         }
 
         public void ImportLayoutFile(string fileName)
         {
             if (isShadow)
             {
-                setObjects.AddRange(GetShadowLayout(fileName, shadowObjectEntries).ToArray());
+                GetShadowLayout(fileName, shadowObjectEntries).ForEach(setObjects.Add);
             }
             else
             {
                 if (Path.GetExtension(fileName).ToLower() == ".bin")
                 {
-                    setObjects.AddRange(GetHeroesLayout(fileName, heroesObjectEntries).ToArray());
+                    GetHeroesLayout(fileName, heroesObjectEntries).ForEach(setObjects.Add);
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".dat")
                 {
-                    setObjects.AddRange(GetHeroesLayoutFromShadow(fileName, heroesObjectEntries, shadowObjectEntries).ToArray());
+                    GetHeroesLayoutFromShadow(fileName, heroesObjectEntries, shadowObjectEntries).ForEach(setObjects.Add);
                 }
                 else throw new InvalidDataException("Unknown file type");
             }
@@ -187,17 +170,16 @@ namespace HeroesPowerPlant.LayoutEditor
         public void ImportOBJ(string fileName)
         {
             SetObjectHeroes ring = new SetObjectHeroes(0, 3, heroesObjectEntries, Vector3.Zero, Vector3.Zero, 0, 0);
-            setObjects.AddRange(GetObjectsFromObjFile(fileName, ring.objectEntry).ToArray());
+            GetObjectsFromObjFile(fileName, ring.objectEntry).ForEach(setObjects.Add);
         }
 
         #endregion
 
         #region View/Rendering Methods
 
-        public void ViewHere()
+        public void ViewHere(int index)
         {
-            if (CurrentlySelectedIndex != -1)
-               Program.MainForm.renderer.Camera.SetPosition(GetSelectedObject().Position - 200 * Program.MainForm.renderer.Camera.GetForward());
+               Program.MainForm.renderer.Camera.SetPosition(GetSetObjectAt(index).Position - 200 * Program.MainForm.renderer.Camera.GetForward());
         }
 
         public void UpdateAllMatrices()
@@ -223,17 +205,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         #region Object Editing Methods
 
-        public void SelectedIndexChanged(int selectedIndex)
+        public void SelectedIndexChanged(int index)
         {
             for (int i = 0; i < setObjects.Count; i++)
                 setObjects[i].isSelected = false;
 
-            currentlySelectedIndex = selectedIndex;
-
-            if (currentlySelectedIndex < 0)
-                return;
-
-            GetSelectedObject().isSelected = true;
+            if (index > -1)
+                GetSetObjectAt(index).isSelected = true;
         }
 
         public void AddNewSetObject()
@@ -256,12 +234,9 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public bool CopySetObject()
+        public bool CopySetObject(int index)
         {
-            if (currentlySelectedIndex < 0)
-                return false;
-
-            SetObject original = GetSelectedObject();
+            SetObject original = GetSetObjectAt(index);
             SetObject destination;
             
             if (isShadow)
@@ -282,166 +257,141 @@ namespace HeroesPowerPlant.LayoutEditor
             return true;
         }
 
-        public int RemoveSetObject()
+        public void RemoveSetObject(int index)
         {
-            setObjects.RemoveAt(currentlySelectedIndex);
-            return currentlySelectedIndex;
+            setObjects.RemoveAt(index);
         }
 
         public void ClearList()
         {
             setObjects.Clear();
-            currentlySelectedIndex = -1;
         }
 
-        public void ComboBoxObjectChanged(ObjectEntry entry)
+        public void ComboBoxObjectChanged(int index, ObjectEntry newEntry)
         {
-            if (currentlySelectedIndex < 0)
-                return;
+            SetObject current = GetSetObjectAt(index);
 
-            SetObject current = GetSelectedObject();
-
-            current.objectEntry = entry;
+            current.objectEntry = newEntry;
             current.FindNewObjectManager();
             current.CreateTransformMatrix();
         }
 
-        public void SetObjectPosition(float x, float y, float z)
+        public void SetObjectPosition(int index, float x, float y, float z)
         {
-            if (currentlySelectedIndex < 0) return;
-
-            SetObjectPosition(new Vector3(x, y, z));
+            SetObjectPosition(index, new Vector3(x, y, z));
         }
 
-        public void SetObjectPosition(Vector3 v)
+        public void SetObjectPosition(int index, Vector3 v)
         {
-            if (currentlySelectedIndex < 0) return;
-
-            GetSelectedObject().Position = v;
-            GetSelectedObject().CreateTransformMatrix();
-
-            Program.LayoutEditor.UpdateGizmoPosition();
+            GetSetObjectAt(index).Position = v;
+            GetSetObjectAt(index).CreateTransformMatrix();
         }
 
-        public void SetObjectRotation(float x, float y, float z)
+        public void SetObjectRotation(int index, float x, float y, float z)
         {
-            if (currentlySelectedIndex < 0) return;
-
             if (isShadow)
-                GetSelectedObject().Rotation = new Vector3(x, y, z);
+                GetSetObjectAt(index).Rotation = new Vector3(x, y, z);
             else
-                GetSelectedObject().Rotation = new Vector3(DegreesToBAMS(x), DegreesToBAMS(y), DegreesToBAMS(z));
+                GetSetObjectAt(index).Rotation = new Vector3(DegreesToBAMS(x), DegreesToBAMS(y), DegreesToBAMS(z));
 
-            GetSelectedObject().CreateTransformMatrix();
+            GetSetObjectAt(index).CreateTransformMatrix();
         }
 
-        private void SetObjectRotationDefault(float x, float y, float z)
+        private void SetObjectRotationDefault(int index, float x, float y, float z)
         {
-            if (currentlySelectedIndex < 0) return;
-
-            SetObjectRotationDefault(new Vector3(x, y, z));
+            SetObjectRotationDefault(index, new Vector3(x, y, z));
         }
 
-        private void SetObjectRotationDefault(Vector3 v)
+        private void SetObjectRotationDefault(int index, Vector3 v)
         {
-            if (currentlySelectedIndex < 0) return;
-            GetSelectedObject().Rotation = v;
-            GetSelectedObject().CreateTransformMatrix();
+            GetSetObjectAt(index).Rotation = v;
+            GetSetObjectAt(index).CreateTransformMatrix();
         }
 
-        public void SetObjectLink(byte value)
+        public void SetObjectLink(int index, byte value)
         {
-            if (currentlySelectedIndex < 0) return;
-            GetSelectedObject().Link = value;
+            GetSetObjectAt(index).Link = value;
         }
 
-        public void SetObjectRend(byte value)
+        public void SetObjectRend(int index, byte value)
         {
-            if (currentlySelectedIndex < 0) return;
-            GetSelectedObject().Rend = value;
+            GetSetObjectAt(index).Rend = value;
         }
 
-        public void Drop()
+        public void Drop(int index)
         {
-            if (currentlySelectedIndex < 0) return;
-
-            GetSelectedObject().Position = BSPRenderer.GetDroppedPosition(GetSelectedObject().Position);
-            GetSelectedObject().CreateTransformMatrix();
+            GetSetObjectAt(index).Position = BSPRenderer.GetDroppedPosition(GetSetObjectAt(index).Position);
+            GetSetObjectAt(index).CreateTransformMatrix();
         }
 
-        public void DropToCurrentView()
+        public void DropToCurrentView(int index)
         {
-            if (currentlySelectedIndex < 0) return;
-
-            GetSelectedObject().Position = Program.MainForm.renderer.Camera.GetPosition() + 200 * Program.MainForm.renderer.Camera.GetForward();
-            GetSelectedObject().CreateTransformMatrix();
+            GetSetObjectAt(index).Position = Program.MainForm.renderer.Camera.GetPosition() + 200 * Program.MainForm.renderer.Camera.GetForward();
+            GetSetObjectAt(index).CreateTransformMatrix();
         }
 
         #endregion
 
         #region GUI Return Methods
 
-        public decimal GetPosX()
+        public decimal GetPosX(int index)
         {
-            return (decimal)GetSelectedObject().Position.X;
+            return (decimal)GetSetObjectAt(index).Position.X;
         }
 
-        public decimal GetPosY()
+        public decimal GetPosY(int index)
         {
-            return (decimal)GetSelectedObject().Position.Y;
+            return (decimal)GetSetObjectAt(index).Position.Y;
         }
 
-        public decimal GetPosZ()
+        public decimal GetPosZ(int index)
         {
-            return (decimal)GetSelectedObject().Position.Z;
+            return (decimal)GetSetObjectAt(index).Position.Z;
         }
 
-        public decimal GetRotX()
-        {
-            if (isShadow)
-                return (decimal)GetSelectedObject().Rotation.X;
-            else
-                return (decimal)BAMStoDegrees(GetSelectedObject().Rotation.X);
-        }
-
-        public decimal GetRotY()
+        public decimal GetRotX(int index)
         {
             if (isShadow)
-                return (decimal)GetSelectedObject().Rotation.Y;
+                return (decimal)GetSetObjectAt(index).Rotation.X;
             else
-                return (decimal)BAMStoDegrees(GetSelectedObject().Rotation.Y);
+                return (decimal)BAMStoDegrees(GetSetObjectAt(index).Rotation.X);
         }
 
-        public decimal GetRotZ()
+        public decimal GetRotY(int index)
         {
             if (isShadow)
-                return (decimal)GetSelectedObject().Rotation.Z;
+                return (decimal)GetSetObjectAt(index).Rotation.Y;
             else
-                return (decimal)BAMStoDegrees(GetSelectedObject().Rotation.Z);
+                return (decimal)BAMStoDegrees(GetSetObjectAt(index).Rotation.Y);
         }
 
-        public decimal GetSelectedObjectLink()
+        public decimal GetRotZ(int index)
         {
-            return GetSelectedObject().Link;
-        }
-
-        public decimal GetSelectedObjectRend()
-        {
-            return GetSelectedObject().Rend;
-        }
-
-        public SetObjectManager GetSelectedObjectManager()
-        {
-            if (CurrentlySelectedIndex < 0)
-                return null;
-
             if (isShadow)
-                return ((SetObjectShadow)GetSelectedObject()).objectManager;
+                return (decimal)GetSetObjectAt(index).Rotation.Z;
             else
-                return ((SetObjectHeroes)GetSelectedObject()).objectManager;
+                return (decimal)BAMStoDegrees(GetSetObjectAt(index).Rotation.Z);
         }
 
-        public int ScreenClicked(SharpRenderer renderer, Ray r, bool seeAllObjects)
+        public decimal GetObjectLink(int index)
+        {
+            return GetSetObjectAt(index).Link;
+        }
+
+        public decimal GetObjectRend(int index)
+        {
+            return GetSetObjectAt(index).Rend;
+        }
+
+        public SetObjectManager GetObjectManager(int index)
+        {
+            if (isShadow)
+                return ((SetObjectShadow)GetSetObjectAt(index)).objectManager;
+            else
+                return ((SetObjectHeroes)GetSetObjectAt(index)).objectManager;
+        }
+
+        public int ScreenClicked(SharpRenderer renderer, Ray r, bool seeAllObjects, int currentlySelectedIndex)
         {
             int index = currentlySelectedIndex;
 
@@ -462,98 +412,104 @@ namespace HeroesPowerPlant.LayoutEditor
             return index;
         }
 
-        public int FindNext()
+        public int FindNext(int index)
         {
-            if (currentlySelectedIndex != setObjects.Count - 1)
-                for (int i = currentlySelectedIndex + 1; i < setObjects.Count; i++)
-                    if (setObjects[i].Link == GetSelectedObject().Link)
+            if (index != setObjects.Count - 1)
+                for (int i = index + 1; i < setObjects.Count; i++)
+                    if (setObjects[i].Link == GetSetObjectAt(index).Link)
                         return i;
 
-            for (int i = 0; i < currentlySelectedIndex; i++)
-                if (setObjects[i].Link == GetSelectedObject().Link)
+            for (int i = 0; i < index; i++)
+                if (setObjects[i].Link == GetSetObjectAt(index).Link)
                     return i;
 
-            return currentlySelectedIndex;
+            return index;
         }
         #endregion
 
         #region Sorting Methods
         public void SortObjectsByID()
         {
-            setObjects = setObjects.OrderBy(f => f.GetTypeAsOne()).ToList();
+            List<SetObject> sorted = setObjects.OrderBy(f => f.Link).ToList();
+            sorted = sorted.OrderBy(f => f.objectEntry.Type).ToList();
+            sorted = sorted.OrderBy(f => f.objectEntry.List).ToList();
+            setObjects.Clear();
+            sorted.ForEach(setObjects.Add);
         }
 
         public void SortObjectsByDistance()
         {
-            setObjects = setObjects.OrderBy(f => f.GetDistanceFromOrigin()).ToList();
+            List<SetObject> sorted = setObjects.OrderBy(f => f.GetDistanceFromOrigin()).ToList();
+            setObjects.Clear();
+            sorted.ForEach(setObjects.Add);
         }
         #endregion
 
         #region Memory Functions
 
-        public bool GetSpeedMemory()
+        public bool GetSpeedMemory(int index)
         {
             if (MemoryFunctions.TryAttach())
             {
-                SetObjectPosition(MemoryFunctions.GetPlayer0Position());
+                SetObjectPosition(index, MemoryFunctions.GetPlayer0Position());
                 return true;
             }
             return false;
         }
 
-        public bool GetFlyMemory()
+        public bool GetFlyMemory(int index)
         {
             if (MemoryFunctions.TryAttach())
             {
-                SetObjectPosition(MemoryFunctions.GetPlayer1Position());
+                SetObjectPosition(index, MemoryFunctions.GetPlayer1Position());
                 return true;
             }
             return false;
         }
 
-        public bool GetPowMemory()
+        public bool GetPowMemory(int index)
         {
             if (MemoryFunctions.TryAttach())
             {
-                SetObjectPosition(MemoryFunctions.GetPlayer2Position());
+                SetObjectPosition(index, MemoryFunctions.GetPlayer2Position());
                 return true;
             }
             return false;
         }
 
-        public bool GetSpeedRotMemory()
+        public bool GetSpeedRotMemory(int index)
         {
             if (MemoryFunctions.TryAttach())
             {
-                SetObjectRotationDefault(MemoryFunctions.GetPlayer0Rotation());
+                SetObjectRotationDefault(index, MemoryFunctions.GetPlayer0Rotation());
                 return true;
             }
             return false;
         }
 
-        public bool GetFlyRotMemory()
+        public bool GetFlyRotMemory(int index)
         {
             if (MemoryFunctions.TryAttach())
             {
-                SetObjectRotationDefault(MemoryFunctions.GetPlayer1Rotation());
+                SetObjectRotationDefault(index, MemoryFunctions.GetPlayer1Rotation());
                 return true;
             }
             return false;
         }
 
-        public bool GetPowRotMemory()
+        public bool GetPowRotMemory(int index)
         {
             if (MemoryFunctions.TryAttach())
             {
-                SetObjectRotationDefault(MemoryFunctions.GetPlayer2Rotation());
+                SetObjectRotationDefault(index, MemoryFunctions.GetPlayer2Rotation());
                 return true;
             }
             return false;
         }
 
-        public bool Teleport()
+        public bool Teleport(int index)
         {
-            return MemoryFunctions.Teleport(GetSelectedObject().Position.X, GetSelectedObject().Position.Y, GetSelectedObject().Position.Z);
+            return MemoryFunctions.Teleport(GetSetObjectAt(index).Position);
         }
         #endregion
     }
