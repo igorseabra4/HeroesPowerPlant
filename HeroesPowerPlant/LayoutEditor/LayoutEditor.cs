@@ -22,7 +22,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 MessageBox.Show("Error: failed to load one or more files during startup. Program will not work correctly.");
             }
 
-            listBoxObjects.DataSource = layoutSystem.setObjects;
+            layoutSystem.BindControl(listBoxObjects);
 
             NumericPosX.Maximum = decimal.MaxValue;
             NumericPosX.Minimum = decimal.MinValue;

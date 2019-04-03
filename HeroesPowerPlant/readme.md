@@ -170,6 +170,12 @@ The texture pattern editor allows you to add, remove and modify texture pattern 
 * You can have multiple entries (with different texture names) which use the same images (same animation name), but with different frame counts and key frames (such as an animation which plays in a different speed, starts on a different frame, or even a different frame order).
 * Note: the animations are only playing at the correct speed if the FPS is 60.
 
+## Light Editor (F10)
+The light editor allows you to add, remove and modify light entries.
+* You can open s*_light.bin files or create new ones.
+* The selected light entry's properties will be displayed and editable in the property box. Not everything about them is known yet, and some attributes might be wrongly labeled.
+* Know something we don't? Tell us! Don't keep it to yourself.
+
 ## SET ID Table Editor
 The SET ID Table Editor allows you to edit the object avaliability setidtbl.bin (Heroes) or setid.bin (Shadow) file.
 * You can open an existing SET ID Table file, but you can't create a new one. Object entries cannot be added or removed from the file either.

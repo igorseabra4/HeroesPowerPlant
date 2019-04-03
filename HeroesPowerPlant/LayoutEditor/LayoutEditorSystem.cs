@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using SharpDX;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using static HeroesPowerPlant.LayoutEditor.LayoutEditorFunctions;
 using static HeroesPowerPlant.ReadWriteCommon;
 
@@ -22,7 +21,12 @@ namespace HeroesPowerPlant.LayoutEditor
         private ObjectEntry[] heroesObjectEntries;
         private ObjectEntry[] shadowObjectEntries;
 
-        public BindingList<SetObject> setObjects { get; set; } = new BindingList<SetObject>();
+        public void BindControl(ListControl listControl)
+        {
+            listControl.DataSource = setObjects;
+        }
+
+        private BindingList<SetObject> setObjects { get; set; } = new BindingList<SetObject>();
 
         public LayoutEditorSystem()
         {

@@ -2,7 +2,7 @@
 Heroes Power Plant is a level editor for Sonic Heroes and Shadow the Hedgehog created in Microsoft Visual Studio using C# with SharpDX as a Direct3D wrapper. It requires .NET Framework 4.7.2 and DirectX 11 (feature level 11.0) to run.
 
 Editors included:
-*  Level Editor - Sonic Heroes (PC, XBOX, GameCube) and Shadow the Hedgehog (XBOX, GameCube)
+*  Level Editor - Sonic Heroes (PC, Xbox, GameCube) and Shadow the Hedgehog (Xbox, GameCube)
 *  Visibility Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Collision Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Object Layout Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
@@ -11,3 +11,4 @@ Editors included:
 *  Spline Editor - for Sonic Heroes PC only, use with Generic Stage Injection Mod
 *  Particle (PTCL) Editor - Sonic Heroes (all platforms)
 *  Texture Pattern (TXC) Editor - Sonic Heroes (all platforms)
+*  Light Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)

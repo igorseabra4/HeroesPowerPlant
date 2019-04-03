@@ -67,7 +67,7 @@ namespace HeroesPowerPlant.SplineEditor
 
         private void comboBoxType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ProgramIsChangingStuff)
+            if (!ProgramIsChangingStuff)
                 splineEditorFunctions.ChangeType(comboBoxType.SelectedIndex);
         }
 
