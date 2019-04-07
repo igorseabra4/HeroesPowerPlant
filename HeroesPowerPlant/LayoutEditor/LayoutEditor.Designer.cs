@@ -85,6 +85,11 @@
             this.NumericPosY = new System.Windows.Forms.NumericUpDown();
             this.NumericPosZ = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.buttonObjectShift = new System.Windows.Forms.Button();
+            this.objectShiftZ = new System.Windows.Forms.NumericUpDown();
+            this.objectShiftY = new System.Windows.Forms.NumericUpDown();
+            this.objectShiftX = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -100,6 +105,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.objectShiftZ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectShiftY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectShiftX)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -109,7 +118,7 @@
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(671, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(675, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -130,41 +139,41 @@
             this.heroesLayoutToolStripMenuItem,
             this.shadowLayoutToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // heroesLayoutToolStripMenuItem
             // 
             this.heroesLayoutToolStripMenuItem.Name = "heroesLayoutToolStripMenuItem";
-            this.heroesLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.heroesLayoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.heroesLayoutToolStripMenuItem.Text = "Heroes Layout";
             this.heroesLayoutToolStripMenuItem.Click += new System.EventHandler(this.heroesLayoutToolStripMenuItem_Click);
             // 
             // shadowLayoutToolStripMenuItem
             // 
             this.shadowLayoutToolStripMenuItem.Name = "shadowLayoutToolStripMenuItem";
-            this.shadowLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.shadowLayoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.shadowLayoutToolStripMenuItem.Text = "Shadow Layout";
             this.shadowLayoutToolStripMenuItem.Click += new System.EventHandler(this.shadowLayoutToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -187,7 +196,7 @@
             this.byIDToolStripMenuItem,
             this.byDistanceFromOriginToolStripMenuItem});
             this.sortToolStripMenuItem.Name = "sortToolStripMenuItem";
-            this.sortToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.sortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sortToolStripMenuItem.Text = "Sort";
             // 
             // byIDToolStripMenuItem
@@ -207,33 +216,33 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exportINIToolStripMenuItem
             // 
             this.exportINIToolStripMenuItem.Name = "exportINIToolStripMenuItem";
-            this.exportINIToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.exportINIToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportINIToolStripMenuItem.Text = "Export INI";
             this.exportINIToolStripMenuItem.Click += new System.EventHandler(this.exportINIToolStripMenuItem_Click);
             // 
             // importINIToolStripMenuItem
             // 
             this.importINIToolStripMenuItem.Name = "importINIToolStripMenuItem";
-            this.importINIToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.importINIToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.importINIToolStripMenuItem.Text = "Import INI";
             this.importINIToolStripMenuItem.Click += new System.EventHandler(this.importINIToolStripMenuItem_Click);
             // 
             // importLayoutFileToolStripMenuItem
             // 
             this.importLayoutFileToolStripMenuItem.Name = "importLayoutFileToolStripMenuItem";
-            this.importLayoutFileToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.importLayoutFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.importLayoutFileToolStripMenuItem.Text = "Import Layout File";
             this.importLayoutFileToolStripMenuItem.Click += new System.EventHandler(this.importLayoutFileToolStripMenuItem_Click);
             // 
             // importOBJToolStripMenuItem
             // 
             this.importOBJToolStripMenuItem.Name = "importOBJToolStripMenuItem";
-            this.importOBJToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.importOBJToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.importOBJToolStripMenuItem.Text = "Import OBJ";
             this.importOBJToolStripMenuItem.Click += new System.EventHandler(this.importOBJToolStripMenuItem_Click);
             // 
@@ -243,9 +252,9 @@
             this.objectAmountLabel,
             this.toolStripStatusLabel1,
             this.openFileLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 432);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 485);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(671, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(675, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -272,13 +281,13 @@
             this.listBoxObjects.FormattingEnabled = true;
             this.listBoxObjects.Location = new System.Drawing.Point(12, 27);
             this.listBoxObjects.Name = "listBoxObjects";
-            this.listBoxObjects.Size = new System.Drawing.Size(182, 342);
+            this.listBoxObjects.Size = new System.Drawing.Size(182, 394);
             this.listBoxObjects.TabIndex = 2;
             this.listBoxObjects.SelectedIndexChanged += new System.EventHandler(this.listBoxObjects_SelectedIndexChanged);
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(12, 404);
+            this.buttonCopy.Location = new System.Drawing.Point(12, 459);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(88, 23);
             this.buttonCopy.TabIndex = 61;
@@ -289,7 +298,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(106, 404);
+            this.buttonClear.Location = new System.Drawing.Point(106, 459);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(88, 23);
             this.buttonClear.TabIndex = 64;
@@ -300,7 +309,7 @@
             // 
             // ButtonRemove
             // 
-            this.ButtonRemove.Location = new System.Drawing.Point(106, 375);
+            this.ButtonRemove.Location = new System.Drawing.Point(106, 430);
             this.ButtonRemove.Name = "ButtonRemove";
             this.ButtonRemove.Size = new System.Drawing.Size(88, 23);
             this.ButtonRemove.TabIndex = 63;
@@ -311,7 +320,7 @@
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(12, 375);
+            this.ButtonAdd.Location = new System.Drawing.Point(12, 430);
             this.ButtonAdd.Name = "ButtonAdd";
             this.ButtonAdd.Size = new System.Drawing.Size(88, 23);
             this.ButtonAdd.TabIndex = 62;
@@ -622,7 +631,7 @@
             this.PropertyGridMisc.Location = new System.Drawing.Point(200, 214);
             this.PropertyGridMisc.Name = "PropertyGridMisc";
             this.PropertyGridMisc.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.PropertyGridMisc.Size = new System.Drawing.Size(279, 213);
+            this.PropertyGridMisc.Size = new System.Drawing.Size(279, 268);
             this.PropertyGridMisc.TabIndex = 78;
             this.PropertyGridMisc.TabStop = false;
             this.PropertyGridMisc.ToolbarVisible = false;
@@ -703,11 +712,86 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Position (X, Y, Z)";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.buttonObjectShift);
+            this.groupBox5.Controls.Add(this.objectShiftZ);
+            this.groupBox5.Controls.Add(this.objectShiftY);
+            this.groupBox5.Controls.Add(this.objectShiftX);
+            this.groupBox5.Location = new System.Drawing.Point(485, 416);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(197, 66);
+            this.groupBox5.TabIndex = 81;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Object Shifter";
+            // 
+            // buttonObjectShift
+            // 
+            this.buttonObjectShift.Location = new System.Drawing.Point(104, 16);
+            this.buttonObjectShift.Name = "buttonObjectShift";
+            this.buttonObjectShift.Size = new System.Drawing.Size(84, 23);
+            this.buttonObjectShift.TabIndex = 17;
+            this.buttonObjectShift.Text = "ObjectShift";
+            this.buttonObjectShift.UseVisualStyleBackColor = true;
+            this.buttonObjectShift.Click += new System.EventHandler(this.buttonObjectShift_Click);
+            // 
+            // objectShiftZ
+            // 
+            this.objectShiftZ.Location = new System.Drawing.Point(104, 45);
+            this.objectShiftZ.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.objectShiftZ.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
+            this.objectShiftZ.Name = "objectShiftZ";
+            this.objectShiftZ.Size = new System.Drawing.Size(92, 20);
+            this.objectShiftZ.TabIndex = 16;
+            // 
+            // objectShiftY
+            // 
+            this.objectShiftY.Location = new System.Drawing.Point(6, 45);
+            this.objectShiftY.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.objectShiftY.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
+            this.objectShiftY.Name = "objectShiftY";
+            this.objectShiftY.Size = new System.Drawing.Size(92, 20);
+            this.objectShiftY.TabIndex = 15;
+            // 
+            // objectShiftX
+            // 
+            this.objectShiftX.Location = new System.Drawing.Point(6, 19);
+            this.objectShiftX.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.objectShiftX.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
+            this.objectShiftX.Name = "objectShiftX";
+            this.objectShiftX.Size = new System.Drawing.Size(92, 20);
+            this.objectShiftX.TabIndex = 14;
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 454);
+            this.ClientSize = new System.Drawing.Size(675, 507);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.buttonCurrentViewDrop);
             this.Controls.Add(this.buttonDrop);
             this.Controls.Add(this.PropertyGridMisc);
@@ -756,6 +840,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.objectShiftZ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectShiftY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectShiftX)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -820,5 +908,10 @@
         internal System.Windows.Forms.NumericUpDown NumericPosY;
         internal System.Windows.Forms.NumericUpDown NumericPosZ;
         internal System.Windows.Forms.GroupBox groupBox3;
+        internal System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button buttonObjectShift;
+        internal System.Windows.Forms.NumericUpDown objectShiftZ;
+        internal System.Windows.Forms.NumericUpDown objectShiftY;
+        internal System.Windows.Forms.NumericUpDown objectShiftX;
     }
 }

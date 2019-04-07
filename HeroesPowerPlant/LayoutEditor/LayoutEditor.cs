@@ -602,5 +602,18 @@ namespace HeroesPowerPlant.LayoutEditor
                 e.Handled = e.SuppressKeyPress = true;
             }
         }
+
+        private void buttonObjectShift_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < layoutSystem.GetSetObjectAmount(); i++)
+            {
+                SetObject currentObject = layoutSystem.GetSetObjectAt(i);
+                currentObject.Position.X += (int)objectShiftX.Value;
+                currentObject.Position.Y += (int)objectShiftY.Value;
+                currentObject.Position.Z += (int)objectShiftZ.Value;
+                UpdateDisplayData();
+            }
+            MessageBox.Show("Operation Completed");
+        }
     }
 }
