@@ -220,22 +220,30 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void AddNewSetObject()
         {
+            AddNewSetObject(Program.MainForm.renderer.Camera.GetPosition() + 100 * Program.MainForm.renderer.Camera.GetForward(), false);
+        }
+
+        public void AddNewSetObject(Vector3 Position, bool copyOfExisting, int existingIndex = -1)
+        {
+            SetObject newObject;
+
+            byte list = 0;
+            byte type = 0;
+
+            if (copyOfExisting && existingIndex != -1)
+            {
+                SetObject original = GetSetObjectAt(existingIndex);
+                list = original.objectEntry.List;
+                type = original.objectEntry.Type;
+            }
+
             if (isShadow)
-            {
-                SetObjectShadow newObject = new SetObjectShadow(0, 0, shadowObjectEntries, Program.MainForm.renderer.Camera.GetPosition()
-                    + 100 * Program.MainForm.renderer.Camera.GetForward(), Vector3.Zero, 0, 10, 0);
-                newObject.CreateTransformMatrix();
-
-                setObjects.Add(newObject);
-            }
+                newObject = new SetObjectShadow(list, type, shadowObjectEntries, Position, Vector3.Zero, 0, 10, 0);
             else
-            {
-                SetObjectHeroes newObject = new SetObjectHeroes(0, 0, heroesObjectEntries, Program.MainForm.renderer.Camera.GetPosition()
-                    + 100 * Program.MainForm.renderer.Camera.GetForward(), Vector3.Zero, 0, 10);
-                newObject.CreateTransformMatrix();
+                newObject = new SetObjectHeroes(list, type, heroesObjectEntries, Position, Vector3.Zero, 0, 10);
 
-                setObjects.Add(newObject);
-            }
+            newObject.CreateTransformMatrix();
+            setObjects.Add(newObject);
         }
 
         public bool CopySetObject(int index)
@@ -244,13 +252,9 @@ namespace HeroesPowerPlant.LayoutEditor
             SetObject destination;
             
             if (isShadow)
-            {
                 destination = JsonConvert.DeserializeObject<SetObjectShadow>(JsonConvert.SerializeObject(original));
-            }
             else
-            {
                 destination = JsonConvert.DeserializeObject<SetObjectHeroes>(JsonConvert.SerializeObject(original));
-            }
 
             destination.objectEntry = original.objectEntry;
 
@@ -397,12 +401,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int ScreenClicked(SharpRenderer renderer, Ray r, bool seeAllObjects, int currentlySelectedIndex)
         {
-            int index = currentlySelectedIndex;
+            int index = -1;
 
             float smallerDistance = 10000f;
             for (int i = 0; i < setObjects.Count; i++)
             {
-                if (setObjects[i].isSelected | (seeAllObjects ? false : setObjects[i].DontDraw(renderer))) continue;
+                if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(renderer)))
+                    continue;
 
                 float? distance = setObjects[i].IntersectsWith(r);
                 if (distance != null)

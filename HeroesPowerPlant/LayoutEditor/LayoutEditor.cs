@@ -391,12 +391,22 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        private bool finishedMovingGizmo = false;
+
         public void ScreenClicked(SharpRenderer renderer, Ray r, bool isMouseDown, bool showAllObjects)
         {
-            if (isMouseDown)
+            if (finishedMovingGizmo)
+                finishedMovingGizmo = false;
+            else if (isMouseDown)
                 GizmoSelect(r);
             else
                 listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(renderer, r, showAllObjects, SelectedIndex);
+        }
+        
+        public void PlaceObject(Vector3 Position)
+        {
+            layoutSystem.AddNewSetObject(Position, true, SelectedIndex);
+            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
         private void UpdateObjectComboBox()
@@ -617,6 +627,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     NumericPosZ.Value += (decimal)((distanceX * direction.X - distanceY * direction.Y) / 2);
                 }
 
+                finishedMovingGizmo = true;
                 UpdateGizmoPosition();
             }
         }

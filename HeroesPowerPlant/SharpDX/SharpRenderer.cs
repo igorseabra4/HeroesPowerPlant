@@ -262,12 +262,40 @@ namespace HeroesPowerPlant
             }
         }
 
-        public void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown = false)
+        public void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool placeNewObject)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
-            if (MouseModeObjects & ShowObjects != CheckState.Unchecked)
+            if (!isMouseDown && placeNewObject)
+            {
+                float? distance = null;
+
+                if (ShowCollision)
+                {
+                    Program.CollisionEditor.GetClickedModelPosition(ray, out bool has1, out float dist1);
+                    if (has1)
+                        distance = dist1;
+
+                    Program.LevelEditor.GetClickedModelPosition(true, ray, out bool has2, out float dist2);
+                    if (has2 && (!has1 || dist2 < dist1))
+                        distance = dist2;
+                }
+                else
+                {
+                    Program.LevelEditor.GetClickedModelPosition(false, ray, out bool has3, out float dist3);
+                    if (has3)
+                        distance = dist3;
+                }
+
+                Vector3 position = ray.Position + Vector3.Normalize(ray.Direction) * (distance == null ? 10f : (float)distance);
+
+                if (MouseModeObjects)
+                    Program.LayoutEditor.PlaceObject(position);
+                //else
+                //    Program.CameraEditor.PlaceObject(position);
+            }
+            else if (MouseModeObjects && ShowObjects != CheckState.Unchecked)
                 Program.LayoutEditor.ScreenClicked(this, ray, isMouseDown, ShowObjects == CheckState.Checked);
-            else if (ShowCameras & !isMouseDown)
+            else if (ShowCameras && !isMouseDown)
                 Program.CameraEditor.ScreenClicked(ray);
         }
 

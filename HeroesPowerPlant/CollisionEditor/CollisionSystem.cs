@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static HeroesPowerPlant.ReadWriteCommon;
+using SharpDX;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
@@ -470,6 +471,27 @@ namespace HeroesPowerPlant.CollisionEditor
             }
 
             FileCloser.Close();
+        }
+
+        public void GetClickedModelPosition(Ray ray, out bool hasIntersected, out float smallestDistance)
+        {
+            hasIntersected = false;
+            smallestDistance = 40000f;
+
+            foreach (Triangle t in data.CLTriangleArray)
+            {
+                Vector3 v1 = (Vector3)data.CLVertexArray[t.Vertices[0]].Position;
+                Vector3 v2 = (Vector3)data.CLVertexArray[t.Vertices[1]].Position;
+                Vector3 v3 = (Vector3)data.CLVertexArray[t.Vertices[2]].Position;
+
+                if (ray.Intersects(ref v1, ref v2, ref v3, out float distance))
+                {
+                    hasIntersected = true;
+
+                    if (distance < smallestDistance)
+                        smallestDistance = distance;
+                }
+            }
         }
     }
 }

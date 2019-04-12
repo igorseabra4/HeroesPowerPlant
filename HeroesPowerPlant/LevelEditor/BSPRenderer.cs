@@ -58,8 +58,8 @@ namespace HeroesPowerPlant
 
             foreach (LevelEditor.Chunk c in LevelEditor.VisibilityFunctions.ChunkList)
             {
-                if ((cameraPos.X > c.Min.X) & (cameraPos.Y > c.Min.Y) & (cameraPos.Z > c.Min.Z) &
-                    (cameraPos.X < c.Max.X) & (cameraPos.Y < c.Max.Y) & (cameraPos.Z < c.Max.Z))
+                if ((cameraPos.X > c.Min.X) && (cameraPos.Y > c.Min.Y) && (cameraPos.Z > c.Min.Z) &
+                    (cameraPos.X < c.Max.X) && (cameraPos.Y < c.Max.Y) && (cameraPos.Z < c.Max.Z))
                 {
                     VisibleChunks.Add(c.number);
                 }
@@ -93,8 +93,8 @@ namespace HeroesPowerPlant
 
             for (int j = 0; j < BSPList.Count; j++)
             {
-                if ((renderByChunk & !VisibleChunks.Contains(BSPList[j].ChunkNumber)) |
-                    (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P" | BSPList[j].ChunkName == "K"))
+                if ((renderByChunk && !VisibleChunks.Contains(BSPList[j].ChunkNumber)) ||
+                    (BSPList[j].ChunkName == "A" || BSPList[j].ChunkName == "P" || BSPList[j].ChunkName == "K"))
                     continue;
 
                 if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
@@ -111,14 +111,14 @@ namespace HeroesPowerPlant
         {
             for (int j = 0; j < BSPList.Count; j++)
             {
-                if ((renderByChunk & !VisibleChunks.Contains(BSPList[j].ChunkNumber)) |
+                if ((renderByChunk && !VisibleChunks.Contains(BSPList[j].ChunkNumber)) ||
                     (BSPList[j].ChunkName == "O"))
                     continue;
 
                 if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
                 else renderer.Device.SetCullModeDefault();
 
-                if (BSPList[j].ChunkName == "A" | BSPList[j].ChunkName == "P")
+                if (BSPList[j].ChunkName == "A" || BSPList[j].ChunkName == "P")
                 {
                     renderer.Device.SetBlendStateAlphaBlend();
                 }
@@ -294,6 +294,33 @@ namespace HeroesPowerPlant
                 InitialPosition.Y -= smallerDistance;
 
             return InitialPosition;
+        }
+
+        public static void GetClickedModelPosition(bool isShadowCollision, Ray ray, out bool hasIntersected, out float smallestDistance)
+        {
+            hasIntersected = false;
+            smallestDistance = 40000f;
+
+            foreach (RenderWareModelFile bsp in isShadowCollision ? ShadowColBSPList : BSPList)
+            {
+                if (renderByChunk && !VisibleChunks.Contains(bsp.ChunkNumber))
+                    continue;
+
+                foreach (Triangle t in bsp.triangleList)
+                {
+                    Vector3 v1 = bsp.vertexListG[t.vertex1];
+                    Vector3 v2 = bsp.vertexListG[t.vertex2];
+                    Vector3 v3 = bsp.vertexListG[t.vertex3];
+
+                    if (ray.Intersects(ref v1, ref v2, ref v3, out float distance))
+                    {
+                        hasIntersected = true;
+
+                        if (distance < smallestDistance)
+                            smallestDistance = distance;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
-# Heroes Power Plant v0.7
+# Heroes Power Plant v0.7.5
 ## Viewport
 * In the viewport, you can see a 3D model of your level.
-* Textures are not loaded from TXD files. If you want textures to display, you must put them in PNG format in a folder with the same name of the TXD in the program's directory (for example, \Textures\s01\). If textures are not found, the model will be displayed blank or glitchy. Textures in the Common folder will always be loaded; you can place object and enemy textures here. You can extract textures using Magic.TXD.
 
 ### Keyboard view controls:
 * W, A, S, D: move view forward, left, backward, right
@@ -17,11 +16,12 @@
 * Left click to select an object or camera
 * Mouse wheel to move forward/backward
 * Right click and drag to pan
+* Shift + Right click to place an object
 * Middle click and drag to rotate view
 
 ## Project:
 A project JSON is Heroes Power Plant's way of saving a group of file paths and settings - this way, when you're editing your level, you don't have to open all your files individually again. When you save a Project, the following data is saved and reapplied when opened:
-* Paths for the Config, Level, Visibility, Collision, Layout, Camera, Particle, Pattern and SET ID Table editors
+* Paths for the Config, Level, Visibility, Collision, Layout, Camera, Particle, Pattern, Light and SET ID Table editors
 * TXD files, texture folders and object ONEs
 * No culling, wireframe, background and selection colors
 * Which items are being displayed (on/off)
@@ -40,9 +40,8 @@ In the resources tab, you can open or clear the currently loaded textures and ob
 	* Background Color: allows you to choose a new background color for the view.
 	* Selection Color: allows you to choose a new tint for selected objects.
 	* Reset: reset to default colors.
-
 * Mouse mode:
-	* Objects: click to select layout objects.
+	* Objects: click to select layout objects. Shift + right click to place layout objects.
 	* Cameras: click to select camera triggers.
 * Start Pos (Y): toggles display of Start/End/Bragging positions from the Config Editor.
 * Splines (U): toggles display of splines from the Spline Editor.
@@ -131,6 +130,7 @@ The object layout editor allows you to add, remove and modify objects.
 * To render using their actual models, you must add the ONE archive which contains the DFF to the object ONEs (explained above). This works for Heroes and Shadow files.
 * Many objects have documented misc. settings and thus will allow you to use a pretty editor instead of the generic one. If you want an object's misc. settings added to Heroes Power Plant, tell me and I'll try to add it.
 * If SONIC HEROES(TM) is running, you can get values from ingame or teleport yourself to an object's location (even if you're editing a Shadow layout!)
+* You can right click on the view while holding shift and that will place an object in the world at that position. The object's list and type will be the same as the previously selected object.
 * You can export and import the objects with their information to an INI file and import objects from another file without overwriting the currently open one, and OBJ files (in this case, a ring will be placed in each vertex, this is useful for importing lines of rings).
 * You can take a look at the Object Editing pages in Sonic Retro to understand a bit more about this.
 

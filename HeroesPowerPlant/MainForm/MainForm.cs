@@ -219,14 +219,32 @@ namespace HeroesPowerPlant.MainForm
                 
         private void renderPanel_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
+            ScreenClicked(e, false);
+        }
+
+        private void renderPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            ScreenClicked(e, true);
+        }
+
+        private void ScreenClicked(MouseEventArgs e, bool isMouseDown)
+        {
+            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
                 renderer.ScreenClicked(new Rectangle(
                     renderPanel.ClientRectangle.X,
                     renderPanel.ClientRectangle.Y,
                     renderPanel.ClientRectangle.Width,
-                    renderPanel.ClientRectangle.Height), e.X, e.Y);
-            }
+                    renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown, PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
+        }
+
+        private void renderPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            Program.LayoutEditor.ScreenUnclicked();
+        }
+
+        private void renderPanel_MouseLeave(object sender, EventArgs e)
+        {
+            Program.LayoutEditor.ScreenUnclicked();
         }
 
         private bool mouseMode = false;
@@ -650,28 +668,6 @@ namespace HeroesPowerPlant.MainForm
         {
             autoSaveProjectOnClosingToolStripMenuItem.Checked = value;
             HPPConfig.GetInstance().AutomaticallySaveConfig = value;
-        }
-
-        private void renderPanel_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                renderer.ScreenClicked(new Rectangle(
-                    renderPanel.ClientRectangle.X,
-                    renderPanel.ClientRectangle.Y,
-                    renderPanel.ClientRectangle.Width,
-                    renderPanel.ClientRectangle.Height), e.X, e.Y, true);
-            }
-        }
-
-        private void renderPanel_MouseUp(object sender, MouseEventArgs e)
-        {
-            Program.LayoutEditor.ScreenUnclicked();
-        }
-
-        private void renderPanel_MouseLeave(object sender, EventArgs e)
-        {
-            Program.LayoutEditor.ScreenUnclicked();
         }
                 
         private void addObjectONEToolStripMenuItem1_Click(object sender, EventArgs e)

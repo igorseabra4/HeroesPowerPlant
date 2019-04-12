@@ -535,6 +535,23 @@ namespace HeroesPowerPlant.LevelEditor
             shadowSplineEditor.Show();
         }
 
+        public void GetClickedModelPosition(bool isShadowCollision, Ray ray, out bool found, out float smallestDistance)
+        {
+            if (isShadowMode && isShadowCollision)
+            {
+                BSPRenderer.GetClickedModelPosition(true, ray, out found, out smallestDistance);
+            }
+            else if (!isShadowMode && !isShadowCollision)
+            {
+                BSPRenderer.GetClickedModelPosition(false, ray, out found, out smallestDistance);
+            }
+            else
+            {
+                found = false;
+                smallestDistance = 0;
+            }
+        }
+            
         // BLK Editor
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)

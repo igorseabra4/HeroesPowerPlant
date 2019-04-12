@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using SharpDX;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
@@ -26,7 +27,7 @@ namespace HeroesPowerPlant.CollisionEditor
             Hide();
         }
 
-        CollisionSystem collisionSystem;
+        private CollisionSystem collisionSystem;
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -159,6 +160,11 @@ namespace HeroesPowerPlant.CollisionEditor
         private void button1_Click(object sender, EventArgs e)
         {
             //DetermineRenderStuff2();
+        }
+
+        public void GetClickedModelPosition(Ray ray, out bool hasIntersected, out float smallestDistance)
+        {
+            collisionSystem.GetClickedModelPosition(ray, out hasIntersected, out smallestDistance);
         }
     }
 }
