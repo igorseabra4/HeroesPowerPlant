@@ -57,8 +57,7 @@
             this.tableLayoutPanel.Controls.Add(this.textBoxDescription, 1, 4);
             this.tableLayoutPanel.Controls.Add(this.flowLayoutPanel1, 1, 5);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(12, 11);
-            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(9, 9);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 6;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8F));
@@ -67,18 +66,17 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(556, 326);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(417, 265);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // logoPictureBox
             // 
             this.logoPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logoPictureBox.Image = global::HeroesPowerPlant.Properties.Resources.AboutImage;
-            this.logoPictureBox.Location = new System.Drawing.Point(4, 4);
-            this.logoPictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.logoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 6);
-            this.logoPictureBox.Size = new System.Drawing.Size(175, 318);
+            this.logoPictureBox.Size = new System.Drawing.Size(131, 259);
             this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.logoPictureBox.TabIndex = 12;
             this.logoPictureBox.TabStop = false;
@@ -86,11 +84,11 @@
             // labelProductName
             // 
             this.labelProductName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelProductName.Location = new System.Drawing.Point(191, 0);
-            this.labelProductName.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
-            this.labelProductName.MaximumSize = new System.Drawing.Size(0, 21);
+            this.labelProductName.Location = new System.Drawing.Point(143, 0);
+            this.labelProductName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+            this.labelProductName.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelProductName.Name = "labelProductName";
-            this.labelProductName.Size = new System.Drawing.Size(361, 21);
+            this.labelProductName.Size = new System.Drawing.Size(271, 17);
             this.labelProductName.TabIndex = 19;
             this.labelProductName.Text = "Heroes Power Plant";
             this.labelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -98,23 +96,23 @@
             // labelVersion
             // 
             this.labelVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelVersion.Location = new System.Drawing.Point(191, 26);
-            this.labelVersion.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
-            this.labelVersion.MaximumSize = new System.Drawing.Size(0, 21);
+            this.labelVersion.Location = new System.Drawing.Point(143, 21);
+            this.labelVersion.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+            this.labelVersion.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(361, 21);
+            this.labelVersion.Size = new System.Drawing.Size(271, 17);
             this.labelVersion.TabIndex = 0;
-            this.labelVersion.Text = "v0.7.4";
+            this.labelVersion.Text = "v0.7.5";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCopyright
             // 
             this.labelCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelCopyright.Location = new System.Drawing.Point(191, 52);
-            this.labelCopyright.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
-            this.labelCopyright.MaximumSize = new System.Drawing.Size(0, 21);
+            this.labelCopyright.Location = new System.Drawing.Point(143, 42);
+            this.labelCopyright.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+            this.labelCopyright.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelCopyright.Name = "labelCopyright";
-            this.labelCopyright.Size = new System.Drawing.Size(361, 21);
+            this.labelCopyright.Size = new System.Drawing.Size(271, 17);
             this.labelCopyright.TabIndex = 21;
             this.labelCopyright.Text = "(C) 2018 igorseabra4, Sewer56";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -122,11 +120,11 @@
             // labelCompanyName
             // 
             this.labelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelCompanyName.Location = new System.Drawing.Point(191, 78);
-            this.labelCompanyName.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
-            this.labelCompanyName.MaximumSize = new System.Drawing.Size(0, 21);
+            this.labelCompanyName.Location = new System.Drawing.Point(143, 63);
+            this.labelCompanyName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+            this.labelCompanyName.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelCompanyName.Name = "labelCompanyName";
-            this.labelCompanyName.Size = new System.Drawing.Size(361, 21);
+            this.labelCompanyName.Size = new System.Drawing.Size(271, 17);
             this.labelCompanyName.TabIndex = 22;
             this.labelCompanyName.Text = "Heroes Hacking Central";
             this.labelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -134,13 +132,13 @@
             // textBoxDescription
             // 
             this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxDescription.Location = new System.Drawing.Point(191, 108);
-            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
+            this.textBoxDescription.Location = new System.Drawing.Point(143, 87);
+            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
             this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxDescription.Size = new System.Drawing.Size(361, 174);
+            this.textBoxDescription.Size = new System.Drawing.Size(271, 142);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = resources.GetString("textBoxDescription.Text");
@@ -152,20 +150,18 @@
             this.flowLayoutPanel1.Controls.Add(this.button2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(187, 290);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(140, 235);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(365, 32);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(274, 27);
             this.flowLayoutPanel1.TabIndex = 24;
             // 
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button3.Location = new System.Drawing.Point(266, 4);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Location = new System.Drawing.Point(200, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(95, 27);
+            this.button3.Size = new System.Drawing.Size(71, 22);
             this.button3.TabIndex = 26;
             this.button3.Text = "Close";
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -173,10 +169,9 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(118, 4);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(89, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 27);
+            this.button1.Size = new System.Drawing.Size(105, 22);
             this.button1.TabIndex = 27;
             this.button1.Text = "Source on GitHub";
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -184,25 +179,23 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(10, 4);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Location = new System.Drawing.Point(8, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 27);
+            this.button2.Size = new System.Drawing.Size(75, 22);
             this.button2.TabIndex = 28;
             this.button2.Text = "Join HHC!";
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // AboutBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(580, 348);
+            this.ClientSize = new System.Drawing.Size(435, 283);
             this.Controls.Add(this.tableLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "AboutBox";
-            this.Padding = new System.Windows.Forms.Padding(12, 11, 12, 11);
+            this.Padding = new System.Windows.Forms.Padding(9, 9, 9, 9);
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About Heroes Power Plant";
