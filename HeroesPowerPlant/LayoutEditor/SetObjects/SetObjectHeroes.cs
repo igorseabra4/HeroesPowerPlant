@@ -4,15 +4,16 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class SetObjectHeroes : SetObject
     {
-        public SetObjectHeroes() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10) { }
+        public SetObjectHeroes() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10, new byte[8]) { }
 
-        public SetObjectHeroes(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend)
+        public SetObjectHeroes(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null)
         {
             FindObjectEntry(List, Type, objectEntries);
             this.Position = Position;
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+            this.UnkBytes = UnkBytes ?? new byte[8];
 
             isSelected = false;
 
@@ -20,13 +21,14 @@ namespace HeroesPowerPlant.LayoutEditor
             objectManager.MiscSettings = new byte[36];
         }
 
-        public SetObjectHeroes(ObjectEntry thisObject, Vector3 Position, Vector3 Rotation, byte Link, byte Rend)
+        public SetObjectHeroes(ObjectEntry thisObject, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null)
         {
             objectEntry = thisObject;
             this.Position = Position;
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+            this.UnkBytes = UnkBytes ?? new byte[8];
 
             isSelected = false;
 
@@ -48,15 +50,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer, bool drawEveryObject)
         {
-            if (!drawEveryObject & DontDraw(renderer))
-                return;
-
-            objectManager.Draw(renderer, objectEntry.ModelNames, isSelected);
+            if (drawEveryObject || !DontDraw(renderer.Camera.GetPosition()))
+                objectManager.Draw(renderer, objectEntry.ModelNames, isSelected);
         }
 
-        public override bool TriangleIntersection(Ray r)
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            return objectManager.TriangleIntersection(r, objectEntry.ModelNames);
+            return objectManager.TriangleIntersection(r, objectEntry.ModelNames, initialDistance, out distance);
         }
 
         public override void FindNewObjectManager(bool replaceMiscSettings = true)
@@ -131,7 +131,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xA: return new Object_B1_1_Type();
                         case 0xB: return new Object0023_Chao();
                         case 0x80: return new Object0180_FlowerPatch();
-                        //case 0x81: return new Object0181_SeaPole();
+                        case 0x81: return new Object0181_SeaPole();
                         case 0x82: return new Object0182_Whale();
                         case 0x83: return new Object0183_Seagulls();
                         case 0x84: return new Object0184_LargeBird();
@@ -293,6 +293,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x90: return new Object1590_RhinoLiner();
                         case 0xC0: return new Object15C0_EggBishop();
                         case 0xD0: return new Object15D0_E2000();
+                        case 0xF4: return new Object0026_FormGate();
                         default: return new Object_HeroesDefault();
                     }
                 case 0x16:
@@ -317,6 +318,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 case 0x33:
                     switch (ObjectType)
                     {
+                        case 0x0: return new Object_S1_1_Type();
                         default: return new Object_HeroesDefault();
                     }
                 default:

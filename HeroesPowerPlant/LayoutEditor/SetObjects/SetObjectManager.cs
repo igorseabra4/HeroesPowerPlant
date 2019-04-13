@@ -31,11 +31,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelName))
             {
                 renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
-
-                if (isSelected)
-                    renderData.Color = renderer.selectedObjectColor;
-                else
-                    renderData.Color = Vector4.One;
+                renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
 
                 renderer.Device.SetFillModeDefault();
                 renderer.Device.SetCullModeDefault();
@@ -92,11 +88,11 @@ namespace HeroesPowerPlant.LayoutEditor
             return BoundingBox.FromPoints(list.ToArray());
         }
 
-        public virtual bool TriangleIntersection(Ray r, string[] ModelNames)
+        public virtual bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
         {
-            if (ModelNames == null)
-                return true;
-            if (ModelNames.Length == 0)
+            distance = initialDistance;
+
+            if (ModelNames == null || ModelNames.Length == 0)
                 return true;
 
             foreach (string s in ModelNames)
@@ -109,11 +105,19 @@ namespace HeroesPowerPlant.LayoutEditor
                         Vector3 v2 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex2], transformMatrix);
                         Vector3 v3 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex3], transformMatrix);
 
-                        if (r.Intersects(ref v1, ref v2, ref v3))
+                        bool hasIntersected = false;
+                        if (r.Intersects(ref v1, ref v2, ref v3, out float latestDistance))
+                        {
+                            hasIntersected = true;
+                            if (latestDistance < distance)
+                                distance = latestDistance;
+                        }
+                        if (hasIntersected)
                             return true;
                     }
                 }
-                else return true;
+                else
+                    return true;
             }
             return false;
         }

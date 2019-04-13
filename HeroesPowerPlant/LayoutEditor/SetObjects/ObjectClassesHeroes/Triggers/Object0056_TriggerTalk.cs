@@ -20,12 +20,12 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[] ModelNames)
+        public override bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
         {
             if (TriggerShape == TriggerTalkShape.Sphere)
-                return r.Intersects(sphereBound);
+                return r.Intersects(ref sphereBound, out distance);
             else
-                return base.TriangleIntersection(r, ModelNames);
+                return base.TriangleIntersection(r, ModelNames, initialDistance, out distance);
         }
 
         public override BoundingBox CreateBoundingBox(string[] modelNames)

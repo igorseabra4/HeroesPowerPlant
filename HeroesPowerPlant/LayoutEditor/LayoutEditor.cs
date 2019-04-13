@@ -13,14 +13,10 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             InitializeComponent();
 
-            try
+            layoutSystem = new LayoutEditorSystem
             {
-                layoutSystem = new LayoutEditorSystem();
-            }
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show("Error: failed to load one or more files during startup. Program will not work correctly.");
-            }
+                autoUnkBytes = checkBoxAutoBytes.Checked
+            };
 
             layoutSystem.BindControl(listBoxObjects);
 
@@ -302,6 +298,14 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutSystem.SetObjectRend(SelectedIndex, (byte)NumericObjRend.Value);
         }
 
+        private void numericUnkB_ValueChanged(object sender, EventArgs e)
+        {
+            if (!ProgramIsChangingStuff)
+                layoutSystem.SetUnkBytes(SelectedIndex,
+                    (byte)numericUnkB1.Value, (byte)numericUnkB2.Value, (byte)numericUnkB3.Value, (byte)numericUnkB4.Value,
+                    (byte)numericUnkB5.Value, (byte)numericUnkB6.Value, (byte)numericUnkB7.Value, (byte)numericUnkB8.Value);
+        }
+
         private void ButtonGetSpeed_Click(object sender, EventArgs e)
         {
             if (layoutSystem.GetSpeedMemory(SelectedIndex))
@@ -405,7 +409,7 @@ namespace HeroesPowerPlant.LayoutEditor
             else if (isMouseDown)
                 GizmoSelect(r);
             else
-                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(renderer, r, showAllObjects, SelectedIndex);
+                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, SelectedIndex);
         }
         
         public void PlaceObject(Vector3 Position)
@@ -467,6 +471,15 @@ namespace HeroesPowerPlant.LayoutEditor
                 NumericObjLink.Value = layoutSystem.GetObjectLink(SelectedIndex);
                 NumericObjRend.Value = layoutSystem.GetObjectRend(SelectedIndex);
 
+                numericUnkB1.Value = layoutSystem.GetUnkBytes(SelectedIndex)[0];
+                numericUnkB2.Value = layoutSystem.GetUnkBytes(SelectedIndex)[1];
+                numericUnkB3.Value = layoutSystem.GetUnkBytes(SelectedIndex)[2];
+                numericUnkB4.Value = layoutSystem.GetUnkBytes(SelectedIndex)[3];
+                numericUnkB5.Value = layoutSystem.GetUnkBytes(SelectedIndex)[4];
+                numericUnkB6.Value = layoutSystem.GetUnkBytes(SelectedIndex)[5];
+                numericUnkB7.Value = layoutSystem.GetUnkBytes(SelectedIndex)[6];
+                numericUnkB8.Value = layoutSystem.GetUnkBytes(SelectedIndex)[7];
+
                 PropertyGridMisc.SelectedObject = layoutSystem.GetObjectManager(SelectedIndex);
                 UpdateDescriptionBox(layoutSystem.GetSetObjectEntry(SelectedIndex));
                 ProgramIsChangingStuff = false;
@@ -493,6 +506,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 buttonCurrentViewDrop.Enabled = false;
                 ButtonRemove.Enabled = false;
                 buttonCopy.Enabled = false;
+                groupBox1.Enabled = false;
                 
                 displayDataDisabled = true;
             }
@@ -514,6 +528,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 buttonCurrentViewDrop.Enabled = true;
                 ButtonRemove.Enabled = true;
                 buttonCopy.Enabled = true;
+                groupBox1.Enabled = true;
 
                 displayDataDisabled = false;
             }
@@ -693,6 +708,16 @@ namespace HeroesPowerPlant.LayoutEditor
                 this.SelectNextControl(ActiveControl, true, true, true, true);
                 e.Handled = e.SuppressKeyPress = true;
             }
+        }
+
+        private void checkBoxAutoBytes_CheckedChanged(object sender, EventArgs e)
+        {
+            layoutSystem.autoUnkBytes = checkBoxAutoBytes.Checked;
+        }
+
+        public void GetClickedModelPosition(Ray ray, Vector3 camPos, bool seeAllObjects, out bool hasIntersected, out float smallestDistance)
+        {
+            layoutSystem.GetClickedModelPosition(ray, camPos, seeAllObjects, out hasIntersected, out smallestDistance);
         }
     }
 }

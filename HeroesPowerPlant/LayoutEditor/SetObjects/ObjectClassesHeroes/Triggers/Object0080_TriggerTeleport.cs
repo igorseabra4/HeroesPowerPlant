@@ -6,9 +6,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[] ModelNames)
+        public override bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
         {
-            return r.Intersects(sphereBound);
+            return r.Intersects(ref sphereBound, out distance);
         }
 
         public override BoundingBox CreateBoundingBox(string[] modelNames)

@@ -6,15 +6,16 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public int MiscSettingCount;
         
-        public SetObjectShadow() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10, 0) { }
+        public SetObjectShadow() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10, 0, new byte[8]) { }
 
-        public SetObjectShadow(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount)
+        public SetObjectShadow(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null)
         {
             FindObjectEntry(List, Type, objectEntries);
             this.Position = Position;
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+            this.UnkBytes = UnkBytes ?? new byte[8];
             this.MiscSettingCount = MiscSettingCount;
 
             isSelected = false;
@@ -23,13 +24,14 @@ namespace HeroesPowerPlant.LayoutEditor
             objectManager.MiscSettings = new byte[MiscSettingCount];
         }
 
-        public SetObjectShadow(ObjectEntry thisObject, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount)
+        public SetObjectShadow(ObjectEntry thisObject, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null)
         {
             objectEntry = thisObject;
             this.Position = Position;
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+            this.UnkBytes = UnkBytes ?? new byte[8];
             this.MiscSettingCount = MiscSettingCount;
 
             isSelected = false;
@@ -53,15 +55,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer, bool drawEveryObject)
         {
-            if (!drawEveryObject & DontDraw(renderer))
-                return;
-
-            objectManager.Draw(renderer, objectEntry.ModelNames, isSelected);
+            if (drawEveryObject || !DontDraw(renderer.Camera.GetPosition()))
+                objectManager.Draw(renderer, objectEntry.ModelNames, isSelected);
         }
 
-        public override bool TriangleIntersection(Ray r)
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            return objectManager.TriangleIntersection(r, objectEntry.ModelNames);
+            return objectManager.TriangleIntersection(r, objectEntry.ModelNames, initialDistance, out distance);
         }
 
         public override void FindNewObjectManager(bool replaceMiscSettings = true)

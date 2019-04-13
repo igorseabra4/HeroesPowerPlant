@@ -36,6 +36,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.byIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,7 +86,16 @@
             this.NumericPosY = new System.Windows.Forms.NumericUpDown();
             this.NumericPosZ = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUnkB4 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB1 = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxAutoBytes = new System.Windows.Forms.CheckBox();
+            this.numericUnkB8 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB7 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB6 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB5 = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -101,6 +111,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB5)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -169,6 +188,13 @@
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -245,7 +271,7 @@
             this.objectAmountLabel,
             this.toolStripStatusLabel1,
             this.openFileLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 432);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 499);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(671, 22);
             this.statusStrip1.TabIndex = 1;
@@ -274,13 +300,13 @@
             this.listBoxObjects.FormattingEnabled = true;
             this.listBoxObjects.Location = new System.Drawing.Point(12, 27);
             this.listBoxObjects.Name = "listBoxObjects";
-            this.listBoxObjects.Size = new System.Drawing.Size(182, 342);
+            this.listBoxObjects.Size = new System.Drawing.Size(182, 407);
             this.listBoxObjects.TabIndex = 2;
             this.listBoxObjects.SelectedIndexChanged += new System.EventHandler(this.listBoxObjects_SelectedIndexChanged);
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(12, 404);
+            this.buttonCopy.Location = new System.Drawing.Point(12, 469);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(88, 23);
             this.buttonCopy.TabIndex = 61;
@@ -291,7 +317,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(106, 404);
+            this.buttonClear.Location = new System.Drawing.Point(106, 469);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(88, 23);
             this.buttonClear.TabIndex = 64;
@@ -302,7 +328,7 @@
             // 
             // ButtonRemove
             // 
-            this.ButtonRemove.Location = new System.Drawing.Point(106, 375);
+            this.ButtonRemove.Location = new System.Drawing.Point(106, 440);
             this.ButtonRemove.Name = "ButtonRemove";
             this.ButtonRemove.Size = new System.Drawing.Size(88, 23);
             this.ButtonRemove.TabIndex = 63;
@@ -313,7 +339,7 @@
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(12, 375);
+            this.ButtonAdd.Location = new System.Drawing.Point(12, 440);
             this.ButtonAdd.Name = "ButtonAdd";
             this.ButtonAdd.Size = new System.Drawing.Size(88, 23);
             this.ButtonAdd.TabIndex = 62;
@@ -612,7 +638,7 @@
             this.RichTextBoxDescription.Name = "RichTextBoxDescription";
             this.RichTextBoxDescription.ReadOnly = true;
             this.RichTextBoxDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.RichTextBoxDescription.Size = new System.Drawing.Size(181, 50);
+            this.RichTextBoxDescription.Size = new System.Drawing.Size(181, 119);
             this.RichTextBoxDescription.TabIndex = 77;
             this.RichTextBoxDescription.TabStop = false;
             this.RichTextBoxDescription.Text = "";
@@ -624,7 +650,7 @@
             this.PropertyGridMisc.Location = new System.Drawing.Point(200, 214);
             this.PropertyGridMisc.Name = "PropertyGridMisc";
             this.PropertyGridMisc.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.PropertyGridMisc.Size = new System.Drawing.Size(279, 213);
+            this.PropertyGridMisc.Size = new System.Drawing.Size(279, 207);
             this.PropertyGridMisc.TabIndex = 78;
             this.PropertyGridMisc.TabStop = false;
             this.PropertyGridMisc.ToolbarVisible = false;
@@ -705,18 +731,155 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Position (X, Y, Z)";
             // 
-            // closeToolStripMenuItem
+            // groupBox1
             // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            this.groupBox1.Controls.Add(this.numericUnkB8);
+            this.groupBox1.Controls.Add(this.numericUnkB7);
+            this.groupBox1.Controls.Add(this.numericUnkB6);
+            this.groupBox1.Controls.Add(this.numericUnkB5);
+            this.groupBox1.Controls.Add(this.checkBoxAutoBytes);
+            this.groupBox1.Controls.Add(this.numericUnkB4);
+            this.groupBox1.Controls.Add(this.numericUnkB3);
+            this.groupBox1.Controls.Add(this.numericUnkB2);
+            this.groupBox1.Controls.Add(this.numericUnkB1);
+            this.groupBox1.Location = new System.Drawing.Point(200, 427);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(279, 70);
+            this.groupBox1.TabIndex = 67;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Unknown Bytes";
+            // 
+            // numericUnkB4
+            // 
+            this.numericUnkB4.Hexadecimal = true;
+            this.numericUnkB4.Location = new System.Drawing.Point(210, 19);
+            this.numericUnkB4.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB4.Name = "numericUnkB4";
+            this.numericUnkB4.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB4.TabIndex = 84;
+            this.numericUnkB4.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB3
+            // 
+            this.numericUnkB3.Hexadecimal = true;
+            this.numericUnkB3.Location = new System.Drawing.Point(142, 19);
+            this.numericUnkB3.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB3.Name = "numericUnkB3";
+            this.numericUnkB3.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB3.TabIndex = 83;
+            this.numericUnkB3.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB2
+            // 
+            this.numericUnkB2.Hexadecimal = true;
+            this.numericUnkB2.Location = new System.Drawing.Point(74, 19);
+            this.numericUnkB2.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB2.Name = "numericUnkB2";
+            this.numericUnkB2.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB2.TabIndex = 82;
+            this.numericUnkB2.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB1
+            // 
+            this.numericUnkB1.Hexadecimal = true;
+            this.numericUnkB1.Location = new System.Drawing.Point(6, 19);
+            this.numericUnkB1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB1.Name = "numericUnkB1";
+            this.numericUnkB1.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB1.TabIndex = 81;
+            this.numericUnkB1.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // checkBoxAutoBytes
+            // 
+            this.checkBoxAutoBytes.AutoSize = true;
+            this.checkBoxAutoBytes.Checked = true;
+            this.checkBoxAutoBytes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAutoBytes.Location = new System.Drawing.Point(224, 0);
+            this.checkBoxAutoBytes.Name = "checkBoxAutoBytes";
+            this.checkBoxAutoBytes.Size = new System.Drawing.Size(48, 17);
+            this.checkBoxAutoBytes.TabIndex = 81;
+            this.checkBoxAutoBytes.Text = "Auto";
+            this.checkBoxAutoBytes.UseVisualStyleBackColor = true;
+            this.checkBoxAutoBytes.CheckedChanged += new System.EventHandler(this.checkBoxAutoBytes_CheckedChanged);
+            // 
+            // numericUnkB8
+            // 
+            this.numericUnkB8.Hexadecimal = true;
+            this.numericUnkB8.Location = new System.Drawing.Point(210, 45);
+            this.numericUnkB8.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB8.Name = "numericUnkB8";
+            this.numericUnkB8.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB8.TabIndex = 88;
+            this.numericUnkB8.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB7
+            // 
+            this.numericUnkB7.Hexadecimal = true;
+            this.numericUnkB7.Location = new System.Drawing.Point(142, 45);
+            this.numericUnkB7.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB7.Name = "numericUnkB7";
+            this.numericUnkB7.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB7.TabIndex = 87;
+            this.numericUnkB7.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB6
+            // 
+            this.numericUnkB6.Hexadecimal = true;
+            this.numericUnkB6.Location = new System.Drawing.Point(74, 45);
+            this.numericUnkB6.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB6.Name = "numericUnkB6";
+            this.numericUnkB6.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB6.TabIndex = 86;
+            this.numericUnkB6.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB5
+            // 
+            this.numericUnkB5.Hexadecimal = true;
+            this.numericUnkB5.Location = new System.Drawing.Point(6, 45);
+            this.numericUnkB5.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB5.Name = "numericUnkB5";
+            this.numericUnkB5.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB5.TabIndex = 85;
+            this.numericUnkB5.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 454);
+            this.ClientSize = new System.Drawing.Size(671, 521);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonCurrentViewDrop);
             this.Controls.Add(this.buttonDrop);
             this.Controls.Add(this.PropertyGridMisc);
@@ -765,6 +928,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -830,5 +1003,15 @@
         internal System.Windows.Forms.NumericUpDown NumericPosZ;
         internal System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        internal System.Windows.Forms.GroupBox groupBox1;
+        internal System.Windows.Forms.NumericUpDown numericUnkB4;
+        internal System.Windows.Forms.NumericUpDown numericUnkB3;
+        internal System.Windows.Forms.NumericUpDown numericUnkB2;
+        internal System.Windows.Forms.NumericUpDown numericUnkB1;
+        private System.Windows.Forms.CheckBox checkBoxAutoBytes;
+        internal System.Windows.Forms.NumericUpDown numericUnkB8;
+        internal System.Windows.Forms.NumericUpDown numericUnkB7;
+        internal System.Windows.Forms.NumericUpDown numericUnkB6;
+        internal System.Windows.Forms.NumericUpDown numericUnkB5;
     }
 }

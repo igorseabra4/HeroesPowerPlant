@@ -13,12 +13,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[] ModelNames)
+        public override bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
         {
-            if (TriggerShape == TriggerMusicShape.Sphere)
-                return r.Intersects(sphereBound);
-            else
-                return base.TriangleIntersection(r, ModelNames);
+            return TriggerShape == TriggerMusicShape.Sphere ? r.Intersects(ref sphereBound, out distance) : base.TriangleIntersection(r, ModelNames, initialDistance, out distance);
         }
 
         public override BoundingBox CreateBoundingBox(string[] modelNames)

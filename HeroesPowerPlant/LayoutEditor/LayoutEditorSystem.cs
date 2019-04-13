@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -20,6 +21,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private static ObjectEntry[] heroesObjectEntries = ReadObjectListData("Resources\\Lists\\HeroesObjectList.ini");
         private static ObjectEntry[] shadowObjectEntries = ReadObjectListData("Resources\\Lists\\ShadowObjectList.ini");
+
+        public bool autoUnkBytes;
 
         public void BindControl(ListControl listControl)
         {
@@ -119,9 +122,9 @@ namespace HeroesPowerPlant.LayoutEditor
             if (CurrentlyOpenFileName != null)
             {
                 if (IsShadow)
-                    SaveShadowLayout(setObjects.Cast<SetObjectShadow>(), CurrentlyOpenFileName);
+                    SaveShadowLayout(setObjects.Cast<SetObjectShadow>(), CurrentlyOpenFileName, autoUnkBytes);
                 else
-                    SaveHeroesLayout(setObjects.Cast<SetObjectHeroes>(), CurrentlyOpenFileName);
+                    SaveHeroesLayout(setObjects.Cast<SetObjectHeroes>(), CurrentlyOpenFileName, autoUnkBytes);
                 return true;
             }
             else return false;
@@ -305,6 +308,11 @@ namespace HeroesPowerPlant.LayoutEditor
             GetSetObjectAt(index).Rend = value;
         }
 
+        public void SetUnkBytes(int index, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8)
+        {
+            GetSetObjectAt(index).UnkBytes = new byte[] { v1, v2, v3, v4, v5, v6, v7, v8 };
+        }        
+
         public void Drop(int index)
         {
             GetSetObjectAt(index).Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(GetSetObjectAt(index).Position);
@@ -370,6 +378,11 @@ namespace HeroesPowerPlant.LayoutEditor
             return GetSetObjectAt(index).Rend;
         }
 
+        public byte[] GetUnkBytes(int index)
+        {
+            return GetSetObjectAt(index).UnkBytes;
+        }
+        
         public SetObjectManager GetObjectManager(int index)
         {
             if (isShadow)
@@ -378,26 +391,40 @@ namespace HeroesPowerPlant.LayoutEditor
                 return ((SetObjectHeroes)GetSetObjectAt(index)).objectManager;
         }
 
-        public int ScreenClicked(SharpRenderer renderer, Ray r, bool seeAllObjects, int currentlySelectedIndex)
+        public int ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, int currentlySelectedIndex)
         {
             int index = -1;
 
             float smallerDistance = 10000f;
             for (int i = 0; i < setObjects.Count; i++)
             {
-                if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(renderer)))
+                if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(camPos)))
                     continue;
 
-                float? distance = setObjects[i].IntersectsWith(r);
-                if (distance != null)
+                if (setObjects[i].IntersectsWith(r, out float distance))
                     if (distance < smallerDistance)
                     {
-                        smallerDistance = (float)distance;
+                        smallerDistance = distance;
                         index = i;
                     }
             }
 
             return index;
+        }
+
+        public void GetClickedModelPosition(Ray ray, Vector3 camPos, bool seeAllObjects, out bool hasIntersected, out float smallestDistance)
+        {
+            hasIntersected = false;
+            smallestDistance = 40000f;
+
+            foreach (SetObject s in setObjects)
+                if ((seeAllObjects || !s.DontDraw(camPos)) && s.IntersectsWith(ray, out float distance))
+                {
+                    hasIntersected = true;
+                    if (distance < smallestDistance)
+                        smallestDistance = distance;
+                }
+            
         }
 
         public int FindNext(int index)

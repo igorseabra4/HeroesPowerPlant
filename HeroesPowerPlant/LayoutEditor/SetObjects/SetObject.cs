@@ -24,6 +24,8 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Link;
         public byte Rend;
 
+        public byte[] UnkBytes;
+
         public bool isSelected;
 
         public BoundingBox boundingBox;
@@ -35,9 +37,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public abstract void CreateTransformMatrix();
 
-        public bool DontDraw(SharpRenderer renderer)
+        public bool DontDraw(Vector3 camPos)
         {
-            return Vector3.Distance(renderer.Camera.GetPosition(), Position) > Rend * 100;
+            return Vector3.Distance(camPos, Position) > Rend * 100;
         }
 
         public abstract void Draw(SharpRenderer renderer, bool drawEveryObject);
@@ -49,16 +51,15 @@ namespace HeroesPowerPlant.LayoutEditor
             return Position.Length();
         }
 
-        public float? IntersectsWith(Ray r)
+        public bool IntersectsWith(Ray r, out float distance)
         {
-            if (r.Intersects(ref boundingBox, out float distance))
-                if (TriangleIntersection(r))
-                    return distance;
+            if (r.Intersects(ref boundingBox, out distance))
+                return TriangleIntersection(r, distance, out distance);
 
-            return null;
+            return false;
         }
 
-        public abstract bool TriangleIntersection(Ray r);
+        public abstract bool TriangleIntersection(Ray r, float initialDistance, out float distance);
 
         public BoundingSphere GetGizmoCenter()
         {

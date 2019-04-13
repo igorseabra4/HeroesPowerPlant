@@ -24,16 +24,21 @@ namespace HeroesPowerPlant.LayoutEditor
                 Vector3 Position = new Vector3(Switch(LayoutFileReader.ReadSingle()), Switch(LayoutFileReader.ReadSingle()), Switch(LayoutFileReader.ReadSingle()));
                 Vector3 Rotation = new Vector3(Switch(LayoutFileReader.ReadInt32()), Switch(LayoutFileReader.ReadInt32()), Switch(LayoutFileReader.ReadInt32()));
 
-                LayoutFileReader.BaseStream.Position += 16;
+                byte[] UnkBytes1 = LayoutFileReader.ReadBytes(4);
+                LayoutFileReader.BaseStream.Position += 4;
+
+                byte[] UnkBytes2 = LayoutFileReader.ReadBytes(4);
+                LayoutFileReader.BaseStream.Position += 4;
+
                 byte List = LayoutFileReader.ReadByte();
                 byte Type = LayoutFileReader.ReadByte();
                 byte Link = LayoutFileReader.ReadByte();
                 byte Rend = LayoutFileReader.ReadByte();
 
-                SetObjectHeroes TempObject = new SetObjectHeroes(List, Type, objectEntries, Position, Rotation, Link, Rend);
-
                 if (List == 0 & Type == 0)
                     continue;
+
+                SetObjectHeroes TempObject = new SetObjectHeroes(List, Type, objectEntries, Position, Rotation, Link, Rend, UnkBytes1.Concat(UnkBytes2).ToArray());
 
                 int MiscSettings = Switch(LayoutFileReader.ReadInt32());
 
@@ -55,7 +60,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
-        public static void SaveHeroesLayout(IEnumerable<SetObjectHeroes> list, string outputFile)
+        public static void SaveHeroesLayout(IEnumerable<SetObjectHeroes> list, string outputFile, bool autoValues)
         {
             BinaryWriter layoutWriter = new BinaryWriter(new FileStream(outputFile, FileMode.Create));
 
@@ -80,7 +85,17 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(Switch((int)i.Rotation.X));
                 layoutWriter.Write(Switch((int)i.Rotation.Y));
                 layoutWriter.Write(Switch((int)i.Rotation.Z));
-                layoutWriter.Write(new byte[] { 0, 2, currentNum, 9, 0, 0, 0, 0, 0, 2, currentNum, 9, 0, 0, 0, 0 });
+
+                if (autoValues)
+                    layoutWriter.Write(new byte[] { 0, 2, currentNum, 9, 0, 0, 0, 0, 0, 2, currentNum, 9, 0, 0, 0, 0 });
+                else
+                {
+                    layoutWriter.Write(i.UnkBytes.Take(4).ToArray());
+                    layoutWriter.Write(0);
+                    layoutWriter.Write(i.UnkBytes.Skip(4).ToArray());
+                    layoutWriter.Write(0);
+                }
+
                 layoutWriter.Write(i.objectEntry.List);
                 layoutWriter.Write(i.objectEntry.Type);
                 layoutWriter.Write(i.Link);
@@ -137,14 +152,16 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 Vector3 Position = new Vector3(LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle());
                 Vector3 Rotation = new Vector3(LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle(), LayoutFileReader.ReadSingle());
-                LayoutFileReader.BaseStream.Position += 8;
+
+                byte[] UnkBytes = LayoutFileReader.ReadBytes(8);
+
                 byte Type = LayoutFileReader.ReadByte();
                 byte List = LayoutFileReader.ReadByte();
                 byte Link = LayoutFileReader.ReadByte();
                 byte Rend = LayoutFileReader.ReadByte();
                 int MiscSettingCount = LayoutFileReader.ReadInt32();
 
-                SetObjectShadow TempObject = new SetObjectShadow(List, Type, objectEntries, Position, Rotation, Link, Rend, MiscSettingCount);
+                SetObjectShadow TempObject = new SetObjectShadow(List, Type, objectEntries, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes);
 
                 list.Add(TempObject);
             }
@@ -161,7 +178,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
-        public static void SaveShadowLayout(IEnumerable<SetObjectShadow> list, string outputFile)
+        public static void SaveShadowLayout(IEnumerable<SetObjectShadow> list, string outputFile, bool autoValues)
         {
             byte CurrentNum;
 
@@ -191,17 +208,24 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(i.Rotation.Y);
                 layoutWriter.Write(i.Rotation.Z);
 
-                layoutWriter.Write(new byte[] { 1, CurrentNum });
-                if (CurrentNum == 0x80)
-                    layoutWriter.Write(new byte[] { 0x40, 0x80 });
-                else
-                    layoutWriter.Write(new byte[] { 0, 0x80 });
+                if (autoValues || i.UnkBytes.Length != 8)
+                {
+                    layoutWriter.Write(new byte[] { 1, CurrentNum });
+                    if (CurrentNum == 0x80)
+                        layoutWriter.Write(new byte[] { 0x40, 0x80 });
+                    else
+                        layoutWriter.Write(new byte[] { 0, 0x80 });
 
-                layoutWriter.Write(new byte[] { 1, CurrentNum });
-                if (CurrentNum == 0x80)
-                    layoutWriter.Write(new byte[] { 0x40, 0x80 });
+                    layoutWriter.Write(new byte[] { 1, CurrentNum });
+                    if (CurrentNum == 0x80)
+                        layoutWriter.Write(new byte[] { 0x40, 0x80 });
+                    else
+                        layoutWriter.Write(new byte[] { 0, 0 });
+                }
                 else
-                    layoutWriter.Write(new byte[] { 0, 0 });
+                {
+                    layoutWriter.Write(i.UnkBytes);
+                }
 
                 layoutWriter.Write(i.objectEntry.Type);
                 layoutWriter.Write(i.objectEntry.List);
@@ -283,6 +307,18 @@ namespace HeroesPowerPlant.LayoutEditor
                     TempObject.Rotation.Y = Convert.ToInt32(j[2]);
                     TempObject.Rotation.Z = Convert.ToInt32(j[3]);
                 }
+                else if (s.StartsWith("b "))
+                {
+                    string[] j = s.Split(' ');
+                    TempObject.UnkBytes[0] = Convert.ToByte(j[1]);
+                    TempObject.UnkBytes[1] = Convert.ToByte(j[2]);
+                    TempObject.UnkBytes[2] = Convert.ToByte(j[3]);
+                    TempObject.UnkBytes[3] = Convert.ToByte(j[4]);
+                    TempObject.UnkBytes[4] = Convert.ToByte(j[5]);
+                    TempObject.UnkBytes[5] = Convert.ToByte(j[6]);
+                    TempObject.UnkBytes[6] = Convert.ToByte(j[7]);
+                    TempObject.UnkBytes[7] = Convert.ToByte(j[8]);
+                }
                 else if (s.StartsWith("misc "))
                 {
                     if (s.Length == 9 * 9 + 4)
@@ -332,6 +368,9 @@ namespace HeroesPowerPlant.LayoutEditor
                     + "_" + i.objectEntry.Name.Replace(' ', '-'));
                 iniWriter.WriteLine("link " + String.Format("{0, 2:D2}", i.Link));
                 iniWriter.WriteLine("rend " + String.Format("{0, 2:D2}", i.Rend));
+                iniWriter.WriteLine("b " +
+                    i.UnkBytes[0].ToString() + " " + i.UnkBytes[1].ToString() + " " + i.UnkBytes[2].ToString() + " " + i.UnkBytes[3].ToString() + " " +
+                    i.UnkBytes[4].ToString() + " " + i.UnkBytes[5].ToString() + " " + i.UnkBytes[6].ToString() + " " + i.UnkBytes[7].ToString());
                 iniWriter.WriteLine("v " + i.Position.X.ToString() + " " + i.Position.Y.ToString() + " " + i.Position.Z.ToString());
                 iniWriter.WriteLine("r " + i.Rotation.X.ToString() + " " + i.Rotation.Y.ToString() + " " + i.Rotation.Z.ToString());
                 if (i.objectEntry.HasMiscSettings)

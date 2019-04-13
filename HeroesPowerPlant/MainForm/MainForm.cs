@@ -398,7 +398,23 @@ namespace HeroesPowerPlant.MainForm
                         distance = dist3;
                 }
 
-                Vector3 position = ray.Position + Vector3.Normalize(ray.Direction) * (distance == null ? 10f : (float)distance);
+                foreach (var c in LayoutEditors)
+                {
+                    bool seeAllObjects;
+
+                    if (renderer.ShowObjects == CheckState.Checked)
+                        seeAllObjects = true;
+                    else if (renderer.ShowObjects == CheckState.Indeterminate)
+                        seeAllObjects = false;
+                    else break;
+
+                    c.GetClickedModelPosition(ray, renderer.Camera.GetPosition(), seeAllObjects, out bool has4, out float dist4);
+
+                    if (has4 && (distance == null || (distance != null && dist4 < distance)))
+                        distance = dist4;
+                }
+
+                Vector3 position = ray.Position + Vector3.Normalize(ray.Direction) * (distance == null ? 100f : (float)distance);
 
                 if (renderer.MouseModeObjects)
                     foreach (var l in LayoutEditors)

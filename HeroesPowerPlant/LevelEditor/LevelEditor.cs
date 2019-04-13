@@ -546,7 +546,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 bspRenderer.GetClickedModelPosition(true, ray, out found, out smallestDistance);
             }
-            else if (!isShadowMode && !isShadowCollision)
+            else if (!isShadowCollision)
             {
                 bspRenderer.GetClickedModelPosition(false, ray, out found, out smallestDistance);
             }
