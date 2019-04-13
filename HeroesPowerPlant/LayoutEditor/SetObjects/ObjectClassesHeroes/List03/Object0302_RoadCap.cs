@@ -4,20 +4,20 @@
     {
         public byte Type
         {
-            get { return ReadByte(4); }
-            set { Write(4, value); }
+            get => ReadByte(4);
+            set => Write(4, value);
         }
 
         public short ScaleX
         {
-            get { return ReadShort(6); }
-            set { Write(6, value); }
+            get => ReadShort(6);
+            set => Write(6, value);
         }
 
         public short ScaleY
         {
-            get { return ReadShort(8); }
-            set { Write(8, value); }
+            get => ReadShort(8);
+            set => Write(8, value);
         }
     }
 }

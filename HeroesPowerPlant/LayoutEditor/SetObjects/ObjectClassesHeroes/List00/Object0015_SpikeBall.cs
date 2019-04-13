@@ -24,19 +24,19 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public SpikeBallType Type
         {
-            get { return (SpikeBallType)ReadLong(4); }
-            set { Write(4, (int)value); }
+            get => (SpikeBallType)ReadLong(4);
+            set => Write(4, (int)value);
         }
 
         public float RotateSpeed
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float Scale
         {
-            get { return ReadFloat(12); }
+            get => ReadFloat(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
     }

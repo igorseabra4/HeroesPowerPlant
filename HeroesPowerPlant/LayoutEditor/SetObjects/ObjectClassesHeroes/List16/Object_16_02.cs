@@ -4,20 +4,20 @@
     {
         public float CoreHP
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public float ShieldHP
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float MissleHP
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
     }
 }

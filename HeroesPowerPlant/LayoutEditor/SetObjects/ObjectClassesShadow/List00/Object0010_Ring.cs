@@ -105,32 +105,32 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public RingType Type
         {
-            get { return (RingType)ReadInt(0); }
-            set { Write(0, (int)value); }
+            get => (RingType)ReadInt(0);
+            set => Write(0, (int)value);
         }
 
         public int NumberOfRings
         {
-            get { return ReadInt(4); }
-            set { Write(4, value); }
+            get => ReadInt(4);
+            set => Write(4, value);
         }
 
         public float LenghtRadius
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float Angle
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public bool Ghost
         {
-            get { return (ReadInt(16) != 0); }
-            set { Write(16, value ? 1 : 0); }
+            get => (ReadInt(16) != 0);
+            set => Write(16, value ? 1 : 0);
         }
     }
 }

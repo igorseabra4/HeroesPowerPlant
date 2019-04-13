@@ -26,31 +26,31 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public GhostType Type
         {
-            get { return (GhostType)ReadLong(4); }
-            set { Write(4, (int)value); }
+            get => (GhostType)ReadLong(4);
+            set => Write(4, (int)value);
         }
 
         public float Range
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float MovingArea
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public float Speed
         {
-            get { return ReadFloat(16); }
-            set { Write(16, value); }
+            get => ReadFloat(16);
+            set => Write(16, value);
         }
 
         public float Scale
         {
-            get { return ReadFloat(20); }
+            get => ReadFloat(20);
             set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
         }
     }

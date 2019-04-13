@@ -22,19 +22,19 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float DestinationX
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            get => ReadFloat(4);
+            set{ Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float DestinationY
         {
-            get { return ReadFloat(8); }
+            get => ReadFloat(8);
             set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float DestinationZ
         {
-            get { return ReadFloat(12); }
+            get => ReadFloat(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
@@ -60,14 +60,14 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public BallState State
         {
-            get { return (BallState)ReadByte(16); }
-            set { byte a = (byte)value; Write(16, a); }
+            get => (BallState)ReadByte(16);
+            set => Write(16, (byte)value);
         }
 
         public bool IsUpsideDown
         {
-            get { return ReadByte(17) != 0; }
-            set { Write(17, (byte)(value ? 1 : 0)); }
+            get => ReadByte(17) != 0;
+            set => Write(17, (byte)(value ? 1 : 0));
         }
     }
 }

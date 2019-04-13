@@ -70,31 +70,31 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public short MusicNumber
         {
-            get { return ReadShort(4); }
-            set { Write(4, value); }
+            get => ReadShort(4);
+            set => Write(4, value);
         }
 
         public TriggerMusicShape TriggerShape
         {
-            get { return (TriggerMusicShape)ReadLong(8); }
+            get => (TriggerMusicShape)ReadLong(8);
             set { Write(8, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius_ScaleX
         {
-            get { return ReadFloat(12); }
+            get => ReadFloat(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Height_ScaleY
         {
-            get { return ReadFloat(16); }
+            get => ReadFloat(16);
             set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadFloat(20); }
+            get => ReadFloat(20);
             set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
         }
     }

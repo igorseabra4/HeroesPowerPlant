@@ -4,20 +4,20 @@
     {
         public Item Item
         {
-            get { return (Item)ReadByte(4); }
-            set { byte a = (byte)value; Write(4, a); }
+            get => (Item)ReadByte(4);
+            set => Write(4, (byte)value);
         }
 
         public byte AppearMode
         {
-            get { return ReadByte(5); }
-            set { Write(5, value); }
+            get => ReadByte(5);
+            set => Write(5, value);
         }
 
         public byte LinkID
         {
-            get { return ReadByte(6); }
-            set { Write(6, value); }
+            get => ReadByte(6);
+            set => Write(6, value);
         }
     }
 }

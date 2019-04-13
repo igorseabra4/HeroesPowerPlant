@@ -4,26 +4,26 @@
     {
         public float Scale
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public byte Type
         {
-            get { return ReadByte(8); }
-            set { Write(8, value); }
+            get => ReadByte(8);
+            set => Write(8, value);
         }
 
         public byte Param2
         {
-            get { return ReadByte(9); }
-            set { Write(9, value); }
+            get => ReadByte(9);
+            set => Write(9, value);
         }
 
         public float Param3
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
     }
 }

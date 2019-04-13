@@ -11,8 +11,8 @@
     {
         public BoneType Type
         {
-            get { return (BoneType)ReadLong(4); }
-            set { Write(4, (int)value); }
+            get => (BoneType)ReadLong(4);
+            set => Write(4, (int)value);
         }
     }
 }

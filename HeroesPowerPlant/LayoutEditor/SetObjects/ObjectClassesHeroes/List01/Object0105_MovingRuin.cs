@@ -31,14 +31,14 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public RuinType Type
         {
-            get { return (RuinType)ReadByte(4); }
-            set { Write(4, (byte)value); }
+            get => (RuinType)ReadByte(4);
+            set => Write(4, (byte)value);
         }
 
         public float MovingDistance
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
     }
 }

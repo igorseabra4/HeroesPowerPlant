@@ -18,7 +18,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float Scale
         {
-            get { return ReadFloat(4); }
+            get => ReadFloat(4);
             set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
     }

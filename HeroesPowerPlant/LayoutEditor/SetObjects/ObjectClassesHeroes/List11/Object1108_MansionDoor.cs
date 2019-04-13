@@ -11,8 +11,8 @@
     {
         public OpenAngle OpenAngle
         {
-            get { return (OpenAngle)ReadLong(4); }
-            set { Write(4, (int)value); }
+            get => (OpenAngle)ReadLong(4);
+            set => Write(4, (int)value);
         }
     }
 }

@@ -4,20 +4,20 @@
     {
         public float Strenght
         {
-            get { return ReadFloat(0); }
-            set { Write(0, value); }
+            get => ReadFloat(0);
+            set => Write(0, value);
         }
 
         public float Height
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public float ControlTime
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
     }
 }

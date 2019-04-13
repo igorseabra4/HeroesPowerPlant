@@ -4,8 +4,8 @@
     {
         public ItemShadow Item
         {
-            get { return (ItemShadow)ReadInt(0); }
-            set { Write(0, (int)value); }
+            get => (ItemShadow)ReadInt(0);
+            set => Write(0, (int)value);
         }
     }
 }

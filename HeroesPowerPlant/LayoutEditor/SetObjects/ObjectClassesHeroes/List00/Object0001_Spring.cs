@@ -18,20 +18,20 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float Power
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public short NoControlTime
         {
-            get { return ReadShort(8); }
-            set { Write(8, value); }
+            get => ReadShort(8);
+            set => Write(8, value);
         }
 
         public float GuideLine
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
     }
 }

@@ -4,8 +4,8 @@
     {
         public Formation Formation
         {
-            get { return (Formation)ReadByte(4); }
-            set { Write(4, (byte)value); }
+            get => (Formation)ReadByte(4);
+            set => Write(4, (byte)value);
         }
     }
 }

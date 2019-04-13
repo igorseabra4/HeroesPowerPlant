@@ -44,7 +44,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public float FieldOfView
         {
-            get { return MathUtil.RadiansToDegrees(_fieldOfView); }
+            get => MathUtil.RadiansToDegrees(_fieldOfView);
             set
             {
                 _validProjectonMatrix = false;
@@ -57,7 +57,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public float AspectRatio
         {
-            get { return _aspectRatio; }
+            get => _aspectRatio;
             set
             {
                 _validProjectonMatrix = false;
@@ -70,7 +70,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public float NearPlane
         {
-            get { return _nearPlane; }
+            get => _nearPlane;
             set
             {
                 _validProjectonMatrix = false;
@@ -83,7 +83,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public float FarPlane
         {
-            get { return _farPlane; }
+            get => _farPlane;
             set
             {
                 _validProjectonMatrix = false;

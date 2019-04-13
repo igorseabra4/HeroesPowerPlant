@@ -4,14 +4,14 @@
     {
         public float Radius
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public float AngularSpeed
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
     }
 }

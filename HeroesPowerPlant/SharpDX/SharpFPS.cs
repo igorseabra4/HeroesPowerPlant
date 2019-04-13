@@ -25,7 +25,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public float FPSLimit
         {
-            get { return _FPSLimit; }
+            get => _FPSLimit;
             set
             {
                 FrameTime = MillisecondsInSecond / value;

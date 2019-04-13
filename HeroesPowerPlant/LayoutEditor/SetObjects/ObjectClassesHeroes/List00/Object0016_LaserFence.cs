@@ -15,26 +15,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TypeType Type
         {
-            get { return (TypeType)ReadLong(4); }
-            set { Write(4, (int)value); }
+            get => (TypeType)ReadLong(4);
+            set => Write(4, (int)value);
         }
 
         public float Lenght
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float Width
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public int Null_Interval_SwitchID_Speed_EnemyID
         {
-            get { return ReadLong(16); }
-            set { Write(16, value); }
+            get => ReadLong(16); 
+            set => Write(16, value);
         }
     }
 }

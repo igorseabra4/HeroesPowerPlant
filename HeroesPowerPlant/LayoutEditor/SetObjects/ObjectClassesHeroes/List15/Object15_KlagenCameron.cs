@@ -11,7 +11,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TypeEnum Type
         {
-            get { return (TypeEnum)ReadByte(4); }
+            get => (TypeEnum)ReadByte(4);
             set { byte a = (byte)value; Write(4, a); }
         }
 
@@ -22,48 +22,48 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public AppearEnum Appear
         {
-            get { return (AppearEnum)ReadByte(5); }
+            get => (AppearEnum)ReadByte(5);
             set { byte a = (byte)value; Write(5, a); }
         }
 
         public float MoveRange
         {
             //F2
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float ScopeRange
         {
             //F3
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public float ScopeOffset
         {
             //F4
-            get { return ReadFloat(16); }
-            set { Write(16, value); }
+            get => ReadFloat(16);
+            set => Write(16, value);
         }
 
         public Int16 Unknown
         {
-            get { return ReadShort(20); }
-            set { Write(20, value); }
+            get => ReadShort(20);
+            set => Write(20, value);
         }
 
         public Int16 AttackInterval
         {
-            get { return ReadShort(22); }
-            set { Write(22, value); }
+            get => ReadShort(22);
+            set => Write(22, value);
         }
 
         public float AttackSpeed
         {
             //F6
-            get { return ReadFloat(24); }
-            set { Write(24, value); }
+            get => ReadFloat(24);
+            set => Write(24, value);
         }
     }
 }

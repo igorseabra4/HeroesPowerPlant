@@ -18,13 +18,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int Type
         {
-            get { return ReadLong(4); }
-            set { Write(4, value); }
+            get => ReadLong(4);
+            set => Write(4, value);
         }
 
         public float Scale
         {
-            get { return ReadFloat(8); }
+            get => ReadFloat(8);
             set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
     }

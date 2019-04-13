@@ -11,8 +11,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public TypeEnum Type
         {
-            get { return (TypeEnum)ReadByte(4); }
-            set { byte a = (byte)value; Write(4, a); }
+            get => (TypeEnum)ReadByte(4);
+            set => Write(4, (byte)value);
         }
 
         public enum PathEnum : byte
@@ -22,8 +22,8 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public PathEnum PathMode
         {
-            get { return (PathEnum)ReadByte(5); }
-            set { byte a = (byte)value; Write(5, a); }
+            get => (PathEnum)ReadByte(5);
+            set => Write(5, (byte)value);
         }
 
         public enum IronballEnum : byte
@@ -33,38 +33,38 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public IronballEnum IronBallMode
         {
-            get { return (IronballEnum)ReadByte(6); }
+            get => (IronballEnum)ReadByte(6);
             set { byte a = (byte)value; Write(6, a); }
         }
 
         public float WeaponSpeed
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
-        public Int32 AttackInterval
+        public int AttackInterval
         {
-            get { return ReadLong(12); }
-            set { Write(12, value); }
+            get => ReadLong(12);
+            set => Write(12, value);
         }
 
         public float MoveSpeedMin
         {
-            get { return ReadFloat(16); }
-            set { Write(16, value); }
+            get => ReadFloat(16);
+            set => Write(16, value);
         }
 
         public float MoveSpeed
         {
-            get { return ReadFloat(20); }
-            set { Write(20, value); }
+            get => ReadFloat(20);
+            set => Write(20, value);
         }
 
         public float MoveSpeedMax
         {
-            get { return ReadFloat(24); }
-            set { Write(24, value); }
+            get => ReadFloat(24);
+            set => Write(24, value);
         }
     }
 }

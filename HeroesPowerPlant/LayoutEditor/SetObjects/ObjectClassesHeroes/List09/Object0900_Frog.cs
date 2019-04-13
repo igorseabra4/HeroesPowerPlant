@@ -4,56 +4,56 @@
     {
         public float JumpDirX
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public float JumpDirY
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float JumpDirZ
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public float Radius
         {
-            get { return ReadFloat(16); }
-            set { Write(16, value); }
+            get => ReadFloat(16);
+            set => Write(16, value);
         }
 
         public float Scale
         {
-            get { return ReadFloat(20); }
-            set { Write(20, value); }
+            get => ReadFloat(20);
+            set => Write(20, value);
         }
 
         public float JumpCycle
         {
-            get { return ReadFloat(24); }
-            set { Write(24, value); }
+            get => ReadFloat(24);
+            set => Write(24, value);
         }
 
         public short StopTimeSec
         {
-            get { return ReadShort(28); }
-            set { Write(28, value); }
+            get => ReadShort(28);
+            set => Write(28, value);
         }
 
         public short LeaveTimeSec
         {
-            get { return ReadShort(30); }
-            set { Write(30, value); }
+            get => ReadShort(30);
+            set => Write(30, value);
         }
 
         public byte FrogType
         {
-            get { return ReadByte(32); }
-            set { Write(32, value); }
+            get => ReadByte(32);
+            set => Write(32, value);
         }
     }
 }

@@ -9,8 +9,8 @@
         }
         public CrashModeType Type
         {
-            get { return (CrashModeType)ReadShort(4); }
-            set { Write(4, (short)value); }
+            get => (CrashModeType)ReadShort(4);
+            set => Write(4, (short)value);
         }
     }
 }

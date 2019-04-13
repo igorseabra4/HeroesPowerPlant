@@ -10,8 +10,8 @@
         }
         public RuinType Type
         {
-            get { return (RuinType)ReadByte(4); }
-            set { Write(4, (byte)value); }
+            get => (RuinType)ReadByte(4);
+            set => Write(4, (byte)value);
         }
     }
 }

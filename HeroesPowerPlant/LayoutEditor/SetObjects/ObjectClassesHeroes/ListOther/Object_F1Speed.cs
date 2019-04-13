@@ -4,8 +4,8 @@
     {
         public float Speed
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
     }
 }

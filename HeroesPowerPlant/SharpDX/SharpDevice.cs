@@ -27,17 +27,17 @@ namespace HeroesPowerPlant
         /// <summary>
         /// Device
         /// </summary>
-        public Device11 Device { get { return _device; } }
+        public Device11 Device { get => _device; }
 
         /// <summary>
         /// Device Context
         /// </summary>
-        public DeviceContext DeviceContext { get { return _deviceContext; } }
+        public DeviceContext DeviceContext { get => _deviceContext; }
 
         /// <summary>
         /// Swapchain
         /// </summary>
-        public SwapChain SwapChain { get { return _swapchain; } }
+        public SwapChain SwapChain { get => _swapchain; }
 
         /// <summary>
         /// Rendering Form
@@ -52,12 +52,12 @@ namespace HeroesPowerPlant
         /// <summary>
         /// View to BackBuffer
         /// </summary>
-        public RenderTargetView BackBufferView { get { return _backbufferView; } }
+        public RenderTargetView BackBufferView { get => _backbufferView; }
 
         /// <summary>
         /// View to Depth Buffer
         /// </summary>
-        public DepthStencilView ZBufferView { get { return _zbufferView; } }
+        public DepthStencilView ZBufferView { get => _zbufferView; }
         
         /// <summary>
         /// Init all object to start rendering

@@ -27,20 +27,20 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float Scale
         {
-            get { return ReadFloat(4); }
+            get => ReadFloat(4);
             set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public int Type
         {
-            get { return ReadLong(8); }
-            set { Write(8, value); }
+            get => ReadLong(8);
+            set => Write(8, value);
         }
 
         public int Speed
         {
-            get { return ReadLong(12); }
-            set { Write(12, value); }
+            get => ReadLong(12);
+            set => Write(12, value);
         }
     }
 }

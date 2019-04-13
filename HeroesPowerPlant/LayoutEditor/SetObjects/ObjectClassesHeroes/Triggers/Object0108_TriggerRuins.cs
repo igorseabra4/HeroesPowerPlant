@@ -34,26 +34,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float ScaleX
         {
-            get { return ReadFloat(4); }
+            get => ReadFloat(4);
             set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleY
         {
-            get { return ReadFloat(8); }
+            get => ReadFloat(8);
             set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadFloat(12); }
+            get => ReadFloat(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public RuinType Type
         {
-            get { return (RuinType)ReadByte(16); }
-            set { byte a = (byte)value; Write(16, a); }
+            get => (RuinType)ReadByte(16);
+            set => Write(16, (byte) value);
         }
     }
 }

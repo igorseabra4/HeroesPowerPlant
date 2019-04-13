@@ -27,26 +27,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public RainbowType Type
         {
-            get { return (RainbowType)ReadShort(4); }
-            set { Write(4, (short)value); }
+            get => (RainbowType)ReadShort(4);
+            set => Write(4, (short)value);
         }
 
         public short AdditionalControlTime
         {
-            get { return ReadShort(6); }
-            set { Write(6, value); }
+            get => ReadShort(6);
+            set => Write(6, value);
         }
 
         public float Speed
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float Offset
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
     }
 }

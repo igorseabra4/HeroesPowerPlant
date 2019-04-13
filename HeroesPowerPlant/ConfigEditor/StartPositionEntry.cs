@@ -18,38 +18,38 @@ namespace HeroesPowerPlant.ConfigEditor
 
         public float PositionX
         {
-            get { return position.Position.ToVector3().X; }
-            set { position.Position.X = value; }
+            get => position.Position.ToVector3().X;
+            set => position.Position.X = value;
         }
 
         public float PositionY
         {
-            get { return position.Position.ToVector3().Y; }
-            set { position.Position.Y = value; }
+            get => position.Position.ToVector3().Y;
+            set => position.Position.Y = value;
         }
-
+        
         public float PositionZ
         {
-            get { return position.Position.ToVector3().Z; }
-            set { position.Position.Z = value; }
+            get => position.Position.ToVector3().Z;
+            set => position.Position.Z = value;
         }
 
         public int Pitch
         {
-            get { return position.Pitch; }
-            set { position.Pitch = value; }
+            get => position.Pitch;
+            set => position.Pitch = value;
         }
 
         public int HoldTime
         {
-            get { return position.HoldTime; }
-            set { position.HoldTime = value; }
+            get => position.HoldTime;
+            set => position.HoldTime = value;
         }
 
         public StartPositionMode Mode
         {
-            get { return position.Mode; }
-            set { position.Mode = value; }
+            get => position.Mode;
+            set => position.Mode = value;
         }
 
         public void NewColor(Vector3 v)

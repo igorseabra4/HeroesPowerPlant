@@ -50,96 +50,96 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public QualityType Quality
         {
-            get { return (QualityType)ReadByte(4); }
-            set { byte a = (byte)value; Write(4, a); }
+            get => (QualityType)ReadByte(4);
+            set => Write(4, (byte)value);
         }
 
         public ShadowType ShadowType
         {
-            get { return (ShadowType)ReadByte(5); }
-            set { byte a = (byte)value; Write(5, a); }
+            get => (ShadowType)ReadByte(5);
+            set => Write(5, (byte)value);
         }
 
         public MoveType MoveType
         {
-            get { return (MoveType)ReadByte(6); }
-            set { byte a = (byte)value; Write(6, a); }
+            get => (MoveType)ReadByte(6);
+            set => Write(6, (byte)value);
         }
 
         public WeaponType WeaponType
         {
-            get { return (WeaponType)ReadByte(7); }
-            set { byte a = (byte)value; Write(7, a); }
+            get => (WeaponType)ReadByte(7);
+            set => Write(7, (byte)value);
         }
 
         public short ScopeRange
         {
             //2.1
-            get { return ReadShort(8); }
-            set { Write(8, value); }
+            get => ReadShort(8);
+            set => Write(8, value);
         }
 
         public short ScopeOffset
         {
             //2.2
-            get { return ReadShort(10); }
-            set { Write(10, value); }
+            get => ReadShort(10);
+            set => Write(10, value);
         }
 
         public short AttackInterval
         {
             //3.1
-            get { return ReadShort(12); }
-            set { Write(12, value); }
+            get => ReadShort(12);
+            set => Write(12, value);
         }
 
         public short AttackFrame
         {
             //3.2
-            get { return ReadShort(14); }
-            set { Write(14, value); }
+            get => ReadShort(14);
+            set => Write(14, value);
         }
 
         public float FLOOR
         {
             //4
-            get { return ReadFloat(16); }
-            set { Write(16, value); }
+            get => ReadFloat(16);
+            set => Write(16, value);
         }
 
         public float MoveSpeed
         {
             //5
-            get { return ReadFloat(20); }
-            set { Write(20, value); }
+            get => ReadFloat(20);
+            set => Write(20, value);
         }
 
         public float MoveRange
         {
             //6
-            get { return ReadFloat(24); }
-            set { Write(24, value); }
+            get => ReadFloat(24);
+            set => Write(24, value);
         }
 
         public float WeaponSpeed
         {
             //7
-            get { return ReadFloat(28); }
-            set { Write(28, value); }
+            get => ReadFloat(28);
+            set => Write(28, value);
         }
 
         public short LightAngleY
         {
             //W8.1
-            get { return ReadShort(32); }
-            set { Write(32, value); }
+            get => ReadShort(32);
+            set => Write(32, value);
         }
 
         public short LightAngleX
         {
             //W8.2
-            get { return ReadShort(34); }
-            set { Write(34, value); }
+            get => ReadShort(34);
+            set => Write(34, value);
         }
     }
 }

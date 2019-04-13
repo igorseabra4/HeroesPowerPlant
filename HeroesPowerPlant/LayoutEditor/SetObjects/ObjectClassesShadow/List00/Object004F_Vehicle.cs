@@ -4,8 +4,8 @@
     {
         public Vehicle VehicleType
         {
-            get { return (Vehicle)ReadInt(0); }
-            set { Write(0, (int)value); }
+            get => (Vehicle)ReadInt(0);
+            set => Write(0, (int)value);
         }
     }
 

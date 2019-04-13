@@ -4,20 +4,20 @@
     {
         public byte Type
         {
-            get { return ReadByte(4); }
-            set { Write(4, value); }
+            get => ReadByte(4);
+            set => Write(4, value);
         }
 
         public byte PathNum
         {
-            get { return ReadByte(5); }
-            set { Write(4, value); }
+            get => ReadByte(5);
+            set => Write(4, value);
         }
 
         public float MinSpeed
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
     }
 }

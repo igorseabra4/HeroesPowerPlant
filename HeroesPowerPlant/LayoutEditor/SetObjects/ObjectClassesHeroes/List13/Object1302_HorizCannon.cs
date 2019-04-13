@@ -4,20 +4,20 @@
     {
         public short ShootTime
         {
-            get { return ReadShort(4); }
-            set { Write(4, (float)value); }
+            get => ReadShort(4);
+            set => Write(4, (float)value);
         }
 
         public float ShootRange
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public byte IgnoreCollision
         {
-            get { return ReadByte(12); }
-            set { Write(12, value); }
+            get => ReadByte(12);
+            set => Write(12, value);
         }
     }
 }

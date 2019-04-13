@@ -4,8 +4,8 @@
     {
         public short RotSpeed
         {
-            get { return ReadShort(4); }
-            set { Write(4, value); }
+            get => ReadShort(4);
+            set => Write(4, value);
         }
     }
 }

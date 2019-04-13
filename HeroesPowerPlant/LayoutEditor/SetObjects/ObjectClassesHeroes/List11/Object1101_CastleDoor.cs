@@ -4,8 +4,8 @@
     {
         public bool IsUpsideDown
         {
-            get { return ReadLong(4) != 0; }
-            set { Write(4, value ? 1 : 0); }
+            get => ReadLong(4) != 0;
+            set => Write(4, value ? 1 : 0);
         }
     }
 }

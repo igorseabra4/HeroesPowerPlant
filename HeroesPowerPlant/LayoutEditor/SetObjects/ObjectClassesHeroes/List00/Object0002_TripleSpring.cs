@@ -18,26 +18,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float Power
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public float Scale
         {
-            get { return ReadFloat(8); }
+            get => ReadFloat(8);
             set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public short NoControlTime
         {
-            get { return ReadShort(12); }
-            set { Write(12, value); }
+            get => ReadShort(12);
+            set => Write(12, value);
         }
 
         public Item Item
         {
-            get { return (Item)ReadByte(14); }
-            set { Write(14, (byte)value); }
+            get => (Item)ReadByte(14);
+            set => Write(14, (byte)value);
         }
     }
 }

@@ -6,20 +6,20 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public float Radius
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
-        public Int32 Refresh
+        public int Refresh
         {
-            get { return ReadLong(8); }
-            set { Write(8, value); }
+            get => ReadLong(8);
+            set => Write(8, value);
         }
 
-        public Int32 Disable
+        public int Disable
         {
-            get { return ReadLong(12); }
-            set { Write(12, value); }
+            get => ReadLong(12);
+            set => Write(12, value);
         }
     }
 }

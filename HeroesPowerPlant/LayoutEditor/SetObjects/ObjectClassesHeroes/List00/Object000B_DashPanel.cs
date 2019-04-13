@@ -4,14 +4,14 @@
     {
         public float Speed
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public short ControlTime
         {
-            get { return ReadShort(8); }
-            set { Write(8, value); }
+            get => ReadShort(8);
+            set => Write(8, value);
         }
     }
 }

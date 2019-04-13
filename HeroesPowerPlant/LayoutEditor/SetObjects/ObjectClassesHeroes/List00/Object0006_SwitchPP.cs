@@ -10,7 +10,7 @@
 
         public SwitchMode Mode
         {
-            get { return (SwitchMode)ReadByte(4); }
+            get => (SwitchMode)ReadByte(4);
             set { byte a = (byte)value; Write(4, a); }
         }
     }

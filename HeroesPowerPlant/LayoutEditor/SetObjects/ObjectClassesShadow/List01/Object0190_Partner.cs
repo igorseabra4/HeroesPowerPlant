@@ -4,14 +4,14 @@
     {
         public Partner PartnerType
         {
-            get { return (Partner)ReadInt(0); }
-            set { Write(0, (int)value); }
+            get => (Partner)ReadInt(0);
+            set => Write(0, (int)value);
         }
 
         public float DetectRange
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
     }
 

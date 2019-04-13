@@ -48,32 +48,32 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool IsBlue
         {
-            get { return ReadLong(4) != 0; }
-            set { Write(4, value ? 1 : 0); }
+            get => ReadLong(4) != 0;
+            set => Write(4, value ? 1 : 0);
         }
 
         public StartMode StartMode
         {
-            get { return (StartMode)ReadLong(8); }
-            set { Write(8, (int)value); }
+            get => (StartMode)ReadLong(8);
+            set => Write(8, (int)value);
         }
 
         public float Range
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public float Scale
         {
-            get { return ReadFloat(16); }
+            get => ReadFloat(16);
             set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public bool IsUpsideDown
         {
-            get { return ReadByte(20) != 0; }
-            set { Write(20, (byte)(value ? 1 : 0)); }
+            get => ReadByte(20) != 0;
+            set => Write(20, (byte)(value ? 1 : 0));
         }
 
         public enum BaseTypeEnum
@@ -84,20 +84,20 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         public BaseTypeEnum BaseType
         {
-            get { return (BaseTypeEnum)ReadByte(21); }
-            set { byte a = (byte)value; Write(21, a); }
+            get => (BaseTypeEnum)ReadByte(21);
+            set => Write(21, (byte)value);
         }
 
         public bool HasSE
         {
-            get { return ReadByte(22) != 0; }
-            set { Write(22, (byte)(value ? 1 : 0)); }
+            get => ReadByte(22) != 0;
+            set => Write(22, (byte)(value ? 1 : 0));
         }
 
         public bool HasCollision
         {
-            get { return ReadByte(23) != 0; }
-            set { Write(23, (byte)(value ? 1 : 0)); }
+            get => ReadByte(23) != 0;
+            set => Write(23, (byte)(value ? 1 : 0));
         }
     }
 }

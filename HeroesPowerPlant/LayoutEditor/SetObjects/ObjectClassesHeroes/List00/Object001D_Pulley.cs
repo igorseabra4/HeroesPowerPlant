@@ -4,20 +4,20 @@
     {
         public float Elevation
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public float ElevationAngle
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float Power
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public enum PulleyType : short
@@ -28,8 +28,8 @@
 
         public PulleyType Type
         {
-            get { return (PulleyType)ReadShort(16); }
-            set { Write(16, (short)value); }
+            get => (PulleyType)ReadShort(16);
+            set => Write(16, (short)value);
         }
     }
 }

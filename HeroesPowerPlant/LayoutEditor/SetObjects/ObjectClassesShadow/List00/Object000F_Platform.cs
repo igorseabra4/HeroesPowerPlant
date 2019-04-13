@@ -16,14 +16,14 @@
 
         public float TravelTime
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float WaitTime
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public int Unknown_10
@@ -40,20 +40,20 @@
 
         public float TranslationX
         {
-            get { return ReadFloat(0x18); }
-            set { Write(0x18, value); }
+            get => ReadFloat(0x18);
+            set => Write(0x18, value);
         }
 
         public float TranslationY
         {
-            get { return ReadFloat(0x1C); }
-            set { Write(0x1C, value); }
+            get => ReadFloat(0x1C);
+            set => Write(0x1C, value);
         }
 
         public float TranslationZ
         {
-            get { return ReadFloat(0x20); }
-            set { Write(0x20, value); }
+            get => ReadFloat(0x20);
+            set => Write(0x20, value);
         }
 
         public int Unknown_24

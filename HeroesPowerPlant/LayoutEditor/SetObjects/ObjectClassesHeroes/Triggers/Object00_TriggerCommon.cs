@@ -73,25 +73,25 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TriggerCommonShape TriggerShape
         {
-            get { return (TriggerCommonShape)ReadLong(4); }
+            get => (TriggerCommonShape)ReadLong(4);
             set { Write(4, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius_ScaleX
         {
-            get { return ReadFloat(8); }
+            get => ReadFloat(8);
             set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Height_ScaleY
         {
-            get { return ReadFloat(12); }
+            get => ReadFloat(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadFloat(16); }
+            get => ReadFloat(16);
             set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
     }

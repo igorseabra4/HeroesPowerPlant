@@ -4,8 +4,8 @@
     {
         public int Offset
         {
-            get { return ReadLong(4); }
-            set { Write(4, value); }
+            get => ReadLong(4);
+            set => Write(4, value);
         }
     }
 }

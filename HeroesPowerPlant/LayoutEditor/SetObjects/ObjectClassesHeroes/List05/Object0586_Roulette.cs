@@ -4,14 +4,14 @@
     {
         public float Scale
         {
-            get { return ReadFloat(4); }
-            set { Write(4, value); }
+            get => ReadFloat(4);
+            set => Write(4, value);
         }
 
         public int Speed
         {
-            get { return ReadLong(8); }
-            set { Write(8, value); }
+            get => ReadLong(8);
+            set => Write(8, value);
         }
     }
 }

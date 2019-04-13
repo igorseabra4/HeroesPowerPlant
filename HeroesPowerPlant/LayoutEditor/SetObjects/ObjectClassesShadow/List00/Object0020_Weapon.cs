@@ -4,8 +4,8 @@
     {
         public Weapon WeaponType
         {
-            get { return (Weapon)ReadInt(0); }
-            set { Write(0, (int)value); }
+            get => (Weapon)ReadInt(0);
+            set => Write(0, (int)value);
         }
     }
 

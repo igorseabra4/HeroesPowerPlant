@@ -73,74 +73,74 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TriggerTalkType Type
         {
-            get { return (TriggerTalkType)ReadShort(4); }
-            set { Write(4, (short)value); }
+            get => (TriggerTalkType)ReadShort(4);
+            set => Write(4, (short)value);
         }
 
         public short CommonLineToPlay
         {
-            get { return ReadShort(6); }
-            set { Write(6, value); }
+            get => ReadShort(6);
+            set => Write(6, value);
         }
 
         public TriggerTalkShape TriggerShape
         {
-            get { return (TriggerTalkShape)ReadLong(8); }
+            get => (TriggerTalkShape)ReadLong(8);
             set { Write(8, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius_ScaleX
         {
-            get { return ReadFloat(12); }
+            get => ReadFloat(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Height_ScaleY
         {
-            get { return ReadFloat(16); }
+            get => ReadFloat(16);
             set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
-            get { return ReadFloat(20); }
+            get => ReadFloat(20);
             set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public short HintStart1
         {
-            get { return ReadShort(24); }
-            set { Write(24, value); }
+            get => ReadShort(24);
+            set => Write(24, value);
         }
 
         public short HintEnd1
         {
-            get { return ReadShort(26); }
-            set { Write(26, value); }
+            get => ReadShort(26);
+            set => Write(26, value);
         }
 
         public short HintStart2
         {
-            get { return ReadShort(28); }
-            set { Write(28, value); }
+            get => ReadShort(28);
+            set => Write(28, value);
         }
 
         public short HintEnd2
         {
-            get { return ReadShort(30); }
-            set { Write(30, value); }
+            get => ReadShort(30);
+            set => Write(30, value);
         }
 
         public short HintStart3
         {
-            get { return ReadShort(32); }
-            set { Write(32, value); }
+            get => ReadShort(32);
+            set => Write(32, value);
         }
 
         public short HintEnd3
         {
-            get { return ReadShort(34); }
-            set { Write(34, value); }
+            get => ReadShort(34);
+            set => Write(34, value);
         }
     }
 }

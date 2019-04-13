@@ -31,7 +31,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public float Yaw
         {
-            get { return MathUtil.RadiansToDegrees(_yaw); }
+            get => MathUtil.RadiansToDegrees(_yaw);
             set
             {
                 _validCameraVectors = false;
@@ -45,7 +45,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public float Pitch
         {
-            get { return MathUtil.RadiansToDegrees(_pitch); }
+            get => MathUtil.RadiansToDegrees(_pitch);
             set
             {
                 _validCameraVectors = false;
@@ -67,7 +67,7 @@ namespace HeroesPowerPlant
         /// </summary>
         public Vector3 Position
         {
-            get { return _position; }
+            get => _position;
             set
             {
                 _validViewMatrix = false;

@@ -60,26 +60,26 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public float Radius
         {
-            get { return ReadFloat(4); }
+            get => ReadFloat(4);
             set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float XDestination
         {
-            get { return ReadFloat(8); }
-            set { Write(8, value); }
+            get => ReadFloat(8);
+            set => Write(8, value);
         }
 
         public float YDestination
         {
-            get { return ReadFloat(12); }
-            set { Write(12, value); }
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
 
         public float ZDestination
         {
-            get { return ReadFloat(16); }
-            set { Write(16, value); }
+            get => ReadFloat(16);
+            set => Write(16, value);
         }
     }
 }

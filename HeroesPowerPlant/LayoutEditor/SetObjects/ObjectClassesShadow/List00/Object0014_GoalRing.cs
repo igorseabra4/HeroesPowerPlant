@@ -4,8 +4,8 @@
     {
         public EmeraldColor EmeraldType
         {
-            get { return (EmeraldColor)ReadInt(0); }
-            set { Write(0, (int)value); }
+            get => (EmeraldColor)ReadInt(0);
+            set => Write(0, (int)value);
         }
     }
 
