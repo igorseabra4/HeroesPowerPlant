@@ -87,15 +87,15 @@
             this.NumericPosZ = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numericUnkB4 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB1 = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxAutoBytes = new System.Windows.Forms.CheckBox();
             this.numericUnkB8 = new System.Windows.Forms.NumericUpDown();
             this.numericUnkB7 = new System.Windows.Forms.NumericUpDown();
             this.numericUnkB6 = new System.Windows.Forms.NumericUpDown();
             this.numericUnkB5 = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxAutoBytes = new System.Windows.Forms.CheckBox();
+            this.numericUnkB4 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUnkB1 = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -112,14 +112,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -749,75 +749,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unknown Bytes";
             // 
-            // numericUnkB4
-            // 
-            this.numericUnkB4.Hexadecimal = true;
-            this.numericUnkB4.Location = new System.Drawing.Point(210, 19);
-            this.numericUnkB4.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB4.Name = "numericUnkB4";
-            this.numericUnkB4.Size = new System.Drawing.Size(62, 20);
-            this.numericUnkB4.TabIndex = 84;
-            this.numericUnkB4.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
-            // 
-            // numericUnkB3
-            // 
-            this.numericUnkB3.Hexadecimal = true;
-            this.numericUnkB3.Location = new System.Drawing.Point(142, 19);
-            this.numericUnkB3.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB3.Name = "numericUnkB3";
-            this.numericUnkB3.Size = new System.Drawing.Size(62, 20);
-            this.numericUnkB3.TabIndex = 83;
-            this.numericUnkB3.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
-            // 
-            // numericUnkB2
-            // 
-            this.numericUnkB2.Hexadecimal = true;
-            this.numericUnkB2.Location = new System.Drawing.Point(74, 19);
-            this.numericUnkB2.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB2.Name = "numericUnkB2";
-            this.numericUnkB2.Size = new System.Drawing.Size(62, 20);
-            this.numericUnkB2.TabIndex = 82;
-            this.numericUnkB2.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
-            // 
-            // numericUnkB1
-            // 
-            this.numericUnkB1.Hexadecimal = true;
-            this.numericUnkB1.Location = new System.Drawing.Point(6, 19);
-            this.numericUnkB1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB1.Name = "numericUnkB1";
-            this.numericUnkB1.Size = new System.Drawing.Size(62, 20);
-            this.numericUnkB1.TabIndex = 81;
-            this.numericUnkB1.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
-            // 
-            // checkBoxAutoBytes
-            // 
-            this.checkBoxAutoBytes.AutoSize = true;
-            this.checkBoxAutoBytes.Checked = true;
-            this.checkBoxAutoBytes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAutoBytes.Location = new System.Drawing.Point(224, 0);
-            this.checkBoxAutoBytes.Name = "checkBoxAutoBytes";
-            this.checkBoxAutoBytes.Size = new System.Drawing.Size(48, 17);
-            this.checkBoxAutoBytes.TabIndex = 81;
-            this.checkBoxAutoBytes.Text = "Auto";
-            this.checkBoxAutoBytes.UseVisualStyleBackColor = true;
-            this.checkBoxAutoBytes.CheckedChanged += new System.EventHandler(this.checkBoxAutoBytes_CheckedChanged);
-            // 
             // numericUnkB8
             // 
             this.numericUnkB8.Hexadecimal = true;
@@ -873,6 +804,73 @@
             this.numericUnkB5.Size = new System.Drawing.Size(62, 20);
             this.numericUnkB5.TabIndex = 85;
             this.numericUnkB5.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // checkBoxAutoBytes
+            // 
+            this.checkBoxAutoBytes.AutoSize = true;
+            this.checkBoxAutoBytes.Location = new System.Drawing.Point(224, 0);
+            this.checkBoxAutoBytes.Name = "checkBoxAutoBytes";
+            this.checkBoxAutoBytes.Size = new System.Drawing.Size(48, 17);
+            this.checkBoxAutoBytes.TabIndex = 81;
+            this.checkBoxAutoBytes.Text = "Auto";
+            this.checkBoxAutoBytes.UseVisualStyleBackColor = true;
+            this.checkBoxAutoBytes.CheckedChanged += new System.EventHandler(this.checkBoxAutoBytes_CheckedChanged);
+            // 
+            // numericUnkB4
+            // 
+            this.numericUnkB4.Hexadecimal = true;
+            this.numericUnkB4.Location = new System.Drawing.Point(210, 19);
+            this.numericUnkB4.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB4.Name = "numericUnkB4";
+            this.numericUnkB4.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB4.TabIndex = 84;
+            this.numericUnkB4.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB3
+            // 
+            this.numericUnkB3.Hexadecimal = true;
+            this.numericUnkB3.Location = new System.Drawing.Point(142, 19);
+            this.numericUnkB3.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB3.Name = "numericUnkB3";
+            this.numericUnkB3.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB3.TabIndex = 83;
+            this.numericUnkB3.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB2
+            // 
+            this.numericUnkB2.Hexadecimal = true;
+            this.numericUnkB2.Location = new System.Drawing.Point(74, 19);
+            this.numericUnkB2.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB2.Name = "numericUnkB2";
+            this.numericUnkB2.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB2.TabIndex = 82;
+            this.numericUnkB2.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            // 
+            // numericUnkB1
+            // 
+            this.numericUnkB1.Hexadecimal = true;
+            this.numericUnkB1.Location = new System.Drawing.Point(6, 19);
+            this.numericUnkB1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUnkB1.Name = "numericUnkB1";
+            this.numericUnkB1.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB1.TabIndex = 81;
+            this.numericUnkB1.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // LayoutEditor
             // 
@@ -930,14 +928,14 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

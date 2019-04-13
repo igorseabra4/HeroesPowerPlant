@@ -15,6 +15,7 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+
             this.UnkBytes = UnkBytes ?? new byte[8];
             this.MiscSettingCount = MiscSettingCount;
 
@@ -31,6 +32,7 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+
             this.UnkBytes = UnkBytes ?? new byte[8];
             this.MiscSettingCount = MiscSettingCount;
 

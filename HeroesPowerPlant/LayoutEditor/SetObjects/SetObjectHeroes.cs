@@ -13,6 +13,7 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+
             this.UnkBytes = UnkBytes ?? new byte[8];
 
             isSelected = false;
@@ -28,6 +29,7 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Rotation = Rotation;
             this.Link = Link;
             this.Rend = Rend;
+
             this.UnkBytes = UnkBytes ?? new byte[8];
 
             isSelected = false;

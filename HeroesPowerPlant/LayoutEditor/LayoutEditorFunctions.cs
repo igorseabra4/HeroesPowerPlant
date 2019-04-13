@@ -86,15 +86,13 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(Switch((int)i.Rotation.Y));
                 layoutWriter.Write(Switch((int)i.Rotation.Z));
 
-                if (autoValues)
-                    layoutWriter.Write(new byte[] { 0, 2, currentNum, 9, 0, 0, 0, 0, 0, 2, currentNum, 9, 0, 0, 0, 0 });
-                else
-                {
-                    layoutWriter.Write(i.UnkBytes.Take(4).ToArray());
-                    layoutWriter.Write(0);
-                    layoutWriter.Write(i.UnkBytes.Skip(4).ToArray());
-                    layoutWriter.Write(0);
-                }
+                if (autoValues || i.UnkBytes.Length != 8)
+                    i.UnkBytes = new byte[] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
+                
+                layoutWriter.Write(i.UnkBytes.Take(4).ToArray());
+                layoutWriter.Write(0);
+                layoutWriter.Write(i.UnkBytes.Skip(4).ToArray());
+                layoutWriter.Write(0);
 
                 layoutWriter.Write(i.objectEntry.List);
                 layoutWriter.Write(i.objectEntry.Type);
@@ -180,18 +178,18 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public static void SaveShadowLayout(IEnumerable<SetObjectShadow> list, string outputFile, bool autoValues)
         {
-            byte CurrentNum;
+            byte currentNum;
 
             if (outputFile.ToLower().Contains("cmn"))
-                CurrentNum = 0x10;
+                currentNum = 0x10;
             else if (outputFile.ToLower().Contains("nrm"))
-                CurrentNum = 0x20;
+                currentNum = 0x20;
             else if (outputFile.ToLower().Contains("hrd"))
-                CurrentNum = 0x40;
+                currentNum = 0x40;
             else if (outputFile.ToLower().Contains("ds1"))
-                CurrentNum = 0x80;
+                currentNum = 0x80;
             else
-                CurrentNum = 0;
+                currentNum = 0;
 
             BinaryWriter layoutWriter = new BinaryWriter(new FileStream(outputFile, FileMode.Create));
 
@@ -210,22 +208,15 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 if (autoValues || i.UnkBytes.Length != 8)
                 {
-                    layoutWriter.Write(new byte[] { 1, CurrentNum });
-                    if (CurrentNum == 0x80)
-                        layoutWriter.Write(new byte[] { 0x40, 0x80 });
-                    else
-                        layoutWriter.Write(new byte[] { 0, 0x80 });
+                    var unkBytes = new List<byte>() { 1, currentNum };
+                    unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0x80 });
+                    unkBytes.AddRange(new byte[] { 1, currentNum });
+                    unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0 });
 
-                    layoutWriter.Write(new byte[] { 1, CurrentNum });
-                    if (CurrentNum == 0x80)
-                        layoutWriter.Write(new byte[] { 0x40, 0x80 });
-                    else
-                        layoutWriter.Write(new byte[] { 0, 0 });
+                    i.UnkBytes = unkBytes.ToArray();
                 }
-                else
-                {
-                    layoutWriter.Write(i.UnkBytes);
-                }
+
+                layoutWriter.Write(i.UnkBytes);
 
                 layoutWriter.Write(i.objectEntry.Type);
                 layoutWriter.Write(i.objectEntry.List);

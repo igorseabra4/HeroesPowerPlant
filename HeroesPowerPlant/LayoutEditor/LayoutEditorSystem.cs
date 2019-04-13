@@ -214,9 +214,37 @@ namespace HeroesPowerPlant.LayoutEditor
             SetObject newObject;
             
             if (isShadow)
-                newObject = new SetObjectShadow(0, 0, shadowObjectEntries, Position, Vector3.Zero, 0, 10, 0);
+            {
+                byte currentNum;
+
+                if (currentlyOpenFileName.ToLower().Contains("cmn")) currentNum = 0x10;
+                else if (currentlyOpenFileName.ToLower().Contains("nrm")) currentNum = 0x20;
+                else if (currentlyOpenFileName.ToLower().Contains("hrd")) currentNum = 0x40;
+                else if (currentlyOpenFileName.ToLower().Contains("ds1")) currentNum = 0x80;
+                else currentNum = 0;
+
+                var unkBytes = new List<byte>() { 1, currentNum };
+                unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0x80 });
+                unkBytes.AddRange(new byte[] { 1, currentNum });
+                unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0 });
+
+                newObject = new SetObjectShadow(0, 0, shadowObjectEntries, Position, Vector3.Zero, 0, 10, 0, unkBytes.ToArray());
+            }
             else
-                newObject = new SetObjectHeroes(0, 0, heroesObjectEntries, Position, Vector3.Zero, 0, 10);
+            {
+                byte currentNum;
+
+                if (currentlyOpenFileName.Contains("P1")) currentNum = 0x20;
+                else if (currentlyOpenFileName.Contains("P2")) currentNum = 0x40;
+                else if (currentlyOpenFileName.Contains("P3")) currentNum = 0x60;
+                else if (currentlyOpenFileName.Contains("P4")) currentNum = 0x80;
+                else if (currentlyOpenFileName.Contains("P5")) currentNum = 0xA0;
+                else currentNum = 0;
+
+                var unkBytes = new byte[8] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
+
+                newObject = new SetObjectHeroes(0, 0, heroesObjectEntries, Position, Vector3.Zero, 0, 10, unkBytes);
+            }
 
             newObject.CreateTransformMatrix();
             setObjects.Add(newObject);
