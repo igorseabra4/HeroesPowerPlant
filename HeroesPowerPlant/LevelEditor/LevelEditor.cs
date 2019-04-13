@@ -7,13 +7,11 @@ using SharpDX;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
-using static HeroesPowerPlant.LevelEditor.VisibilityFunctions;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using HeroesPowerPlant.ShadowSplineEditor;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
-using static HeroesPowerPlant.BSPRenderer;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using HeroesPowerPlant.ShadowSplineEditor;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -31,6 +29,11 @@ namespace HeroesPowerPlant.LevelEditor
         public LevelEditor()
         {
             InitializeComponent();
+            visibilityFunctions = new VisibilityFunctions();
+            bspRenderer = new BSPRenderer();
+
+            shadowCollisionEditor = new ShadowCollisionEditor(bspRenderer);
+            shadowSplineEditor = new ShadowSplineMenu();
         }
 
         private void LevelEditor_Load(object sender, EventArgs e)
@@ -39,7 +42,9 @@ namespace HeroesPowerPlant.LevelEditor
         }
 
         private string openONEfilePath;
-        
+        public VisibilityFunctions visibilityFunctions;
+        public BSPRenderer bspRenderer;
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             New();
@@ -59,35 +64,35 @@ namespace HeroesPowerPlant.LevelEditor
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                OpenONEHeroesFile(openFile.FileName);
+                OpenONEHeroesFile(openFile.FileName, Program.MainForm.renderer);
             }
         }
 
-        public void OpenONEHeroesFile(string fileName)
+        public void OpenONEHeroesFile(string fileName, SharpRenderer renderer)
         {
             SetHeroesMode();
             openONEfilePath = fileName;
             SetFilenamePrefix(openONEfilePath);
 
             byte[] fileBytes = File.ReadAllBytes(openONEfilePath);
-            SetHeroesBSPList(Program.MainForm.renderer.Device, Archive.FromONEFile(ref fileBytes));
+            bspRenderer.SetHeroesBSPList(renderer.Device, Archive.FromONEFile(ref fileBytes));
 
             InitBSPList();
 
-            string SupposedBLK = Path.GetDirectoryName(openONEfilePath) + "\\" + currentFileNamePrefix + "_blk.bin";
+            string SupposedBLK = Path.GetDirectoryName(openONEfilePath) + "\\" + bspRenderer.currentFileNamePrefix + "_blk.bin";
             if (File.Exists(SupposedBLK))
             {
                 initVisibilityEditor(false, SupposedBLK);
             }
 
             foreach (string s in TextureManager.OpenTXDfiles)
-                if (Path.GetFileNameWithoutExtension(s).ToLower() == currentFileNamePrefix.ToLower())
+                if (Path.GetFileNameWithoutExtension(s).ToLower() == bspRenderer.currentFileNamePrefix.ToLower())
                     return;
 
-            string SupposedTXD = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + currentFileNamePrefix + ".txd";
+            string SupposedTXD = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + bspRenderer.currentFileNamePrefix + ".txd";
             if (File.Exists(SupposedTXD))
             {
-                TextureManager.LoadTexturesFromTXD(SupposedTXD);
+                TextureManager.LoadTexturesFromTXD(SupposedTXD, renderer, bspRenderer);
             }
         }
 
@@ -130,10 +135,10 @@ namespace HeroesPowerPlant.LevelEditor
 
             Archive one = new Archive(CommonRWVersions.Heroes);
 
-            foreach (RenderWareModelFile i in BSPList)
-                Program.LevelEditor.progressBar1.Maximum += i.GetAsByteArray().Length;
+            foreach (RenderWareModelFile i in bspRenderer.BSPList)
+                progressBar1.Maximum += i.GetAsByteArray().Length;
 
-            foreach (RenderWareModelFile i in BSPList)
+            foreach (RenderWareModelFile i in bspRenderer.BSPList)
             {
                 one.Files.Add(new ArchiveFile(i.fileName, i.GetAsByteArray()));
 
@@ -156,19 +161,19 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 fileName = Path.GetFileName(fileName);
                 if (fileName.StartsWith("stg"))
-                    currentFileNamePrefix = fileName.Substring(0, 5);
+                    bspRenderer.currentFileNamePrefix = fileName.Substring(0, 5);
                 else if (fileName.StartsWith("s"))
-                    currentFileNamePrefix = fileName.Substring(0, 3);
+                    bspRenderer.currentFileNamePrefix = fileName.Substring(0, 3);
                 else
                 {
                     MessageBox.Show("Sorry, but I couldn't figure out the level from your file name.");
-                    currentFileNamePrefix = "";
+                    bspRenderer.currentFileNamePrefix = "";
                 }
             }
             catch
             {
                 MessageBox.Show("Sorry, but I couldn't figure out the level from your file name.");
-                currentFileNamePrefix = "";
+                bspRenderer.currentFileNamePrefix = "";
             }
         }
 
@@ -178,7 +183,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 labelLoadedONE.Text = "Loaded " + openONEfilePath;
                 listBoxLevelModels.Items.Clear();
-                foreach (RenderWareModelFile item in BSPList)
+                foreach (RenderWareModelFile item in bspRenderer.BSPList)
                 {
                     listBoxLevelModels.Items.Add(item.fileName);
                 }
@@ -206,18 +211,18 @@ namespace HeroesPowerPlant.LevelEditor
 
                         if (Path.GetExtension(i).ToLower() == ".obj")
                         {
-                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked), null);
+                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                         }
                         else if (Path.GetExtension(i).ToLower() == ".dae")
                         {
-                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked), null);
+                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                         }
                         else if (new string[] { ".bsp", ".rg1", ".rp2", ".rx1" }.Contains(Path.GetExtension(i).ToLower()))
                         {
                             file.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                         }
 
-                        BSPList.Add(file);
+                        bspRenderer.BSPList.Add(file);
                         listBoxLevelModels.Items.Add(file.fileName);
                         progressBar1.PerformStep();
                     }
@@ -240,9 +245,9 @@ namespace HeroesPowerPlant.LevelEditor
                 if (a.ShowDialog() == DialogResult.OK)
                 {
                     if (Path.GetExtension(a.FileName).ToLower() == ".obj")
-                        ConvertBSPtoOBJ(a.FileName, BSPList[listBoxLevelModels.SelectedIndex]);
+                        ConvertBSPtoOBJ(a.FileName, bspRenderer.BSPList[listBoxLevelModels.SelectedIndex], checkBoxFlipUVs.Checked);
                     else if (Path.GetExtension(a.FileName).ToLower() == ".bsp")
-                        File.WriteAllBytes(a.FileName, BSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
+                        File.WriteAllBytes(a.FileName, bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
                 }
             }
             else
@@ -257,24 +262,24 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     if (listBoxLevelModels.SelectedIndices.Count > 1)
                         foreach (int i in listBoxLevelModels.SelectedIndices)
-                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, BSPList[i].fileName), BSPList[i]);
+                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, bspRenderer.BSPList[i].fileName), bspRenderer.BSPList[i], checkBoxFlipUVs.Checked);
                     else
-                        for (int i = 0; i < BSPList.Count; i++)
-                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, BSPList[i].fileName), BSPList[i]);
+                        for (int i = 0; i < bspRenderer.BSPList.Count; i++)
+                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, bspRenderer.BSPList[i].fileName), bspRenderer.BSPList[i], checkBoxFlipUVs.Checked);
                 }
             }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < BSPList.Count; i++)
+            for (int i = 0; i < bspRenderer.BSPList.Count; i++)
             {
                 if (listBoxLevelModels.SelectedIndices.Contains(i))
                 {
-                    foreach (SharpMesh mesh in BSPList[i].meshList)
+                    foreach (SharpMesh mesh in bspRenderer.BSPList[i].meshList)
                         mesh.Dispose();
 
-                    BSPList.RemoveAt(i);
+                    bspRenderer.BSPList.RemoveAt(i);
                     listBoxLevelModels.Items.RemoveAt(i);
                     i -= 1;
                 }
@@ -284,11 +289,11 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            foreach (RenderWareModelFile r in BSPList)
+            foreach (RenderWareModelFile r in bspRenderer.BSPList)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
 
-            BSPList.Clear();
+            bspRenderer.BSPList.Clear();
             listBoxLevelModels.Items.Clear();
         }
         
@@ -299,8 +304,8 @@ namespace HeroesPowerPlant.LevelEditor
                 string newName = EditBSPName.GetName(listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex].ToString());
 
                 listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex] = newName;
-                BSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
-                BSPList[listBoxLevelModels.SelectedIndex].SetChunkNumberAndName();
+                bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
+                bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].SetChunkNumberAndName();
             }
         }
 
@@ -317,8 +322,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             foreach (int i in listBoxLevelModels.SelectedIndices)
             {
-                vertices += BSPList[i].vertexAmount;
-                triangles += BSPList[i].triangleAmount;
+                vertices += bspRenderer.BSPList[i].vertexAmount;
+                triangles += bspRenderer.BSPList[i].triangleAmount;
             }
 
             labelVertexAmount.Text = "Vertices: " + vertices.ToString();
@@ -378,19 +383,19 @@ namespace HeroesPowerPlant.LevelEditor
         {
             listBoxLevelModels.Items.Clear();
             openONEfilePath = null;
-            currentFileNamePrefix = "default";
-            currentShadowFolderNamePrefix = "default";
+            bspRenderer.currentFileNamePrefix = "default";
+            bspRenderer.currentShadowFolderNamePrefix = "default";
             labelLoadedONE.Text = "No stage loaded";
-            BSPRenderer.Dispose();
-            BSPList.Clear();
-            ShadowColBSPList.Clear();
+            bspRenderer.Dispose();
+            bspRenderer.BSPList.Clear();
+            bspRenderer.ShadowColBSPList.Clear();
             InitBSPList();
         }
 
         // Shadow Level Editor
 
-        public ShadowCollisionEditor shadowCollisionEditor = new ShadowCollisionEditor();
-        public ShadowSplineMenu shadowSplineEditor = new ShadowSplineMenu();
+        public ShadowCollisionEditor shadowCollisionEditor;
+        public ShadowSplineMenu shadowSplineEditor;
 
         private void newToolStripMenuItem2_Click(object sender, EventArgs e)
         {
@@ -422,7 +427,7 @@ namespace HeroesPowerPlant.LevelEditor
             SetShadowMode();
             openONEfilePath = fileName;
 
-            LoadShadowLevelFolder(Program.MainForm.renderer, openONEfilePath);
+            bspRenderer.LoadShadowLevelFolder(Program.MainForm.renderer, openONEfilePath, this);
 
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
@@ -454,14 +459,14 @@ namespace HeroesPowerPlant.LevelEditor
         {
             SetShadowMode();
             openONEfilePath = levelPath;
-            currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(levelPath);
+            bspRenderer.currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(levelPath);
 
             string datONEpath = null;
 
             foreach (string fileName in Directory.GetFiles(levelPath))
             {
                 if (Path.GetExtension(fileName).ToLower() == ".one"
-                    & Path.GetFileName(fileName).StartsWith(currentShadowFolderNamePrefix)
+                    & Path.GetFileName(fileName).StartsWith(bspRenderer.currentShadowFolderNamePrefix)
                     & !fileName.Contains("dat")
                     & !fileName.Contains("fx")
                     & !fileName.Contains("gdt")
@@ -476,11 +481,11 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             if (datONEpath == null)
-                datONEpath = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_dat.one");
+                datONEpath = Path.Combine(openONEfilePath, bspRenderer.currentShadowFolderNamePrefix + "_dat.one");
 
             List<RenderWareModelFile> fileList = new List<RenderWareModelFile>();
-            fileList.AddRange(BSPList);
-            fileList.AddRange(ShadowColBSPList);
+            fileList.AddRange(bspRenderer.BSPList);
+            fileList.AddRange(bspRenderer.ShadowColBSPList);
 
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
@@ -512,14 +517,14 @@ namespace HeroesPowerPlant.LevelEditor
 
             foreach (int i in oneDict.Keys)
             {
-                string fileName = Path.Combine(openONEfilePath, currentShadowFolderNamePrefix + "_" + i.ToString("D2") + ".one");
+                string fileName = Path.Combine(openONEfilePath, bspRenderer.currentShadowFolderNamePrefix + "_" + i.ToString("D2") + ".one");
                 File.WriteAllBytes(fileName, oneDict[i].BuildShadowONEArchive(true).ToArray());
             }
             
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
             
-            SaveShadowVisibilityFile(ChunkList, currentShadowFolderNamePrefix, datONEpath);
+            VisibilityFunctions.SaveShadowVisibilityFile(visibilityFunctions.ChunkList, bspRenderer.currentShadowFolderNamePrefix, datONEpath);
             shadowSplineEditor.Save(datONEpath);
 
             progressBar1.Value = 0;
@@ -539,11 +544,11 @@ namespace HeroesPowerPlant.LevelEditor
         {
             if (isShadowMode && isShadowCollision)
             {
-                BSPRenderer.GetClickedModelPosition(true, ray, out found, out smallestDistance);
+                bspRenderer.GetClickedModelPosition(true, ray, out found, out smallestDistance);
             }
             else if (!isShadowMode && !isShadowCollision)
             {
-                BSPRenderer.GetClickedModelPosition(false, ray, out found, out smallestDistance);
+                bspRenderer.GetClickedModelPosition(false, ray, out found, out smallestDistance);
             }
             else
             {
@@ -551,15 +556,25 @@ namespace HeroesPowerPlant.LevelEditor
                 smallestDistance = 0;
             }
         }
-            
+
+        public void RenderLevelModel(SharpRenderer renderer)
+        {
+            bspRenderer.RenderLevelModel(renderer, visibilityFunctions.ChunkList);
+        }
+
+        public void RenderShadowCollisionModel(SharpRenderer renderer)
+        {
+            bspRenderer.RenderShadowCollisionModel(renderer, visibilityFunctions.ChunkList);
+        }
+
         // BLK Editor
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            OpenVisibilityFile = null;
-            ChunkList.Clear();
-            numericCurrentChunk.Maximum = ChunkList.Count();
-            labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+            visibilityFunctions.OpenVisibilityFile = null;
+            visibilityFunctions.ChunkList.Clear();
+            numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
+            labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             labelLoadedBLK.Text = "No BLK loaded";
         }
         
@@ -581,32 +596,32 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 if (isShadow)
                 {
-                    OpenVisibilityFile = null;
+                    visibilityFunctions.OpenVisibilityFile = null;
                     byte[] bytes = File.ReadAllBytes(fileName);
-                    ChunkList = LoadShadowVisibilityFile(Archive.FromONEFile(ref bytes));
+                    visibilityFunctions.ChunkList = VisibilityFunctions.LoadShadowVisibilityFile(Archive.FromONEFile(ref bytes));
                     labelLoadedBLK.Text = "";
                 }
                 else
                 {
-                    OpenVisibilityFile = fileName;
-                    ChunkList = LoadHeroesVisibilityFile(OpenVisibilityFile);
+                    visibilityFunctions.OpenVisibilityFile = fileName;
+                    visibilityFunctions.ChunkList = VisibilityFunctions.LoadHeroesVisibilityFile(visibilityFunctions.OpenVisibilityFile);
                     labelLoadedBLK.Text = "Loaded " + fileName;
                 }
 
                 numericCurrentChunk.Minimum = 1;
-                numericCurrentChunk.Maximum = ChunkList.Count();
-                numericCurrentChunk.Value = ChunkList.Count();
+                numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
+                numericCurrentChunk.Value = visibilityFunctions.ChunkList.Count();
                 if (numericCurrentChunk.Maximum != 0)
                     numericCurrentChunk.Value = 1;
 
-                labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+                labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             }
         }
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (OpenVisibilityFile != null)
-                SaveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
+            if (visibilityFunctions.OpenVisibilityFile != null)
+                VisibilityFunctions.SaveHeroesVisibilityFile(visibilityFunctions.ChunkList, visibilityFunctions.OpenVisibilityFile);
             else
                 saveAsToolStripMenuItem1_Click(sender, e);
         }
@@ -616,17 +631,17 @@ namespace HeroesPowerPlant.LevelEditor
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
                 Filter = "BIN files|*.bin",
-                FileName = Path.GetFileName(OpenVisibilityFile),
+                FileName = Path.GetFileName(visibilityFunctions.OpenVisibilityFile),
                 AddExtension = true,
                 DefaultExt = "bin",
-                InitialDirectory = Path.GetDirectoryName(OpenVisibilityFile)
+                InitialDirectory = Path.GetDirectoryName(visibilityFunctions.OpenVisibilityFile)
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                OpenVisibilityFile = saveFileDialog.FileName;
-                SaveHeroesVisibilityFile(ChunkList, OpenVisibilityFile);
-                labelLoadedBLK.Text = "Loaded " + OpenVisibilityFile;
+                visibilityFunctions.OpenVisibilityFile = saveFileDialog.FileName;
+                VisibilityFunctions.SaveHeroesVisibilityFile(visibilityFunctions.ChunkList, visibilityFunctions.OpenVisibilityFile);
+                labelLoadedBLK.Text = "Loaded " + visibilityFunctions.OpenVisibilityFile;
             }
         }
         
@@ -640,47 +655,46 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 if (Path.GetExtension(openFile.FileName).ToLower() == ".bdt")
                 {
-                    ChunkList.AddRange(LoadShadowVisibilityFile(new FileStream(openFile.FileName, FileMode.Open)));
+                    visibilityFunctions.ChunkList.AddRange(VisibilityFunctions.LoadShadowVisibilityFile(new FileStream(openFile.FileName, FileMode.Open)));
                 }
                 else if (Path.GetExtension(openFile.FileName).ToLower() == ".bin")
                 {
-                    ChunkList.AddRange(LoadHeroesVisibilityFile(openFile.FileName));
+                    visibilityFunctions.ChunkList.AddRange(VisibilityFunctions.LoadHeroesVisibilityFile(openFile.FileName));
                 }
 
                 numericCurrentChunk.Minimum = 1;
-                numericCurrentChunk.Maximum = ChunkList.Count();
-                numericCurrentChunk.Value = ChunkList.Count();
+                numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
+                numericCurrentChunk.Value = visibilityFunctions.ChunkList.Count();
                 if (numericCurrentChunk.Maximum != 0)
                     numericCurrentChunk.Value = 1;
 
-                labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+                labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             }
         }
 
-        public string OpenVisibilityFile;
         bool ProgramIsChangingStuff = false;
         
         private void numericCurrentChunk_ValueChanged(object sender, EventArgs e)
         {
             ProgramIsChangingStuff = true;
 
-            foreach (Chunk c in ChunkList)
+            foreach (Chunk c in visibilityFunctions.ChunkList)
                 c.isSelected = false;
             
             int i = (int)numericCurrentChunk.Value - 1;
 
-            if (ChunkList.Count > 0)
+            if (visibilityFunctions.ChunkList.Count > 0)
             {
-                NumChunkNum.Value = ChunkList[i].number;
-                NumMinX.Value = (decimal)ChunkList[i].Min.X;
-                NumMinY.Value = (decimal)ChunkList[i].Min.Y;
-                NumMinZ.Value = (decimal)ChunkList[i].Min.Z;
-                NumMaxX.Value = (decimal)ChunkList[i].Max.X;
-                NumMaxY.Value = (decimal)ChunkList[i].Max.Y;
-                NumMaxZ.Value = (decimal)ChunkList[i].Max.Z;
+                NumChunkNum.Value = visibilityFunctions.ChunkList[i].number;
+                NumMinX.Value = (decimal)visibilityFunctions.ChunkList[i].Min.X;
+                NumMinY.Value = (decimal)visibilityFunctions.ChunkList[i].Min.Y;
+                NumMinZ.Value = (decimal)visibilityFunctions.ChunkList[i].Min.Z;
+                NumMaxX.Value = (decimal)visibilityFunctions.ChunkList[i].Max.X;
+                NumMaxY.Value = (decimal)visibilityFunctions.ChunkList[i].Max.Y;
+                NumMaxZ.Value = (decimal)visibilityFunctions.ChunkList[i].Max.Z;
 
-                ChunkList[i].isSelected = true;
-                ChunkList[i].CalculateModel();
+                visibilityFunctions.ChunkList[i].isSelected = true;
+                visibilityFunctions.ChunkList[i].CalculateModel();
             }
 
             ProgramIsChangingStuff = false;
@@ -690,37 +704,41 @@ namespace HeroesPowerPlant.LevelEditor
         {
             Chunk NewChunk = new Chunk();
             NewChunk.CalculateModel();
-            ChunkList.Add(NewChunk);
+            visibilityFunctions.ChunkList.Add(NewChunk);
             numericCurrentChunk.Minimum = 1;
-            numericCurrentChunk.Maximum = ChunkList.Count();
-            numericCurrentChunk.Value = ChunkList.Count();
-            labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+            numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
+            numericCurrentChunk.Value = visibilityFunctions.ChunkList.Count();
+            labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
         }
 
         private void buttonRemoveChunk_Click(object sender, EventArgs e)
         {
-            if (ChunkList.Count > 0)
-                ChunkList.RemoveAt((int)numericCurrentChunk.Value - 1);
+            if (visibilityFunctions.ChunkList.Count > 0)
+                visibilityFunctions.ChunkList.RemoveAt((int)numericCurrentChunk.Value - 1);
 
-            numericCurrentChunk.Maximum = ChunkList.Count();
-            labelChunkAmount.Text = "Amount: " + ChunkList.Count();
+            numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
+            labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             numericCurrentChunk_ValueChanged(new object(), new EventArgs());
         }
 
         private void buttonAutoChunk_Click(object sender, EventArgs e)
         {
-            if (ChunkList.Count > 0)
+            if (visibilityFunctions.ChunkList.Count > 0)
             {
-                AutoChunk(ChunkList[(int)numericCurrentChunk.Value - 1], out bool success, out Vector3 Min, out Vector3 Max);
+                List<RenderWareModelFile> bspAndCol = new List<RenderWareModelFile>();
+                bspAndCol.AddRange(bspRenderer.BSPList);
+                bspAndCol.AddRange(bspRenderer.ShadowColBSPList);
+
+                VisibilityFunctions.AutoChunk(visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1], bspAndCol, out bool success, out Vector3 Min, out Vector3 Max);
 
                 if (success)
                 {
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Min.X = (int)(Min.X - (int)numericUpDownAdd.Value);
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Min.Y = (int)(Min.Y - (int)numericUpDownAdd.Value);
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Min.Z = (int)(Min.Z - (int)numericUpDownAdd.Value);
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Max.X = (int)(Max.X + (int)numericUpDownAdd.Value);
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Max.Y = (int)(Max.Y + (int)numericUpDownAdd.Value);
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)(Max.Z + (int)numericUpDownAdd.Value);
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Min.X = (int)(Min.X - (int)numericUpDownAdd.Value);
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Min.Y = (int)(Min.Y - (int)numericUpDownAdd.Value);
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Min.Z = (int)(Min.Z - (int)numericUpDownAdd.Value);
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.X = (int)(Max.X + (int)numericUpDownAdd.Value);
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Y = (int)(Max.Y + (int)numericUpDownAdd.Value);
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)(Max.Z + (int)numericUpDownAdd.Value);
                     numericCurrentChunk_ValueChanged(new object(), new EventArgs());
                 }
                 else
@@ -733,22 +751,22 @@ namespace HeroesPowerPlant.LevelEditor
         private void NumChunkNum_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
-                if (ChunkList.Count > 0)
-                    ChunkList[(int)numericCurrentChunk.Value - 1].number = (int)NumChunkNum.Value;
+                if (visibilityFunctions.ChunkList.Count > 0)
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].number = (int)NumChunkNum.Value;
         }
 
         private void NumMaxMin_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
-                if (ChunkList.Count > 0)
+                if (visibilityFunctions.ChunkList.Count > 0)
                 {
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Min.X = (int)NumMinX.Value;
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Min.Y = (int)NumMinY.Value;
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Min.Z = (int)NumMinZ.Value;
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Max.X = (int)NumMaxX.Value;
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Max.Y = (int)NumMaxY.Value;
-                    ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)NumMaxZ.Value;
-                    ChunkList[(int)numericCurrentChunk.Value - 1].CalculateModel();
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Min.X = (int)NumMinX.Value;
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Min.Y = (int)NumMinY.Value;
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Min.Z = (int)NumMinZ.Value;
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.X = (int)NumMaxX.Value;
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Y = (int)NumMaxY.Value;
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)NumMaxZ.Value;
+                    visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].CalculateModel();
                 }
         }
     }

@@ -1,10 +1,10 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1102_CastleWall : SetObjectManagerHeroes
+    public class Object0705_Capsule : SetObjectManagerHeroes
     {
         public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
-            if (ModelNumber == 0)
+            if (Type == 0)
             {
                 Draw(renderer, modelNames[0], isSelected);
                 Draw(renderer, modelNames[1], isSelected);
@@ -16,16 +16,16 @@
             }
         }
 
-        public int ModelNumber
+        public Item Itembox
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            get => (Item)ReadByte(4);
+            set => Write(4, (byte)value);
         }
 
-        public bool IsUpsideDown
+        public byte Type
         {
-            get => ReadInt(8) != 0;
-            set => Write(8, value ? 1 : 0);
+            get => ReadByte(5);
+            set => Write(5, value);
         }
     }
 }

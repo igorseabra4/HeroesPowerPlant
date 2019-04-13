@@ -73,7 +73,7 @@ namespace HeroesPowerPlant.LayoutEditor
             listBoxObjects.EndUpdate();
 
             UpdateObjectComboBox();
-            UpdateFileLabel();
+            UpdateFileLabel(Program.MainForm);
         }
 
         private void shadowLayoutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -83,7 +83,7 @@ namespace HeroesPowerPlant.LayoutEditor
             listBoxObjects.EndUpdate();
 
             UpdateObjectComboBox();
-            UpdateFileLabel();
+            UpdateFileLabel(Program.MainForm);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -95,7 +95,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             listBoxObjects.BeginUpdate();
             if (openFile.ShowDialog() == DialogResult.OK)
-                OpenFile(openFile.FileName);
+                OpenFile(openFile.FileName, Program.MainForm);
             listBoxObjects.EndUpdate();
         }
 
@@ -109,7 +109,13 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             SaveAs();
         }
-        
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.MainForm.CloseLayoutEditor(this);
+            Close();
+        }
+
         private void byIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listBoxObjects.BeginUpdate();
@@ -192,18 +198,17 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             ProgramIsChangingStuff = true;
 
-            if (SelectedIndex < layoutSystem.GetSetObjectAmount())
+            layoutSystem.SelectedIndexChanged(SelectedIndex);
+
+            if (SelectedIndex != -1)
             {
-                layoutSystem.SelectedIndexChanged(SelectedIndex);
-                if (SelectedIndex != -1)
-                {
-                    UpdateDisplayData();
-                    UpdateGizmoPosition();
-                }
-                else
-                {
-                    ClearGizmos();
-                }
+                UpdateDisplayData();
+                UpdateGizmoPosition();
+            }
+            else
+            {
+                DisableDisplayData();
+                ClearGizmos();
             }
 
             ProgramIsChangingStuff = false;
@@ -368,13 +373,13 @@ namespace HeroesPowerPlant.LayoutEditor
             return layoutSystem.CurrentlyOpenFileName;
         }
 
-        public void OpenFile(string fileName)
+        public void OpenFile(string fileName, MainForm.MainForm mainForm)
         {
             layoutSystem.SelectedIndexChanged(-1);
             ProgramIsChangingStuff = true;
             layoutSystem.OpenLayoutFile(fileName);
             UpdateObjectComboBox();
-            UpdateFileLabel();
+            UpdateFileLabel(mainForm);
         }
 
         private void SaveAs()
@@ -387,7 +392,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
                 layoutSystem.Save(saveFile.FileName);
-                UpdateFileLabel();
+                UpdateFileLabel(Program.MainForm);
             }
         }
 
@@ -405,7 +410,9 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public void PlaceObject(Vector3 Position)
         {
-            layoutSystem.AddNewSetObject(Position, true, SelectedIndex);
+            if (SelectedIndex == -1)
+                return;
+            layoutSystem.CopySetObject(SelectedIndex, Position);
             SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
@@ -443,6 +450,9 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (SelectedIndex != -1)
             {
+                if (displayDataDisabled)
+                    EnableDisplayData();
+
                 ProgramIsChangingStuff = true;
 
                 NumericPosX.Value = layoutSystem.GetPosX(SelectedIndex);
@@ -465,6 +475,50 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateObjectAmountLabel();
         }
 
+        private bool displayDataDisabled = true;
+
+        private void DisableDisplayData()
+        {
+            if (!displayDataDisabled)
+            {
+                ComboBoxObject.Enabled = false;
+                groupBox3.Enabled = false;
+                GroupBox2.Enabled = false;
+                NumericObjLink.Enabled = false;
+                NumericObjRend.Enabled = false;
+                GroupBoxGameStuff.Enabled = false;
+                PropertyGridMisc.Enabled = false;
+                buttonViewHere.Enabled = false;
+                buttonDrop.Enabled = false;
+                buttonCurrentViewDrop.Enabled = false;
+                ButtonRemove.Enabled = false;
+                buttonCopy.Enabled = false;
+                
+                displayDataDisabled = true;
+            }
+        }
+
+        private void EnableDisplayData()
+        {
+            if (displayDataDisabled)
+            {
+                ComboBoxObject.Enabled = true;
+                groupBox3.Enabled = true;
+                GroupBox2.Enabled = true;
+                NumericObjLink.Enabled = true;
+                NumericObjRend.Enabled = true;
+                GroupBoxGameStuff.Enabled = true;
+                PropertyGridMisc.Enabled = true;
+                buttonViewHere.Enabled = true;
+                buttonDrop.Enabled = true;
+                buttonCurrentViewDrop.Enabled = true;
+                ButtonRemove.Enabled = true;
+                buttonCopy.Enabled = true;
+
+                displayDataDisabled = false;
+            }
+        }
+
         private void UpdateObjectAmountLabel()
         {
             if (listBoxObjects.Items.Count == 0)
@@ -478,12 +532,15 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        private void UpdateFileLabel()
+        private void UpdateFileLabel(MainForm.MainForm mainForm)
         {
             if (layoutSystem.CurrentlyOpenFileName == null)
                 openFileLabel.Text = "No file loaded";
             else
                 openFileLabel.Text = layoutSystem.CurrentlyOpenFileName;
+
+            Text = "Layout Editor - " + Path.GetFileName(layoutSystem.CurrentlyOpenFileName);
+            mainForm.SetLayoutEditorStripItemName(this, Path.GetFileName(layoutSystem.CurrentlyOpenFileName));
         }
 
         private void UpdateDescriptionBox(ObjectEntry objectEntry)
@@ -516,22 +573,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             layoutSystem.UpdateSetParticleMatrices();
         }
-
-        public IEnumerable<ObjectEntry> GetAllObjectEntries()
-        {
-            return layoutSystem.GetAllObjectEntries();
-        }
-
-        public ObjectEntry[] GetHeroesObjectEntries()
-        {
-            return layoutSystem.GetHeroesObjectEntries();
-        }
-
-        public ObjectEntry[] GetShadowObjectEntries()
-        {
-            return layoutSystem.GetShadowObjectEntries();
-        }
-
+        
         public ObjectEntry[] GetAllCurrentObjectEntries()
         {
             return layoutSystem.GetAllCurrentObjectEntries();

@@ -11,11 +11,11 @@ namespace HeroesPowerPlant.SplineEditor
         private string splineFolder;
         private int CurrentlySelectedObject = -1;
 
-        public void AddSplines(string[] fileNames)
+        public void AddSplines(string[] fileNames, SharpRenderer renderer)
         {
             foreach (string i in fileNames)
             {
-                Spline s = Spline.FromFile(i);
+                Spline s = Spline.FromFile(i, renderer);
 
                 if (s.Points.Length < 2)
                 {
@@ -95,7 +95,7 @@ namespace HeroesPowerPlant.SplineEditor
                 s.Dispose();
         }
 
-        public void SplineEditorOpenConfig(string ConfigFileName)
+        public void SplineEditorOpenConfig(string ConfigFileName, SharpRenderer renderer)
         {
             DisposeSplines();
             SplineList = new List<Spline>();
@@ -107,12 +107,12 @@ namespace HeroesPowerPlant.SplineEditor
 
             foreach (string i in Directory.GetFiles(splineFolder))
                 if (Path.GetExtension(i) == ".obj")
-                    SplineList.Add(Spline.FromFile(i));
+                    SplineList.Add(Spline.FromFile(i, renderer));
         }
 
-        public void Save()
+        public void Save(string configFilePath)
         {
-            splineFolder = Path.GetDirectoryName(Program.ConfigEditor.GetOpenConfigFileName()) + "\\Splines\\";
+            splineFolder = Path.GetDirectoryName(configFilePath) + "\\Splines\\";
 
             if (!Directory.Exists(splineFolder))
                 Directory.CreateDirectory(splineFolder);

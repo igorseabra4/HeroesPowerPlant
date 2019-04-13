@@ -12,22 +12,43 @@ namespace HeroesPowerPlant.CollisionEditor
     public class CollisionSystem
     {
         public string CurrentCLfileName;
-        public int NumVertices { get => data.numVertices; }
-        public int NumTriangles { get => data.numTriangles; }
-        public int NumQuadNodes { get => data.numQuadnodes; }
-        public byte DepthLevel { get => data.MaxDepth; }
+        public int NumVertices => data.numVertices;
+        public int NumTriangles => data.numTriangles;
+        public int NumQuadNodes => data.numQuadnodes;
+        public byte DepthLevel => data.MaxDepth;
 
         private CLFile data;
+        private CollisionRenderer collisionRenderer;
 
-        public void Import(string sourceOBJfile, byte depthLevel)
+        public CollisionSystem()
         {
-            ConvertOBJtoCL(sourceOBJfile, CurrentCLfileName, depthLevel);
+            collisionRenderer = new CollisionRenderer();
         }
 
-        public void NewFile(string sourceOBJfile, string destinationCLfile, byte depthLevel)
+        public void Render(SharpRenderer renderer)
+        {
+            collisionRenderer.RenderCollisionModel(renderer);
+        }
+
+        public void RenderQuadtree(SharpRenderer renderer)
+        {
+            collisionRenderer.RenderQuadTree(renderer);
+        }
+
+        public void Dispose()
+        {
+            collisionRenderer.Dispose();
+        }
+
+        public void Import(string sourceOBJfile, ushort basePower, byte depthLevel, bool flipNormals, ProgressBar bar)
+        {
+            ConvertOBJtoCL(sourceOBJfile, CurrentCLfileName, basePower, depthLevel, flipNormals, bar);
+        }
+
+        public void NewFile(string sourceOBJfile, string destinationCLfile, ushort basePower, byte depthLevel, bool flipNormals, ProgressBar bar)
         {
             CurrentCLfileName = destinationCLfile;
-            Import(sourceOBJfile, depthLevel);
+            Import(sourceOBJfile, basePower, depthLevel, flipNormals, bar);
         }
 
         public void Open(string fileName)
@@ -43,7 +64,7 @@ namespace HeroesPowerPlant.CollisionEditor
         public void Close()
         {
             CurrentCLfileName = null;
-            CollisionRendering.Dispose();
+            collisionRenderer.Dispose();
         }
 
         public bool HasOpenedFile()
@@ -51,30 +72,30 @@ namespace HeroesPowerPlant.CollisionEditor
             return CurrentCLfileName != null;
         }
 
-        public void LoadCLFile()
+        public void LoadCLFile(SharpDevice device, ProgressBar bar)
         {
-            CollisionRendering.Dispose();
+            collisionRenderer.Dispose();
 
-            data = CollisionRendering.LoadCLFile(CurrentCLfileName, Program.MainForm.renderer.Device);
+            data = collisionRenderer.LoadCLFile(CurrentCLfileName, device, bar);
         }
 
-        public void ConvertOBJtoCL(string InputFile, string OutputFile, byte depthLevel)
+        public void ConvertOBJtoCL(string InputFile, string OutputFile, ushort basePower, byte depthLevel, bool flipNormals, ProgressBar bar)
         {
             CLFile data = new CLFile(depthLevel);
 
-            Program.CollisionEditor.progressBar1.Minimum = 0;
-            Program.CollisionEditor.progressBar1.Value = 0;
-            Program.CollisionEditor.progressBar1.Step = 1;
+            bar.Minimum = 0;
+            bar.Value = 0;
+            bar.Step = 1;
 
-            if (ReadOBJFile(InputFile, ref data))
-                if (GenerateCollision(ref data))
-                    CreateCLFile(OutputFile, ref data);
+            if (ReadOBJFile(InputFile, ref data, flipNormals, bar))
+                if (GenerateCollision(ref data, basePower, bar))
+                    CreateCLFile(OutputFile, ref data, bar);
         }
 
-        public bool ReadOBJFile(string InputFile, ref CLFile data)
+        public bool ReadOBJFile(string InputFile, ref CLFile data, bool flipNormals, ProgressBar bar)
         {
             string[] OBJFile = File.ReadAllLines(InputFile);
-            Program.CollisionEditor.progressBar1.Maximum = 65535 + OBJFile.Length;
+            bar.Maximum = 65535 + OBJFile.Length;
 
             int CurrentMeshNum = -1;
             byte[] TempColFlags = { 0, 0, 0, 0x0 };
@@ -89,7 +110,7 @@ namespace HeroesPowerPlant.CollisionEditor
                     string a = Regex.Replace(j, @"\s+", " ");
                     string[] SubStrings = a.Split(' ');
                     CLVertexList.Add(new CollisionVertex(Convert.ToSingle(SubStrings[1]), Convert.ToSingle(SubStrings[2]), Convert.ToSingle(SubStrings[3])));
-                    Program.CollisionEditor.progressBar1.PerformStep();
+                    bar.PerformStep();
                 }
                 else if (j.StartsWith("f "))
                 {
@@ -98,8 +119,8 @@ namespace HeroesPowerPlant.CollisionEditor
                     (ushort)(Convert.ToUInt16(SubStrings[1].Split('/')[0]) - 1),
                     (ushort)(Convert.ToUInt16(SubStrings[2].Split('/')[0]) - 1),
                     (ushort)(Convert.ToUInt16(SubStrings[3].Split('/')[0]) - 1),
-                    CurrentMeshNum, TempColFlags, CLVertexList));
-                    Program.CollisionEditor.progressBar1.PerformStep();
+                    CurrentMeshNum, TempColFlags, CLVertexList, flipNormals));
+                    bar.PerformStep();
                 }
                 else if (j.StartsWith("g ") | j.StartsWith("o "))
                 {
@@ -155,7 +176,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 }
             }
 
-            Program.CollisionEditor.progressBar1.Maximum = 65535 + CLVertexList.Count() + CLTriangleList.Count();
+            bar.Maximum = 65535 + CLVertexList.Count() + CLTriangleList.Count();
 
             if (CLVertexList.Count >= 0xffff)
             {
@@ -181,7 +202,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return true;
         }
 
-        public bool GenerateCollision(ref CLFile data)
+        public bool GenerateCollision(ref CLFile data, ushort basePower, ProgressBar bar)
         {
             //Let's start with quadtree maximums, minimums and center
             float MaxX = data.CLVertexArray[0].Position.X;
@@ -229,9 +250,9 @@ namespace HeroesPowerPlant.CollisionEditor
             data.numVertices = (ushort)data.CLVertexArray.Count();
 
             //Now let's build the quadtree
-            data.basePower = (ushort)Program.CollisionEditor.numericUpDownPowerFlag.Value;
+            data.basePower = basePower;
 
-            if (BuildQuadtree(ref data))
+            if (BuildQuadtree(ref data, bar))
             {
                 data.numQuadnodes = (ushort)data.CLQuadNodeList.Count;
                 return true;
@@ -240,7 +261,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return false;
         }
 
-        public bool BuildQuadtree(ref CLFile data)
+        public bool BuildQuadtree(ref CLFile data, ProgressBar bar)
         {
             QuadNode TempNode = new QuadNode();
 
@@ -253,7 +274,7 @@ namespace HeroesPowerPlant.CollisionEditor
             TempNode.NodeTriangleArray = Range((ushort)data.CLTriangleArray.Count());
 
             data.CLQuadNodeList.Add(TempNode);
-            Program.CollisionEditor.progressBar1.PerformStep();
+            bar.PerformStep();
 
             int i = 0;
 
@@ -264,9 +285,13 @@ namespace HeroesPowerPlant.CollisionEditor
                     data.CLQuadNodeList[i].Child = (ushort)data.CLQuadNodeList.Count;
 
                     data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 0, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
+                    bar.PerformStep();
                     data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 1, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
+                    bar.PerformStep();
                     data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 2, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
+                    bar.PerformStep();
                     data.CLQuadNodeList.Add(CreateNode(data.CLQuadNodeList[i], 3, (ushort)data.CLQuadNodeList.Count, data.basePower, data.CLTriangleArray));
+                    bar.PerformStep();
 
                     data.CLQuadNodeList[i].NodeTriangleArray = null;
                     data.CLQuadNodeList[i].NodeTriangleAmount = 0;
@@ -274,7 +299,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 i += 1;
             }
 
-            Program.CollisionEditor.progressBar1.Maximum = 2 * data.CLVertexArray.Count() + 2 * data.CLTriangleArray.Count() + 4 * data.CLQuadNodeList.Count();
+            bar.Maximum = 2 * data.CLVertexArray.Count() + 2 * data.CLTriangleArray.Count() + 4 * data.CLQuadNodeList.Count();
             return true;
         }
 
@@ -316,13 +341,12 @@ namespace HeroesPowerPlant.CollisionEditor
             NodeChild.NodeTriangleArray = GetTrianglesInsideNode(NodeChild, NodeParent.NodeTriangleArray, CLTriangleArray);
             NodeChild.NodeTriangleAmount = (ushort)NodeChild.NodeTriangleArray.Count();
 
-            Program.CollisionEditor.progressBar1.PerformStep();
             return NodeChild;
         }
 
-        public UInt16[] GetTrianglesInsideNode(QuadNode Node, ushort[] TriangleList, Triangle[] CLTriangleArray)
+        public ushort[] GetTrianglesInsideNode(QuadNode Node, ushort[] TriangleList, Triangle[] CLTriangleArray)
         {
-            List<UInt16> NodeTriangleList = new List<UInt16>();
+            List<ushort> NodeTriangleList = new List<ushort>();
 
             foreach (ushort i in TriangleList)
                 if (Node.NodeSquare.Intersects(CLTriangleArray[i].TasRect))
@@ -335,7 +359,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return NodeTriangleList.ToArray();
         }
 
-        public bool CreateCLFile(string FileName, ref CLFile data)
+        public bool CreateCLFile(string FileName, ref CLFile data, ProgressBar bar)
         {
             //Finally, let's write the file
             BinaryWriter FileWriter = new BinaryWriter(new MemoryStream(
@@ -354,7 +378,7 @@ namespace HeroesPowerPlant.CollisionEditor
                         FileWriter.Write(Switch(j));
                     }
                 }
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
 
             if (FileWriter.BaseStream.Position % 4 == 2)
@@ -380,7 +404,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 FileWriter.Write((ushort)0);
                 FileWriter.Write(0);
 
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
 
             data.pointTriangle = (uint)FileWriter.BaseStream.Position;
@@ -403,7 +427,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 FileWriter.Write(Switch(i.MeshNum));
                 FileWriter.Write((ushort)0);
 
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
 
             data.pointVertex = (uint)FileWriter.BaseStream.Position;
@@ -414,7 +438,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 FileWriter.Write(Switch(i.Position.Y));
                 FileWriter.Write(Switch(i.Position.Z));
 
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
 
             data.numBytes = (uint)FileWriter.BaseStream.Position;

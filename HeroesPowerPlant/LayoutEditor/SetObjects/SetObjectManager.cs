@@ -19,20 +19,16 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public virtual void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
-            if (modelNames != null)
-                if (modelNames.Length > 0)
-                {
-                    foreach (string s in modelNames)
-                        Draw(renderer, s, isSelected);
-                    return;
-                }
-
-            DrawCube(renderer, isSelected);
+            if (modelNames != null && modelNames.Length > 0)
+                foreach (string s in modelNames)
+                    Draw(renderer, s, isSelected);
+            else
+                DrawCube(renderer, isSelected);
         }
 
         protected void Draw(SharpRenderer renderer, string modelName, bool isSelected)
         {
-            if (DFFRenderer.DFFModels.ContainsKey(modelName))
+            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelName))
             {
                 renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
 
@@ -51,7 +47,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
                 renderer.tintedShader.Apply();
 
-                DFFRenderer.DFFModels[modelName].Render(renderer.Device);
+                Program.MainForm.renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
             }
             else
             {
@@ -88,8 +84,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
             List<Vector3> list = new List<Vector3>();
             foreach (string m in modelNames)
-                if (DFFRenderer.DFFModels.ContainsKey(m))
-                    list.AddRange(DFFRenderer.DFFModels[m].vertexListG);
+                if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(m))
+                    list.AddRange(Program.MainForm.renderer.dffRenderer.DFFModels[m].vertexListG);
                 else
                     list.AddRange(Program.MainForm.renderer.cubeVertices);
 
@@ -105,13 +101,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
             foreach (string s in ModelNames)
             {
-                if (DFFRenderer.DFFModels.ContainsKey(s))
+                if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(s))
                 {
-                    foreach (RenderWareFile.Triangle t in DFFRenderer.DFFModels[s].triangleList)
+                    foreach (RenderWareFile.Triangle t in Program.MainForm.renderer.dffRenderer.DFFModels[s].triangleList)
                     {
-                        Vector3 v1 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexListG[t.vertex1], transformMatrix);
-                        Vector3 v2 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexListG[t.vertex2], transformMatrix);
-                        Vector3 v3 = (Vector3)Vector3.Transform(DFFRenderer.DFFModels[s].vertexListG[t.vertex3], transformMatrix);
+                        Vector3 v1 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex1], transformMatrix);
+                        Vector3 v2 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex2], transformMatrix);
+                        Vector3 v3 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex3], transformMatrix);
 
                         if (r.Intersects(ref v1, ref v2, ref v3))
                             return true;

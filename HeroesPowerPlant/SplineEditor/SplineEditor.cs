@@ -45,7 +45,7 @@ namespace HeroesPowerPlant.SplineEditor
             };
             if (openSpline.ShowDialog() == DialogResult.OK)
             {
-                splineEditorFunctions.AddSplines(openSpline.FileNames);
+                splineEditorFunctions.AddSplines(openSpline.FileNames, Program.MainForm.renderer);
                 UpdateSplineList();
                 listBoxSplines.SelectedIndex = listBoxSplines.Items.Count - 1;
             }
@@ -73,7 +73,7 @@ namespace HeroesPowerPlant.SplineEditor
 
         public void buttonSave_Click(object sender, EventArgs e)
         {
-            splineEditorFunctions.Save();
+            splineEditorFunctions.Save(Program.MainForm.ConfigEditor.GetOpenConfigFileName());
         }
 
         private void buttonViewHere_Click(object sender, EventArgs e)
@@ -87,9 +87,9 @@ namespace HeroesPowerPlant.SplineEditor
             UpdateSplineList();
         }
 
-        public void SplineEditorOpenConfig(string fileName)
+        public void SplineEditorOpenConfig(string fileName, SharpRenderer renderer)
         {
-            splineEditorFunctions.SplineEditorOpenConfig(fileName);
+            splineEditorFunctions.SplineEditorOpenConfig(fileName, renderer);
             UpdateSplineList();
         }
 
@@ -112,9 +112,9 @@ namespace HeroesPowerPlant.SplineEditor
             splineEditorFunctions.DisposeSplines();
         }
 
-        public void Save()
+        public void Save(string configFilename)
         {
-            splineEditorFunctions.Save();
+            splineEditorFunctions.Save(configFilename);
         }
     }
 }

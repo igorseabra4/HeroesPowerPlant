@@ -4,7 +4,7 @@
     {
         public int Rate
         {
-            get => ReadLong(4);
+            get => ReadInt(4);
             set => Write(4, value);
         }
     }

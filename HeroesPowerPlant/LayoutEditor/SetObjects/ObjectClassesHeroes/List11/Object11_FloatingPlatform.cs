@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public enum PlatformType
     {
@@ -15,9 +13,15 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
             if (AlternateModel)
-                base.Draw(renderer, modelNames.Skip(2).ToArray(), isSelected);
+            {
+                Draw(renderer, modelNames[2], isSelected);
+                Draw(renderer, modelNames[3], isSelected);
+            }
             else
-                base.Draw(renderer, modelNames.Take(2).ToArray(), isSelected);
+            {
+                Draw(renderer, modelNames[0], isSelected);
+                Draw(renderer, modelNames[1], isSelected);
+            }
         }
 
         public PlatformType PlatformType

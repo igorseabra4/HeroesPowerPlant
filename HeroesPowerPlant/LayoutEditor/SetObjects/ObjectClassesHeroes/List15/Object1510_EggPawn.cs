@@ -111,7 +111,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public int ShotInterval
         {
             //L7
-            get => ReadLong(28);
+            get => ReadInt(28);
             set => Write(28, value);
         }
     }

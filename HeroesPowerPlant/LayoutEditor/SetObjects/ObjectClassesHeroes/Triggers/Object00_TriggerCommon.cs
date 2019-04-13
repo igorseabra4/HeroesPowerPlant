@@ -73,7 +73,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TriggerCommonShape TriggerShape
         {
-            get => (TriggerCommonShape)ReadLong(4);
+            get => (TriggerCommonShape)ReadInt(4);
             set { Write(4, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 

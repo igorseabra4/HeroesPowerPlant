@@ -55,7 +55,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         private uint counter = 0;
         public bool isSelected;
 
-        public void Animate()
+        public void Animate(TexturePatternEditor editor, BSPRenderer bspRenderer, DFFRenderer dffRenderer)
         {
             if (FrameCount == 0)
                 return;
@@ -68,19 +68,19 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 {
                     string newTextureName = AnimationName + "." + frames[i].TextureNumber;
                     if (TextureManager.HasTexture(newTextureName))
-                        TextureManager.SetTextureForAnimation(TextureName, newTextureName);
+                        TextureManager.SetTextureForAnimation(TextureName, newTextureName, bspRenderer, dffRenderer);
                 }
 
             if (isSelected)
-                Program.TexturePatternEditor.SendPlaying(counter);
+                editor.SendPlaying(counter);
         }
 
-        public void StopAnimation()
+        public void StopAnimation(BSPRenderer bspRenderer, DFFRenderer dffRenderer)
         {
             counter = 0;
 
             if (TextureManager.HasTexture(TextureName))
-                TextureManager.SetTextureForAnimation(TextureName, TextureName);
+                TextureManager.SetTextureForAnimation(TextureName, TextureName, bspRenderer, dffRenderer);
         }
     }
 }

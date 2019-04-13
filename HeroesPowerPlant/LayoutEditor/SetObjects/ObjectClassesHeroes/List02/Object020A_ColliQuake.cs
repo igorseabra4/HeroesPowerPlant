@@ -28,7 +28,7 @@
 
         public int Time
         {
-            get => ReadLong(20);
+            get => ReadInt(20);
             set => Write(20, value);
         }
     }

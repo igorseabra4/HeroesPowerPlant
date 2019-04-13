@@ -13,13 +13,13 @@ namespace HeroesPowerPlant.LayoutEditor
     public class LayoutEditorSystem
     {
         private bool isShadow;
-        public bool IsShadow { get => isShadow; }
+        public bool IsShadow => isShadow;
 
         private string currentlyOpenFileName;
-        public string CurrentlyOpenFileName { get => currentlyOpenFileName; }
+        public string CurrentlyOpenFileName => currentlyOpenFileName;
 
-        private ObjectEntry[] heroesObjectEntries;
-        private ObjectEntry[] shadowObjectEntries;
+        private static ObjectEntry[] heroesObjectEntries = ReadObjectListData("Resources\\Lists\\HeroesObjectList.ini");
+        private static ObjectEntry[] shadowObjectEntries = ReadObjectListData("Resources\\Lists\\ShadowObjectList.ini");
 
         public void BindControl(ListControl listControl)
         {
@@ -27,13 +27,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         private BindingList<SetObject> setObjects { get; set; } = new BindingList<SetObject>();
-
-        public LayoutEditorSystem()
-        {
-            heroesObjectEntries = ReadObjectListData("Resources\\Lists\\HeroesObjectList.ini");
-            shadowObjectEntries = ReadObjectListData("Resources\\Lists\\ShadowObjectList.ini");
-        }
-
+        
         public int GetSetObjectAmount()
         {
             return setObjects.Count;
@@ -49,7 +43,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return setObjects[index].objectEntry;
         }
         
-        public IEnumerable<ObjectEntry> GetAllObjectEntries()
+        public static IEnumerable<ObjectEntry> GetAllObjectEntries()
         {
             List<ObjectEntry> list = new List<ObjectEntry>();
             list.AddRange(heroesObjectEntries);
@@ -64,16 +58,9 @@ namespace HeroesPowerPlant.LayoutEditor
             else return heroesObjectEntries;
         }
 
-        public ObjectEntry[] GetHeroesObjectEntries()
-        {
-            return heroesObjectEntries;
-        }
-
-        public ObjectEntry[] GetShadowObjectEntries()
-        {
-            return shadowObjectEntries;
-        }
-
+        public static ObjectEntry[] HeroesObjectEntries => heroesObjectEntries;
+        public static ObjectEntry[] ShadowObjectEntries => shadowObjectEntries;
+        
         public ObjectEntry[] GetAllCurrentObjectEntries()
         {
             HashSet<ObjectEntry> objectEntries = new HashSet<ObjectEntry>();
@@ -220,49 +207,41 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void AddNewSetObject()
         {
-            AddNewSetObject(Program.MainForm.renderer.Camera.GetPosition() + 100 * Program.MainForm.renderer.Camera.GetForward(), false);
-        }
-
-        public void AddNewSetObject(Vector3 Position, bool copyOfExisting, int existingIndex = -1)
-        {
+            Vector3 Position = Program.MainForm.renderer.Camera.GetPosition() + 100 * Program.MainForm.renderer.Camera.GetForward();
             SetObject newObject;
-
-            byte list = 0;
-            byte type = 0;
-
-            if (copyOfExisting && existingIndex != -1)
-            {
-                SetObject original = GetSetObjectAt(existingIndex);
-                list = original.objectEntry.List;
-                type = original.objectEntry.Type;
-            }
-
+            
             if (isShadow)
-                newObject = new SetObjectShadow(list, type, shadowObjectEntries, Position, Vector3.Zero, 0, 10, 0);
+                newObject = new SetObjectShadow(0, 0, shadowObjectEntries, Position, Vector3.Zero, 0, 10, 0);
             else
-                newObject = new SetObjectHeroes(list, type, heroesObjectEntries, Position, Vector3.Zero, 0, 10);
+                newObject = new SetObjectHeroes(0, 0, heroesObjectEntries, Position, Vector3.Zero, 0, 10);
 
             newObject.CreateTransformMatrix();
             setObjects.Add(newObject);
         }
 
-        public bool CopySetObject(int index)
+        public void CopySetObject(int index)
+        {
+            SetObject original = GetSetObjectAt(index);
+            CopySetObject(index, original.Position);
+        }
+
+        public void CopySetObject(int index, Vector3 Position)
         {
             SetObject original = GetSetObjectAt(index);
             SetObject destination;
-            
+
             if (isShadow)
                 destination = JsonConvert.DeserializeObject<SetObjectShadow>(JsonConvert.SerializeObject(original));
             else
                 destination = JsonConvert.DeserializeObject<SetObjectHeroes>(JsonConvert.SerializeObject(original));
 
             destination.objectEntry = original.objectEntry;
+            destination.Position = Position;
 
             destination.FindNewObjectManager(false);
             destination.CreateTransformMatrix();
 
             setObjects.Add(destination);
-            return true;
         }
 
         public void RemoveSetObject(int index)
@@ -328,7 +307,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void Drop(int index)
         {
-            GetSetObjectAt(index).Position = BSPRenderer.GetDroppedPosition(GetSetObjectAt(index).Position);
+            GetSetObjectAt(index).Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(GetSetObjectAt(index).Position);
             GetSetObjectAt(index).CreateTransformMatrix();
         }
 

@@ -5,17 +5,18 @@ using SharpDX.DXGI;
 using SharpDX.Windows;
 using System.Collections.Generic;
 using HeroesPowerPlant.LevelEditor;
-using HeroesPowerPlant.CollisionEditor;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant
 {
     public class SharpRenderer
     {
+        public DFFRenderer dffRenderer;
+
         public SharpDevice Device;
         public SharpCamera Camera;
         public SharpFPS SharpFps;
-        
+
         public SharpRenderer(Control control)
         {
             if (!SharpDevice.IsDirectX11Supported())
@@ -93,7 +94,7 @@ namespace HeroesPowerPlant
 
             collisionBuffer = collisionShader.CreateBuffer<CollisionRenderData>();
         }
-
+        
         // Texture loader
         public const string DefaultTexture = "default";
         public static ShaderResourceView whiteDefault;
@@ -262,49 +263,12 @@ namespace HeroesPowerPlant
             }
         }
 
-        public void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool placeNewObject)
-        {
-            Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), viewProjection);
-            if (!isMouseDown && placeNewObject)
-            {
-                float? distance = null;
-
-                if (ShowCollision)
-                {
-                    Program.CollisionEditor.GetClickedModelPosition(ray, out bool has1, out float dist1);
-                    if (has1)
-                        distance = dist1;
-
-                    Program.LevelEditor.GetClickedModelPosition(true, ray, out bool has2, out float dist2);
-                    if (has2 && (!has1 || dist2 < dist1))
-                        distance = dist2;
-                }
-                else
-                {
-                    Program.LevelEditor.GetClickedModelPosition(false, ray, out bool has3, out float dist3);
-                    if (has3)
-                        distance = dist3;
-                }
-
-                Vector3 position = ray.Position + Vector3.Normalize(ray.Direction) * (distance == null ? 10f : (float)distance);
-
-                if (MouseModeObjects)
-                    Program.LayoutEditor.PlaceObject(position);
-                //else
-                //    Program.CameraEditor.PlaceObject(position);
-            }
-            else if (MouseModeObjects && ShowObjects != CheckState.Unchecked)
-                Program.LayoutEditor.ScreenClicked(this, ray, isMouseDown, ShowObjects == CheckState.Checked);
-            else if (ShowCameras && !isMouseDown)
-                Program.CameraEditor.ScreenClicked(ray);
-        }
-
         public Matrix viewProjection;
         public Color4 backgroundColor;
         public bool dontRender = false;
         public BoundingFrustum frustum;
 
-        public void RunMainLoop(Panel Panel)
+        public void RunMainLoop(Panel Panel, MainForm.MainForm mainForm)
         {
             RenderLoop.Run(Panel, () =>
             {
@@ -319,8 +283,8 @@ namespace HeroesPowerPlant
                     Camera.ProjectionMatrix.AspectRatio = (float)Panel.Width / Panel.Height;
                 }
 
-                Program.MainForm.KeyboardController();
-                Program.MainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{SharpFps.FPS:0.0000}");
+                mainForm.KeyboardController();
+                mainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{SharpFps.FPS:0.0000}");
 
                 //clear color
                 Device.Clear(backgroundColor);
@@ -329,38 +293,42 @@ namespace HeroesPowerPlant
                 viewProjection = Camera.ViewMatrix.GetViewMatrix() * Camera.ProjectionMatrix.GetProjectionMatrix();
                 frustum = new BoundingFrustum(viewProjection);
 
-                Program.TexturePatternEditor.Animate();
+                mainForm.TexturePatternEditor.Animate();
 
                 if (ShowCollision)
                 {
-                    CollisionRendering.RenderCollisionModel(this);
-                    BSPRenderer.RenderShadowCollisionModel(this);
+                    foreach (var c in mainForm.CollisionEditorDict.Values)
+                        c.RenderCollisionModel(this);
+                    mainForm.LevelEditor.RenderShadowCollisionModel(this);
                 }
                 else
-                    BSPRenderer.RenderLevelModel(this);
+                    mainForm.LevelEditor.RenderLevelModel(this);
 
                 if (ShowChunkBoxes)
-                    VisibilityFunctions.RenderChunkModels(this);
+                    mainForm.LevelEditor.visibilityFunctions.RenderChunkModels(this);
 
                 if (ShowObjects == CheckState.Checked)
-                    Program.LayoutEditor.RenderSetObjects(this, true);
+                    foreach (var l in mainForm.LayoutEditorDict.Values)
+                        l.RenderSetObjects(this, true);
                 else if (ShowObjects == CheckState.Indeterminate)
-                    Program.LayoutEditor.RenderSetObjects(this, false);
+                    foreach (var l in mainForm.LayoutEditorDict.Values)
+                        l.RenderSetObjects(this, false);
 
                 if (ShowCameras)
-                    Program.CameraEditor.RenderCameras(this);
+                    mainForm.CameraEditor.RenderCameras(this);
 
                 if (ShowStartPositions)
-                    Program.ConfigEditor.RenderStartPositions(this);
+                    mainForm.ConfigEditor.RenderStartPositions(this);
 
                 if (ShowSplines)
                 {
-                    Program.SplineEditor.RenderSplines(this);
-                    Program.LevelEditor.shadowSplineEditor.RenderSplines(this);
+                    mainForm.ConfigEditor.SplineEditor.RenderSplines(this);
+                    mainForm.LevelEditor.shadowSplineEditor.RenderSplines(this);
                 }
 
                 if (ShowQuadtree)
-                    CollisionRendering.RenderQuadTree(this);
+                    foreach (var c in mainForm.CollisionEditorDict.Values)
+                        c.RenderQuadtree(this);
 
                 //present
                 Device.Present();
@@ -372,11 +340,12 @@ namespace HeroesPowerPlant
             //release resources
 
             whiteDefault.Dispose();
-            BSPRenderer.Dispose();
+            mainForm.LevelEditor.bspRenderer.Dispose();
             TextureManager.DisposeTextures();
-            DFFRenderer.Dispose();
-            CollisionRendering.Dispose();
-            Program.SplineEditor.DisposeSplines();
+            dffRenderer.Dispose();
+            foreach (var c in mainForm.CollisionEditors)
+                c.DisposeRenderStuff();
+            mainForm.ConfigEditor.SplineEditor.DisposeSplines();
             
             Cube.Dispose();
             Pyramid.Dispose();

@@ -8,10 +8,10 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (modelNames == null)
                 return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
-            else if (modelNames.Length == 0 | ModelNumber >= modelNames.Length | !DFFRenderer.DFFModels.ContainsKey(modelNames[ModelNumber]))
+            else if (modelNames.Length == 0 | ModelNumber >= modelNames.Length | !Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelNames[ModelNumber]))
                 return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
 
-            return BoundingBox.FromPoints(DFFRenderer.DFFModels[modelNames[ModelNumber]].vertexListG.ToArray());
+            return BoundingBox.FromPoints(Program.MainForm.renderer.dffRenderer.DFFModels[modelNames[ModelNumber]].vertexListG.ToArray());
         }
         
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
@@ -36,7 +36,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int ModelNumber
         {
-            get => ReadLong(4);
+            get => ReadInt(4);
             set => Write(4, value);
         }
 

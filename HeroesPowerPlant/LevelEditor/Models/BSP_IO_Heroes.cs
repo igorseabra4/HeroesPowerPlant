@@ -9,9 +9,9 @@ namespace HeroesPowerPlant.LevelEditor
 {
     public static class BSP_IO_Heroes
     {
-        public static int heroesRenderWareVersion = 0x1400FFFF;
+        public static int heroesRenderWareVersion => 0x1400FFFF;
 
-        public static RWSection[] CreateBSPFile(string FileNameForBox, ModelConverterData data, bool useTristrips)
+        public static RWSection[] CreateBSPFile(string FileNameForBox, ModelConverterData data, bool useTristrips, bool flipUVs)
         {
             Vertex3 Max = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
             Vertex3 Min = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
@@ -41,7 +41,7 @@ namespace HeroesPowerPlant.LevelEditor
                 cList.Add(new Color(v.Color.R, v.Color.G, v.Color.B, v.Color.A));
 
             List<Vertex2> uvList = new List<Vertex2>(data.VertexList.Count);
-            if (Program.LevelEditor.checkBoxFlipUVs.Checked)
+            if (flipUVs)
                 foreach (Vertex v in data.VertexList)
                     uvList.Add(new Vertex2(v.TexCoord.X, v.TexCoord.Y));
             else
@@ -103,10 +103,10 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
 
-            WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors
-                | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;
+            WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;
 
-            worldFlags = Program.LevelEditor.checkBoxTristrip.Checked ? worldFlags | WorldFlags.UseTriangleStrips : worldFlags;
+            if (useTristrips)
+                worldFlags |= WorldFlags.UseTriangleStrips;
 
             World_000B world = new World_000B()
             {
@@ -153,7 +153,7 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         extensionSectionList = new List<RWSection>() { new BinMeshPLG_050E()
                         {
-                            binMeshHeaderFlags = Program.LevelEditor.checkBoxTristrip.Checked ? BinMeshHeaderFlags.TriangleStrip : BinMeshHeaderFlags.TriangleList,
+                            binMeshHeaderFlags = useTristrips ? BinMeshHeaderFlags.TriangleStrip : BinMeshHeaderFlags.TriangleList,
                             numMeshes = binMeshList.Count(),
                             totalIndexCount = TotalNumberOfTristripIndicies,
                             binMeshList = binMeshList.ToArray()
@@ -310,7 +310,7 @@ namespace HeroesPowerPlant.LevelEditor
             return indexLists;
         }
 
-        public static void ConvertBSPtoOBJ(string fileName, RenderWareModelFile bspFile)
+        public static void ConvertBSPtoOBJ(string fileName, RenderWareModelFile bspFile, bool flipUVs)
         {
             int totalVertexIndices = 0;
 
@@ -330,11 +330,11 @@ namespace HeroesPowerPlant.LevelEditor
                     OBJWriter.WriteLine();
                     if (w.firstWorldChunk.sectionIdentifier == Section.AtomicSector)
                     {
-                        GetAtomicTriangleList(OBJWriter, (AtomicSector_0009)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isShadowCollision);
+                        GetAtomicTriangleList(OBJWriter, (AtomicSector_0009)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isShadowCollision, flipUVs);
                     }
                     else if (w.firstWorldChunk.sectionIdentifier == Section.PlaneSector)
                     {
-                        GetPlaneTriangleList(OBJWriter, (PlaneSector_000A)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isShadowCollision);
+                        GetPlaneTriangleList(OBJWriter, (PlaneSector_000A)w.firstWorldChunk, ref triangleList, ref totalVertexIndices, bspFile.isShadowCollision, flipUVs);
                     }
                 }
             }
@@ -384,32 +384,32 @@ namespace HeroesPowerPlant.LevelEditor
             }
         }
 
-        private static void GetPlaneTriangleList(StreamWriter OBJWriter, PlaneSector_000A planeSection, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision)
+        private static void GetPlaneTriangleList(StreamWriter OBJWriter, PlaneSector_000A planeSection, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision, bool flipUVs)
         {
             if (planeSection.leftSection is AtomicSector_0009 a1)
             {
-                GetAtomicTriangleList(OBJWriter, a1, ref triangleList, ref totalVertexIndices, isCollision);
+                GetAtomicTriangleList(OBJWriter, a1, ref triangleList, ref totalVertexIndices, isCollision, flipUVs);
             }
             else if (planeSection.leftSection is PlaneSector_000A p1)
             {
-                GetPlaneTriangleList(OBJWriter, p1, ref triangleList, ref totalVertexIndices, isCollision);
+                GetPlaneTriangleList(OBJWriter, p1, ref triangleList, ref totalVertexIndices, isCollision, flipUVs);
             }
 
             if (planeSection.rightSection is AtomicSector_0009 a2)
             {
-                GetAtomicTriangleList(OBJWriter, a2, ref triangleList, ref totalVertexIndices, isCollision);
+                GetAtomicTriangleList(OBJWriter, a2, ref triangleList, ref totalVertexIndices, isCollision, flipUVs);
             }
             else if (planeSection.rightSection is PlaneSector_000A p2)
             {
-                GetPlaneTriangleList(OBJWriter, p2, ref triangleList, ref totalVertexIndices, isCollision);
+                GetPlaneTriangleList(OBJWriter, p2, ref triangleList, ref totalVertexIndices, isCollision, flipUVs);
             }
         }
 
-        private static void GetAtomicTriangleList(StreamWriter OBJWriter, AtomicSector_0009 AtomicSector, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision)
+        private static void GetAtomicTriangleList(StreamWriter OBJWriter, AtomicSector_0009 AtomicSector, ref List<Triangle> triangleList, ref int totalVertexIndices, bool isCollision, bool flipUVs)
         {
             if (AtomicSector.atomicSectorStruct.isNativeData)
             {
-                GetNativeTriangleList(OBJWriter, AtomicSector.atomicSectorExtension, ref triangleList, ref totalVertexIndices);
+                GetNativeTriangleList(OBJWriter, AtomicSector.atomicSectorExtension, ref triangleList, ref totalVertexIndices, flipUVs);
                 return;
             }
 
@@ -423,7 +423,7 @@ namespace HeroesPowerPlant.LevelEditor
             //Write uv list to obj
             if (AtomicSector.atomicSectorStruct.uvArray != null)
             {
-                if (Program.LevelEditor.checkBoxFlipUVs.Checked)
+                if (flipUVs)
                     foreach (Vertex2 i in AtomicSector.atomicSectorStruct.uvArray)
                         OBJWriter.WriteLine("vt " + i.X.ToString() + " " + (-i.Y).ToString());
                 else
@@ -479,7 +479,7 @@ namespace HeroesPowerPlant.LevelEditor
                 totalVertexIndices += AtomicSector.atomicSectorStruct.vertexArray.Count();
         }
 
-        private static void GetNativeTriangleList(StreamWriter OBJWriter, Extension_0003 extension, ref List<Triangle> triangleList, ref int totalVertexIndices)
+        private static void GetNativeTriangleList(StreamWriter OBJWriter, Extension_0003 extension, ref List<Triangle> triangleList, ref int totalVertexIndices, bool flipUVs)
         {
             NativeDataGC n = null;
 
@@ -581,7 +581,7 @@ namespace HeroesPowerPlant.LevelEditor
                     //Write uv list to obj
                     if (textCoordList_final.Count() > 0)
                     {
-                        if (Program.LevelEditor.checkBoxFlipUVs.Checked)
+                        if (flipUVs)
                             foreach (Vertex2 i in textCoordList_final)
                                 OBJWriter.WriteLine("vt " + i.X.ToString() + " " + (-i.Y).ToString());
                         else

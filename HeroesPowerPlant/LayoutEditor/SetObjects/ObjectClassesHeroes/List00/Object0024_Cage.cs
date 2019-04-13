@@ -12,7 +12,7 @@
 
         public CageType Type
         {
-            get => (CageType)ReadLong(4);
+            get => (CageType)ReadInt(4);
             set => Write(4, (int)value);
         }
 

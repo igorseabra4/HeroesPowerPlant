@@ -76,7 +76,7 @@ namespace HeroesPowerPlant.SplineEditor
             CreateMesh(renderer, vertices.ToArray());
         }
 
-        public static Spline FromFile(string FileName)
+        public static Spline FromFile(string FileName, SharpRenderer renderer)
         {
             string[] SplineFile = File.ReadAllLines(FileName);
             Spline Temp = new Spline();
@@ -104,7 +104,7 @@ namespace HeroesPowerPlant.SplineEditor
             }
 
             Temp.Points = Points.ToArray();
-            Temp.SetRenderStuff(Program.MainForm.renderer);
+            Temp.SetRenderStuff(renderer);
             return Temp;
         }
     }

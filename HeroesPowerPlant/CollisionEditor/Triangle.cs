@@ -14,11 +14,11 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public RectangleF TasRect;
 
-        public Triangle(UInt16 a, UInt16 b, UInt16 c, int d, byte[] e, List<CollisionVertex> CLVertexList)
+        public Triangle(UInt16 a, UInt16 b, UInt16 c, int d, byte[] e, List<CollisionVertex> CLVertexList, bool flipNormals)
         {
             Vertices[0] = a;
 
-            if (Program.CollisionEditor.checkBox2.CheckState == CheckState.Checked)
+            if (flipNormals) //Program.CollisionEditor.checkBox2.CheckState == CheckState.Checked)
             {
                 Vertices[1] = c;
                 Vertices[2] = b;

@@ -48,13 +48,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool IsBlue
         {
-            get => ReadLong(4) != 0;
+            get => ReadInt(4) != 0;
             set => Write(4, value ? 1 : 0);
         }
 
         public StartMode StartMode
         {
-            get => (StartMode)ReadLong(8);
+            get => (StartMode)ReadInt(8);
             set => Write(8, (int)value);
         }
 

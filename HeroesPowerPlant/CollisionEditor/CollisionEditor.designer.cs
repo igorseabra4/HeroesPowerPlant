@@ -43,18 +43,18 @@
             this.buttonImport = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.labelFileLoaded = new System.Windows.Forms.ToolStripStatusLabel();
-            this.numericUpDownPowerFlag = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownBasePower = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBoxFlipNormals = new System.Windows.Forms.CheckBox();
             this.buttonNote = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBarColEditor = new System.Windows.Forms.ProgressBar();
             this.buttonForceReload = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericDepthLevel)).BeginInit();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPowerFlag)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBasePower)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -202,24 +202,24 @@
             this.labelFileLoaded.Size = new System.Drawing.Size(79, 17);
             this.labelFileLoaded.Text = "No CL loaded";
             // 
-            // numericUpDownPowerFlag
+            // numericUpDownBasePower
             // 
-            this.numericUpDownPowerFlag.Hexadecimal = true;
-            this.numericUpDownPowerFlag.Location = new System.Drawing.Point(225, 55);
-            this.numericUpDownPowerFlag.Maximum = new decimal(new int[] {
+            this.numericUpDownBasePower.Hexadecimal = true;
+            this.numericUpDownBasePower.Location = new System.Drawing.Point(225, 55);
+            this.numericUpDownBasePower.Maximum = new decimal(new int[] {
             15,
             0,
             0,
             0});
-            this.numericUpDownPowerFlag.Minimum = new decimal(new int[] {
+            this.numericUpDownBasePower.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDownPowerFlag.Name = "numericUpDownPowerFlag";
-            this.numericUpDownPowerFlag.Size = new System.Drawing.Size(52, 20);
-            this.numericUpDownPowerFlag.TabIndex = 16;
-            this.numericUpDownPowerFlag.Value = new decimal(new int[] {
+            this.numericUpDownBasePower.Name = "numericUpDownBasePower";
+            this.numericUpDownBasePower.Size = new System.Drawing.Size(52, 20);
+            this.numericUpDownBasePower.TabIndex = 16;
+            this.numericUpDownBasePower.Value = new decimal(new int[] {
             13,
             0,
             0,
@@ -234,15 +234,15 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "Power Flag:";
             // 
-            // checkBox2
+            // checkBoxFlipNormals
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(194, 81);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(83, 17);
-            this.checkBox2.TabIndex = 18;
-            this.checkBox2.Text = "Flip Normals";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBoxFlipNormals.AutoSize = true;
+            this.checkBoxFlipNormals.Location = new System.Drawing.Point(194, 81);
+            this.checkBoxFlipNormals.Name = "checkBoxFlipNormals";
+            this.checkBoxFlipNormals.Size = new System.Drawing.Size(83, 17);
+            this.checkBoxFlipNormals.TabIndex = 18;
+            this.checkBoxFlipNormals.Text = "Flip Normals";
+            this.checkBoxFlipNormals.UseVisualStyleBackColor = true;
             // 
             // buttonNote
             // 
@@ -274,12 +274,12 @@
             this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // progressBar1
+            // progressBarColEditor
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 133);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(319, 23);
-            this.progressBar1.TabIndex = 22;
+            this.progressBarColEditor.Location = new System.Drawing.Point(12, 133);
+            this.progressBarColEditor.Name = "progressBarColEditor";
+            this.progressBarColEditor.Size = new System.Drawing.Size(319, 23);
+            this.progressBarColEditor.TabIndex = 22;
             // 
             // buttonForceReload
             // 
@@ -297,13 +297,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(343, 184);
             this.Controls.Add(this.buttonForceReload);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.progressBarColEditor);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.buttonNote);
-            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBoxFlipNormals);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.numericUpDownPowerFlag);
+            this.Controls.Add(this.numericUpDownBasePower);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.labelQuadnodes);
             this.Controls.Add(this.labelTriangles);
@@ -325,7 +325,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericDepthLevel)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPowerFlag)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBasePower)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,14 +347,14 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel labelFileLoaded;
-        public System.Windows.Forms.NumericUpDown numericUpDownPowerFlag;
+        public System.Windows.Forms.NumericUpDown numericUpDownBasePower;
         private System.Windows.Forms.Label label6;
-        public System.Windows.Forms.CheckBox checkBox2;
+        public System.Windows.Forms.CheckBox checkBoxFlipNormals;
         private System.Windows.Forms.ToolStripMenuItem exportOBJToolStripMenuItem;
         private System.Windows.Forms.Button buttonNote;
         public System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.Button button1;
-        public System.Windows.Forms.ProgressBar progressBar1;
+        public System.Windows.Forms.ProgressBar progressBarColEditor;
         internal System.Windows.Forms.Button buttonForceReload;
     }
 }

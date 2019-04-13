@@ -145,7 +145,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             if (index >= 0 & index < patterns.Count)
             {
-                patterns[index].StopAnimation();
+                patterns[index].StopAnimation(Program.MainForm.LevelEditor.bspRenderer, Program.MainForm.renderer.dffRenderer);
                 patterns.RemoveAt(index);
                 return index;
             }
@@ -162,18 +162,18 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private bool switcher = true;
 
-        public void Animate()
+        public void Animate(TexturePatternEditor editor)
         {
             if (switcher)
                 foreach (PatternEntry p in patterns)
-                    p.Animate();
+                    p.Animate(editor, Program.MainForm.LevelEditor.bspRenderer, Program.MainForm.renderer.dffRenderer);
             switcher = !switcher;
         }
 
         public void StopAnimation()
         {
             foreach (PatternEntry p in patterns)
-                p.StopAnimation();
+                p.StopAnimation(Program.MainForm.LevelEditor.bspRenderer, Program.MainForm.renderer.dffRenderer);
         }
     }
 }

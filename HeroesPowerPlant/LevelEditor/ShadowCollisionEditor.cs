@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using System.IO;
 using RenderWareFile;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using static HeroesPowerPlant.BSPRenderer;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_ShadowCollision;
@@ -27,15 +26,18 @@ namespace HeroesPowerPlant.LevelEditor
             TopMost = true;
         }
 
-        public ShadowCollisionEditor()
+        public ShadowCollisionEditor(BSPRenderer bspRenderer)
         {
             InitializeComponent();
+            this.bspRenderer = bspRenderer;
         }
+
+        private BSPRenderer bspRenderer; // MUST HOLD SAME REFERENCE TO LEVEL EDITOR BSPRENDERER. I MIGHT REFACTOR THIS
 
         public void InitBSPList()
         {
             listBoxLevelModels.Items.Clear();
-            foreach (RenderWareModelFile item in ShadowColBSPList)
+            foreach (RenderWareModelFile item in bspRenderer.ShadowColBSPList)
             {
                 listBoxLevelModels.Items.Add(item.fileName);
             }
@@ -72,7 +74,7 @@ namespace HeroesPowerPlant.LevelEditor
                         file.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
                     }
 
-                    ShadowColBSPList.Add(file);
+                    bspRenderer.ShadowColBSPList.Add(file);
                     listBoxLevelModels.Items.Add(file.fileName);
 
                     ReadFileMethods.isCollision = false;
@@ -96,9 +98,9 @@ namespace HeroesPowerPlant.LevelEditor
                 if (a.ShowDialog() == DialogResult.OK)
                 {
                     if (Path.GetExtension(a.FileName).ToLower() == ".obj")
-                        ConvertBSPtoOBJ(a.FileName, ShadowColBSPList[listBoxLevelModels.SelectedIndex]);
+                        ConvertBSPtoOBJ(a.FileName, bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex], false);
                     else if (Path.GetExtension(a.FileName).ToLower() == ".bsp")
-                        File.WriteAllBytes(a.FileName, ShadowColBSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
+                        File.WriteAllBytes(a.FileName, bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
                 }
             }
             else
@@ -111,24 +113,24 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     if (listBoxLevelModels.SelectedIndices.Count > 1)
                         foreach (int i in listBoxLevelModels.SelectedIndices)
-                            ConvertBSPtoOBJ(Path.Combine(a.FileName, ShadowColBSPList[i].fileName), ShadowColBSPList[i]);
+                            ConvertBSPtoOBJ(Path.Combine(a.FileName, bspRenderer.ShadowColBSPList[i].fileName), bspRenderer.ShadowColBSPList[i], false);
                     else
-                        foreach (RenderWareModelFile i in ShadowColBSPList)
-                            ConvertBSPtoOBJ(Path.Combine(a.FileName, i.fileName), i);
+                        foreach (RenderWareModelFile i in bspRenderer.ShadowColBSPList)
+                            ConvertBSPtoOBJ(Path.Combine(a.FileName, i.fileName), i, false);
                 }
             }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < BSPList.Count; i++)
+            for (int i = 0; i < bspRenderer.ShadowColBSPList.Count; i++)
             {
                 if (listBoxLevelModels.SelectedIndices.Contains(i))
                 {
-                    foreach (SharpMesh mesh in ShadowColBSPList[i].meshList)
+                    foreach (SharpMesh mesh in bspRenderer.ShadowColBSPList[i].meshList)
                         mesh.Dispose();
 
-                    ShadowColBSPList.RemoveAt(i);
+                    bspRenderer.ShadowColBSPList.RemoveAt(i);
                     listBoxLevelModels.Items.RemoveAt(i);
                     i -= 1;
                 }
@@ -138,11 +140,11 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            foreach (RenderWareModelFile r in ShadowColBSPList)
+            foreach (RenderWareModelFile r in bspRenderer.ShadowColBSPList)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
 
-            ShadowColBSPList.Clear();
+            bspRenderer.ShadowColBSPList.Clear();
             listBoxLevelModels.Items.Clear();
         }
 
@@ -153,8 +155,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             foreach (int i in listBoxLevelModels.SelectedIndices)
             {
-                vertices += ShadowColBSPList[i].vertexAmount;
-                triangles += ShadowColBSPList[i].triangleAmount;
+                vertices += bspRenderer.ShadowColBSPList[i].vertexAmount;
+                triangles += bspRenderer.ShadowColBSPList[i].triangleAmount;
             }
 
             labelVertexAmount.Text = "Vertices: " + vertices.ToString();
@@ -169,17 +171,17 @@ namespace HeroesPowerPlant.LevelEditor
             if (listBoxLevelModels.SelectedIndices.Count == 1)
             {
                 string newName = EditBSPName.GetName(listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex].ToString());
-                ShadowColBSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
+                bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
                 listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex] = newName;
 
                 try
                 {
-                    ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber =
+                    bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber =
                         Convert.ToByte(Path.GetFileNameWithoutExtension(newName).Split('_').Last());
                 }
                 catch
                 {
-                    ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber = -1;
+                    bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber = -1;
                 };
             }
         }

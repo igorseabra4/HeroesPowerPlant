@@ -26,7 +26,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public GhostType Type
         {
-            get => (GhostType)ReadLong(4);
+            get => (GhostType)ReadInt(4);
             set => Write(4, (int)value);
         }
 

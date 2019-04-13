@@ -46,6 +46,8 @@ namespace HeroesPowerPlant.ConfigEditor
             foreach (StageID i in Enum.GetValues(typeof(StageID)))
                 ComboLevelConfig.Items.Add(i);
 
+            SplineEditor = new SplineEditor.SplineEditor();
+
             CleanFile();
         }
 
@@ -77,9 +79,10 @@ namespace HeroesPowerPlant.ConfigEditor
             CleanFile();
 
             Program.MainForm.EnableSplineEditor();
-            Program.SplineEditor.SplineEditorNewConfig();
+            SplineEditor.SplineEditorNewConfig();
         }
 
+        public SplineEditor.SplineEditor SplineEditor;
         private string OpenConfigFileName = "";
 
         public string GetOpenConfigFileName()
@@ -95,14 +98,14 @@ namespace HeroesPowerPlant.ConfigEditor
             };
 
             if (OpenConfigFile.ShowDialog() == DialogResult.OK)
-                OpenFile(OpenConfigFile.FileName);
+                OpenFile(OpenConfigFile.FileName, Program.MainForm);
         }
         
         /// <summary>
         /// Reads a specified Config editor config.
         /// </summary>
         /// <param name="fileName"></param>
-        public void OpenFile(string fileName)
+        public void OpenFile(string fileName, MainForm.MainForm mainForm)
         {
             ProgramIsChangingStuff = true;
 
@@ -114,24 +117,19 @@ namespace HeroesPowerPlant.ConfigEditor
 
             OpenConfigFileName = fileName;
             LabelFileLoaded.Text = "Loaded " + fileName;
-            Program.MainForm.EnableSplineEditor();
-            Program.SplineEditor.SplineEditorOpenConfig(fileName);
-            Program.SplineEditor.buttonSave.Enabled = true;
+            mainForm.EnableSplineEditor();
+            SplineEditor.SplineEditorOpenConfig(fileName, mainForm.renderer);
+            SplineEditor.buttonSave.Enabled = true;
 
             ProgramIsChangingStuff = false;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (OpenConfigFileName != null)
-                if (OpenConfigFileName != "")
-                    if (Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
-                    {
-                        SaveFileJson(OpenConfigFileName);
-                        return;
-                    }
-
-            saveAsToolStripMenuItem_Click(sender, e);
+            if (OpenConfigFileName != null && OpenConfigFileName != "" && Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
+                SaveFileJson(OpenConfigFileName);
+            else
+                saveAsToolStripMenuItem_Click(sender, e);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -271,7 +269,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ComboBoxTeam.SelectedItem == null)
                 return;
 
-            Vector3 Position = BSPRenderer.GetDroppedPosition(StartPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
+            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(StartPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
 
             NumericStartX.Value = (decimal)Position.X;
             NumericStartY.Value = (decimal)Position.Y;
@@ -301,7 +299,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ComboBoxTeam.SelectedItem == null)
                 return;
 
-            Vector3 Position = BSPRenderer.GetDroppedPosition(EndPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
+            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(EndPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
 
             NumericEndX.Value = (decimal)Position.X;
             NumericEndY.Value = (decimal)Position.Y;
@@ -331,7 +329,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ComboBoxTeam.SelectedItem == null)
                 return;
 
-            Vector3 Position = BSPRenderer.GetDroppedPosition(BragPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
+            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(BragPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
 
             NumericBragX.Value = (decimal)Position.X;
             NumericBragY.Value = (decimal)Position.Y;

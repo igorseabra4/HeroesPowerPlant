@@ -174,7 +174,8 @@ namespace HeroesPowerPlant.ParticleEditor
             if (index >= 0 & index < ParticleEditor.Particles.Count)
                 ParticleEditor.Particles[index] = (Particle)propertyGridParticles.SelectedObject;
 
-            Program.LayoutEditor.UpdateSetParticleMatrices();
+            foreach (var v in Program.MainForm.LayoutEditors)
+                v.UpdateSetParticleMatrices();
         }
     }
 }

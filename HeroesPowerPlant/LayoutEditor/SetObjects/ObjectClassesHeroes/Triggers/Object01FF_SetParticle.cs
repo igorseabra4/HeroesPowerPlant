@@ -12,7 +12,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            Vector3 box = Program.ParticleEditor.GetBoxForSetParticle(Number - 50);
+            Vector3 box = Program.MainForm.ParticleEditor.GetBoxForSetParticle(Number - 50);
 
             if (box != Vector3.Zero)
             {
@@ -69,7 +69,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int UnknownInteger
         {
-            get => ReadLong(24);
+            get => ReadInt(24);
             set => Write(24, value);
         }
 

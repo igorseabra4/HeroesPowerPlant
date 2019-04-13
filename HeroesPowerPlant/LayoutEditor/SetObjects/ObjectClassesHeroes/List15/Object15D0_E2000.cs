@@ -46,13 +46,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int AttackInterval
         {
-            get => ReadLong(20);
+            get => ReadInt(20);
             set => Write(20, value);
         }
 
         public int AttackFrame
         {
-            get => ReadLong(24);
+            get => ReadInt(24);
             set => Write(24, value);
         }
 

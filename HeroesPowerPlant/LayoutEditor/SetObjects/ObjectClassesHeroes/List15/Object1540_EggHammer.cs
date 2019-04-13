@@ -52,7 +52,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int AttackInterval
         {
-            get => ReadLong(24);
+            get => ReadInt(24);
             set => Write(24, value);
         }
 

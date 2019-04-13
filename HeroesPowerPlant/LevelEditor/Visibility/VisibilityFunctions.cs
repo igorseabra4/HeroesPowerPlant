@@ -7,25 +7,24 @@ using RenderWareFile;
 using RenderWareFile.Sections;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
-using static HeroesPowerPlant.BSPRenderer;
 
 namespace HeroesPowerPlant.LevelEditor
 {
-    public static class VisibilityFunctions
+    public class VisibilityFunctions
     {
-        public static void RenderChunkModels(SharpRenderer renderer)
+        public void RenderChunkModels(SharpRenderer renderer)
         {
             renderer.basicShader.Apply();
             for (int j = 0; j < ChunkList.Count; j++)
                 ChunkList[j].Render(renderer);
         }
 
-        public static void SetSelectedChunkColor(System.Drawing.Color color)
+        public void SetSelectedChunkColor(System.Drawing.Color color)
         {
             SetSelectedChunkColor(new SharpDX.Color(color.R, color.G, color.B).ToVector4());
         }
 
-        public static void SetSelectedChunkColor(Vector4 newColor)
+        public void SetSelectedChunkColor(Vector4 newColor)
         {
             newColor.W = Chunk.selectedChunkColor.W;
             Chunk.selectedChunkColor = newColor;
@@ -36,9 +35,10 @@ namespace HeroesPowerPlant.LevelEditor
             Chunk.selectedChunkColor = defaultSelectedChunkColor;
         }
 
-        private static Vector4 defaultSelectedChunkColor = new Vector4(1f, 0.5f, 0.1f, 0.3f);
+        private static Vector4 defaultSelectedChunkColor => new Vector4(1f, 0.5f, 0.1f, 0.3f);
 
-        public static List<Chunk> ChunkList = new List<Chunk>();
+        public string OpenVisibilityFile;
+        public List<Chunk> ChunkList = new List<Chunk>();
 
         public static List<Chunk> LoadHeroesVisibilityFile(string fileName)
         {
@@ -194,17 +194,13 @@ namespace HeroesPowerPlant.LevelEditor
             BLKFileWriter.Close();
         }
 
-        public static void AutoChunk(Chunk chunk, out bool success, out Vector3 Min, out Vector3 Max)
+        public static void AutoChunk(Chunk chunk, List<RenderWareModelFile> bspAndCol, out bool success, out Vector3 Min, out Vector3 Max)
         {
             Min = Vector3.Zero;
             Max = Vector3.Zero;
 
             success = false;
-
-            List<RenderWareModelFile> bspAndCol = new List<RenderWareModelFile>();
-            bspAndCol.AddRange(BSPList);
-            bspAndCol.AddRange(ShadowColBSPList);
-
+            
             foreach (RenderWareModelFile b in bspAndCol)
             {
                 if (b.ChunkNumber == chunk.number)

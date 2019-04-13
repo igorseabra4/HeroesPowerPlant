@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using HeroesPowerPlant.Shared.IO.Config;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -10,6 +12,23 @@ namespace HeroesPowerPlant.MainForm
 {
     public partial class MainForm : Form
     {
+        public AboutBox AboutBox;
+        public ViewConfig ViewConfig;
+        public ConfigEditor.ConfigEditor ConfigEditor;
+        public LevelEditor.LevelEditor LevelEditor;
+        public Dictionary<ToolStripDropDownItem, CollisionEditor.CollisionEditor> CollisionEditorDict;
+        public Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor> LayoutEditorDict;
+        public CameraEditor.CameraEditor CameraEditor;
+        public ParticleEditor.ParticleMenu ParticleEditor;
+        public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
+        public LightEditor.LightMenu LightEditor;
+        public SetIdTableEditor.SetIdTableEditor SetIdTableEditor;
+
+        public SharpRenderer renderer;
+
+        public List<CollisionEditor.CollisionEditor> CollisionEditors => CollisionEditorDict.Values.ToList();
+        public List<LayoutEditor.LayoutEditor> LayoutEditors => LayoutEditorDict.Values.ToList();
+
         public MainForm()
         {
             StartPosition = FormStartPosition.CenterScreen;
@@ -17,19 +36,28 @@ namespace HeroesPowerPlant.MainForm
             InitializeComponent();
 
             showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
-            
-            //LostFocus += new EventHandler(MainForm_LostFocus);
-            //GotFocus += new EventHandler(MainForm_GotFocus);
 
-            renderer = new SharpRenderer(renderPanel);
+            renderer = new SharpRenderer(renderPanel)
+            {
+                dffRenderer = new DFFRenderer(this)
+            };
+
+            AboutBox = new AboutBox();
+            ViewConfig = new ViewConfig(renderer.Camera);
+            ConfigEditor = new ConfigEditor.ConfigEditor();
+            LevelEditor = new LevelEditor.LevelEditor();
+            CollisionEditorDict = new Dictionary<ToolStripDropDownItem, CollisionEditor.CollisionEditor>();
+            LayoutEditorDict = new Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor>();
+            CameraEditor = new CameraEditor.CameraEditor();
+            ParticleEditor = new ParticleEditor.ParticleMenu();
+            TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
+            LightEditor = new LightEditor.LightMenu();
+            SetIdTableEditor = new SetIdTableEditor.SetIdTableEditor();
         }
-
-        public SharpRenderer renderer;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var hppConfig = HPPConfig.GetInstance();
-            hppConfig.Load(renderer);
+            HPPConfig.GetInstance().Load(this);
         }
 
         public string currentSavePath;
@@ -43,10 +71,10 @@ namespace HeroesPowerPlant.MainForm
             {
                 currentSavePath = openFile.FileName;
                 ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
-                ProjectConfig.ApplyInstance(renderer, projectConfig);
+                ProjectConfig.ApplyInstance(this, projectConfig);
 
                 // The ViewConfig screen should refresh in the case of loading new camera values.
-                Program.ViewConfig.UpdateValues();
+                ViewConfig.UpdateValues();
             }
         }
 
@@ -54,7 +82,7 @@ namespace HeroesPowerPlant.MainForm
         {
             if (currentSavePath != null)
             {
-                var hppConfig = ProjectConfig.FromCurrentInstance(renderer);
+                var hppConfig = ProjectConfig.FromCurrentInstance(this);
                 ProjectConfig.Save(hppConfig, currentSavePath);
             }  
             else
@@ -69,7 +97,7 @@ namespace HeroesPowerPlant.MainForm
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                var hppConfig = ProjectConfig.FromCurrentInstance(renderer);
+                var hppConfig = ProjectConfig.FromCurrentInstance(this);
                 ProjectConfig.Save(hppConfig, currentSavePath);
             }
         }
@@ -79,17 +107,17 @@ namespace HeroesPowerPlant.MainForm
             if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
                 "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                Program.LevelEditor.New();
-                Program.CollisionEditor.CloseFile();
-                Program.ConfigEditor.New();
-                Program.LayoutEditor.New();
-                Program.CameraEditor.New();
-                Program.ParticleEditor.New();
-                Program.TexturePatternEditor.New();
-                Program.SetIdTableEditor.New();
-                Program.LightEditor.New();
-                DFFRenderer.ClearObjectONEFiles();
-                TextureManager.ClearTextures();
+                LevelEditor.New();
+                ConfigEditor.New();
+                ClearCollisionEditors();
+                ClearLayoutEditors();
+                CameraEditor.New();
+                ParticleEditor.New();
+                TexturePatternEditor.New();
+                SetIdTableEditor.New();
+                LightEditor.New();
+                renderer.dffRenderer.ClearObjectONEFiles();
+                TextureManager.ClearTextures(renderer, LevelEditor.bspRenderer);
                 renderer.Camera.Reset();
                 currentSavePath = null;
             }
@@ -125,7 +153,7 @@ namespace HeroesPowerPlant.MainForm
                 renderingOptions.SelectionColor.Y,
                 renderingOptions.SelectionColor.Z,
                 renderer.selectedObjectColor.W);
-            LevelEditor.VisibilityFunctions.SetSelectedChunkColor(renderingOptions.SelectionColor);
+            LevelEditor.visibilityFunctions.SetSelectedChunkColor(renderingOptions.SelectionColor);
 
             startPosToolStripMenuItem.Checked = renderingOptions.ShowStartPos;
             renderer.ShowStartPositions = startPosToolStripMenuItem.Checked;
@@ -154,57 +182,163 @@ namespace HeroesPowerPlant.MainForm
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.AboutBox.Show();
+            AboutBox.Show();
         }
 
         private void modLoaderConfigEditorF2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.ConfigEditor.Show();
+            ConfigEditor.Show();
         }
 
         private void levelEditorF3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.LevelEditor.Show();
+            LevelEditor.Show();
         }
 
-        private void collisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newCollisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.CollisionEditor.Show();
+            AddCollisionEditor(show: true);
         }
 
-        private void layoutEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        public void AddCollisionEditor(string filePath = null, bool show = false)
         {
-            Program.LayoutEditor.Show();
+            ToolStripMenuItem tempMenuItem = new ToolStripMenuItem("No file loaded");
+            tempMenuItem.Click += new EventHandler(CollisionEditorToolStripMenuItemClick);
+            collisionEditorToolStripMenuItem.DropDownItems.Add(tempMenuItem);
+
+            CollisionEditor.CollisionEditor tempColEditor = new CollisionEditor.CollisionEditor();
+
+            CollisionEditorDict.Add(tempMenuItem, tempColEditor);
+            if (show)
+                CollisionEditorDict[tempMenuItem].Show();
+
+            if (filePath != null)
+                tempColEditor.OpenFile(filePath, this);
+        }
+
+        private void CollisionEditorToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            CollisionEditorDict[sender as ToolStripDropDownItem].Show();
+        }
+
+        public void SetCollisionEditorStripItemName(CollisionEditor.CollisionEditor sender, string newName)
+        {
+            foreach (ToolStripDropDownItem t in CollisionEditorDict.Keys)
+                if (CollisionEditorDict[t].Equals(sender))
+                {
+                    t.Text = newName;
+                    return;
+                }
+            throw new Exception("Error renaming collision editor");
+        }
+
+        public void CloseCollisionEditor(CollisionEditor.CollisionEditor sender)
+        {
+            foreach (ToolStripDropDownItem t in CollisionEditorDict.Keys)
+                if (CollisionEditorDict[t].Equals(sender))
+                {
+                    CollisionEditorDict.Remove(t);
+                    collisionEditorToolStripMenuItem.DropDownItems.Remove(t);
+                    return;
+                }
+            throw new Exception("Error closing collision editor");
+        }
+
+        public void ClearCollisionEditors()
+        {
+            var list = new List<CollisionEditor.CollisionEditor>();
+            list.AddRange(CollisionEditors);
+
+            foreach (var c in list)
+                CloseCollisionEditor(c);
+        }
+
+        private void newLayoutEditorToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddLayoutEditor(show: true);
+        }
+
+        public void AddLayoutEditor(string filePath = null, bool show = false)
+        {
+            ToolStripMenuItem tempMenuItem = new ToolStripMenuItem("No file loaded");
+            tempMenuItem.Click += new EventHandler(LayoutEditorToolStripMenuItemClick);
+            layoutEditorToolStripMenuItem.DropDownItems.Add(tempMenuItem);
+
+            LayoutEditor.LayoutEditor tempLayoutEditor = new LayoutEditor.LayoutEditor();
+
+            LayoutEditorDict.Add(tempMenuItem, tempLayoutEditor);
+            if (show)
+                LayoutEditorDict[tempMenuItem].Show();
+
+            if (filePath != null)
+                tempLayoutEditor.OpenFile(filePath, this);
+        }
+
+        private void LayoutEditorToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            LayoutEditorDict[sender as ToolStripDropDownItem].Show();
+        }
+
+        public void SetLayoutEditorStripItemName(LayoutEditor.LayoutEditor sender, string newName)
+        {
+            foreach (ToolStripDropDownItem t in LayoutEditorDict.Keys)
+                if (LayoutEditorDict[t].Equals(sender))
+                {
+                    t.Text = newName;
+                    return;
+                }
+            throw new Exception("Error renaming layout editor");
+        }
+
+        public void CloseLayoutEditor(LayoutEditor.LayoutEditor sender)
+        {
+            foreach (ToolStripDropDownItem t in LayoutEditorDict.Keys)
+                if (LayoutEditorDict[t].Equals(sender))
+                {
+                    LayoutEditorDict.Remove(t);
+                    layoutEditorToolStripMenuItem.DropDownItems.Remove(t);
+                    return;
+                }
+            throw new Exception("Error closing layout editor");
+        }
+
+        public void ClearLayoutEditors()
+        {
+            var list = new List<LayoutEditor.LayoutEditor>();
+            list.AddRange(LayoutEditors);
+
+            foreach (var c in list)
+                CloseLayoutEditor(c);
         }
 
         private void splineEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.SplineEditor.Show();
+            ConfigEditor.SplineEditor.Show();
         }
 
         private void cameraEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.CameraEditor.Show();
+            CameraEditor.Show();
         }
 
         private void particleEditorF8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.ParticleEditor.Show();
+            ParticleEditor.Show();
         }
 
         private void texturePatternEditorF9ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.TexturePatternEditor.Show();
+            TexturePatternEditor.Show();
         }
 
         private void sETIDTableEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.SetIdTableEditor.Show();
+            SetIdTableEditor.Show();
         }
 
         private void lightEditorF10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.LightEditor.Show();
+            LightEditor.Show();
         }
 
         public void EnableSplineEditor()
@@ -230,21 +364,65 @@ namespace HeroesPowerPlant.MainForm
         private void ScreenClicked(MouseEventArgs e, bool isMouseDown)
         {
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
-                renderer.ScreenClicked(new Rectangle(
+                ScreenClicked(new Rectangle(
                     renderPanel.ClientRectangle.X,
                     renderPanel.ClientRectangle.Y,
                     renderPanel.ClientRectangle.Width,
                     renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown, PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
         }
 
+        public void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool placeNewObject)
+        {
+            Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), renderer.viewProjection);
+            if (!isMouseDown && placeNewObject)
+            {
+                float? distance = null;
+
+                if (renderer.ShowCollision)
+                {
+                    foreach (var c in CollisionEditors)
+                    {
+                        c.GetClickedModelPosition(ray, out bool has1, out float dist1);
+                        if (has1 && (distance == null || (distance != null && dist1 < distance)))
+                            distance = dist1;
+                    }
+
+                    LevelEditor.GetClickedModelPosition(true, ray, out bool has2, out float dist2);
+                    if (has2 && (distance == null || (distance != null && dist2 < distance)))
+                        distance = dist2;
+                }
+                else
+                {
+                    LevelEditor.GetClickedModelPosition(false, ray, out bool has3, out float dist3);
+                    if (has3)
+                        distance = dist3;
+                }
+
+                Vector3 position = ray.Position + Vector3.Normalize(ray.Direction) * (distance == null ? 10f : (float)distance);
+
+                if (renderer.MouseModeObjects)
+                    foreach (var l in LayoutEditors)
+                        l.PlaceObject(position);
+                //else
+                //    Program.CameraEditor.PlaceObject(position);
+            }
+            else if (renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
+                foreach (var l in LayoutEditors)
+                    l.ScreenClicked(renderer, ray, isMouseDown, renderer.ShowObjects == CheckState.Checked);
+            else if (renderer.ShowCameras && !isMouseDown)
+                CameraEditor.ScreenClicked(ray);
+        }
+
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)
         {
-            Program.LayoutEditor.ScreenUnclicked();
+            foreach (var l in LayoutEditors)
+                l.ScreenUnclicked();
         }
 
         private void renderPanel_MouseLeave(object sender, EventArgs e)
         {
-            Program.LayoutEditor.ScreenUnclicked();
+            foreach (var l in LayoutEditors)
+                l.ScreenUnclicked();
         }
 
         private bool mouseMode = false;
@@ -279,8 +457,8 @@ namespace HeroesPowerPlant.MainForm
                     renderer.Camera.AddPositionUp(deltaY, false);
                 }
 
-                Program.LayoutEditor.MouseMoveForPosition(renderer.viewProjection, deltaX, deltaY);
-                //Program.LayoutEditor.MouseMoveY(renderer.Camera, deltaY);
+                foreach (var l in LayoutEditors)
+                    l.MouseMoveForPosition(renderer.viewProjection, deltaX, deltaY);
             }
 
             oldMouseX = e.X;
@@ -289,7 +467,7 @@ namespace HeroesPowerPlant.MainForm
             if (loopNotStarted)
             {
                 loopNotStarted = false;
-                renderer.RunMainLoop(renderPanel);
+                renderer.RunMainLoop(renderPanel, this);
             }
         }
 
@@ -360,35 +538,43 @@ namespace HeroesPowerPlant.MainForm
                     ToggleSelectionMode();
                     break;
                 case Keys.F1:
-                    Program.ViewConfig.Show();
+                    ViewConfig.Show();
                     break;
                 case Keys.F2:
-                    Program.ConfigEditor.Show();
+                    ConfigEditor.Show();
                     break;
                 case Keys.F3:
-                    Program.LevelEditor.Show();
+                        LevelEditor.Show();
                     break;
                 case Keys.F4:
-                    Program.CollisionEditor.Show();
+                    if (CollisionEditors.Count == 0)
+                        AddCollisionEditor(show: true);
+                    else
+                        foreach (var c in CollisionEditors)
+                            c.Show();
                     break;
                 case Keys.F5:
-                    Program.LayoutEditor.Show();
+                    if (LayoutEditors.Count == 0)
+                        AddLayoutEditor(show: true);
+                    else
+                        foreach (var l in LayoutEditors)
+                        l.Show();
                     break;
                 case Keys.F6:
                     if (splineEditorToolStripMenuItem.Enabled)
-                        Program.SplineEditor.Show();
+                        ConfigEditor.SplineEditor.Show();
                     break;
                 case Keys.F7:
-                    Program.CameraEditor.Show();
+                    CameraEditor.Show();
                     break;
                 case Keys.F8:
-                    Program.ParticleEditor.Show();
+                    ParticleEditor.Show();
                     break;
                 case Keys.F9:
-                    Program.TexturePatternEditor.Show();
+                    TexturePatternEditor.Show();
                     break;
                 case Keys.F10:
-                    Program.LightEditor.Show();
+                    LightEditor.Show();
                     break;
             }
         }
@@ -475,7 +661,7 @@ namespace HeroesPowerPlant.MainForm
             {
                 renderer.selectedObjectColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, renderer.selectedObjectColor.W);
                 renderer.selectedColor = new Vector4(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B, renderer.selectedColor.W);
-                LevelEditor.VisibilityFunctions.SetSelectedChunkColor(colorDialog.Color);
+                LevelEditor.visibilityFunctions.SetSelectedChunkColor(colorDialog.Color);
             }
         }
 
@@ -604,7 +790,7 @@ namespace HeroesPowerPlant.MainForm
         
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
-            Program.ViewConfig.Show();
+            ViewConfig.Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -613,7 +799,7 @@ namespace HeroesPowerPlant.MainForm
             if (HPPConfig.GetInstance().AutomaticallySaveConfig)
                 if (currentSavePath != null)
                 {
-                    var hppConfig = ProjectConfig.FromCurrentInstance(renderer);
+                    var hppConfig = ProjectConfig.FromCurrentInstance(this);
                     ProjectConfig.Save(hppConfig, currentSavePath);
                 }
 
@@ -679,12 +865,12 @@ namespace HeroesPowerPlant.MainForm
             };
 
             if (openFile.ShowDialog() == DialogResult.OK)
-                DFFRenderer.AddDFFFiles(openFile.FileNames);
+                renderer.dffRenderer.AddDFFFiles(openFile.FileNames);
         }
 
         private void clearObjectONEsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            DFFRenderer.ClearObjectONEFiles();
+            renderer.dffRenderer.ClearObjectONEFiles();
         }
 
         private void addTXDToolStripMenuItem_Click(object sender, EventArgs e)
@@ -696,7 +882,7 @@ namespace HeroesPowerPlant.MainForm
             };
             if (openTXD.ShowDialog() == DialogResult.OK)
                 foreach (var fileName in openTXD.FileNames)
-                    TextureManager.LoadTexturesFromTXD(fileName);
+                    TextureManager.LoadTexturesFromTXD(fileName, renderer, LevelEditor.bspRenderer);
         }
 
         private void addTextureFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -706,28 +892,40 @@ namespace HeroesPowerPlant.MainForm
                 IsFolderPicker = true
             };
             if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
-                TextureManager.LoadTexturesFromFolder(openFile.FileName);
+                TextureManager.LoadTexturesFromFolder(openFile.FileName, renderer, LevelEditor.bspRenderer);
         }
 
         private void clearTXDsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TextureManager.ClearTextures();
+            TextureManager.ClearTextures(renderer, LevelEditor.bspRenderer);
         }
-        
+
+        public void ReapplyTextures()
+        {
+            TextureManager.ReapplyTextures(renderer, LevelEditor.bspRenderer);
+        }
+
+        public void LoadTexturesFromTXD(byte[] data)
+        {
+            TextureManager.LoadTexturesFromTXD(data, renderer, LevelEditor.bspRenderer);
+        }
+
         private void SetAllTopMost(bool value)
         {
-            Program.AboutBox.TopMost = value;
-            Program.ViewConfig.TopMost = value;
-            Program.ConfigEditor.TopMost = value;
-            Program.LevelEditor.TopMost = value;
-            Program.CollisionEditor.TopMost = value;
-            Program.LayoutEditor.TopMost = value;
-            Program.SplineEditor.TopMost = value;
-            Program.CameraEditor.TopMost = value;
-            Program.ParticleEditor.TopMost = value;
-            Program.TexturePatternEditor.TopMost = value;
-            Program.SetIdTableEditor.TopMost = value;
-            Program.LightEditor.TopMost = value;
+            AboutBox.TopMost = value;
+            ViewConfig.TopMost = value;
+            ConfigEditor.TopMost = value;
+            LevelEditor.TopMost = value;
+            foreach (var c in CollisionEditors)
+                c.TopMost = value;
+            foreach (var l in LayoutEditors)
+                l.TopMost = value;
+            ConfigEditor.SplineEditor.TopMost = value;
+            CameraEditor.TopMost = value;
+            ParticleEditor.TopMost = value;
+            TexturePatternEditor.TopMost = value;
+            SetIdTableEditor.TopMost = value;
+            LightEditor.TopMost = value;
 
             allTopMost = value;
         }
@@ -772,7 +970,7 @@ namespace HeroesPowerPlant.MainForm
         /// </summary>
         private void cameraViewSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.ViewConfig.Show();
+            ViewConfig.Show();
         }
     }
 }

@@ -43,8 +43,8 @@ namespace HeroesPowerPlant.CollisionEditor
             if (OpenOBJFile.ShowDialog() == DialogResult.OK)
                 if (SaveCLFile.ShowDialog() == DialogResult.OK)
                 {
-                    collisionSystem.NewFile(OpenOBJFile.FileName, SaveCLFile.FileName, GetDepthLevel());
-                    initFile();
+                    collisionSystem.NewFile(OpenOBJFile.FileName, SaveCLFile.FileName, (ushort)numericUpDownBasePower.Value, GetDepthLevel(), checkBoxFlipNormals.Checked, progressBarColEditor);
+                    initFile(Program.MainForm);
                 }
         }
         
@@ -56,7 +56,7 @@ namespace HeroesPowerPlant.CollisionEditor
             };
             if (OpenCLFile.ShowDialog() == DialogResult.OK)
             {
-                OpenFile(OpenCLFile.FileName);
+                OpenFile(OpenCLFile.FileName, Program.MainForm);
             }
         }
 
@@ -69,26 +69,16 @@ namespace HeroesPowerPlant.CollisionEditor
             if (SaveOBJFile.ShowDialog() == DialogResult.OK)
             {
                 collisionSystem.ConvertCLtoOBJ(SaveOBJFile.FileName);
-                initFile();
             }
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CloseFile();
-        }
-
-        public void CloseFile()
-        {
             collisionSystem.Close();
-            labelFileLoaded.Text = "No CL loaded";
-            labelVertexNum.Text = "Vertices: ";
-            labelTriangles.Text = "Triangles: ";
-            labelQuadnodes.Text = "QuadNodes: ";
-
-            exportOBJToolStripMenuItem.Enabled = false;
+            Program.MainForm.CloseCollisionEditor(this);
+            Close();
         }
-
+        
         private void buttonImport_Click(object sender, EventArgs e)
         {
             if (collisionSystem.HasOpenedFile())
@@ -97,24 +87,24 @@ namespace HeroesPowerPlant.CollisionEditor
                 OpenOBJFile.Filter = "OBJ Files|*.obj|All Files|*.*";
                 if (OpenOBJFile.ShowDialog() == DialogResult.OK)
                 {
-                    collisionSystem.Import(OpenOBJFile.FileName, GetDepthLevel());
-                    initFile();
+                    collisionSystem.Import(OpenOBJFile.FileName, (ushort)numericUpDownBasePower.Value, GetDepthLevel(), checkBoxFlipNormals.Checked, progressBarColEditor);
+                    initFile(Program.MainForm);
                 }
             }
             else
                 newToolStripMenuItem_Click(sender, e);
         }
 
-        public void OpenFile(string fileName)
+        public void OpenFile(string fileName, MainForm.MainForm mainForm)
         {
             if (File.Exists(fileName))
             {
                 collisionSystem.Open(fileName);
-                initFile();
+                initFile(mainForm);
             }
         }
 
-        public string GetFileName()
+        public string GetOpenFileName()
         {
             return collisionSystem.CurrentCLfileName;
         }
@@ -124,13 +114,16 @@ namespace HeroesPowerPlant.CollisionEditor
             return checkBox1.Checked ? (byte)0 : (byte)numericDepthLevel.Value;
         }
 
-        public void initFile()
+        public void initFile(MainForm.MainForm mainForm)
         {
-            progressBar1.Minimum = 0;
-            progressBar1.Value = 0;
-            progressBar1.Step = 1;
+            progressBarColEditor.Minimum = 0;
+            progressBarColEditor.Value = 0;
+            progressBarColEditor.Step = 1;
 
-            collisionSystem.LoadCLFile();
+            collisionSystem.LoadCLFile(mainForm.renderer.Device, progressBarColEditor);
+
+            Text = "Collision Editor - " + Path.GetFileName(collisionSystem.CurrentCLfileName);
+            mainForm.SetCollisionEditorStripItemName(this, Path.GetFileName(collisionSystem.CurrentCLfileName));
 
             labelFileLoaded.Text = "Loaded " + collisionSystem.CurrentCLfileName;
             labelVertexNum.Text = "Vertices: " + collisionSystem.NumVertices.ToString();
@@ -141,7 +134,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
             exportOBJToolStripMenuItem.Enabled = true;
             
-            progressBar1.Value = 0;
+            progressBarColEditor.Value = 0;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -165,6 +158,21 @@ namespace HeroesPowerPlant.CollisionEditor
         public void GetClickedModelPosition(Ray ray, out bool hasIntersected, out float smallestDistance)
         {
             collisionSystem.GetClickedModelPosition(ray, out hasIntersected, out smallestDistance);
+        }
+
+        public void RenderCollisionModel(SharpRenderer renderer)
+        {
+            collisionSystem.Render(renderer);
+        }
+
+        public void RenderQuadtree(SharpRenderer renderer)
+        {
+            collisionSystem.RenderQuadtree(renderer);
+        }
+
+        public void DisposeRenderStuff()
+        {
+            collisionSystem.Dispose();
         }
     }
 }

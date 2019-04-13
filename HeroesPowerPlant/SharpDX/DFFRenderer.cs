@@ -11,20 +11,27 @@ namespace HeroesPowerPlant
 {
     public class DFFRenderer
     {
-        public static HashSet<string> filePaths = new HashSet<string>();
-        public static HashSet<string> ObjectDFFNames = new HashSet<string>();
-        public static Dictionary<string, RenderWareModelFile> DFFModels = new Dictionary<string, RenderWareModelFile>();
+        private MainForm.MainForm mainForm;
+
+        public HashSet<string> filePaths = new HashSet<string>();
+        public HashSet<string> ObjectDFFNames = new HashSet<string>();
+        public Dictionary<string, RenderWareModelFile> DFFModels = new Dictionary<string, RenderWareModelFile>();
         
-        public static void Dispose()
+        public DFFRenderer(MainForm.MainForm mainForm)
+        {
+            this.mainForm = mainForm;
+        }
+
+        public void Dispose()
         {
             foreach (RenderWareModelFile r in DFFModels.Values)
                 foreach (SharpMesh mesh in r.meshList)
                     mesh.Dispose();
         }
 
-        public static void AddDFFFiles(IEnumerable<string> fileNames)
+        public void AddDFFFiles(IEnumerable<string> fileNames)
         {
-            foreach (ObjectEntry o in Program.LayoutEditor.GetAllObjectEntries())
+            foreach (ObjectEntry o in LayoutEditorSystem.GetAllObjectEntries())
                 if (o.ModelNames != null)
                     foreach (string s in o.ModelNames)
                         if (!ObjectDFFNames.Contains(s))
@@ -43,19 +50,21 @@ namespace HeroesPowerPlant
 
                 AddDFFFiles(s);
             }
+            
+            foreach (var v in mainForm.LayoutEditors)
+                v.UpdateAllMatrices();
 
-            Program.LayoutEditor.UpdateAllMatrices();
-            TextureManager.ReapplyTextures();
+            mainForm.ReapplyTextures();
         }
 
-        private static void AddDFFFiles(string fileName)
+        private void AddDFFFiles(string fileName)
         {
             byte[] dataBytes = File.ReadAllBytes(fileName);
             foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
                 AddDFF(j);
         }
 
-        private static void AddDFF(ArchiveFile j)
+        private void AddDFF(ArchiveFile j)
         {
             if (ObjectDFFNames.Contains(j.Name))
             {
@@ -64,8 +73,7 @@ namespace HeroesPowerPlant
 
                 try
                 {
-                    d.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(dffData),
-                        dffData);
+                    d.SetForRendering(mainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(dffData), dffData);
 
                     if (DFFModels.ContainsKey(j.Name))
                     {
@@ -90,7 +98,8 @@ namespace HeroesPowerPlant
                 try
                 {
                     byte[] txdData = j.DecompressThis();
-                    TextureManager.LoadTexturesFromTXD(txdData);
+
+                    mainForm.LoadTexturesFromTXD(txdData);
                 }
                 catch (Exception ex)
                 {
@@ -101,7 +110,7 @@ namespace HeroesPowerPlant
             }
         }
 
-        public static void ClearObjectONEFiles()
+        public void ClearObjectONEFiles()
         {
             Dispose();
 

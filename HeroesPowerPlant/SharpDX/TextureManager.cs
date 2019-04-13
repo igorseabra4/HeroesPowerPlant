@@ -29,7 +29,7 @@ namespace HeroesPowerPlant
             return SharpRenderer.whiteDefault;
         }
 
-        public static void LoadTexturesFromTXD(string filePath)
+        public static void LoadTexturesFromTXD(string filePath, SharpRenderer renderer, BSPRenderer bspRenderer)
         {
             OpenTXDfiles.Add(filePath);
 
@@ -45,14 +45,14 @@ namespace HeroesPowerPlant
                         if (Path.GetExtension(archiveFile.Name).ToLower().Equals(".txd"))
                         {
                             RWSection[] txdFile = ReadFileMethods.ReadRenderWareFile(archiveFile.DecompressThis());
-                            LoadTexturesFromTXD(txdFile);
+                            LoadTexturesFromTXD(txdFile, renderer, bspRenderer);
                         }
                     }
                 }
                 else if (Path.GetExtension(filePath).ToLower().Equals(".txd"))
                 {
                     RWSection[] file = ReadFileMethods.ReadRenderWareFile(filePath);
-                    LoadTexturesFromTXD(file);
+                    LoadTexturesFromTXD(file, renderer, bspRenderer);
                 }
                 else throw new InvalidDataException(filePath);
             }
@@ -65,23 +65,23 @@ namespace HeroesPowerPlant
             }
         }
     
-        public static void LoadTexturesFromTXD(byte[] txdData)
+        public static void LoadTexturesFromTXD(byte[] txdData, SharpRenderer renderer, BSPRenderer bspRenderer)
         {            
             RWSection[] file = ReadFileMethods.ReadRenderWareFile(txdData);
-            LoadTexturesFromTXD(file);
+            LoadTexturesFromTXD(file, renderer, bspRenderer);
         }
 
-        public static void LoadTexturesFromTXD(RWSection[] txdFile)
+        public static void LoadTexturesFromTXD(RWSection[] txdFile, SharpRenderer renderer, BSPRenderer bspRenderer)
         {
                 foreach (RWSection rw in txdFile)
                     if (rw is TextureDictionary_0016 td)
                         foreach (TextureNative_0015 tn in td.textureNativeList)
-                            AddTextureNative(tn.textureNativeStruct);
+                            AddTextureNative(tn.textureNativeStruct, renderer);
             
-            ReapplyTextures();
+            ReapplyTextures(renderer, bspRenderer);
         }
 
-        private static void AddTextureNative(TextureNativeStruct_0001 tnStruct)
+        private static void AddTextureNative(TextureNativeStruct_0001 tnStruct, SharpRenderer renderer)
         {
             if (Textures.ContainsKey(tnStruct.textureName))
             {
@@ -89,24 +89,24 @@ namespace HeroesPowerPlant
                     if (!Textures[tnStruct.textureName].IsDisposed)
                         Textures[tnStruct.textureName].Dispose();
 
-                Textures[tnStruct.textureName] = Program.MainForm.renderer.Device.LoadTextureFromRenderWareNative(tnStruct);
+                Textures[tnStruct.textureName] = renderer.Device.LoadTextureFromRenderWareNative(tnStruct);
             }
             else
-                Textures.Add(tnStruct.textureName, Program.MainForm.renderer.Device.LoadTextureFromRenderWareNative(tnStruct));
+                Textures.Add(tnStruct.textureName, renderer.Device.LoadTextureFromRenderWareNative(tnStruct));
         }
         
-        public static void LoadTexturesFromFolder(string folderName)
+        public static void LoadTexturesFromFolder(string folderName, SharpRenderer renderer, BSPRenderer bspRenderer)
         {
             OpenTextureFolders.Add(folderName);
 
             foreach (string i in Directory.GetFiles(folderName))
                 if (Path.GetExtension(i).ToLower().Equals(".png"))
-                    AddTexturePNG(i);
+                    AddTexturePNG(i, renderer);
 
-            ReapplyTextures();
+            ReapplyTextures(renderer, bspRenderer);
         }
 
-        private static void AddTexturePNG(string path)
+        private static void AddTexturePNG(string path, SharpRenderer renderer)
         {
             string textureName = Path.GetFileNameWithoutExtension(path);
 
@@ -116,18 +116,18 @@ namespace HeroesPowerPlant
                     if (!Textures[textureName].IsDisposed)
                         Textures[textureName].Dispose();
 
-                Textures[textureName] = Program.MainForm.renderer.Device.LoadTextureFromFile(path);
+                Textures[textureName] = renderer.Device.LoadTextureFromFile(path);
             }
             else
-                Textures.Add(textureName, Program.MainForm.renderer.Device.LoadTextureFromFile(path));
+                Textures.Add(textureName, renderer.Device.LoadTextureFromFile(path));
         }
 
-        public static void ReapplyTextures()
+        public static void ReapplyTextures(SharpRenderer renderer, BSPRenderer bspRenderer)
         {
             List<RenderWareModelFile> models = new List<RenderWareModelFile>();
-            models.AddRange(BSPRenderer.BSPList);
-            models.AddRange(BSPRenderer.ShadowColBSPList);
-            models.AddRange(DFFRenderer.DFFModels.Values);
+            models.AddRange(bspRenderer.BSPList);
+            models.AddRange(bspRenderer.ShadowColBSPList);
+            models.AddRange(renderer.dffRenderer.DFFModels.Values);
 
             foreach (RenderWareModelFile m in models)
                 foreach (SharpMesh mesh in m.meshList)
@@ -157,11 +157,12 @@ namespace HeroesPowerPlant
                     }
         }
 
-        public static void SetTextureForAnimation(string diffuseMapName, string newMapName)
+        public static void SetTextureForAnimation(string diffuseMapName, string newMapName, BSPRenderer bspRenderer, DFFRenderer dffRenderer)
         {
             List<RenderWareModelFile> models = new List<RenderWareModelFile>();
-            models.AddRange(BSPRenderer.BSPList);
-            models.AddRange(BSPRenderer.ShadowColBSPList);
+            models.AddRange(bspRenderer.BSPList);
+            models.AddRange(bspRenderer.ShadowColBSPList);
+            models.AddRange(dffRenderer.DFFModels.Values);
 
             foreach (RenderWareModelFile m in models)
                 foreach (SharpMesh mesh in m.meshList)
@@ -179,13 +180,13 @@ namespace HeroesPowerPlant
                     texture.Dispose();
         }
 
-        public static void ClearTextures()
+        public static void ClearTextures(SharpRenderer renderer, BSPRenderer bspRenderer)
         {
             OpenTXDfiles.Clear();
             OpenTextureFolders.Clear();
             DisposeTextures();
             Textures.Clear();
-            ReapplyTextures();
+            ReapplyTextures(renderer, bspRenderer);
         }
     }
 }

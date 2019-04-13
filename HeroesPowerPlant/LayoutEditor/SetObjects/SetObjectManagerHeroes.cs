@@ -24,7 +24,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public short ReadShort(int j) => BitConverter.ToInt16(new byte[] { MiscSettings[j + 1], MiscSettings[j] }, 0);
 
-        public int ReadLong(int j) => BitConverter.ToInt32(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
+        public int ReadInt(int j) => BitConverter.ToInt32(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
 
         public void Write(int j, float value)
         {

@@ -33,13 +33,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int Type
         {
-            get => ReadLong(8);
+            get => ReadInt(8);
             set => Write(8, value);
         }
 
         public int Speed
         {
-            get => ReadLong(12);
+            get => ReadInt(12);
             set => Write(12, value);
         }
     }

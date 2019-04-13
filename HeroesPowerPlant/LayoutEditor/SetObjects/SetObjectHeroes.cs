@@ -207,11 +207,20 @@ namespace HeroesPowerPlant.LayoutEditor
                 case 7:
                     switch (ObjectType)
                     {
-                        case 0x3: case 0x80: return new Object_F1Speed();
-                        case 0x81: return new Object_F1Scale();
+                        case 0x00: case 0x01: case 0x0A: case 0x1B: case 0x42: case 0x82: case 0x83:
+                        case 0x85: case 0x86: case 0x88: case 0x89: case 0x8A: case 0x8B:
+                        case 0x8C: case 0x8D: case 0x8E: case 0x8F: case 0x90: case 0x91:
+                        case 0x92: case 0x93: case 0x98: return new Object_HeroesEmpty();
+                        case 0x03: case 0x80: return new Object_F1Speed();
+                        case 0x04: return new Object0704_RailRoadblock();
+                        case 0x05: return new Object0705_Capsule();
+                        case 0x06: return new Object_L1Type();
                         case 0x43: return new Object_F1Range();
+                        case 0x81: return new Object_F1Scale();
                         case 0x87: return new Object_XYZScale();
+                        case 0x94: return new Object_F1Range();
                         case 0x96: return new Object_F1Scale();
+                        case 0x97: return new Object_L1Type();
                         default: return new Object_HeroesDefault();
                     }
                 case 8:

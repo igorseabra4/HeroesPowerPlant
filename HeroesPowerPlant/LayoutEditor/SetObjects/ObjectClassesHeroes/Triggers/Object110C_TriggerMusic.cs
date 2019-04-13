@@ -76,7 +76,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TriggerMusicShape TriggerShape
         {
-            get => (TriggerMusicShape)ReadLong(8);
+            get => (TriggerMusicShape)ReadInt(8);
             set { Write(8, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 

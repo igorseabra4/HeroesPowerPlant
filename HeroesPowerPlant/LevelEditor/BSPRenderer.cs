@@ -11,7 +11,7 @@ namespace HeroesPowerPlant
 {
     public class BSPRenderer
     {
-        public static void Dispose()
+        public void Dispose()
         {
             foreach (RenderWareModelFile r in BSPList)
                 foreach (SharpMesh mesh in r.meshList)
@@ -22,10 +22,10 @@ namespace HeroesPowerPlant
                     mesh.Dispose();
         }
 
-        public static string currentFileNamePrefix = "default";
-        public static List<RenderWareModelFile> BSPList = new List<RenderWareModelFile>();
+        public string currentFileNamePrefix = "default";
+        public List<RenderWareModelFile> BSPList = new List<RenderWareModelFile>();
 
-        public static void SetHeroesBSPList(SharpDevice device, Archive heroesONEfile)
+        public void SetHeroesBSPList(SharpDevice device, Archive heroesONEfile)
         {
             Dispose();
             ReadFileMethods.isShadow = false;
@@ -48,15 +48,15 @@ namespace HeroesPowerPlant
         
         // Visibility functions
 
-        private static HashSet<int> VisibleChunks = new HashSet<int>();
+        private HashSet<int> VisibleChunks = new HashSet<int>();
 
-        public static void DetermineVisibleChunks(SharpRenderer renderer)
+        public void DetermineVisibleChunks(SharpRenderer renderer, List<LevelEditor.Chunk> chunkList)
         {
             VisibleChunks.Clear();
             VisibleChunks.Add(-1);
             Vector3 cameraPos = renderer.Camera.GetPosition();
 
-            foreach (LevelEditor.Chunk c in LevelEditor.VisibilityFunctions.ChunkList)
+            foreach (var c in chunkList)
             {
                 if ((cameraPos.X > c.Min.X) && (cameraPos.Y > c.Min.Y) && (cameraPos.Z > c.Min.Z) &
                     (cameraPos.X < c.Max.X) && (cameraPos.Y < c.Max.Y) && (cameraPos.Z < c.Max.Z))
@@ -70,10 +70,10 @@ namespace HeroesPowerPlant
                 
         // Rendering functions
         
-        public static void RenderLevelModel(SharpRenderer renderer)
+        public void RenderLevelModel(SharpRenderer renderer, List<LevelEditor.Chunk> chunkList)
         {
             if (renderByChunk)
-                DetermineVisibleChunks(renderer);
+                DetermineVisibleChunks(renderer, chunkList);
 
             renderer.Device.SetFillModeDefault();
             renderer.defaultShader.Apply();
@@ -82,7 +82,7 @@ namespace HeroesPowerPlant
             RenderAlpha(renderer);
         }
 
-        private static void RenderOpaque(SharpRenderer renderer)
+        private void RenderOpaque(SharpRenderer renderer)
         {
             renderer.Device.SetDefaultBlendState();
             renderer.Device.SetDefaultDepthState();
@@ -107,7 +107,7 @@ namespace HeroesPowerPlant
             }
         }
 
-        private static void RenderAlpha(SharpRenderer renderer)
+        private void RenderAlpha(SharpRenderer renderer)
         {
             for (int j = 0; j < BSPList.Count; j++)
             {
@@ -138,9 +138,9 @@ namespace HeroesPowerPlant
         }
 
         // Shadow functions
-        public static string currentShadowFolderNamePrefix = "default";
+        public string currentShadowFolderNamePrefix = "default";
 
-        public static void LoadShadowLevelFolder(SharpRenderer renderer, string Folder)
+        public void LoadShadowLevelFolder(SharpRenderer renderer, string Folder, LevelEditor.LevelEditor levelEditor)
         {
             List<Archive> ShadowONEFiles = new List<Archive>();
             currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(Folder);
@@ -158,8 +158,8 @@ namespace HeroesPowerPlant
                     }
                     else if (fileName.Contains("dat"))
                     {
-                        Program.LevelEditor.initVisibilityEditor(true, fileName);
-                        Program.LevelEditor.shadowSplineEditor.Init(fileName);
+                        levelEditor.initVisibilityEditor(true, fileName);
+                        levelEditor.shadowSplineEditor.Init(fileName);
                     }
                     else if (fileName.Contains("fx"))
                     {
@@ -167,20 +167,20 @@ namespace HeroesPowerPlant
                     }
                     else if (fileName.Contains("gdt"))
                     {
-                        DFFRenderer.AddDFFFiles(new string[] { fileName });
+                        Program.MainForm.renderer.dffRenderer.AddDFFFiles(new string[] { fileName });
                     }
                     else if (fileName.Contains("tex"))
                     {
-                        TextureManager.LoadTexturesFromTXD(fileName);
+                        TextureManager.LoadTexturesFromTXD(fileName, renderer, this);
                     }
             }
 
             SetShadowBSPList(renderer, ShadowONEFiles);
         }
 
-        public static List<RenderWareModelFile> ShadowColBSPList = new List<RenderWareModelFile>();
+        public List<RenderWareModelFile> ShadowColBSPList = new List<RenderWareModelFile>();
 
-        private static void SetShadowBSPList(SharpRenderer renderer, List<Archive> OpenShadowONEFiles)
+        private void SetShadowBSPList(SharpRenderer renderer, List<Archive> OpenShadowONEFiles)
         {
             Dispose();
             
@@ -230,10 +230,10 @@ namespace HeroesPowerPlant
                 }
         }
 
-        public static void RenderShadowCollisionModel(SharpRenderer renderer)
+        public void RenderShadowCollisionModel(SharpRenderer renderer, List<LevelEditor.Chunk> chunkList)
         {
             if (renderByChunk)
-                DetermineVisibleChunks(renderer);
+                DetermineVisibleChunks(renderer, chunkList);
 
             renderer.Device.SetDefaultBlendState();
             renderer.Device.SetFillModeDefault();
@@ -254,7 +254,7 @@ namespace HeroesPowerPlant
             }
         }
 
-        public static Vector3 GetDroppedPosition(Vector3 InitialPosition)
+        public Vector3 GetDroppedPosition(Vector3 InitialPosition)
         {
             Ray ray = new Ray(InitialPosition, Vector3.Down);
             float smallerDistance = 10000f;
@@ -296,7 +296,7 @@ namespace HeroesPowerPlant
             return InitialPosition;
         }
 
-        public static void GetClickedModelPosition(bool isShadowCollision, Ray ray, out bool hasIntersected, out float smallestDistance)
+        public void GetClickedModelPosition(bool isShadowCollision, Ray ray, out bool hasIntersected, out float smallestDistance)
         {
             hasIntersected = false;
             smallestDistance = 40000f;

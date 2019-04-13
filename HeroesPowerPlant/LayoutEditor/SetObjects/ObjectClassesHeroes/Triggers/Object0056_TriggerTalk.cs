@@ -85,7 +85,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TriggerTalkShape TriggerShape
         {
-            get => (TriggerTalkShape)ReadLong(8);
+            get => (TriggerTalkShape)ReadInt(8);
             set { Write(8, (int)value); CreateTransformMatrix(Position, Rotation); }
         }
 

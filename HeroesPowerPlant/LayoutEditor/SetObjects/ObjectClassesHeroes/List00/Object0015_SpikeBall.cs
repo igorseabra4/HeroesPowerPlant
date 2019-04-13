@@ -24,7 +24,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public SpikeBallType Type
         {
-            get => (SpikeBallType)ReadLong(4);
+            get => (SpikeBallType)ReadInt(4);
             set => Write(4, (int)value);
         }
 

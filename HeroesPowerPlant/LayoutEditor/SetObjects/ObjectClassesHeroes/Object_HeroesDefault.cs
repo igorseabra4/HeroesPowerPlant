@@ -342,49 +342,49 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int L1
         {
-            get => ReadLong(4);
+            get => ReadInt(4);
             set => Write(4, value);
         }
 
         public int L2
         {
-            get => ReadLong(8);
+            get => ReadInt(8);
             set => Write(8, value);
         }
 
         public int L3
         {
-            get => ReadLong(12);
+            get => ReadInt(12);
             set => Write(12, value);
         }
 
         public int L4
         {
-            get => ReadLong(16);
+            get => ReadInt(16);
             set => Write(16, value);
         }
 
         public int L5
         {
-            get => ReadLong(20);
+            get => ReadInt(20);
             set => Write(20, value);
         }
 
         public int L6
         {
-            get => ReadLong(24);
+            get => ReadInt(24);
             set => Write(24, value);
         }
 
         public int L7
         {
-            get => ReadLong(28);
+            get => ReadInt(28);
             set => Write(28, value);
         }
 
         public int L8
         {
-            get => ReadLong(32);
+            get => ReadInt(32);
             set => Write(32, value);
         }
     }

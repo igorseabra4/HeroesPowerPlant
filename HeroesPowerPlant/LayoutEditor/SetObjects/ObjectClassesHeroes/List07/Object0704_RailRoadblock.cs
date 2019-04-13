@@ -1,8 +1,8 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0586_Roulette : SetObjectManagerHeroes
+    public class Object0704_RailRoadblock : SetObjectManagerHeroes
     {
-        public float Scale
+        public float Range
         {
             get => ReadFloat(4);
             set => Write(4, value);

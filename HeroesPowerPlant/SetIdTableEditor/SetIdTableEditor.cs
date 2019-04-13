@@ -13,8 +13,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
         {
             InitializeComponent();
 
-            heroesObjectEntries = Program.LayoutEditor.GetHeroesObjectEntries();
-            shadowObjectEntries = Program.LayoutEditor.GetShadowObjectEntries();
+            heroesObjectEntries = LayoutEditorSystem.HeroesObjectEntries;
+            shadowObjectEntries = LayoutEditorSystem.ShadowObjectEntries;
 
             heroesStageEntries = ReadStageListData("Resources\\Lists\\HeroesStageList.ini");
             shadowStageEntries = ReadStageListData("Resources\\Lists\\ShadowStageList.ini");
@@ -196,15 +196,15 @@ namespace HeroesPowerPlant.SetIdTableEditor
             {
                 if (e.NewValue == CheckState.Checked)
                 {
-                    (comboBoxTableEntries.SelectedItem as TableEntry).values0 = (comboBoxTableEntries.SelectedItem as TableEntry).values0 | (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag0;
-                    (comboBoxTableEntries.SelectedItem as TableEntry).values1 = (comboBoxTableEntries.SelectedItem as TableEntry).values1 | (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag1;
-                    (comboBoxTableEntries.SelectedItem as TableEntry).values2 = (comboBoxTableEntries.SelectedItem as TableEntry).values2 | (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag2;
+                    (comboBoxTableEntries.SelectedItem as TableEntry).values0 |= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag0;
+                    (comboBoxTableEntries.SelectedItem as TableEntry).values1 |= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag1;
+                    (comboBoxTableEntries.SelectedItem as TableEntry).values2 |= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag2;
                 }
                 else
                 {
-                    (comboBoxTableEntries.SelectedItem as TableEntry).values0 = (comboBoxTableEntries.SelectedItem as TableEntry).values0 ^ (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag0;
-                    (comboBoxTableEntries.SelectedItem as TableEntry).values1 = (comboBoxTableEntries.SelectedItem as TableEntry).values1 ^ (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag1;
-                    (comboBoxTableEntries.SelectedItem as TableEntry).values2 = (comboBoxTableEntries.SelectedItem as TableEntry).values2 ^ (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag2;
+                    (comboBoxTableEntries.SelectedItem as TableEntry).values0 ^= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag0;
+                    (comboBoxTableEntries.SelectedItem as TableEntry).values1 ^= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag1;
+                    (comboBoxTableEntries.SelectedItem as TableEntry).values2 ^= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag2;
                 }
             }
         }
@@ -214,13 +214,14 @@ namespace HeroesPowerPlant.SetIdTableEditor
             if (comboBoxAutoLevel.SelectedItem != null)
             {
                 for (int i = 0; i < comboBoxTableEntries.Items.Count; i++)
-                    foreach (ObjectEntry o in Program.LayoutEditor.GetAllCurrentObjectEntries())
-                        if ((comboBoxTableEntries.Items[i] as TableEntry).objectEntry.List == o.List & (comboBoxTableEntries.Items[i] as TableEntry).objectEntry.Type == o.Type)
-                        {
-                            (comboBoxTableEntries.Items[i] as TableEntry).values0 = (comboBoxTableEntries.SelectedItem as TableEntry).values0 | (comboBoxAutoLevel.SelectedItem as StageEntry).flag0;
-                            (comboBoxTableEntries.Items[i] as TableEntry).values1 = (comboBoxTableEntries.SelectedItem as TableEntry).values1 | (comboBoxAutoLevel.SelectedItem as StageEntry).flag1;
-                            (comboBoxTableEntries.Items[i] as TableEntry).values2 = (comboBoxTableEntries.SelectedItem as TableEntry).values2 | (comboBoxAutoLevel.SelectedItem as StageEntry).flag2;
-                        }
+                    foreach (var v in Program.MainForm.LayoutEditors)
+                        foreach (ObjectEntry o in v.GetAllCurrentObjectEntries())
+                            if ((comboBoxTableEntries.Items[i] as TableEntry).objectEntry.List == o.List & (comboBoxTableEntries.Items[i] as TableEntry).objectEntry.Type == o.Type)
+                            {
+                                (comboBoxTableEntries.Items[i] as TableEntry).values0 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag0;
+                                (comboBoxTableEntries.Items[i] as TableEntry).values1 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag1;
+                                (comboBoxTableEntries.Items[i] as TableEntry).values2 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag2;
+                            }
 
                 if (comboBoxTableEntries.SelectedItem != null)
                     comboBoxTableEntries_SelectedIndexChanged(null, null);

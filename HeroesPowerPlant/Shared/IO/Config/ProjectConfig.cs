@@ -17,8 +17,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public string StageConfigPath { get; set; }
         public string LevelEditorPath { get; set; }
         public string VisibilityPath { get; set; }
-        public string CollisionEditorPath { get; set; }
-        public string LayoutEditorPath { get; set; }
+        public List<string> CollisionEditorPaths { get; set; }
+        public List<string> LayoutEditorPaths { get; set; }
         public string CameraEditorPath { get; set; }
         public string ParticleEditorPath { get; set; }
         public string TexturePatternEditorPath { get; set; }
@@ -101,54 +101,62 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// <summary>
         /// Creates a ProjectConfig based on the currently opened files in each of the editors.
         /// </summary>
-        public static ProjectConfig FromCurrentInstance(SharpRenderer renderer)
+        public static ProjectConfig FromCurrentInstance(MainForm.MainForm mainForm)
         {
+            List<string> colEditorPaths = new List<string>();
+            foreach (var v in mainForm.CollisionEditors)
+                colEditorPaths.Add(v.GetOpenFileName());
+
+            List<string> layoutEditorPaths = new List<string>();
+            foreach (var v in mainForm.LayoutEditors)
+                layoutEditorPaths.Add(v.GetOpenFileName());
+
             return new ProjectConfig
             {
                 // Get info from existing editors.
-                IsShadow = Program.LevelEditor.isShadowMode,
-                LevelEditorPath = Program.LevelEditor.GetOpenONEFilePath(),
-                StageConfigPath = Program.ConfigEditor.GetOpenConfigFileName(),
-                VisibilityPath = Program.LevelEditor.OpenVisibilityFile,
-                CollisionEditorPath = Program.CollisionEditor.GetFileName(),
-                LayoutEditorPath = Program.LayoutEditor.GetOpenFileName(),
-                CameraEditorPath = Program.CameraEditor.CurrentCameraFile,
-                ParticleEditorPath = Program.ParticleEditor.GetCurrentlyOpenParticleFile(),
-                TexturePatternEditorPath = Program.TexturePatternEditor.GetCurrentlyOpenTXC(),
-                LightEditorPath = Program.LightEditor.GetCurrentlyOpenLightFile(),
-                SetIdTableEditorPath = Program.SetIdTableEditor.GetCurrentFileName(),
-                LightEditorIsShadow = Program.LightEditor.GetIsShadow(),
-                SetIdTableEditorIsShadow = Program.SetIdTableEditor.GetIsShadow(),
+                IsShadow = mainForm.LevelEditor.isShadowMode,
+                LevelEditorPath = mainForm.LevelEditor.GetOpenONEFilePath(),
+                StageConfigPath = mainForm.ConfigEditor.GetOpenConfigFileName(),
+                VisibilityPath = mainForm.LevelEditor.visibilityFunctions.OpenVisibilityFile,
+                CollisionEditorPaths = colEditorPaths,
+                LayoutEditorPaths = layoutEditorPaths,
+                CameraEditorPath = mainForm.CameraEditor.CurrentCameraFile,
+                ParticleEditorPath = mainForm.ParticleEditor.GetCurrentlyOpenParticleFile(),
+                TexturePatternEditorPath = mainForm.TexturePatternEditor.GetCurrentlyOpenTXC(),
+                LightEditorPath = mainForm.LightEditor.GetCurrentlyOpenLightFile(),
+                SetIdTableEditorPath = mainForm.SetIdTableEditor.GetCurrentFileName(),
+                LightEditorIsShadow = mainForm.LightEditor.GetIsShadow(),
+                SetIdTableEditorIsShadow = mainForm.SetIdTableEditor.GetIsShadow(),
                 TXDPaths = TextureManager.OpenTXDfiles,
                 TextureFolderPaths = TextureManager.OpenTextureFolders,
 
-                DFFONEPaths = DFFRenderer.filePaths,
+                DFFONEPaths = mainForm.renderer.dffRenderer.filePaths,
 
                 CameraSettings = new Camera()
                 {
-                    CameraPosition = renderer.Camera.ViewMatrix.Position,
-                    Pitch = renderer.Camera.ViewMatrix.Pitch,
-                    Speed = renderer.Camera.Speed,
-                    Yaw   = renderer.Camera.ViewMatrix.Yaw,
-                    FieldOfView = renderer.Camera.ProjectionMatrix.FieldOfView,
-                    DrawDistance = renderer.Camera.ProjectionMatrix.FarPlane
+                    CameraPosition = mainForm.renderer.Camera.ViewMatrix.Position,
+                    Pitch = mainForm.renderer.Camera.ViewMatrix.Pitch,
+                    Speed = mainForm.renderer.Camera.Speed,
+                    Yaw   = mainForm.renderer.Camera.ViewMatrix.Yaw,
+                    FieldOfView = mainForm.renderer.Camera.ProjectionMatrix.FieldOfView,
+                    DrawDistance = mainForm.renderer.Camera.ProjectionMatrix.FarPlane
                 },
 
                 RenderingOptions = new RenderOptions()
                 {
-                    QuadtreeHeight = (float)Program.ViewConfig.NumericQuadHeight.Value,
-                    NoCulling = renderer.Device.GetCullMode() == SharpDX.Direct3D11.CullMode.None,
-                    Wireframe = renderer.Device.GetFillMode() == SharpDX.Direct3D11.FillMode.Wireframe,
-                    ShowStartPos = renderer.ShowStartPositions,
-                    ShowSplines = renderer.ShowSplines,
+                    QuadtreeHeight = (float)mainForm.ViewConfig.NumericQuadHeight.Value,
+                    NoCulling = mainForm.renderer.Device.GetCullMode() == SharpDX.Direct3D11.CullMode.None,
+                    Wireframe = mainForm.renderer.Device.GetFillMode() == SharpDX.Direct3D11.FillMode.Wireframe,
+                    ShowStartPos = mainForm.renderer.ShowStartPositions,
+                    ShowSplines = mainForm.renderer.ShowSplines,
                     RenderByChunk = BSPRenderer.renderByChunk,
-                    ShowChunkBoxes = renderer.ShowChunkBoxes,
-                    ShowCollision = renderer.ShowCollision,
-                    ShowQuadtree = renderer.ShowQuadtree,
-                    ShowObjects = renderer.ShowObjects,
-                    ShowCameras = renderer.ShowCameras,
-                    BackgroundColor = renderer.backgroundColor,
-                    SelectionColor = renderer.selectedColor,
+                    ShowChunkBoxes = mainForm.renderer.ShowChunkBoxes,
+                    ShowCollision = mainForm.renderer.ShowCollision,
+                    ShowQuadtree = mainForm.renderer.ShowQuadtree,
+                    ShowObjects = mainForm.renderer.ShowObjects,
+                    ShowCameras = mainForm.renderer.ShowCameras,
+                    BackgroundColor = mainForm.renderer.backgroundColor,
+                    SelectionColor = mainForm.renderer.selectedColor,
                 }
             };
         }
@@ -156,51 +164,56 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// <summary>
         /// Loads the appropriate paths stored in the <see cref="ProjectConfig"/> instance into each of the editors.
         /// </summary>
-        public static void ApplyInstance(SharpRenderer renderer, ProjectConfig config)
+        public static void ApplyInstance(MainForm.MainForm mainForm, ProjectConfig config)
         {
-            ExecuteIfFilePresent($"Config Editor error: file not found: {config.StageConfigPath}", "Error", config.StageConfigPath, path => Program.ConfigEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Config Editor error: file not found: {config.StageConfigPath}", "Error", config.StageConfigPath, path => mainForm.ConfigEditor.OpenFile(path, mainForm));
 
             if (config.IsShadow)
             {
                 if (Directory.Exists(config.LevelEditorPath))
-                    Program.LevelEditor.OpenONEShadowFolder(config.LevelEditorPath);
+                    mainForm.LevelEditor.OpenONEShadowFolder(config.LevelEditorPath);
                 else if (!string.IsNullOrEmpty(config.LevelEditorPath))
                     MessageBox.Show($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                ExecuteIfFilePresent($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", config.LevelEditorPath, path => Program.LevelEditor.OpenONEHeroesFile(path));
-                ExecuteIfFilePresent($"Visibility Editor error: file not found: {config.VisibilityPath}", "Error", config.VisibilityPath, path => Program.LevelEditor.initVisibilityEditor(false, path));
+                ExecuteIfFilePresent($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", config.LevelEditorPath, path => mainForm.LevelEditor.OpenONEHeroesFile(path, mainForm.renderer));
+                ExecuteIfFilePresent($"Visibility Editor error: file not found: {config.VisibilityPath}", "Error", config.VisibilityPath, path => mainForm.LevelEditor.initVisibilityEditor(false, path));
             }
 
-            ExecuteIfFilePresent($"Collision Editor error: file not found: {config.CollisionEditorPath}", "Error", config.CollisionEditorPath, path => Program.CollisionEditor.OpenFile(path));
-            ExecuteIfFilePresent($"Layout Editor error: file not found: {config.LayoutEditorPath}", "Error", config.LayoutEditorPath, path => Program.LayoutEditor.OpenFile(path));
-            ExecuteIfFilePresent($"Camera Editor error: file not found: {config.CameraEditorPath}", "Error", config.CameraEditorPath, path => Program.CameraEditor.OpenFile(path));
-            ExecuteIfFilePresent($"Particle Editor error: file not found: {config.ParticleEditorPath}", "Error", config.ParticleEditorPath, path => Program.ParticleEditor.OpenFile(path));
-            ExecuteIfFilePresent($"Texture Pattern Editor error: file not found: {config.TexturePatternEditorPath}", "Error", config.TexturePatternEditorPath, path => Program.TexturePatternEditor.OpenFile(path));
-            ExecuteIfFilePresent($"Light Editor error: file not found: {config.LightEditorPath}", "Error", config.LightEditorPath, path => Program.LightEditor.OpenFile(path, config.LightEditorIsShadow));
-            ExecuteIfFilePresent($"SET ID Table Editor error: file not found: {config.SetIdTableEditorPath}", "Error", config.SetIdTableEditorPath, path => Program.SetIdTableEditor.OpenExternal(path, config.SetIdTableEditorIsShadow));
+            if (config.CollisionEditorPaths != null)
+                foreach (var v in config.CollisionEditorPaths)
+                    ExecuteIfFilePresent($"Collision Editor error: file not found: {v}", "Error", v, path => mainForm.AddCollisionEditor(path));
+            if (config.LayoutEditorPaths != null)
+                foreach (var v in config.LayoutEditorPaths)
+                    ExecuteIfFilePresent($"Layout Editor error: file not found: {v}", "Error", v, path => mainForm.AddLayoutEditor(path));
+
+            ExecuteIfFilePresent($"Camera Editor error: file not found: {config.CameraEditorPath}", "Error", config.CameraEditorPath, path => mainForm.CameraEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Particle Editor error: file not found: {config.ParticleEditorPath}", "Error", config.ParticleEditorPath, path => mainForm.ParticleEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Texture Pattern Editor error: file not found: {config.TexturePatternEditorPath}", "Error", config.TexturePatternEditorPath, path => mainForm.TexturePatternEditor.OpenFile(path));
+            ExecuteIfFilePresent($"Light Editor error: file not found: {config.LightEditorPath}", "Error", config.LightEditorPath, path => mainForm.LightEditor.OpenFile(path, config.LightEditorIsShadow));
+            ExecuteIfFilePresent($"SET ID Table Editor error: file not found: {config.SetIdTableEditorPath}", "Error", config.SetIdTableEditorPath, path => mainForm.SetIdTableEditor.OpenExternal(path, config.SetIdTableEditorIsShadow));
 
             if (config.CameraSettings != null)
-                renderer.Camera.ApplyConfig(config.CameraSettings);
+                mainForm.renderer.Camera.ApplyConfig(config.CameraSettings);
 
-            TextureManager.ClearTextures();
+            TextureManager.ClearTextures(mainForm.renderer, mainForm.LevelEditor.bspRenderer);
             if (config.TXDPaths != null)
                 foreach (string s in config.TXDPaths)
-                    ExecuteIfFilePresent($"Error: TXD file not found: {s}", "Error", s, path => TextureManager.LoadTexturesFromTXD(s));
+                    ExecuteIfFilePresent($"Error: TXD file not found: {s}", "Error", s, path => TextureManager.LoadTexturesFromTXD(s, mainForm.renderer, mainForm.LevelEditor.bspRenderer));
 
             if (config.TextureFolderPaths != null)
                 foreach (string s in config.TextureFolderPaths)
-                    ExecuteIfFilePresent($"Error: Folder not found: {s}", "Error", s, path => TextureManager.LoadTexturesFromFolder(s));
+                    ExecuteIfFilePresent($"Error: Folder not found: {s}", "Error", s, path => TextureManager.LoadTexturesFromFolder(s, mainForm.renderer, mainForm.LevelEditor.bspRenderer));
 
-            DFFRenderer.ClearObjectONEFiles();
+            mainForm.renderer.dffRenderer.ClearObjectONEFiles();
             if (config.DFFONEPaths != null)
-                DFFRenderer.AddDFFFiles(config.DFFONEPaths);
+                mainForm.renderer.dffRenderer.AddDFFFiles(config.DFFONEPaths);
 
             if (config.RenderingOptions != null)
             {
-                Program.MainForm.ApplyConfig(config.RenderingOptions);
-                Program.ViewConfig.NumericQuadHeight.Value = (decimal)config.RenderingOptions.QuadtreeHeight;
+                mainForm.ApplyConfig(config.RenderingOptions);
+                mainForm.ViewConfig.NumericQuadHeight.Value = (decimal)config.RenderingOptions.QuadtreeHeight;
             }
         }
 

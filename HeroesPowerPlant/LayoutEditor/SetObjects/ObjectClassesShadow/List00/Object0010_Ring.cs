@@ -53,7 +53,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
         {
-            if (DFFRenderer.DFFModels.ContainsKey(modelNames[0]))
+            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelNames[0]))
             {
                 if (isSelected)
                     renderData.Color = renderer.selectedColor;
@@ -74,7 +74,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
                     renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                    DFFRenderer.DFFModels[modelNames[0]].Render(renderer.Device);
+                    Program.MainForm.renderer.dffRenderer.DFFModels[modelNames[0]].Render(renderer.Device);
                 }
             }
             else

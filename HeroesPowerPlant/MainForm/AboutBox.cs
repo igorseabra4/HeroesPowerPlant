@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace HeroesPowerPlant.MainForm
 {
-    partial class AboutBox : Form
+    public partial class AboutBox : Form
     {
         public AboutBox()
         {

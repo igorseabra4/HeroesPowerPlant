@@ -10,7 +10,7 @@
 
         public int Color
         {
-            get => ReadLong(8);
+            get => ReadInt(8);
             set => Write(8, value);
         }
     }

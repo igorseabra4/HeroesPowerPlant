@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
-    public class CollisionRendering
+    public class CollisionRenderer
     {
-        private static SharpMesh quadTreeMesh;
-        private static DefaultRenderData mainQuadtreeRenderData = new DefaultRenderData();
+        private SharpMesh quadTreeMesh;
+        private DefaultRenderData mainQuadtreeRenderData = new DefaultRenderData();
 
         public static void SetQuadHeight(float value)
         {
@@ -19,7 +20,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private static Matrix quadTreeTranslation = Matrix.Identity;
 
-        public static void RenderQuadTree(SharpRenderer renderer)
+        public void RenderQuadTree(SharpRenderer renderer)
         {
             if (quadTreeMesh == null)
                 return;
@@ -38,34 +39,11 @@ namespace HeroesPowerPlant.CollisionEditor
 
             quadTreeMesh.Draw(renderer.Device);
         }
+        
+        private SharpMesh collisionMesh;
+        private CollisionRenderData sceneInformation;
 
-        private static SharpMesh secondQuadTreeMesh;
-        private static DefaultRenderData secondQuadtreeRenderData = new DefaultRenderData();
-
-        public static void RenderQuadTree2(SharpRenderer renderer)
-        {
-            if (secondQuadTreeMesh == null)
-                return;
-
-            secondQuadtreeRenderData.worldViewProjection = quadTreeTranslation * renderer.viewProjection;
-
-            renderer.Device.SetFillModeSolid();
-            renderer.Device.SetCullModeNone();
-            renderer.Device.SetDefaultBlendState();
-            renderer.Device.ApplyRasterState();
-            renderer.Device.UpdateAllStates();
-
-            renderer.Device.UpdateData(renderer.basicBuffer, secondQuadtreeRenderData);
-            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
-            renderer.basicShader.Apply();
-
-            secondQuadTreeMesh.Draw(renderer.Device);
-        }
-
-        private static SharpMesh collisionMesh;
-        private static CollisionRenderData sceneInformation;
-
-        public static void RenderCollisionModel(SharpRenderer renderer)
+        public void RenderCollisionModel(SharpRenderer renderer)
         {
             if (collisionMesh == null) return;
 
@@ -90,17 +68,15 @@ namespace HeroesPowerPlant.CollisionEditor
             collisionMesh.Draw(renderer.Device);
         }
 
-        public static void Dispose()
+        public void Dispose()
         {
             if (collisionMesh != null)
                 collisionMesh.Dispose();
             if (quadTreeMesh != null)
                 quadTreeMesh.Dispose();
-            if (secondQuadTreeMesh != null)
-                secondQuadTreeMesh.Dispose();
         }
         
-        public static CLFile LoadCLFile(string FileName, SharpDevice device)
+        public CLFile LoadCLFile(string FileName, SharpDevice device, ProgressBar bar)
         {
             CLFile data = new CLFile(0);
             
@@ -131,21 +107,17 @@ namespace HeroesPowerPlant.CollisionEditor
             data.numVertices = Switch(CLReader.ReadUInt16());
             data.numQuadnodes = Switch(CLReader.ReadUInt16());
 
-            Program.CollisionEditor.progressBar1.Maximum = data.numTriangles + data.numVertices + 3 * data.numQuadnodes;
+            bar.Maximum = data.numTriangles + data.numVertices + 3 * data.numQuadnodes;
 
             List<Triangle> CLTriangleList = new List<Triangle>(data.numTriangles);
             List<CollisionVertex> CLVertexList = new List<CollisionVertex>(data.numVertices);
             data.MeshTypeList = new List<UInt64>();
 
-            Program.CollisionEditor.labelVertexNum.Text = "Number of Vertices: " + data.numVertices.ToString();
-            Program.CollisionEditor.labelTriangles.Text = "Number of Triangles: " + data.numTriangles.ToString();
-            Program.CollisionEditor.labelQuadnodes.Text = "Number of QuadNodes: " + data.numQuadnodes.ToString();
-
             for (int i = 0; i < data.numVertices; i++)
             {
                 CLReader.BaseStream.Position = data.pointVertex + i * 0xC;
                 CLVertexList.Add(new CollisionVertex(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle())));
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
             
             for (int i = 0; i < data.numTriangles; i++)
@@ -180,7 +152,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 CLVertexList[CLTriangleList[i].Vertices[1]].Color = TempColor;
                 CLVertexList[CLTriangleList[i].Vertices[2]].Color = TempColor;
 
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
 
             data.CLTriangleArray = CLTriangleList.ToArray();
@@ -202,11 +174,11 @@ namespace HeroesPowerPlant.CollisionEditor
                 TempNode.Depth = CLReader.ReadByte();
 
                 data.CLQuadNodeList.Add(TempNode);
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
 
-            ReBuildQuadtree(ref data);
-            DetermineQuadtreeRenderStuff(ref data, device);
+            ReBuildQuadtree(ref data, bar);
+            DetermineQuadtreeRenderStuff(ref data, device, bar);
 
             CLReader.Close();
 
@@ -231,7 +203,7 @@ namespace HeroesPowerPlant.CollisionEditor
             return data;
         }
 
-        public static bool ReBuildQuadtree(ref CLFile data)
+        public bool ReBuildQuadtree(ref CLFile data, ProgressBar bar)
         {
             data.CLQuadNodeList[0].NodeSquare.X = data.quadCenterX - (data.quadLenght / 2);
             data.CLQuadNodeList[0].NodeSquare.Y = data.quadCenterZ - (data.quadLenght / 2);
@@ -248,19 +220,13 @@ namespace HeroesPowerPlant.CollisionEditor
                     GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 2);
                     GiveSquareToChild(ref data, data.CLQuadNodeList[i].NodeSquare, data.CLQuadNodeList[i].Child, 3);
                 }
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
             }
-
-            //sewer's code
-            Program.CollisionEditor.checkedListBox1.Items.Clear();
-            foreach (QuadNode i in data.CLQuadNodeList)
-                Program.CollisionEditor.checkedListBox1.Items.Add(i);
-            // end
 
             return true;
         }
 
-        public static void GiveSquareToChild(ref CLFile data, RectangleF r, int Child, int Offset)
+        public void GiveSquareToChild(ref CLFile data, RectangleF r, int Child, int Offset)
         {
             data.CLQuadNodeList[Child + Offset].NodeSquare = new RectangleF(r.X, r.Y, r.Width / 2, r.Height / 2);
 
@@ -275,15 +241,15 @@ namespace HeroesPowerPlant.CollisionEditor
             }
         }
         
-        public static void DetermineQuadtreeRenderStuff(ref CLFile data, SharpDevice device)
+        public void DetermineQuadtreeRenderStuff(ref CLFile data, SharpDevice device, ProgressBar bar)
         {
             List<Vertex> QuadNodeVertexList = new List<Vertex>();
-            List<Int32> QuadNodeIndexList = new List<Int32>();
+            List<int> QuadNodeIndexList = new List<int>();
 
-            Int32 k = 0;
+            int k = 0;
             foreach (QuadNode i in data.CLQuadNodeList)
             {
-                Program.CollisionEditor.progressBar1.PerformStep();
+                bar.PerformStep();
                 if (i.Child == 0 | i.Index == 0)
                 {
                     QuadNodeVertexList.Add(new Vertex(new Vector3(i.NodeSquare.X, 0, i.NodeSquare.Y)));
@@ -308,41 +274,6 @@ namespace HeroesPowerPlant.CollisionEditor
             quadTreeMesh = SharpMesh.Create(device, QuadNodeVertexList.ToArray(), QuadNodeIndexList.ToArray(), new List<SharpSubSet>(){
                 new SharpSubSet(0, QuadNodeIndexList.Count, null) }, SharpDX.Direct3D.PrimitiveTopology.LineList);
             mainQuadtreeRenderData.Color = new Vector4(0.9f, 0.3f, 0.6f, 1f);
-        }
-        
-        //sewer's code
-        public static void DetermineRenderStuff2(CLFile data, SharpDevice device)
-        {
-            List<Vertex> QuadNodeVertexList = new List<Vertex>();
-            List<Int32> QuadNodeIndexList = new List<Int32>();
-
-            Int32 k = 0;
-            foreach (QuadNode i in data.CLQuadNodeList)
-            {
-                if (Program.CollisionEditor.checkedListBox1.CheckedIndices.Contains(i.Index))
-                {
-                    QuadNodeVertexList.Add(new Vertex(new Vector3(i.NodeSquare.X, 100 / (i.Depth + 1), i.NodeSquare.Y)));
-                    QuadNodeIndexList.Add(k);
-                    QuadNodeIndexList.Add(k + 1);
-                    QuadNodeVertexList.Add(new Vertex(new Vector3(i.NodeSquare.X + i.NodeSquare.Width, 100 / (i.Depth + 1), i.NodeSquare.Y)));
-                    QuadNodeIndexList.Add(k + 1);
-                    QuadNodeIndexList.Add(k + 2);
-                    QuadNodeVertexList.Add(new Vertex(new Vector3(i.NodeSquare.X + i.NodeSquare.Width, 100 / (i.Depth + 1), i.NodeSquare.Y + i.NodeSquare.Height)));
-                    QuadNodeIndexList.Add(k + 2);
-                    QuadNodeIndexList.Add(k + 3);
-                    QuadNodeVertexList.Add(new Vertex(new Vector3(i.NodeSquare.X, 100 / (i.Depth + 1), i.NodeSquare.Y + i.NodeSquare.Height)));
-                    QuadNodeIndexList.Add(k + 3);
-                    QuadNodeIndexList.Add(k);
-                    k += 4;
-                }
-            }
-
-            if (secondQuadTreeMesh != null)
-                secondQuadTreeMesh.Dispose();
-
-            secondQuadTreeMesh = SharpMesh.Create(device, QuadNodeVertexList.ToArray(), QuadNodeIndexList.ToArray(), new List<SharpSubSet>(){
-                new SharpSubSet(0, QuadNodeIndexList.Count, null) }, SharpDX.Direct3D.PrimitiveTopology.LineList);
-            secondQuadtreeRenderData.Color = new Vector4(0.3f, 0.9f, 0.6f, 1f);
         }
     }
 }

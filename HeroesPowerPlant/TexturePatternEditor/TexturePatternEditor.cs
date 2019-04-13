@@ -259,7 +259,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public void Animate()
         {
             if (Play)
-                patternSystem.Animate();
+                patternSystem.Animate(this);
         }
 
         private bool Play = false;

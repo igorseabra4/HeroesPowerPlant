@@ -43,11 +43,14 @@ namespace HeroesPowerPlant.MainForm
             this.modLoaderConfigEditorF2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.levelEditorF3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.collisionEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layoutEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splineEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.particleEditorF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.texturePatternEditorF9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lightEditorF10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sETIDTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTXDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +85,6 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.lightEditorF10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -187,17 +189,33 @@ namespace HeroesPowerPlant.MainForm
             // 
             // collisionEditorToolStripMenuItem
             // 
+            this.collisionEditorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem});
             this.collisionEditorToolStripMenuItem.Name = "collisionEditorToolStripMenuItem";
             this.collisionEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.collisionEditorToolStripMenuItem.Text = "Collision Editor (F4)";
-            this.collisionEditorToolStripMenuItem.Click += new System.EventHandler(this.collisionEditorToolStripMenuItem_Click);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newCollisionEditorToolStripMenuItem_Click);
             // 
             // layoutEditorToolStripMenuItem
             // 
+            this.layoutEditorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem1});
             this.layoutEditorToolStripMenuItem.Name = "layoutEditorToolStripMenuItem";
             this.layoutEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.layoutEditorToolStripMenuItem.Text = "Layout Editor (F5)";
-            this.layoutEditorToolStripMenuItem.Click += new System.EventHandler(this.layoutEditorToolStripMenuItem_Click);
+            // 
+            // newToolStripMenuItem1
+            // 
+            this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem1.Text = "New";
+            this.newToolStripMenuItem1.Click += new System.EventHandler(this.newLayoutEditorToolStripMenuItem1_Click);
             // 
             // splineEditorToolStripMenuItem
             // 
@@ -227,6 +245,13 @@ namespace HeroesPowerPlant.MainForm
             this.texturePatternEditorF9ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.texturePatternEditorF9ToolStripMenuItem.Text = "Texture Pattern Editor (F9)";
             this.texturePatternEditorF9ToolStripMenuItem.Click += new System.EventHandler(this.texturePatternEditorF9ToolStripMenuItem_Click);
+            // 
+            // lightEditorF10ToolStripMenuItem
+            // 
+            this.lightEditorF10ToolStripMenuItem.Name = "lightEditorF10ToolStripMenuItem";
+            this.lightEditorF10ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.lightEditorF10ToolStripMenuItem.Text = "Light Editor (F10)";
+            this.lightEditorF10ToolStripMenuItem.Click += new System.EventHandler(this.lightEditorF10ToolStripMenuItem_Click);
             // 
             // sETIDTableEditorToolStripMenuItem
             // 
@@ -515,13 +540,6 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
-            // lightEditorF10ToolStripMenuItem
-            // 
-            this.lightEditorF10ToolStripMenuItem.Name = "lightEditorF10ToolStripMenuItem";
-            this.lightEditorF10ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.lightEditorF10ToolStripMenuItem.Text = "Light Editor (F10)";
-            this.lightEditorF10ToolStripMenuItem.Click += new System.EventHandler(this.lightEditorF10ToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -605,6 +623,8 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem sETIDTableEditorToolStripMenuItem;
         private ToolStripMenuItem cameraViewSettingsToolStripMenuItem;
         private ToolStripMenuItem lightEditorF10ToolStripMenuItem;
+        private ToolStripMenuItem newToolStripMenuItem;
+        private ToolStripMenuItem newToolStripMenuItem1;
     }
 }
 

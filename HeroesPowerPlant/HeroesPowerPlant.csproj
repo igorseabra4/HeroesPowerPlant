@@ -179,6 +179,8 @@
     <Compile Include="ConfigEditor\EndPositionEntry.cs" />
     <Compile Include="ConfigEditor\EntryRenderer.cs" />
     <Compile Include="LayoutEditor\Gizmo.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List07\Object0704_RailRoadblock.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List07\Object0705_Capsule.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\ItemShadow.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0004_DashRamp.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object000E_Rocket.cs" />
@@ -407,7 +409,7 @@
     <Compile Include="Shared\MemoryFunctions.cs" />
     <Compile Include="Shared\ReadWriteCommon.cs" />
     <Compile Include="Shared\ReadWriteMemory.cs" />
-    <Compile Include="CollisionEditor\CollisionRendering.cs" />
+    <Compile Include="CollisionEditor\CollisionRenderer.cs" />
     <Compile Include="Shared\collada_schema_1_4.cs" />
     <Compile Include="LevelEditor\Visibility\VisibilityFunctions.cs" />
     <Compile Include="MainForm\MainForm.cs">

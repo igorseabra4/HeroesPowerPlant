@@ -12,13 +12,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int Refresh
         {
-            get => ReadLong(8);
+            get => ReadInt(8);
             set => Write(8, value);
         }
 
         public int Disable
         {
-            get => ReadLong(12);
+            get => ReadInt(12);
             set => Write(12, value);
         }
     }

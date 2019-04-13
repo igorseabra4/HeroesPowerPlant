@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.MainForm
 {
-    partial class AboutBox
+    public partial class AboutBox
     {
         /// <summary>
         /// Variável de designer necessária.

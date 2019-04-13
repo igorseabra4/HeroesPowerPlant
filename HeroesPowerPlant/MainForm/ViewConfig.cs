@@ -21,10 +21,10 @@ namespace HeroesPowerPlant.MainForm
 
         // Default value assignments moved to Program.MainForm.renderer.
 
-        public ViewConfig()
+        public ViewConfig(SharpCamera Camera)
         {
             InitializeComponent();
-            Program.MainForm.renderer.Camera.CameraChangedEvent += CameraChanged;
+            Camera.CameraChangedEvent += CameraChanged;
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void NumericQuadHeight_ValueChanged(object sender, EventArgs e)
         {
-            CollisionEditor.CollisionRendering.SetQuadHeight((float)NumericQuadHeight.Value);
+            CollisionEditor.CollisionRenderer.SetQuadHeight((float)NumericQuadHeight.Value);
         }
 
         private void NumericMouseSens_ValueChanged(object sender, EventArgs e)

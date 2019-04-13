@@ -15,7 +15,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public TypeType Type
         {
-            get => (TypeType)ReadLong(4);
+            get => (TypeType)ReadInt(4);
             set => Write(4, (int)value);
         }
 
@@ -33,7 +33,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int Null_Interval_SwitchID_Speed_EnemyID
         {
-            get => ReadLong(16); 
+            get => ReadInt(16); 
             set => Write(16, value);
         }
     }
