@@ -371,62 +371,107 @@ namespace HeroesPowerPlant.MainForm
                     renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown, PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
         }
 
-        public void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool placeNewObject)
+        private void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool placeNewObject)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), renderer.viewProjection);
+
             if (!isMouseDown && placeNewObject)
-            {
-                float? distance = null;
-
-                if (renderer.ShowCollision)
-                {
-                    foreach (var c in CollisionEditors)
-                    {
-                        c.GetClickedModelPosition(ray, out bool has1, out float dist1);
-                        if (has1 && (distance == null || (distance != null && dist1 < distance)))
-                            distance = dist1;
-                    }
-
-                    LevelEditor.GetClickedModelPosition(true, ray, out bool has2, out float dist2);
-                    if (has2 && (distance == null || (distance != null && dist2 < distance)))
-                        distance = dist2;
-                }
-                else
-                {
-                    LevelEditor.GetClickedModelPosition(false, ray, out bool has3, out float dist3);
-                    if (has3)
-                        distance = dist3;
-                }
-
-                foreach (var c in LayoutEditors)
-                {
-                    bool seeAllObjects;
-
-                    if (renderer.ShowObjects == CheckState.Checked)
-                        seeAllObjects = true;
-                    else if (renderer.ShowObjects == CheckState.Indeterminate)
-                        seeAllObjects = false;
-                    else break;
-
-                    c.GetClickedModelPosition(ray, renderer.Camera.GetPosition(), seeAllObjects, out bool has4, out float dist4);
-
-                    if (has4 && (distance == null || (distance != null && dist4 < distance)))
-                        distance = dist4;
-                }
-
-                Vector3 position = ray.Position + Vector3.Normalize(ray.Direction) * (distance == null ? 100f : (float)distance);
-
-                if (renderer.MouseModeObjects)
-                    foreach (var l in LayoutEditors)
-                        l.PlaceObject(position);
-                //else
-                //    Program.CameraEditor.PlaceObject(position);
-            }
+                ScreenClickedPlaceObject(ray);
+            
             else if (renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
-                foreach (var l in LayoutEditors)
-                    l.ScreenClicked(renderer, ray, isMouseDown, renderer.ShowObjects == CheckState.Checked);
+                ScreenClickedSelectObject(ray, isMouseDown);
+            
             else if (renderer.ShowCameras && !isMouseDown)
                 CameraEditor.ScreenClicked(ray);
+        }
+
+        private void ScreenClickedPlaceObject(Ray ray)
+        {
+            float? distance = null;
+
+            if (renderer.ShowCollision)
+            {
+                // verify position in collision editors
+                foreach (var c in CollisionEditors)
+                {
+                    c.GetClickedModelPosition(ray, out bool has1, out float dist1);
+                    if (has1 && (distance == null || (distance != null && dist1 < distance)))
+                        distance = dist1;
+                }
+
+                LevelEditor.GetClickedModelPosition(true, ray, out bool has2, out float dist2);
+                if (has2 && (distance == null || (distance != null && dist2 < distance)))
+                    distance = dist2;
+            }
+            else
+            {
+                // verify position in level editor
+                LevelEditor.GetClickedModelPosition(false, ray, out bool has3, out float dist3);
+                if (has3)
+                    distance = dist3;
+            }
+
+            // verify position in layout editors
+            foreach (var c in LayoutEditors)
+            {
+                bool seeAllObjects;
+
+                if (renderer.ShowObjects == CheckState.Checked)
+                    seeAllObjects = true;
+                else if (renderer.ShowObjects == CheckState.Indeterminate)
+                    seeAllObjects = false;
+                else break;
+
+                c.GetClickedModelPosition(ray, renderer.Camera.GetPosition(), seeAllObjects, out bool has4, out float dist4);
+
+                if (has4 && (distance == null || (distance != null && dist4 < distance)))
+                    distance = dist4;
+            }
+
+            Vector3 position = ray.Position + Vector3.Normalize(ray.Direction) * (distance == null ? 100f : (float)distance);
+
+            if (renderer.MouseModeObjects)
+                foreach (var l in LayoutEditors)
+                    l.PlaceObject(position);
+            //else
+            //    Program.CameraEditor.PlaceObject(position);
+        }
+
+        private void ScreenClickedSelectObject(Ray ray, bool isMouseDown)
+        {
+            // select object in layout editor
+            float minDistance = 40000f;
+            int index = -1;
+            LayoutEditor.LayoutEditor e = null;
+
+            foreach (var l in LayoutEditors)
+            {
+                l.ScreenClicked(renderer, ray, isMouseDown, renderer.ShowObjects == CheckState.Checked, out float distance, out int newIndex);
+                if (newIndex != -1 && distance < minDistance)
+                {
+                    index = newIndex;
+                    minDistance = distance;
+                    e = l;
+                }
+            }
+
+            if (!isMouseDown)
+                foreach (var l in LayoutEditors)
+                {
+                    if (l.finishedMovingGizmo)
+                        l.finishedMovingGizmo = false;
+                    else if (l == e)
+                        l.SetSelectedIndex(index);
+                    else
+                        l.SetSelectedIndex(-1);
+                }
+        }
+
+        public void UnselectEveryoneExceptMe(LayoutEditor.LayoutEditor editor)
+        {
+            foreach (var l in LayoutEditors)
+                if (l != editor)
+                    l.SetSelectedIndex(-1);
         }
 
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)

@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using Newtonsoft.Json;
+using SharpDX;
 using System;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -26,8 +27,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public byte[] UnkBytes;
 
+        [JsonIgnore]
         public bool isSelected;
 
+        [JsonIgnore]
         public BoundingBox boundingBox;
         
         public override string ToString()

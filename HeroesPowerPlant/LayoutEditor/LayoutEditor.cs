@@ -200,11 +200,13 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 UpdateDisplayData();
                 UpdateGizmoPosition();
+                Program.MainForm.UnselectEveryoneExceptMe(this);
             }
             else
             {
                 DisableDisplayData();
                 ClearGizmos();
+                UpdateObjectAmountLabel();
             }
 
             ProgramIsChangingStuff = false;
@@ -216,9 +218,20 @@ namespace HeroesPowerPlant.LayoutEditor
             SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
+        private void buttonDuplicate_Click(object sender, EventArgs e)
+        {
+            layoutSystem.DuplicateSetObject(SelectedIndex);
+            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
+        }
+
         private void buttonCopy_Click(object sender, EventArgs e)
         {
             layoutSystem.CopySetObject(SelectedIndex);
+        }
+
+        private void buttonPaste_Click(object sender, EventArgs e)
+        {
+            layoutSystem.PasteSetObject();
             SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
@@ -233,6 +246,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 try { SelectedIndex = Temp; }
                 catch { SelectedIndex = Temp - 1; }
+
+                listBoxObjects_SelectedIndexChanged(sender, e);
                 ProgramIsChangingStuff = false;
             }
         }
@@ -400,23 +415,29 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        private bool finishedMovingGizmo = false;
+        public bool finishedMovingGizmo = false;
 
-        public void ScreenClicked(SharpRenderer renderer, Ray r, bool isMouseDown, bool showAllObjects)
+        public void ScreenClicked(SharpRenderer renderer, Ray r, bool isMouseDown, bool showAllObjects, out float distance, out int index)
         {
-            if (finishedMovingGizmo)
-                finishedMovingGizmo = false;
-            else if (isMouseDown)
+            distance = 40000f;
+            index = -1;
+
+            if (isMouseDown)
                 GizmoSelect(r);
             else
-                listBoxObjects.SelectedIndex = layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, SelectedIndex);
+                layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, SelectedIndex, out index, out distance);
+        }
+
+        public void SetSelectedIndex(int index)
+        {
+            SelectedIndex = index;
         }
         
         public void PlaceObject(Vector3 Position)
         {
             if (SelectedIndex == -1)
                 return;
-            layoutSystem.CopySetObject(SelectedIndex, Position);
+            layoutSystem.DuplicateSetObject(SelectedIndex, Position);
             SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
@@ -505,8 +526,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 buttonDrop.Enabled = false;
                 buttonCurrentViewDrop.Enabled = false;
                 ButtonRemove.Enabled = false;
-                buttonCopy.Enabled = false;
+                buttonDuplicate.Enabled = false;
                 groupBox1.Enabled = false;
+                buttonCopy.Enabled = false;
                 
                 displayDataDisabled = true;
             }
@@ -527,8 +549,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 buttonDrop.Enabled = true;
                 buttonCurrentViewDrop.Enabled = true;
                 ButtonRemove.Enabled = true;
-                buttonCopy.Enabled = true;
+                buttonDuplicate.Enabled = true;
                 groupBox1.Enabled = true;
+                buttonCopy.Enabled = true;
 
                 displayDataDisabled = false;
             }
@@ -540,10 +563,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 objectAmountLabel.Text = "0 objects";
             else
             {
-                if (layoutSystem.GetSetObjectAt(SelectedIndex) == null)
-                    objectAmountLabel.Text = layoutSystem.GetSetObjectAmount().ToString() + " objects";
-                else
-                    objectAmountLabel.Text = string.Format("{0}/{1} objects", SelectedIndex + 1, layoutSystem.GetSetObjectAmount());
+                objectAmountLabel.Text = SelectedIndex == -1 ?
+                    layoutSystem.GetSetObjectAmount().ToString() + " objects" :
+                    string.Format("{0}/{1} objects", SelectedIndex + 1, layoutSystem.GetSetObjectAmount());
             }
         }
 
@@ -600,7 +622,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void UpdateGizmoPosition()
         {
-            UpdateGizmoPosition(layoutSystem.GetSetObjectAt(SelectedIndex).GetGizmoCenter());
+            if (SelectedIndex == -1)
+                ClearGizmos();
+            else
+                UpdateGizmoPosition(layoutSystem.GetSetObjectAt(SelectedIndex).GetGizmoCenter());
         }
 
         private void UpdateGizmoPosition(BoundingSphere position)

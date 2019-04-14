@@ -51,7 +51,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.listBoxObjects = new System.Windows.Forms.ListBox();
-            this.buttonCopy = new System.Windows.Forms.Button();
+            this.buttonDuplicate = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
             this.ButtonRemove = new System.Windows.Forms.Button();
             this.ButtonAdd = new System.Windows.Forms.Button();
@@ -96,6 +96,8 @@
             this.numericUnkB3 = new System.Windows.Forms.NumericUpDown();
             this.numericUnkB2 = new System.Windows.Forms.NumericUpDown();
             this.numericUnkB1 = new System.Windows.Forms.NumericUpDown();
+            this.buttonCopy = new System.Windows.Forms.Button();
+            this.buttonPaste = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -151,7 +153,7 @@
             this.heroesLayoutToolStripMenuItem,
             this.shadowLayoutToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // heroesLayoutToolStripMenuItem
@@ -171,28 +173,28 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -300,24 +302,24 @@
             this.listBoxObjects.FormattingEnabled = true;
             this.listBoxObjects.Location = new System.Drawing.Point(12, 27);
             this.listBoxObjects.Name = "listBoxObjects";
-            this.listBoxObjects.Size = new System.Drawing.Size(182, 407);
+            this.listBoxObjects.Size = new System.Drawing.Size(182, 381);
             this.listBoxObjects.TabIndex = 2;
             this.listBoxObjects.SelectedIndexChanged += new System.EventHandler(this.listBoxObjects_SelectedIndexChanged);
             // 
-            // buttonCopy
+            // buttonDuplicate
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(12, 469);
-            this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(88, 23);
-            this.buttonCopy.TabIndex = 61;
-            this.buttonCopy.TabStop = false;
-            this.buttonCopy.Text = "Copy";
-            this.buttonCopy.UseVisualStyleBackColor = true;
-            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+            this.buttonDuplicate.Location = new System.Drawing.Point(106, 414);
+            this.buttonDuplicate.Name = "buttonDuplicate";
+            this.buttonDuplicate.Size = new System.Drawing.Size(88, 23);
+            this.buttonDuplicate.TabIndex = 61;
+            this.buttonDuplicate.TabStop = false;
+            this.buttonDuplicate.Text = "Duplicate";
+            this.buttonDuplicate.UseVisualStyleBackColor = true;
+            this.buttonDuplicate.Click += new System.EventHandler(this.buttonDuplicate_Click);
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(106, 469);
+            this.buttonClear.Location = new System.Drawing.Point(106, 472);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(88, 23);
             this.buttonClear.TabIndex = 64;
@@ -328,7 +330,7 @@
             // 
             // ButtonRemove
             // 
-            this.ButtonRemove.Location = new System.Drawing.Point(106, 440);
+            this.ButtonRemove.Location = new System.Drawing.Point(106, 443);
             this.ButtonRemove.Name = "ButtonRemove";
             this.ButtonRemove.Size = new System.Drawing.Size(88, 23);
             this.ButtonRemove.TabIndex = 63;
@@ -339,7 +341,7 @@
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(12, 440);
+            this.ButtonAdd.Location = new System.Drawing.Point(12, 414);
             this.ButtonAdd.Name = "ButtonAdd";
             this.ButtonAdd.Size = new System.Drawing.Size(88, 23);
             this.ButtonAdd.TabIndex = 62;
@@ -872,11 +874,35 @@
             this.numericUnkB1.TabIndex = 81;
             this.numericUnkB1.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
+            // buttonCopy
+            // 
+            this.buttonCopy.Location = new System.Drawing.Point(12, 443);
+            this.buttonCopy.Name = "buttonCopy";
+            this.buttonCopy.Size = new System.Drawing.Size(88, 23);
+            this.buttonCopy.TabIndex = 81;
+            this.buttonCopy.TabStop = false;
+            this.buttonCopy.Text = "Copy";
+            this.buttonCopy.UseVisualStyleBackColor = true;
+            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+            // 
+            // buttonPaste
+            // 
+            this.buttonPaste.Location = new System.Drawing.Point(12, 472);
+            this.buttonPaste.Name = "buttonPaste";
+            this.buttonPaste.Size = new System.Drawing.Size(88, 23);
+            this.buttonPaste.TabIndex = 82;
+            this.buttonPaste.TabStop = false;
+            this.buttonPaste.Text = "Paste";
+            this.buttonPaste.UseVisualStyleBackColor = true;
+            this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 521);
+            this.Controls.Add(this.buttonPaste);
+            this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonCurrentViewDrop);
             this.Controls.Add(this.buttonDrop);
@@ -893,7 +919,7 @@
             this.Controls.Add(this.LabelObject);
             this.Controls.Add(this.GroupBox2);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.buttonCopy);
+            this.Controls.Add(this.buttonDuplicate);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.ButtonRemove);
             this.Controls.Add(this.ButtonAdd);
@@ -960,7 +986,7 @@
         private System.Windows.Forms.ToolStripMenuItem importLayoutFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importOBJToolStripMenuItem;
         private System.Windows.Forms.ListBox listBoxObjects;
-        private System.Windows.Forms.Button buttonCopy;
+        private System.Windows.Forms.Button buttonDuplicate;
         private System.Windows.Forms.Button buttonClear;
         internal System.Windows.Forms.Button ButtonRemove;
         internal System.Windows.Forms.Button ButtonAdd;
@@ -1011,5 +1037,7 @@
         internal System.Windows.Forms.NumericUpDown numericUnkB7;
         internal System.Windows.Forms.NumericUpDown numericUnkB6;
         internal System.Windows.Forms.NumericUpDown numericUnkB5;
+        private System.Windows.Forms.Button buttonCopy;
+        private System.Windows.Forms.Button buttonPaste;
     }
 }

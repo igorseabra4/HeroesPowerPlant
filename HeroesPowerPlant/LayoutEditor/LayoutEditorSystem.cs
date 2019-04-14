@@ -250,13 +250,13 @@ namespace HeroesPowerPlant.LayoutEditor
             setObjects.Add(newObject);
         }
 
-        public void CopySetObject(int index)
+        public void DuplicateSetObject(int index)
         {
             SetObject original = GetSetObjectAt(index);
-            CopySetObject(index, original.Position);
+            DuplicateSetObject(index, original.Position);
         }
 
-        public void CopySetObject(int index, Vector3 Position)
+        public void DuplicateSetObject(int index, Vector3 Position)
         {
             SetObject original = GetSetObjectAt(index);
             SetObject destination;
@@ -273,6 +273,36 @@ namespace HeroesPowerPlant.LayoutEditor
             destination.CreateTransformMatrix();
 
             setObjects.Add(destination);
+        }
+
+        public void CopySetObject(int index)
+        {
+            Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index)));
+        }
+
+        public void PasteSetObject()
+        {
+            Vector3 Position = Program.MainForm.renderer.Camera.GetPosition() + 100 * Program.MainForm.renderer.Camera.GetForward();
+            string text = Clipboard.GetText();
+
+            try
+            {
+                SetObject destination;
+
+                if (isShadow)
+                    destination = JsonConvert.DeserializeObject<SetObjectShadow>(text);
+                else
+                    destination = JsonConvert.DeserializeObject<SetObjectHeroes>(text);
+
+                destination.FindNewObjectManager(false);
+                destination.CreateTransformMatrix();
+
+                setObjects.Add(destination);
+            }
+            catch
+            {
+                MessageBox.Show($"Error pasting object from clipboard. Are you sure you have a {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} object copied?");
+            }
         }
 
         public void RemoveSetObject(int index)
@@ -419,11 +449,11 @@ namespace HeroesPowerPlant.LayoutEditor
                 return ((SetObjectHeroes)GetSetObjectAt(index)).objectManager;
         }
 
-        public int ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, int currentlySelectedIndex)
+        public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, int currentlySelectedIndex, out int index, out float smallerDistance)
         {
-            int index = -1;
+            index = -1;
+            smallerDistance = 40000f;
 
-            float smallerDistance = 10000f;
             for (int i = 0; i < setObjects.Count; i++)
             {
                 if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(camPos)))
@@ -436,8 +466,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         index = i;
                     }
             }
-
-            return index;
         }
 
         public void GetClickedModelPosition(Ray ray, Vector3 camPos, bool seeAllObjects, out bool hasIntersected, out float smallestDistance)

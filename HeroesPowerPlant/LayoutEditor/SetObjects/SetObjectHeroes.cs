@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using Newtonsoft.Json;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -39,6 +40,7 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateTransformMatrix();
         }
 
+        [JsonIgnore]
         public SetObjectManagerHeroes objectManager;
 
         public override void CreateTransformMatrix()
