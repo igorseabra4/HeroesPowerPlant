@@ -1,4 +1,4 @@
-﻿using SharpDX;
+using SharpDX;
 using System.Windows.Forms;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
@@ -272,9 +272,8 @@ namespace HeroesPowerPlant
         {
             RenderLoop.Run(Panel, () =>
             {
-                SharpFps.StartFrame();
-
-                if (dontRender) return;
+                if (dontRender)
+                    return;
 
                 //Resizing
                 if (Device.MustResize)
@@ -284,7 +283,7 @@ namespace HeroesPowerPlant
                 }
 
                 mainForm.KeyboardController();
-                mainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{SharpFps.FPS:0.0000}");
+                mainForm.SetToolStripStatusLabel(Camera + " FPS: " + $"{SharpFps.StatFPS:0.0000}");
 
                 //clear color
                 Device.Clear(backgroundColor);
@@ -332,9 +331,7 @@ namespace HeroesPowerPlant
 
                 //present
                 Device.Present();
-
                 SharpFps.EndFrame();
-                SharpFps.Sleep();
             });
 
             //release resources
