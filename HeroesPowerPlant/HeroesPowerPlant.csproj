@@ -223,6 +223,7 @@
     <Compile Include="SharpDX\Camera\CameraVectors.cs" />
     <Compile Include="SharpDX\Camera\ProjectionMatrix.cs" />
     <Compile Include="SharpDX\Camera\ViewMatrix.cs" />
+    <Compile Include="SharpDX\Dependencies\CircularBuffer.cs" />
     <Compile Include="SharpDX\RenderData\CollisionRenderData.cs" />
     <Compile Include="SharpDX\RenderData\DefaultRenderData.cs" />
     <Compile Include="SharpDX\SharpFPS.cs" />

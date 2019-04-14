@@ -38,7 +38,7 @@ namespace HeroesPowerPlant
         /// <returns></returns>
         public float GetScaledSpeed()
         {
-            return (float)(NormalFPS / _sharpFPS.FPS) * Speed;
+            return (float)(NormalFPS / _sharpFPS.StatFrameFPS) * Speed;
         }
 
         //////////////////////////
