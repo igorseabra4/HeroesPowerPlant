@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -653,24 +653,24 @@ namespace HeroesPowerPlant.MainForm
         public void KeyboardController()
         {
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
-                renderer.Camera.AddYaw(-0.1f);
+                renderer.Camera.AddYaw(-renderer.Camera.KeyboardSensitivity);
             else if (PressedKeys.Contains(Keys.A))
                 renderer.Camera.AddPositionSideways(1f);
 
             if (PressedKeys.Contains(Keys.D) & PressedKeys.Contains(Keys.ControlKey))
-                renderer.Camera.AddYaw(0.1f);
+                renderer.Camera.AddYaw(renderer.Camera.KeyboardSensitivity);
             else if (PressedKeys.Contains(Keys.D))
                 renderer.Camera.AddPositionSideways(-1f);
 
             if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ControlKey))
-                renderer.Camera.AddPitch(-0.1f);
+                renderer.Camera.AddPitch(-renderer.Camera.KeyboardSensitivity);
             else if (PressedKeys.Contains(Keys.W) & PressedKeys.Contains(Keys.ShiftKey))
                 renderer.Camera.AddPositionUp(1f);
             else if (PressedKeys.Contains(Keys.W))
                 renderer.Camera.AddPositionForward(1f);
 
             if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ControlKey))
-                renderer.Camera.AddPitch(0.1f);
+                renderer.Camera.AddPitch(renderer.Camera.KeyboardSensitivity);
             else if (PressedKeys.Contains(Keys.S) & PressedKeys.Contains(Keys.ShiftKey))
                 renderer.Camera.AddPositionUp(-1f);
             else if (PressedKeys.Contains(Keys.S))

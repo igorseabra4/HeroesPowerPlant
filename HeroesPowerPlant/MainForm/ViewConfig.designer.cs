@@ -46,6 +46,8 @@
             this.NumericFOV = new System.Windows.Forms.NumericUpDown();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.NumericMouseSens = new System.Windows.Forms.NumericUpDown();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.NumericKeyboardSens = new System.Windows.Forms.NumericUpDown();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraYaw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraPitch)).BeginInit();
@@ -63,6 +65,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericFOV)).BeginInit();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericMouseSens)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericKeyboardSens)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -302,10 +306,40 @@
             0});
             this.NumericMouseSens.ValueChanged += new System.EventHandler(this.NumericMouseSens_ValueChanged);
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.NumericKeyboardSens);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.TabStop = false;
+            // 
+            // NumericKeyboardSens
+            // 
+            this.NumericKeyboardSens.DecimalPlaces = 4;
+            this.NumericKeyboardSens.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            resources.ApplyResources(this.NumericKeyboardSens, "NumericKeyboardSens");
+            this.NumericKeyboardSens.Maximum = new decimal(new int[] {
+            666666,
+            0,
+            0,
+            0});
+            this.NumericKeyboardSens.Name = "NumericKeyboardSens";
+            this.NumericKeyboardSens.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NumericKeyboardSens.ValueChanged += new System.EventHandler(this.NumericKeyboardSens_ValueChanged);
+            // 
             // ViewConfig
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox6);
@@ -336,6 +370,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericFOV)).EndInit();
             this.groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumericMouseSens)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NumericKeyboardSens)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -359,5 +395,7 @@
         public System.Windows.Forms.NumericUpDown NumericFOV;
         private System.Windows.Forms.GroupBox groupBox7;
         public System.Windows.Forms.NumericUpDown NumericMouseSens;
+        private System.Windows.Forms.GroupBox groupBox8;
+        public System.Windows.Forms.NumericUpDown NumericKeyboardSens;
     }
 }

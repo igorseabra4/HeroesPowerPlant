@@ -113,8 +113,14 @@ namespace HeroesPowerPlant.MainForm
 
         private void NumericMouseSens_ValueChanged(object sender, EventArgs e)
         {
-            Program.MainForm.renderer.Camera.MouseSensitivity = (float)NumericMouseSens.Value / 10f;
+            Program.MainForm.renderer.Camera.MouseSensitivity = (float)NumericMouseSens.Value;
         }
+
+        private void NumericKeyboardSens_ValueChanged(object sender, EventArgs e)
+        {
+            Program.MainForm.renderer.Camera.KeyboardSensitivity = (float)NumericKeyboardSens.Value;
+        }
+
 
         private void ViewConfig_VisibleChanged(object sender, EventArgs e)
         {
@@ -154,7 +160,8 @@ namespace HeroesPowerPlant.MainForm
 
             NumericCameraYaw.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Yaw;
             NumericCameraPitch.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Pitch;
-            NumericMouseSens.Value = (decimal)Program.MainForm.renderer.Camera.MouseSensitivity * 10;
+            NumericMouseSens.Value = (decimal)Program.MainForm.renderer.Camera.MouseSensitivity;
+            NumericKeyboardSens.Value = (decimal)Program.MainForm.renderer.Camera.KeyboardSensitivity;
             ProgramIsUpdatingValues = false;
             _invalidCameraValues = false;
         }

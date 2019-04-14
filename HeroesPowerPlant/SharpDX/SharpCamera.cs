@@ -12,15 +12,19 @@ namespace HeroesPowerPlant
     {
         // Contains the expected framerate.
         private const float NormalFPS = 60F;
+        private const float DefaultSpeed = 3.5F;
+        private const float DefaultMouseSensitivity = 1.0F;
+        private const float DefaultKeyboardSensitivity = 0.333F;
 
         /// <summary>
         /// A scalar which defines how fast the camera should move forward and back.
         /// </summary>
-        public float Speed { get; set; } = 3.5F;
+        public float Speed { get; set; } = DefaultSpeed;
         public ViewMatrix ViewMatrix { get; private set; } = new ViewMatrix();
         public ProjectionMatrix ProjectionMatrix { get; private set; } = new ProjectionMatrix();
         public event CameraChangedDelegate CameraChangedEvent;
-        public float MouseSensitivity { get; set; } = 0.1F;
+        public float MouseSensitivity { get; set; } = DefaultMouseSensitivity;
+        public float KeyboardSensitivity { get; set; } = DefaultKeyboardSensitivity;
 
         private readonly SharpFPS _sharpFPS;
 
@@ -129,8 +133,9 @@ namespace HeroesPowerPlant
 
         public void Reset()
         {
-            MouseSensitivity = 0.1f;
-            Speed = 3.5F;
+            MouseSensitivity = DefaultMouseSensitivity;
+            KeyboardSensitivity = DefaultKeyboardSensitivity;
+            Speed = DefaultSpeed;
             ViewMatrix = new ViewMatrix();
             ProjectionMatrix = new ProjectionMatrix(ProjectionMatrix.AspectRatio, ProjectionMatrix.FarPlane, ProjectionMatrix.FieldOfView);
             RaiseCameraChangedEvent();
