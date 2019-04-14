@@ -16,11 +16,11 @@ namespace HeroesPowerPlant
         /// <summary>
         /// A scalar which defines how fast the camera should move forward and back.
         /// </summary>
-        public float Speed { get; set; } = 5F;
+        public float Speed { get; set; } = 3.5F;
         public ViewMatrix ViewMatrix { get; private set; } = new ViewMatrix();
         public ProjectionMatrix ProjectionMatrix { get; private set; } = new ProjectionMatrix();
         public event CameraChangedDelegate CameraChangedEvent;
-        public float MouseSensitivity { get; set; } = 0.2F;
+        public float MouseSensitivity { get; set; } = 0.1F;
 
         private readonly SharpFPS _sharpFPS;
 
@@ -129,7 +129,8 @@ namespace HeroesPowerPlant
 
         public void Reset()
         {
-            Speed = 5F;
+            MouseSensitivity = 0.1f;
+            Speed = 3.5F;
             ViewMatrix = new ViewMatrix();
             ProjectionMatrix = new ProjectionMatrix(ProjectionMatrix.AspectRatio, ProjectionMatrix.FarPlane, ProjectionMatrix.FieldOfView);
             RaiseCameraChangedEvent();

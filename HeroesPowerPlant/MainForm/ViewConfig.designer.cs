@@ -125,10 +125,10 @@
             262144});
             this.NumericInterval.Name = "NumericInterval";
             this.NumericInterval.Value = new decimal(new int[] {
-            20,
+            35,
             0,
             0,
-            0});
+            65536});
             this.NumericInterval.ValueChanged += new System.EventHandler(this.NumericInterval_ValueChanged);
             // 
             // groupBox3
@@ -296,10 +296,10 @@
             0});
             this.NumericMouseSens.Name = "NumericMouseSens";
             this.NumericMouseSens.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
-            65536});
+            0});
             this.NumericMouseSens.ValueChanged += new System.EventHandler(this.NumericMouseSens_ValueChanged);
             // 
             // ViewConfig
