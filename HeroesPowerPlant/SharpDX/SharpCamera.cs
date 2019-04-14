@@ -13,8 +13,8 @@ namespace HeroesPowerPlant
         // Contains the expected framerate.
         private const float NormalFPS = 60F;
         private const float DefaultSpeed = 3.5F;
-        private const float DefaultMouseSensitivity = 1.0F;
-        private const float DefaultKeyboardSensitivity = 0.333F;
+        private const float DefaultMouseSensitivity = 3.5F;
+        private const float DefaultKeyboardSensitivity = 1F;
 
         /// <summary>
         /// A scalar which defines how fast the camera should move forward and back.
@@ -43,6 +43,15 @@ namespace HeroesPowerPlant
         public float GetScaledSpeed()
         {
             return (float)(NormalFPS / _sharpFPS.StatFrameFPS) * Speed;
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Speed"/> member, with respect to the current framerate.
+        /// </summary>
+        /// <returns></returns>
+        public float GetScaledRotationSpeed()
+        {
+            return (float)(NormalFPS / _sharpFPS.StatFrameFPS);
         }
 
         //////////////////////////
@@ -94,7 +103,7 @@ namespace HeroesPowerPlant
         public void AddYaw(float yaw, bool scaleWithFramerate = true)
         {
             if (scaleWithFramerate)
-                ViewMatrix.Yaw -= yaw * GetScaledSpeed();
+                ViewMatrix.Yaw -= yaw * GetScaledRotationSpeed();
             else
                 ViewMatrix.Yaw -= yaw;
 
@@ -104,7 +113,7 @@ namespace HeroesPowerPlant
         public void AddPitch(float pitch, bool scaleWithFramerate = true)
         {
             if (scaleWithFramerate)
-                ViewMatrix.Pitch -= pitch * GetScaledSpeed();
+                ViewMatrix.Pitch -= pitch * GetScaledRotationSpeed();
             else
                 ViewMatrix.Pitch -= pitch;
 
