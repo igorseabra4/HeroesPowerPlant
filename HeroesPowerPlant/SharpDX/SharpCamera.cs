@@ -87,15 +87,23 @@ namespace HeroesPowerPlant
             RaiseCameraChangedEvent();
         }
 
-        public void AddYaw(float yaw)
+        public void AddYaw(float yaw, bool scaleWithFramerate = true)
         {
-            ViewMatrix.Yaw -= yaw;
+            if (scaleWithFramerate)
+                ViewMatrix.Yaw -= yaw * GetScaledSpeed();
+            else
+                ViewMatrix.Yaw -= yaw;
+
             RaiseCameraChangedEvent();
         }
 
-        public void AddPitch(float pitch)
+        public void AddPitch(float pitch, bool scaleWithFramerate = true)
         {
-            ViewMatrix.Pitch -= pitch;
+            if (scaleWithFramerate)
+                ViewMatrix.Pitch -= pitch * GetScaledSpeed();
+            else
+                ViewMatrix.Pitch -= pitch;
+
             RaiseCameraChangedEvent();
         }
 
