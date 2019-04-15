@@ -676,6 +676,18 @@ namespace HeroesPowerPlant.MainForm
             else if (PressedKeys.Contains(Keys.S))
                 renderer.Camera.AddPositionForward(-1f);
 
+            if (PressedKeys.Contains(Keys.Up))
+                renderer.Camera.AddPitch(-renderer.Camera.KeyboardSensitivity);
+
+            if (PressedKeys.Contains(Keys.Down))
+                renderer.Camera.AddPitch(renderer.Camera.KeyboardSensitivity);
+
+            if (PressedKeys.Contains(Keys.Left))
+                renderer.Camera.AddYaw(-renderer.Camera.KeyboardSensitivity);
+
+            if (PressedKeys.Contains(Keys.Right))
+                renderer.Camera.AddYaw(renderer.Camera.KeyboardSensitivity);
+
             if (PressedKeys.Contains(Keys.R))
                 renderer.Camera.Reset();
         }

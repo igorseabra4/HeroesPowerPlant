@@ -5,7 +5,8 @@
 ### Keyboard view controls:
 * W, A, S, D: move view forward, left, backward, right
 * Shift + (W, S): move view up, down
-* Ctrl + (W, A, S, D): rotate view up, left, down, right
+* Up, Left, Down, Right: rotate view up, left, down, right
+* Ctrl + (W, A, S, D): rotate view up, left, down, right (alternative)
 * Q, E: decrease interval, increase interval
 * R: reset view
 * Z: toggle mouse mode*
