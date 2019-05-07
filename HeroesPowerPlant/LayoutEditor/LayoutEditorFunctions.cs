@@ -47,7 +47,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 else
                 {
                     LayoutFileReader.BaseStream.Position = 0x18000 + (0x24 * MiscSettings);
-                    TempObject.objectManager.MiscSettings = LayoutFileReader.ReadBytes(36);
+                    TempObject.MiscSettings = LayoutFileReader.ReadBytes(36);
                 }
 
                 TempObject.CreateTransformMatrix();
@@ -106,14 +106,14 @@ namespace HeroesPowerPlant.LayoutEditor
                     long currentPos = layoutWriter.BaseStream.Position;
                     layoutWriter.BaseStream.Position = 0x18000 + (0x24 * j);
 
-                    if (i.objectManager.MiscSettings.Length != 36) throw new Exception();
+                    if (i.MiscSettings.Length != 36) throw new Exception();
 
-                    i.objectManager.MiscSettings[0] = 1;
-                    i.objectManager.MiscSettings[1] = 0;
-                    i.objectManager.MiscSettings[2] = BitConverter.GetBytes(j)[1];
-                    i.objectManager.MiscSettings[3] = BitConverter.GetBytes(j)[0];
+                    i.MiscSettings[0] = 1;
+                    i.MiscSettings[1] = 0;
+                    i.MiscSettings[2] = BitConverter.GetBytes(j)[1];
+                    i.MiscSettings[3] = BitConverter.GetBytes(j)[0];
 
-                    layoutWriter.Write(i.objectManager.MiscSettings);
+                    layoutWriter.Write(i.MiscSettings);
 
                     j++;
                     layoutWriter.BaseStream.Position = currentPos;
@@ -323,7 +323,7 @@ namespace HeroesPowerPlant.LayoutEditor
                             NewMiscSettings.Add(Convert.ToByte(byteasstring, 16));
                         }
 
-                        TempObject.objectManager.MiscSettings = NewMiscSettings.ToArray();
+                        TempObject.MiscSettings = NewMiscSettings.ToArray();
                     }
                     else
                     {
@@ -367,10 +367,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (i.objectEntry.HasMiscSettings)
                 {
                     List<char> m = new List<char>();
-                    for (int j = 0; j < i.objectManager.MiscSettings.Length; j++)
+                    for (int j = 0; j < i.MiscSettings.Length; j++)
                     {
                         if (j % 4 == 0) m.Add(' ');
-                        m.AddRange(String.Format("{0, 2:X2}", i.objectManager.MiscSettings[j]).ToCharArray());
+                        m.AddRange(String.Format("{0, 2:X2}", i.MiscSettings[j]).ToCharArray());
                     }
                     iniWriter.WriteLine("misc" + new string(m.ToArray()));
                 }

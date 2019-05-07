@@ -13,7 +13,7 @@ namespace HeroesPowerPlant
         // Contains the expected framerate.
         private const float NormalFPS = 60F;
         private const float DefaultSpeed = 3.5F;
-        private const float DefaultMouseSensitivity = 3.5F;
+        private const float DefaultMouseSensitivity = 0.35F;
         private const float DefaultKeyboardSensitivity = 1F;
 
         /// <summary>

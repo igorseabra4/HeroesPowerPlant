@@ -443,10 +443,7 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public SetObjectManager GetObjectManager(int index)
         {
-            if (isShadow)
-                return ((SetObjectShadow)GetSetObjectAt(index)).objectManager;
-            else
-                return ((SetObjectHeroes)GetSetObjectAt(index)).objectManager;
+            return GetSetObjectAt(index).ObjectManager;
         }
 
         public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, int currentlySelectedIndex, out int index, out float smallerDistance)

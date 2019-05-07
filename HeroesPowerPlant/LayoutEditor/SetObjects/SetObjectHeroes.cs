@@ -41,7 +41,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         [JsonIgnore]
-        public SetObjectManagerHeroes objectManager;
+        private SetObjectManagerHeroes objectManager;
 
         public override void CreateTransformMatrix()
         {
@@ -61,6 +61,15 @@ namespace HeroesPowerPlant.LayoutEditor
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
             return objectManager.TriangleIntersection(r, objectEntry.ModelNames, initialDistance, out distance);
+        }
+
+        [JsonIgnore]
+        public override SetObjectManager ObjectManager => objectManager;
+
+        public override byte[] MiscSettings
+        {
+            get => objectManager.MiscSettings;
+            set => objectManager.MiscSettings = value;
         }
 
         public override void FindNewObjectManager(bool replaceMiscSettings = true)

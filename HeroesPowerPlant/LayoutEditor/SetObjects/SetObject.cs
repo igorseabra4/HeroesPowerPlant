@@ -47,6 +47,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public abstract void Draw(SharpRenderer renderer, bool drawEveryObject);
 
+        public abstract SetObjectManager ObjectManager { get; }
+
+        public abstract byte[] MiscSettings { get; set; }
+
         public abstract void FindNewObjectManager(bool replaceMiscSettings = true);
 
         public float GetDistanceFromOrigin()
