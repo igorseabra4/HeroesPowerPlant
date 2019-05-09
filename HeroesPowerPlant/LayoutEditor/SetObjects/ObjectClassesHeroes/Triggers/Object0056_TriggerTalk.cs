@@ -86,25 +86,25 @@ namespace HeroesPowerPlant.LayoutEditor
         public TriggerTalkShape TriggerShape
         {
             get => (TriggerTalkShape)ReadInt(8);
-            set { Write(8, (int)value); CreateTransformMatrix(Position, Rotation); }
+            set { Write(8, (int)value); CreateTransformMatrix(); }
         }
 
         public float Radius_ScaleX
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set { Write(12, value); CreateTransformMatrix(); }
         }
 
         public float Height_ScaleY
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set { Write(16, value); CreateTransformMatrix(); }
         }
 
         public float ScaleZ
         {
             get => ReadFloat(20);
-            set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
+            set { Write(20, value); CreateTransformMatrix(); }
         }
 
         public short HintStart1

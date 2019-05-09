@@ -43,8 +43,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public void Save(string fileName)
         {
             MessageBox.Show("Can't save shadow splines yet!");
-            return;
-            SplineEditor.Save(fileName);
+            //SplineEditor.Save(fileName);
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)

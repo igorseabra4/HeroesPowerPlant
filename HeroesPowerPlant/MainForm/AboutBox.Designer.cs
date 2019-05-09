@@ -102,7 +102,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(271, 17);
             this.labelVersion.TabIndex = 0;
-            this.labelVersion.Text = "v0.7.5";
+            this.labelVersion.Text = "v0.7.6";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCopyright
@@ -195,7 +195,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "AboutBox";
-            this.Padding = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About Heroes Power Plant";

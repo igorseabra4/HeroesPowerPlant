@@ -29,7 +29,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                     Matrix.Translation(Position);
             }
-            else base.CreateTransformMatrix(Position, Rotation);
+            else base.CreateTransformMatrix();
         }
 
         public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
@@ -40,7 +40,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Number
         {
             get => ReadByte(4);
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            set { Write(4, value); CreateTransformMatrix(); }
         }
 
         public float SpeedX

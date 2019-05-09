@@ -67,7 +67,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Scale
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set { Write(16, value); CreateTransformMatrix(); }
         }
 
         public bool IsUpsideDown

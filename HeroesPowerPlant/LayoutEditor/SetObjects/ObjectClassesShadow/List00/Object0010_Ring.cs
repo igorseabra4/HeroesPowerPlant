@@ -106,25 +106,25 @@ namespace HeroesPowerPlant.LayoutEditor
         public RingType Type
         {
             get => (RingType)ReadInt(0);
-            set => Write(0, (int)value);
+            set { Write(0, (int)value); CreateTransformMatrix(); }
         }
 
         public int NumberOfRings
         {
             get => ReadInt(4);
-            set => Write(4, value);
-        }
+            set { Write(4, value); CreateTransformMatrix(); }
+}
 
         public float LenghtRadius
         {
             get => ReadFloat(8);
-            set => Write(8, value);
+            set { Write(8, value); CreateTransformMatrix(); }
         }
 
         public float Angle
         {
             get => ReadFloat(12);
-            set => Write(12, value);
+            set { Write(12, value); CreateTransformMatrix(); }
         }
 
         public bool Ghost
