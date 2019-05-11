@@ -8,6 +8,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             transformMatrix =
                 Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + 180f)) *
                 Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
