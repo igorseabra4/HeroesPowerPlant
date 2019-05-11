@@ -571,7 +571,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void UpdateFileLabel(MainForm.MainForm mainForm)
         {
-            if (layoutSystem.CurrentlyOpenFileName == null)
+            if (string.IsNullOrEmpty(layoutSystem.CurrentlyOpenFileName))
                 openFileLabel.Text = "No file loaded";
             else
                 openFileLabel.Text = layoutSystem.CurrentlyOpenFileName;

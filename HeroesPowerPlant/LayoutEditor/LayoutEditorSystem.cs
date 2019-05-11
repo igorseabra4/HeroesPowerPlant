@@ -215,13 +215,15 @@ namespace HeroesPowerPlant.LayoutEditor
             
             if (isShadow)
             {
-                byte currentNum;
+                byte currentNum = 0;
 
-                if (currentlyOpenFileName.ToLower().Contains("cmn")) currentNum = 0x10;
-                else if (currentlyOpenFileName.ToLower().Contains("nrm")) currentNum = 0x20;
-                else if (currentlyOpenFileName.ToLower().Contains("hrd")) currentNum = 0x40;
-                else if (currentlyOpenFileName.ToLower().Contains("ds1")) currentNum = 0x80;
-                else currentNum = 0;
+                if (!string.IsNullOrEmpty(currentlyOpenFileName))
+                {
+                    if (currentlyOpenFileName.ToLower().Contains("cmn")) currentNum = 0x10;
+                    else if (currentlyOpenFileName.ToLower().Contains("nrm")) currentNum = 0x20;
+                    else if (currentlyOpenFileName.ToLower().Contains("hrd")) currentNum = 0x40;
+                    else if (currentlyOpenFileName.ToLower().Contains("ds1")) currentNum = 0x80;
+                }
 
                 var unkBytes = new List<byte>() { 1, currentNum };
                 unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0x80 });
@@ -232,14 +234,16 @@ namespace HeroesPowerPlant.LayoutEditor
             }
             else
             {
-                byte currentNum;
+                byte currentNum = 0;
 
-                if (currentlyOpenFileName.Contains("P1")) currentNum = 0x20;
-                else if (currentlyOpenFileName.Contains("P2")) currentNum = 0x40;
-                else if (currentlyOpenFileName.Contains("P3")) currentNum = 0x60;
-                else if (currentlyOpenFileName.Contains("P4")) currentNum = 0x80;
-                else if (currentlyOpenFileName.Contains("P5")) currentNum = 0xA0;
-                else currentNum = 0;
+                if (!string.IsNullOrEmpty(currentlyOpenFileName))
+                {
+                    if (currentlyOpenFileName.Contains("P1")) currentNum = 0x20;
+                    else if (currentlyOpenFileName.Contains("P2")) currentNum = 0x40;
+                    else if (currentlyOpenFileName.Contains("P3")) currentNum = 0x60;
+                    else if (currentlyOpenFileName.Contains("P4")) currentNum = 0x80;
+                    else if (currentlyOpenFileName.Contains("P5")) currentNum = 0xA0;
+                }
 
                 var unkBytes = new byte[8] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
 
