@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2043
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroesPowerPlant", "HeroesPowerPlant\HeroesPowerPlant.csproj", "{A3F86B0F-4A7B-4C01-9A18-79C4EC9A6A05}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeroesONE_R", "HeroesONE-Reloaded\HeroesONE++\HeroesONE_R.csproj", "{6FB14740-4CA8-48A5-AE1C-C48546FFC828}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericStageInjectionCommon", "GenericStageInjectionCommon\GenericStageInjectionCommon\GenericStageInjectionCommon.csproj", "{3CC13C40-7E3F-42F8-ACA8-37CA14BB57A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderWareFile", "RenderWareFile\RenderWareFile\RenderWareFile.csproj", "{005F2D00-06DE-4EF9-BFEE-80EFAC49E114}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{39B59C2E-28E6-4DA7-B3C7-D788DBEA69FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteControl", "RemoteControl\RemoteControl.csproj", "{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +35,6 @@ Global
 		{A3F86B0F-4A7B-4C01-9A18-79C4EC9A6A05}.Release|x64.Build.0 = Release|x64
 		{A3F86B0F-4A7B-4C01-9A18-79C4EC9A6A05}.Release|x86.ActiveCfg = Release|x86
 		{A3F86B0F-4A7B-4C01-9A18-79C4EC9A6A05}.Release|x86.Build.0 = Release|x86
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Debug|x64.ActiveCfg = Debug|x64
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Debug|x64.Build.0 = Debug|x64
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Debug|x86.ActiveCfg = Debug|x86
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Debug|x86.Build.0 = Debug|x86
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Release|x64.ActiveCfg = Release|x64
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Release|x64.Build.0 = Release|x64
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Release|x86.ActiveCfg = Release|x86
-		{6FB14740-4CA8-48A5-AE1C-C48546FFC828}.Release|x86.Build.0 = Release|x86
 		{3CC13C40-7E3F-42F8-ACA8-37CA14BB57A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3CC13C40-7E3F-42F8-ACA8-37CA14BB57A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CC13C40-7E3F-42F8-ACA8-37CA14BB57A4}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -69,9 +59,24 @@ Global
 		{005F2D00-06DE-4EF9-BFEE-80EFAC49E114}.Release|x64.Build.0 = Release|Any CPU
 		{005F2D00-06DE-4EF9-BFEE-80EFAC49E114}.Release|x86.ActiveCfg = Release|Any CPU
 		{005F2D00-06DE-4EF9-BFEE-80EFAC49E114}.Release|x86.Build.0 = Release|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Debug|x64.Build.0 = Debug|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Debug|x86.Build.0 = Debug|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|x64.ActiveCfg = Release|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|x64.Build.0 = Release|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{005F2D00-06DE-4EF9-BFEE-80EFAC49E114} = {39B59C2E-28E6-4DA7-B3C7-D788DBEA69FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1367AC93-CFC8-458F-95DB-1999C8F0DB6A}
