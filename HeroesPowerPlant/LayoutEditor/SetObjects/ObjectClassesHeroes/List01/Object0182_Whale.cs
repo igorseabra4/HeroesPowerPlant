@@ -8,8 +8,6 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            base.CreateTransformMatrix();
-
             triggerMatrix = Matrix.Scaling(TriggerSize) * Matrix.Translation(TriggerX, TriggerY, TriggerZ);
         }
 

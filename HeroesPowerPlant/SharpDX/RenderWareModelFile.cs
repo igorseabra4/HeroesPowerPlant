@@ -79,8 +79,10 @@ namespace HeroesPowerPlant
             {
                 rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwSectionArray, isShadowCollision ? LevelEditor.BSP_IO_ShadowCollision.shadowRenderWareVersion : LevelEditor.BSP_IO_Heroes.heroesRenderWareVersion);
 
+#if RELEASE
                 if (rwSectionByteArray.Length > 450 * 1024)
-                    System.Windows.Forms.MessageBox.Show(fileName + " is larger than 450 kb. I will still import it for you, but be warned that files too large might make the game crash.");
+                    System.Windows.Forms.MessageBox.Show(fileName + " is a very large file. It might crash the game if you don't use TONER mod to enable the game to load bigger files than normally.");
+#endif
             }
             else
                 rwSectionByteArray = rwByteArray;

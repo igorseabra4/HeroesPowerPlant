@@ -248,7 +248,7 @@ namespace HeroesPowerPlant.LevelEditor
             int TotalVertices = 0;
             int TotalUVs = 0;
             int TotalColors = 0;
-
+            
             foreach (ModelConverterDataCollada i in DAEObjectList)
             {
                 foreach (Vector3 j in i.PositionVertexList)
