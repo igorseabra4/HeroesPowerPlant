@@ -174,5 +174,16 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             collisionSystem.Dispose();
         }
+
+        private void ButtonForceReload_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(collisionSystem.CurrentCLfileName))
+                LoadCollision(Path.GetFileNameWithoutExtension(collisionSystem.CurrentCLfileName).Replace("_wt", "").Replace("_xx", ""));
+        }
+
+        private void LoadCollision(string fileNamePrefix)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

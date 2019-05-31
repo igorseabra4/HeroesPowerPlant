@@ -81,14 +81,14 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -96,14 +96,14 @@
             // 
             this.exportOBJToolStripMenuItem.Enabled = false;
             this.exportOBJToolStripMenuItem.Name = "exportOBJToolStripMenuItem";
-            this.exportOBJToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.exportOBJToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportOBJToolStripMenuItem.Text = "Export OBJ";
             this.exportOBJToolStripMenuItem.Click += new System.EventHandler(this.exportOBJToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -283,13 +283,13 @@
             // 
             // buttonForceReload
             // 
-            this.buttonForceReload.Enabled = false;
             this.buttonForceReload.Location = new System.Drawing.Point(12, 104);
             this.buttonForceReload.Name = "buttonForceReload";
             this.buttonForceReload.Size = new System.Drawing.Size(168, 23);
             this.buttonForceReload.TabIndex = 23;
             this.buttonForceReload.Text = "Force Reload";
             this.buttonForceReload.UseVisualStyleBackColor = true;
+            this.buttonForceReload.Click += new System.EventHandler(this.ButtonForceReload_Click);
             // 
             // CollisionEditor
             // 
