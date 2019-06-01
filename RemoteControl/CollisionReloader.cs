@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Reloaded.Hooks.X86;
 using Reloaded.Memory.Sources;
 using static Reloaded.Hooks.X86.FunctionAttribute;
@@ -33,26 +34,25 @@ namespace RemoteControl
         /// </summary>
         private static InitCollision _initCollision;
 
-        /// <summary>
-        /// Executed on first execution of collision file.
-        /// </summary>
         static CollisionReloader()
+        {
+            Initializer.Initialize();
+            Init(); // Actual constructor in there, in case uses libraries not yet loaded.
+        }
+
+        /* The real static constructor */
+        private static void Init()
         {
             _initCollision = Wrapper.Create<InitCollision>(InitCollisionPtr);
         }
 
-        /// <param name="nativeStringPtr">Pointer to a <see cref="Interop.NativeString"/> with the name of the file in the collision folder minus extension e.g. "s01"</param>
+        /// <param name="nativeStringPtr">Pointer to a <see cref="Interop.NativeString64Char"/> with the name of the file in the collision folder minus extension e.g. "s01"</param>
         [DllExport]
-        public static void LoadCollision(int* nativeStringPtr)
+        public static void LoadCollision(int nativeStringPtr)
         {
-            // TODO: Check if static constructor executed.
-            Debugger.Launch();
-
-            // Get string from memory.
-            Memory.CurrentProcess.Read((IntPtr) nativeStringPtr, out Interop.NativeString nativeString, true);
+            Memory.CurrentProcess.Read((IntPtr)nativeStringPtr, out Interop.NativeString64Char nativeString, true);
             _initCollision((IntPtr)LoadManagerPtr, nativeString.String);
         }
-
 
         /// <summary>
         /// Loads a collision file.

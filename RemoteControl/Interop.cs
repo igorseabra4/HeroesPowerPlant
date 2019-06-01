@@ -12,10 +12,15 @@ namespace RemoteControl
     /// </summary>
     public class Interop
     {
-        public struct NativeString
+        public struct NativeString64Char
         {
-            [MarshalAs(UnmanagedType.AnsiBStr)]
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
             public string String;
+
+            public NativeString64Char(string s)
+            {
+                String = s;
+            }
         }
     }
 }

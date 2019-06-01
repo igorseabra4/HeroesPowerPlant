@@ -30,7 +30,6 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -128,11 +127,11 @@
     <Reference Include="PeNet.Asn1, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PeNet.Asn1.1.3.1\lib\net461\PeNet.Asn1.dll</HintPath>
     </Reference>
-    <Reference Include="Reloaded.Assembler, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reloaded.Assembler.1.0.5\lib\net47\Reloaded.Assembler.dll</HintPath>
+    <Reference Include="Reloaded.Assembler, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reloaded.Assembler.1.0.6\lib\net47\Reloaded.Assembler.dll</HintPath>
     </Reference>
-    <Reference Include="Reloaded.Injector, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reloaded.Injector.1.0.3\lib\net47\Reloaded.Injector.dll</HintPath>
+    <Reference Include="Reloaded.Injector, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reloaded.Injector.1.1.0\lib\net47\Reloaded.Injector.dll</HintPath>
     </Reference>
     <Reference Include="Reloaded.Memory, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reloaded.Memory.1.2.2\lib\net47\Reloaded.Memory.dll</HintPath>
@@ -257,6 +256,7 @@
       <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="ShadowSplineEditor\ShadowSplineEditor.cs" />
+    <Compile Include="Shared\RemoteControl.cs" />
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
     <Compile Include="SharpDX\Camera\CameraVectors.cs" />
     <Compile Include="SharpDX\Camera\ProjectionMatrix.cs" />
@@ -670,7 +670,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\csharp-prs.2.0.2\build\csharp-prs.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\csharp-prs.2.0.2\build\csharp-prs.targets'))" />
-    <Error Condition="!Exists('..\packages\Reloaded.Assembler.1.0.5\build\Reloaded.Assembler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Reloaded.Assembler.1.0.5\build\Reloaded.Assembler.targets'))" />
+    <Error Condition="!Exists('..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets'))" />
   </Target>
-  <Import Project="..\packages\Reloaded.Assembler.1.0.5\build\Reloaded.Assembler.targets" Condition="Exists('..\packages\Reloaded.Assembler.1.0.5\build\Reloaded.Assembler.targets')" />
+  <Import Project="..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets" Condition="Exists('..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets')" />
 </Project>
