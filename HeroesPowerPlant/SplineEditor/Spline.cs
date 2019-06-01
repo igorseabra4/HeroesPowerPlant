@@ -82,7 +82,7 @@ namespace HeroesPowerPlant.SplineEditor
             Spline Temp = new Spline();
             List<Vertex> Points = new List<Vertex>();
 
-            Temp.Type = SplineType.Rail;
+            Temp.Type = SplineType.Null;
             foreach (string j in SplineFile)
             {
                 if (j.StartsWith("SPLINE_TYPE="))
@@ -101,6 +101,16 @@ namespace HeroesPowerPlant.SplineEditor
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
                     Points.Add(new Vertex(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])));
                 }
+            }
+
+            if (Temp.Type == SplineType.Null)
+            {
+                if (FileName.ToLower().Contains("loop"))
+                    Temp.Type = SplineType.Loop;
+                if (FileName.ToLower().Contains("rail") || FileName.ToLower().Contains("grind"))
+                    Temp.Type = SplineType.Rail;
+                if (FileName.ToLower().Contains("ball"))
+                    Temp.Type = SplineType.Ball;
             }
 
             Temp.Points = Points.ToArray();
