@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RemoteControl
+namespace RemoteControl.Bootstrap
 {
     public static class Initializer
     {

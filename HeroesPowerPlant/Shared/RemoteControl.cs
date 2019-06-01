@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Reloaded.Injector;
 using RemoteControl;
+using RemoteControl.Structs;
 
 namespace HeroesPowerPlant.Shared
 {
@@ -29,7 +30,7 @@ namespace HeroesPowerPlant.Shared
             // Assume already injected.
             if (AssertGameRunning())
             {
-                Interop.NativeString64Char nativeStr = new Interop.NativeString64Char(fileNameWithoutExtension);
+                NativeString64Char nativeStr = new NativeString64Char(fileNameWithoutExtension);
                 Injector.CallFunction(DllPath, CollisionReloader.LoadCollisionFunctionName, nativeStr, true);
             }
         }

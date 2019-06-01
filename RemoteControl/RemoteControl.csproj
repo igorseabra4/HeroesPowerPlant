@@ -99,9 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollisionReloader.cs" />
-    <Compile Include="Initializer.cs" />
-    <Compile Include="Interop.cs" />
-    <Compile Include="LocalAssemblyFinder.cs" />
+    <Compile Include="Bootstrap\Initializer.cs" />
+    <Compile Include="Queue.cs" />
+    <Compile Include="Structs\NativeString64Char.cs" />
+    <Compile Include="Bootstrap\LocalAssemblyFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
