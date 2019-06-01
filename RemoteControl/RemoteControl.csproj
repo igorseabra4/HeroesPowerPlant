@@ -38,6 +38,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
     <DllExportIdent>800C24E0-88ED-475F-B2A7-39C667763531</DllExportIdent>
     <DllExportMetaLibName>DllExport.dll</DllExportMetaLibName>
     <DllExportNamespace>RemoteControl</DllExportNamespace>
@@ -107,8 +110,16 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ImportGroup Label=".NET DllExport">
-    <Import Project="$(SolutionDir)packages\DllExport.1.6.2\tools\net.r_eg.DllExport.targets" Condition="Exists($([MSBuild]::Escape('$(SolutionDir)packages\DllExport.1.6.2\tools\net.r_eg.DllExport.targets')))" Label="8337224c9ad9e356" />
     <Import Project="..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets" Condition="Exists('..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets'))" />
+  </Target>
+  <ImportGroup Label=".NET DllExport">
+    <Import Project="$(SolutionDir)packages\DllExport.1.6.2\tools\net.r_eg.DllExport.targets" Condition="Exists($([MSBuild]::Escape('$(SolutionDir)packages\DllExport.1.6.2\tools\net.r_eg.DllExport.targets')))" Label="8337224c9ad9e356" />
   </ImportGroup>
   <Target Name="DllExportRestorePkg" BeforeTargets="PrepareForBuild">
     <Error Condition="!Exists('$(SolutionDir)DllExport.bat')" Text="DllExport.bat is not found. Path: '$(SolutionDir)' - https://github.com/3F/DllExport" />
@@ -116,11 +127,5 @@
   </Target>
   <Target Name="DllExportRPkgDynamicImport" BeforeTargets="PostBuildEvent" DependsOnTargets="GetFrameworkPaths" Condition="'$(DllExportModImported)' != 'true' And '$(DllExportRPkgDyn)' != 'false'">
     <MSBuild BuildInParallel="true" UseResultsCache="true" Projects="$(MSBuildProjectFullPath)" Properties="DllExportRPkgDyn=true" Targets="Build" />
-  </Target>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets'))" />
   </Target>
 </Project>
