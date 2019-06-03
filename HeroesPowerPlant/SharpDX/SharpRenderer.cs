@@ -19,12 +19,6 @@ namespace HeroesPowerPlant
 
         public SharpRenderer(Control control)
         {
-            if (!SharpDevice.IsDirectX11Supported())
-            {
-                MessageBox.Show("DirectX11 Not Supported");
-                return;
-            }
-
             ResetColors();
 
             Device = new SharpDevice(control, false);

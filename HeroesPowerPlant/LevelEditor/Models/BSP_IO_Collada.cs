@@ -145,35 +145,35 @@ namespace HeroesPowerPlant.LevelEditor
                                 if (TempObject.VColorList.Count != 0)
                                     for (int i = 0; i < TriangleData.Count(); i += 12)
                                     {
-                                        Triangle t = new Triangle
+                                        tl.TriangleList.Add(new Triangle
                                         {
                                             vertex1 = Convert.ToInt32(TriangleData[i]),
                                             UVCoord1 = Convert.ToInt32(TriangleData[i + 2]),
                                             Color1 = Convert.ToInt32(TriangleData[i + 3]),
+
                                             vertex2 = Convert.ToInt32(TriangleData[i + 4]),
                                             UVCoord2 = Convert.ToInt32(TriangleData[i + 6]),
                                             Color2 = Convert.ToInt32(TriangleData[i + 7]),
+
                                             vertex3 = Convert.ToInt32(TriangleData[i + 8]),
                                             UVCoord3 = Convert.ToInt32(TriangleData[i + 10]),
                                             Color3 = Convert.ToInt32(TriangleData[i + 11])
-                                        };
-
-                                        tl.TriangleList.Add(t);
+                                        });
                                     }
                                 else
                                     for (int i = 0; i < TriangleData.Count(); i += 9)
                                     {
-                                        Triangle t = new Triangle
+                                        tl.TriangleList.Add(new Triangle
                                         {
                                             vertex1 = Convert.ToInt32(TriangleData[i]),
                                             UVCoord1 = Convert.ToInt32(TriangleData[i + 2]),
+
                                             vertex2 = Convert.ToInt32(TriangleData[i + 3]),
                                             UVCoord2 = Convert.ToInt32(TriangleData[i + 5]),
+
                                             vertex3 = Convert.ToInt32(TriangleData[i + 6]),
                                             UVCoord3 = Convert.ToInt32(TriangleData[i + 8]),
-                                        };
-
-                                        tl.TriangleList.Add(t);
+                                        });
                                     }
 
                                 for (int i = 0; i < ColladaMaterialList.Count(); i++)
@@ -307,10 +307,13 @@ namespace HeroesPowerPlant.LevelEditor
                 TotalColors += i.VColorList.Count;
             }
 
-            if (ignoreUVsAndColors)
-                return data;
-            
-            return FixColors(FixUVCoords(data));
+            if (!ignoreUVsAndColors)
+            {
+                FixUVCoords(data);
+                FixColors(data);
+            }
+
+            return data;
         }
 
         //public static void CreateDAEFile(string OutputFileName)

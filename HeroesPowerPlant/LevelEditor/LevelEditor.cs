@@ -12,6 +12,7 @@ using HeroesPowerPlant.ShadowSplineEditor;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -189,84 +190,121 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
         }
-
+        
         private void buttonImport_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog a = new OpenFileDialog()
+            OpenFileDialog openFile = new OpenFileDialog()
             {
-                Filter = "All supported types|*.dae;*.obj;*.bsp|DAE Files|*.dae|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
+                Filter = GetImportFilter(), // "All supported types|*.dae;*.obj;*.bsp|DAE Files|*.dae|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
                 Multiselect = true
-            })
-                if (a.ShowDialog() == DialogResult.OK)
+            };
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                progressBar1.Minimum = 0;
+                progressBar1.Value = 0;
+                progressBar1.Step = 1;
+                progressBar1.Maximum = openFile.FileNames.Count();
+
+                foreach (string i in openFile.FileNames)
                 {
-                    progressBar1.Minimum = 0;
-                    progressBar1.Value = 0;
-                    progressBar1.Step = 1;
-                    progressBar1.Maximum = a.FileNames.Count();
+                    RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + ".BSP");
+                    file.SetChunkNumberAndName();
 
-                    foreach (string i in a.FileNames)
+                    try
                     {
-                        RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + ".BSP");
-                        file.SetChunkNumberAndName();
-
-                        if (Path.GetExtension(i).ToLower() == ".obj")
-                        {
-                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
-                        }
-                        else if (Path.GetExtension(i).ToLower() == ".dae")
-                        {
-                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
-                        }
-                        else if (new string[] { ".bsp", ".rg1", ".rp2", ".rx1" }.Contains(Path.GetExtension(i).ToLower()))
-                        {
+                        if (new string[] { ".bsp", ".rg1", ".rp2", ".rx1" }.Contains(Path.GetExtension(i).ToLower()))
                             file.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
-                        }
+                        else
+                            file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFromAssimp(i, checkBoxFlipUVs.Checked), null);
 
-                        bspRenderer.BSPList.Add(file);
-                        listBoxLevelModels.Items.Add(file.fileName);
+                        //if (Path.GetExtension(i).ToLower() == ".obj")
+                        //{
+                        //    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                        //}
+                        //else if (Path.GetExtension(i).ToLower() == ".dae")
+                        //{
+                        //    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                        //}
+                        //else 
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
                         progressBar1.PerformStep();
+                        continue;
                     }
 
-                    progressBar1.Value = 0;
+                    bspRenderer.BSPList.Add(file);
+                    listBoxLevelModels.Items.Add(file.fileName);
+                    progressBar1.PerformStep();
                 }
+
+                progressBar1.Value = 0;
+            }
         }
 
         private void buttonExportClick(object sender, EventArgs e)
         {
             if (listBoxLevelModels.Items.Count == 0) return;
 
-            if (listBoxLevelModels.SelectedIndices.Count == 1)
+            ChooseTarget.GetTarget(out bool success, out Assimp.ExportFormatDescription format, out string textureExtension);
+
+            if (success)
             {
-                SaveFileDialog a = new SaveFileDialog()
+                List<int> indices = new List<int>();
+                string fileName = null;
+
+                if (listBoxLevelModels.SelectedIndices.Count == 1)
                 {
-                    Filter = "OBJ Files|*.obj|BSP Files|*.bsp",
-                    FileName = Path.ChangeExtension(listBoxLevelModels.GetItemText(listBoxLevelModels.SelectedItem), ".obj")
-                };
-                if (a.ShowDialog() == DialogResult.OK)
-                {
-                    if (Path.GetExtension(a.FileName).ToLower() == ".obj")
-                        ConvertBSPtoOBJ(a.FileName, bspRenderer.BSPList[listBoxLevelModels.SelectedIndex], checkBoxFlipUVs.Checked);
-                    else if (Path.GetExtension(a.FileName).ToLower() == ".bsp")
-                        File.WriteAllBytes(a.FileName, bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
+                    SaveFileDialog a = new SaveFileDialog()
+                    {
+                        Filter = format == null ? "RenderWare BSP|*.bsp" : format.Description + "|*." + format.FileExtension,
+                        FileName = listBoxLevelModels.GetItemText(listBoxLevelModels.SelectedItem) + (format == null ? "" : "." + format.FileExtension)
+                    };
+
+                    if (a.ShowDialog() == DialogResult.OK)
+                    {
+                        fileName = a.FileName;
+                        indices.Add(listBoxLevelModels.SelectedIndex);
+                    }
                 }
-            }
-            else
-            {
-                CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog()
+                else
                 {
-                    IsFolderPicker = true
-                };
-                if (openONEfilePath != null)
-                    commonOpenFileDialog.DefaultFileName = Path.GetDirectoryName(openONEfilePath);
-                if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-                {
-                    if (listBoxLevelModels.SelectedIndices.Count > 1)
-                        foreach (int i in listBoxLevelModels.SelectedIndices)
-                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, bspRenderer.BSPList[i].fileName), bspRenderer.BSPList[i], checkBoxFlipUVs.Checked);
-                    else
-                        for (int i = 0; i < bspRenderer.BSPList.Count; i++)
-                            ConvertBSPtoOBJ(Path.Combine(commonOpenFileDialog.FileName, bspRenderer.BSPList[i].fileName), bspRenderer.BSPList[i], checkBoxFlipUVs.Checked);
+                    CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog()
+                    {
+                        IsFolderPicker = true
+                    };
+                    if (openONEfilePath != null)
+                        commonOpenFileDialog.DefaultFileName = Path.GetDirectoryName(openONEfilePath);
+                    if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        fileName = commonOpenFileDialog.FileName;
+
+                        if (listBoxLevelModels.SelectedIndices.Count > 1)
+                            foreach (int i in listBoxLevelModels.SelectedIndices)
+                                indices.Add(i);
+                        else
+                            for (int i = 0; i < bspRenderer.BSPList.Count; i++)
+                                indices.Add(i);
+                    }
                 }
+
+                if (fileName != null)
+                    foreach (int i in indices)
+                    {
+                        string path = fileName;
+
+                        if (listBoxLevelModels.SelectedIndices.Count != 1)
+                            path = Path.Combine(fileName, bspRenderer.BSPList[i].fileName);
+
+                        if (format == null)
+                            File.WriteAllBytes(path, bspRenderer.BSPList[i].GetAsByteArray());
+                        else if (format.FileExtension.ToLower().Equals("obj"))
+                            ConvertBSPtoOBJ(Path.ChangeExtension(path, "obj"), bspRenderer.BSPList[i], checkBoxFlipUVs.Checked);
+                        else
+                            ExportAssimp(Path.ChangeExtension(path, format.FileExtension), bspRenderer.BSPList[i], checkBoxFlipUVs.Checked, format, textureExtension);
+                    }
             }
         }
 

@@ -17,7 +17,7 @@ namespace HeroesPowerPlant.LevelEditor
                 MaterialList = new List<string>(),
                 VertexList = new List<Vertex>(),
                 UVList = new List<Vector2>(),
-                ColorList = new List<SharpDX.Color>(),
+                ColorList = new List<Color>(),
                 TriangleList = new List<Triangle>(),
                 MTLLib = null
             };
@@ -44,7 +44,7 @@ namespace HeroesPowerPlant.LevelEditor
                         TempVertex.Position.Y = Convert.ToSingle(SubStrings[2]);
                         TempVertex.Position.Z = Convert.ToSingle(SubStrings[3]);
 
-                        TempVertex.Color = SharpDX.Color.White;
+                        TempVertex.Color = Color.White;
 
                         objData.VertexList.Add(TempVertex);
                     }
@@ -61,7 +61,7 @@ namespace HeroesPowerPlant.LevelEditor
                     else if (j.Substring(0, 3) == "vc ") // Special code
                     {
                         string[] SubStrings = j.Split(' ');
-                        SharpDX.Color TempColor = new SharpDX.Color
+                        Color TempColor = new Color
                         {
                             R = Convert.ToByte(SubStrings[1]),
                             G = Convert.ToByte(SubStrings[2]),
@@ -133,9 +133,9 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             if (hasUVCoords)
-                return FixUVCoords(objData);
-            else
-                return objData;
+                FixUVCoords(objData);
+
+            return objData;
         }
 
         public static List<string> ReplaceMaterialNames(string InputOBJFile, string MTLLib, List<string> MaterialList)
@@ -173,7 +173,7 @@ namespace HeroesPowerPlant.LevelEditor
             return MaterialList;
         }
 
-        public static ModelConverterData FixUVCoords(ModelConverterData data)
+        public static void FixUVCoords(ModelConverterData data)
         {
             for (int i = 0; i < data.TriangleList.Count; i++)
             {
@@ -250,104 +250,90 @@ namespace HeroesPowerPlant.LevelEditor
                     }
                 }
             }
-
-            return data;
         }
 
-        public static ModelConverterData FixColors(ModelConverterData d)
+        public static bool ColorsAreEqual(Color left, Color right)
         {
-            List<Vertex> VertexStream = d.VertexList;
-            List<Triangle> TriangleStream = d.TriangleList;
-            List<Color> ColorStream = d.ColorList;
+            return
+                left.R == right.R &&
+                left.G == right.G &&
+                left.B == right.B &&
+                left.A == right.A;
+        }
 
-            for (int i = 0; i < TriangleStream.Count; i++)
+        public static void FixColors(ModelConverterData d)
+        {
+            for (int i = 0; i < d.TriangleList.Count; i++)
             {
-                if (VertexStream[TriangleStream[i].vertex1].HasColor == false)
+                if (d.VertexList[d.TriangleList[i].vertex1].HasColor == false)
                 {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex1];
+                    Vertex TempVertex = d.VertexList[d.TriangleList[i].vertex1];
 
-                    TempVertex.Color = ColorStream[TriangleStream[i].Color1];
+                    TempVertex.Color = d.ColorList[d.TriangleList[i].Color1];
                     TempVertex.HasColor = true;
-                    VertexStream[TriangleStream[i].vertex1] = TempVertex;
+                    d.VertexList[d.TriangleList[i].vertex1] = TempVertex;
                 }
                 else
                 {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex1];
+                    Vertex TempVertex = d.VertexList[d.TriangleList[i].vertex1];
 
-                    if (TempVertex.Color != ColorStream[TriangleStream[i].Color1])
+                    if (!ColorsAreEqual(TempVertex.Color, d.ColorList[d.TriangleList[i].Color1]))
                     {
-                        TempVertex.Color.R = ColorStream[TriangleStream[i].Color1].R;
-                        TempVertex.Color.G = ColorStream[TriangleStream[i].Color1].G;
-                        TempVertex.Color.B = ColorStream[TriangleStream[i].Color1].B;
-                        TempVertex.Color.A = ColorStream[TriangleStream[i].Color1].A;
+                        TempVertex.Color = d.ColorList[d.TriangleList[i].Color1];
 
-                        Triangle TempTriangle = TriangleStream[i];
-                        TempTriangle.vertex1 = VertexStream.Count;
-                        TriangleStream[i] = TempTriangle;
-                        VertexStream.Add(TempVertex);
+                        Triangle TempTriangle = d.TriangleList[i];
+                        TempTriangle.vertex1 = d.VertexList.Count;
+                        d.TriangleList[i] = TempTriangle;
+                        d.VertexList.Add(TempVertex);
                     }
                 }
-                if (VertexStream[TriangleStream[i].vertex2].HasColor == false)
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex2];
 
-                    TempVertex.Color = ColorStream[TriangleStream[i].Color2];
+                if (d.VertexList[d.TriangleList[i].vertex2].HasColor == false)
+                {
+                    Vertex TempVertex = d.VertexList[d.TriangleList[i].vertex2];
+
+                    TempVertex.Color = d.ColorList[d.TriangleList[i].Color2];
                     TempVertex.HasColor = true;
-                    VertexStream[TriangleStream[i].vertex2] = TempVertex;
+                    d.VertexList[d.TriangleList[i].vertex2] = TempVertex;
                 }
                 else
                 {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex2];
+                    Vertex TempVertex = d.VertexList[d.TriangleList[i].vertex2];
 
-                    if (TempVertex.Color != ColorStream[TriangleStream[i].Color2])
+                    if (!ColorsAreEqual(TempVertex.Color, d.ColorList[d.TriangleList[i].Color2]))
                     {
-                        TempVertex.Color.R = ColorStream[TriangleStream[i].Color2].R;
-                        TempVertex.Color.G = ColorStream[TriangleStream[i].Color2].G;
-                        TempVertex.Color.B = ColorStream[TriangleStream[i].Color2].B;
-                        TempVertex.Color.A = ColorStream[TriangleStream[i].Color2].A;
+                        TempVertex.Color = d.ColorList[d.TriangleList[i].Color2];
 
-                        Triangle TempTriangle = TriangleStream[i];
-                        TempTriangle.vertex2 = VertexStream.Count;
-                        TriangleStream[i] = TempTriangle;
-                        VertexStream.Add(TempVertex);
+                        Triangle TempTriangle = d.TriangleList[i];
+                        TempTriangle.vertex2 = d.VertexList.Count;
+                        d.TriangleList[i] = TempTriangle;
+                        d.VertexList.Add(TempVertex);
                     }
                 }
-                if (VertexStream[TriangleStream[i].vertex3].HasColor == false)
-                {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex3];
 
-                    TempVertex.Color = ColorStream[TriangleStream[i].Color3];
+                if (d.VertexList[d.TriangleList[i].vertex3].HasColor == false)
+                {
+                    Vertex TempVertex = d.VertexList[d.TriangleList[i].vertex3];
+
+                    TempVertex.Color = d.ColorList[d.TriangleList[i].Color3];
                     TempVertex.HasColor = true;
-                    VertexStream[TriangleStream[i].vertex3] = TempVertex;
+                    d.VertexList[d.TriangleList[i].vertex3] = TempVertex;
                 }
                 else
                 {
-                    Vertex TempVertex = VertexStream[TriangleStream[i].vertex3];
+                    Vertex TempVertex = d.VertexList[d.TriangleList[i].vertex3];
 
-                    if (TempVertex.Color != ColorStream[TriangleStream[i].Color3])
+                    if (!ColorsAreEqual(TempVertex.Color, d.ColorList[d.TriangleList[i].Color3]))
                     {
-                        TempVertex.Color.R = ColorStream[TriangleStream[i].Color3].R;
-                        TempVertex.Color.G = ColorStream[TriangleStream[i].Color3].G;
-                        TempVertex.Color.B = ColorStream[TriangleStream[i].Color3].B;
-                        TempVertex.Color.A = ColorStream[TriangleStream[i].Color3].A;
+                        TempVertex.Color = d.ColorList[d.TriangleList[i].Color3];
 
-                        Triangle TempTriangle = TriangleStream[i];
-                        TempTriangle.vertex3 = VertexStream.Count;
-                        TriangleStream[i] = TempTriangle;
-                        VertexStream.Add(TempVertex);
+                        Triangle TempTriangle = d.TriangleList[i];
+                        TempTriangle.vertex3 = d.VertexList.Count;
+                        d.TriangleList[i] = TempTriangle;
+                        d.VertexList.Add(TempVertex);
                     }
                 }
             }
-
-            return new ModelConverterData()
-            {
-                MaterialList = d.MaterialList,
-                VertexList = VertexStream,
-                UVList = d.UVList,
-                ColorList = ColorStream,
-                TriangleList = TriangleStream,
-                MTLLib = d.MTLLib
-            };
         }
     }
 }

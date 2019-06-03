@@ -107,6 +107,9 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\AssimpNet.4.1.0\lib\net40\AssimpNet.dll</HintPath>
+    </Reference>
     <Reference Include="csharp-prs, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\csharp-prs.2.0.2\lib\netstandard2.0\csharp-prs.dll</HintPath>
     </Reference>
@@ -119,8 +122,8 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PeNet, Version=0.8.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PeNet.0.8.1\lib\net461\PeNet.dll</HintPath>
@@ -233,6 +236,13 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List01\Object0190_Partner.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List0B\Object0BBE_Chao.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List18\Object189E_ARKDriftingPlat1.cs" />
+    <Compile Include="LevelEditor\ChooseTarget.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LevelEditor\ChooseTarget.Designer.cs">
+      <DependentUpon>ChooseTarget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LevelEditor\Models\BSP_IO_Assimp.cs" />
     <Compile Include="LightEditor\Light.cs" />
     <Compile Include="LightEditor\LightEditor.cs" />
     <Compile Include="LightEditor\LightMenu.cs">
@@ -497,6 +507,9 @@
     <EmbeddedResource Include="ConfigEditor\ConfigEditor.resx">
       <DependentUpon>ConfigEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LevelEditor\ChooseTarget.resx">
+      <DependentUpon>ChooseTarget.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LightEditor\LightMenu.resx">
       <DependentUpon>LightMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -672,6 +685,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\csharp-prs.2.0.2\build\csharp-prs.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\csharp-prs.2.0.2\build\csharp-prs.targets'))" />
     <Error Condition="!Exists('..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets'))" />
+    <Error Condition="!Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AssimpNet.4.1.0\build\AssimpNet.targets'))" />
   </Target>
   <Import Project="..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets" Condition="Exists('..\packages\Reloaded.Assembler.1.0.6\build\Reloaded.Assembler.targets')" />
+  <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
 </Project>

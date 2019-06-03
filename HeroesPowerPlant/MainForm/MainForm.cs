@@ -35,12 +35,9 @@ namespace HeroesPowerPlant.MainForm
             
             InitializeComponent();
 
-            showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
+            renderer = new SharpRenderer(renderPanel) { dffRenderer = new DFFRenderer(this) };
 
-            renderer = new SharpRenderer(renderPanel)
-            {
-                dffRenderer = new DFFRenderer(this)
-            };
+            showObjectsGToolStripMenuItem.CheckState = CheckState.Indeterminate;
 
             AboutBox = new AboutBox();
             ViewConfig = new ViewConfig(renderer.Camera);

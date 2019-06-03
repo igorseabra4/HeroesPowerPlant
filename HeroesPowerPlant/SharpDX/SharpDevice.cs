@@ -412,9 +412,13 @@ namespace HeroesPowerPlant
         /// <returns>Supported</returns>
         public static bool IsDirectX11Supported()
         {
-            return SharpDX.Direct3D11.Device.GetSupportedFeatureLevel() == FeatureLevel.Level_11_0;
+            return GetSupportedFeatureLevel() >= FeatureLevel.Level_11_0;
         }
-
+        public static FeatureLevel GetSupportedFeatureLevel()
+        {
+            return Device11.GetSupportedFeatureLevel();
+        }
+        
         private int VSync = 1;
 
         public void SetVSync(bool value)
