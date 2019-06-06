@@ -4,7 +4,6 @@ using System.IO;
 using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 using HeroesONE_R.Structures;
-using HeroesONE_R.Structures.Subsctructures;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -35,18 +34,18 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public Vector3 Rotation;
         public float RotationX
         {
-            get => Rotation.X;
-            set => Rotation.X = value;
+            get => MathUtil.RadiansToDegrees(Rotation.X);
+            set => Rotation.X = MathUtil.DegreesToRadians(value);
         }
         public float RotationY
         {
-            get => Rotation.Y;
-            set => Rotation.Y = value;
+            get => MathUtil.RadiansToDegrees(Rotation.Y);
+            set => Rotation.Y = MathUtil.DegreesToRadians(value);
         }
         public float RotationZ
         {
-            get => Rotation.Z;
-            set => Rotation.Z = value;
+            get => MathUtil.RadiansToDegrees(Rotation.Z);
+            set => Rotation.Z = MathUtil.DegreesToRadians(value);
         }
 
         public int Unknown { get; set; }
@@ -60,12 +59,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public byte Setting4 { get; set; }
         public int SettingInt { get; set; }
         public string Name { get; set; }
+        public byte[] UnknownSec5Bytes { get; set; }
 
         public ShadowSplineVertex[] Vertices { get; set; }
 
         public ShadowSpline()
         {
             Vertices = new ShadowSplineVertex[0];
+            UnknownSec5Bytes = new byte[0];
             Name = "NewSpline";
         }
 
@@ -115,6 +116,65 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             Temp.Vertices = Points.ToArray();
             Temp.SetRenderStuff(Program.MainForm.renderer);
             return Temp;
+        }
+
+        public IEnumerable<byte> ToByteArray(int startOffset)
+        {
+            List<byte> vertexBytes = new List<byte>(0x20 * Vertices.Length);
+            
+            float totalLength = 0;
+            Vector3 Max = Vertices[0].Position;
+            Vector3 Min = Vertices[0].Position;
+
+            for (int i = 0; i < Vertices.Length; i++)
+            {
+                float distance = i == Vertices.Length - 1 ? 0 : Vector3.Distance(Vertices[i].Position, Vertices[i + 1].Position);
+                totalLength += distance;
+
+                if (Vertices[i].PositionX > Max.X)
+                    Max.X = Vertices[i].Position.X;
+                if (Vertices[i].PositionY > Max.Y)
+                    Max.Y = Vertices[i].PositionY;
+                if (Vertices[i].PositionZ > Max.Z)
+                    Max.Z = Vertices[i].PositionZ;
+                if (Vertices[i].PositionX < Min.X)
+                    Min.X = Vertices[i].PositionX;
+                if (Vertices[i].PositionY < Min.Y)
+                    Min.Y = Vertices[i].PositionY;
+                if (Vertices[i].PositionZ < Min.Z)
+                    Min.Z = Vertices[i].PositionZ;
+
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].PositionX).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].PositionY).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].PositionZ).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.X).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Y).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Z).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(distance).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Unknown).Reverse());
+            }
+
+            List<byte> bytes = new List<byte>(0x30 + 0x20 * Vertices.Length);
+
+            bytes.AddRange(BitConverter.GetBytes(Vertices.Length).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(totalLength).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(startOffset + 0x30).Reverse());
+            bytes.Add(Setting1);
+            bytes.Add(Setting2);
+            bytes.Add(Setting3);
+            bytes.Add(Setting4);
+            bytes.AddRange(BitConverter.GetBytes(Max.X).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(Max.Y).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(Max.Z).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(SettingInt).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(Min.X).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(Min.Y).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(Min.Z).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(0));
+
+            bytes.AddRange(vertexBytes);
+
+            return bytes;
         }
     }
 
@@ -174,8 +234,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                 List<ShadowSpline> splineList = new List<ShadowSpline>();
 
-                splineReader.BaseStream.Position = 0x8;
-                int amountOfSplines = Switch(splineReader.ReadInt32()) / 4;
+                splineReader.BaseStream.Position = 0x4;
+                int sec5offset = Switch(splineReader.ReadInt32());
+                int sec5length = Switch(splineReader.ReadInt32());
 
                 splineReader.BaseStream.Position = 0x20;
                 List<int> offsetList = new List<int>();
@@ -214,19 +275,38 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                     for (int j = 0; j < amountOfPoints; j++)
                     {
-                        ShadowSplineVertex vertex = new ShadowSplineVertex();
-                        vertex.Position = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()));
+                        ShadowSplineVertex vertex = new ShadowSplineVertex
+                        {
+                            Position = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle())),
+                            Rotation = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()))
+                        };
                         splineReader.BaseStream.Position += 0x4;
-                        vertex.Rotation = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()));
                         vertex.Unknown = Switch(splineReader.ReadInt32());
 
                         spline.Vertices[j] = vertex;
                     }
 
                     splineReader.BaseStream.Position = nameOffset + 0x20;
-                    spline.Name = ReadString(splineReader);
+                    spline.Name = ReadString(splineReader); 
 
                     splineList.Add(spline);
+                }
+
+                splineReader.BaseStream.Position = sec5offset + 0x20 + splineList.Count;
+
+                for (int i = 0; i < splineList.Count; i++)
+                {
+                    byte byte0 = splineReader.ReadByte();
+                   
+                    if (byte0 >= 0x80)
+                    {
+                        byte byte1 = splineReader.ReadByte();
+                        splineList[i].UnknownSec5Bytes = new byte[] { byte0, byte1 };
+                    }
+                    else
+                        splineList[i].UnknownSec5Bytes = new byte[] { byte0 };
+
+                    splineReader.ReadByte();
                 }
 
                 splineReader.Close();
@@ -237,46 +317,108 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             return new List<ShadowSpline>();
         }
         
-        public void Save(string fileName)
+        public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix)
         {
-            BinaryWriter splneWriter = new BinaryWriter(new MemoryStream());
+            List<byte> bytes = new List<byte>();
 
-            // perform spline writing here
+            bytes.AddRange(BitConverter.GetBytes(0));
+            bytes.AddRange(BitConverter.GetBytes(0));
+            bytes.AddRange(BitConverter.GetBytes(0));
+            bytes.AddRange(BitConverter.GetBytes(1).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(0));
+            bytes.AddRange(BitConverter.GetBytes(12610).Reverse());
+            bytes.AddRange(BitConverter.GetBytes(0));
+            bytes.AddRange(BitConverter.GetBytes(0));
 
-            Archive shadowDATONE;
+            foreach (ShadowSpline s in Splines)
+                bytes.AddRange(BitConverter.GetBytes(0));
 
-            if (File.Exists(fileName))
-            {
-                byte[] fileContents = File.ReadAllBytes(fileName);
-                shadowDATONE = Archive.FromONEFile(ref fileContents);
-            }
-            else
-            {
-                shadowDATONE = new Archive(CommonRWVersions.Shadow050);
-            }
+            while (bytes.Count % 0x10 != 0)
+                bytes.Add(0);
 
-            bool found = false;
-            foreach (var file in shadowDATONE.Files)
+            List<int> offsets = new List<int>();
+
+            for (int i = 0; i < Splines.Count; i++)
             {
-                if (file.Name == "PATH.PTP")
-                {
-                    byte[] bytes = (splneWriter.BaseStream as MemoryStream).ToArray();
-                    file.CompressedData = Prs.Compress(ref bytes);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                byte[] bytes = (splneWriter.BaseStream as MemoryStream).ToArray();
-                ArchiveFile file = new ArchiveFile("PATH.PTP", bytes);
-                shadowDATONE.Files.Add(file);
+                offsets.Add(bytes.Count - 0x20);
+                bytes.AddRange(Splines[i].ToByteArray(bytes.Count - 0x20));
             }
 
-            List<byte> fileBytes = shadowDATONE.BuildShadowONEArchive(true);
-            File.WriteAllBytes(fileName, fileBytes.ToArray());
+            for (int i = 0; i < Splines.Count; i++)
+            {
+                byte[] offsetBytes = BitConverter.GetBytes(offsets[i]);
 
-            splneWriter.Close();
+                bytes[0x20 + 4 * i + 0] = offsetBytes[3];
+                bytes[0x20 + 4 * i + 1] = offsetBytes[2];
+                bytes[0x20 + 4 * i + 2] = offsetBytes[1];
+                bytes[0x20 + 4 * i + 3] = offsetBytes[0];
+
+                byte[] nameOffset = BitConverter.GetBytes(bytes.Count - 0x20);
+
+                bytes[offsets[i] + 0x20 + 0x2C] = nameOffset[3];
+                bytes[offsets[i] + 0x20 + 0x2D] = nameOffset[2];
+                bytes[offsets[i] + 0x20 + 0x2E] = nameOffset[1];
+                bytes[offsets[i] + 0x20 + 0x2F] = nameOffset[0];
+
+                foreach (char c in Splines[i].Name)
+                    bytes.Add((byte)c);
+
+                bytes.Add(0);
+            }
+
+            while (bytes.Count % 0x4 != 0)
+                bytes.Add(0);
+
+            int section5startOffset = bytes.Count - 0x20;
+
+            bytes.Add(0x40);
+
+            for (int i = 1; i < Splines.Count; i++)
+                bytes.Add(0x41);
+
+            for (int i = 0; i < Splines.Count; i++)
+            {
+                bytes.AddRange(Splines[i].UnknownSec5Bytes);
+                bytes.Add(0x49);
+            }
+
+            while (bytes.Count % 0x4 != 0)
+                bytes.Add(0);
+
+            int section5length = bytes.Count - section5startOffset - 0x20;
+
+            for (int i = 0; i < 8; i++)
+                bytes.Add(0);
+
+            foreach (char c in ("o:\\PJS\\PJSart\\exportdata\\stage\\" + shadowFolderNamePrefix + "\\path"))
+                bytes.Add((byte)c);
+            bytes.Add(0);
+
+            while (bytes.Count % 0x4 != 0)
+                bytes.Add(0);
+
+            byte[] aux = BitConverter.GetBytes(bytes.Count);
+
+            bytes[0] = aux[3];
+            bytes[1] = aux[2];
+            bytes[2] = aux[1];
+            bytes[3] = aux[0];
+
+            aux = BitConverter.GetBytes(section5startOffset);
+
+            bytes[4] = aux[3];
+            bytes[5] = aux[2];
+            bytes[6] = aux[1];
+            bytes[7] = aux[0];
+
+            aux = BitConverter.GetBytes(section5length);
+
+            bytes[8] = aux[3];
+            bytes[9] = aux[2];
+            bytes[10] = aux[1];
+            bytes[11] = aux[0];
+
+            return bytes;
         }
 
         public string[] GetAllSplines()

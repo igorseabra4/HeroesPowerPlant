@@ -103,6 +103,8 @@ namespace HeroesPowerPlant.CollisionEditor
             List<Triangle> CLTriangleList = new List<Triangle>(65535);
             List<CollisionVertex> CLVertexList = new List<CollisionVertex>(65535);
 
+            bool lastadded = true;
+
             foreach (string j in OBJFile)
             {
                 if (j.StartsWith("v "))
@@ -121,10 +123,16 @@ namespace HeroesPowerPlant.CollisionEditor
                     (ushort)(Convert.ToUInt16(SubStrings[3].Split('/')[0]) - 1),
                     CurrentMeshNum, TempColFlags, CLVertexList, flipNormals));
                     bar.PerformStep();
+
+                    lastadded = true;
                 }
-                else if (j.StartsWith("g ") | j.StartsWith("o "))
+                else if (j.StartsWith("g ") || j.StartsWith("o "))
                 {
-                    CurrentMeshNum += 1;
+                    if (lastadded)
+                        CurrentMeshNum += 1;
+
+                    lastadded = false;
+
                     TempColFlags = new byte[] { 0, 0, 0, 0 };
 
                     if (j.Contains('_'))

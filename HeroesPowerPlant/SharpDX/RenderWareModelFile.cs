@@ -71,6 +71,8 @@ namespace HeroesPowerPlant
             return rwSectionArray;
         }
 
+        public static bool fileSizeCheck = true;
+
         public void SetForRendering(SharpDevice device, RWSection[] rwChunkList, byte[] rwByteArray)
         {
             rwSectionArray = rwChunkList;
@@ -80,7 +82,7 @@ namespace HeroesPowerPlant
                 rwSectionByteArray = ReadFileMethods.ExportRenderWareFile(rwSectionArray, isShadowCollision ? LevelEditor.BSP_IO_ShadowCollision.shadowRenderWareVersion : LevelEditor.BSP_IO_Heroes.heroesRenderWareVersion);
 
 #if RELEASE
-                if (rwSectionByteArray.Length > 450 * 1024)
+                if (fileSizeCheck && rwSectionByteArray.Length > 450 * 1024)
                     System.Windows.Forms.MessageBox.Show(fileName + " is a very large file. It might crash the game if you don't use TONER mod to enable the game to load bigger files than normally.");
 #endif
             }

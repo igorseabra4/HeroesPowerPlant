@@ -19,9 +19,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             foreach (string s in formats)
                 filter += "*" + s + ";";
-            filter += "*.bsp";
 
-            filter += "|BSP Files|*.bsp";
+            filter += "*.bsp|BSP Files|*.bsp";
 
             foreach (string s in formats)
                 filter += "|" + s.Substring(1).ToUpper() + " files|*" + s;
@@ -102,7 +101,7 @@ namespace HeroesPowerPlant.LevelEditor
             int triangleCount = scene.Meshes.Sum(m => m.FaceCount);
 
             if (vertexCount > 65535 || triangleCount > 65536)
-                throw new ArgumentException("Error: model has too many vertices or triangles. Please import a simpler model.");
+                throw new ArgumentException("Model has too many vertices or triangles. Please import a simpler model.");
 
             List<Vertex3> vertices = new List<Vertex3>(vertexCount);
             List<RenderWareFile.Color> vColors = new List<RenderWareFile.Color>(vertexCount);
@@ -134,9 +133,6 @@ namespace HeroesPowerPlant.LevelEditor
                     for (int i = 0; i < m.VertexCount; i++)
                         vColors.Add(new RenderWareFile.Color(255, 255, 255, 255));
 
-                if (vertices.Count != textCoords.Count || vertices.Count != vColors.Count)
-                    throw new ArgumentException("Error building file: texture coordinate or vertex color count is different from vertex count.");
-
                 foreach (var t in m.Faces)
                     triangles.Add(new RenderWareFile.Triangle()
                     {
@@ -148,6 +144,9 @@ namespace HeroesPowerPlant.LevelEditor
 
                 totalVertices += m.VertexCount;
             }
+
+            if (vertices.Count != textCoords.Count || vertices.Count != vColors.Count)
+                throw new ArgumentException("Internal error: texture coordinate or vertex color count is different from vertex count.");
 
             triangles = triangles.OrderBy(t => t.materialIndex).ToList();
 
@@ -210,7 +209,7 @@ namespace HeroesPowerPlant.LevelEditor
                     },
                     texture = scene.Materials[i].HasTextureDiffuse ? new Texture_0006()
                     {
-                        textureStruct = new TextureStruct_0001()
+                        textureStruct = new TextureStruct_0001() // use wrap as default
                         {
                             filterMode = TextureFilterMode.FILTERLINEAR,
 
@@ -302,24 +301,6 @@ namespace HeroesPowerPlant.LevelEditor
             };
 
             return new RWSection[] { world };
-        }
-
-        public static string GetExportFilter()
-        {
-            ExportFormatDescription[] formats = new AssimpContext().GetSupportedExportFormats();
-
-            string filter = "All supported types|";
-
-            foreach (ExportFormatDescription f in formats)
-                filter += "*." + f.FileExtension + ";";
-            filter += "*.bsp|BSP Files|*.bsp";
-
-            foreach (ExportFormatDescription f in formats)
-                filter += "|" + f.Description + " files|*." + f.FileExtension;
-
-            filter += "|All files|*.*";
-
-            return filter;
         }
 
         public static void ExportAssimp(string fileName, RenderWareModelFile bspFile, bool flipUVs, ExportFormatDescription format, string textureExtension)

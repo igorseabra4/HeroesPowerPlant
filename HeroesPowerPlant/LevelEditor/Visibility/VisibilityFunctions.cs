@@ -75,8 +75,6 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static List<Chunk> LoadShadowVisibilityFile(Archive shadowDATONE)
         {
-            List<Chunk> list = new List<Chunk>();
-
             foreach (var i in shadowDATONE.Files)
                 if (Path.GetExtension(i.Name).ToLower() == ".bdt")
                     return (LoadShadowVisibilityFile(new MemoryStream(i.DecompressThis())));
@@ -135,7 +133,7 @@ namespace HeroesPowerPlant.LevelEditor
             BLKFileWriter.Close();
         }
 
-        public static void SaveShadowVisibilityFile(IEnumerable<Chunk> chunkList, string levelName, string visibilityONEpath)
+        public static byte[] ShadowVisibilityFileToArray(IEnumerable<Chunk> chunkList, string levelName)
         {
             BinaryWriter BLKFileWriter = new BinaryWriter(new MemoryStream());
 
@@ -157,59 +155,26 @@ namespace HeroesPowerPlant.LevelEditor
                 BLKFileWriter.Write(80);
             }
 
-            Archive shadowDATONE;
-
-            if (File.Exists(visibilityONEpath))
-            {
-                byte[] fileContents = File.ReadAllBytes(visibilityONEpath);
-                shadowDATONE = Archive.FromONEFile(ref fileContents);
-            }
-            else
-            {
-                shadowDATONE = new Archive(CommonRWVersions.Shadow050);
-            }
-
-            bool found = false;
-            foreach (var file in shadowDATONE.Files)
-            {
-                if (Path.GetExtension(file.Name).ToLower() == ".bdt")
-                {
-                    byte[] bytes = (BLKFileWriter.BaseStream as MemoryStream).ToArray();
-                    file.CompressedData = Prs.Compress(ref bytes);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                byte[] bytes = (BLKFileWriter.BaseStream as MemoryStream).ToArray();
-                ArchiveFile file = new ArchiveFile((levelName + ".bdt").ToUpper(), bytes);
-                shadowDATONE.Files.Add(file);
-            }
-
-            
-            List<byte> fileBytes = shadowDATONE.BuildShadowONEArchive(true);
-            File.WriteAllBytes(visibilityONEpath, fileBytes.ToArray());
+            byte[] bytes = (BLKFileWriter.BaseStream as MemoryStream).ToArray();
 
             BLKFileWriter.Close();
+
+            return bytes;
         }
 
-        public static void AutoChunk(Chunk chunk, List<RenderWareModelFile> bspAndCol, out bool success, out Vector3 Min, out Vector3 Max)
+        public static void AutoChunk(int number, List<RenderWareModelFile> bspAndCol, out bool success, out Vector3 Min, out Vector3 Max)
         {
-            Min = Vector3.Zero;
-            Max = Vector3.Zero;
-
+            Min = Max = Vector3.Zero;
             success = false;
             
             foreach (RenderWareModelFile b in bspAndCol)
             {
-                if (b.ChunkNumber == chunk.number)
+                if (b.ChunkNumber == number)
                 {
                     if (!success)
                     {
                         success = true;
                         foreach (RWSection rwSection in b.GetAsRWSectionArray())
-                        {
                             if (rwSection is World_000B w)
                             {
                                 Min.X = w.worldStruct.boxMinimum.X;
@@ -220,11 +185,9 @@ namespace HeroesPowerPlant.LevelEditor
                                 Max.Z = w.worldStruct.boxMaximum.Z;
                                 break;
                             }
-                        }
                     }
 
                     foreach (RWSection rwSection in b.GetAsRWSectionArray())
-                    {
                         if (rwSection is World_000B w)
                         {
                             if (w.worldStruct.boxMinimum.X < Min.X)
@@ -242,7 +205,6 @@ namespace HeroesPowerPlant.LevelEditor
 
                             break;
                         }
-                    }
                 }
             }
         }

@@ -215,22 +215,24 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         if (new string[] { ".bsp", ".rg1", ".rp2", ".rx1" }.Contains(Path.GetExtension(i).ToLower()))
                             file.SetForRendering(Program.MainForm.renderer.Device, ReadFileMethods.ReadRenderWareFile(i), File.ReadAllBytes(i));
+                        else if (Path.GetExtension(i).ToLower() == ".obj" || Path.GetExtension(i).ToLower() == ".dae")
+                            try
+                            {
+                                if (Path.GetExtension(i).ToLower() == ".obj")
+                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                                else
+                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                            }
+                            catch
+                            {
+                                file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFromAssimp(i, checkBoxFlipUVs.Checked), null);
+                            }
                         else
                             file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFromAssimp(i, checkBoxFlipUVs.Checked), null);
-
-                        //if (Path.GetExtension(i).ToLower() == ".obj")
-                        //{
-                        //    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
-                        //}
-                        //else if (Path.GetExtension(i).ToLower() == ".dae")
-                        //{
-                        //    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
-                        //}
-                        //else 
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        MessageBox.Show($"Error importing {Path.GetFileName(i)} : {ex.Message}");
                         progressBar1.PerformStep();
                         continue;
                     }
@@ -488,9 +490,7 @@ namespace HeroesPowerPlant.LevelEditor
             };
 
             if (saveFile.ShowDialog() == CommonFileDialogResult.Ok)
-            {
                 SaveShadowLevel(saveFile.FileName);
-            }
         }
 
         private void SaveShadowLevel(string levelPath)
@@ -509,13 +509,9 @@ namespace HeroesPowerPlant.LevelEditor
                     & !fileName.Contains("fx")
                     & !fileName.Contains("gdt")
                     & !fileName.Contains("tex"))
-                {
                     File.Delete(fileName);
-                }
                 else if (Path.GetExtension(fileName).ToLower() == ".one" & fileName.Contains("dat"))
-                {
                     datONEpath = fileName;
-                }
             }
 
             if (datONEpath == null)
@@ -534,12 +530,14 @@ namespace HeroesPowerPlant.LevelEditor
             Dictionary<int, Archive> oneDict = new Dictionary<int, Archive>(fileList.Count);
 
             bool error = false;
+            string fileWithError = null;
 
             foreach (RenderWareModelFile i in fileList)
             {
                 if (i.ChunkNumber == -1)
                 {
                     error = true;
+                    fileWithError = i.fileName;
                     continue;
                 }
 
@@ -551,21 +549,67 @@ namespace HeroesPowerPlant.LevelEditor
                 progressBar1.Value += i.GetAsByteArray().Length;
             }
 
-            if (error) MessageBox.Show("Some of the files were not included in the archives because I could not figure out their chunk number. Please fix that and save again, otherwise those files will be lost.");
+            if (error)
+                MessageBox.Show("Some of the files were not included in the archives because I could not figure out their chunk number. Please fix that and save again, otherwise those files will be lost. One of the files is " + fileWithError);
 
             foreach (int i in oneDict.Keys)
             {
                 string fileName = Path.Combine(openONEfilePath, bspRenderer.currentShadowFolderNamePrefix + "_" + i.ToString("D2") + ".one");
                 File.WriteAllBytes(fileName, oneDict[i].BuildShadowONEArchive(true).ToArray());
             }
-            
+
+            SaveShadowDATONE(datONEpath);
+
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
-            
-            VisibilityFunctions.SaveShadowVisibilityFile(visibilityFunctions.ChunkList, bspRenderer.currentShadowFolderNamePrefix, datONEpath);
-            shadowSplineEditor.Save(datONEpath);
 
             progressBar1.Value = 0;
+        }
+
+        private void SaveShadowDATONE(string datOneFileName)
+        {
+            byte[] bdtBytes = VisibilityFunctions.ShadowVisibilityFileToArray(visibilityFunctions.ChunkList, bspRenderer.currentShadowFolderNamePrefix);
+            byte[] splineBytes = shadowSplineEditor.ShadowSplinesToByteArray(bspRenderer.currentShadowFolderNamePrefix).ToArray();
+
+            Archive shadowDATONE;
+
+            if (File.Exists(datOneFileName))
+            {
+                byte[] fileContents = File.ReadAllBytes(datOneFileName);
+                shadowDATONE = Archive.FromONEFile(ref fileContents);
+            }
+            else
+                shadowDATONE = new Archive(CommonRWVersions.Shadow050);
+            
+            bool bdtFound = false;
+            bool splFound = false;
+
+            foreach (var file in shadowDATONE.Files)
+            {
+                if (Path.GetExtension(file.Name).ToLower() == ".bdt")
+                {
+                    file.CompressedData = Prs.Compress(ref bdtBytes);
+                    bdtFound = true;
+                }
+                else if (file.Name == "PATH.PTP")
+                {
+                    file.CompressedData = Prs.Compress(ref splineBytes);
+                    splFound = true;
+                }
+            }
+
+            if (!bdtFound)
+            {
+                ArchiveFile file = new ArchiveFile((bspRenderer.currentShadowFolderNamePrefix + ".bdt").ToUpper(), bdtBytes);
+                shadowDATONE.Files.Add(file);
+            }
+            if (!splFound)
+            {
+                ArchiveFile file = new ArchiveFile("PATH.PTP", splineBytes);
+                shadowDATONE.Files.Add(file);
+            }
+
+            File.WriteAllBytes(datOneFileName, shadowDATONE.BuildShadowONEArchive(true).ToArray());
         }
 
         private void collisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -767,7 +811,7 @@ namespace HeroesPowerPlant.LevelEditor
                 bspAndCol.AddRange(bspRenderer.BSPList);
                 bspAndCol.AddRange(bspRenderer.ShadowColBSPList);
 
-                VisibilityFunctions.AutoChunk(visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1], bspAndCol, out bool success, out Vector3 Min, out Vector3 Max);
+                VisibilityFunctions.AutoChunk((int)NumChunkNum.Value, bspAndCol, out bool success, out Vector3 Min, out Vector3 Max);
 
                 if (success)
                 {
@@ -806,6 +850,52 @@ namespace HeroesPowerPlant.LevelEditor
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)NumMaxZ.Value;
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].CalculateModel();
                 }
+        }
+
+        private void ButtonAutoBuild_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBox.Show("Warning: this will overwrite the current chunk data with an automatically generated one. Continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (d != DialogResult.Yes)
+                return;
+
+            visibilityFunctions.ChunkList.Clear();
+
+            List<RenderWareModelFile> bspAndCol = new List<RenderWareModelFile>();
+            bspAndCol.AddRange(bspRenderer.BSPList);
+            bspAndCol.AddRange(bspRenderer.ShadowColBSPList);
+
+            HashSet<int> numbers = new HashSet<int>();
+            foreach (RenderWareModelFile rwmf in bspAndCol)
+                if (rwmf.ChunkNumber != -1)
+                    numbers.Add(rwmf.ChunkNumber);
+
+            Vector3 add = new Vector3((int)numericUpDownAdd.Value);
+
+            foreach (int i in numbers)
+            {
+                VisibilityFunctions.AutoChunk(i, bspAndCol, out bool success, out Vector3 Min, out Vector3 Max);
+
+                if (success)
+                    visibilityFunctions.ChunkList.Add(new Chunk() {
+                        Max = Max + add,
+                        Min = Min - add,
+                        number = i
+                    });
+            }
+
+            visibilityFunctions.ChunkList = visibilityFunctions.ChunkList.OrderBy(c => c.number).ToList();
+
+            numericCurrentChunk.Minimum = 1;
+            numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
+            numericCurrentChunk.Value = visibilityFunctions.ChunkList.Count();
+            labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
+        }
+
+        private void DisableFilesizeWarningToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            disableFilesizeWarningToolStripMenuItem.Checked = !disableFilesizeWarningToolStripMenuItem.Checked;
+            RenderWareModelFile.fileSizeCheck = !disableFilesizeWarningToolStripMenuItem.Checked;
         }
     }
 }

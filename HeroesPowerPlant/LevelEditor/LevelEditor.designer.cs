@@ -39,6 +39,7 @@
             this.buttonExport = new System.Windows.Forms.Button();
             this.listBoxLevelModels = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonAutoBuild = new System.Windows.Forms.Button();
             this.labelChunkAmount = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.numericCurrentChunk = new System.Windows.Forms.NumericUpDown();
@@ -79,9 +80,11 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.collisionEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splineEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importBLKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelLoadedBLK = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.importBLKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.disableFilesizeWarningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericCurrentChunk)).BeginInit();
@@ -210,6 +213,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.buttonAutoBuild);
             this.groupBox2.Controls.Add(this.labelChunkAmount);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.numericCurrentChunk);
@@ -224,10 +228,20 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(224, 27);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(231, 261);
+            this.groupBox2.Size = new System.Drawing.Size(231, 294);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Visibility Editor";
+            // 
+            // buttonAutoBuild
+            // 
+            this.buttonAutoBuild.Location = new System.Drawing.Point(12, 261);
+            this.buttonAutoBuild.Name = "buttonAutoBuild";
+            this.buttonAutoBuild.Size = new System.Drawing.Size(204, 23);
+            this.buttonAutoBuild.TabIndex = 24;
+            this.buttonAutoBuild.Text = "AutoBuild";
+            this.buttonAutoBuild.UseVisualStyleBackColor = true;
+            this.buttonAutoBuild.Click += new System.EventHandler(this.ButtonAutoBuild_Click);
             // 
             // labelChunkAmount
             // 
@@ -513,7 +527,9 @@
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
+            this.saveAsToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.disableFilesizeWarningToolStripMenuItem});
             this.oNEFileToolStripMenuItem.Name = "oNEFileToolStripMenuItem";
             this.oNEFileToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.oNEFileToolStripMenuItem.Text = "ONE File";
@@ -521,14 +537,14 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -536,7 +552,7 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -544,7 +560,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -667,6 +683,14 @@
             this.splineEditorToolStripMenuItem.Text = "Spline Editor";
             this.splineEditorToolStripMenuItem.Click += new System.EventHandler(this.splineEditorToolStripMenuItem_Click);
             // 
+            // importBLKToolStripMenuItem
+            // 
+            this.importBLKToolStripMenuItem.Enabled = false;
+            this.importBLKToolStripMenuItem.Name = "importBLKToolStripMenuItem";
+            this.importBLKToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importBLKToolStripMenuItem.Text = "Import BLK";
+            this.importBLKToolStripMenuItem.Click += new System.EventHandler(this.importBLKToolStripMenuItem_Click);
+            // 
             // labelLoadedBLK
             // 
             this.labelLoadedBLK.AutoSize = true;
@@ -683,13 +707,17 @@
             this.progressBar1.Size = new System.Drawing.Size(443, 23);
             this.progressBar1.TabIndex = 23;
             // 
-            // importBLKToolStripMenuItem
+            // toolStripSeparator3
             // 
-            this.importBLKToolStripMenuItem.Enabled = false;
-            this.importBLKToolStripMenuItem.Name = "importBLKToolStripMenuItem";
-            this.importBLKToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.importBLKToolStripMenuItem.Text = "Import BLK";
-            this.importBLKToolStripMenuItem.Click += new System.EventHandler(this.importBLKToolStripMenuItem_Click);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(197, 6);
+            // 
+            // disableFilesizeWarningToolStripMenuItem
+            // 
+            this.disableFilesizeWarningToolStripMenuItem.Name = "disableFilesizeWarningToolStripMenuItem";
+            this.disableFilesizeWarningToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.disableFilesizeWarningToolStripMenuItem.Text = "Disable Filesize Warning";
+            this.disableFilesizeWarningToolStripMenuItem.Click += new System.EventHandler(this.DisableFilesizeWarningToolStripMenuItem_Click);
             // 
             // LevelEditor
             // 
@@ -787,5 +815,8 @@
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem splineEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importBLKToolStripMenuItem;
+        private System.Windows.Forms.Button buttonAutoBuild;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem disableFilesizeWarningToolStripMenuItem;
     }
 }

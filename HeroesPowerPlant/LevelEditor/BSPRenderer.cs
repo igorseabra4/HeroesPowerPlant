@@ -199,12 +199,15 @@ namespace HeroesPowerPlant
                         ReadFileMethods.isCollision = true;
 
                         RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
-                        try
-                        {
-                            TempBSPFile.ChunkNumber = Convert.ToByte(ChunkName.Split('_').Last());
-                        }
-                        catch { TempBSPFile.ChunkNumber = -1; };
 
+                        foreach (string s in ChunkName.Split('_'))
+                            try
+                            {
+                                TempBSPFile.ChunkNumber = Convert.ToByte(s);
+                                break;
+                            }
+                            catch { TempBSPFile.ChunkNumber = -1; }
+                        
                         TempBSPFile.isShadowCollision = true;
                         try
                         {

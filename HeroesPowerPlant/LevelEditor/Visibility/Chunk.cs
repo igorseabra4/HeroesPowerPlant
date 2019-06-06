@@ -12,7 +12,6 @@ namespace HeroesPowerPlant.LevelEditor
         public Vector3 Max;
 
         public bool isSelected;
-        public int index;
 
         Matrix chunkTransform;
         DefaultRenderData renderData = new DefaultRenderData();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -40,10 +41,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             UpdateSplineList();
         }
 
-        public void Save(string fileName)
+        public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix)
         {
-            MessageBox.Show("Can't save shadow splines yet!");
-            //SplineEditor.Save(fileName);
+            return SplineEditor.ShadowSplinesToByteArray(shadowFolderNamePrefix);
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
