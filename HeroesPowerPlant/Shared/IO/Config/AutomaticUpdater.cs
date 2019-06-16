@@ -38,8 +38,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     if (d == DialogResult.Yes)
                     {
                         string updatedIPfileName = "HeroesPowerPlant_" + updatedVersion.version + ".zip";
-                        string updatedIPURL = "https://github.com/igorseabra4/IndustrialPark/releases/download/" + updatedVersion.version + "/" + updatedIPfileName;
-
+                        string updatedIPURL = "https://github.com/igorseabra4/HeroesPowerPlant/releases/download/" + updatedVersion.version + "/" + updatedIPfileName;
+                        
                         string updatedIPfilePath = Application.StartupPath + "\\Resources\\" + updatedIPfileName;
 
                         using (var webClient = new WebClient())
@@ -53,6 +53,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                         foreach (string s in new string[]
                         {
                                 "",
+                                "\\Resources",
                                 "\\Resources\\Lists",
                                 "\\Resources\\Models",
                                 "\\Resources\\SharpDX",
@@ -68,6 +69,15 @@ namespace HeroesPowerPlant.Shared.IO.Config
                                 "\\Tools",
                                 "\\Tools\\Reloaded Generic Stage Injection Mod",
                                 "\\Tools\\txdgen_1.0",
+                                "\\Tools\\txdgen_1.0\\LICENSES",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\eirrepo",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\libimagequant",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\libjpeg",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\libpng",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\libsquish",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\lzo-2.08",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\pvrtextool",
+                                "\\Tools\\txdgen_1.0\\LICENSES\\rwtools",
                         })
                         {
                             if (!Directory.Exists(oldPath + s))
