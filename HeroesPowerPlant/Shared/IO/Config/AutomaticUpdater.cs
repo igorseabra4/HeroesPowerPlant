@@ -30,7 +30,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
                 hasChecked = true;
 
-                if (updatedVersion.shouldUpdate && oldVersion.version != updatedVersion.version)
+                if (oldVersion.version != updatedVersion.version)
                 {
                     string messageText = "There is an update available for Heroes Power Plant: " + updatedVersion.versionName + ". Do you wish to download it?";
                     DialogResult d = MessageBox.Show(messageText, "Update Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);

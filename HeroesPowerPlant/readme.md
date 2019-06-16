@@ -1,4 +1,4 @@
-# Heroes Power Plant v0.7.5
+# Heroes Power Plant v0.8
 ## Viewport
 * In the viewport, you can see a 3D model of your level.
 
@@ -53,6 +53,8 @@ In the resources tab, you can open or clear the currently loaded textures and ob
 * Objects (G): toggles display of objects from the Layout Editor. There are 3 settings: off will display no objects, indeterminate will display objects in render distance and on will display all objects.
 * Cameras (V): toggles display of camera triggers from the Camera Editor. Note that camera and target positions will only display for the currently selected camera.
 
+* Check For Updates on Startup: if this is on, Heroes Power Plant will automatically check for updates on startup and prompt you to update if one is available.
+* Check For Updates Now: check for updates and prompt you to update if one is available.
 * VSync: toggles frame limiter (wanna see how much FPS you can get with the entire level being rendered?)
 * Auto-Load Last Project on Launch: if this is on, the last project which was opened in Heroes Power Plant when it was last closed will be opened along with the program.
 * Auto-Save Project on Closing: if this is on, Heroes Power Plant will automatically save the Project file when closing, if one is open.
@@ -73,17 +75,19 @@ Press F1 or click the status bar to display the view config window. Here you can
 Note that the level editor only works on the PC, XBOX and GameCube versions of Heroes and Shadow; it can't display or extract the models from the PS2 versions, but can import new ones for it.
 
 ### Level Models:
-* You can import DAE, OBJ, or raw BSP. The model must use triangular faces and must contain vertex position and texture coordinate data; vertex normals will be ignored and vertex colors are optional for .DAE files. Your model must contain only one channel of each data type (vertex position, texture coordinate, vertex colors and normals), otherwise the import will fail.
-* You can export one or all of the BSPs as OBJ as well. The exported OBJs contain vertices, triangles, texture coordinates and vertex colors; since OBJ traditionally has no support for vertex colors, you can use the script located in the Tools folder to import these files to 3ds Max with vertex colors. Otherwise, they will be ignored. The material library expects PNG files in the same folder as the models (you can extract these with Magic.TXD).
+* You can import a variety of formats, but the recommended ones are FBX, DAE, OBJ, or raw BSP. The model must use triangular faces and must contain vertex position and texture coordinate data; vertex normals will be ignored and vertex colors are optional. Your model must contain only one channel of each data type (vertex position, texture coordinate, vertex colors and normals), otherwise the import will fail.
+* You can export one or all of the BSPs as Wavefront OBJ or other formats. The exported OBJs contain vertices, triangles, texture coordinates and vertex colors; since OBJ traditionally has no support for vertex colors, you can use the script located in the Tools folder to import these files to 3ds Max with vertex colors. Otherwise, they will be ignored. The material library expects PNG files in the same folder as the models (you can extract these with Magic.TXD). Export to other formats is still experimental and might not be 100% functional.
 * You can double click on a BSP to rename it. This will automatically set the new material flag and chunk number. If it cannot be detected, a default one will be set. The BSP name will not be fixed for you, so name it properly.
-* Heroes Power Plant's rendering is not always accurate to ingame. Always test your models ingame.
+* Heroes Power Plant's rendering is not always accurate to the game's. Always test your models ingame.
 
 ### Visibility Editor:
 * The visibility editor allows you to edit the chunk boundaries *_blk.bin file.
 * You can edit each chunk entry's chunk number (you can have multiple entries enabling the same chunk) and bounding box values.
 * Make sure all maximum values are higher than the corresponding minimum.
 * The AutoChunk function will automatically set chunk boundaries based on the extremities of the BSPs with the same number. The value you can set here is an offset for the boundaries (will be added to positive values and subtracted from negative ones).
+* The AutoBuild function will automatically generate an entire visibility file based on the extremities of the BSPs for each chunk number. All existing visibility data will be replaced by this. The AutoChunk Add value is also used here.
 * If you open a ONE archive, it'll try to open the *_blk.bin automatically.
+* If check Disable Filesize Warning (under ONE File), HPP will not warn you anymore when importing a BSP file that's too big. Note that, if you do this, you must use the TONER mod for Reloaded Mod Loader so large BSPs will work without crashing the game.
 
 ### Shadow Collision Editor:
 The Shadow collision editor allows you to import OBJ files for Shadow collision, which will be converted to BSP.
@@ -102,13 +106,19 @@ The Shadow collision editor allows you to import OBJ files for Shadow collision,
 	* _x - death collision
 * You can double click on a BSP to rename it.
 
+### Shadow Spline Editor:
+The Shadow spline editor allows you to view and edit spline files in Shadow The Hedgehog.
+* When importing, make sure your OBJ file contains only one spline.
+* Point rotation is not set or imported from the OBJ, you must set it yourself.
+
 ## Collision Editor (F4)
 The collision editor allows you to import an OBJ file, which will be converted to CL.
 * New: lets you choose an OBJ file to import and a new CL file to save as.
 * Open: opens a CL file and allows you to display or import an OBJ over it.
 * Close: closes the CL file so you can't display or edit it anymore.
+* Force Reload: forces the running game to update the collision file (works mid-game).
 * Import OBJ: lets you choose an OBJ file to import and overwrite the current CL.
-*  You can choose the maximum depth of the quadtree or let it be chosen automatically (I recommend setting it to 5).
+*  You can choose the maximum depth of the quadtree or let it be chosen automatically (I recommend setting it to 5-8).
 *  Append one of the following letters to the mesh names (not material names, not texture names!) in your 3D model editor to set up collision flags:
 	* _a - water collision (for _wt.CL)
 	* _b - bingo slide
@@ -140,6 +150,7 @@ The spline editor allows you to view, choose the type of, delete and import new 
 * The spline editor is reliant on the Mod Loader Config Editor, and thus will only show up or allow you to save the splines if an existing CC or JSON is open in it.
 * Splines will be loaded from OBJ files in the Splines folder located in the same directory as your CC or JSON file (a new one will be created if it doesn't exist).
 * When importing, make sure your OBJ file contains only one spline.
+* The importer will try to guess the type of the spline you are importing based on the OBJ file name. The words it looks for are "loop", "rail", "grind" and "ball". If none of these words are found, the spline type will be set to Null.
 * There is no way to display or edit splines straight from the game's EXE. You can extract them from the EXE using Heroes Tweaker.
 * If no splines are present, a null one will be created.
 
