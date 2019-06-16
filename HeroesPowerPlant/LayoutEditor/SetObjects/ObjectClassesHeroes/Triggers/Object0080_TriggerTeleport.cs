@@ -61,7 +61,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Radius
         {
             get => ReadFloat(4);
-            set { Write(4, value); CreateTransformMatrix(); }
+            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float XDestination

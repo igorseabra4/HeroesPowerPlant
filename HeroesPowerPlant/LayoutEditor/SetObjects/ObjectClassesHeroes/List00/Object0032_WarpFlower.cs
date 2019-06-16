@@ -32,7 +32,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Scale
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float RisingHeight

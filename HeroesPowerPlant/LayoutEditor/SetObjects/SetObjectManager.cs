@@ -12,12 +12,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public Matrix transformMatrix;
         protected Vector3 Position;
         protected Vector3 Rotation;
-
-        public void CreateTransformMatrix()
-        {
-            CreateTransformMatrix(Position, Rotation);
-        }
-
+        
         public abstract void CreateTransformMatrix(Vector3 Position, Vector3 Rotation);
 
         protected static DefaultRenderData renderData;

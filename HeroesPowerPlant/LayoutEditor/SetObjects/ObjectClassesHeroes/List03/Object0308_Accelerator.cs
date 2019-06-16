@@ -35,19 +35,19 @@ namespace HeroesPowerPlant.LayoutEditor
         public float ScaleX
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleY
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(); }
+            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

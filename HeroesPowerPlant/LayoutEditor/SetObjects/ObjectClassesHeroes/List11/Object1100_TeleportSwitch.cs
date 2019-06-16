@@ -8,7 +8,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            base.CreateTransformMatrix();
+            this.Position = Position;
+            this.Rotation = Rotation;
+
             destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(DestinationX, DestinationY, DestinationZ);
         }
 
@@ -23,19 +25,19 @@ namespace HeroesPowerPlant.LayoutEditor
         public float DestinationX
         {
             get => ReadFloat(4);
-            set{ Write(4, value); CreateTransformMatrix(); }
+            set{ Write(4, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float DestinationY
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float DestinationZ
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public enum BallState : byte

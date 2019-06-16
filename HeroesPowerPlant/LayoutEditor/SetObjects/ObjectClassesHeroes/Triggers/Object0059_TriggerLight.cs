@@ -74,7 +74,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, Radius_ScaleX * 2);
                     break;
                 case TriggerLightShape.NotInUse:
-                    base.CreateTransformMatrix();
+                    base.CreateTransformMatrix(Position, Rotation);
                     return;
             }
 
@@ -115,25 +115,25 @@ namespace HeroesPowerPlant.LayoutEditor
         public TriggerLightShape TriggerShape
         {
             get => (TriggerLightShape)ReadByte(6);
-            set { Write(6, (byte)value); CreateTransformMatrix(); }
+            set { Write(6, (byte)value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Radius_ScaleX
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(); }
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float Height_ScaleY
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(); }
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
         public float ScaleZ
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(); }
+            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }
