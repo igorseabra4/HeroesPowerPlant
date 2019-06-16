@@ -15,7 +15,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
             try
             {
-                string versionInfoURL = "https://raw.githubusercontent.com/igorseabra4/HeroesPowerPlant/master/HeroesPowerPlant/Resources/ip_version.json";
+                string versionInfoURL = "https://raw.githubusercontent.com/igorseabra4/HeroesPowerPlant/master/HeroesPowerPlant/Resources/hpp_version.json";
 
                 string updatedJson;
 
@@ -53,12 +53,21 @@ namespace HeroesPowerPlant.Shared.IO.Config
                         foreach (string s in new string[]
                         {
                                 "",
+                                "\\Resources\\Lists",
+                                "\\Resources\\Models",
+                                "\\Resources\\SharpDX",
+                                "\\runtimes",
+                                "\\runtimes\\linux-x64",
+                                "\\runtimes\\linux-x64\\native",
+                                "\\runtimes\\osx-x64",
+                                "\\runtimes\\osx-x64\\native",
+                                "\\runtimes\\win-x64",
+                                "\\runtimes\\win-x64\\native",
+                                "\\runtimes\\win-x86",
+                                "\\runtimes\\win-x86\\native",
                                 "\\Tools",
                                 "\\Tools\\Reloaded Generic Stage Injection Mod",
                                 "\\Tools\\txdgen_1.0",
-                                "\\Resources\\Lists",
-                                "\\Resources\\Models",
-                                "\\Resources\\SharpDX"
                         })
                         {
                             if (!Directory.Exists(oldPath + s))
@@ -66,7 +75,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
                             foreach (string s2 in Directory.GetFiles(Application.StartupPath + s))
                             {
-                                if (Path.GetExtension(s2).ToLower().Equals(".zip") || Path.GetExtension(s2).ToLower().Equals(".json"))
+                                if ((Path.GetExtension(s2).ToLower().Equals(".zip") && !Path.GetFileName(s2).Equals("Reloaded-Mod-Template.zip")) ||
+                                    Path.GetExtension(s2).ToLower().Equals(".json"))
                                     continue;
 
                                 string newFilePath = oldPath + s + "\\" + Path.GetFileName(s2);
