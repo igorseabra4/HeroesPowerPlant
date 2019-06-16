@@ -251,6 +251,7 @@
     <Compile Include="LightEditor\LightMenu.Designer.cs">
       <DependentUpon>LightMenu.cs</DependentUpon>
     </Compile>
+    <None Include="Resources\hpp_version.json" />
     <Compile Include="SetIdTableEditor\SetIdTableEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -267,6 +268,8 @@
       <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="ShadowSplineEditor\ShadowSplineEditor.cs" />
+    <Compile Include="Shared\IO\Config\AutomaticUpdater.cs" />
+    <Compile Include="Shared\IO\Config\HPPVersion.cs" />
     <Compile Include="Shared\RemoteControl.cs" />
     <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
     <Compile Include="SharpDX\Camera\CameraVectors.cs" />
@@ -616,6 +619,33 @@
     <None Include="Resources\Lists\HeroesStageList.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\eirrepo\LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libimagequant\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libjpeg\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libpng\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libsquish\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\lzo-2.08\COPYING">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\pvrtextool\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\rwtools\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\rwtools\README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -632,6 +662,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Tools\Reloaded Generic Stage Injection Mod\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\txdgen.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\txdgen64.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\txdgen_xp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\AboutImage.png" />

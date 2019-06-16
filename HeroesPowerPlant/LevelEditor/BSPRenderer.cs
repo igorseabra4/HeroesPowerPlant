@@ -148,9 +148,9 @@ namespace HeroesPowerPlant
             foreach (string fileName in Directory.GetFiles(Folder))
             {
                 if (Path.GetExtension(fileName).ToLower() == ".one")
-                    if (!(fileName.Contains("dat") |
-                        fileName.Contains("fx") |
-                        fileName.Contains("gdt") |
+                    if (!(fileName.Contains("dat") ||
+                        fileName.Contains("fx") ||
+                        fileName.Contains("gdt") ||
                         fileName.Contains("tex")))
                     {
                         byte[] oneDataBytes = File.ReadAllBytes(fileName);

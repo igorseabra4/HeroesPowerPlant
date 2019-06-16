@@ -14,29 +14,18 @@ namespace HeroesPowerPlant.Shared.IO.Config
         private static HPPConfig Instance; // This is a singleton.
 
         public string LastProjectPath { get; set; }
-        public bool   AutomaticallyLoadLastConfig { get; set; } = true;
-        public bool   AutomaticallySaveConfig { get; set; } = true;
-        public bool   VSync { get; set; } = true;
-
-        /*
-            ------------
-            Constructors
-            ------------
-        */
-
+        public bool AutomaticallyLoadLastConfig { get; set; } = true;
+        public bool AutomaticallySaveConfig { get; set; } = true;
+        public bool CheckForUpdatesOnStartup { get; set; } = true;
+        public bool VSync { get; set; } = true;
+        
         private HPPConfig() { }
 
         static HPPConfig()
         {
             ConfigPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\HPPConfig.json";
         }
-
-        /*
-            -------
-            Methods
-            -------
-        */
-
+        
         /// <summary>
         /// Gets the current instance of the Power Plant config.
         /// </summary>
@@ -75,23 +64,28 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
         private void ApplyConfig(MainForm.MainForm mainForm)
         {
-            if (AutomaticallyLoadLastConfig)
+            if (CheckForUpdatesOnStartup && AutomaticUpdater.UpdateHeroesPowerPlant(out _))
             {
-                if (File.Exists(LastProjectPath))
+                mainForm.AfterUpdate();
+            }
+            else
+            {
+                if (AutomaticallyLoadLastConfig && File.Exists(LastProjectPath))
                 {
                     var config = ProjectConfig.Open(LastProjectPath);
                     ProjectConfig.ApplyInstance(mainForm, config);
                     mainForm.currentSavePath = LastProjectPath;
                 }
+
+                if (VSync)
+                    mainForm.EnableVSync();
+                else
+                    mainForm.DisableVSync(); // In case the program default ever changes.
+
+                mainForm.SetCheckForUpdatesOnStartup(CheckForUpdatesOnStartup);
+                mainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);
+                mainForm.SetAutomaticallySaveConfig(AutomaticallySaveConfig);
             }
-
-            if (VSync)
-                mainForm.EnableVSync();
-            else
-                mainForm.DisableVSync(); // In case the program default ever changes.
-
-            mainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);
-            mainForm.SetAutomaticallySaveConfig(AutomaticallySaveConfig);
         }
     }
 }

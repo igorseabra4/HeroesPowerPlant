@@ -876,6 +876,35 @@ namespace HeroesPowerPlant.MainForm
             //Environment.Exit(0); // Ensure background threads close too!
         }
 
+        public void AfterUpdate()
+        {
+            Close();
+            System.Diagnostics.Process.Start(Application.StartupPath + "\\HeroesPowerPlant.exe");
+        }
+
+        private void CheckForUpdatesOnStartupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkForUpdatesOnStartupToolStripMenuItem.Checked = !checkForUpdatesOnStartupToolStripMenuItem.Checked;
+            HPPConfig.GetInstance().CheckForUpdatesOnStartup = checkForUpdatesOnStartupToolStripMenuItem.Checked;
+        }
+
+        public void SetCheckForUpdatesOnStartup(bool value)
+        {
+            checkForUpdatesOnStartupToolStripMenuItem.Checked = value;
+            HPPConfig.GetInstance().CheckForUpdatesOnStartup = value;
+        }
+
+        private void CheckForUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AutomaticUpdater.UpdateHeroesPowerPlant(out bool hasChecked))
+            {
+                Close();
+                System.Diagnostics.Process.Start(Application.StartupPath + "\\HeroesPowerPlant.exe");
+            }
+            else if (hasChecked)
+                MessageBox.Show("No update found.");
+        }
+
         private void vSyncToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (vSyncToolStripMenuItem.Checked)
@@ -977,7 +1006,7 @@ namespace HeroesPowerPlant.MainForm
 
         public void LoadTexturesFromTXD(byte[] data)
         {
-            TextureManager.LoadTexturesFromTXD(data, renderer, LevelEditor.bspRenderer);
+            TextureManager.SetupTextureDisplay(data, renderer, LevelEditor.bspRenderer);
         }
 
         private void SetAllTopMost(bool value)

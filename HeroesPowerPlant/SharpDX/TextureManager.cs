@@ -6,6 +6,7 @@ using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using RenderWareFile.Sections;
 using System;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant
 {
@@ -41,43 +42,33 @@ namespace HeroesPowerPlant
                     Archive archive = Archive.FromONEFile(ref oneFile);
 
                     foreach (ArchiveFile archiveFile in archive.Files)
-                    {
                         if (Path.GetExtension(archiveFile.Name).ToLower().Equals(".txd"))
-                        {
-                            RWSection[] txdFile = ReadFileMethods.ReadRenderWareFile(archiveFile.DecompressThis());
-                            LoadTexturesFromTXD(txdFile, renderer, bspRenderer);
-                        }
-                    }
+                            SetupTextureDisplay(archiveFile.DecompressThis(), renderer, bspRenderer);
                 }
                 else if (Path.GetExtension(filePath).ToLower().Equals(".txd"))
-                {
-                    RWSection[] file = ReadFileMethods.ReadRenderWareFile(filePath);
-                    LoadTexturesFromTXD(file, renderer, bspRenderer);
-                }
+                    LoadTexturesFromTXD(File.ReadAllBytes(filePath), renderer, bspRenderer);
+
                 else throw new InvalidDataException(filePath);
             }
             catch (Exception ex)
             {
-#if DEBUG
-                System.Windows.Forms.MessageBox.Show("Error opening " + filePath + ": " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-#endif
+                MessageBox.Show("Error opening " + filePath + ": " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 OpenTXDfiles.Remove(filePath);
             }
         }
-    
+
         public static void LoadTexturesFromTXD(byte[] txdData, SharpRenderer renderer, BSPRenderer bspRenderer)
-        {            
-            RWSection[] file = ReadFileMethods.ReadRenderWareFile(txdData);
-            LoadTexturesFromTXD(file, renderer, bspRenderer);
+        {
+            LoadTexturesFromTXD(ReadFileMethods.ReadRenderWareFile(txdData), renderer, bspRenderer);
         }
 
         public static void LoadTexturesFromTXD(RWSection[] txdFile, SharpRenderer renderer, BSPRenderer bspRenderer)
         {
-                foreach (RWSection rw in txdFile)
-                    if (rw is TextureDictionary_0016 td)
-                        foreach (TextureNative_0015 tn in td.textureNativeList)
-                            AddTextureNative(tn.textureNativeStruct, renderer);
-            
+            foreach (RWSection rw in txdFile)
+                if (rw is TextureDictionary_0016 td)
+                    foreach (TextureNative_0015 tn in td.textureNativeList)
+                        AddTextureNative(tn.textureNativeStruct, renderer);
+
             ReapplyTextures(renderer, bspRenderer);
         }
 
@@ -187,6 +178,74 @@ namespace HeroesPowerPlant
             DisposeTextures();
             Textures.Clear();
             ReapplyTextures(renderer, bspRenderer);
+        }
+
+        private static string txdGenFolder => Application.StartupPath + "\\Tools\\txdgen_1.0\\";
+        private static string tempGcTxdsDir => txdGenFolder + "Temp\\txds_gc\\";
+        private static string tempPcTxdsDir => txdGenFolder + "Temp\\txds_pc\\";
+        private static string pathToGcTXD => tempGcTxdsDir + "temp.txd";
+        private static string pathToPcTXD => tempPcTxdsDir + "temp.txd";
+        
+        public static void SetupTextureDisplay(byte[] txdFile, SharpRenderer renderer, BSPRenderer bspRenderer)
+        {
+            if (!Directory.Exists(tempGcTxdsDir))
+                Directory.CreateDirectory(tempGcTxdsDir);
+            if (!Directory.Exists(tempPcTxdsDir))
+                Directory.CreateDirectory(tempPcTxdsDir);
+
+            File.WriteAllBytes(pathToGcTXD, txdFile);
+
+            PerformTXDConversionExternal();
+
+            LoadTexturesFromTXD(pathToPcTXD, renderer, bspRenderer);
+            ReapplyTextures(renderer, bspRenderer);
+
+            File.Delete(pathToGcTXD);
+            File.Delete(pathToPcTXD);
+        }
+
+        private static void PerformTXDConversionExternal(bool toPC = true, bool compress = false, bool generateMipmaps = false)
+        {
+            string ini =
+                "[Main]\r\n" +
+
+                (toPC ?
+                "gameRoot=" + tempGcTxdsDir + "\r\n" +
+                "outputRoot=" + tempPcTxdsDir + "\r\n" +
+                "targetVersion=VC\r\n" +
+                "targetPlatform=PC\r\n"
+                :
+                "gameRoot=" + tempPcTxdsDir + "\r\n" +
+                "outputRoot=" + tempGcTxdsDir + "\r\n" +
+                "targetVersion=VC\r\n" +
+                "targetPlatform=Gamecube\r\n") +
+
+                "clearMipmaps=false\r\n" +
+                "generateMipmaps=" + generateMipmaps.ToString().ToLower() + "\r\n" +
+                "mipGenMode=default\r\n" +
+                "mipGenMaxLevel=10\r\n" +
+                "improveFiltering=true\r\n" +
+                "compressTextures=" + compress.ToString().ToLower() + "\r\n" +
+                "compressionQuality=1.0\r\n" +
+                "palRuntimeType=PNGQUANT\r\n" +
+                "dxtRuntimeType=SQUISH\r\n" +
+                "warningLevel=1\r\n" +
+                "ignoreSecureWarnings=true\r\n" +
+                "reconstructIMGArchives=false\r\n" +
+                "fixIncompatibleRasters=true\r\n" +
+                "dxtPackedDecompression=false\r\n" +
+                "imgArchivesCompressed=false\r\n" +
+                "ignoreSerializationRegions=true";
+
+            string curr = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(txdGenFolder);
+
+            File.WriteAllText("txdgen.ini", ini);
+
+            System.Diagnostics.Process txdgen = System.Diagnostics.Process.Start("txdgen.exe");
+            txdgen.WaitForExit();
+
+            Directory.SetCurrentDirectory(curr);
         }
     }
 }
