@@ -266,7 +266,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutSystem.ComboBoxObjectChanged(listBoxObjects.SelectedIndex, ComboBoxObject.SelectedItem as ObjectEntry);
                 UpdateList();
                 PropertyGridMisc.SelectedObject = layoutSystem.GetObjectManager(SelectedIndex);
-                UpdateDescriptionBox(layoutSystem.GetSetObjectEntry(SelectedIndex));
+                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(SelectedIndex).Description);
             }
         }
 
@@ -444,7 +444,7 @@ namespace HeroesPowerPlant.LayoutEditor
         private void UpdateObjectComboBox()
         {
             ComboBoxObject.Items.Clear();
-            ComboBoxObject.Items.AddRange(layoutSystem.GetActiveObjectEntries());
+            ComboBoxObject.Items.AddRange(LayoutEditorSystem.GetActiveObjectEntries());
 
             UpdateList();
         }
@@ -487,7 +487,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 NumericRotY.Value = layoutSystem.GetRotY(SelectedIndex);
                 NumericRotZ.Value = layoutSystem.GetRotZ(SelectedIndex);
 
-                ComboBoxObject.SelectedItem = layoutSystem.GetSetObjectEntry(SelectedIndex);
+                foreach (ObjectEntry o in LayoutEditorSystem.GetActiveObjectEntries())
+                    if (o.List == layoutSystem.GetSetObjectAt(SelectedIndex).List && o.Type == layoutSystem.GetSetObjectAt(SelectedIndex).Type)
+                ComboBoxObject.SelectedItem = o;
 
                 NumericObjLink.Value = layoutSystem.GetObjectLink(SelectedIndex);
                 NumericObjRend.Value = layoutSystem.GetObjectRend(SelectedIndex);
@@ -502,7 +504,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 numericUnkB8.Value = layoutSystem.GetUnkBytes(SelectedIndex)[7];
 
                 PropertyGridMisc.SelectedObject = layoutSystem.GetObjectManager(SelectedIndex);
-                UpdateDescriptionBox(layoutSystem.GetSetObjectEntry(SelectedIndex));
+                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(SelectedIndex).Description);
                 ProgramIsChangingStuff = false;
             }
 
@@ -580,11 +582,11 @@ namespace HeroesPowerPlant.LayoutEditor
             mainForm.SetLayoutEditorStripItemName(this, Path.GetFileName(layoutSystem.CurrentlyOpenFileName));
         }
 
-        private void UpdateDescriptionBox(ObjectEntry objectEntry)
+        private void UpdateDescriptionBox(string Description)
         {
             try
             {
-                RichTextBoxDescription.Text = objectEntry.Description;
+                RichTextBoxDescription.Text = Description;
             }
             catch
             {
@@ -611,7 +613,7 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutSystem.UpdateSetParticleMatrices();
         }
         
-        public ObjectEntry[] GetAllCurrentObjectEntries()
+        public (byte, byte)[] GetAllCurrentObjectEntries()
         {
             return layoutSystem.GetAllCurrentObjectEntries();
         }

@@ -5,30 +5,20 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class SetObjectShadow : SetObject
     {
-        public int MiscSettingCount;
-        
-        public SetObjectShadow() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10, 0, new byte[8]) { }
-
-        public SetObjectShadow(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null)
+        [JsonConstructor]
+        public SetObjectShadow()
         {
-            FindObjectEntry(List, Type, objectEntries);
-            this.Position = Position;
-            this.Rotation = Rotation;
-            this.Link = Link;
-            this.Rend = Rend;
+            UnkBytes = new byte[8];
 
-            this.UnkBytes = UnkBytes ?? new byte[8];
-            this.MiscSettingCount = MiscSettingCount;
-
-            isSelected = false;
-
-            objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
+            objectManager = FindObjectManager();
             objectManager.MiscSettings = new byte[MiscSettingCount];
         }
 
-        public SetObjectShadow(ObjectEntry thisObject, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null)
+        public SetObjectShadow(byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null)
         {
-            objectEntry = thisObject;
+            this.List = List;
+            this.Type = Type;
+            FindObjectEntry(LayoutEditorSystem.GetActiveObjectEntries());
             this.Position = Position;
             this.Rotation = Rotation;
             this.Link = Link;
@@ -39,10 +29,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
             isSelected = false;
 
-            objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
+            objectManager = FindObjectManager();
             objectManager.MiscSettings = new byte[MiscSettingCount];
-
-            CreateTransformMatrix();
         }
 
         [JsonIgnore]
@@ -52,7 +40,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             objectManager.CreateTransformMatrix(Position, Rotation);
 
-            boundingBox = objectManager.CreateBoundingBox(objectEntry.ModelNames, objectEntry.ModelMiscSetting);
+            boundingBox = objectManager.CreateBoundingBox(ModelNames, ModelMiscSetting);
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, objectManager.transformMatrix);
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, objectManager.transformMatrix);
         }
@@ -60,12 +48,12 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void Draw(SharpRenderer renderer, bool drawEveryObject)
         {
             if (drawEveryObject || !DontDraw(renderer.Camera.GetPosition()))
-                objectManager.Draw(renderer, objectEntry.ModelNames, objectEntry.ModelMiscSetting, isSelected);
+                objectManager.Draw(renderer, ModelNames, ModelMiscSetting, isSelected);
         }
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            return objectManager.TriangleIntersection(r, objectEntry.ModelNames, objectEntry.ModelMiscSetting, initialDistance, out distance);
+            return objectManager.TriangleIntersection(r, ModelNames, ModelMiscSetting, initialDistance, out distance);
         }
         
         [JsonIgnore]
@@ -81,20 +69,20 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             byte[] oldMiscSettings = MiscSettings;
 
-            objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
+            objectManager = FindObjectManager();
 
             if (replaceMiscSettings)
-                MiscSettings = new byte[objectEntry.MiscSettingCount == -1 ? 0 : objectEntry.MiscSettingCount];
+                MiscSettings = new byte[MiscSettingCount == -1 ? 0 : MiscSettingCount];
             else
                 MiscSettings = oldMiscSettings;
         }
 
-        private SetObjectManagerShadow FindObjectManager(byte ObjectList, byte ObjectType)
+        private SetObjectManagerShadow FindObjectManager()
         {
-            switch (ObjectList)
+            switch (List)
             {
                 case 0x00:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x01: case 0x02: case 0x03: case 0x06: return new Object00_SpringShadow();
                         case 0x04: return new Object0004_DashRamp();
@@ -108,19 +96,19 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowEmpty();
                     }
                 case 0x01:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x90: return new Object0190_Partner();
                         default: return new Object_ShadowEmpty();
                     }
                 case 0x0B:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0xBE: return new Object0BBE_Chao();
                         default: return new Object_ShadowEmpty();
                     }
                 case 0x18:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x9E: return new Object189E_ARKDriftingPlat1();
                         default: return new Object_ShadowEmpty();

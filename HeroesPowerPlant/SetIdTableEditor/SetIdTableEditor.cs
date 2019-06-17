@@ -215,8 +215,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
             {
                 for (int i = 0; i < comboBoxTableEntries.Items.Count; i++)
                     foreach (var v in Program.MainForm.LayoutEditors)
-                        foreach (ObjectEntry o in v.GetAllCurrentObjectEntries())
-                            if ((comboBoxTableEntries.Items[i] as TableEntry).objectEntry.List == o.List & (comboBoxTableEntries.Items[i] as TableEntry).objectEntry.Type == o.Type)
+                        foreach ((byte, byte) o in v.GetAllCurrentObjectEntries())
+                            if ((comboBoxTableEntries.Items[i] as TableEntry).objectEntry.List == o.Item1 & (comboBoxTableEntries.Items[i] as TableEntry).objectEntry.Type == o.Item2)
                             {
                                 (comboBoxTableEntries.Items[i] as TableEntry).values0 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag0;
                                 (comboBoxTableEntries.Items[i] as TableEntry).values1 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag1;

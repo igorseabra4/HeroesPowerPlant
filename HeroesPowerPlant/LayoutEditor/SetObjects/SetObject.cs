@@ -6,14 +6,31 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public abstract class SetObject
     {
-        public ObjectEntry objectEntry;
-        public void FindObjectEntry(byte List, byte Type, ObjectEntry[] objectEntries)
+        public byte List;
+        public byte Type;
+        public string Name;
+        public string DebugName;
+        public string Description;
+        public int ModelMiscSetting;
+        public string[][] ModelNames;
+        public bool HasMiscSettings;
+        public int MiscSettingCount;
+        
+        public void FindObjectEntry(ObjectEntry[] objectEntries)
         {
             for (int i = 0; i < objectEntries.Length; i++)
             {
                 if (objectEntries[i].List == List & objectEntries[i].Type == Type)
                 {
-                    objectEntry = objectEntries[i];
+                    List = objectEntries[i].List;
+                    Type = objectEntries[i].Type;
+                    Name = objectEntries[i].Name;
+                    DebugName = objectEntries[i].DebugName;
+                    Description = objectEntries[i].Description;
+                    ModelMiscSetting = objectEntries[i].ModelMiscSetting;
+                    ModelNames = objectEntries[i].ModelNames;
+                    HasMiscSettings = objectEntries[i].HasMiscSettings;
+                    MiscSettingCount = objectEntries[i].MiscSettingCount;
                     return;
                 }
             }
@@ -35,7 +52,17 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public override string ToString()
         {
-            return objectEntry.GetName() + (Link == 0 ? "" : $" ({Link})");
+            return GetName() + (Link == 0 ? "" : $" ({Link})");
+        }
+
+        private string GetName()
+        {
+            if (Name != "")
+                return Name;
+            else if (DebugName != "")
+                return DebugName;
+            else
+                return "Unknown/Unused";
         }
 
         public abstract void CreateTransformMatrix();

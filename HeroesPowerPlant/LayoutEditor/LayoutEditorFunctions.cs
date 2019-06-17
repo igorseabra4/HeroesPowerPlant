@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public static class LayoutEditorFunctions
     {
-        public static List<SetObjectHeroes> GetHeroesLayout(string fileName, ObjectEntry[] objectEntries)
+        public static List<SetObjectHeroes> GetHeroesLayout(string fileName)
         {
             List<SetObjectHeroes> list = new List<SetObjectHeroes>(2048);
             BinaryReader LayoutFileReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
@@ -38,12 +38,12 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (List == 0 & Type == 0)
                     continue;
 
-                SetObjectHeroes TempObject = new SetObjectHeroes(List, Type, objectEntries, Position, Rotation, Link, Rend, UnkBytes1.Concat(UnkBytes2).ToArray());
+                SetObjectHeroes TempObject = new SetObjectHeroes(List, Type, Position, Rotation, Link, Rend, UnkBytes1.Concat(UnkBytes2).ToArray());
 
                 int MiscSettings = Switch(LayoutFileReader.ReadInt32());
 
                 if (MiscSettings == 0)
-                    TempObject.objectEntry.HasMiscSettings = false;
+                    TempObject.HasMiscSettings = false;
                 else
                 {
                     LayoutFileReader.BaseStream.Position = 0x18000 + (0x24 * MiscSettings);
@@ -77,7 +77,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             foreach (SetObjectHeroes i in list)
             {
-                if (i.objectEntry.List == 0 & i.objectEntry.Type == 0) continue;
+                if (i.List == 0 & i.Type == 0) continue;
 
                 layoutWriter.Write(Switch(i.Position.X));
                 layoutWriter.Write(Switch(i.Position.Y));
@@ -94,12 +94,12 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(i.UnkBytes.Skip(4).ToArray());
                 layoutWriter.Write(0);
 
-                layoutWriter.Write(i.objectEntry.List);
-                layoutWriter.Write(i.objectEntry.Type);
+                layoutWriter.Write(i.List);
+                layoutWriter.Write(i.Type);
                 layoutWriter.Write(i.Link);
                 layoutWriter.Write(i.Rend);
 
-                if (i.objectEntry.HasMiscSettings == true)
+                if (i.HasMiscSettings)
                 {
                     layoutWriter.Write(Switch(j));
 
@@ -125,7 +125,7 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutWriter.Close();
         }
 
-        public static List<SetObjectShadow> GetShadowLayout(string fileName, ObjectEntry[] objectEntries)
+        public static List<SetObjectShadow> GetShadowLayout(string fileName)
         {
             BinaryReader LayoutFileReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
             LayoutFileReader.BaseStream.Position = 0;
@@ -159,7 +159,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 byte Rend = LayoutFileReader.ReadByte();
                 int MiscSettingCount = LayoutFileReader.ReadInt32();
 
-                SetObjectShadow TempObject = new SetObjectShadow(List, Type, objectEntries, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes);
+                SetObjectShadow TempObject = new SetObjectShadow(List, Type, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes);
 
                 list.Add(TempObject);
             }
@@ -218,8 +218,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 layoutWriter.Write(i.UnkBytes);
 
-                layoutWriter.Write(i.objectEntry.Type);
-                layoutWriter.Write(i.objectEntry.List);
+                layoutWriter.Write(i.Type);
+                layoutWriter.Write(i.List);
                 layoutWriter.Write(i.Link);
                 layoutWriter.Write(i.Rend);
                 layoutWriter.Write(i.objectManager.MiscSettings.Length);
@@ -239,7 +239,7 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutWriter.Close();
         }
 
-        public static List<SetObjectHeroes> GetObjectsFromObjFile(string FileName, ObjectEntry objectEntry)
+        public static List<SetObjectHeroes> GetObjectsFromObjFile(string FileName, byte List, byte Type)
         {
             List<SetObjectHeroes> list = new List<SetObjectHeroes>();
 
@@ -249,7 +249,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (j.StartsWith("v"))
                 {
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
-                    SetObjectHeroes heroesSetObject = new SetObjectHeroes(objectEntry, new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), Vector3.Zero, 0, 10);
+                    SetObjectHeroes heroesSetObject = new SetObjectHeroes(List, Type, new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), Vector3.Zero, 0, 10);
 
                     list.Add(heroesSetObject);
                 }
@@ -257,24 +257,24 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
-        public static List<SetObjectHeroes> GetHeroesLayoutFromINI(string fileName, ObjectEntry[] objectEntries)
+        public static List<SetObjectHeroes> GetHeroesLayoutFromINI(string fileName)
         {
             string[] file = File.ReadAllLines(fileName);
             List<SetObjectHeroes> list = new List<SetObjectHeroes>();
 
-            SetObjectHeroes TempObject = new SetObjectHeroes();
+            SetObjectHeroes TempObject = new SetObjectHeroes(0, 0, Vector3.Zero, Vector3.Zero, 0, 10, new byte[8]);
 
             foreach (string s in file)
             {
                 if (s.StartsWith("obj "))
                 {
-                    if (!(TempObject.objectEntry.List == 0 & TempObject.objectEntry.Type == 0))
+                    if (!(TempObject.List == 0 & TempObject.Type == 0))
                     {
                         TempObject.CreateTransformMatrix();
                         list.Add(TempObject);
                     }
                     TempObject = null;
-                    TempObject = new SetObjectHeroes(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), objectEntries, Vector3.Zero, Vector3.Zero, 0, 10);
+                    TempObject = new SetObjectHeroes(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), Vector3.Zero, Vector3.Zero, 0, 10);
                 }
                 else if (s.StartsWith("link "))
                 {
@@ -327,12 +327,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     }
                     else
                     {
-                        TempObject.objectEntry.HasMiscSettings = false;
+                        TempObject.HasMiscSettings = false;
                     }
                 }
                 else if (s == "EndOfFile")
                 {
-                    if (!(TempObject.objectEntry.List == 0 & TempObject.objectEntry.Type == 0))
+                    if (!(TempObject.List == 0 & TempObject.Type == 0))
                     {
                         TempObject.CreateTransformMatrix();
                         list.Add(TempObject);
@@ -354,9 +354,9 @@ namespace HeroesPowerPlant.LayoutEditor
             foreach (SetObjectHeroes i in list)
             {
                 iniWriter.WriteLine("obj "
-                    + String.Format("{0, 2:X2}", i.objectEntry.List)
-                    + String.Format("{0, 2:X2}", i.objectEntry.Type)
-                    + "_" + i.objectEntry.Name.Replace(' ', '-'));
+                    + String.Format("{0, 2:X2}", i.List)
+                    + String.Format("{0, 2:X2}", i.Type)
+                    + "_" + i.Name.Replace(' ', '-'));
                 iniWriter.WriteLine("link " + String.Format("{0, 2:D2}", i.Link));
                 iniWriter.WriteLine("rend " + String.Format("{0, 2:D2}", i.Rend));
                 iniWriter.WriteLine("b " +
@@ -364,7 +364,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     i.UnkBytes[4].ToString() + " " + i.UnkBytes[5].ToString() + " " + i.UnkBytes[6].ToString() + " " + i.UnkBytes[7].ToString());
                 iniWriter.WriteLine("v " + i.Position.X.ToString() + " " + i.Position.Y.ToString() + " " + i.Position.Z.ToString());
                 iniWriter.WriteLine("r " + i.Rotation.X.ToString() + " " + i.Rotation.Y.ToString() + " " + i.Rotation.Z.ToString());
-                if (i.objectEntry.HasMiscSettings)
+                if (i.HasMiscSettings)
                 {
                     List<char> m = new List<char>();
                     for (int j = 0; j < i.MiscSettings.Length; j++)
@@ -463,13 +463,13 @@ namespace HeroesPowerPlant.LayoutEditor
             return list.ToArray();
         }
 
-        public static List<SetObjectHeroes> GetHeroesLayoutFromShadow(string fileName, ObjectEntry[] HeroesEntries, ObjectEntry[] ShadowEntries)
+        public static List<SetObjectHeroes> GetHeroesLayoutFromShadow(string fileName)
         {
             List<SetObjectHeroes> list = new List<SetObjectHeroes>();
 
-            foreach (SetObjectShadow i in GetShadowLayout(fileName, ShadowEntries))
+            foreach (SetObjectShadow i in GetShadowLayout(fileName))
             {
-                SetObjectHeroes TempObject = SetObjectShadowToHeroes(i, HeroesEntries);
+                SetObjectHeroes TempObject = SetObjectShadowToHeroes(i);
 
                 if (TempObject != null)
                 {
@@ -481,38 +481,38 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
-        private static SetObjectHeroes SetObjectShadowToHeroes(SetObjectShadow i, ObjectEntry[] HeroesEntries)
+        private static SetObjectHeroes SetObjectShadowToHeroes(SetObjectShadow i)
         {
             bool MatchNotFound = false;
             byte List = 0;
             byte Type = 0;
             byte[] MiscSettings = new byte[36];
 
-            switch (i.objectEntry.List)
+            switch (i.List)
             {
                 case 0:
                     List = 0;
-                    if (i.objectEntry.Type == 0x00) Type = 0x03; // Ring
-                    else if (i.objectEntry.Type == 0x01) Type = 0x01; // Spring
-                    else if (i.objectEntry.Type == 0x02) Type = 0x02; // 3Spring
-                    else if (i.objectEntry.Type == 0x03) Type = 0x0B; // Dash panel
-                    else if (i.objectEntry.Type == 0x04) Type = 0x0F; // Dash ramp
-                    else if (i.objectEntry.Type == 0x05) Type = 0x0E; // Checkpoint
-                    else if (i.objectEntry.Type == 0x06) Type = 0x0C; // Dash Ring
-                    else if (i.objectEntry.Type == 0x07) Type = 0x31; // Case
-                    else if (i.objectEntry.Type == 0x08) Type = 0x1D; // Pulley
-                    else if (i.objectEntry.Type == 0x09) Type = 0x20; // Gun Wood box
-                    else if (i.objectEntry.Type == 0x0A) Type = 0x21; // Metal box
-                    else if (i.objectEntry.Type == 0x0B) Type = 0x22; // Unbreakable box
-                    else if (i.objectEntry.Type == 0x0C) Type = 0x20; // Normal Wood box
-                    else if (i.objectEntry.Type == 0x0F) // Moving platform
+                    if (i.Type == 0x00) Type = 0x03; // Ring
+                    else if (i.Type == 0x01) Type = 0x01; // Spring
+                    else if (i.Type == 0x02) Type = 0x02; // 3Spring
+                    else if (i.Type == 0x03) Type = 0x0B; // Dash panel
+                    else if (i.Type == 0x04) Type = 0x0F; // Dash ramp
+                    else if (i.Type == 0x05) Type = 0x0E; // Checkpoint
+                    else if (i.Type == 0x06) Type = 0x0C; // Dash Ring
+                    else if (i.Type == 0x07) Type = 0x31; // Case
+                    else if (i.Type == 0x08) Type = 0x1D; // Pulley
+                    else if (i.Type == 0x09) Type = 0x20; // Gun Wood box
+                    else if (i.Type == 0x0A) Type = 0x21; // Metal box
+                    else if (i.Type == 0x0B) Type = 0x22; // Unbreakable box
+                    else if (i.Type == 0x0C) Type = 0x20; // Normal Wood box
+                    else if (i.Type == 0x0F) // Moving platform
                     {
                         // List = 0x13;
                         // Type = 0x06; // Egg fleet square platform
                         List = 0x5;
                         Type = 0xA; // dice
                     }
-                    else if (i.objectEntry.Type == 0x10)  // Ring
+                    else if (i.Type == 0x10)  // Ring
                     {
                         Type = 0x03;
 
@@ -537,30 +537,30 @@ namespace HeroesPowerPlant.LayoutEditor
                             i.Rotation.Y += 180;
                         }
                     }
-                    else if (i.objectEntry.Type == 0x11) Type = 0x04; // Hint
-                    else if (i.objectEntry.Type == 0x12) Type = 0x18; // Item balloon
-                    else if (i.objectEntry.Type == 0x13) Type = 0x19; // Item balloon
-                    else if (i.objectEntry.Type == 0x14) Type = 0x1B; // Goal ring
-                    else if (i.objectEntry.Type == 0x15) Type = 0x05; // Switch
-                                                                      // else if (i.objectEntry.Type == 0x1D) Type = 0x67; // Key
-                    else if (i.objectEntry.Type == 0x1F) Type = 0x80; // Teleport
-                    else if (i.objectEntry.Type == 0x3A) Type = 0x24; // shadow box
-                    else if (i.objectEntry.Type == 0x65) // Beetle
+                    else if (i.Type == 0x11) Type = 0x04; // Hint
+                    else if (i.Type == 0x12) Type = 0x18; // Item balloon
+                    else if (i.Type == 0x13) Type = 0x19; // Item balloon
+                    else if (i.Type == 0x14) Type = 0x1B; // Goal ring
+                    else if (i.Type == 0x15) Type = 0x05; // Switch
+                                                                      // else if (i.Type == 0x1D) Type = 0x67; // Key
+                    else if (i.Type == 0x1F) Type = 0x80; // Teleport
+                    else if (i.Type == 0x3A) Type = 0x24; // shadow box
+                    else if (i.Type == 0x65) // Beetle
                     {
                         List = 0x15;
                         Type = 0x00;
                     }
-                    else if (i.objectEntry.Type == 0x78) // Egg bommer
+                    else if (i.Type == 0x78) // Egg bommer
                     {
                         List = 0x15;
                         Type = 0x20; //Klagen
                     }
-                    else if (i.objectEntry.Type == 0x79 | i.objectEntry.Type == 0x8D) // Egg pawn
+                    else if (i.Type == 0x79 | i.Type == 0x8D) // Egg pawn
                     {
                         List = 0x15;
                         Type = 0x10;
                     }
-                    else if (i.objectEntry.Type == 0x7A | i.objectEntry.Type == 0x90) // Shadow android / worm
+                    else if (i.Type == 0x7A | i.Type == 0x90) // Shadow android / worm
                     {
                         List = 0x15;
                         Type = 0x70; // Cameron
@@ -569,7 +569,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         MatchNotFound = true;
                     break;
                 case 0x07:
-                    if (i.objectEntry.Type == 0xD1) // Digital searchlight
+                    if (i.Type == 0xD1) // Digital searchlight
                     {
                         List = 0x00;
                         Type = 0x2E; // Fan
@@ -577,7 +577,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         i.Rotation.Y = 0;
                         i.Rotation.Z = 0;
                     }
-                    else if (i.objectEntry.Type == 0xD5) // Digital big block
+                    else if (i.Type == 0xD5) // Digital big block
                     {
                         float scale = BitConverter.ToSingle(i.objectManager.MiscSettings, 4);
                         if (BitConverter.ToSingle(i.objectManager.MiscSettings, 8) < scale)
@@ -608,7 +608,7 @@ namespace HeroesPowerPlant.LayoutEditor
                             MiscSettings[7] = BitConverter.GetBytes(scale)[0];
                         }
                     }
-                    else if (i.objectEntry.Type == 0xD7) // Digital panel
+                    else if (i.Type == 0xD7) // Digital panel
                     {
                         List = 0x05;
                         Type = 0x05; // Casino panel
@@ -625,12 +625,12 @@ namespace HeroesPowerPlant.LayoutEditor
                             MiscSettings[7] = BitConverter.GetBytes(5f)[0];
                         }
                     }
-                    else if (i.objectEntry.Type == 0xDB) // Digital core
+                    else if (i.Type == 0xDB) // Digital core
                     {
                         List = 0x00;
                         Type = 0x1B; // Goal
                     }
-                    else if (i.objectEntry.Type == 0xDE) // Digital spring
+                    else if (i.Type == 0xDE) // Digital spring
                     {
                         List = 0x05;
                         Type = 0x01; // Green spring
@@ -640,7 +640,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         MiscSettings[6] = BitConverter.GetBytes(4f)[1];
                         MiscSettings[7] = BitConverter.GetBytes(4f)[0];
                     }
-                    else if (i.objectEntry.Type == 0xDF) // Firewall
+                    else if (i.Type == 0xDF) // Firewall
                     {
                         List = 0x00;
                         Type = 0x15; // Spikeball
@@ -654,12 +654,12 @@ namespace HeroesPowerPlant.LayoutEditor
                         MiscSettings[14] = BitConverter.GetBytes(2f)[1];
                         MiscSettings[15] = BitConverter.GetBytes(2f)[0];
                     }
-                    else if (i.objectEntry.Type == 0xE2) // Spinning cube dark
+                    else if (i.Type == 0xE2) // Spinning cube dark
                     {
                         List = 0x05;
                         Type = 0x84; // Dice big
                     }
-                    else if (i.objectEntry.Type == 0xE5) // Spinning cube PURPLE
+                    else if (i.Type == 0xE5) // Spinning cube PURPLE
                     {
                         List = 0x05;
                         Type = 0x84; // Dice big
@@ -669,7 +669,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         MatchNotFound = true;
                     break;
                 case 0x0B:
-                    if (i.objectEntry.Type == 0xBB | i.objectEntry.Type == 0xC9) // small lantern, castle file
+                    if (i.Type == 0xBB | i.Type == 0xC9) // small lantern, castle file
                     {
                         List = 0x11;
                         Type = 0x04; // flame torch
@@ -678,7 +678,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         MatchNotFound = true;
                     break;
                 case 0x0C:
-                    if (i.objectEntry.Type == 0xDE) // bouncy ball
+                    if (i.Type == 0xDE) // bouncy ball
                     {
                         List = 0x05;
                         Type = 0x01; // Green spring
@@ -688,12 +688,12 @@ namespace HeroesPowerPlant.LayoutEditor
                         MiscSettings[6] = BitConverter.GetBytes(4f)[1];
                         MiscSettings[7] = BitConverter.GetBytes(4f)[0];
                     }
-                    else if (i.objectEntry.Type == 0x82) // ghost
+                    else if (i.Type == 0x82) // ghost
                     {
                         List = 0x11;
                         Type = 0x05; // ghost
                     }
-                    else if (i.objectEntry.Type == 0x88) // zipline balloon
+                    else if (i.Type == 0x88) // zipline balloon
                     {
                         List = 0x11;
                         Type = 0x00; // teleport switch
@@ -702,7 +702,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         MatchNotFound = true;
                     break;
                 case 0x11:
-                    if (i.objectEntry.Type == 0x33) // Castle door
+                    if (i.Type == 0x33) // Castle door
                     {
                         List = 0x11;
                         Type = 0x01; // castle door
@@ -711,12 +711,12 @@ namespace HeroesPowerPlant.LayoutEditor
                         MatchNotFound = true;
                     break;
                 case 0x13:
-                    if (i.objectEntry.Type == 0xF1) // Lava shelter door
+                    if (i.Type == 0xF1) // Lava shelter door
                     {
                         List = 0x07;
                         Type = 0x06; // Rail canyon door
                     }
-                    else if (i.objectEntry.Type == 0xEF) // LASER
+                    else if (i.Type == 0xEF) // LASER
                     {
                         List = 0x00;
                         Type = 0x16;
@@ -730,7 +730,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
 
             if (MatchNotFound) return null;
-            else return new SetObjectHeroes(List, Type, HeroesEntries, i.Position,
+            else return new SetObjectHeroes(List, Type, i.Position,
                 new Vector3(DegreesToBAMS(i.Rotation.X), DegreesToBAMS(i.Rotation.Y), DegreesToBAMS(i.Rotation.Z)), 0, (byte)(2 * i.Rend));
         }
     }

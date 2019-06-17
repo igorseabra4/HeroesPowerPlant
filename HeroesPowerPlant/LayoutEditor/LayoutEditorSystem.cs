@@ -13,7 +13,7 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class LayoutEditorSystem
     {
-        private bool isShadow;
+        private static bool isShadow;
         public bool IsShadow => isShadow;
 
         private string currentlyOpenFileName;
@@ -41,11 +41,6 @@ namespace HeroesPowerPlant.LayoutEditor
             return setObjects[index];
         }
 
-        public ObjectEntry GetSetObjectEntry(int index)
-        {
-            return setObjects[index].objectEntry;
-        }
-        
         public static IEnumerable<ObjectEntry> GetAllObjectEntries()
         {
             List<ObjectEntry> list = new List<ObjectEntry>();
@@ -55,7 +50,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
-        public ObjectEntry[] GetActiveObjectEntries()
+        public static ObjectEntry[] GetActiveObjectEntries()
         {
             if (isShadow) return shadowObjectEntries;
             else return heroesObjectEntries;
@@ -64,14 +59,14 @@ namespace HeroesPowerPlant.LayoutEditor
         public static ObjectEntry[] HeroesObjectEntries => heroesObjectEntries;
         public static ObjectEntry[] ShadowObjectEntries => shadowObjectEntries;
         
-        public ObjectEntry[] GetAllCurrentObjectEntries()
+        public (byte, byte)[] GetAllCurrentObjectEntries()
         {
-            HashSet<ObjectEntry> objectEntries = new HashSet<ObjectEntry>();
+            HashSet<(byte, byte)> objectEntries = new HashSet<(byte, byte)>();
 
             foreach (SetObject s in setObjects)
             {
-                if (!objectEntries.Contains(s.objectEntry))
-                    objectEntries.Add(s.objectEntry);
+                if (!objectEntries.Contains((s.List, s.Type)))
+                    objectEntries.Add((s.List, s.Type));
             }
 
             return objectEntries.ToArray();
@@ -101,12 +96,12 @@ namespace HeroesPowerPlant.LayoutEditor
             if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".bin")
             {
                 isShadow = false;
-                GetHeroesLayout(CurrentlyOpenFileName, heroesObjectEntries).ForEach(setObjects.Add);
+                GetHeroesLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
             }
             else if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".dat")
             {
                 isShadow = true;
-                GetShadowLayout(CurrentlyOpenFileName, shadowObjectEntries).ForEach(setObjects.Add);
+                GetShadowLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
             }
             else throw new InvalidDataException("Unknown file type");
         }
@@ -137,7 +132,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void ImportINI(string fileName)
         {
-            foreach (var v in GetHeroesLayoutFromINI(fileName, heroesObjectEntries))
+            foreach (var v in GetHeroesLayoutFromINI(fileName))
                 setObjects.Add(v);
         }
 
@@ -145,17 +140,17 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (isShadow)
             {
-                GetShadowLayout(fileName, shadowObjectEntries).ForEach(setObjects.Add);
+                GetShadowLayout(fileName).ForEach(setObjects.Add);
             }
             else
             {
                 if (Path.GetExtension(fileName).ToLower() == ".bin")
                 {
-                    GetHeroesLayout(fileName, heroesObjectEntries).ForEach(setObjects.Add);
+                    GetHeroesLayout(fileName).ForEach(setObjects.Add);
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".dat")
                 {
-                    GetHeroesLayoutFromShadow(fileName, heroesObjectEntries, shadowObjectEntries).ForEach(setObjects.Add);
+                    GetHeroesLayoutFromShadow(fileName).ForEach(setObjects.Add);
                 }
                 else throw new InvalidDataException("Unknown file type");
             }
@@ -163,8 +158,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void ImportOBJ(string fileName)
         {
-            SetObjectHeroes ring = new SetObjectHeroes(0, 3, heroesObjectEntries, Vector3.Zero, Vector3.Zero, 0, 0);
-            GetObjectsFromObjFile(fileName, ring.objectEntry).ForEach(setObjects.Add);
+            GetObjectsFromObjFile(fileName, 0, 3).ForEach(setObjects.Add);
         }
 
         #endregion
@@ -173,7 +167,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void ViewHere(int index)
         {
-               Program.MainForm.renderer.Camera.SetPosition(GetSetObjectAt(index).Position - 200 * Program.MainForm.renderer.Camera.GetForward());
+            Program.MainForm.renderer.Camera.SetPosition(GetSetObjectAt(index).Position - 200 * Program.MainForm.renderer.Camera.GetForward());
         }
 
         public void UpdateAllMatrices()
@@ -192,7 +186,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public void UpdateSetParticleMatrices()
         {
             foreach (SetObject s in setObjects)
-                if (s.objectEntry.List == 0x01 & s.objectEntry.Type == 0xFF)
+                if (s.List == 0x01 & s.Type == 0xFF)
                     s.CreateTransformMatrix();
         }
         #endregion
@@ -230,7 +224,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 unkBytes.AddRange(new byte[] { 1, currentNum });
                 unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0 });
 
-                newObject = new SetObjectShadow(0, 0, shadowObjectEntries, Position, Vector3.Zero, 0, 10, 0, unkBytes.ToArray());
+                newObject = new SetObjectShadow(0, 0, Position, Vector3.Zero, 0, 10, 0, unkBytes.ToArray());
             }
             else
             {
@@ -247,7 +241,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 var unkBytes = new byte[8] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
 
-                newObject = new SetObjectHeroes(0, 0, heroesObjectEntries, Position, Vector3.Zero, 0, 10, unkBytes);
+                newObject = new SetObjectHeroes(0, 0, Position, Vector3.Zero, 0, 10, unkBytes);
             }
 
             newObject.CreateTransformMatrix();
@@ -270,7 +264,6 @@ namespace HeroesPowerPlant.LayoutEditor
             else
                 destination = JsonConvert.DeserializeObject<SetObjectHeroes>(JsonConvert.SerializeObject(original));
 
-            destination.objectEntry = original.objectEntry;
             destination.Position = Position;
 
             destination.FindNewObjectManager(false);
@@ -322,8 +315,9 @@ namespace HeroesPowerPlant.LayoutEditor
         public void ComboBoxObjectChanged(int index, ObjectEntry newEntry)
         {
             SetObject current = GetSetObjectAt(index);
-
-            current.objectEntry = newEntry;
+            current.List = newEntry.List;
+            current.Type = newEntry.Type;
+            current.FindObjectEntry(GetActiveObjectEntries());
             current.FindNewObjectManager();
             current.CreateTransformMatrix();
         }
@@ -503,8 +497,8 @@ namespace HeroesPowerPlant.LayoutEditor
         public void SortObjectsByID()
         {
             List<SetObject> sorted = setObjects.OrderBy(f => f.Link).ToList();
-            sorted = sorted.OrderBy(f => f.objectEntry.Type).ToList();
-            sorted = sorted.OrderBy(f => f.objectEntry.List).ToList();
+            sorted = sorted.OrderBy(f => f.Type).ToList();
+            sorted = sorted.OrderBy(f => f.List).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
         }

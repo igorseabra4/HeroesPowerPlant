@@ -5,27 +5,22 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class SetObjectHeroes : SetObject
     {
-        public SetObjectHeroes() : this(new ObjectEntry(), Vector3.Zero, Vector3.Zero, 0, 10, new byte[8]) { }
-
-        public SetObjectHeroes(byte List, byte Type, ObjectEntry[] objectEntries, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null)
+        [JsonConstructor]
+        public SetObjectHeroes()
         {
-            FindObjectEntry(List, Type, objectEntries);
-            this.Position = Position;
-            this.Rotation = Rotation;
-            this.Link = Link;
-            this.Rend = Rend;
+            FindObjectEntry(LayoutEditorSystem.GetActiveObjectEntries());
 
-            this.UnkBytes = UnkBytes ?? new byte[8];
-
-            isSelected = false;
-
-            objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
+            UnkBytes = new byte[8];
+            
+            objectManager = FindObjectManager();
             objectManager.MiscSettings = new byte[36];
         }
 
-        public SetObjectHeroes(ObjectEntry thisObject, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null)
+        public SetObjectHeroes(byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null)
         {
-            objectEntry = thisObject;
+            this.List = List;
+            this.Type = Type;
+            FindObjectEntry(LayoutEditorSystem.GetActiveObjectEntries());
             this.Position = Position;
             this.Rotation = Rotation;
             this.Link = Link;
@@ -35,7 +30,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             isSelected = false;
 
-            objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
+            objectManager = FindObjectManager();
             objectManager.MiscSettings = new byte[36];
             CreateTransformMatrix();
         }
@@ -47,7 +42,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             objectManager.CreateTransformMatrix(Position, Rotation);
 
-            boundingBox = objectManager.CreateBoundingBox(objectEntry.ModelNames, objectEntry.ModelMiscSetting);
+            boundingBox = objectManager.CreateBoundingBox(ModelNames, ModelMiscSetting);
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, objectManager.transformMatrix);
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, objectManager.transformMatrix);
         }
@@ -55,12 +50,12 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void Draw(SharpRenderer renderer, bool drawEveryObject)
         {
             if (drawEveryObject || !DontDraw(renderer.Camera.GetPosition()))
-                objectManager.Draw(renderer, objectEntry.ModelNames, objectEntry.ModelMiscSetting, isSelected);
+                objectManager.Draw(renderer, ModelNames, ModelMiscSetting, isSelected);
         }
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            return objectManager.TriangleIntersection(r, objectEntry.ModelNames, objectEntry.ModelMiscSetting, initialDistance, out distance);
+            return objectManager.TriangleIntersection(r, ModelNames, ModelMiscSetting, initialDistance, out distance);
         }
 
         [JsonIgnore]
@@ -76,7 +71,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             byte[] oldMiscSettings = objectManager.MiscSettings;
 
-            objectManager = FindObjectManager(objectEntry.List, objectEntry.Type);
+            objectManager = FindObjectManager();
 
             if (replaceMiscSettings)
                 objectManager.MiscSettings = new byte[36];
@@ -84,12 +79,12 @@ namespace HeroesPowerPlant.LayoutEditor
                 objectManager.MiscSettings = oldMiscSettings;
         }
 
-        private SetObjectManagerHeroes FindObjectManager(byte ObjectList, byte ObjectType)
+        private SetObjectManagerHeroes FindObjectManager()
         {
-            switch (ObjectList)
+            switch (List)
             {
                 case 0:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0: case 0x1B: case 0x28: case 0x67: return new Object_HeroesEmpty();
                         case 0x1: return new Object0001_Spring();
@@ -134,7 +129,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 1:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x2: return new Object0102_TruckRail();
                         case 0x3: return new Object0103_TruckPath();
@@ -157,7 +152,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 2:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x0: return new Object0200_CrumbleStonePillar();
                         //case 0x1: return new Object_();
@@ -176,7 +171,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 3:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0: return new Object0300_AcceleratorRoad();
                         case 0x2: return new Object0302_RoadCap();
@@ -191,7 +186,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 4:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x80: case 0x81: return new Object_HeroesEmpty();
                         case 0x1: return new Object0401_EnergyColumn();
@@ -202,7 +197,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 5:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x0: case 0x1: return new Object05_Spring();
                         case 0x2: return new Object0502_Flipper();
@@ -218,7 +213,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 7:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x00: case 0x01: case 0x0A: case 0x1B: case 0x42: case 0x82: case 0x83:
                         case 0x85: case 0x86: case 0x88: case 0x89: case 0x8A: case 0x8B:
@@ -237,7 +232,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 8:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x0: return new Object_F1Speed();
                         case 0x2: return new Object_L1Offset();
@@ -245,14 +240,14 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 9:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x2: case 0x7: return new Object_F1Range();
                         case 0xC: return new Object_F1Scale();
                         default: return new Object_HeroesDefault();
                     }
                 case 0x11:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x0: return new Object1100_TeleportSwitch();
                         case 0x1: return new Object1101_CastleDoor();
@@ -278,7 +273,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 0x13:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x2: return new Object1302_HorizCannon();
                         case 0x3: return new Object1303_MovingCannon();
@@ -292,12 +287,12 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 0x14:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         default: return new Object_HeroesDefault();
                     }
                 case 0x15:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0: return new Object1500_EggFlapper();
                         case 0x10: return new Object1510_EggPawn();
@@ -310,26 +305,26 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_HeroesDefault();
                     }
                 case 0x16:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x0: case 0x1: return new Object_16_00_01();
                         case 0x2: return new Object_16_02();
                         default: return new Object_HeroesDefault();
                     }
                 case 0x20:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x80: case 0x81: return new Object_B1_1_Type();
                         default: return new Object_HeroesDefault();
                     }
                 case 0x23:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x0: return new Object2300_EggAlbatross();
                         default: return new Object_HeroesDefault();
                     }
                 case 0x33:
-                    switch (ObjectType)
+                    switch (Type)
                     {
                         case 0x0: return new Object_S1_1_Type();
                         default: return new Object_HeroesDefault();
