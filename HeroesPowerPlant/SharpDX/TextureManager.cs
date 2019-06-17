@@ -31,8 +31,9 @@ namespace HeroesPowerPlant
         }
 
         public static void LoadTexturesFromTXD(string filePath, SharpRenderer renderer, BSPRenderer bspRenderer)
-        {
-            OpenTXDfiles.Add(filePath);
+        { 
+            if (!Path.GetFileName(filePath).Equals("temp.txd"))
+                OpenTXDfiles.Add(filePath);
 
             try
             {

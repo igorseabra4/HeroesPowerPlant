@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public abstract class SetObjectManagerHeroes : SetObjectManager
+    public class SetObjectManagerHeroes : SetObjectManager
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
