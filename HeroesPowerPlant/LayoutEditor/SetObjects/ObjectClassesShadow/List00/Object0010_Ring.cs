@@ -54,9 +54,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private List<Vector3> positionsList;
 
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
         {
-            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelNames[0]))
+            int nameIndex = miscSettingByte == -1 ? 0 : MiscSettings[miscSettingByte] < modelNames.Length ? MiscSettings[miscSettingByte] : 0;
+            
+            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelNames[nameIndex][0]))
             {
                 if (isSelected)
                     renderData.Color = renderer.selectedColor;
@@ -77,7 +79,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
                     renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                    Program.MainForm.renderer.dffRenderer.DFFModels[modelNames[0]].Render(renderer.Device);
+                    Program.MainForm.renderer.dffRenderer.DFFModels[modelNames[nameIndex][0]].Render(renderer.Device);
                 }
             }
             else

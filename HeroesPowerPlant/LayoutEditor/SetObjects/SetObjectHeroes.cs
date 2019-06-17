@@ -47,7 +47,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             objectManager.CreateTransformMatrix(Position, Rotation);
 
-            boundingBox = objectManager.CreateBoundingBox(objectEntry.ModelNames);
+            boundingBox = objectManager.CreateBoundingBox(objectEntry.ModelNames, objectEntry.ModelMiscSetting);
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, objectManager.transformMatrix);
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, objectManager.transformMatrix);
         }
@@ -55,12 +55,12 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void Draw(SharpRenderer renderer, bool drawEveryObject)
         {
             if (drawEveryObject || !DontDraw(renderer.Camera.GetPosition()))
-                objectManager.Draw(renderer, objectEntry.ModelNames, isSelected);
+                objectManager.Draw(renderer, objectEntry.ModelNames, objectEntry.ModelMiscSetting, isSelected);
         }
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            return objectManager.TriangleIntersection(r, objectEntry.ModelNames, initialDistance, out distance);
+            return objectManager.TriangleIntersection(r, objectEntry.ModelNames, objectEntry.ModelMiscSetting, initialDistance, out distance);
         }
 
         [JsonIgnore]

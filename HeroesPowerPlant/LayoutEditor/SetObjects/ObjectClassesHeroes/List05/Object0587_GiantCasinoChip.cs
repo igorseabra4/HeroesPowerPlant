@@ -6,25 +6,11 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
+            base.CreateTransformMatrix(Position, Rotation);
 
-            transformMatrix =
-                Matrix.Scaling(Scale + 1f) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
-                Matrix.Translation(Position);
+            transformMatrix = Matrix.Scaling(Scale + 1f) * transformMatrix;
         }
-
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
-        {
-            if (Type >= modelNames.Length)
-                DrawCube(renderer, isSelected);
-            else
-                Draw(renderer, modelNames[Type], isSelected);
-        }
-
+        
         public float Scale
         {
             get => ReadFloat(4);

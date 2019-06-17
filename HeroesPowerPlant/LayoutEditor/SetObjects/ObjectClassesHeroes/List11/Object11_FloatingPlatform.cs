@@ -10,20 +10,6 @@
 
     public class Object11_FloatingPlatform : SetObjectManagerHeroes
     {
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
-        {
-            if (AlternateModel)
-            {
-                Draw(renderer, modelNames[2], isSelected);
-                Draw(renderer, modelNames[3], isSelected);
-            }
-            else
-            {
-                Draw(renderer, modelNames[0], isSelected);
-                Draw(renderer, modelNames[1], isSelected);
-            }
-        }
-
         public PlatformType PlatformType
         {
             get => (PlatformType)ReadByte(4);

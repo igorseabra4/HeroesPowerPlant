@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
     public class Object0108_TriggerRuins : SetObjectManagerHeroes
     {
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
         {
             return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
@@ -21,13 +21,18 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Rotation = Rotation;
 
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X)) *
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z)) *
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                 Matrix.Translation(Position);
         }
 
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
+        {
+            return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
+        }
+
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
         {
             renderer.DrawCubeTrigger(transformMatrix, isSelected);
         }

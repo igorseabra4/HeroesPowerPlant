@@ -43,15 +43,25 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
+        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
         {
-            return TriggerShape == TriggerLightShape.Sphere ? r.Intersects(ref sphereBound, out distance) : base.TriangleIntersection(r, ModelNames, initialDistance, out distance);
+            switch (TriggerShape)
+            {
+                case TriggerLightShape.Sphere:
+                    return r.Intersects(ref sphereBound, out distance);
+                case TriggerLightShape.Cube:
+                    return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
+                case TriggerLightShape.Cylinder:
+                    return TriangleIntersection(r, Program.MainForm.renderer.cylinderTriangles, Program.MainForm.renderer.cylinderVertices, initialDistance, out distance);
+                default:
+                    return base.TriangleIntersection(r, modelNames, miscSettingByte, initialDistance, out distance);
+            }
         }
 
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
         {
             if (TriggerShape == TriggerLightShape.NotInUse)
-                return base.CreateBoundingBox(modelNames);
+                return base.CreateBoundingBox(modelNames, miscSettingByte);
             else
                 return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
@@ -85,7 +95,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.Translation(Position);
         }
 
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
         {
             if (TriggerShape == TriggerLightShape.Cube)
                 renderer.DrawCubeTrigger(transformMatrix, isSelected);
@@ -97,7 +107,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.DrawCylinderTrigger(transformMatrix, isSelected);
             
             else if (TriggerShape ==  TriggerLightShape.NotInUse)
-                base.Draw(renderer, modelNames, isSelected);
+                DrawCube(renderer, isSelected);
         }
 
         public TriggerLightNumber Number

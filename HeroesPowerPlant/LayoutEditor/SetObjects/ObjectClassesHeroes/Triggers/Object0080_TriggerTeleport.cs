@@ -6,12 +6,12 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
+        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
         {
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
         {
             return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
@@ -23,7 +23,7 @@ namespace HeroesPowerPlant.LayoutEditor
             this.Position = Position;
             this.Rotation = Rotation;
 
-            sphereBound = new BoundingSphere(Position, Radius );
+            sphereBound = new BoundingSphere(Position, Radius);
 
             destinationMatrix = Matrix.Translation(XDestination * 2, YDestination * 2, ZDestination * 2);
 
@@ -34,7 +34,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.Translation(Position);
         }
 
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
         {
             renderer.DrawSphereTrigger(transformMatrix, isSelected);
 

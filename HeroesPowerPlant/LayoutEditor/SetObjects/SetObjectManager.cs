@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.LevelEditor;
+using SharpDX;
 using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -12,15 +13,17 @@ namespace HeroesPowerPlant.LayoutEditor
         public Matrix transformMatrix;
         protected Vector3 Position;
         protected Vector3 Rotation;
-        
+
         public abstract void CreateTransformMatrix(Vector3 Position, Vector3 Rotation);
 
         protected static DefaultRenderData renderData;
 
-        public virtual void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public virtual void Draw(SharpRenderer renderer, string[][] modelNames, int modelMiscSetting, bool isSelected)
         {
-            if (modelNames != null && modelNames.Length > 0)
-                foreach (string s in modelNames)
+            int nameIndex = modelMiscSetting == -1 ? 0 : MiscSettings[modelMiscSetting];
+
+            if (modelNames != null && modelNames.Length > 0 && nameIndex < modelNames.Length)
+                foreach (string s in modelNames[nameIndex])
                     Draw(renderer, s, isSelected);
             else
                 DrawCube(renderer, isSelected);
@@ -72,14 +75,17 @@ namespace HeroesPowerPlant.LayoutEditor
 
             renderer.Cube.Draw(renderer.Device);
         }
-
-        public virtual BoundingBox CreateBoundingBox(string[] modelNames)
+        
+        public virtual BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
         {
-            if (modelNames == null || modelNames.Length == 0)
-                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
+            int modelNumber = miscSettingByte == -1 ? 0 : MiscSettings[miscSettingByte];
 
+            if (modelNames == null || modelNames.Length == 0 || modelNames.Length < modelNumber)
+                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
+            
             List<Vector3> list = new List<Vector3>();
-            foreach (string m in modelNames)
+            
+            foreach (string m in modelNames[modelNumber])
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(m))
                     list.AddRange(Program.MainForm.renderer.dffRenderer.DFFModels[m].vertexListG);
                 else
@@ -87,15 +93,17 @@ namespace HeroesPowerPlant.LayoutEditor
 
             return BoundingBox.FromPoints(list.ToArray());
         }
-
-        public virtual bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
+        
+        public virtual bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
         {
             distance = initialDistance;
 
-            if (ModelNames == null || ModelNames.Length == 0)
-                return true;
+            int modelNumber = miscSettingByte == -1 ? 0 : MiscSettings[miscSettingByte];
 
-            foreach (string s in ModelNames)
+            if (modelNames == null || modelNames.Length == 0 || modelNames.Length < modelNumber)
+                return true;
+            
+            foreach (string s in modelNames[modelNumber])
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(s))
                 {
@@ -120,6 +128,34 @@ namespace HeroesPowerPlant.LayoutEditor
                     return true;
             }
             return false;
+        }
+
+        public bool TriangleIntersection(Ray r, List<Triangle> triangles, List<Vector3> vertices, float initialDistance, out float distance, float multiplier = 1f)
+        {
+            bool hasIntersected = false;
+            float smallestDistance = 10000f;
+
+            foreach (Triangle t in triangles)
+            {
+                Vector3 v1 = (Vector3)Vector3.Transform(vertices[t.vertex1] * multiplier, transformMatrix);
+                Vector3 v2 = (Vector3)Vector3.Transform(vertices[t.vertex2] * multiplier, transformMatrix);
+                Vector3 v3 = (Vector3)Vector3.Transform(vertices[t.vertex3] * multiplier, transformMatrix);
+
+                if (r.Intersects(ref v1, ref v2, ref v3, out float dist))
+                {
+                    hasIntersected = true;
+
+                    if (dist < smallestDistance)
+                        smallestDistance = dist;
+                }
+            }
+
+            if (hasIntersected)
+                distance = smallestDistance;
+            else
+                distance = initialDistance;
+
+            return hasIntersected;
         }
     }
 }

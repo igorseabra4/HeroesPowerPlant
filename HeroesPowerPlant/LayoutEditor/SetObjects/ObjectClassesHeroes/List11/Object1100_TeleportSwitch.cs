@@ -14,9 +14,9 @@ namespace HeroesPowerPlant.LayoutEditor
             destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(DestinationX, DestinationY, DestinationZ);
         }
 
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
         {
-            base.Draw(renderer, modelNames, isSelected);
+            base.Draw(renderer, modelNames, miscSettingByte, isSelected);
 
             if (isSelected)
                 renderer.DrawSphereTrigger(destinationMatrix, isSelected);

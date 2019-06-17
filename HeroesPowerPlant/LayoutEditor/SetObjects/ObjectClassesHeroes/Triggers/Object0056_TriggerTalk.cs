@@ -20,15 +20,22 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
+        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
         {
-            if (TriggerShape == TriggerTalkShape.Sphere)
-                return r.Intersects(ref sphereBound, out distance);
-            else
-                return base.TriangleIntersection(r, ModelNames, initialDistance, out distance);
+            switch (TriggerShape)
+            {
+                case TriggerTalkShape.Sphere:
+                    return r.Intersects(ref sphereBound, out distance);
+                case TriggerTalkShape.Cube:
+                    return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
+                case TriggerTalkShape.Cylinder:
+                    return TriangleIntersection(r, Program.MainForm.renderer.cylinderTriangles, Program.MainForm.renderer.cylinderVertices, initialDistance, out distance);
+                default:
+                    return base.TriangleIntersection(r, modelNames, miscSettingByte, initialDistance, out distance);
+            }
         }
 
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
         {
             return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
@@ -58,8 +65,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                 * Matrix.Translation(Position);
         }
-        
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
         {
             if (TriggerShape == TriggerTalkShape.Sphere)
                 renderer.DrawSphereTrigger(transformMatrix, isSelected);
@@ -68,7 +75,7 @@ namespace HeroesPowerPlant.LayoutEditor
             else if (TriggerShape == TriggerTalkShape.Cube)
                 renderer.DrawCubeTrigger(transformMatrix, isSelected);
             else
-                base.Draw(renderer, modelNames, isSelected);
+                DrawCube(renderer, isSelected);
         }
 
         public TriggerTalkType Type

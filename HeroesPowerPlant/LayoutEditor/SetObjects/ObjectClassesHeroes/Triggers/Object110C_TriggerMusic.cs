@@ -13,12 +13,22 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[] ModelNames, float initialDistance, out float distance)
+        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
         {
-            return TriggerShape == TriggerMusicShape.Sphere ? r.Intersects(ref sphereBound, out distance) : base.TriangleIntersection(r, ModelNames, initialDistance, out distance);
+            switch (TriggerShape)
+            {
+                case TriggerMusicShape.Sphere:
+                    return r.Intersects(ref sphereBound, out distance);
+                case TriggerMusicShape.Cube:
+                    return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
+                case TriggerMusicShape.Cylinder:
+                    return TriangleIntersection(r, Program.MainForm.renderer.cylinderTriangles, Program.MainForm.renderer.cylinderVertices, initialDistance, out distance);
+                default:
+                    return base.TriangleIntersection(r, modelNames, miscSettingByte, initialDistance, out distance);
+            }
         }
 
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
+        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
         {
             return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
         }
@@ -49,7 +59,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.Translation(Position);
         }
 
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
         {
             switch (TriggerShape)
             {
@@ -61,6 +71,9 @@ namespace HeroesPowerPlant.LayoutEditor
                     break;
                 case TriggerMusicShape.Cylinder:
                     renderer.DrawCylinderTrigger(transformMatrix, isSelected);
+                    break;
+                default:
+                    DrawCube(renderer, isSelected);
                     break;
             }
         }

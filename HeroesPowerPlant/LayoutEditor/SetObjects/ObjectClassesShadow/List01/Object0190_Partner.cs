@@ -2,9 +2,9 @@
 {
     public class Object0190_Partner : SetObjectManagerShadow
     {
-        public Partner PartnerType
+        public PartnerType Partner
         {
-            get => (Partner)ReadInt(0);
+            get => (PartnerType)ReadInt(0);
             set => Write(0, (int)value);
         }
 
@@ -15,7 +15,7 @@
         }
     }
 
-    public enum Partner
+    public enum PartnerType
     {
         None = 0x00,
         Sonic = 0x01,

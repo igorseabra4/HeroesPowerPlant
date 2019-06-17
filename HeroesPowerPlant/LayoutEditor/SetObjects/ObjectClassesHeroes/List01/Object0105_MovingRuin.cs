@@ -4,24 +4,6 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0105_MovingRuin : SetObjectManagerHeroes
     {
-        public override BoundingBox CreateBoundingBox(string[] modelNames)
-        {
-            if (modelNames == null)
-                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
-            else if (modelNames.Length == 0 | (byte)Type >= modelNames.Length | !Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelNames[(byte)Type]))
-                return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
-
-            return BoundingBox.FromPoints(Program.MainForm.renderer.dffRenderer.DFFModels[modelNames[(byte)Type]].vertexListG.ToArray());
-        }
-        
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
-        {
-            if ((byte)Type < modelNames.Length)
-                Draw(renderer, modelNames[(byte)Type], isSelected);
-            else
-                DrawCube(renderer, isSelected);
-        }
-
         public enum RuinType : byte
         {
             Small = 0,

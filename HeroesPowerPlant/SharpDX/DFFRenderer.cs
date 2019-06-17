@@ -33,9 +33,10 @@ namespace HeroesPowerPlant
         {
             foreach (ObjectEntry o in LayoutEditorSystem.GetAllObjectEntries())
                 if (o.ModelNames != null)
-                    foreach (string s in o.ModelNames)
-                        if (!ObjectDFFNames.Contains(s))
-                            ObjectDFFNames.Add(s);
+                    foreach (string[] s2 in o.ModelNames)
+                        foreach (string s in s2)
+                            if (!ObjectDFFNames.Contains(s))
+                                ObjectDFFNames.Add(s);
 
             foreach (string s in fileNames)
             {

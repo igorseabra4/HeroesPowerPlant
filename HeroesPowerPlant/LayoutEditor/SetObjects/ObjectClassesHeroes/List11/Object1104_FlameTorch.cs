@@ -13,18 +13,13 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
+            base.CreateTransformMatrix(Position, Rotation);
 
             transformMatrix = IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity *
-                Matrix.Scaling(Scale + 1f) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
-                Matrix.Translation(Position);
+                Matrix.Scaling(Scale + 1f) * transformMatrix;
         }
 
-        public override void Draw(SharpRenderer renderer, string[] modelNames, bool isSelected)
+        public override void Draw(SharpRenderer renderer, string[][] modelNames, int modelMiscSetting, bool isSelected)
         {
             if (BaseType == BaseTypeEnum.None)
                 DrawCube(renderer, isSelected);

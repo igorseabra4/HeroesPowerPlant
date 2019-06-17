@@ -392,9 +392,10 @@ namespace HeroesPowerPlant.LayoutEditor
             string Name = "";
             bool HasMiscSettings = true;
             int MiscSettingCount = -1;
+            int ModelMiscSetting = -1;
             string DebugName = "";
             string Description = "";
-            List<string> Model = new List<string>();
+            List<string[]> Models = new List<string[]>();
 
             foreach (string i in File.ReadAllLines(FileName))
             {
@@ -414,7 +415,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 else if (i.StartsWith("Description="))
                     Description = i.Split('=')[1];
                 else if (i.StartsWith("Model="))
-                    Model.Add(i.Split('=')[1]);
+                    Models.Add(i.Split('=')[1].Split(','));
+                else if (i.StartsWith("ModelMiscSetting="))
+                    ModelMiscSetting = Convert.ToInt32(i.Split('=')[1]);
                 else if (i.StartsWith("EndOfFile"))
                 {
                     list.Add(new ObjectEntry()
@@ -424,9 +427,10 @@ namespace HeroesPowerPlant.LayoutEditor
                         Name = Name,
                         HasMiscSettings = HasMiscSettings,
                         DebugName = DebugName,
-                        ModelNames = Model.ToArray(),
+                        ModelNames = Models.ToArray(),
                         Description = Description,
-                        MiscSettingCount = MiscSettingCount
+                        MiscSettingCount = MiscSettingCount,
+                        ModelMiscSetting = ModelMiscSetting
                     });
                     break;
                 }
@@ -439,18 +443,20 @@ namespace HeroesPowerPlant.LayoutEditor
                         Name = Name,
                         HasMiscSettings = HasMiscSettings,
                         DebugName = DebugName,
-                        ModelNames = Model.ToArray(),
+                        ModelNames = Models.ToArray(),
                         Description = Description,
-                        MiscSettingCount = MiscSettingCount
+                        MiscSettingCount = MiscSettingCount,
+                        ModelMiscSetting = ModelMiscSetting
                     });
                     List = 0;
                     Type = 0;
                     Name = "";
                     HasMiscSettings = true;
                     DebugName = "";
-                    Model = new List<string>();
+                    Models = new List<string[]>();
                     Description = "";
                     MiscSettingCount = -1;
+                    ModelMiscSetting = -1;
                 }
             }
 
