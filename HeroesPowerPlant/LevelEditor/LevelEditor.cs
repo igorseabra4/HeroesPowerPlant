@@ -429,6 +429,7 @@ namespace HeroesPowerPlant.LevelEditor
             bspRenderer.Dispose();
             bspRenderer.BSPList.Clear();
             bspRenderer.ShadowColBSPList.Clear();
+            shadowSplineEditor.Init();
             InitBSPList();
         }
 
@@ -652,6 +653,11 @@ namespace HeroesPowerPlant.LevelEditor
         // BLK Editor
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            NewVisibility();
+        }
+
+        public void NewVisibility()
         {
             visibilityFunctions.OpenVisibilityFile = null;
             visibilityFunctions.ChunkList.Clear();

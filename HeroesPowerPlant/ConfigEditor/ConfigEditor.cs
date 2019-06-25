@@ -100,7 +100,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (OpenConfigFile.ShowDialog() == DialogResult.OK)
                 OpenFile(OpenConfigFile.FileName, Program.MainForm);
         }
-        
+
         /// <summary>
         /// Reads a specified Config editor config.
         /// </summary>
@@ -123,7 +123,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             ProgramIsChangingStuff = false;
         }
-
+        
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (OpenConfigFileName != null && OpenConfigFileName != "" && Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))

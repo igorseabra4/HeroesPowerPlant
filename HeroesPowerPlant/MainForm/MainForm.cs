@@ -103,21 +103,25 @@ namespace HeroesPowerPlant.MainForm
         {
             if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
                 "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                LevelEditor.New();
-                ConfigEditor.New();
-                ClearCollisionEditors();
-                ClearLayoutEditors();
-                CameraEditor.New();
-                ParticleEditor.New();
-                TexturePatternEditor.New();
-                SetIdTableEditor.New();
-                LightEditor.New();
-                renderer.dffRenderer.ClearObjectONEFiles();
-                TextureManager.ClearTextures(renderer, LevelEditor.bspRenderer);
-                renderer.Camera.Reset();
-                currentSavePath = null;
-            }
+                ClearConfig();
+        }
+
+        public void ClearConfig()
+        {
+            LevelEditor.New();
+            LevelEditor.NewVisibility();
+            ConfigEditor.New();
+            ClearCollisionEditors();
+            ClearLayoutEditors();
+            CameraEditor.New();
+            ParticleEditor.New();
+            TexturePatternEditor.New();
+            SetIdTableEditor.New();
+            LightEditor.New();
+            renderer.dffRenderer.ClearObjectONEFiles();
+            TextureManager.ClearTextures(renderer, LevelEditor.bspRenderer);
+            renderer.Camera.Reset();
+            currentSavePath = null;
         }
         
         public void ApplyConfig(ProjectConfig.RenderOptions renderingOptions)

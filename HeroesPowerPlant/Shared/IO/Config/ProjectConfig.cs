@@ -166,6 +166,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// </summary>
         public static void ApplyInstance(MainForm.MainForm mainForm, ProjectConfig config)
         {
+            mainForm.ClearConfig();
+
             ExecuteIfFilePresent($"Config Editor error: file not found: {config.StageConfigPath}", "Error", config.StageConfigPath, path => mainForm.ConfigEditor.OpenFile(path, mainForm));
 
             if (config.IsShadow)
@@ -216,7 +218,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 mainForm.ViewConfig.NumericQuadHeight.Value = (decimal)config.RenderingOptions.QuadtreeHeight;
             }
         }
-
+        
         /// <summary>
         /// Checks if a file exists, and if it does, executes the <see cref="executeIfPresentDelegate"/>
         /// </summary>

@@ -261,6 +261,7 @@
     <Compile Include="SetIdTableEditor\SetIdTableFunctions.cs" />
     <Compile Include="SetIdTableEditor\StageEntry.cs" />
     <Compile Include="SetIdTableEditor\TableEntry.cs" />
+    <Compile Include="ShadowSplineEditor\ShadowSpline.cs" />
     <Compile Include="ShadowSplineEditor\ShadowSplineMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -268,6 +269,7 @@
       <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="ShadowSplineEditor\ShadowSplineEditor.cs" />
+    <Compile Include="ShadowSplineEditor\ShadowSplineVertex.cs" />
     <Compile Include="Shared\IO\Config\AutomaticUpdater.cs" />
     <Compile Include="Shared\IO\Config\HPPVersion.cs" />
     <Compile Include="Shared\RemoteControl.cs" />
@@ -280,6 +282,7 @@
     <Compile Include="SharpDX\RenderData\DefaultRenderData.cs" />
     <Compile Include="SharpDX\SharpFPS.cs" />
     <Compile Include="SharpDX\TextureManager.cs" />
+    <Compile Include="SplineEditor\AbstractSpline.cs" />
     <Compile Include="SplineEditor\Spline.cs" />
     <Compile Include="ConfigEditor\StartPositionEntry.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object01FF_SetParticle.cs" />
@@ -493,6 +496,7 @@
     <Compile Include="MainForm\ViewConfig.designer.cs">
       <DependentUpon>ViewConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="SplineEditor\SplineType.cs" />
     <Compile Include="TexturePatternEditor\PatternEntry.cs" />
     <Compile Include="TexturePatternEditor\PatternSystem.cs" />
     <Compile Include="TexturePatternEditor\TexturePatternEditor.cs">
