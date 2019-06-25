@@ -6,8 +6,7 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public abstract class SetObjectManager
     {
-        // Misc setting related
-        public byte[] MiscSettings { get; set; }
+        public byte[] MiscSettings;
 
         // Drawing related
         public Matrix transformMatrix;
@@ -22,17 +21,23 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             int nameIndex = modelMiscSetting == -1 ? 0 : MiscSettings[modelMiscSetting];
 
+            bool drew = false;
+
             if (modelNames != null && modelNames.Length > 0 && nameIndex < modelNames.Length)
+            {
                 foreach (string s in modelNames[nameIndex])
-                    Draw(renderer, s, isSelected);
-            else
+                    if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(s))
+                    {
+                        drew = true;
+                        Draw(renderer, s, isSelected);
+                    }
+            }
+            else if (!drew)
                 DrawCube(renderer, isSelected);
         }
 
         protected void Draw(SharpRenderer renderer, string modelName, bool isSelected)
         {
-            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelName))
-            {
                 renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
                 renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
 
@@ -47,11 +52,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.tintedShader.Apply();
 
                 Program.MainForm.renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
-            }
-            else
-            {
-                DrawCube(renderer, isSelected);
-            }
+            
         }
 
         protected void DrawCube(SharpRenderer renderer, bool isSelected)

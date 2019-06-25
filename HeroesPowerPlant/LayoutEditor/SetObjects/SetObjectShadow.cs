@@ -86,11 +86,13 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         case 0x01: case 0x02: case 0x03: case 0x06: return new Object00_SpringShadow();
                         case 0x04: return new Object0004_DashRamp();
+                        case 0x07: return new Object0007_Case();
                         case 0x0E: return new Object000E_Rocket();
                         case 0x0F: return new Object000F_Platform();
                         case 0x10: return new Object0010_Ring();
                         case 0x12: return new Object0012_ItemCapsule();
                         case 0x14: return new Object0014_GoalRing();
+                        case 0x1F: return new SetObjectManagerShadow(); // warp hole
                         case 0x20: return new Object0020_Weapon();
                         case 0x4F: return new Object004F_Vehicle();
                         default: return new Object_ShadowEmpty();

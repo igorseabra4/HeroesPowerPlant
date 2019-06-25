@@ -19,25 +19,46 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.Scaling(Scale + 1f) * transformMatrix;
         }
 
+        private string FloorBase = "S11_ON_FIREA_BASE.DFF";
+        private string FloorBlue = "S11_ON_FIREA_BLUE.DFF";
+        private string FloorRed = "S11_ON_FIREA_RED.DFF";
+        private string AirBase = "S11_ON_FIREB_BASE.DFF";
+        private string AirBlue = "S11_ON_FIREB_BLUE.DFF";
+        private string AirRed = "S11_ON_FIREB_RED.DFF";
+
         public override void Draw(SharpRenderer renderer, string[][] modelNames, int modelMiscSetting, bool isSelected)
         {
             if (BaseType == BaseTypeEnum.None)
                 DrawCube(renderer, isSelected);
             else if (BaseType == BaseTypeEnum.Floor)
             {
-                Draw(renderer, "S11_ON_FIREA_BASE.DFF", isSelected);
+                if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
+                    Draw(renderer, FloorBase, isSelected);
                 if (IsBlue)
-                    Draw(renderer, "S11_ON_FIREA_BLUE.DFF", isSelected);
+                {
+                    if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
+                        Draw(renderer, FloorBlue, isSelected);
+                }
                 else
-                    Draw(renderer, "S11_ON_FIREA_RED.DFF", isSelected);
+                {
+                    if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorRed))
+                        Draw(renderer, FloorRed, isSelected);
+                }
             }
             else if (BaseType == BaseTypeEnum.Air)
             {
-                Draw(renderer, "S11_ON_FIREB_BASE.DFF", isSelected);
+                if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
+                    Draw(renderer, AirBase, isSelected);
                 if (IsBlue)
-                    Draw(renderer, "S11_ON_FIREB_BLUE.DFF", isSelected);
+                {
+                    if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
+                        Draw(renderer, AirBlue, isSelected);
+                }
                 else
-                    Draw(renderer, "S11_ON_FIREB_RED.DFF", isSelected);
+                {
+                    if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirRed))
+                        Draw(renderer, AirRed, isSelected);
+                }
             }
         }
 

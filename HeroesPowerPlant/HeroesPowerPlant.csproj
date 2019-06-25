@@ -228,6 +228,8 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0004_DashRamp.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object000E_Rocket.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object000F_Platform.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0007_Case.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0065_GUNBeetle.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0012_ItemCapsule.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0014_GoalRing.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0020_Weapon.cs" />

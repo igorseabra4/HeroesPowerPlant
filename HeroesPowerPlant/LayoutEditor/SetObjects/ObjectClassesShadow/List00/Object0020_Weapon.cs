@@ -26,6 +26,7 @@
         GrenadeLauncher = 0x0C,
         GUNBazooka = 0x0D,
         TankCannon = 0x0E,
+        BlackBarrel = 0x0F,
         BigBarrel = 0x10,
         EggBazooka = 0x11,
         RPG = 0x12,
