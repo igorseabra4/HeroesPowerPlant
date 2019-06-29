@@ -31,9 +31,27 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(12, value);
         }
 
-        public int Null_Interval_SwitchID_Speed_EnemyID
+        public int Interval
         {
-            get => ReadInt(16); 
+            get => ReadInt(16);
+            set => Write(16, value);
+        }
+
+        public int SwitchID
+        {
+            get => ReadInt(16);
+            set => Write(16, value);
+        }
+
+        public int Speed
+        {
+            get => ReadInt(16);
+            set => Write(16, value);
+        }
+
+        public int EnemyID
+        {
+            get => ReadInt(16);
             set => Write(16, value);
         }
     }

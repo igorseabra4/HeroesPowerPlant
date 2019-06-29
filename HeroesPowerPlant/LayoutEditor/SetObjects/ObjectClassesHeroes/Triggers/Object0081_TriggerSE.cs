@@ -2,15 +2,7 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum TriggerCommonShape : int
-    {
-        Sphere = 0,
-        Cylinder = 1,
-        Cube = 2,
-        CylinderXZ = 3,
-    }
-
-    public class Object00_TriggerCommon : SetObjectManagerHeroes
+    public class Object0081_TriggerSE : SetObjectManagerHeroes
     {
         private BoundingSphere sphereBound;
 
@@ -18,13 +10,10 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             switch (TriggerShape)
             {
-                case TriggerCommonShape.Sphere:
+                case TriggerSEShape.Sphere:
                     return r.Intersects(ref sphereBound, out distance);
-                case TriggerCommonShape.Cube:
+                case TriggerSEShape.Cube:
                     return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
-                case TriggerCommonShape.Cylinder:
-                case TriggerCommonShape.CylinderXZ:
-                    return TriangleIntersection(r, Program.MainForm.renderer.cylinderTriangles, Program.MainForm.renderer.cylinderVertices, initialDistance, out distance);
                 default:
                     return base.TriangleIntersection(r, modelNames, miscSettingByte, initialDistance, out distance);
             }
@@ -42,16 +31,12 @@ namespace HeroesPowerPlant.LayoutEditor
 
             switch (TriggerShape)
             {
-                case TriggerCommonShape.Sphere:
+                case TriggerSEShape.Sphere:
                     sphereBound = new BoundingSphere(Position, Radius);
                     transformMatrix = Matrix.Scaling(Radius * 2);
                     break;
-                case TriggerCommonShape.Cube:
+                case TriggerSEShape.Cube:
                     transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
-                    break;
-                case TriggerCommonShape.Cylinder:
-                case TriggerCommonShape.CylinderXZ:
-                    transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
                     break;
             }
 
@@ -66,15 +51,11 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             switch (TriggerShape)
             {
-                case TriggerCommonShape.Sphere:
+                case TriggerSEShape.Sphere:
                     renderer.DrawSphereTrigger(transformMatrix, isSelected);
                     break;
-                case TriggerCommonShape.Cube:
+                case TriggerSEShape.Cube:
                     renderer.DrawCubeTrigger(transformMatrix, isSelected);
-                    break;
-                case TriggerCommonShape.Cylinder:
-                case TriggerCommonShape.CylinderXZ:
-                    renderer.DrawCylinderTrigger(transformMatrix, isSelected);
                     break;
                 default:
                     DrawCube(renderer, isSelected);
@@ -82,40 +63,80 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public TriggerCommonShape TriggerShape
+        public int SE_ID
         {
-            get => (TriggerCommonShape)ReadInt(4);
-            set { Write(4, (int)value); CreateTransformMatrix(Position, Rotation); }
+            get => ReadInt(4);
+            set => Write(4, value);
         }
 
-        public float Radius
+        public enum SE_CALL : byte
         {
-            get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            SE_CALL = 0,
+            SE_CALL_VP = 1,
+            SE_LOOP = 2,
+            SE_LOOP_VP = 3,
+            SE_SCLOOP = 4,
+            SE_LOOP_VP_ = 5
         }
 
-        public float Height
+        public SE_CALL CallType
         {
-            get => ReadFloat(12);
+            get => (SE_CALL)ReadByte(8);
+            set => Write(8, (byte)value);
+        }
+
+        public bool Doppler
+        {
+            get => ReadByte(9) != 0;
+            set => Write(9, value ? 1 : 0);
+        }
+
+        public byte Volume
+        {
+            get => ReadByte(10);
+            set => Write(10, value);
+        }
+
+        public enum TriggerSEShape : byte
+        {
+            Sphere = 0,
+            Cube = 1,
+        }
+
+        public TriggerSEShape TriggerShape
+        {
+            get => (TriggerSEShape)ReadByte(11);
+            set { Write(11, (byte)value); CreateTransformMatrix(Position, Rotation); }
+        }
+        
+        public short Time
+        {
+            get => ReadShort(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public float ScaleX
+        public short Radius
         {
-            get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            get => ReadShort(14);
+            set { Write(14, value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public float ScaleY
+        public short ScaleX
         {
-            get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            get => ReadShort(14);
+            set { Write(14, value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public float ScaleZ
+        public short ScaleY
         {
-            get => ReadFloat(16);
+            get => ReadShort(16);
             set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+        }
+
+        public short ScaleZ
+        {
+            get => ReadShort(18);
+            set { Write(18, value); CreateTransformMatrix(Position, Rotation); }
         }
     }
 }

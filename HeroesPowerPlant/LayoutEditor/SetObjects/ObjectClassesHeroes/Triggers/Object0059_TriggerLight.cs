@@ -74,14 +74,14 @@ namespace HeroesPowerPlant.LayoutEditor
             switch (TriggerShape)
             {
                 case TriggerLightShape.Sphere:
-                    sphereBound = new BoundingSphere(Position, Radius_ScaleX);
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2);
+                    sphereBound = new BoundingSphere(Position, Radius);
+                    transformMatrix = Matrix.Scaling(Radius * 2);
                     break;
                 case TriggerLightShape.Cube:
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, ScaleZ * 2);
+                    transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
                     break;
                 case TriggerLightShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, Radius_ScaleX * 2);
+                    transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
                     break;
                 case TriggerLightShape.NotInUse:
                     base.CreateTransformMatrix(Position, Rotation);
@@ -128,13 +128,25 @@ namespace HeroesPowerPlant.LayoutEditor
             set { Write(6, (byte)value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public float Radius_ScaleX
+        public float Radius
         {
             get => ReadFloat(8);
             set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
         }
 
-        public float Height_ScaleY
+        public float Height
+        {
+            get => ReadFloat(12);
+            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+        }
+
+        public float ScaleX
+        {
+            get => ReadFloat(8);
+            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+        }
+
+        public float ScaleY
         {
             get => ReadFloat(12);
             set { Write(12, value); CreateTransformMatrix(Position, Rotation); }

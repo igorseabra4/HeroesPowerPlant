@@ -6,6 +6,22 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object_HeroesDefault : SetObjectManagerHeroes
     {
+        public byte[] MiscSettingBytes
+        {
+            get => MiscSettings;
+            set
+            {
+                List<byte> result = value.ToList();
+                
+                while (result.Count < 36)
+                    result.Add(0);
+                while (result.Count > 36)
+                    result.RemoveAt(result.Count - 1);
+
+                MiscSettings = result.ToArray();
+            }
+        }
+
         public short[] MiscSettingShorts
         {
             get

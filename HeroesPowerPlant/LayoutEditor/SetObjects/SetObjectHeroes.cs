@@ -119,13 +119,13 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x50: case 0x61: case 0x64: case 0x82: return new Object00_TriggerCommon();
                         case 0x56: return new Object0056_TriggerTalk();
                         case 0x59: return new Object0059_TriggerLight();
-                        //case 0x60: return new Object0060_TriggerRhinoLiner();
+                        case 0x60: return new Object0060_TriggerRhinoLiner();
                         //case 0x62: return new Object0062_TriggerEggHalk();
                         //case 0x63: return new Object0063_TriggerFalco();
                         //case 0x65: return new Object0065_TriggerKlagen();
                         case 0x66: return new Object0066_TriggerBobJump();
                         case 0x80: return new Object0080_TriggerTeleport();
-                        //case 0x81: return new Object0081_TriggerSE();
+                        case 0x81: return new Object0081_TriggerSE();
                         default: return new Object_HeroesDefault();
                     }
                 case 1:
@@ -242,7 +242,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 case 9:
                     switch (Type)
                     {
+                        case 0x0: return new Object0900_Frog();
                         case 0x2: case 0x7: return new Object_F1Range();
+                        case 0x6: case 0x10: case 0x11: case 0x12: return new Object_HeroesEmpty();
                         case 0xC: return new Object_F1Scale();
                         default: return new Object_HeroesDefault();
                     }

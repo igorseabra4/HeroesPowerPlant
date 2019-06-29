@@ -32,7 +32,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         Draw(renderer, s, isSelected);
                     }
             }
-            else if (!drew)
+            if (!drew)
                 DrawCube(renderer, isSelected);
         }
 
@@ -81,15 +81,20 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             int modelNumber = miscSettingByte == -1 ? 0 : MiscSettings[miscSettingByte];
 
-            if (modelNames == null || modelNames.Length == 0 || modelNames.Length < modelNumber)
+            if (modelNames == null || modelNames.Length == 0 || modelNumber >= modelNames.Length)
                 return BoundingBox.FromPoints(Program.MainForm.renderer.cubeVertices.ToArray());
             
             List<Vector3> list = new List<Vector3>();
-            
+
+            bool added = false;
+
             foreach (string m in modelNames[modelNumber])
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(m))
+                {
+                    added = true;
                     list.AddRange(Program.MainForm.renderer.dffRenderer.DFFModels[m].vertexListG);
-                else
+                }
+                else if (!added)
                     list.AddRange(Program.MainForm.renderer.cubeVertices);
 
             return BoundingBox.FromPoints(list.ToArray());
