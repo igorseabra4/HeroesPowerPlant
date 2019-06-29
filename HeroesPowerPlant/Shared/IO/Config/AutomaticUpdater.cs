@@ -83,19 +83,20 @@ namespace HeroesPowerPlant.Shared.IO.Config
                             if (!Directory.Exists(oldPath + s))
                                 Directory.CreateDirectory(oldPath + s);
 
-                            foreach (string s2 in Directory.GetFiles(Application.StartupPath + s))
-                            {
-                                if ((Path.GetExtension(s2).ToLower().Equals(".zip") && !Path.GetFileName(s2).Equals("Reloaded-Mod-Template.zip")) ||
-                                    Path.GetExtension(s2).ToLower().Equals(".json"))
-                                    continue;
+                            if (Directory.Exists(Application.StartupPath + s))
+                                foreach (string s2 in Directory.GetFiles(Application.StartupPath + s))
+                                {
+                                    if ((Path.GetExtension(s2).ToLower().Equals(".zip") && !Path.GetFileName(s2).Equals("Reloaded-Mod-Template.zip")) ||
+                                        Path.GetExtension(s2).ToLower().Equals(".json"))
+                                        continue;
 
-                                string newFilePath = oldPath + s + "\\" + Path.GetFileName(s2);
+                                    string newFilePath = oldPath + s + "\\" + Path.GetFileName(s2);
 
-                                if (File.Exists(newFilePath))
-                                    File.Delete(newFilePath);
+                                    if (File.Exists(newFilePath))
+                                        File.Delete(newFilePath);
 
-                                File.Move(s2, newFilePath);
-                            }
+                                    File.Move(s2, newFilePath);
+                                }
                         }
 
                         ZipFile.ExtractToDirectory(updatedIPfilePath, Application.StartupPath);
