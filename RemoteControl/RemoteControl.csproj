@@ -38,9 +38,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup>
     <DllExportIdent>800C24E0-88ED-475F-B2A7-39C667763531</DllExportIdent>
     <DllExportMetaLibName>DllExport.dll</DllExportMetaLibName>
     <DllExportNamespace>RemoteControl</DllExportNamespace>
