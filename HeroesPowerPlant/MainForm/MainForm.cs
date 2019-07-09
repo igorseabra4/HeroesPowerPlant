@@ -372,7 +372,7 @@ namespace HeroesPowerPlant.MainForm
                     renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown, e.Button == MouseButtons.Left, PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
         }
 
-        private void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool leftClick, bool isMouseDown, bool placeNewObject)
+        private void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool leftClick, bool placeNewObject)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), renderer.viewProjection);
 
