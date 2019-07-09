@@ -263,7 +263,9 @@ namespace HeroesPowerPlant
             float smallerDistance = 10000f;
             bool change = false;
 
-            foreach (RenderWareModelFile rwmf in BSPList)
+            List<RenderWareModelFile> bsps = Program.MainForm.renderer.ShowCollision ? ShadowColBSPList : BSPList;
+
+            foreach (RenderWareModelFile rwmf in bsps)
             {
                 foreach (RWSection rw in rwmf.GetAsRWSectionArray())
                 {
@@ -293,6 +295,17 @@ namespace HeroesPowerPlant
                 }
             }
 
+            if (Program.MainForm.renderer.ShowCollision)
+                foreach (CollisionEditor.CollisionEditor collisionEditor in Program.MainForm.CollisionEditorDict.Values)
+                {
+                    collisionEditor.GetClickedModelPosition(ray, out bool hasIntersected, out float smallColDistance);
+                    if (hasIntersected && smallColDistance < smallerDistance)
+                    {
+                        smallerDistance = smallColDistance;
+                        change = true;
+                    }
+                }
+            
             if (change)
                 InitialPosition.Y -= smallerDistance;
 

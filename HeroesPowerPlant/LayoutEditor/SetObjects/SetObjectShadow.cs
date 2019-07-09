@@ -115,6 +115,13 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x9E: return new Object189E_ARKDriftingPlat1();
                         default: return new Object_ShadowEmpty();
                     }
+                case 0x25:
+                    switch (Type)
+                    {
+                        case 0x88: return new Object2588_Decoration1();
+                        case 0x89: return new Object2589_Destructable1();
+                        default: return new Object_ShadowEmpty();
+                    }
                 default: return new Object_ShadowEmpty();
             }
         }

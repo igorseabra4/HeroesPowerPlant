@@ -240,6 +240,8 @@
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List01\Object0190_Partner.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List0B\Object0BBE_Chao.cs" />
     <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List18\Object189E_ARKDriftingPlat1.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List25\Object2589_Destructable1.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List25\Object2588_Decoration1.cs" />
     <Compile Include="LevelEditor\ChooseTarget.cs">
       <SubType>Form</SubType>
     </Compile>
