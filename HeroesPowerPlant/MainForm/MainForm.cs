@@ -369,20 +369,20 @@ namespace HeroesPowerPlant.MainForm
                     renderPanel.ClientRectangle.X,
                     renderPanel.ClientRectangle.Y,
                     renderPanel.ClientRectangle.Width,
-                    renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown, PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
+                    renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown, e.Button == MouseButtons.Left, PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
         }
 
-        private void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool placeNewObject)
+        private void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool leftClick, bool isMouseDown, bool placeNewObject)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), renderer.viewProjection);
 
             if (!isMouseDown && placeNewObject)
                 ScreenClickedPlaceObject(ray);
             
-            else if (renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
+            else if (leftClick && renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
                 ScreenClickedSelectObject(ray, isMouseDown);
             
-            else if (renderer.ShowCameras && !isMouseDown)
+            else if (leftClick && renderer.ShowCameras && !isMouseDown)
                 CameraEditor.ScreenClicked(ray);
         }
 
