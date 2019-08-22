@@ -726,6 +726,10 @@
       <Project>{005f2d00-06de-4ef9-bfee-80efac49e114}</Project>
       <Name>RenderWareFile</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Submodules\Heroes.StageInjector.ReloadedII\sonicheroes.utils.stageinjection.common\sonicheroes.utils.stageinjection.common.csproj">
+      <Project>{a5f6b495-fc5e-41ae-8ffd-b8f1a3891a6d}</Project>
+      <Name>sonicheroes.utils.stageinjection.common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LayoutEditor\Gizmos\" />

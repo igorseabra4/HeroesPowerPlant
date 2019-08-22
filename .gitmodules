@@ -4,3 +4,6 @@
 [submodule "GenericStageInjectionCommon"]
 	path = GenericStageInjectionCommon
 	url = https://github.com/igorseabra4/GenericStageInjectionCommon
+[submodule "Submodules/Heroes.StageInjector.ReloadedII"]
+	path = Submodules/Heroes.StageInjector.ReloadedII
+	url = https://github.com/Sewer56/Heroes.StageInjector.ReloadedII

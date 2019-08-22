@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteControl", "RemoteControl\RemoteControl.csproj", "{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sonicheroes.utils.stageinjection.common", "Submodules\Heroes.StageInjector.ReloadedII\sonicheroes.utils.stageinjection.common\sonicheroes.utils.stageinjection.common.csproj", "{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,12 +71,25 @@ Global
 		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|x64.ActiveCfg = Release|x86
 		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|x86.ActiveCfg = Release|x86
 		{F9CCC7A9-AA2E-4F18-88D1-56A4378D2DB3}.Release|x86.Build.0 = Release|x86
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Debug|x64.Build.0 = Debug|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Debug|x86.Build.0 = Debug|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Release|x64.ActiveCfg = Release|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Release|x64.Build.0 = Release|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Release|x86.ActiveCfg = Release|Any CPU
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{005F2D00-06DE-4EF9-BFEE-80EFAC49E114} = {39B59C2E-28E6-4DA7-B3C7-D788DBEA69FC}
+		{A5F6B495-FC5E-41AE-8FFD-B8F1A3891A6D} = {39B59C2E-28E6-4DA7-B3C7-D788DBEA69FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1367AC93-CFC8-458F-95DB-1999C8F0DB6A}
