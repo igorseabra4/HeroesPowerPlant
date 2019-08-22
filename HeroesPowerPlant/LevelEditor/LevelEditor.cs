@@ -441,10 +441,6 @@ namespace HeroesPowerPlant.LevelEditor
         private void newToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             SetShadowMode();
-
-            shadowCollisionEditor.InitBSPList();
-            shadowSplineEditor.Init();
-
             ResetEveryting();
         }
 

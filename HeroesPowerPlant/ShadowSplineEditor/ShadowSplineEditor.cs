@@ -12,10 +12,12 @@ namespace HeroesPowerPlant.ShadowSplineEditor
     public class ShadowSplineEditor
     {
         public List<ShadowSpline> Splines;
+        private static bool littleEndian;
         
         public ShadowSplineEditor()
         {
             Splines = new List<ShadowSpline>();
+            littleEndian = false;
         }
 
         public ShadowSplineEditor(string fileName)
@@ -29,6 +31,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             foreach (ShadowSpline ss in Splines)
                 ss.Dispose();
+            Splines.Clear();
         }
 
         private static string ReadString(BinaryReader binaryReader)
@@ -63,86 +66,98 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 if (splineReader == null)
                     return new List<ShadowSpline>();
 
-                List<ShadowSpline> splineList = new List<ShadowSpline>();
-
-                splineReader.BaseStream.Position = 0x4;
-                int sec5offset = Switch(splineReader.ReadInt32());
-                int sec5length = Switch(splineReader.ReadInt32());
-
-                splineReader.BaseStream.Position = 0x20;
-                List<int> offsetList = new List<int>();
-
-                int a = Switch(splineReader.ReadInt32());
-
-                while (a != 0)
+                try
                 {
-                    offsetList.Add(a + 0x20);
-                    a = Switch(splineReader.ReadInt32());
-                }
+                    if (littleEndian)
+                        DontSwitch = true;
 
-                foreach (int i in offsetList)
-                {
-                    splineReader.BaseStream.Position = i;
+                    List<ShadowSpline> splineList = new List<ShadowSpline>();
+                    
+                    splineReader.BaseStream.Position = 0x4;
+                    int sec5offset = Switch(splineReader.ReadInt32());
+                    int sec5length = Switch(splineReader.ReadInt32());
 
-                    ShadowSpline spline = new ShadowSpline();
-                    int amountOfPoints = Switch(splineReader.ReadInt32());
+                    splineReader.BaseStream.Position = 0x20;
+                    List<int> offsetList = new List<int>();
 
-                    splineReader.BaseStream.Position += 8;
+                    int a = Switch(splineReader.ReadInt32());
 
-                    spline.Setting1 = splineReader.ReadByte();
-                    spline.Setting2 = splineReader.ReadByte();
-                    spline.Setting3 = splineReader.ReadByte();
-                    spline.Setting4 = splineReader.ReadByte();
-
-                    splineReader.BaseStream.Position += 0xC;
-
-                    spline.SettingInt = Switch(splineReader.ReadInt32());
-
-                    splineReader.BaseStream.Position += 0xC;
-
-                    int nameOffset = Switch(splineReader.ReadInt32());
-
-                    spline.Vertices = new ShadowSplineVertex[amountOfPoints];
-
-                    for (int j = 0; j < amountOfPoints; j++)
+                    while (a != 0)
                     {
-                        ShadowSplineVertex vertex = new ShadowSplineVertex
+                        offsetList.Add(a + 0x20);
+                        a = Switch(splineReader.ReadInt32());
+                    }
+
+                    foreach (int i in offsetList)
+                    {
+                        splineReader.BaseStream.Position = i;
+
+                        ShadowSpline spline = new ShadowSpline();
+                        int amountOfPoints = Switch(splineReader.ReadInt32());
+
+                        splineReader.BaseStream.Position += 8;
+
+                        spline.Setting1 = splineReader.ReadByte();
+                        spline.Setting2 = splineReader.ReadByte();
+                        spline.Setting3 = splineReader.ReadByte();
+                        spline.Setting4 = splineReader.ReadByte();
+
+                        splineReader.BaseStream.Position += 0xC;
+
+                        spline.SettingInt = Switch(splineReader.ReadInt32());
+
+                        splineReader.BaseStream.Position += 0xC;
+
+                        int nameOffset = Switch(splineReader.ReadInt32());
+
+                        spline.Vertices = new ShadowSplineVertex[amountOfPoints];
+
+                        for (int j = 0; j < amountOfPoints; j++)
                         {
-                            Position = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle())),
-                            Rotation = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()))
-                        };
-                        splineReader.BaseStream.Position += 0x4;
-                        vertex.Unknown = Switch(splineReader.ReadInt32());
+                            ShadowSplineVertex vertex = new ShadowSplineVertex
+                            {
+                                Position = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle())),
+                                Rotation = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()))
+                            };
+                            splineReader.BaseStream.Position += 0x4;
+                            vertex.Unknown = Switch(splineReader.ReadInt32());
 
-                        spline.Vertices[j] = vertex;
+                            spline.Vertices[j] = vertex;
+                        }
+
+                        splineReader.BaseStream.Position = nameOffset + 0x20;
+                        spline.Name = ReadString(splineReader);
+
+                        splineList.Add(spline);
                     }
 
-                    splineReader.BaseStream.Position = nameOffset + 0x20;
-                    spline.Name = ReadString(splineReader); 
+                    splineReader.BaseStream.Position = sec5offset + 0x20 + splineList.Count;
 
-                    splineList.Add(spline);
-                }
-
-                splineReader.BaseStream.Position = sec5offset + 0x20 + splineList.Count;
-
-                for (int i = 0; i < splineList.Count; i++)
-                {
-                    byte byte0 = splineReader.ReadByte();
-                   
-                    if (byte0 >= 0x80)
+                    for (int i = 0; i < splineList.Count; i++)
                     {
-                        byte byte1 = splineReader.ReadByte();
-                        splineList[i].UnknownSec5Bytes = new byte[] { byte0, byte1 };
+                        byte byte0 = splineReader.ReadByte();
+
+                        if (byte0 >= 0x80)
+                        {
+                            byte byte1 = splineReader.ReadByte();
+                            splineList[i].UnknownSec5Bytes = new byte[] { byte0, byte1 };
+                        }
+                        else
+                            splineList[i].UnknownSec5Bytes = new byte[] { byte0 };
+
+                        splineReader.ReadByte();
                     }
-                    else
-                        splineList[i].UnknownSec5Bytes = new byte[] { byte0 };
 
-                    splineReader.ReadByte();
+                    splineReader.Close();
+
+                    DontSwitch = false;
+                    return splineList;
                 }
-
-                splineReader.Close();
-
-                return splineList;
+                catch
+                {
+                    littleEndian = true;
+                    return ReadShadowSplineFile(fileName);
+                }
             }
 
             return new List<ShadowSpline>();

@@ -120,6 +120,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         case 0x88: return new Object2588_Decoration1();
                         case 0x89: return new Object2589_Destructable1();
+                        case 0x90: return new Object2590_Decoration2();
                         default: return new Object_ShadowEmpty();
                     }
                 default: return new Object_ShadowEmpty();
