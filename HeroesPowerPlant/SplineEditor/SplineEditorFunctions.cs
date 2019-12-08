@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Heroes.SDK.Definitions.Structures.Stage.Splines;
+using Heroes.SDK.Parsers;
+using SonicHeroes.Utils.StageInjector.Common;
+using SonicHeroes.Utils.StageInjector.Common.Utilities;
 
 namespace HeroesPowerPlant.SplineEditor
 {
@@ -110,6 +115,7 @@ namespace HeroesPowerPlant.SplineEditor
                     SplineList.Add(Spline.FromFile(i, renderer));
         }
 
+        /* Save Obj */
         public void Save(string configFilePath)
         {
             splineFolder = Path.GetDirectoryName(configFilePath) + "\\Splines\\";
@@ -143,6 +149,43 @@ namespace HeroesPowerPlant.SplineEditor
 
                 streamWriter.Close();
             }
+        }
+
+        /* Save Json */
+        private Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType ToSplineType(SplineType type)
+        {
+            switch (type)
+            {
+                case SplineType.Null:
+                    return Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType.Loop;
+                case SplineType.Loop:
+                    return Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType.Loop;
+                case SplineType.Rail:
+                    return Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType.Rail;
+                case SplineType.Ball:
+                    return Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType.Ball;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        private SplineVertex[] ToSplineVertexArray(Vertex[] vertices)
+        {
+            var result = vertices.Select(x => new SplineVertex(x.Position.X, x.Position.Y, x.Position.Z)).ToArray();
+            for (int x = 0; x < result.Length - 1; x++)
+            {
+                result[x].DistanceToNextVertex = result[x].GetDistance(result[x + 1]);
+                result[x].Pitch = (ushort) result[x].GetPitch(result[x + 1]);
+            }
+
+            return result;
+        } 
+
+        public void SaveJson(string configFilePath)
+        {
+            var splines = SplineList.Select(x => new ManagedSpline(ToSplineType(x.Type), ToSplineVertexArray(x.Points))).ToArray();
+            var splineFile = new SplineFile(splines);
+            JsonSerializable<SplineFile>.ToPath(splineFile, $"{Path.GetDirectoryName(configFilePath)}\\Splines\\Splines.json");
         }
     }
 }

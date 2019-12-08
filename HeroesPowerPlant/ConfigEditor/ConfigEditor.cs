@@ -120,6 +120,7 @@ namespace HeroesPowerPlant.ConfigEditor
             mainForm.EnableSplineEditor();
             SplineEditor.SplineEditorOpenConfig(fileName, mainForm.renderer);
             SplineEditor.buttonSave.Enabled = true;
+            SplineEditor.buttonSaveJson.Enabled = true;
 
             ProgramIsChangingStuff = false;
         }

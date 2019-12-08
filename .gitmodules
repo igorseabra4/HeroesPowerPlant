@@ -4,9 +4,9 @@
 [submodule "GenericStageInjectionCommon"]
 	path = GenericStageInjectionCommon
 	url = https://github.com/igorseabra4/GenericStageInjectionCommon
-[submodule "Submodules/Heroes.StageInjector.ReloadedII"]
-	path = Submodules/Heroes.StageInjector.ReloadedII
-	url = https://github.com/Sewer56/Heroes.StageInjector.ReloadedII
 [submodule "Submodules/HeroesPowerPlant.RemoteControl.ReloadedII"]
 	path = Submodules/HeroesPowerPlant.RemoteControl.ReloadedII
 	url = https://github.com/Sewer56/HeroesPowerPlant.RemoteControl.ReloadedII.git
+[submodule "Submodules/Heroes.SDK"]
+	path = Submodules/Heroes.SDK
+	url = https://github.com/Heroes-Hacking-Central/Heroes.SDK.git

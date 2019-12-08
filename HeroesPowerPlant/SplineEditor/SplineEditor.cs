@@ -116,5 +116,10 @@ namespace HeroesPowerPlant.SplineEditor
         {
             splineEditorFunctions.Save(configFilename);
         }
+
+        private void buttonSaveJson_Click(object sender, EventArgs e)
+        {
+            splineEditorFunctions.SaveJson(Program.MainForm.ConfigEditor.GetOpenConfigFileName());
+        }
     }
 }
