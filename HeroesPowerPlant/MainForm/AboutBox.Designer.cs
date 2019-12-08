@@ -114,7 +114,7 @@
             this.labelCopyright.Name = "labelCopyright";
             this.labelCopyright.Size = new System.Drawing.Size(271, 17);
             this.labelCopyright.TabIndex = 21;
-            this.labelCopyright.Text = "(C) 2018 igorseabra4, Sewer56";
+            this.labelCopyright.Text = "(C) 2019 igorseabra4 and friends";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCompanyName
