@@ -47,10 +47,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.checkBoxFlipNormals = new System.Windows.Forms.CheckBox();
             this.buttonNote = new System.Windows.Forms.Button();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.progressBarColEditor = new System.Windows.Forms.ProgressBar();
             this.buttonForceReload = new System.Windows.Forms.Button();
+            this.labelHPPRemote = new System.Windows.Forms.Label();
+            this.labelHPPRemoteLink = new System.Windows.Forms.LinkLabel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericDepthLevel)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -81,14 +82,14 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -96,14 +97,14 @@
             // 
             this.exportOBJToolStripMenuItem.Enabled = false;
             this.exportOBJToolStripMenuItem.Name = "exportOBJToolStripMenuItem";
-            this.exportOBJToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportOBJToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.exportOBJToolStripMenuItem.Text = "Export OBJ";
             this.exportOBJToolStripMenuItem.Click += new System.EventHandler(this.exportOBJToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -190,7 +191,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelFileLoaded});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 162);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 180);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(343, 22);
             this.statusStrip1.TabIndex = 15;
@@ -254,15 +255,6 @@
             this.buttonNote.UseVisualStyleBackColor = true;
             this.buttonNote.Click += new System.EventHandler(this.buttonNote_Click);
             // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 162);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(319, 214);
-            this.checkedListBox1.TabIndex = 20;
-            this.checkedListBox1.Visible = false;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(256, 382);
@@ -291,15 +283,36 @@
             this.buttonForceReload.UseVisualStyleBackColor = true;
             this.buttonForceReload.Click += new System.EventHandler(this.ButtonForceReload_Click);
             // 
+            // labelHPPRemote
+            // 
+            this.labelHPPRemote.AutoSize = true;
+            this.labelHPPRemote.Location = new System.Drawing.Point(9, 161);
+            this.labelHPPRemote.Name = "labelHPPRemote";
+            this.labelHPPRemote.Size = new System.Drawing.Size(271, 13);
+            this.labelHPPRemote.TabIndex = 24;
+            this.labelHPPRemote.Text = "Force Reload Requires Reloaded II + the following mod:";
+            // 
+            // labelHPPRemoteLink
+            // 
+            this.labelHPPRemoteLink.AutoSize = true;
+            this.labelHPPRemoteLink.Location = new System.Drawing.Point(301, 161);
+            this.labelHPPRemoteLink.Name = "labelHPPRemoteLink";
+            this.labelHPPRemoteLink.Size = new System.Drawing.Size(30, 13);
+            this.labelHPPRemoteLink.TabIndex = 25;
+            this.labelHPPRemoteLink.TabStop = true;
+            this.labelHPPRemoteLink.Text = "Here";
+            this.labelHPPRemoteLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.labelHPPRemoteLink_LinkClicked);
+            // 
             // CollisionEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 184);
+            this.ClientSize = new System.Drawing.Size(343, 202);
+            this.Controls.Add(this.labelHPPRemoteLink);
+            this.Controls.Add(this.labelHPPRemote);
             this.Controls.Add(this.buttonForceReload);
             this.Controls.Add(this.progressBarColEditor);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.buttonNote);
             this.Controls.Add(this.checkBoxFlipNormals);
             this.Controls.Add(this.label6);
@@ -352,9 +365,10 @@
         public System.Windows.Forms.CheckBox checkBoxFlipNormals;
         private System.Windows.Forms.ToolStripMenuItem exportOBJToolStripMenuItem;
         private System.Windows.Forms.Button buttonNote;
-        public System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.Button button1;
         public System.Windows.Forms.ProgressBar progressBarColEditor;
         internal System.Windows.Forms.Button buttonForceReload;
+        private System.Windows.Forms.Label labelHPPRemote;
+        private System.Windows.Forms.LinkLabel labelHPPRemoteLink;
     }
 }

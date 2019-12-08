@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using SharpDX;
@@ -178,7 +179,17 @@ namespace HeroesPowerPlant.CollisionEditor
         private void ButtonForceReload_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(collisionSystem.CurrentCLfileName))
-                Shared.RemoteControl.LoadCollision(Path.GetFileNameWithoutExtension(collisionSystem.CurrentCLfileName).Replace("_wt", "").Replace("_xx", ""));
+            {
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(collisionSystem.CurrentCLfileName).Replace("_wt", "").Replace("_xx", "");
+                Shared.RemoteControl.LoadCollision(fileNameWithoutExtension);
+            }
+        }
+
+        private void labelHPPRemoteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Process.Start with link alone doesn't work with .NET Core. Doing this in case I ever decide to switch.
+            string url = "https://github.com/Sewer56/HeroesPowerPlant.RemoteControl.ReloadedII";
+            Process.Start(new ProcessStartInfo("cmd", $"/c start {url}"));
         }
     }
 }

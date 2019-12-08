@@ -1,0 +1,735 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3F86B0F-4A7B-4C01-9A18-79C4EC9A6A05}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>HeroesPowerPlant</RootNamespace>
+    <AssemblyName>HeroesPowerPlant</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.6.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AssimpNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\AssimpNet.4.1.0\lib\net40\AssimpNet.dll</HintPath>
+    </Reference>
+    <Reference Include="csharp-prs, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\csharp-prs.2.0.2\lib\netstandard2.0\csharp-prs.dll</HintPath>
+    </Reference>
+    <Reference Include="HeroesONE_R, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HeroesONE_R.1.0.2\lib\netstandard2.0\HeroesONE_R.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Reloaded.Memory, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reloaded.Memory.2.5.0\lib\net47\Reloaded.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Reloaded.Memory.Buffers, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reloaded.Memory.Buffers.1.3.3\lib\net47\Reloaded.Memory.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.D3DCompiler.4.2.0\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Desktop, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Desktop.4.2.0\lib\net45\SharpDX.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CameraEditor\CameraEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CameraEditor\CameraEditor.designer.cs">
+      <DependentUpon>CameraEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraEditor\CameraEditorFunctions.cs" />
+    <Compile Include="CameraEditor\CameraHeroes.cs" />
+    <Compile Include="CollisionEditor\CLFile.cs" />
+    <Compile Include="CollisionEditor\CollisionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CollisionEditor\CollisionEditor.designer.cs">
+      <DependentUpon>CollisionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CollisionEditor\CollisionSystem.cs" />
+    <Compile Include="CollisionEditor\CollisionVertex.cs" />
+    <Compile Include="CollisionEditor\QuadNode.cs" />
+    <Compile Include="CollisionEditor\Triangle.cs" />
+    <Compile Include="ConfigEditor\ConfigEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigEditor\ConfigEditor.designer.cs">
+      <DependentUpon>ConfigEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigEditor\ConfigEditorFunctions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigEditor\EndPositionEntry.cs" />
+    <Compile Include="ConfigEditor\EntryRenderer.cs" />
+    <Compile Include="LayoutEditor\Gizmo.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0181_SeaPole.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List07\Object0704_RailRoadblock.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List07\Object0705_Capsule.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_S1_1_Type.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0081_TriggerSE.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0060_TriggerRhinoLiner.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\ItemShadow.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0004_DashRamp.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object000E_Rocket.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object000F_Platform.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0007_Case.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0065_GUNBeetle.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0012_ItemCapsule.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0014_GoalRing.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0020_Weapon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object004F_Vehicle.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object00_SpringShadow.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List01\Object0190_Partner.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List0B\Object0BBE_Chao.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List18\Object189E_ARKDriftingPlat1.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List25\Object2590_Decoration2.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List25\Object2589_Destructable1.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List25\Object2588_Decoration1.cs" />
+    <Compile Include="LevelEditor\ChooseTarget.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LevelEditor\ChooseTarget.Designer.cs">
+      <DependentUpon>ChooseTarget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LevelEditor\Models\BSP_IO_Assimp.cs" />
+    <Compile Include="LightEditor\Light.cs" />
+    <Compile Include="LightEditor\LightEditor.cs" />
+    <Compile Include="LightEditor\LightMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LightEditor\LightMenu.Designer.cs">
+      <DependentUpon>LightMenu.cs</DependentUpon>
+    </Compile>
+    <None Include="Resources\hpp_version.json" />
+    <Compile Include="SetIdTableEditor\SetIdTableEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetIdTableEditor\SetIdTableEditor.designer.cs">
+      <DependentUpon>SetIdTableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetIdTableEditor\SetIdTableFunctions.cs" />
+    <Compile Include="SetIdTableEditor\StageEntry.cs" />
+    <Compile Include="SetIdTableEditor\TableEntry.cs" />
+    <Compile Include="ShadowSplineEditor\ShadowSpline.cs" />
+    <Compile Include="ShadowSplineEditor\ShadowSplineMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShadowSplineEditor\ShadowSplineMenu.Designer.cs">
+      <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShadowSplineEditor\ShadowSplineEditor.cs" />
+    <Compile Include="ShadowSplineEditor\ShadowSplineVertex.cs" />
+    <Compile Include="Shared\IO\Config\AutomaticUpdater.cs" />
+    <Compile Include="Shared\IO\Config\HPPVersion.cs" />
+    <Compile Include="Shared\RemoteControl.cs" />
+    <Compile Include="Shared\Utilities\ManualEndianConverter.cs" />
+    <Compile Include="SharpDX\Camera\CameraVectors.cs" />
+    <Compile Include="SharpDX\Camera\ProjectionMatrix.cs" />
+    <Compile Include="SharpDX\Camera\ViewMatrix.cs" />
+    <Compile Include="SharpDX\Dependencies\CircularBuffer.cs" />
+    <Compile Include="SharpDX\RenderData\CollisionRenderData.cs" />
+    <Compile Include="SharpDX\RenderData\DefaultRenderData.cs" />
+    <Compile Include="SharpDX\SharpFPS.cs" />
+    <Compile Include="SharpDX\TextureManager.cs" />
+    <Compile Include="SplineEditor\AbstractSpline.cs" />
+    <Compile Include="SplineEditor\Spline.cs" />
+    <Compile Include="ConfigEditor\StartPositionEntry.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object01FF_SetParticle.cs" />
+    <Compile Include="ParticleEditor\ParticleMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParticleEditor\ParticleMenu.Designer.cs">
+      <DependentUpon>ParticleMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ParticleEditor\Particle.cs" />
+    <Compile Include="ParticleEditor\ParticleEditor.cs" />
+    <Compile Include="Shared\IO\Config\HPPConfig.cs" />
+    <Compile Include="Shared\IO\Config\ProjectConfig.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Formation.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Item.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000B_DashPanel.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000C_DashRing.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1101_CastleDoor.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1102_CastleWall.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1105_Ghost.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1108_MansionDoor.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1181_Celestial.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1184_SmokeScreen.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1185_Bone.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1188_Curtain.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object11_FloatingPlatform.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object11_MansionWallThunder.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object00_TriggerCommon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object110C_TriggerMusic.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_Collada.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_Heroes.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_ShadowCollision.cs" />
+    <Compile Include="LevelEditor\Models\BSP_IO_Shared.cs" />
+    <Compile Include="LevelEditor\Models\Structures\ModelConverterData.cs" />
+    <Compile Include="LevelEditor\Models\Structures\ModelConverterDataCollada.cs" />
+    <Compile Include="LevelEditor\Models\Structures\Triangle.cs" />
+    <Compile Include="LevelEditor\Models\Structures\TriangleListCollada.cs" />
+    <Compile Include="LevelEditor\Models\Structures\Vertex.cs" />
+    <Compile Include="LevelEditor\Visibility\Chunk.cs" />
+    <Compile Include="Shared\Extensions.cs" />
+    <Compile Include="SplineEditor\SplineEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplineEditor\SplineEditor.designer.cs">
+      <DependentUpon>SplineEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SplineEditor\SplineEditorFunctions.cs" />
+    <Compile Include="LayoutEditor\LayoutEditorSystem.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0281_TurtleFeet.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0282_KameWave.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0305_BigBridge.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0306_AirCar.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List04\Object04_CraneWallLight.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List13\Object1302_HorizCannon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List13\Object1303_MovingCannon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\List00\Object0010_Ring.cs" />
+    <Compile Include="LayoutEditor\SetObjects\RingType.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0066_TriggerBobJump.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0584_GiantDice.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List09\Object0900_Frog.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0001_Spring.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0002_TripleSpring.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0003_Ring.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0004_HintRing.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0005_Switch.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0006_SwitchPP.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0007_Target.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000D_BigRings.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000E_Checkpoint.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object000F_DashRamp.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0010_Cannon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0015_SpikeBall.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0016_LaserFence.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0018_ItemBox.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0019_ItemBalloon.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object001D_Pulley.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0023_Chao.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0024_Cage.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0025_FormSign.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0026_FormGate.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0029_Pole.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object002C_RollDoor.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object002E_Fan.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0031_Case.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object0032_WarpFlower.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0056_TriggerTalk.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0059_TriggerLight.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0080_TriggerTeleport.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Box.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List00\Object00_Weight.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0102_TruckRail.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0103_TruckPath.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0105_MovingRuin.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object0108_TriggerRuins.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0180_FlowerPatch.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0182_Whale.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0183_Seagulls.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0184_LargeBird.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0187_Tides.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List01\Object0189_WaterfallSmall.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0200_CrumbleStonePillar.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object0204_Kaos.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List02\Object020A_ColliQuake.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object020B_EventActivator.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Triggers\Object020C_TriggerKaos.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0300_AcceleratorRoad.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0302_RoadCap.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List03\Object0308_Accelerator.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List04\Object0401_EnergyColumn.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0502_Flipper.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0503_TriBumper.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object050A_Dice.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object050B_Slot.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0586_Roulette.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object0587_GiantCasinoChip.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object05_Spring.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List05\Object05_StarPanel.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\MysticLight.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1100_TeleportSwitch.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1104_FlameTorch.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List11\Object1189_GlowEffectSpider.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List13\Object1305_EggFleetDoor.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List15\Object1500_EggFlapper.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List15\Object1510_EggPawn.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List15\Object1540_EggHammer.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List15\Object1590_RhinoLiner.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List15\Object15C0_EggBishop.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List15\Object15D0_E2000.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List15\Object15_KlagenCameron.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List16\Object_16_02.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\List16\Object_16_00_01.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object2300_EggAlbatross.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_B1_1_Type.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_F1Range.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_F1Scale.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_F1Speed.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_IntTypeFloatScale.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_L1Offset.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_L1Type.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\ListOther\Object_XYZScale.cs" />
+    <Compile Include="LayoutEditor\LayoutEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayoutEditor\LayoutEditor.Designer.cs">
+      <DependentUpon>LayoutEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LayoutEditor\LayoutEditorFunctions.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Object_HeroesDefault.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesHeroes\Object_HeroesEmpty.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectClassesShadow\Object_ShadowEmpty.cs" />
+    <Compile Include="LayoutEditor\SetObjects\SetObjectManagerHeroes.cs" />
+    <Compile Include="LayoutEditor\SetObjects\SetObjectManagerShadow.cs" />
+    <Compile Include="LayoutEditor\SetObjects\ObjectEntry.cs" />
+    <Compile Include="LayoutEditor\SetObjects\SetObject.cs" />
+    <Compile Include="LayoutEditor\SetObjects\SetObjectHeroes.cs" />
+    <Compile Include="LayoutEditor\SetObjects\SetObjectManager.cs" />
+    <Compile Include="LayoutEditor\SetObjects\SetObjectShadow.cs" />
+    <Compile Include="LevelEditor\EditBSPName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LevelEditor\EditBSPName.designer.cs">
+      <DependentUpon>EditBSPName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LevelEditor\LevelEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LevelEditor\LevelEditor.designer.cs">
+      <DependentUpon>LevelEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LevelEditor\ShadowCollisionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LevelEditor\ShadowCollisionEditor.Designer.cs">
+      <DependentUpon>ShadowCollisionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\MemoryFunctions.cs" />
+    <Compile Include="Shared\ReadWriteCommon.cs" />
+    <Compile Include="Shared\ReadWriteMemory.cs" />
+    <Compile Include="CollisionEditor\CollisionRenderer.cs" />
+    <Compile Include="Shared\collada_schema_1_4.cs" />
+    <Compile Include="LevelEditor\Visibility\VisibilityFunctions.cs" />
+    <Compile Include="MainForm\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LevelEditor\BSPRenderer.cs" />
+    <Compile Include="Shared\Utilities\ObjectCloner.cs" />
+    <Compile Include="SharpDX\DFFRenderer.cs" />
+    <Compile Include="SharpDX\RenderWareModelFile.cs" />
+    <Compile Include="SharpDX\SharpCamera.cs" />
+    <Compile Include="SharpDX\SharpRenderer.cs" />
+    <Compile Include="SharpDX\SharpDevice.cs" />
+    <Compile Include="SharpDX\SharpMesh.cs" />
+    <Compile Include="SharpDX\SharpShader.cs" />
+    <Compile Include="SharpDX\SharpSubSet.cs" />
+    <Compile Include="SharpDX\TextureUtility.cs" />
+    <Compile Include="SharpDX\VertexTypes.cs" />
+    <Compile Include="MainForm\ViewConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\ViewConfig.designer.cs">
+      <DependentUpon>ViewConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SplineEditor\SplineType.cs" />
+    <Compile Include="TexturePatternEditor\PatternEntry.cs" />
+    <Compile Include="TexturePatternEditor\PatternSystem.cs" />
+    <Compile Include="TexturePatternEditor\TexturePatternEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TexturePatternEditor\TexturePatternEditor.Designer.cs">
+      <DependentUpon>TexturePatternEditor.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CameraEditor\CameraEditor.resx">
+      <DependentUpon>CameraEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CollisionEditor\CollisionEditor.resx">
+      <DependentUpon>CollisionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigEditor\ConfigEditor.resx">
+      <DependentUpon>ConfigEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelEditor\ChooseTarget.resx">
+      <DependentUpon>ChooseTarget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LightEditor\LightMenu.resx">
+      <DependentUpon>LightMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetIdTableEditor\SetIdTableEditor.resx">
+      <DependentUpon>SetIdTableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShadowSplineEditor\ShadowSplineMenu.resx">
+      <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplineEditor\SplineEditor.resx">
+      <DependentUpon>SplineEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayoutEditor\LayoutEditor.resx">
+      <DependentUpon>LayoutEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelEditor\EditBSPName.resx">
+      <DependentUpon>EditBSPName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelEditor\LevelEditor.resx">
+      <DependentUpon>LevelEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelEditor\ShadowCollisionEditor.resx">
+      <DependentUpon>ShadowCollisionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParticleEditor\ParticleMenu.resx">
+      <DependentUpon>ParticleMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="MainForm\ViewConfig.resx">
+      <DependentUpon>ViewConfig.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TexturePatternEditor\TexturePatternEditor.resx">
+      <DependentUpon>TexturePatternEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="readme.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Lists\HeroesObjectList.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Lists\ObjectMiscHelper.ini" />
+    <None Include="Resources\Lists\ShadowObjectList.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Box.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Box.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Cylinder.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Cylinder.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Pyramid.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Pyramid.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Sphere.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Models\Sphere.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\importvcolorobj_v1.3.7.ms">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\Reloaded Generic Stage Injection Mod\Reloaded-Mod-Template.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Lists\ShadowStageList.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Lists\HeroesStageList.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\eirrepo\LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libimagequant\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libjpeg\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libpng\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\libsquish\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\lzo-2.08\COPYING">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\pvrtextool\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\rwtools\COPYRIGHT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Tools\txdgen_1.0\LICENSES\rwtools\README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Game.ico" />
+    <Content Include="Resources\SharpDX\Shader_Tinted.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\HeroesSPLTool.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\Reloaded Generic Stage Injection Mod\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\txdgen.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\txdgen64.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\txdgen_1.0\txdgen_xp.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\AboutImage.png" />
+    <Content Include="Resources\SharpDX\Shader_Basic.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SharpDX\Shader_Collision.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SharpDX\Shader_Default.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\WhiteDefault.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 e x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenericStageInjectionCommon\GenericStageInjectionCommon\GenericStageInjectionCommon.csproj">
+      <Project>{3cc13c40-7e3f-42f8-aca8-37ca14bb57a4}</Project>
+      <Name>GenericStageInjectionCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderWareFile\RenderWareFile\RenderWareFile.csproj">
+      <Project>{005f2d00-06de-4ef9-bfee-80efac49e114}</Project>
+      <Name>RenderWareFile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Submodules\Heroes.StageInjector.ReloadedII\sonicheroes.utils.stageinjection.common\sonicheroes.utils.stageinjection.common.csproj">
+      <Project>{a5f6b495-fc5e-41ae-8ffd-b8f1a3891a6d}</Project>
+      <Name>sonicheroes.utils.stageinjection.common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj">
+      <Project>{fe15bc74-5dbb-495b-a5c1-1a0aa9c29dc2}</Project>
+      <Name>HeroesPowerPlant.RemoteControl.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LayoutEditor\Gizmos\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\csharp-prs.2.0.2\build\csharp-prs.targets" Condition="Exists('..\packages\csharp-prs.2.0.2\build\csharp-prs.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\csharp-prs.2.0.2\build\csharp-prs.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\csharp-prs.2.0.2\build\csharp-prs.targets'))" />
+    <Error Condition="!Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AssimpNet.4.1.0\build\AssimpNet.targets'))" />
+  </Target>
+  <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
+</Project>

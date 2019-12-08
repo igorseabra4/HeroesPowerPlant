@@ -6,76 +6,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Reloaded.Injector;
-using RemoteControl;
-using RemoteControl.Structs;
+using HeroesPowerPlant.RemoteControl.Shared;
 
 namespace HeroesPowerPlant.Shared
 {
     public static class RemoteControl
     {
-        private const string WINDOW_NAME = "SONIC HEROES(TM)";
-
-        private static Injector Injector;
-        private static Process GameProcess;
-        private static string DllPath;
+        private static Client Client;
 
         /// <summary>
         /// Forces the game to reload collision.
         /// </summary>
         public static void LoadCollision(string fileNameWithoutExtension)
         {
-            UpdateFields();
-
-            // Assume already injected.
-            if (AssertGameRunning())
-            {
-                NativeString64Char nativeStr = new NativeString64Char(fileNameWithoutExtension);
-                Injector.CallFunction(DllPath, CollisionReloader.LoadCollisionFunctionName, nativeStr, true);
-            }
+            if (TryConnectToGame())
+                Client.LoadCollision(fileNameWithoutExtension, 1000);
         }
 
-        private static bool AssertGameRunning()
+        private static bool TryConnectToGame()
         {
-            if (GameProcess == null || GameProcess.HasExited)
+            try
             {
-                MessageBox.Show("Game not running");
+                if (Client == null || !Client.IsConnected())
+                    Client = new Client(Process.GetProcessesByName("tsonic_win")[0]);
+
+                return true;
+            }
+            catch (Exception)
+            {
                 return false;
             }
-
-            return true;
-        }
-
-        private static void UpdateFields()
-        {
-            if (GameProcess == null || GameProcess.HasExited)
-            {
-                // Get new process.
-                GameProcess = GetGame();
-
-                // There might not be a process running.
-                if (GameProcess != null)
-                {
-                    Injector = new Injector(GameProcess);
-
-                    // Inject our RemoteControl DLL.
-                    DllPath = Path.GetFullPath($"{AppDomain.CurrentDomain.BaseDirectory}\\RemoteControl.dll");
-                    Injector.Inject(DllPath);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Process"/> if the game is running, else null.
-        /// </summary>
-        private static Process GetGame()
-        {
-            Process[] _allProcesses = Process.GetProcesses();
-            foreach (Process process in _allProcesses)
-                if (process.MainWindowTitle.ToLower().Contains(WINDOW_NAME.ToLower()))
-                    return process;
-
-            return null;
         }
     }
 }
