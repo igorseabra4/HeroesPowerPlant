@@ -373,10 +373,14 @@ namespace HeroesPowerPlant.ConfigEditor
             c.StageId = currentID;
 
             GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
+            EnableSplineEditor();
+        }
 
+        private void EnableSplineEditor()
+        {
             SplineEditor.buttonSave.Enabled = true;
             SplineEditor.buttonSaveJson.Enabled = true;
-            SplineEditor.Save(FileName);
+            splineEditorToolStripMenuItem.Enabled = true;
         }
     }
 }

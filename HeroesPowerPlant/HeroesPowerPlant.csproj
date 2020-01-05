@@ -119,10 +119,10 @@
     <Compile Update="ParticleEditor\ParticleMenu.Designer.cs">
       <DependentUpon>ParticleMenu.cs</DependentUpon>
     </Compile>
-    <Compile Update="SplineEditor\SplineEditor.cs">
+    <Compile Update="ConfigEditor\SplineEditor\SplineEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="SplineEditor\SplineEditor.designer.cs">
+    <Compile Update="ConfigEditor\SplineEditor\SplineEditor.designer.cs">
       <DependentUpon>SplineEditor.cs</DependentUpon>
     </Compile>
     <Compile Update="LayoutEditor\LayoutEditor.cs">
@@ -194,7 +194,7 @@
     <EmbeddedResource Update="ShadowSplineEditor\ShadowSplineMenu.resx">
       <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="SplineEditor\SplineEditor.resx">
+    <EmbeddedResource Update="ConfigEditor\SplineEditor\SplineEditor.resx">
       <DependentUpon>SplineEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="LayoutEditor\LayoutEditor.resx">

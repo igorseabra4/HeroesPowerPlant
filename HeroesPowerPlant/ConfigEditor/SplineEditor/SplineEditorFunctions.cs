@@ -185,7 +185,7 @@ namespace HeroesPowerPlant.SplineEditor
         {
             var splines = SplineList.Select(x => new ManagedSpline(ToSplineType(x.Type), ToSplineVertexArray(x.Points))).ToArray();
             var splineFile = new SplineFile(splines);
-            JsonSerializable<SplineFile>.ToPath(splineFile, $"{Path.GetDirectoryName(configFilePath)}\\Splines\\Splines.json");
+            JsonSerializable<SplineFile>.ToPath(splineFile, $"{Path.GetDirectoryName(configFilePath)}\\Splines.json");
         }
     }
 }

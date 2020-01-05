@@ -78,7 +78,6 @@ namespace HeroesPowerPlant.ConfigEditor
             LabelFileLoaded.Text = "No file loaded";
             CleanFile();
 
-            Program.MainForm.EnableSplineEditor();
             SplineEditor.SplineEditorNewConfig();
         }
 
@@ -117,17 +116,15 @@ namespace HeroesPowerPlant.ConfigEditor
 
             OpenConfigFileName = fileName;
             LabelFileLoaded.Text = "Loaded " + fileName;
-            mainForm.EnableSplineEditor();
             SplineEditor.SplineEditorOpenConfig(fileName, mainForm.renderer);
-            SplineEditor.buttonSave.Enabled = true;
-            SplineEditor.buttonSaveJson.Enabled = true;
+            EnableSplineEditor();
 
             ProgramIsChangingStuff = false;
         }
         
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (OpenConfigFileName != null && OpenConfigFileName != "" && Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
+            if (!string.IsNullOrEmpty(OpenConfigFileName) && Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
                 SaveFileJson(OpenConfigFileName);
             else
                 saveAsToolStripMenuItem_Click(sender, e);
@@ -148,7 +145,8 @@ namespace HeroesPowerPlant.ConfigEditor
 
                 if (Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
                     SaveFileJson(OpenConfigFileName);
-                else throw new Exception("Error: Unknown file type.");
+                else 
+                    throw new Exception("Error: Unknown file type.");
             }
         }
         
@@ -336,5 +334,11 @@ namespace HeroesPowerPlant.ConfigEditor
             NumericBragY.Value = (decimal)Position.Y;
             NumericBragZ.Value = (decimal)Position.Z;
         }
+
+        private void splineEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SplineEditor.Show();
+        }
+
     }
 }

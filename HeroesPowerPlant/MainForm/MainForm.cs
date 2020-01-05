@@ -312,11 +312,6 @@ namespace HeroesPowerPlant.MainForm
                 CloseLayoutEditor(c);
         }
 
-        private void splineEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ConfigEditor.SplineEditor.Show();
-        }
-
         private void cameraEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CameraEditor.Show();
@@ -340,11 +335,6 @@ namespace HeroesPowerPlant.MainForm
         private void lightEditorF10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LightEditor.Show();
-        }
-
-        public void EnableSplineEditor()
-        {
-            splineEditorToolStripMenuItem.Enabled = true;
         }
 
         public void SetToolStripStatusLabel(string Text)
@@ -621,10 +611,6 @@ namespace HeroesPowerPlant.MainForm
                     else
                         foreach (var l in LayoutEditors)
                         l.Show();
-                    break;
-                case Keys.F6:
-                    if (splineEditorToolStripMenuItem.Enabled)
-                        ConfigEditor.SplineEditor.Show();
                     break;
                 case Keys.F7:
                     CameraEditor.Show();
