@@ -12,6 +12,7 @@ namespace HeroesPowerPlant.MainForm
         public static bool ProgramIsUpdatingValues { get; set; } = true;
         private static bool _invalidCameraValues { get; set; } = false;
         private Thread _updateViewValuesThread;
+        private CancellationTokenSource _cancellationTokenSource;
 
         /*
             ------------
@@ -31,9 +32,9 @@ namespace HeroesPowerPlant.MainForm
         /// Updates the GUI if the invalid flag has been set.
         /// </summary>
         /// <param name="obj"></param>
-        private void UpdateGUIValues(object obj)
+        private void UpdateGUIValues(CancellationToken token)
         {
-            while (true)
+            while (! token.IsCancellationRequested)
             {
                 if (_invalidCameraValues)
                 {
@@ -127,13 +128,15 @@ namespace HeroesPowerPlant.MainForm
             if (Visible)
             {
                 UpdateValues();
-                _updateViewValuesThread = new Thread(UpdateGUIValues);
+
+                _cancellationTokenSource = new CancellationTokenSource();
+                _updateViewValuesThread = new Thread(() => UpdateGUIValues(_cancellationTokenSource.Token));
                 _updateViewValuesThread.IsBackground = true;
                 _updateViewValuesThread.Start();
             }
             else
             {
-                _updateViewValuesThread?.Abort();
+                _cancellationTokenSource.Cancel();
             }
                 
         }
