@@ -9,8 +9,20 @@ namespace HeroesPowerPlant.SplineEditor
 {
     public class Spline : AbstractSpline
     {
-        public SplineVertex[] Points;
+        public SplineVertex[] Points { get; set; }
         public SplineType Type;
+
+        private Spline()
+        {
+        }
+
+        public Spline(SplineVertex[] vertices, SplineType splineType, SharpRenderer renderer)
+        {
+            Points = vertices;
+            Type = splineType;
+
+            SetRenderStuff(renderer);
+        }
 
         public void SetRenderStuff(SharpRenderer renderer)
         {
@@ -61,6 +73,19 @@ namespace HeroesPowerPlant.SplineEditor
             Temp.Points = Points.ToArray();
             Temp.SetRenderStuff(renderer);
             return Temp;
+        }
+
+        public static Spline Blank(SharpRenderer renderer)
+        {
+            Spline result = new Spline
+            {
+                Points = new SplineVertex[]
+            {
+                new SplineVertex(0, 0, 0), new SplineVertex(0, 0, 0)
+            }
+            };
+            result.SetRenderStuff(renderer);
+            return result;
         }
     }
 }

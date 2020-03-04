@@ -168,5 +168,10 @@ namespace HeroesPowerPlant.MainForm
             ProgramIsUpdatingValues = false;
             _invalidCameraValues = false;
         }
+
+        private void buttonTeleport_Click(object sender, EventArgs e)
+        {
+            Program.MainForm.TeleportPlayerToCamera();
+        }
     }
 }

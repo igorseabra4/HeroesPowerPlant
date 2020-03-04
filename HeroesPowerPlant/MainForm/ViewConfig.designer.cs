@@ -48,6 +48,7 @@
             this.NumericMouseSens = new System.Windows.Forms.NumericUpDown();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.NumericKeyboardSens = new System.Windows.Forms.NumericUpDown();
+            this.buttonTeleport = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraYaw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraPitch)).BeginInit();
@@ -335,10 +336,18 @@
             0});
             this.NumericKeyboardSens.ValueChanged += new System.EventHandler(this.NumericKeyboardSens_ValueChanged);
             // 
+            // buttonTeleport
+            // 
+            resources.ApplyResources(this.buttonTeleport, "buttonTeleport");
+            this.buttonTeleport.Name = "buttonTeleport";
+            this.buttonTeleport.UseVisualStyleBackColor = true;
+            this.buttonTeleport.Click += new System.EventHandler(this.buttonTeleport_Click);
+            // 
             // ViewConfig
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonTeleport);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox5);
@@ -397,5 +406,6 @@
         public System.Windows.Forms.NumericUpDown NumericMouseSens;
         private System.Windows.Forms.GroupBox groupBox8;
         public System.Windows.Forms.NumericUpDown NumericKeyboardSens;
+        private System.Windows.Forms.Button buttonTeleport;
     }
 }

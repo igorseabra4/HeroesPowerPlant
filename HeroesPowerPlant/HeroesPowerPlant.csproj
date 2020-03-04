@@ -88,6 +88,15 @@
     <Compile Update="ConfigEditor\ConfigEditorFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ConfigEditor\EXEExtractor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ConfigEditor\RankEditor\RankEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ConfigEditor\RankEditor\RankEditor.designer.cs">
+      <DependentUpon>RankEditor.cs</DependentUpon>
+    </Compile>
     <Compile Update="LevelEditor\ChooseTarget.cs">
       <SubType>Form</SubType>
     </Compile>

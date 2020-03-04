@@ -34,11 +34,7 @@ namespace HeroesPowerPlant.SplineEditor
 
         public void AddBlankSpline()
         {
-            SplineVertex[] Points = new SplineVertex[2];
-            Points[0] = new SplineVertex(0, 0, 0);
-            Points[1] = new SplineVertex(0, 0, 0);
-            SplineList.Add(new Spline { Points = Points });
-            SplineList.Last().SetRenderStuff(Program.MainForm.renderer);
+            SplineList.Add(Spline.Blank(Program.MainForm.renderer));
         }
 
         public void DeleteSelectedSpline()
@@ -55,10 +51,10 @@ namespace HeroesPowerPlant.SplineEditor
         {
             return SplineList.Count;
         }
-
-        public string GetSelectedType()
+        
+        public Spline GetSelected()
         {
-            return SplineList[CurrentlySelectedObject].Type.ToString();
+            return SplineList[CurrentlySelectedObject];
         }
 
         public void SelectedIndexChanged(int selectedIndex)
@@ -89,15 +85,42 @@ namespace HeroesPowerPlant.SplineEditor
             foreach (Spline s in SplineList) s.Render(renderer);
         }
 
-        public void ViewHere()
+        public void ViewHere(int pointIndex)
         {
+            if (pointIndex < 0 || pointIndex >= SplineList[CurrentlySelectedObject].Points.Length) 
+                pointIndex = 0;
+
             if (CurrentlySelectedObject != -1 & CurrentlySelectedObject < SplineList.Count)
                 Program.MainForm.renderer.Camera.SetPosition(
                     new SharpDX.Vector3(
-                    SplineList[CurrentlySelectedObject].Points[0].Position.X,
-                    SplineList[CurrentlySelectedObject].Points[0].Position.Y,
-                    SplineList[CurrentlySelectedObject].Points[0].Position.Z)
+                    SplineList[CurrentlySelectedObject].Points[pointIndex].Position.X,
+                    SplineList[CurrentlySelectedObject].Points[pointIndex].Position.Y,
+                    SplineList[CurrentlySelectedObject].Points[pointIndex].Position.Z)
                     - 200 * Program.MainForm.renderer.Camera.GetForward());
+        }
+
+        public void AutoPitchPoint(int pointIndex)
+        {
+            if (pointIndex >= 0 && pointIndex < SplineList[CurrentlySelectedObject].Points.Length - 1)
+                SplineList[CurrentlySelectedObject].Points[pointIndex].Pitch = (ushort)SplineList[CurrentlySelectedObject].Points[pointIndex].GetPitch(SplineList[CurrentlySelectedObject].Points[pointIndex + 1]);
+        }
+
+        public void AutoPitchSpline()
+        {
+            AutoPitchSpline(CurrentlySelectedObject);
+        }
+
+        public void AutoPitchSpline(int index)
+        {
+            if (index != -1 && index < SplineList.Count)
+            for (int x = 0; x < SplineList[index].Points.Length - 1; x++)
+                SplineList[index].Points[x].Pitch = (ushort)SplineList[index].Points[x].GetPitch(SplineList[index].Points[x + 1]);
+        }
+
+        public void AutoPitchAll()
+        {
+            for (int x = 0; x < SplineList.Count; x++)
+                AutoPitchSpline(x);
         }
 
         public void DisposeSplines()
@@ -112,7 +135,7 @@ namespace HeroesPowerPlant.SplineEditor
             SplineList = new List<Spline>();
             
             if (File.Exists(splineJsonPath))
-                LoadSplinesFromJson();
+                LoadSplinesFromJson(renderer);
             else if (Directory.Exists(splineFolder))
             {
                 MessageBox.Show("Note: Splines loaded from Splines Folder (Reloaded I Stage Injector: legacy), not JSON (Reloaded II Stage Injector)");
@@ -135,6 +158,12 @@ namespace HeroesPowerPlant.SplineEditor
             }
         }
 
+        internal void AddSpline(List<SplineVertex> vertices, Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType splineType, SharpRenderer renderer)
+        {
+            Spline s = new Spline(vertices.ToArray(), ToSplineType(splineType), renderer);
+            SplineList.Add(s);
+        }
+
         /* Save Json */
         private Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType ToSplineType(SplineType type)
             => type switch
@@ -145,7 +174,7 @@ namespace HeroesPowerPlant.SplineEditor
                 SplineType.Ball => Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType.Ball,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
             };
-        
+
         private SplineType ToSplineType(Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType type)
             => type switch
             {
@@ -158,14 +187,10 @@ namespace HeroesPowerPlant.SplineEditor
 
         private SplineVertex[] ToSplineVertexArray(SplineVertex[] vertices)
         {
-            var result = vertices.Select(x => new SplineVertex(x.Position.X, x.Position.Y, x.Position.Z)).ToArray();
-            for (int x = 0; x < result.Length - 1; x++)
-            {
-                result[x].DistanceToNextVertex = result[x].GetDistance(result[x + 1]);
-                result[x].Pitch = (ushort) result[x].GetPitch(result[x + 1]);
-            }
-
-            return result;
+            for (int x = 0; x < vertices.Length - 1; x++)
+                vertices[x].DistanceToNextVertex = vertices[x].GetDistance(vertices[x + 1]);
+            
+            return vertices;
         }
 
         public void SaveJson()
@@ -175,10 +200,24 @@ namespace HeroesPowerPlant.SplineEditor
             JsonSerializable<SplineFile>.ToPath(splineFile, splineJsonPath);
         }
 
-        private void LoadSplinesFromJson()
+        private void LoadSplinesFromJson(SharpRenderer renderer)
         {
             foreach (var spline in JsonSerializable<SplineFile>.FromPath(splineJsonPath).Splines)
-                SplineList.Add(new Spline() { Points = spline.Vertices, Type = ToSplineType(spline.SplineType) });
+                SplineList.Add(new Spline(spline.Vertices, ToSplineType(spline.SplineType), renderer));
+        }
+
+        internal void ExportOBJ(string fileName)
+        {
+            using StreamWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create));
+            {
+                writer.WriteLine("# Exported by Heroes Power Plant");
+                foreach (var v in SplineList[CurrentlySelectedObject].Points)
+                    writer.WriteLine($"v {v.Position.X} {v.Position.Y} {v.Position.Z}");
+                string l = "l ";
+                for (int i = 0; i < SplineList[CurrentlySelectedObject].Points.Length; i++)
+                    l += $"{i} ";
+                writer.WriteLine(l);
+            }
         }
     }
 }

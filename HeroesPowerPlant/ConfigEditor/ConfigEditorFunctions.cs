@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using GenericStageInjectionCommon.Shared.Enums;
 using GenericStageInjectionCommon.Structs.Positions.Substructures;
+using Heroes.SDK.Definitions.Enums;
 using SharpDX;
 
 namespace HeroesPowerPlant.ConfigEditor
@@ -14,7 +14,7 @@ namespace HeroesPowerPlant.ConfigEditor
         public List<EndPositionEntry> EndPositions = new List<EndPositionEntry>();
         public List<EndPositionEntry> BragPositions = new List<EndPositionEntry>();
 
-        StageID currentID;
+        public Stage currentID;
 
         public void RenderStartPositions(SharpRenderer renderer)
         {
@@ -89,9 +89,9 @@ namespace HeroesPowerPlant.ConfigEditor
             else
                 throw new Exception("Error: unsupported file.");
 
-            currentID = StageID.Null;
+            currentID = Stage.Null;
 
-            foreach (StageID i in Enum.GetValues(typeof(StageID)))
+            foreach (Stage i in Enum.GetValues(typeof(Stage)))
             {
                 if (i.ToString() == seename)
                 {
@@ -99,7 +99,7 @@ namespace HeroesPowerPlant.ConfigEditor
                     break;
                 }
             }
-            if (currentID == StageID.Null)
+            if (currentID == Stage.Null)
                 throw new Exception("Error: unsupported file.");
 
             for (int x = 2; x < ConfigFile.Length; x++)
@@ -348,7 +348,7 @@ namespace HeroesPowerPlant.ConfigEditor
             BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
             BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
 
-            currentID = c.StageId;
+            currentID = (Stage)c.StageId;
             ComboLevelConfig.SelectedItem = currentID;
         }
 
@@ -370,16 +370,68 @@ namespace HeroesPowerPlant.ConfigEditor
             foreach (EndPositionEntry s in BragPositions)
                 c.BragPositions.Add(s.Position);
 
-            c.StageId = currentID;
+            c.StageId = (GenericStageInjectionCommon.Shared.Enums.StageID)currentID;
 
             GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
             EnableSplineEditor();
+            EnableRankEditor();
         }
 
         private void EnableSplineEditor()
         {
             SplineEditor.buttonSave.Enabled = true;
             splineEditorToolStripMenuItem.Enabled = true;
+        }
+
+        private void EnableRankEditor()
+        {
+            rankEditorToolStripMenuItem.Enabled = true;
+        }
+
+        private void EnableEXEExtractor()
+        {
+            eXEExtractorToolStripMenuItem.Enabled = true;
+        }
+
+        public void GetStartPositions(PositionStart[] pos)
+        {
+            for (int i = 0; i < StartPositions.Count; i++)
+            {
+                StartPositions[i].PositionX = pos[i].Position.X;
+                StartPositions[i].PositionY = pos[i].Position.Y;
+                StartPositions[i].PositionZ = pos[i].Position.Z;
+                StartPositions[i].HoldTime = pos[i].HoldTime;
+                StartPositions[i].Mode = pos[i].Mode;
+                StartPositions[i].Pitch = pos[i].Pitch;
+                StartPositions[i].CreateTransformMatrix();
+            }
+            ComboBoxTeam_SelectedIndexChanged(null, null);
+        }
+
+        public void GetEndPositions(PositionEnd[] pos)
+        {
+            for (int i = 0; i < EndPositions.Count; i++)
+            {
+                EndPositions[i].PositionX = pos[i].Position.X;
+                EndPositions[i].PositionY = pos[i].Position.Y;
+                EndPositions[i].PositionZ = pos[i].Position.Z;
+                EndPositions[i].Pitch = pos[i].Pitch;
+                EndPositions[i].CreateTransformMatrix();
+            }
+            ComboBoxTeam_SelectedIndexChanged(null, null);
+        }
+
+        public void GetBragPositions(PositionEnd[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                BragPositions[i].PositionX = pos[i].Position.X;
+                BragPositions[i].PositionY = pos[i].Position.Y;
+                BragPositions[i].PositionZ = pos[i].Position.Z;
+                BragPositions[i].Pitch = pos[i].Pitch;
+                BragPositions[i].CreateTransformMatrix();
+            }
+            ComboBoxTeam_SelectedIndexChanged(null, null);
         }
     }
 }

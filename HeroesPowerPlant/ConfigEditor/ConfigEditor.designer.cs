@@ -45,6 +45,7 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splineEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rankEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.NumericStartHold = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -75,6 +76,7 @@
             this.NumericBragRot = new System.Windows.Forms.NumericUpDown();
             this.ComboLevelConfig = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.eXEExtractorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericStartRot)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -230,7 +232,9 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.splineEditorToolStripMenuItem});
+            this.splineEditorToolStripMenuItem,
+            this.rankEditorToolStripMenuItem,
+            this.eXEExtractorToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(520, 24);
@@ -251,28 +255,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -284,6 +288,14 @@
             this.splineEditorToolStripMenuItem.Text = "Spline Editor";
             this.splineEditorToolStripMenuItem.ToolTipText = "To enable the Spline Editor, please save or open an existing config file.";
             this.splineEditorToolStripMenuItem.Click += new System.EventHandler(this.splineEditorToolStripMenuItem_Click);
+            // 
+            // rankEditorToolStripMenuItem
+            // 
+            this.rankEditorToolStripMenuItem.Enabled = false;
+            this.rankEditorToolStripMenuItem.Name = "rankEditorToolStripMenuItem";
+            this.rankEditorToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.rankEditorToolStripMenuItem.Text = "Rank Editor";
+            this.rankEditorToolStripMenuItem.Click += new System.EventHandler(this.rankEditorToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -664,6 +676,14 @@
             this.label1.TabIndex = 40;
             this.label1.Text = "Level Flag:";
             // 
+            // eXEExtractorToolStripMenuItem
+            // 
+            this.eXEExtractorToolStripMenuItem.Enabled = false;
+            this.eXEExtractorToolStripMenuItem.Name = "eXEExtractorToolStripMenuItem";
+            this.eXEExtractorToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.eXEExtractorToolStripMenuItem.Text = "EXE Extractor";
+            this.eXEExtractorToolStripMenuItem.Click += new System.EventHandler(this.eXEExtractorToolStripMenuItem_Click);
+            // 
             // ConfigEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -766,5 +786,7 @@
         private System.Windows.Forms.Button buttonViewHereBrag;
         private System.Windows.Forms.Button buttonDropBrag;
         private System.Windows.Forms.ToolStripMenuItem splineEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rankEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eXEExtractorToolStripMenuItem;
     }
 }

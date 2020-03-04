@@ -612,6 +612,9 @@ namespace HeroesPowerPlant.MainForm
                         foreach (var l in LayoutEditors)
                         l.Show();
                     break;
+                case Keys.F6:
+                    TeleportPlayerToCamera();
+                    break;
                 case Keys.F7:
                     CameraEditor.Show();
                     break;
@@ -1060,6 +1063,12 @@ namespace HeroesPowerPlant.MainForm
         private void cameraViewSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewConfig.Show();
+        }
+
+        public void TeleportPlayerToCamera()
+        {
+            if (!MemoryFunctions.Teleport(renderer.Camera.GetPosition()))
+                MessageBox.Show("Unable to teleport player.");
         }
     }
 }

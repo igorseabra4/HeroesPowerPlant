@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using GenericStageInjectionCommon.Shared.Enums;
+using Heroes.SDK.Definitions.Enums;
 using SharpDX;
 
 namespace HeroesPowerPlant.ConfigEditor
@@ -43,10 +44,12 @@ namespace HeroesPowerPlant.ConfigEditor
 
             ProgramIsChangingStuff = false;
             
-            foreach (StageID i in Enum.GetValues(typeof(StageID)))
+            foreach (Stage i in Enum.GetValues(typeof(Stage)))
                 ComboLevelConfig.Items.Add(i);
 
             SplineEditor = new SplineEditor.SplineEditor();
+            RankEditor = new RankEditor.RankEditor();
+            EXEExtractor = new EXEExtractor();
 
             CleanFile();
         }
@@ -79,9 +82,15 @@ namespace HeroesPowerPlant.ConfigEditor
             CleanFile();
 
             SplineEditor.SplineEditorNewConfig();
+            RankEditor.RankEditorNewConfig();
+            EnableSplineEditor();
+            EnableRankEditor();
+            EnableEXEExtractor();
         }
 
         public SplineEditor.SplineEditor SplineEditor;
+        public RankEditor.RankEditor RankEditor;
+        public EXEExtractor EXEExtractor;
         private string OpenConfigFileName = "";
 
         public string GetOpenConfigFileName()
@@ -117,7 +126,10 @@ namespace HeroesPowerPlant.ConfigEditor
             OpenConfigFileName = fileName;
             LabelFileLoaded.Text = "Loaded " + fileName;
             SplineEditor.SplineEditorOpenConfig(mainForm.renderer);
+            RankEditor.RankEditorOpenConfig();
             EnableSplineEditor();
+            EnableRankEditor();
+            EnableEXEExtractor();
 
             ProgramIsChangingStuff = false;
         }
@@ -150,8 +162,11 @@ namespace HeroesPowerPlant.ConfigEditor
             }
         }
         
-        private void ComboBoxTeam_SelectedIndexChanged(object sender, EventArgs e)
+        public void ComboBoxTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ComboBoxTeam.SelectedIndex == -1)
+                return;
+
             ProgramIsChangingStuff = true;
             
             NumericStartX.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionX;
@@ -179,7 +194,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ProgramIsChangingStuff)
                 return;
 
-            currentID = (StageID)ComboLevelConfig.SelectedItem;
+            currentID = (Stage)ComboLevelConfig.SelectedItem;
             ComboBoxTeam.SelectedIndex = 0;
         }
 
@@ -340,5 +355,14 @@ namespace HeroesPowerPlant.ConfigEditor
             SplineEditor.Show();
         }
 
+        private void rankEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RankEditor.Show();
+        }
+
+        private void eXEExtractorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EXEExtractor.Show();
+        }
     }
 }
