@@ -16,7 +16,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             string flagModelName = "S01_PN_HATA0.DFF";
 
-            if (Type < 8 && Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(flagModelName))
+            if (Type < 8 && renderer.dffRenderer.DFFModels.ContainsKey(flagModelName))
             {
                 renderData.worldViewProjection = Matrix.Scaling(Scale)
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
@@ -37,7 +37,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
                 renderer.tintedShader.Apply();
 
-                Program.MainForm.renderer.dffRenderer.DFFModels[flagModelName].Render(renderer.Device);
+                renderer.dffRenderer.DFFModels[flagModelName].Render(renderer.Device);
             }
         }
         

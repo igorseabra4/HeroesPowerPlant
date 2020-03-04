@@ -34,7 +34,6 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonViewHere = new System.Windows.Forms.Button();
-            this.buttonSaveJson = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBoxSplines
@@ -101,24 +100,12 @@
             this.buttonViewHere.UseVisualStyleBackColor = true;
             this.buttonViewHere.Click += new System.EventHandler(this.buttonViewHere_Click);
             // 
-            // buttonSaveJson
-            // 
-            this.buttonSaveJson.Enabled = false;
-            this.buttonSaveJson.Location = new System.Drawing.Point(127, 146);
-            this.buttonSaveJson.Name = "buttonSaveJson";
-            this.buttonSaveJson.Size = new System.Drawing.Size(76, 39);
-            this.buttonSaveJson.TabIndex = 12;
-            this.buttonSaveJson.Text = "Save (Json)";
-            this.buttonSaveJson.UseVisualStyleBackColor = true;
-            this.buttonSaveJson.Click += new System.EventHandler(this.buttonSaveJson_Click);
-            // 
             // SplineEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(215, 193);
             this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.buttonSaveJson);
             this.Controls.Add(this.buttonViewHere);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.buttonDelete);
@@ -142,6 +129,5 @@
         private System.Windows.Forms.Button buttonAdd;
         public System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonViewHere;
-        public System.Windows.Forms.Button buttonSaveJson;
     }
 }

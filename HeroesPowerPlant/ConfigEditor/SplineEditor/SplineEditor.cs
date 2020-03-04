@@ -71,9 +71,9 @@ namespace HeroesPowerPlant.SplineEditor
                 splineEditorFunctions.ChangeType(comboBoxType.SelectedIndex);
         }
 
-        public void buttonSave_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
-            splineEditorFunctions.Save(Program.MainForm.ConfigEditor.GetOpenConfigFileName());
+            splineEditorFunctions.SaveJson();
         }
 
         private void buttonViewHere_Click(object sender, EventArgs e)
@@ -87,9 +87,9 @@ namespace HeroesPowerPlant.SplineEditor
             UpdateSplineList();
         }
 
-        public void SplineEditorOpenConfig(string fileName, SharpRenderer renderer)
+        public void SplineEditorOpenConfig(SharpRenderer renderer)
         {
-            splineEditorFunctions.SplineEditorOpenConfig(fileName, renderer);
+            splineEditorFunctions.SplineEditorOpenConfig(renderer);
             UpdateSplineList();
         }
 
@@ -110,16 +110,6 @@ namespace HeroesPowerPlant.SplineEditor
         public void DisposeSplines()
         {
             splineEditorFunctions.DisposeSplines();
-        }
-
-        public void Save(string configFilename)
-        {
-            splineEditorFunctions.Save(configFilename);
-        }
-
-        private void buttonSaveJson_Click(object sender, EventArgs e)
-        {
-            splineEditorFunctions.SaveJson(Program.MainForm.ConfigEditor.GetOpenConfigFileName());
         }
     }
 }

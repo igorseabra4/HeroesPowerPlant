@@ -116,7 +116,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             OpenConfigFileName = fileName;
             LabelFileLoaded.Text = "Loaded " + fileName;
-            SplineEditor.SplineEditorOpenConfig(fileName, mainForm.renderer);
+            SplineEditor.SplineEditorOpenConfig(mainForm.renderer);
             EnableSplineEditor();
 
             ProgramIsChangingStuff = false;

@@ -12,7 +12,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public TypeEnum Type
         {
             get => (TypeEnum)ReadByte(4);
-            set { byte a = (byte)value; Write(4, a); }
+            set => Write(4, (byte)value);
         }
 
         public enum AppearEnum : byte
@@ -23,7 +23,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public AppearEnum Appear
         {
             get => (AppearEnum)ReadByte(5);
-            set { byte a = (byte)value; Write(5, a); }
+            set => Write(5, (byte)value);
         }
 
         public float MoveRange
@@ -47,13 +47,13 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(16, value);
         }
 
-        public Int16 Unknown
+        public short Unknown
         {
             get => ReadShort(20);
             set => Write(20, value);
         }
 
-        public Int16 AttackInterval
+        public short AttackInterval
         {
             get => ReadShort(22);
             set => Write(22, value);

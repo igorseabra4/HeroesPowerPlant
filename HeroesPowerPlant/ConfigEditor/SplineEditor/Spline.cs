@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using SharpDX;
 
 namespace HeroesPowerPlant.SplineEditor
 {
     public class Spline : AbstractSpline
     {
-        public Vertex[] Points;
+        public SplineVertex[] Points;
         public SplineType Type;
 
         public void SetRenderStuff(SharpRenderer renderer)
         {
             List<Vector3> vertices = new List<Vector3>(Points.Length);
-            foreach (Vertex v in Points)
-                vertices.Add(v.Position);
+            foreach (var v in Points)
+                vertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
 
             CreateMesh(renderer, vertices.ToArray());
         }
@@ -24,7 +25,7 @@ namespace HeroesPowerPlant.SplineEditor
         {
             string[] SplineFile = File.ReadAllLines(FileName);
             Spline Temp = new Spline();
-            List<Vertex> Points = new List<Vertex>();
+            List<SplineVertex> Points = new List<SplineVertex>();
 
             Temp.Type = SplineType.Null;
             foreach (string j in SplineFile)
@@ -43,7 +44,7 @@ namespace HeroesPowerPlant.SplineEditor
                 else if (j.StartsWith("v"))
                 {
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
-                    Points.Add(new Vertex(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])));
+                    Points.Add(new SplineVertex(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])));
                 }
             }
 

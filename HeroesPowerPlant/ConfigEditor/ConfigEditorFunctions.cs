@@ -379,7 +379,6 @@ namespace HeroesPowerPlant.ConfigEditor
         private void EnableSplineEditor()
         {
             SplineEditor.buttonSave.Enabled = true;
-            SplineEditor.buttonSaveJson.Enabled = true;
             splineEditorToolStripMenuItem.Enabled = true;
         }
     }
