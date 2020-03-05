@@ -42,6 +42,7 @@ namespace HeroesPowerPlant.ConfigEditor
                 { Stage.MadExpress, 0x16973D },
                 { Stage.TerrorHall, 0x1785D3 },
                 { Stage.RailCanyonExpert, 0x16983D },
+                { Stage.FrogForestExpert,0x169998 },
                 { Stage.EggFleetExpert, 0x178473 }
             };
 
