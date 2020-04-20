@@ -1,7 +1,9 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.MainForm
@@ -73,12 +75,12 @@ namespace HeroesPowerPlant.MainForm
         
         private void button1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/igorseabra4/HeroesPowerPlant");
+            OpenBrowser("https://github.com/igorseabra4/HeroesPowerPlant");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://discordapp.com/invite/Ku9KRy6");
+            OpenBrowser("https://discordapp.com/invite/Ku9KRy6");
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -89,6 +91,35 @@ namespace HeroesPowerPlant.MainForm
         private void AboutBox_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public static void OpenBrowser(string url)
+        {
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }
