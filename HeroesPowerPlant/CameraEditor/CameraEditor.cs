@@ -6,6 +6,7 @@ using static HeroesPowerPlant.MemoryFunctions;
 using static HeroesPowerPlant.CameraEditor.CameraEditorFunctions;
 using SharpDX;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace HeroesPowerPlant.CameraEditor
 {
@@ -339,67 +340,21 @@ namespace HeroesPowerPlant.CameraEditor
             if (!Teleport((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value))
                 MessageBox.Show("Error writing data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
-        private void buttonGetTrigger_Click(object sender, EventArgs e)
+        
+        private void buttonCopyLeaderPos_Click(object sender, EventArgs e)
         {
             if (TryAttach())
-            {
-                Vector3 Position = GetPlayer0Position();
-                numericUpDownColPosX.Value = (decimal)Position.X;
-                numericUpDownColPosY.Value = (decimal)Position.Y;
-                numericUpDownColPosZ.Value = (decimal)Position.Z;
-            }
+                Clipboard.SetText(JsonConvert.SerializeObject(GetPlayer0Position()));
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonGetCamera_Click(object sender, EventArgs e)
         {
             if (TryAttach())
-            {
-                Vector3 Position = GetCameraPosition();
-                numericUpDownCamPosX.Value = (decimal)Position.X;
-                numericUpDownCamPosY.Value = (decimal)Position.Y;
-                numericUpDownCamPosZ.Value = (decimal)Position.Z;
-            }
+                Clipboard.SetText(JsonConvert.SerializeObject(GetCameraPosition()));
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         
-        private void buttonGetA_Click(object sender, EventArgs e)
-        {
-            if (TryAttach())
-            {
-                Vector3 Position = GetPlayer0Position();
-                numericUpDown21.Value = (decimal)Position.X;
-                numericUpDown22.Value = (decimal)Position.Y;
-                numericUpDown23.Value = (decimal)Position.Z;
-            }
-            else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        private void buttonGetB_Click(object sender, EventArgs e)
-        {
-            if (TryAttach())
-            {
-                Vector3 Position = GetPlayer0Position();
-                numericUpDown24.Value = (decimal)Position.X;
-                numericUpDown25.Value = (decimal)Position.Y;
-                numericUpDown26.Value = (decimal)Position.Z;
-            }
-            else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        private void buttonGetC_Click(object sender, EventArgs e)
-        {
-            if (TryAttach())
-            {
-                Vector3 Position = GetPlayer0Position();
-                numericUpDown27.Value = (decimal)Position.X;
-                numericUpDown28.Value = (decimal)Position.Y;
-                numericUpDown29.Value = (decimal)Position.Z;
-            }
-            else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-                
         private void buttonComeHere_Click(object sender, EventArgs e)
         {
             Program.MainForm.renderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownCamPosX.Value, (float)numericUpDownCamPosY.Value, (float)numericUpDownCamPosZ.Value);
@@ -410,11 +365,9 @@ namespace HeroesPowerPlant.CameraEditor
             Program.MainForm.renderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value);
         }
 
-        private void buttonGetView_Click(object sender, EventArgs e)
+        private void buttonCopyViewPos_Click(object sender, EventArgs e)
         {
-            numericUpDownCamPosX.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.X;
-            numericUpDownCamPosY.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.Y;
-            numericUpDownCamPosZ.Value = (decimal)Program.MainForm.renderer.Camera.ViewMatrix.Position.Z;
+            Clipboard.SetText(JsonConvert.SerializeObject(Program.MainForm.renderer.Camera.ViewMatrix.Position));
         }
 
         public void RenderCameras(SharpRenderer renderer)
@@ -453,6 +406,83 @@ namespace HeroesPowerPlant.CameraEditor
             cameras = cameras.OrderBy(c => c.GetDistance()).ToList();
             ListBoxCameras.Items.Clear();
             ListBoxCameras.Items.AddRange(cameras.ToArray());
+        }
+
+        private const string pasteErrorMessage = "Error pasting coordinates from clipboard. Are you sure you have a Vector3 copied?";
+
+        private void buttonPasteTriggerPos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Vector3 position = JsonConvert.DeserializeObject<Vector3>(Clipboard.GetText());
+                numericUpDownColPosX.Value = (decimal)position.X;
+                numericUpDownColPosY.Value = (decimal)position.Y;
+                numericUpDownColPosZ.Value = (decimal)position.Z;
+            }
+            catch
+            {
+                MessageBox.Show(pasteErrorMessage);
+            }
+        }
+
+        private void buttonPasteCamPos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Vector3 position = JsonConvert.DeserializeObject<Vector3>(Clipboard.GetText());
+                numericUpDownCamPosX.Value = (decimal)position.X;
+                numericUpDownCamPosY.Value = (decimal)position.Y;
+                numericUpDownCamPosZ.Value = (decimal)position.Z;
+            }
+            catch
+            {
+                MessageBox.Show(pasteErrorMessage);
+            }
+        }
+
+        private void buttonPastePointA_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Vector3 position = JsonConvert.DeserializeObject<Vector3>(Clipboard.GetText());
+                numericUpDown21.Value = (decimal)position.X;
+                numericUpDown22.Value = (decimal)position.Y;
+                numericUpDown23.Value = (decimal)position.Z;
+            }
+            catch
+            {
+                MessageBox.Show(pasteErrorMessage);
+            }
+        }
+
+        private void buttonPastePointB_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Vector3 position = JsonConvert.DeserializeObject<Vector3>(Clipboard.GetText());
+                numericUpDown24.Value = (decimal)position.X;
+                numericUpDown25.Value = (decimal)position.Y;
+                numericUpDown26.Value = (decimal)position.Z;
+            }
+            catch
+            {
+                MessageBox.Show(pasteErrorMessage);
+            }
+        }
+
+        private void buttonPastePointc_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Vector3 position = JsonConvert.DeserializeObject<Vector3>(Clipboard.GetText());
+                numericUpDown27.Value = (decimal)position.X;
+                numericUpDown28.Value = (decimal)position.Y;
+                numericUpDown29.Value = (decimal)position.Z;
+            }
+            catch
+            {
+                MessageBox.Show(pasteErrorMessage);
+            }
         }
     }
 }

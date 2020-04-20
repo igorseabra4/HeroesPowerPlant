@@ -245,7 +245,9 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x0: return new Object0900_Frog();
                         case 0x2: case 0x7: return new Object_F1Range();
                         case 0x6: case 0x10: case 0x11: case 0x12: return new Object_HeroesEmpty();
+                        case 0xB: return new Object090B_IvyJump();
                         case 0xC: return new Object_F1Scale();
+                        case 0xE: return new Object090E_Alligator();
                         default: return new Object_HeroesDefault();
                     }
                 case 0x11:

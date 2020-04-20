@@ -122,7 +122,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         public void CreateBounding()
         {
-            boundingBox = new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
+            boundingBox = new BoundingBox(-Vector3.One, Vector3.One);
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, triggerPosWorld);
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, triggerPosWorld);
 
@@ -134,7 +134,7 @@ namespace HeroesPowerPlant.CameraEditor
             if (TriggerShape == 1) //plane
                 triggerPosWorld = Matrix.Scaling(TriggerScale.X, TriggerScale.Y, 1f);
             else if (TriggerShape == 3) // cube
-                triggerPosWorld = Matrix.Scaling(TriggerScale);
+                triggerPosWorld = Matrix.Scaling(TriggerScale * 2);
             else if (TriggerShape == 4) // cyl
                 triggerPosWorld = Matrix.Scaling(TriggerScale.X, TriggerScale.Y, TriggerScale.X);
             else // sphere

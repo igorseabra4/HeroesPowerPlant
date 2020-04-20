@@ -73,17 +73,16 @@
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonTeleport = new System.Windows.Forms.Button();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.buttonGetTrigger = new System.Windows.Forms.Button();
-            this.buttonGetC = new System.Windows.Forms.Button();
-            this.buttonGetB = new System.Windows.Forms.Button();
-            this.buttonGetA = new System.Windows.Forms.Button();
-            this.buttonGetCamera = new System.Windows.Forms.Button();
+            this.buttonCopyLeaderPos = new System.Windows.Forms.Button();
+            this.buttonCopyCameraPos = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortByDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -91,12 +90,15 @@
             this.toolStripStatusSep = new System.Windows.Forms.ToolStripStatusLabel();
             this.LabelCameraCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.buttonComeHere = new System.Windows.Forms.Button();
-            this.buttonGetView = new System.Windows.Forms.Button();
+            this.buttonCopyViewPos = new System.Windows.Forms.Button();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.buttonComeTrigger = new System.Windows.Forms.Button();
             this.buttonCopy = new System.Windows.Forms.Button();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortByDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonPasteTriggerPos = new System.Windows.Forms.Button();
+            this.buttonPasteCamPos = new System.Windows.Forms.Button();
+            this.buttonPastePointA = new System.Windows.Forms.Button();
+            this.buttonPastePointB = new System.Windows.Forms.Button();
+            this.buttonPastePointc = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrigShape)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownActType)).BeginInit();
@@ -160,7 +162,7 @@
             this.ListBoxCameras.FormattingEnabled = true;
             this.ListBoxCameras.Location = new System.Drawing.Point(12, 27);
             this.ListBoxCameras.Name = "ListBoxCameras";
-            this.ListBoxCameras.Size = new System.Drawing.Size(147, 329);
+            this.ListBoxCameras.Size = new System.Drawing.Size(147, 303);
             this.ListBoxCameras.TabIndex = 0;
             this.ListBoxCameras.SelectedIndexChanged += new System.EventHandler(this.ListBoxCameras_SelectedIndexChanged);
             // 
@@ -640,7 +642,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(12, 359);
+            this.buttonAdd.Location = new System.Drawing.Point(12, 335);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(147, 23);
             this.buttonAdd.TabIndex = 5;
@@ -650,7 +652,7 @@
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(12, 417);
+            this.buttonDelete.Location = new System.Drawing.Point(12, 393);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(147, 23);
             this.buttonDelete.TabIndex = 5;
@@ -660,7 +662,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(12, 446);
+            this.buttonClear.Location = new System.Drawing.Point(12, 422);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(147, 23);
             this.buttonClear.TabIndex = 5;
@@ -681,67 +683,34 @@
             // groupBox13
             // 
             this.groupBox13.Controls.Add(this.buttonTeleport);
-            this.groupBox13.Controls.Add(this.buttonGetTrigger);
-            this.groupBox13.Controls.Add(this.buttonGetC);
-            this.groupBox13.Controls.Add(this.buttonGetB);
-            this.groupBox13.Controls.Add(this.buttonGetA);
-            this.groupBox13.Controls.Add(this.buttonGetCamera);
+            this.groupBox13.Controls.Add(this.buttonCopyLeaderPos);
+            this.groupBox13.Controls.Add(this.buttonCopyCameraPos);
             this.groupBox13.Location = new System.Drawing.Point(165, 391);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(363, 80);
+            this.groupBox13.Size = new System.Drawing.Size(363, 48);
             this.groupBox13.TabIndex = 8;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Sonic Heroes Stuff";
             // 
-            // buttonGetTrigger
+            // buttonCopyLeaderPos
             // 
-            this.buttonGetTrigger.Location = new System.Drawing.Point(6, 19);
-            this.buttonGetTrigger.Name = "buttonGetTrigger";
-            this.buttonGetTrigger.Size = new System.Drawing.Size(111, 23);
-            this.buttonGetTrigger.TabIndex = 7;
-            this.buttonGetTrigger.Text = "Get Trigger";
-            this.buttonGetTrigger.UseVisualStyleBackColor = true;
-            this.buttonGetTrigger.Click += new System.EventHandler(this.buttonGetTrigger_Click);
+            this.buttonCopyLeaderPos.Location = new System.Drawing.Point(6, 19);
+            this.buttonCopyLeaderPos.Name = "buttonCopyLeaderPos";
+            this.buttonCopyLeaderPos.Size = new System.Drawing.Size(111, 23);
+            this.buttonCopyLeaderPos.TabIndex = 7;
+            this.buttonCopyLeaderPos.Text = "Copy Leader Pos.";
+            this.buttonCopyLeaderPos.UseVisualStyleBackColor = true;
+            this.buttonCopyLeaderPos.Click += new System.EventHandler(this.buttonCopyLeaderPos_Click);
             // 
-            // buttonGetC
+            // buttonCopyCameraPos
             // 
-            this.buttonGetC.Location = new System.Drawing.Point(240, 48);
-            this.buttonGetC.Name = "buttonGetC";
-            this.buttonGetC.Size = new System.Drawing.Size(111, 23);
-            this.buttonGetC.TabIndex = 7;
-            this.buttonGetC.Text = "Get Point C";
-            this.buttonGetC.UseVisualStyleBackColor = true;
-            this.buttonGetC.Click += new System.EventHandler(this.buttonGetC_Click);
-            // 
-            // buttonGetB
-            // 
-            this.buttonGetB.Location = new System.Drawing.Point(123, 48);
-            this.buttonGetB.Name = "buttonGetB";
-            this.buttonGetB.Size = new System.Drawing.Size(111, 23);
-            this.buttonGetB.TabIndex = 7;
-            this.buttonGetB.Text = "Get Point B";
-            this.buttonGetB.UseVisualStyleBackColor = true;
-            this.buttonGetB.Click += new System.EventHandler(this.buttonGetB_Click);
-            // 
-            // buttonGetA
-            // 
-            this.buttonGetA.Location = new System.Drawing.Point(6, 48);
-            this.buttonGetA.Name = "buttonGetA";
-            this.buttonGetA.Size = new System.Drawing.Size(111, 23);
-            this.buttonGetA.TabIndex = 7;
-            this.buttonGetA.Text = "Get Point A";
-            this.buttonGetA.UseVisualStyleBackColor = true;
-            this.buttonGetA.Click += new System.EventHandler(this.buttonGetA_Click);
-            // 
-            // buttonGetCamera
-            // 
-            this.buttonGetCamera.Location = new System.Drawing.Point(123, 19);
-            this.buttonGetCamera.Name = "buttonGetCamera";
-            this.buttonGetCamera.Size = new System.Drawing.Size(111, 23);
-            this.buttonGetCamera.TabIndex = 7;
-            this.buttonGetCamera.Text = "Get Camera";
-            this.buttonGetCamera.UseVisualStyleBackColor = true;
-            this.buttonGetCamera.Click += new System.EventHandler(this.buttonGetCamera_Click);
+            this.buttonCopyCameraPos.Location = new System.Drawing.Point(123, 19);
+            this.buttonCopyCameraPos.Name = "buttonCopyCameraPos";
+            this.buttonCopyCameraPos.Size = new System.Drawing.Size(111, 23);
+            this.buttonCopyCameraPos.TabIndex = 7;
+            this.buttonCopyCameraPos.Text = "Copy Camera Pos.";
+            this.buttonCopyCameraPos.UseVisualStyleBackColor = true;
+            this.buttonCopyCameraPos.Click += new System.EventHandler(this.buttonGetCamera_Click);
             // 
             // menuStrip1
             // 
@@ -793,6 +762,21 @@
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sortByDistanceToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // sortByDistanceToolStripMenuItem
+            // 
+            this.sortByDistanceToolStripMenuItem.Name = "sortByDistanceToolStripMenuItem";
+            this.sortByDistanceToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.sortByDistanceToolStripMenuItem.Text = "Sort by Distance";
+            this.sortByDistanceToolStripMenuItem.Click += new System.EventHandler(this.sortByDistanceToolStripMenuItem_Click);
+            // 
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.numericUpDown33);
@@ -821,7 +805,7 @@
             this.toolStripStatusFile,
             this.toolStripStatusSep,
             this.LabelCameraCount});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 474);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 449);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(781, 22);
             this.statusStrip1.TabIndex = 12;
@@ -855,21 +839,21 @@
             this.buttonComeHere.UseVisualStyleBackColor = true;
             this.buttonComeHere.Click += new System.EventHandler(this.buttonComeHere_Click);
             // 
-            // buttonGetView
+            // buttonCopyViewPos
             // 
-            this.buttonGetView.Location = new System.Drawing.Point(7, 77);
-            this.buttonGetView.Name = "buttonGetView";
-            this.buttonGetView.Size = new System.Drawing.Size(120, 23);
-            this.buttonGetView.TabIndex = 14;
-            this.buttonGetView.Text = "Get View Position";
-            this.buttonGetView.UseVisualStyleBackColor = true;
-            this.buttonGetView.Click += new System.EventHandler(this.buttonGetView_Click);
+            this.buttonCopyViewPos.Location = new System.Drawing.Point(7, 77);
+            this.buttonCopyViewPos.Name = "buttonCopyViewPos";
+            this.buttonCopyViewPos.Size = new System.Drawing.Size(120, 23);
+            this.buttonCopyViewPos.TabIndex = 14;
+            this.buttonCopyViewPos.Text = "Copy View Pos.";
+            this.buttonCopyViewPos.UseVisualStyleBackColor = true;
+            this.buttonCopyViewPos.Click += new System.EventHandler(this.buttonCopyViewPos_Click);
             // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.buttonComeTrigger);
             this.groupBox11.Controls.Add(this.buttonComeHere);
-            this.groupBox11.Controls.Add(this.buttonGetView);
+            this.groupBox11.Controls.Add(this.buttonCopyViewPos);
             this.groupBox11.Location = new System.Drawing.Point(642, 339);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(132, 106);
@@ -889,34 +873,74 @@
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(12, 388);
+            this.buttonCopy.Location = new System.Drawing.Point(12, 364);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(147, 23);
             this.buttonCopy.TabIndex = 16;
-            this.buttonCopy.Text = "Copy";
+            this.buttonCopy.Text = "Duplicate";
             this.buttonCopy.UseVisualStyleBackColor = true;
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
-            // editToolStripMenuItem
+            // buttonPasteTriggerPos
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sortByDistanceToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.buttonPasteTriggerPos.Location = new System.Drawing.Point(405, 72);
+            this.buttonPasteTriggerPos.Name = "buttonPasteTriggerPos";
+            this.buttonPasteTriggerPos.Size = new System.Drawing.Size(50, 20);
+            this.buttonPasteTriggerPos.TabIndex = 17;
+            this.buttonPasteTriggerPos.Text = "Paste";
+            this.buttonPasteTriggerPos.UseVisualStyleBackColor = true;
+            this.buttonPasteTriggerPos.Click += new System.EventHandler(this.buttonPasteTriggerPos_Click);
             // 
-            // sortByDistanceToolStripMenuItem
+            // buttonPasteCamPos
             // 
-            this.sortByDistanceToolStripMenuItem.Name = "sortByDistanceToolStripMenuItem";
-            this.sortByDistanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.sortByDistanceToolStripMenuItem.Text = "Sort by Distance";
-            this.sortByDistanceToolStripMenuItem.Click += new System.EventHandler(this.sortByDistanceToolStripMenuItem_Click);
+            this.buttonPasteCamPos.Location = new System.Drawing.Point(707, 124);
+            this.buttonPasteCamPos.Name = "buttonPasteCamPos";
+            this.buttonPasteCamPos.Size = new System.Drawing.Size(50, 20);
+            this.buttonPasteCamPos.TabIndex = 18;
+            this.buttonPasteCamPos.Text = "Paste";
+            this.buttonPasteCamPos.UseVisualStyleBackColor = true;
+            this.buttonPasteCamPos.Click += new System.EventHandler(this.buttonPasteCamPos_Click);
+            // 
+            // buttonPastePointA
+            // 
+            this.buttonPastePointA.Location = new System.Drawing.Point(707, 176);
+            this.buttonPastePointA.Name = "buttonPastePointA";
+            this.buttonPastePointA.Size = new System.Drawing.Size(50, 20);
+            this.buttonPastePointA.TabIndex = 19;
+            this.buttonPastePointA.Text = "Paste";
+            this.buttonPastePointA.UseVisualStyleBackColor = true;
+            this.buttonPastePointA.Click += new System.EventHandler(this.buttonPastePointA_Click);
+            // 
+            // buttonPastePointB
+            // 
+            this.buttonPastePointB.Location = new System.Drawing.Point(405, 228);
+            this.buttonPastePointB.Name = "buttonPastePointB";
+            this.buttonPastePointB.Size = new System.Drawing.Size(50, 20);
+            this.buttonPastePointB.TabIndex = 20;
+            this.buttonPastePointB.Text = "Paste";
+            this.buttonPastePointB.UseVisualStyleBackColor = true;
+            this.buttonPastePointB.Click += new System.EventHandler(this.buttonPastePointB_Click);
+            // 
+            // buttonPastePointc
+            // 
+            this.buttonPastePointc.Location = new System.Drawing.Point(707, 228);
+            this.buttonPastePointc.Name = "buttonPastePointc";
+            this.buttonPastePointc.Size = new System.Drawing.Size(50, 20);
+            this.buttonPastePointc.TabIndex = 21;
+            this.buttonPastePointc.Text = "Paste";
+            this.buttonPastePointc.UseVisualStyleBackColor = true;
+            this.buttonPastePointc.Click += new System.EventHandler(this.buttonPastePointc_Click);
             // 
             // CameraEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 496);
+            this.ClientSize = new System.Drawing.Size(781, 471);
+            this.Controls.Add(this.buttonPastePointc);
+            this.Controls.Add(this.buttonPastePointB);
+            this.Controls.Add(this.buttonPastePointA);
+            this.Controls.Add(this.buttonPasteCamPos);
+            this.Controls.Add(this.buttonPasteTriggerPos);
             this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.statusStrip1);
@@ -1067,16 +1091,13 @@
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonTeleport;
         private System.Windows.Forms.GroupBox groupBox13;
-        private System.Windows.Forms.Button buttonGetTrigger;
-        private System.Windows.Forms.Button buttonGetA;
-        private System.Windows.Forms.Button buttonGetCamera;
+        private System.Windows.Forms.Button buttonCopyLeaderPos;
+        private System.Windows.Forms.Button buttonCopyCameraPos;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.Button buttonGetC;
-        private System.Windows.Forms.Button buttonGetB;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -1085,11 +1106,16 @@
         private System.Windows.Forms.ToolStripStatusLabel LabelCameraCount;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.Button buttonComeHere;
-        private System.Windows.Forms.Button buttonGetView;
+        private System.Windows.Forms.Button buttonCopyViewPos;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button buttonComeTrigger;
         private System.Windows.Forms.Button buttonCopy;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortByDistanceToolStripMenuItem;
+        private System.Windows.Forms.Button buttonPasteTriggerPos;
+        private System.Windows.Forms.Button buttonPasteCamPos;
+        private System.Windows.Forms.Button buttonPastePointA;
+        private System.Windows.Forms.Button buttonPastePointB;
+        private System.Windows.Forms.Button buttonPastePointc;
     }
 }
