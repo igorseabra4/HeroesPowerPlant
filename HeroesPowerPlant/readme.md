@@ -10,6 +10,7 @@
 * Q, E: decrease interval, increase interval
 * R: reset view
 * Z: toggle mouse mode*
+* F6: teleport player to view (if game is running)
 
 *Mouse mode: similar to a first person camera. The view rotates automatically as you move the mouse. Use the keyboard to move around.
 
@@ -64,10 +65,18 @@ If these two last settings are on, you can close the program and when you open i
 Press F1 or click the status bar to display the view config window. Here you can set the view's position, rotation, movement speed (interval), draw distance, field of view and height to display the quadtree.
 
 ## Mod Loader Config Editor (F2)
-* This editor allows you to create a new or open an existing Stage.json configuration file for the default Reloaded Mod Loader Generic Stage Injection Mod.
-* You can choose a level preset (required for the correct spline and position pointers to be saved) and edit start positions, ending positions and bragging positions for all teams. You can get the original positions from the EXE using Heroes Tweaker.
-* Note that splines will not work on levels which did not previously contain them.
+* This editor allows you to create a new or open an existing Stage.json configuration file for the default Reloaded II Stage Injection Mod.
+* You can choose a level preset (required for the correct spline and position pointers to be saved) and edit start positions, ending positions and bragging positions for all teams.
 * You can open Config.cc files (legacy Heroes Mod Loader Generic Stage Injection Mod) as well, but not save them.
+* From this dialog, you can also view the Spline Editor, Ranking Requirements Editor and EXE Extractor.
+* You can use the EXE Extractor to get Start Positions and Splines from the Tsonic_win.exe file.
+
+### Spline Editor
+The spline editor allows you to view, choose the type of, delete and import new splines from OBJ files.
+* Splines will be loaded from the Splines.json file located in the same directory as your CC or JSON file (a new one will be created if it doesn't exist).
+* When importing, make sure your OBJ file contains only one spline.
+* The importer will try to guess the type of the spline you are importing based on the OBJ file name. The words it looks for are "loop", "rail", "grind" and "ball". If none of these words are found, the spline type will be set to Null.
+* You can edit the rotation values for individual splines points or automatically calculate them for one spline or all of them.
 
 ## Level Editor (F3)
 * For Heroes: this tool allows you to create new, open and edit .ONE level model archives and *_blk.bin visibility files.
@@ -145,20 +154,14 @@ The object layout editor allows you to add, remove and modify objects.
 * You can export and import the objects with their information to an INI file and import objects from another file without overwriting the currently open one, and OBJ files (in this case, a ring will be placed in each vertex, this is useful for importing lines of rings).
 * You can take a look at the Object Editing pages in Sonic Retro to understand a bit more about this.
 
-## Spline Editor (F6)
-The spline editor allows you to view, choose the type of, delete and import new splines from OBJ files.
-* The spline editor is reliant on the Mod Loader Config Editor, and thus will only show up or allow you to save the splines if an existing CC or JSON is open in it.
-* Splines will be loaded from OBJ files in the Splines folder located in the same directory as your CC or JSON file (a new one will be created if it doesn't exist).
-* When importing, make sure your OBJ file contains only one spline.
-* The importer will try to guess the type of the spline you are importing based on the OBJ file name. The words it looks for are "loop", "rail", "grind" and "ball". If none of these words are found, the spline type will be set to Null.
-* There is no way to display or edit splines straight from the game's EXE. You can extract them from the EXE using Heroes Tweaker.
-* If no splines are present, a null one will be created.
-
 ## Camera Editor (F7)
 The camera layout editor allows you to add, remove and modify cameras.
 * You can open s*_cam.bin files or create new ones.
 * Camera triggers will be displayed as their shape; you can click on the triggers to select them as long as the mouse mode is set to Camera.
 * For the selected camera, the camera location will be displayed as a pink cube and points A, B and C will be displayed as red, green and blue cubes.
+* You can use the box on the lower part of the editor to copy the position of the player or the camera from the running game, and also to teleport the player to the trigger position.
+* You can use the box on the right side of the editor to copy the position of Heroes Power Plant's view.
+* You can paste copied positions in any of the position fields by using the Paste buttons.
 * Note that we don't know 100% about cameras yet, but if you take a look at the original camera files and the information on Sonic Retro you might be able to understand a bit of it.
 * Know something we don't? Tell us! Don't keep it to yourself.
 
