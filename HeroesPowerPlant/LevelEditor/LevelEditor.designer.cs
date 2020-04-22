@@ -91,6 +91,8 @@
             this.importVisibilityChunkDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelLoadedBLK = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.buttonChunkBop = new System.Windows.Forms.Button();
+            this.chunkBopAmount = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chunkShiftRangeEnd)).BeginInit();
@@ -111,6 +113,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumMaxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumChunkNum)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkBopAmount)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -639,7 +642,7 @@
             this.shadowLevelToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(462, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(529, 24);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -826,11 +829,35 @@
             this.progressBar1.Size = new System.Drawing.Size(443, 23);
             this.progressBar1.TabIndex = 23;
             // 
+            // buttonChunkBop
+            // 
+            this.buttonChunkBop.Location = new System.Drawing.Point(378, 449);
+            this.buttonChunkBop.Name = "buttonChunkBop";
+            this.buttonChunkBop.Size = new System.Drawing.Size(86, 23);
+            this.buttonChunkBop.TabIndex = 33;
+            this.buttonChunkBop.Text = "Chunk Bop";
+            this.buttonChunkBop.UseVisualStyleBackColor = true;
+            this.buttonChunkBop.Click += new System.EventHandler(this.buttonChunkBop_Click);
+            // 
+            // chunkBopAmount
+            // 
+            this.chunkBopAmount.Location = new System.Drawing.Point(401, 420);
+            this.chunkBopAmount.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.chunkBopAmount.Name = "chunkBopAmount";
+            this.chunkBopAmount.Size = new System.Drawing.Size(49, 20);
+            this.chunkBopAmount.TabIndex = 33;
+            // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(462, 448);
+            this.ClientSize = new System.Drawing.Size(529, 544);
+            this.Controls.Add(this.chunkBopAmount);
+            this.Controls.Add(this.buttonChunkBop);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.labelLoadedBLK);
             this.Controls.Add(this.labelLoadedONE);
@@ -867,6 +894,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumChunkNum)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chunkBopAmount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -937,5 +965,7 @@
         internal System.Windows.Forms.NumericUpDown chunkShiftZ;
         internal System.Windows.Forms.NumericUpDown chunkShiftY;
         internal System.Windows.Forms.NumericUpDown chunkShiftX;
+        private System.Windows.Forms.Button buttonChunkBop;
+        internal System.Windows.Forms.NumericUpDown chunkBopAmount;
     }
 }

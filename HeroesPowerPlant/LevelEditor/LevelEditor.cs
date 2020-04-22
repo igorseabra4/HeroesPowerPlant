@@ -773,5 +773,13 @@ namespace HeroesPowerPlant.LevelEditor
                 MessageBox.Show("Failed. Check Start/End");
             }
         }
+
+        private void buttonChunkBop_Click(object sender, EventArgs e) {
+            for (int i = 1; i <= ChunkList.Count; i++) {
+                ChunkList[i - 1].number = ChunkList[i - 1].number + (int)chunkBopAmount.Value;
+            }
+
+            //
+        }
     }
 }
