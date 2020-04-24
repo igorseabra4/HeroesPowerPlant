@@ -28,7 +28,7 @@ namespace HeroesPowerPlant.LayoutEditor
         protected int ModelMiscSetting;
         protected string[][] ModelNames;
         public bool HasMiscSettings;
-        public int MiscSettingCount;
+        public int MiscSettingCount = -1;
 
         public override string ToString()
         {
@@ -48,7 +48,8 @@ namespace HeroesPowerPlant.LayoutEditor
                     ModelMiscSetting = objectEntries[i].ModelMiscSetting;
                     ModelNames = objectEntries[i].ModelNames;
                     HasMiscSettings = objectEntries[i].HasMiscSettings;
-                    MiscSettingCount = objectEntries[i].MiscSettingCount;
+                    if (objectEntries[i].MiscSettingCount != -1)
+                        MiscSettingCount = objectEntries[i].MiscSettingCount;
                     return;
                 }
             throw new Exception($"Object entry not found: {List.ToString("X2")} {Type.ToString("X2")}");
@@ -81,30 +82,31 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public abstract void CreateTransformMatrix();
 
+        protected RenderWareModelFile GetDFFModel()
+        {
+            int modelNumber = (ModelMiscSetting != -1 && ModelMiscSetting < MiscSettings.Length) ?
+               MiscSettings[ModelMiscSetting] : 0;
+            
+            if (ModelNames != null && ModelNames.Length != 0 && modelNumber < ModelNames.Length)
+                foreach (string m in ModelNames[modelNumber])
+                    if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(m))
+                        return Program.MainForm.renderer.dffRenderer.DFFModels[m];
+
+            return null;
+        }
+
         protected virtual void CreateBoundingBox()
         {
-            int modelNumber = ModelMiscSetting == -1 ? 0 : MiscSettings[ModelMiscSetting];
+            var model = GetDFFModel();
 
             List<Vector3> list = new List<Vector3>();
 
-            if (ModelNames == null || ModelNames.Length == 0 || modelNumber >= ModelNames.Length)
-                list.AddRange(SharpRenderer.cubeVertices);
+            if (model == null)
+                for (int i = 0; i < SharpRenderer.cubeVertices.Count; i++)
+                    list.Add((Vector3)Vector3.Transform(SharpRenderer.cubeVertices[i], transformMatrix));
             else
-            {
-                bool added = false;
-
-                foreach (string m in ModelNames[modelNumber])
-                    if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(m))
-                    {
-                        added = true;
-                        list.AddRange(Program.MainForm.renderer.dffRenderer.DFFModels[m].vertexListG);
-                    }
-                    else if (!added)
-                        list.AddRange(SharpRenderer.cubeVertices);
-            }
-
-            for (int i = 0; i < list.Count; i++)
-                list[i] = (Vector3)Vector3.Transform(list[i], transformMatrix);
+                for (int i = 0; i < model.vertexListG[i].Length(); i++)
+                    list.Add((Vector3)Vector3.Transform(model.vertexListG[i], transformMatrix));
 
             boundingBox = BoundingBox.FromPoints(list.ToArray());
         }
@@ -120,24 +122,27 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public virtual void Draw(SharpRenderer renderer)
         {
-            int nameIndex = ModelMiscSetting == -1 ? 0 : MiscSettings[ModelMiscSetting];
+            var model = GetDFFModel();
 
-            bool drew = false;
-
-            if (ModelNames != null && ModelNames.Length > 0 && nameIndex < ModelNames.Length)
-            {
-                foreach (string s in ModelNames[nameIndex])
-                    if (renderer.dffRenderer.DFFModels.ContainsKey(s))
-                    {
-                        drew = true;
-                        Draw(renderer, s, isSelected);
-                    }
-            }
-            if (!drew)
-                DrawCube(renderer, isSelected);
+            if (model == null)
+                DrawCube(renderer);
+            else
+                Draw(renderer, model);
         }
 
-        protected virtual void Draw(SharpRenderer renderer, string modelName, bool isSelected)
+        protected void Draw(SharpRenderer renderer, string modelName)
+        {
+            SetRendererStates(renderer);
+            renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
+        }
+
+        protected virtual void Draw(SharpRenderer renderer, RenderWareModelFile model)
+        {
+            SetRendererStates(renderer);
+            model.Render(renderer.Device);
+        }
+
+        private void SetRendererStates(SharpRenderer renderer)
         {
             renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
             renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
@@ -151,11 +156,9 @@ namespace HeroesPowerPlant.LayoutEditor
             renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
             renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
             renderer.tintedShader.Apply();
-
-            renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
         }
 
-        protected void DrawCube(SharpRenderer renderer, bool isSelected)
+        protected void DrawCube(SharpRenderer renderer)
         {
             renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
 

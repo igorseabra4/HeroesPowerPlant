@@ -133,26 +133,7 @@ namespace HeroesPowerPlant.CameraEditor
                 foreach (var v in SharpRenderer.sphereVertices)
                     vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
 
-            Vector3 Min = vertices[0];
-            Vector3 Max = vertices[0];
-
-            foreach (Vector3 v in vertices)
-            {
-                if (v.X > Max.X)
-                    Max.X = v.X;
-                if (v.Y > Max.Y)
-                    Max.Y = v.Y;
-                if (v.Z > Max.Z)
-                    Max.Z = v.Z;
-                if (v.X < Min.X)
-                    Min.X = v.X;
-                if (v.Y < Min.Y)
-                    Min.Y = v.Y;
-                if (v.Z < Min.Z)
-                    Min.Z = v.Z;
-            }
-
-            boundingBox = new BoundingBox(Min, Max);
+            boundingBox = BoundingBox.FromPoints(vertices.ToArray());
         }
 
         public void CreateTransformMatrix()

@@ -31,35 +31,35 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void Draw(SharpRenderer renderer)
         {
             if (BaseType == BaseTypeEnum.None)
-                DrawCube(renderer, isSelected);
+                DrawCube(renderer);
             else if (BaseType == BaseTypeEnum.Floor)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
-                    Draw(renderer, FloorBase, isSelected);
+                    Draw(renderer, FloorBase);
                 if (IsBlue)
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
-                        Draw(renderer, FloorBlue, isSelected);
+                        Draw(renderer, FloorBlue);
                 }
                 else
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorRed))
-                        Draw(renderer, FloorRed, isSelected);
+                        Draw(renderer, FloorRed);
                 }
             }
             else if (BaseType == BaseTypeEnum.Air)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
-                    Draw(renderer, AirBase, isSelected);
+                    Draw(renderer, AirBase);
                 if (IsBlue)
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
-                        Draw(renderer, AirBlue, isSelected);
+                        Draw(renderer, AirBlue);
                 }
                 else
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirRed))
-                        Draw(renderer, AirRed, isSelected);
+                        Draw(renderer, AirRed);
                 }
             }
         }

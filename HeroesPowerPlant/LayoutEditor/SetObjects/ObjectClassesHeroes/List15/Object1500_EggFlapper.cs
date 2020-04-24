@@ -47,7 +47,7 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
         
-        protected override void Draw(SharpRenderer renderer, string modelName, bool isSelected)
+        protected override void Draw(SharpRenderer renderer, RenderWareModelFile model)
         {
             renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
             renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
@@ -62,7 +62,7 @@ namespace HeroesPowerPlant.LayoutEditor
             renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
             renderer.tintedShader.Apply();
 
-            foreach (SharpMesh mesh in renderer.dffRenderer.DFFModels[modelName].meshList)
+            foreach (SharpMesh mesh in model.meshList)
             {
                 if (mesh == null) continue;
 

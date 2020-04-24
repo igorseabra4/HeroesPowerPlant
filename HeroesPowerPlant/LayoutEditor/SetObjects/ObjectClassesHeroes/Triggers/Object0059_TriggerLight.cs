@@ -117,7 +117,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.DrawCylinderTrigger(transformMatrix, isSelected);
                     break;
                 default:
-                    DrawCube(renderer, isSelected);
+                    DrawCube(renderer);
                     break;
             }
         }

@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public SetObjectShadow()
         {
             UnkBytes = new byte[8];
-            MiscSettings = new byte[MiscSettingCount];
+            MiscSettings = new byte[0];
         }
         
         public override void CreateTransformMatrix()

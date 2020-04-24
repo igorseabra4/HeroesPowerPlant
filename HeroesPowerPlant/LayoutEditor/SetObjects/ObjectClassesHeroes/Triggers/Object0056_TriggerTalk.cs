@@ -81,7 +81,7 @@ namespace HeroesPowerPlant.LayoutEditor
             else if (TriggerShape == TriggerTalkShape.Cube)
                 renderer.DrawCubeTrigger(transformMatrix, isSelected);
             else
-                DrawCube(renderer, isSelected);
+                DrawCube(renderer);
         }
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)

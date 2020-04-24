@@ -14,7 +14,7 @@ namespace HeroesPowerPlant.Other
 
 			int objCount = BitConverter.ToInt32(file, 0);
 			var objs = new List<SASetObject>();
-			for (int i = 0; i < objCount; i++)
+			for (int i = 1; i < objCount; i++)
 				objs.Add(new SASetObject(file, 32 + i * 32));
 
 			var outObjs = new List<SetObjectHeroes>();
@@ -28,7 +28,13 @@ namespace HeroesPowerPlant.Other
 				if (filePath.Contains("set01"))
 					newObj = ConvertObjectsEmeraldCoast(obj);
 				else if (filePath.Contains("set02"))
+				{
 					newObj = ConvertObjectsWindyValley(obj);
+					if (filePath.Contains("set0200"))
+						newObj.Position = new SharpDX.Vector3(newObj.Position.X, newObj.Position.Y, newObj.Position.Z - 5000);
+					if (filePath.Contains("set0201"))
+						newObj.Position = new SharpDX.Vector3(newObj.Position.X, newObj.Position.Y + 1000, newObj.Position.Z);
+				}
 				//else if (filePath.Contains("set0013"))
 				//	newObj = ConvertObjectsCityEscape(obj);
 				//else if (filePath.Contains("set0003"))
@@ -120,7 +126,6 @@ namespace HeroesPowerPlant.Other
 					objHeroes.Type = 0x5; // switch
 					break;
 				case 11:
-					FixDashPad(objHeroes, obj);
 					objHeroes.Type = 0xC; //dash ring
 					break;
 				case 13:
@@ -142,30 +147,19 @@ namespace HeroesPowerPlant.Other
 					objHeroes.List = 0x15;
 					objHeroes.Type = 0x10;
 					break;
-				case 38:
-					objHeroes.List = 0x09;
-					objHeroes.Type = 0x81;
-					break; // square floating platform, plant
 				case 41:
 				case 42:
+					objHeroes.Rotation = new SharpDX.Vector3();
 					objHeroes.Type = 0x2E; //fan
 					break;
-				case 45:
-					objHeroes.List = 0x09;
-					objHeroes.Type = 0x84;
-					break; // round floating platform, plant
-				case 46:
-					objHeroes.List = 0x09;
-					objHeroes.Type = 0x80;
-					break; // butterfly
+				//case 46:
+				//	objHeroes.List = 0x09;
+				//	objHeroes.Type = 0x80;
+				//	break; // butterfly
 				case 47:
 					objHeroes.List = 0x09;
-					objHeroes.Type = 0x03;
+					objHeroes.Type = 0x09;
 					break; // trampoline
-				case 50:
-					objHeroes.List = 0x09;
-					objHeroes.Type = 0x83;
-					break; // small tree
 				case 53:
 					objHeroes.List = 0x09;
 					objHeroes.Type = 0x08;
@@ -174,21 +168,68 @@ namespace HeroesPowerPlant.Other
 				case 60:
 					objHeroes.List = 0x09;
 					objHeroes.Type = 0x81;
+					objHeroes.MiscSettings[8] = BitConverter.GetBytes(1.0f)[3];
+					objHeroes.MiscSettings[9] = BitConverter.GetBytes(1.0f)[2];
+					objHeroes.MiscSettings[10] = BitConverter.GetBytes(1.0f)[1];
+					objHeroes.MiscSettings[11] = BitConverter.GetBytes(1.0f)[0];
 					break; // small flower
+				case 50:
+					objHeroes.List = 0x09;
+					objHeroes.Type = 0x83;
+					objHeroes.MiscSettings[8] = BitConverter.GetBytes(1.0f)[3];
+					objHeroes.MiscSettings[9] = BitConverter.GetBytes(1.0f)[2];
+					objHeroes.MiscSettings[10] = BitConverter.GetBytes(1.0f)[1];
+					objHeroes.MiscSettings[11] = BitConverter.GetBytes(1.0f)[0];
+					break; // small tree
 				case 62:
 					objHeroes.List = 0x09;
-					objHeroes.Type = 0x86;
+					objHeroes.Type = 0x85;
+					objHeroes.MiscSettings[4] = BitConverter.GetBytes(1.0f)[3];
+					objHeroes.MiscSettings[5] = BitConverter.GetBytes(1.0f)[2];
+					objHeroes.MiscSettings[6] = BitConverter.GetBytes(1.0f)[1];
+					objHeroes.MiscSettings[7] = BitConverter.GetBytes(1.0f)[0];
 					break; // grass
-				case 65:
-					break; // wall mounted windmill
-				case 66:
-					break; // small decoration windmill
-				case 68:
-					break; // other windmill
-				case 70:
-					break; // very large floating windmill
-				case 71:
-					break; // bridge between windmill
+				case 38:
+					objHeroes.List = 0x09;
+					objHeroes.Type = 0x8A;
+					objHeroes.MiscSettings[8] = BitConverter.GetBytes(1.0f)[3];
+					objHeroes.MiscSettings[9] = BitConverter.GetBytes(1.0f)[2];
+					objHeroes.MiscSettings[10] = BitConverter.GetBytes(1.0f)[1];
+					objHeroes.MiscSettings[11] = BitConverter.GetBytes(1.0f)[0];
+					break; // square floating platform, palmtree
+				case 45:
+					objHeroes.List = 0x09;
+					objHeroes.Type = 0x8A;
+					objHeroes.MiscSettings[7] = 1;
+					objHeroes.MiscSettings[8] = BitConverter.GetBytes(1.0f)[3];
+					objHeroes.MiscSettings[9] = BitConverter.GetBytes(1.0f)[2];
+					objHeroes.MiscSettings[10] = BitConverter.GetBytes(1.0f)[1];
+					objHeroes.MiscSettings[11] = BitConverter.GetBytes(1.0f)[0];
+					break; // round floating platform, palmtree
+
+
+				//case 66:
+				//	objHeroes.List = 0x09;
+				//	objHeroes.Type = 0x8B;
+				//	break; // small decoration windmill
+				//case 68:
+				//	objHeroes.List = 0x09;
+				//	objHeroes.Type = 0x92;
+				//	break; // other windmill
+				//case 70:
+				//	objHeroes.List = 0x09;
+				//	objHeroes.Type = 0x95;
+				//	break; // very large floating windmill
+				//case 71:
+				//	objHeroes.List = 0x09;
+				//	objHeroes.Type = 0x97;
+				//	break; // bridge between windmill
+
+				//case 65:
+				//	objHeroes.List = 0x07;
+				//	objHeroes.Type = 0x93;
+				//	break; // wall mounted windmill
+
 				case 78:
 					FixItem(objHeroes, obj);
 					objHeroes.Type = 0x19; // item balloon

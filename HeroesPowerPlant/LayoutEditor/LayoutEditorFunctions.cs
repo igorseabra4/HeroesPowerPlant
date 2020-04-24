@@ -38,7 +38,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (List == 0 & Type == 0)
                     continue;
 
-                SetObjectHeroes TempObject = CreateHeroesObject(List, Type, Position, Rotation, Link, Rend, UnkBytes1.Concat(UnkBytes2).ToArray());
+                SetObjectHeroes TempObject = CreateHeroesObject(List, Type, Position, Rotation, Link, Rend, UnkBytes1.Concat(UnkBytes2).ToArray(), false);
 
                 int MiscSettings = Switch(LayoutFileReader.ReadInt32());
 
@@ -159,7 +159,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 byte Rend = LayoutFileReader.ReadByte();
                 int MiscSettingCount = LayoutFileReader.ReadInt32();
 
-                SetObjectShadow TempObject = CreateShadowObject(List, Type, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes);
+                SetObjectShadow TempObject = CreateShadowObject(List, Type, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes, false);
 
                 list.Add(TempObject);
             }
@@ -263,7 +263,7 @@ namespace HeroesPowerPlant.LayoutEditor
             string[] file = File.ReadAllLines(fileName);
             List<SetObjectHeroes> list = new List<SetObjectHeroes>();
 
-            SetObjectHeroes TempObject = CreateHeroesObject(0, 0, Vector3.Zero, Vector3.Zero, 0, 10, new byte[8]);
+            SetObjectHeroes TempObject = CreateHeroesObject(0, 0, Vector3.Zero, Vector3.Zero, 0, 10, new byte[8], false);
 
             foreach (string s in file)
             {
@@ -275,7 +275,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         list.Add(TempObject);
                     }
                     TempObject = null;
-                    TempObject = CreateHeroesObject(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), Vector3.Zero, Vector3.Zero, 0, 10);
+                    TempObject = CreateHeroesObject(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), Vector3.Zero, Vector3.Zero, 0, 10, createMatrix: false);
                 }
                 else if (s.StartsWith("link "))
                 {
@@ -461,7 +461,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
         
         public static SetObjectHeroes CreateHeroesObject
-            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null)
+            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null, bool createMatrix = true)
         {
             SetObjectHeroes heroesObj = FindObjectClassHeroes(List, Type);
             heroesObj.Position = Position;
@@ -472,7 +472,8 @@ namespace HeroesPowerPlant.LayoutEditor
             heroesObj.Rend = Rend;
             heroesObj.UnkBytes = UnkBytes ?? new byte[8];
             heroesObj.FindObjectEntry(LayoutEditorSystem.HeroesObjectEntries);
-            heroesObj.CreateTransformMatrix();
+            if (createMatrix)
+                heroesObj.CreateTransformMatrix();
 
             return heroesObj;
         }
@@ -792,7 +793,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         public static SetObjectShadow CreateShadowObject
-            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null)
+            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null, bool createMatrix = true)
         {
             SetObjectShadow shadowObj = FindObjectClassShadow(List, Type);
             shadowObj.Position = Position;
@@ -804,7 +805,8 @@ namespace HeroesPowerPlant.LayoutEditor
             shadowObj.UnkBytes = UnkBytes ?? new byte[8];
             shadowObj.MiscSettingCount = MiscSettingCount;            
             shadowObj.FindObjectEntry(LayoutEditorSystem.ShadowObjectEntries);
-            shadowObj.CreateTransformMatrix();
+            if (createMatrix)
+                shadowObj.CreateTransformMatrix();
 
             return shadowObj;
         }

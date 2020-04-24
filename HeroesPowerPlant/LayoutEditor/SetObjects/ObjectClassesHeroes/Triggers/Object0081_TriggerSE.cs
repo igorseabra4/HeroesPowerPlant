@@ -66,7 +66,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.DrawCubeTrigger(transformMatrix, isSelected);
                     break;
                 default:
-                    DrawCube(renderer, isSelected);
+                    DrawCube(renderer);
                     break;
             }
         }
