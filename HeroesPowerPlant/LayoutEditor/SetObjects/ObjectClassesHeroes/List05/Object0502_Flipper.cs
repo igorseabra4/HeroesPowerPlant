@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0502_Flipper : SetObjectManagerHeroes
+    public class Object0502_Flipper : SetObjectHeroes
     {
         public float Trance
         {
@@ -8,7 +8,7 @@
             set => Write(4, value);
         }
 
-        public byte Type
+        public byte FlipperType
         {
             get => ReadByte(8);
             set => Write(8, value);

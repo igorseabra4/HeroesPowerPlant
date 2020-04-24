@@ -1,16 +1,16 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0024_Cage : SetObjectManagerHeroes
+    public enum CageType : byte
     {
-        public enum CageType : byte
-        {
-            PFixed = 0,
-            PFlying = 1,
-            UFixed = 2,
-            UFlying = 3
-        }
+        PFixed = 0,
+        PFlying = 1,
+        UFixed = 2,
+        UFlying = 3
+    }
 
-        public CageType Type
+    public class Object0024_Cage : SetObjectHeroes
+    {
+        public CageType CageType
         {
             get => (CageType)ReadInt(4);
             set => Write(4, (int)value);

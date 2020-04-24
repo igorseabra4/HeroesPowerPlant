@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1302_HorizCannon : SetObjectManagerHeroes
+    public class Object1302_HorizCannon : SetObjectHeroes
     {
         public short ShootTime
         {

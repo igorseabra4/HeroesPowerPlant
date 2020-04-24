@@ -1,24 +1,17 @@
 ﻿using SharpDX;
 using System;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object01FF_SetParticle : SetObjectManagerHeroes
+    public class Object01FF_SetParticle : SetObjectHeroes
     {
-        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
-        {
-            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-        }
-
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
             Vector3 box = Program.MainForm.ParticleEditor.GetBoxForSetParticle(Number - 50);
 
             if (box != Vector3.Zero)
             {
-                this.Position = Position;
-                this.Rotation = Rotation;
-
                 box.X = Math.Max(1f, box.X);
                 box.Y = Math.Max(1f, box.Y);
                 box.Z = Math.Max(1f, box.Z);
@@ -28,24 +21,36 @@ namespace HeroesPowerPlant.LayoutEditor
                     Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
                     Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                     Matrix.Translation(Position);
+
+                CreateBoundingBox();
             }
-            else base.CreateTransformMatrix(Position, Rotation);
+            else base.CreateTransformMatrix();
         }
 
-        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
+        protected override void CreateBoundingBox()
         {
-            return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
+            List<Vector3> list = new List<Vector3>();
+            list.AddRange(SharpRenderer.cubeVertices);
+            for (int i = 0; i < list.Count; i++)
+                list[i] = (Vector3)Vector3.Transform(list[i], transformMatrix);
+
+            boundingBox = BoundingBox.FromPoints(list.ToArray());
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+        public override void Draw(SharpRenderer renderer)
         {
             renderer.DrawCubeTrigger(transformMatrix, isSelected);
+        }
+
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
         public byte Number
         {
             get => ReadByte(4);
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, value);
         }
 
         public float SpeedX

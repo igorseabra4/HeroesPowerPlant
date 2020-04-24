@@ -46,6 +46,7 @@
             this.importINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importLayoutFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSALayoutFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.objectAmountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -98,6 +99,8 @@
             this.numericUnkB1 = new System.Windows.Forms.NumericUpDown();
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonPaste = new System.Windows.Forms.Button();
+            this.buttonCopyMisc = new System.Windows.Forms.Button();
+            this.buttonPasteMisc = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -153,48 +156,48 @@
             this.heroesLayoutToolStripMenuItem,
             this.shadowLayoutToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // heroesLayoutToolStripMenuItem
             // 
             this.heroesLayoutToolStripMenuItem.Name = "heroesLayoutToolStripMenuItem";
-            this.heroesLayoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.heroesLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.heroesLayoutToolStripMenuItem.Text = "Heroes Layout";
             this.heroesLayoutToolStripMenuItem.Click += new System.EventHandler(this.heroesLayoutToolStripMenuItem_Click);
             // 
             // shadowLayoutToolStripMenuItem
             // 
             this.shadowLayoutToolStripMenuItem.Name = "shadowLayoutToolStripMenuItem";
-            this.shadowLayoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shadowLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.shadowLayoutToolStripMenuItem.Text = "Shadow Layout";
             this.shadowLayoutToolStripMenuItem.Click += new System.EventHandler(this.shadowLayoutToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -206,7 +209,8 @@
             this.exportINIToolStripMenuItem,
             this.importINIToolStripMenuItem,
             this.importLayoutFileToolStripMenuItem,
-            this.importOBJToolStripMenuItem});
+            this.importOBJToolStripMenuItem,
+            this.importSALayoutFileToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -217,7 +221,7 @@
             this.byIDToolStripMenuItem,
             this.byDistanceFromOriginToolStripMenuItem});
             this.sortToolStripMenuItem.Name = "sortToolStripMenuItem";
-            this.sortToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.sortToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.sortToolStripMenuItem.Text = "Sort";
             // 
             // byIDToolStripMenuItem
@@ -237,35 +241,42 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
             // 
             // exportINIToolStripMenuItem
             // 
             this.exportINIToolStripMenuItem.Name = "exportINIToolStripMenuItem";
-            this.exportINIToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.exportINIToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.exportINIToolStripMenuItem.Text = "Export INI";
             this.exportINIToolStripMenuItem.Click += new System.EventHandler(this.exportINIToolStripMenuItem_Click);
             // 
             // importINIToolStripMenuItem
             // 
             this.importINIToolStripMenuItem.Name = "importINIToolStripMenuItem";
-            this.importINIToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.importINIToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.importINIToolStripMenuItem.Text = "Import INI";
             this.importINIToolStripMenuItem.Click += new System.EventHandler(this.importINIToolStripMenuItem_Click);
             // 
             // importLayoutFileToolStripMenuItem
             // 
             this.importLayoutFileToolStripMenuItem.Name = "importLayoutFileToolStripMenuItem";
-            this.importLayoutFileToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.importLayoutFileToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.importLayoutFileToolStripMenuItem.Text = "Import Layout File";
             this.importLayoutFileToolStripMenuItem.Click += new System.EventHandler(this.importLayoutFileToolStripMenuItem_Click);
             // 
             // importOBJToolStripMenuItem
             // 
             this.importOBJToolStripMenuItem.Name = "importOBJToolStripMenuItem";
-            this.importOBJToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.importOBJToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.importOBJToolStripMenuItem.Text = "Import OBJ";
             this.importOBJToolStripMenuItem.Click += new System.EventHandler(this.importOBJToolStripMenuItem_Click);
+            // 
+            // importSALayoutFileToolStripMenuItem
+            // 
+            this.importSALayoutFileToolStripMenuItem.Name = "importSALayoutFileToolStripMenuItem";
+            this.importSALayoutFileToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.importSALayoutFileToolStripMenuItem.Text = "Import SA Layout File";
+            this.importSALayoutFileToolStripMenuItem.Click += new System.EventHandler(this.importSALayoutFileToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -656,6 +667,7 @@
             this.PropertyGridMisc.TabIndex = 78;
             this.PropertyGridMisc.TabStop = false;
             this.PropertyGridMisc.ToolbarVisible = false;
+            this.PropertyGridMisc.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGridMisc_PropertyValueChanged);
             // 
             // buttonDrop
             // 
@@ -664,18 +676,18 @@
             this.buttonDrop.Size = new System.Drawing.Size(69, 20);
             this.buttonDrop.TabIndex = 79;
             this.buttonDrop.TabStop = false;
-            this.buttonDrop.Text = "Drop";
+            this.buttonDrop.Text = "Floor-Drop";
             this.buttonDrop.UseVisualStyleBackColor = true;
             this.buttonDrop.Click += new System.EventHandler(this.buttonDrop_Click);
             // 
             // buttonCurrentViewDrop
             // 
-            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(591, 62);
+            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(591, 69);
             this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
             this.buttonCurrentViewDrop.Size = new System.Drawing.Size(69, 20);
             this.buttonCurrentViewDrop.TabIndex = 80;
             this.buttonCurrentViewDrop.TabStop = false;
-            this.buttonCurrentViewDrop.Text = "C-Drop";
+            this.buttonCurrentViewDrop.Text = "Cam-Drop";
             this.buttonCurrentViewDrop.UseVisualStyleBackColor = true;
             this.buttonCurrentViewDrop.Click += new System.EventHandler(this.buttonCurrentViewDrop_Click);
             // 
@@ -896,11 +908,35 @@
             this.buttonPaste.UseVisualStyleBackColor = true;
             this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
             // 
+            // buttonCopyMisc
+            // 
+            this.buttonCopyMisc.Location = new System.Drawing.Point(402, 175);
+            this.buttonCopyMisc.Name = "buttonCopyMisc";
+            this.buttonCopyMisc.Size = new System.Drawing.Size(77, 20);
+            this.buttonCopyMisc.TabIndex = 83;
+            this.buttonCopyMisc.TabStop = false;
+            this.buttonCopyMisc.Text = "Copy Misc.";
+            this.buttonCopyMisc.UseVisualStyleBackColor = true;
+            this.buttonCopyMisc.Click += new System.EventHandler(this.buttonCopyMisc_Click);
+            // 
+            // buttonPasteMisc
+            // 
+            this.buttonPasteMisc.Location = new System.Drawing.Point(402, 194);
+            this.buttonPasteMisc.Name = "buttonPasteMisc";
+            this.buttonPasteMisc.Size = new System.Drawing.Size(77, 20);
+            this.buttonPasteMisc.TabIndex = 84;
+            this.buttonPasteMisc.TabStop = false;
+            this.buttonPasteMisc.Text = "Paste Misc.";
+            this.buttonPasteMisc.UseVisualStyleBackColor = true;
+            this.buttonPasteMisc.Click += new System.EventHandler(this.buttonPasteMisc_Click);
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 521);
+            this.Controls.Add(this.buttonPasteMisc);
+            this.Controls.Add(this.buttonCopyMisc);
             this.Controls.Add(this.buttonPaste);
             this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.groupBox1);
@@ -1039,5 +1075,8 @@
         internal System.Windows.Forms.NumericUpDown numericUnkB5;
         private System.Windows.Forms.Button buttonCopy;
         private System.Windows.Forms.Button buttonPaste;
+        private System.Windows.Forms.Button buttonCopyMisc;
+        private System.Windows.Forms.Button buttonPasteMisc;
+        private System.Windows.Forms.ToolStripMenuItem importSALayoutFileToolStripMenuItem;
     }
 }

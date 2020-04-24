@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object04_CraneWallLight : SetObjectManagerHeroes
+    public class Object04_CraneWallLight : SetObjectHeroes
     {
         public short RotSpeed
         {

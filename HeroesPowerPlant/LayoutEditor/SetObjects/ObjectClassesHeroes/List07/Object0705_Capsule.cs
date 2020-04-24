@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0705_Capsule : SetObjectManagerHeroes
+    public class Object0705_Capsule : SetObjectHeroes
     {
         public Item Itembox
         {
@@ -8,7 +8,7 @@
             set => Write(4, (byte)value);
         }
 
-        public byte Type
+        public byte CapsuleType
         {
             get => ReadByte(5);
             set => Write(5, value);

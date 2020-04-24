@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0189_WaterfallSmall : SetObjectManagerHeroes
+    public class Object0189_WaterfallSmall : SetObjectHeroes
     {
         public byte ModelType
         {

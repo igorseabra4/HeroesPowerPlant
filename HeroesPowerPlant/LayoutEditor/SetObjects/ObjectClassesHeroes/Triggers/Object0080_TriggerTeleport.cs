@@ -2,66 +2,42 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0080_TriggerTeleport : SetObjectManagerHeroes
+    public class Object0080_TriggerTeleport : SetObjectHeroes
     {
         private BoundingSphere sphereBound;
-
-        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
-        {
-            return r.Intersects(ref sphereBound, out distance);
-        }
-
-        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
-        {
-            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-        }
-
         private Matrix destinationMatrix;
 
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
-            sphereBound = new BoundingSphere(Position, Radius);
-
-            destinationMatrix = Matrix.Translation(XDestination * 2, YDestination * 2, ZDestination * 2);
-
             transformMatrix = Matrix.Scaling(Radius)
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                 * Matrix.Translation(Position);
-        }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+            sphereBound = new BoundingSphere(Position, Radius);
+            boundingBox = BoundingBox.FromSphere(sphereBound);
+
+            destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(XDestination, YDestination, ZDestination);
+        }
+        
+        public override void Draw(SharpRenderer renderer)
         {
             renderer.DrawSphereTrigger(transformMatrix, isSelected);
 
             if (isSelected)
-            {
-                renderData.worldViewProjection = Matrix.Scaling(5) * destinationMatrix * renderer.viewProjection;
-
-                renderData.Color = renderer.selectedColor;
-
-                renderer.Device.SetFillModeDefault();
-                renderer.Device.SetCullModeNone();
-                renderer.Device.SetBlendStateAlphaBlend();
-                renderer.Device.ApplyRasterState();
-                renderer.Device.UpdateAllStates();
-
-                renderer.Device.UpdateData(renderer.basicBuffer, renderData);
-                renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
-                renderer.basicShader.Apply();
-
-                renderer.Cube.Draw(renderer.Device);
-            }
+                renderer.DrawCubeTrigger(destinationMatrix, isSelected);
         }
 
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            return r.Intersects(ref sphereBound, out distance);
+        }
+        
         public float Radius
         {
             get => ReadFloat(4);
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, value);
         }
 
         public float XDestination

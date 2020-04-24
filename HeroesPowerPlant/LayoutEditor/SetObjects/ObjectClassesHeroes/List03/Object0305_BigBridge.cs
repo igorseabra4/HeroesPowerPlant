@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0305_BigBridge : SetObjectManagerHeroes
+    public class Object0305_BigBridge : SetObjectHeroes
     {
         public float ColScaleX
         {

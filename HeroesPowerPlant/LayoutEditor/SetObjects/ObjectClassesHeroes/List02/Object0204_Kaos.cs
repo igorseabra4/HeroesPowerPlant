@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0204_Kaos : SetObjectManagerHeroes
+    public class Object0204_Kaos : SetObjectHeroes
     {
         public byte KaosNumber
         {

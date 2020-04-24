@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object189E_ARKDriftingPlat1 : SetObjectManagerShadow
+    public class Object189E_ARKDriftingPlat1 : SetObjectShadow
     {
         public int PlatformType
         {

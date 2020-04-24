@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1101_CastleDoor : SetObjectManagerHeroes
+    public class Object1101_CastleDoor : SetObjectHeroes
     {
         public bool IsUpsideDown
         {

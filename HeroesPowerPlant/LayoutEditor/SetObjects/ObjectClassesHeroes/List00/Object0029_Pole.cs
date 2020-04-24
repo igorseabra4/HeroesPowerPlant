@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0029_Pole : SetObjectManagerHeroes
+    public class Object0029_Pole : SetObjectHeroes
     {
         public short Length
         {

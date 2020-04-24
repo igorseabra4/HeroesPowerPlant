@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object000E_Rocket : SetObjectManagerShadow
+    public class Object000E_Rocket : SetObjectShadow
     {
         public float TravelAngle
         {

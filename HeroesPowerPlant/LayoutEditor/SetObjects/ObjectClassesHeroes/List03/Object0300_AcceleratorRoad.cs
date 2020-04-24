@@ -1,8 +1,8 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0300_AcceleratorRoad : SetObjectManagerHeroes
+    public class Object0300_AcceleratorRoad : SetObjectHeroes
     {
-        public byte Type
+        public byte RoadType
         {
             get => ReadByte(4);
             set => Write(4, value);

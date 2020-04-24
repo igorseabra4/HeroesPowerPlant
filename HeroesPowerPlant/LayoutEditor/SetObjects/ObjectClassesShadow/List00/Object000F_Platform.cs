@@ -1,8 +1,8 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object000F_Platform : SetObjectManagerShadow
+    public class Object000F_Platform : SetObjectShadow
     {
-        public int Type
+        public int PlatformType
         {
             get => ReadInt(0);
             set => Write(0, value);

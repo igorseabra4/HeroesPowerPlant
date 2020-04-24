@@ -8,7 +8,7 @@
         Disappear = 3
     }
 
-    public class Object11_FloatingPlatform : SetObjectManagerHeroes
+    public class Object11_FloatingPlatform : SetObjectHeroes
     {
         public PlatformType PlatformType
         {

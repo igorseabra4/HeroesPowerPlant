@@ -2,22 +2,23 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0587_GiantCasinoChip : SetObjectManagerHeroes
+    public class Object0587_GiantCasinoChip : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            base.CreateTransformMatrix(Position, Rotation);
-
+            base.CreateTransformMatrix();
             transformMatrix = Matrix.Scaling(Scale + 1f) * transformMatrix;
+
+            CreateBoundingBox();
         }
         
         public float Scale
         {
             get => ReadFloat(4);
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, value);
         }
 
-        public int Type
+        public int ChipType
         {
             get => ReadInt(8);
             set => Write(8, value);

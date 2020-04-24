@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -8,54 +9,58 @@ namespace HeroesPowerPlant.LayoutEditor
         OceanPalaceRuins = 1
     }
 
-    public class Object0108_TriggerRuins : SetObjectManagerHeroes
+    public class Object0108_TriggerRuins : SetObjectHeroes
     {
-        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
+        public override void CreateTransformMatrix()
         {
-            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-        }
-
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) *
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
                 Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                 Matrix.Translation(Position);
+
+            CreateBoundingBox();
         }
 
-        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
+        protected override void CreateBoundingBox()
         {
-            return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
+            List<Vector3> list = new List<Vector3>();
+            list.AddRange(SharpRenderer.cubeVertices);
+            for (int i = 0; i < list.Count; i++)
+                list[i] = (Vector3)Vector3.Transform(list[i], transformMatrix);
+
+            boundingBox = BoundingBox.FromPoints(list.ToArray());
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+        public override void Draw(SharpRenderer renderer)
         {
             renderer.DrawCubeTrigger(transformMatrix, isSelected);
+        }
+
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
         public float ScaleX
         {
             get => ReadFloat(4);
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, value);
         }
 
         public float ScaleY
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float ScaleZ
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
-        public RuinType Type
+        public RuinType RuinType
         {
             get => (RuinType)ReadByte(16);
             set => Write(16, (byte) value);

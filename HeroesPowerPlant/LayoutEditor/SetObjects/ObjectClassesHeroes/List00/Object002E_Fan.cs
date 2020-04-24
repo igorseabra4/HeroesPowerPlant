@@ -8,7 +8,7 @@
         Switchable2 = 3
     }
 
-    public class Object002E_Fan : SetObjectManagerHeroes
+    public class Object002E_Fan : SetObjectHeroes
     {
         public float Scale
         {

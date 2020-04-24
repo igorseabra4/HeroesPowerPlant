@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object000E_Checkpoint : SetObjectManagerHeroes
+    public class Object000E_Checkpoint : SetObjectHeroes
     {
         public short Priority
         {

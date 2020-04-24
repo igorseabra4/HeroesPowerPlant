@@ -1,21 +1,19 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0016_LaserFence : SetObjectManagerHeroes
+    public enum LaserFenceType
     {
-        public enum TypeType
-        {
-            Fixed = 0,
-            Intermittent = 1,
-            Switch = 2,
-            Scan = 3,
-            Enemy = 4
-        }
+        Fixed = 0,
+        Intermittent = 1,
+        Switch = 2,
+        Scan = 3,
+        Enemy = 4
+    }
 
-        public TypeType Type
+    public class Object0016_LaserFence : SetObjectHeroes
+    {
+        public LaserFenceType LaserFenceType
         {
-            get => (TypeType)ReadInt(4);
+            get => (LaserFenceType)ReadInt(4);
             set => Write(4, (int)value);
         }
 

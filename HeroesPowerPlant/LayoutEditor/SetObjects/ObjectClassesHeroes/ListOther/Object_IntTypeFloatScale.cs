@@ -2,21 +2,17 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_IntTypeFloatScale : SetObjectManagerHeroes
+    public class Object_IntTypeFloatScale : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
+            base.CreateTransformMatrix();
+            transformMatrix = Matrix.Scaling(Scale == 0 ? 1 : Scale) * transformMatrix;
 
-            transformMatrix = Matrix.Scaling(Scale + 1f) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
-                Matrix.Translation(Position);
+            CreateBoundingBox();
         }
 
-        public int Type
+        public int ObjectType
         {
             get => ReadInt(4);
             set => Write(4, value);
@@ -25,7 +21,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Scale
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
     }
 }

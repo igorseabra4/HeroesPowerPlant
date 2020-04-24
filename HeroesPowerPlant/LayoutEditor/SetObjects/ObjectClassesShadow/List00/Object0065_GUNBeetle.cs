@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0065_GUNBeetle : Object_ShadowEmpty
+    public class Object0065_GUNBeetle : Object_ShadowDefault
     {
         public string Note => "Not all misc. settings are in list yet.";
 
@@ -16,7 +16,7 @@
             set => Write(40, value);
         }
 
-        public int Type
+        public int BeetleType
         {
             get => ReadInt(56);
             set => Write(56, value);

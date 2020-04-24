@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object020A_ColliQuake : SetObjectManagerHeroes
+    public class Object020A_ColliQuake : SetObjectHeroes
     {
         public float ScaleX
         {

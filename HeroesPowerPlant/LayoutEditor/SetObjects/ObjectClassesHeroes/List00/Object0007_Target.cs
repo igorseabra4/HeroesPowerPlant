@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0007_Target : SetObjectManagerHeroes
+    public class Object0007_Target : SetObjectHeroes
     {
         public Item Item
         {

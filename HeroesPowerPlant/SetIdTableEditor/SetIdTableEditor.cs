@@ -12,10 +12,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
         public SetIdTableEditor()
         {
             InitializeComponent();
-
-            heroesObjectEntries = LayoutEditorSystem.HeroesObjectEntries;
-            shadowObjectEntries = LayoutEditorSystem.ShadowObjectEntries;
-
+            
             heroesStageEntries = ReadStageListData("Resources\\Lists\\HeroesStageList.ini");
             shadowStageEntries = ReadStageListData("Resources\\Lists\\ShadowStageList.ini");
 
@@ -31,8 +28,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
             Hide();
         }
 
-        private ObjectEntry[] heroesObjectEntries;
-        private ObjectEntry[] shadowObjectEntries;
+        private ObjectEntry[] heroesObjectEntries => LayoutEditorSystem.HeroesObjectEntries;
+        private ObjectEntry[] shadowObjectEntries => LayoutEditorSystem.ShadowObjectEntries;
         private StageEntry[] heroesStageEntries;
         private StageEntry[] shadowStageEntries;
 

@@ -2,14 +2,14 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1590_RhinoLiner : SetObjectManagerHeroes
+    public class Object1590_RhinoLiner : SetObjectHeroes
     {
         public enum TypeEnum : byte
         {
             Standard = 0,
             Attack = 1
         }
-        public TypeEnum Type
+        public TypeEnum RhinoType
         {
             get => (TypeEnum)ReadByte(4);
             set => Write(4, (byte)value);

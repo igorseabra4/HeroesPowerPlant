@@ -1,17 +1,17 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0006_SwitchPP : SetObjectManagerHeroes
+    public enum SwitchMode : byte
     {
-        public enum SwitchMode : byte
-        {
-            Push = 0,
-            Pull = 1
-        }
+        Push = 0,
+        Pull = 1
+    }
 
-        public SwitchMode Mode
+    public class Object0006_SwitchPP : SetObjectHeroes
+    {
+        public SwitchMode SwitchMode
         {
             get => (SwitchMode)ReadByte(4);
-            set { byte a = (byte)value; Write(4, a); }
+            set => Write(4, (byte)value);
         }
     }
 }

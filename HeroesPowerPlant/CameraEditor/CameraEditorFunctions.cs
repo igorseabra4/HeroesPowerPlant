@@ -9,56 +9,56 @@ namespace HeroesPowerPlant.CameraEditor
     {
         public static List<CameraHeroes> ImportCameraFile(string fileName)
         {
-            BinaryReader CameraReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
             List<CameraHeroes> list = new List<CameraHeroes>();
 
-            CameraReader.BaseStream.Position = 0;
-
-            while (CameraReader.BaseStream.Position != CameraReader.BaseStream.Length)
+            using (BinaryReader camReader = new BinaryReader(new FileStream(fileName, FileMode.Open)))
             {
-                CameraHeroes TempCam = new CameraHeroes(
-                    cameraType: Switch(CameraReader.ReadInt32()),
-                    cameraSpeed: Switch(CameraReader.ReadInt32()),
-                    integer3: Switch(CameraReader.ReadInt32()),
-                    activationType: Switch(CameraReader.ReadInt32()),
-                    triggerShape: Switch(CameraReader.ReadInt32()),
-                    triggerPosition: new Vector3(Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle())),
-                    triggerRotX: Switch(CameraReader.ReadInt32()),
-                    triggerRotY: Switch(CameraReader.ReadInt32()),
-                    triggerRotZ: Switch(CameraReader.ReadInt32()),
-                    triggerScale: new Vector3(Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle())),
-                    camPos: new Vector3(Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle())),
-                    camRotX: Switch(CameraReader.ReadInt32()),
-                    camRotY: Switch(CameraReader.ReadInt32()),
-                    camRotZ: Switch(CameraReader.ReadInt32()),
-                    pointA: new Vector3(Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle())),
-                    pointB: new Vector3(Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle())),
-                    pointC: new Vector3(Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle()), Switch(CameraReader.ReadSingle())),
-                    integer30: Switch(CameraReader.ReadInt32()),
-                    integer31: Switch(CameraReader.ReadInt32()),
-                    floatX32: Switch(CameraReader.ReadSingle()),
-                    floatY33: Switch(CameraReader.ReadSingle()),
-                    floatX34: Switch(CameraReader.ReadSingle()),
-                    floatY35: Switch(CameraReader.ReadSingle()),
-                    integer36: Switch(CameraReader.ReadInt32()),
-                    integer37: Switch(CameraReader.ReadInt32()),
-                    integer38: Switch(CameraReader.ReadInt32()),
-                    integer39: Switch(CameraReader.ReadInt32())
-                );
+                camReader.BaseStream.Position = 0;
 
-                if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
-                    continue;
+                while (camReader.BaseStream.Position != camReader.BaseStream.Length)
+                {
+                    CameraHeroes TempCam = new CameraHeroes(
+                        cameraType: Switch(camReader.ReadInt32()),
+                        cameraSpeed: Switch(camReader.ReadInt32()),
+                        integer3: Switch(camReader.ReadInt32()),
+                        activationType: Switch(camReader.ReadInt32()),
+                        triggerShape: Switch(camReader.ReadInt32()),
+                        triggerPosition: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        triggerRotX: Switch(camReader.ReadInt32()),
+                        triggerRotY: Switch(camReader.ReadInt32()),
+                        triggerRotZ: Switch(camReader.ReadInt32()),
+                        triggerScale: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        camPos: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        camRotX: Switch(camReader.ReadInt32()),
+                        camRotY: Switch(camReader.ReadInt32()),
+                        camRotZ: Switch(camReader.ReadInt32()),
+                        pointA: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        pointB: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        pointC: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        integer30: Switch(camReader.ReadInt32()),
+                        integer31: Switch(camReader.ReadInt32()),
+                        floatX32: Switch(camReader.ReadSingle()),
+                        floatY33: Switch(camReader.ReadSingle()),
+                        floatX34: Switch(camReader.ReadSingle()),
+                        floatY35: Switch(camReader.ReadSingle()),
+                        integer36: Switch(camReader.ReadInt32()),
+                        integer37: Switch(camReader.ReadInt32()),
+                        integer38: Switch(camReader.ReadInt32()),
+                        integer39: Switch(camReader.ReadInt32())
+                    );
 
-                TempCam.CreateTransformMatrix();
+                    if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
+                        continue;
 
-                list.Add(TempCam);
+                    TempCam.CreateTransformMatrix();
+
+                    list.Add(TempCam);
+                }
             }
-
-            CameraReader.Close();
             return list;
         }
 
-        public static void saveCameraFile(string fileName, IEnumerable<CameraHeroes> list)
+        public static void SaveCameraFile(string fileName, IEnumerable<CameraHeroes> list)
         {
             BinaryWriter CameraWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
 

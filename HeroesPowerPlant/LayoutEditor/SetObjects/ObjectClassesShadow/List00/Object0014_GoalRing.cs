@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0014_GoalRing : SetObjectManagerShadow
+    public class Object0014_GoalRing : SetObjectShadow
     {
         public EmeraldColor EmeraldType
         {

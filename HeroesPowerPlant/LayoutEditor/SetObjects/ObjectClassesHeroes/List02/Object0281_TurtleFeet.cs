@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0281_TurtleFeet : SetObjectManagerHeroes
+    public class Object0281_TurtleFeet : SetObjectHeroes
     {
         public float Scale
         {

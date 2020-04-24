@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_HeroesDefault : SetObjectManagerHeroes
+    public class Object_HeroesDefault : SetObjectHeroes
     {
         public byte[] MiscSettingBytes
         {

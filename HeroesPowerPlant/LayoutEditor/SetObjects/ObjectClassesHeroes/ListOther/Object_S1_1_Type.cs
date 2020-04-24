@@ -1,8 +1,8 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_S1_1_Type : SetObjectManagerHeroes
+    public class Object_S1_1_Type : SetObjectHeroes
     {
-        public short Type
+        public short ObjectType
         {
             get => ReadShort(4);
             set => Write(4, value);

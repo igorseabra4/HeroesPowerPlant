@@ -84,7 +84,6 @@ namespace HeroesPowerPlant
         /// <param name="subset">Subsets</param>
         public void Draw(SharpDevice Device, int subset)
         {
-            Device.DeviceContext.PixelShader.SetShaderResource(0, SubSets[subset].DiffuseMap);
             Device.DeviceContext.DrawIndexed(SubSets[subset].IndexCount, SubSets[subset].StartIndex, 0);
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object05_StarPanel : SetObjectManagerHeroes
+    public class Object05_StarPanel : SetObjectHeroes
     {
         public float Power
         {

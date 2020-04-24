@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0066_TriggerBobJump : SetObjectManagerHeroes
+    public class Object0066_TriggerBobJump : SetObjectHeroes
     {
         public float Width
         {

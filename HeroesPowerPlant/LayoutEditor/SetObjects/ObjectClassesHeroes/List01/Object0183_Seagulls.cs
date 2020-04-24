@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0183_Seagulls : SetObjectManagerHeroes
+    public class Object0183_Seagulls : SetObjectHeroes
     {
         public byte Number
         {

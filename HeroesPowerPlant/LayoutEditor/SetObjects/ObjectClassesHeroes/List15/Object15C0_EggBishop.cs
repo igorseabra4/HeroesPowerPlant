@@ -2,14 +2,14 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object15C0_EggBishop : SetObjectManagerHeroes
+    public class Object15C0_EggBishop : SetObjectHeroes
     {
         public enum TypeEnum : byte
         {
             Bishop = 0,
             Magician = 1
         }
-        public TypeEnum Type
+        public TypeEnum BishopType
         {
             get => (TypeEnum)ReadByte(4);
             set => Write(4, (byte)value);

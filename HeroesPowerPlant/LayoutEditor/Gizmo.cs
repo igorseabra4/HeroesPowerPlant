@@ -56,7 +56,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     break;
             }
 
-            boundingBox = BoundingBox.FromPoints(Program.MainForm.renderer.pyramidVertices.ToArray());
+            boundingBox = BoundingBox.FromPoints(SharpRenderer.pyramidVertices.ToArray());
             boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, transformMatrix);
             boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, transformMatrix);
         }
@@ -96,9 +96,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool TriangleIntersection(Ray r)
         {
-            List<Vector3> pyramidVertices = Program.MainForm.renderer.pyramidVertices;
+            List<Vector3> pyramidVertices = SharpRenderer.pyramidVertices;
 
-            foreach (LevelEditor.Triangle t in Program.MainForm.renderer.pyramidTriangles)
+            foreach (LevelEditor.Triangle t in SharpRenderer.pyramidTriangles)
             {
                 Vector3 v1 = (Vector3)Vector3.Transform(pyramidVertices[t.vertex1], transformMatrix);
                 Vector3 v2 = (Vector3)Vector3.Transform(pyramidVertices[t.vertex2], transformMatrix);

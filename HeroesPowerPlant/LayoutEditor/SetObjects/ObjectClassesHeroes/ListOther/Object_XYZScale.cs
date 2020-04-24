@@ -2,36 +2,41 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_XYZScale : SetObjectManagerHeroes
+    public class Object_XYZScale : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
+        private readonly float scaleAdd;
 
-            transformMatrix = Matrix.Scaling(ScaleX + 1f, ScaleY + 1f, ScaleZ + 1f)
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                * Matrix.Translation(Position);
+        public Object_XYZScale(float scaleAdd)
+        {
+            this.scaleAdd = scaleAdd;
+        }
+
+        public override void CreateTransformMatrix()
+        {
+            base.CreateTransformMatrix();
+
+            transformMatrix = Matrix.Scaling(ScaleX + scaleAdd, ScaleY + scaleAdd, ScaleZ + scaleAdd)
+                * transformMatrix;
+
+            CreateBoundingBox();
         }
 
         public float ScaleX
         {
             get => ReadFloat(4);
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, value);
         }
 
         public float ScaleY
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float ScaleZ
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
     }
 }

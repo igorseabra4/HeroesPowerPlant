@@ -19,10 +19,24 @@ namespace HeroesPowerPlant.LayoutEditor
         private string currentlyOpenFileName;
         public string CurrentlyOpenFileName => currentlyOpenFileName;
 
-        private static ObjectEntry[] heroesObjectEntries = ReadObjectListData("Resources\\Lists\\HeroesObjectList.ini");
-        private static ObjectEntry[] shadowObjectEntries = ReadObjectListData("Resources\\Lists\\ShadowObjectList.ini");
+        private static ObjectEntry[] heroesObjectEntries;
+        private static ObjectEntry[] shadowObjectEntries;
 
         public bool autoUnkBytes;
+
+        public static void SetupLayoutEditorSystem()
+        {
+            heroesObjectEntries = ReadObjectListData("Resources/Lists/HeroesObjectList.ini");
+            shadowObjectEntries = ReadObjectListData("Resources/Lists/ShadowObjectList.ini");
+
+            string extraObjectEntriesPath = "Resources/Lists/HeroesObjectListCustom.ini";
+            if (File.Exists(extraObjectEntriesPath))
+            {
+                List<ObjectEntry> temp = heroesObjectEntries.ToList();
+                temp.AddRange(ReadObjectListData(extraObjectEntriesPath));
+                heroesObjectEntries = temp.ToArray();
+            }
+        }
 
         public void BindControl(ListControl listControl)
         {
@@ -161,6 +175,12 @@ namespace HeroesPowerPlant.LayoutEditor
             GetObjectsFromObjFile(fileName, 0, 3).ForEach(setObjects.Add);
         }
 
+        public void ImportSALayout(string fileName)
+        {
+            foreach (var c in Other.OtherFunctions.ConvertSASetToHeroes(fileName))
+                setObjects.Add(c);
+        }
+
         #endregion
 
         #region View/Rendering Methods
@@ -205,12 +225,10 @@ namespace HeroesPowerPlant.LayoutEditor
         public void AddNewSetObject()
         {
             Vector3 Position = Program.MainForm.renderer.Camera.GetPosition() + 100 * Program.MainForm.renderer.Camera.GetForward();
-            SetObject newObject;
-            
+            byte currentNum = 0;
+
             if (isShadow)
             {
-                byte currentNum = 0;
-
                 if (!string.IsNullOrEmpty(currentlyOpenFileName))
                 {
                     if (currentlyOpenFileName.ToLower().Contains("cmn")) currentNum = 0x10;
@@ -224,12 +242,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 unkBytes.AddRange(new byte[] { 1, currentNum });
                 unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0 });
 
-                newObject = new SetObjectShadow(0, 0, Position, Vector3.Zero, 0, 10, 0, unkBytes.ToArray());
+                setObjects.Add(CreateShadowObject(0, 0, Position, Vector3.Zero, 0, 10, 0, unkBytes.ToArray()));
             }
             else
             {
-                byte currentNum = 0;
-
                 if (!string.IsNullOrEmpty(currentlyOpenFileName))
                 {
                     if (currentlyOpenFileName.Contains("P1")) currentNum = 0x20;
@@ -241,35 +257,20 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 var unkBytes = new byte[8] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
 
-                newObject = new SetObjectHeroes(0, 0, Position, Vector3.Zero, 0, 10, unkBytes);
+                setObjects.Add(CreateHeroesObject(0, 0, Position, Vector3.Zero, 0, 10, unkBytes));
             }
-
-            newObject.CreateTransformMatrix();
-            setObjects.Add(newObject);
         }
 
         public void DuplicateSetObject(int index)
         {
-            SetObject original = GetSetObjectAt(index);
-            DuplicateSetObject(index, original.Position);
+            PasteSetObject(JsonConvert.SerializeObject(GetSetObjectAt(index)));
         }
 
-        public void DuplicateSetObject(int index, Vector3 Position)
+        public void DuplicateSetObjectAt(int index, Vector3 Position)
         {
-            SetObject original = GetSetObjectAt(index);
-            SetObject destination;
-
-            if (isShadow)
-                destination = JsonConvert.DeserializeObject<SetObjectShadow>(JsonConvert.SerializeObject(original));
-            else
-                destination = JsonConvert.DeserializeObject<SetObjectHeroes>(JsonConvert.SerializeObject(original));
-
-            destination.Position = Position;
-
-            destination.FindNewObjectManager(false);
-            destination.CreateTransformMatrix();
-
-            setObjects.Add(destination);
+            PasteSetObject(JsonConvert.SerializeObject(GetSetObjectAt(index)));
+            setObjects.Last().Position = Position;
+            setObjects.Last().CreateTransformMatrix();
         }
 
         public void CopySetObject(int index)
@@ -277,24 +278,28 @@ namespace HeroesPowerPlant.LayoutEditor
             Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index)));
         }
 
-        public void PasteSetObject()
+        public void PasteSetObject(string text = null)
         {
-            Vector3 Position = Program.MainForm.renderer.Camera.GetPosition() + 100 * Program.MainForm.renderer.Camera.GetForward();
-            string text = Clipboard.GetText();
+            if (text == null)
+                text = Clipboard.GetText();
 
             try
             {
-                SetObject destination;
-
+                SetObject src;
+                SetObject dest;
                 if (isShadow)
-                    destination = JsonConvert.DeserializeObject<SetObjectShadow>(text);
+                {
+                    src = JsonConvert.DeserializeObject<Object_ShadowDefault>(text);
+                    dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.MiscSettingCount, src.UnkBytes);
+                }
                 else
-                    destination = JsonConvert.DeserializeObject<SetObjectHeroes>(text);
-
-                destination.FindNewObjectManager(false);
-                destination.CreateTransformMatrix();
-
-                setObjects.Add(destination);
+                {
+                    src = JsonConvert.DeserializeObject<Object_HeroesDefault>(text);
+                    dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
+                }
+                dest.MiscSettings = src.MiscSettings;
+                dest.CreateTransformMatrix();
+                setObjects.Add(dest);
             }
             catch
             {
@@ -312,14 +317,24 @@ namespace HeroesPowerPlant.LayoutEditor
             setObjects.Clear();
         }
 
-        public void ComboBoxObjectChanged(int index, ObjectEntry newEntry)
+        public void ChangeObjectType(int index, ObjectEntry newEntry)
         {
             SetObject current = GetSetObjectAt(index);
-            current.List = newEntry.List;
-            current.Type = newEntry.Type;
-            current.FindObjectEntry(GetActiveObjectEntries());
-            current.FindNewObjectManager();
-            current.CreateTransformMatrix();
+
+            Vector3 pos = current.Position;
+            Vector3 rot = current.Rotation;
+            byte link = current.Link;
+            byte rend = current.Rend;
+            int msc = current.MiscSettingCount;
+            byte[] unkb = current.UnkBytes;
+            bool isSelected = current.isSelected;
+            
+            if (isShadow)
+                setObjects[index] = CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, msc, unkb);
+            else
+                setObjects[index] = CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
+            
+            setObjects[index].isSelected = isSelected;
         }
 
         public void SetObjectPosition(int index, float x, float y, float z)
@@ -339,15 +354,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 GetSetObjectAt(index).Rotation = new Vector3(x, y, z);
             else
                 GetSetObjectAt(index).Rotation = new Vector3(DegreesToBAMS(x), DegreesToBAMS(y), DegreesToBAMS(z));
-
             GetSetObjectAt(index).CreateTransformMatrix();
         }
-
-        private void SetObjectRotationDefault(int index, float x, float y, float z)
-        {
-            SetObjectRotationDefault(index, new Vector3(x, y, z));
-        }
-
+        
         private void SetObjectRotationDefault(int index, Vector3 v)
         {
             GetSetObjectAt(index).Rotation = v;
@@ -379,6 +388,25 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             GetSetObjectAt(index).Position = Program.MainForm.renderer.Camera.GetPosition() + 200 * Program.MainForm.renderer.Camera.GetForward();
             GetSetObjectAt(index).CreateTransformMatrix();
+        }
+
+        public void CopyMisc(int index)
+        {
+            Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index).MiscSettings));
+        }
+
+        public void PasteMisc(int index)
+        {
+            try
+            {
+                byte[] misc = JsonConvert.DeserializeObject<byte[]>(Clipboard.GetText());
+                GetSetObjectAt(index).MiscSettings = misc;
+                GetSetObjectAt(index).CreateTransformMatrix();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error pasting misc. settings: " + ex.Message);
+            }
         }
 
         #endregion
@@ -439,11 +467,6 @@ namespace HeroesPowerPlant.LayoutEditor
             return GetSetObjectAt(index).UnkBytes;
         }
         
-        public SetObjectManager GetObjectManager(int index)
-        {
-            return GetSetObjectAt(index).ObjectManager;
-        }
-
         public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, int currentlySelectedIndex, out int index, out float smallerDistance)
         {
             index = -1;
@@ -475,7 +498,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (distance < smallestDistance)
                         smallestDistance = distance;
                 }
-            
         }
 
         public int FindNext(int index)
@@ -505,7 +527,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void SortObjectsByDistance()
         {
-            List<SetObject> sorted = setObjects.OrderBy(f => f.GetDistanceFromOrigin()).ToList();
+            List<SetObject> sorted = setObjects.OrderBy(f => f.GetDistanceFrom()).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
         }

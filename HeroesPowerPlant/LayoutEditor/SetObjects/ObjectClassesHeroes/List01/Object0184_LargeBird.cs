@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0184_LargeBird : SetObjectManagerHeroes
+    public class Object0184_LargeBird : SetObjectHeroes
     {
         public float Radius
         {

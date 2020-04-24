@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object002C_RollDoor : SetObjectManagerHeroes
+    public class Object002C_RollDoor : SetObjectHeroes
     {
         public float Power
         {

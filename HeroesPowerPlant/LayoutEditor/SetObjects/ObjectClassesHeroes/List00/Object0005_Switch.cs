@@ -1,16 +1,16 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0005_Switch : SetObjectManagerHeroes
+    public enum SwitchType : byte
     {
-        public enum SwitchType : byte
-        {
-            Alternate = 0,
-            Touch = 1,
-            Once = 2,
-            Interlock = 3
-        }
+        Alternate = 0,
+        Touch = 1,
+        Once = 2,
+        Interlock = 3
+    }
 
-        public SwitchType Type
+    public class Object0005_Switch : SetObjectHeroes
+    {
+        public SwitchType SwitchType
         {
             get => (SwitchType)ReadByte(4);
             set => Write(4, (byte)value);

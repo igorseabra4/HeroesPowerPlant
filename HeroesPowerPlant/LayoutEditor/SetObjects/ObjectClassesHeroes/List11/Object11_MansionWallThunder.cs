@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object11_MansionWallThunder : SetObjectManagerHeroes
+    public class Object11_MansionWallThunder : SetObjectHeroes
     {
         public int ModelNumber
         {

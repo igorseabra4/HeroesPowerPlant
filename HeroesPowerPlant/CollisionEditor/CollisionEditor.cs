@@ -77,7 +77,6 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             collisionSystem.Close();
             Program.MainForm.CloseCollisionEditor(this);
-            Close();
         }
         
         private void buttonImport_Click(object sender, EventArgs e)

@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0023_Chao : SetObjectManagerHeroes
+    public class Object0023_Chao : SetObjectHeroes
     {
         public float Radius
         {

@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_F1Speed : SetObjectManagerHeroes
+    public class Object_F1Speed : SetObjectHeroes
     {
         public float Speed
         {

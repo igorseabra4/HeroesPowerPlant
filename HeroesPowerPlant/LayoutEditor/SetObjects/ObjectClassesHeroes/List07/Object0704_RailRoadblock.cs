@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0704_RailRoadblock : SetObjectManagerHeroes
+    public class Object0704_RailRoadblock : SetObjectHeroes
     {
         public float Range
         {

@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_L1Offset : SetObjectManagerHeroes
+    public class Object_L1Offset : SetObjectHeroes
     {
         public int Offset
         {

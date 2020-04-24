@@ -6,9 +6,9 @@
         Dark = 1,
     }
 
-    public class Object1188_Curtain : SetObjectManagerHeroes
+    public class Object1188_Curtain : SetObjectHeroes
     {
-        public CurtainType Type
+        public CurtainType CurtainType
         {
             get => (CurtainType)ReadByte(4);
             set => Write(4, (byte)value);

@@ -1,9 +1,29 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1305_EggFleetDoor : SetObjectManagerHeroes
+    public class Object1305_EggFleetDoor : SetObjectHeroes
     {
+        private Matrix triggerMatrix;
+
+        public override void CreateTransformMatrix()
+        {
+            base.CreateTransformMatrix();
+
+            triggerMatrix = Matrix.Scaling(TriggerXSize, TriggerYSize, TriggerZSize) * Matrix.Translation(TriggerX, TriggerY, TriggerZ);
+
+            CreateBoundingBox();
+        }
+
+        public override void Draw(SharpRenderer renderer)
+        {
+            base.Draw(renderer);
+
+            if (isSelected)
+                renderer.DrawCubeTrigger(triggerMatrix, true);
+        }
+
         public float TriggerX
         {
             get => ReadFloat(12);

@@ -1,8 +1,8 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0302_RoadCap : SetObjectManagerHeroes
+    public class Object0302_RoadCap : SetObjectHeroes
     {
-        public byte Type
+        public byte RoadCapType
         {
             get => ReadByte(4);
             set => Write(4, value);

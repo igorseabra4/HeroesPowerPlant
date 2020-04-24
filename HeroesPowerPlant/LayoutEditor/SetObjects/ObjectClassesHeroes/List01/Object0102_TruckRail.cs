@@ -1,8 +1,8 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0102_TruckRail : SetObjectManagerHeroes
+    public class Object0102_TruckRail : SetObjectHeroes
     {
-        public byte Type
+        public byte TruckRailType
         {
             get => ReadByte(4);
             set => Write(4, value);

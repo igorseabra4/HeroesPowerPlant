@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object2300_EggAlbatross : SetObjectManagerHeroes
+    public class Object2300_EggAlbatross : SetObjectHeroes
     {
         public float YOffset
         {

@@ -1,10 +1,10 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0007_Case : SetObjectManagerShadow
+    public class Object0007_Case : SetObjectShadow
     {
         public string Note => "Not all misc. settings are in list yet.";
 
-        public int Type
+        public int CaseType
         {
             get => ReadInt(0);
             set => Write(0, value);

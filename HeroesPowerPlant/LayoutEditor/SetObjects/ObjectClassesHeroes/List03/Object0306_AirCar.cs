@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0306_AirCar : SetObjectManagerHeroes
+    public class Object0306_AirCar : SetObjectHeroes
     {
         public byte FarType
         {

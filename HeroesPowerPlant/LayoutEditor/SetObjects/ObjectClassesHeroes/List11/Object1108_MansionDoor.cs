@@ -7,7 +7,7 @@
         Angle83dot5 = 2
     }
 
-    public class Object1108_MansionDoor : SetObjectManagerHeroes
+    public class Object1108_MansionDoor : SetObjectHeroes
     {
         public OpenAngle OpenAngle
         {

@@ -38,7 +38,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (List == 0 & Type == 0)
                     continue;
 
-                SetObjectHeroes TempObject = new SetObjectHeroes(List, Type, Position, Rotation, Link, Rend, UnkBytes1.Concat(UnkBytes2).ToArray());
+                SetObjectHeroes TempObject = CreateHeroesObject(List, Type, Position, Rotation, Link, Rend, UnkBytes1.Concat(UnkBytes2).ToArray());
 
                 int MiscSettings = Switch(LayoutFileReader.ReadInt32());
 
@@ -159,7 +159,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 byte Rend = LayoutFileReader.ReadByte();
                 int MiscSettingCount = LayoutFileReader.ReadInt32();
 
-                SetObjectShadow TempObject = new SetObjectShadow(List, Type, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes);
+                SetObjectShadow TempObject = CreateShadowObject(List, Type, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes);
 
                 list.Add(TempObject);
             }
@@ -167,7 +167,7 @@ namespace HeroesPowerPlant.LayoutEditor
             LayoutFileReader.BaseStream.Position = 12 + AmountOfObjects * 0x2C;
             for (int i = 0; i < list.Count; i++)
             {
-                list[i].objectManager.MiscSettings = LayoutFileReader.ReadBytes(list[i].MiscSettingCount);
+                list[i].MiscSettings = LayoutFileReader.ReadBytes(list[i].MiscSettingCount);
                 list[i].CreateTransformMatrix();
             }
 
@@ -222,14 +222,14 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(i.List);
                 layoutWriter.Write(i.Link);
                 layoutWriter.Write(i.Rend);
-                layoutWriter.Write(i.objectManager.MiscSettings.Length);
+                layoutWriter.Write(i.MiscSettings.Length);
                 layoutWriter.Write(0);
             }
 
             int MiscSettingLenght = -(int)layoutWriter.BaseStream.Position;
 
             foreach (SetObjectShadow i in list)
-                layoutWriter.Write(i.objectManager.MiscSettings);
+                layoutWriter.Write(i.MiscSettings);
 
             MiscSettingLenght += (int)layoutWriter.BaseStream.Position;
 
@@ -249,7 +249,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (j.StartsWith("v"))
                 {
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
-                    SetObjectHeroes heroesSetObject = new SetObjectHeroes(List, Type, new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), Vector3.Zero, 0, 10);
+                    SetObjectHeroes heroesSetObject = CreateHeroesObject
+                        (List, Type, new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), Vector3.Zero, 0, 10);
 
                     list.Add(heroesSetObject);
                 }
@@ -262,7 +263,7 @@ namespace HeroesPowerPlant.LayoutEditor
             string[] file = File.ReadAllLines(fileName);
             List<SetObjectHeroes> list = new List<SetObjectHeroes>();
 
-            SetObjectHeroes TempObject = new SetObjectHeroes(0, 0, Vector3.Zero, Vector3.Zero, 0, 10, new byte[8]);
+            SetObjectHeroes TempObject = CreateHeroesObject(0, 0, Vector3.Zero, Vector3.Zero, 0, 10, new byte[8]);
 
             foreach (string s in file)
             {
@@ -274,7 +275,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         list.Add(TempObject);
                     }
                     TempObject = null;
-                    TempObject = new SetObjectHeroes(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), Vector3.Zero, Vector3.Zero, 0, 10);
+                    TempObject = CreateHeroesObject(Convert.ToByte(s.Substring(4, 2), 16), Convert.ToByte(s.Substring(6, 2), 16), Vector3.Zero, Vector3.Zero, 0, 10);
                 }
                 else if (s.StartsWith("link "))
                 {
@@ -287,16 +288,12 @@ namespace HeroesPowerPlant.LayoutEditor
                 else if (s.StartsWith("v "))
                 {
                     string[] j = s.Split(' ');
-                    TempObject.Position.X = Convert.ToSingle(j[1]);
-                    TempObject.Position.Y = Convert.ToSingle(j[2]);
-                    TempObject.Position.Z = Convert.ToSingle(j[3]);
+                    TempObject.Position = new Vector3(Convert.ToSingle(j[1]), Convert.ToSingle(j[2]), Convert.ToSingle(j[3]));
                 }
                 else if (s.StartsWith("r "))
                 {
                     string[] j = s.Split(' ');
-                    TempObject.Rotation.X = Convert.ToInt32(j[1]);
-                    TempObject.Rotation.Y = Convert.ToInt32(j[2]);
-                    TempObject.Rotation.Z = Convert.ToInt32(j[3]);
+                    TempObject.Rotation = new Vector3(Convert.ToSingle(j[1]), Convert.ToSingle(j[2]), Convert.ToSingle(j[3]));
                 }
                 else if (s.StartsWith("b "))
                 {
@@ -462,6 +459,404 @@ namespace HeroesPowerPlant.LayoutEditor
 
             return list.ToArray();
         }
+        
+        public static SetObjectHeroes CreateHeroesObject
+            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null)
+        {
+            SetObjectHeroes heroesObj = FindObjectClassHeroes(List, Type);
+            heroesObj.Position = Position;
+            heroesObj.Rotation = Rotation;
+            heroesObj.List = List;
+            heroesObj.Type = Type;
+            heroesObj.Link = Link;
+            heroesObj.Rend = Rend;
+            heroesObj.UnkBytes = UnkBytes ?? new byte[8];
+            heroesObj.FindObjectEntry(LayoutEditorSystem.HeroesObjectEntries);
+            heroesObj.CreateTransformMatrix();
+
+            return heroesObj;
+        }
+
+        private static SetObjectHeroes FindObjectClassHeroes(byte List, byte Type)
+        {
+            switch (List)
+            {
+                case 0:
+                    switch (Type)
+                    {
+                        case 0: case 0x1B: case 0x28: case 0x67: return new Object_HeroesEmpty();
+                        case 0x1: return new Object0001_Spring();
+                        case 0x2: return new Object0002_TripleSpring();
+                        case 0x3: return new Object0003_Ring();
+                        case 0x4: return new Object0004_HintRing();
+                        case 0x5: return new Object0005_Switch();
+                        case 0x6: return new Object0006_SwitchPP();
+                        case 0x7: return new Object0007_Target();
+                        case 0xB: return new Object000B_DashPanel();
+                        case 0xC: return new Object000C_DashRing();
+                        case 0xD: return new Object000D_BigRings();
+                        case 0xE: return new Object000E_Checkpoint();
+                        case 0xF: return new Object000F_DashRamp();
+                        case 0x10: return new Object0010_Cannon();
+                        case 0x13: case 0x14: return new Object00_Weight();
+                        case 0x15: return new Object0015_SpikeBall();
+                        case 0x16: return new Object0016_LaserFence();
+                        case 0x18: return new Object0018_ItemBox();
+                        case 0x19: return new Object0019_ItemBalloon();
+                        case 0x1D: return new Object001D_Pulley();
+                        case 0x20: case 0x21: case 0x22: return new Object00_Box();
+                        case 0x23: return new Object0023_Chao();
+                        case 0x24: return new Object0024_Cage();
+                        case 0x25: return new Object0025_FormSign();
+                        case 0x26: return new Object0026_FormGate();
+                        case 0x29: return new Object0029_Pole();
+                        case 0x2C: return new Object002C_RollDoor();
+                        case 0x2E: return new Object002E_Fan();
+                        case 0x31: return new Object0031_Case();
+                        case 0x32: return new Object0032_WarpFlower();
+                        case 0x50: // invisible collision
+                        case 0x61: // no input collision
+                        case 0x82: // no ottotto collision
+                            return new Object00_TriggerCommon();
+                        case 0x56: return new Object0056_TriggerTalk();
+                        case 0x59: return new Object0059_TriggerLight();
+                        case 0x60: return new Object0060_TriggerRhinoLiner();
+                        //case 0x62: return new Object0062_TriggerEggHalk();
+                        //case 0x63: return new Object0063_TriggerFalco();
+                        case 0x64: return new Object0064_TriggerHurt(); // damage collision
+                        //case 0x65: return new Object0065_TriggerKlagen();
+                        case 0x66: return new Object0066_TriggerBobJump();
+                        case 0x80: return new Object0080_TriggerTeleport();
+                        case 0x81: return new Object0081_TriggerSE();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 1:
+                    return Type switch
+                    {
+                        0x2 => new Object0102_TruckRail(),
+                        0x3 => new Object0103_TruckPath(),
+                        0x4 => new Object_HeroesEmpty(),
+                        0x5 => new Object0105_MovingRuin(),
+                        0x8 => new Object0108_TriggerRuins(),
+                        0xA => new Object_B1_1_Type(),
+                        0xB => new Object0023_Chao(),
+                        0x80 => new Object0180_FlowerPatch(),
+                        0x81 => new Object0181_SeaPole(),
+                        0x82 => new Object0182_Whale(),
+                        0x83 => new Object0183_Seagulls(),
+                        0x84 => new Object0184_LargeBird(),
+                        0x85 => new Object_XYZScale(1),
+                        //case 0x86: return new Object0186_WaterfallLarge();
+                        0x87 => new Object0187_Tides(),
+                        0x88 => new Object_F1Scale(),
+                        0x89 => new Object0189_WaterfallSmall(),
+                        0xFF => new Object01FF_SetParticle(),
+                        _ => new Object_HeroesDefault(),
+                    };
+                case 2:
+                    switch (Type)
+                    {
+                        case 0x0: return new Object0200_CrumbleStonePillar();
+                        //case 0x1: return new Object_();
+                        case 0x2: return new Object_F1Scale();
+                        case 0x3: return new Object_B1_1_Type();
+                        case 0x4: return new Object0204_Kaos();
+                        //case 0x5: return new Object0205_ScrollRing();
+                        //case 0x6: return new Object0206_ScrollBalloon();
+                        case 0xA: return new Object020A_ColliQuake();
+                        case 0xB: return new Object020B_EventActivator();
+                        case 0xC: return new Object020C_TriggerKaos();
+                        //case 0x80: return new Object0280_MovingLand();
+                        case 0x81: return new Object0281_TurtleFeet();
+                        case 0x82: return new Object0282_KameWave();
+                        case 0x83: case 0x84: case 0x85: return new Object_IntTypeFloatScale();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 3:
+                    switch (Type)
+                    {
+                        case 0: return new Object0300_AcceleratorRoad();
+                        case 0x2: return new Object0302_RoadCap();
+                        case 0x3: case 0x4: return new Object_HeroesEmpty();
+                        case 0x5: return new Object0305_BigBridge();
+                        case 0x6: return new Object0306_AirCar();
+                        case 0x7: case 0x81: case 0x82: return new Object_XYZScale(0);
+                        case 0x8: return new Object0308_Accelerator();
+                        case 0x80: return new Object0380_BalloonDesign();
+                        //case 0x82: return new Object0382_Train();
+                        //case 0x83: return new Object0383_PipeDesign();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 4:
+                    switch (Type)
+                    {
+                        case 0x80: case 0x81: return new Object_HeroesEmpty();
+                        case 0x1: return new Object0401_EnergyColumn();
+                        case 0x3: case 0x8: case 0x10: return new Object_B1_1_Type();
+                        case 0x82: case 0x84: return new Object04_CraneWallLight();
+                        case 0x83: return new Object_F1Speed();
+                        case 0x85: return new Object_XYZScale(1);
+                        default: return new Object_HeroesDefault();
+                    }
+                case 5:
+                    switch (Type)
+                    {
+                        case 0x0: case 0x1: return new Object05_Spring();
+                        case 0x2: return new Object0502_Flipper();
+                        case 0x3: return new Object0503_TriBumper();
+                        case 0x4: case 0x5: return new Object05_StarPanel();
+                        case 0x7: case 0xD: case 0x10: return new Object_F1Scale();
+                        case 0x8: case 0x9: case 0x81: case 0x82: return new Object_L1Type();
+                        case 0x0A: return new Object050A_Dice();
+                        case 0x0B: return new Object050B_Slot();
+                        case 0x86: return new Object0586_Roulette();
+                        case 0x87: return new Object0587_GiantCasinoChip();
+                        case 0x88: return new Object_HeroesEmpty();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 7:
+                    switch (Type)
+                    {
+                        case 0x00:
+                        case 0x01:
+                        case 0x0A:
+                        case 0x1B:
+                        case 0x42:
+                        case 0x82:
+                        case 0x83:
+                        case 0x85:
+                        case 0x86:
+                        case 0x88:
+                        case 0x89:
+                        case 0x8A:
+                        case 0x8B:
+                        case 0x8C:
+                        case 0x8D:
+                        case 0x8E:
+                        case 0x8F:
+                        case 0x90:
+                        case 0x91:
+                        case 0x92:
+                        case 0x93:
+                        case 0x98: return new Object_HeroesEmpty();
+                        case 0x03: case 0x80: return new Object_F1Speed();
+                        case 0x04: return new Object0704_RailRoadblock();
+                        case 0x05: return new Object0705_Capsule();
+                        case 0x06: return new Object_L1Type();
+                        case 0x43: return new Object_F1Range();
+                        case 0x81: return new Object_F1Scale();
+                        case 0x87: return new Object_XYZScale(11);
+                        case 0x94: return new Object_F1Range();
+                        case 0x96: return new Object_F1Scale();
+                        case 0x97: return new Object_L1Type();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 8:
+                    switch (Type)
+                    {
+                        case 0x0: return new Object_F1Speed();
+                        case 0x2: return new Object_L1Offset();
+                        case 0x3: case 0x4: return new Object_L1Type();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 9:
+                    switch (Type)
+                    {
+                        case 0x0: return new Object0900_Frog();
+                        case 0x2: case 0x5: case 0x7: return new Object_F1Range();
+                        case 0x3: return new Object0903_RainMush();
+                        case 0x4: return new Object0904_RainIvy();
+                        case 0x6: case 0x10: case 0x11: case 0x12: case 0x98: return new Object_HeroesEmpty();
+                        case 0x8: return new Object0908_RainFruit();
+                        case 0x9: return new Object000B_DashPanel();
+                        case 0xB: return new Object090B_IvyJump();
+                        case 0xC: case 0x85: case 0x86: case 0x8B: case 0x8C: case 0x8D:
+                        case 0x91: case 0x92: case 0x93: case 0x95:
+                            return new Object_F1Scale();
+                        case 0xD: return new Object_XYZScale(0);
+                        case 0xE: return new Object090E_Alligator();
+                        case 0x13: return new Object0913_RainCollision();
+                        case 0x80: return new Object0980_Butterfly();
+                        case 0x81: return new Object0981_Flower();
+                        case 0x82: case 0x83: return new Object0982_Mushroom();
+                        case 0x84: return new Object0984_RedWeed();
+                        case 0x87: case 0x88: case 0x8A: return new Object_IntTypeFloatScale();
+                        case 0x89: return new Object0989_Pond();
+                        case 0x97: return new Object0987_RedGreenPlant();
+                        case 0x99: return new Object0999_Powder();
+                        case 0x9A: return new Object099A_Wanibreak();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x11:
+                    switch (Type)
+                    {
+                        case 0x0: return new Object1100_TeleportSwitch();
+                        case 0x1: return new Object1101_CastleDoor();
+                        case 0x2: return new Object1102_CastleWall();
+                        case 0x3: return new Object11_FloatingPlatform();
+                        case 0x4: return new Object1104_FlameTorch();
+                        case 0x5: return new Object1105_Ghost();
+                        case 0x6: return new Object11_FloatingPlatform();
+                        case 0x7: return new Object11_MansionWallThunder();
+                        case 0x8: return new Object1108_MansionDoor();
+                        case 0x9: return new Object_HeroesEmpty();
+                        case 0xA: return new Object_HeroesEmpty();
+                        case 0xB: return new Object_F1Range();
+                        case 0xC: return new Object110C_TriggerMusic();
+                        case 0x80: return new Object_IntTypeFloatScale();
+                        case 0x81: return new Object1181_Celestial();
+                        case 0x82: return new Object11_MansionWallThunder();
+                        case 0x83: return new Object_F1Range();
+                        case 0x84: return new Object1184_SmokeScreen();
+                        case 0x85: return new Object1185_Bone();
+                        case 0x88: return new Object1188_Curtain();
+                        case 0x89: return new Object_L1Type();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x13:
+                    switch (Type)
+                    {
+                        case 0x2: return new Object1302_HorizCannon();
+                        case 0x3: return new Object1303_MovingCannon();
+                        case 0x5: return new Object1305_EggFleetDoor();
+                        case 0x8: case 0x80: return new Object_F1Speed();
+                        case 0x20: return new Object_B1_1_Type();
+                        case 0x07:
+                        case 0x81:
+                        case 0x82:
+                        case 0x83:
+                        case 0x85:
+                        case 0x86:
+                        case 0x87:
+                        case 0x88:
+                        case 0x89:
+                        case 0x8A:
+                        case 0x8B:
+                        case 0x8C:
+                        case 0x8D:
+                        case 0x8E:
+                        case 0x8F:
+                        case 0x90:
+                        case 0x91:
+                        case 0x92:
+                        case 0x93:
+                        case 0x94: return new Object_HeroesEmpty();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x14:
+                    switch (Type)
+                    {
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x15:
+                    switch (Type)
+                    {
+                        case 0: return new Object1500_EggFlapper();
+                        case 0x10: return new Object1510_EggPawn();
+                        case 0x20: case 0x70: return new Object15_KlagenCameron();
+                        case 0x40: return new Object1540_EggHammer();
+                        case 0x90: return new Object1590_RhinoLiner();
+                        case 0xC0: return new Object15C0_EggBishop();
+                        case 0xD0: return new Object15D0_E2000();
+                        case 0xF4: return new Object0026_FormGate();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x16:
+                    switch (Type)
+                    {
+                        case 0x0: case 0x1: return new Object_16_00_01();
+                        case 0x2: return new Object_16_02();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x20:
+                    switch (Type)
+                    {
+                        case 0x80: case 0x81: return new Object_B1_1_Type();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x23:
+                    switch (Type)
+                    {
+                        case 0x0: return new Object2300_EggAlbatross();
+                        default: return new Object_HeroesDefault();
+                    }
+                case 0x33:
+                    switch (Type)
+                    {
+                        case 0x0: return new Object_S1_1_Type();
+                        default: return new Object_HeroesDefault();
+                    }
+                default:
+                    return new Object_HeroesDefault();
+            }
+        }
+
+        public static SetObjectShadow CreateShadowObject
+            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null)
+        {
+            SetObjectShadow shadowObj = FindObjectClassShadow(List, Type);
+            shadowObj.Position = Position;
+            shadowObj.Rotation = Rotation;
+            shadowObj.List = List;
+            shadowObj.Type = Type;
+            shadowObj.Link = Link;
+            shadowObj.Rend = Rend;
+            shadowObj.UnkBytes = UnkBytes ?? new byte[8];
+            shadowObj.MiscSettingCount = MiscSettingCount;            
+            shadowObj.FindObjectEntry(LayoutEditorSystem.ShadowObjectEntries);
+            shadowObj.CreateTransformMatrix();
+
+            return shadowObj;
+        }
+
+        private static SetObjectShadow FindObjectClassShadow(byte List, byte Type)
+        {
+            switch (List)
+            {
+                case 0x00:
+                    switch (Type)
+                    {
+                        case 0x01: case 0x02: case 0x03: case 0x06: return new Object00_SpringShadow();
+                        case 0x04: return new Object0004_DashRamp();
+                        case 0x07: return new Object0007_Case();
+                        case 0x0E: return new Object000E_Rocket();
+                        case 0x0F: return new Object000F_Platform();
+                        case 0x10: return new Object0010_Ring();
+                        case 0x12: return new Object0012_ItemCapsule();
+                        case 0x14: return new Object0014_GoalRing();
+                        case 0x20: return new Object0020_Weapon();
+                        case 0x4F: return new Object004F_Vehicle();
+                        case 0x1F: default: return new Object_ShadowDefault(); // warp hole
+                    }
+                case 0x01:
+                    switch (Type)
+                    {
+                        case 0x90: return new Object0190_Partner();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x0B:
+                    switch (Type)
+                    {
+                        case 0xBE: return new Object0BBE_Chao();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x18:
+                    switch (Type)
+                    {
+                        case 0x9E: return new Object189E_ARKDriftingPlat1();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x25:
+                    switch (Type)
+                    {
+                        case 0x88: return new Object2588_Decoration1();
+                        case 0x89: return new Object2589_Destructable1();
+                        case 0x90: return new Object2588_Decoration1();
+                        default: return new Object_ShadowDefault();
+                    }
+                default: return new Object_ShadowDefault();
+            }
+        }
 
         public static List<SetObjectHeroes> GetHeroesLayoutFromShadow(string fileName)
         {
@@ -516,26 +911,24 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         Type = 0x03;
 
-                        MiscSettings[5] = i.objectManager.MiscSettings[0];
-                        MiscSettings[4] = i.objectManager.MiscSettings[1];
+                        MiscSettings[5] = i.MiscSettings[0];
+                        MiscSettings[4] = i.MiscSettings[1];
 
-                        MiscSettings[7] = i.objectManager.MiscSettings[4];
-                        MiscSettings[6] = i.objectManager.MiscSettings[5];
+                        MiscSettings[7] = i.MiscSettings[4];
+                        MiscSettings[6] = i.MiscSettings[5];
 
-                        MiscSettings[11] = i.objectManager.MiscSettings[8];
-                        MiscSettings[10] = i.objectManager.MiscSettings[9];
-                        MiscSettings[9] = i.objectManager.MiscSettings[10];
-                        MiscSettings[8] = i.objectManager.MiscSettings[11];
+                        MiscSettings[11] = i.MiscSettings[8];
+                        MiscSettings[10] = i.MiscSettings[9];
+                        MiscSettings[9] = i.MiscSettings[10];
+                        MiscSettings[8] = i.MiscSettings[11];
 
-                        MiscSettings[15] = i.objectManager.MiscSettings[12];
-                        MiscSettings[14] = i.objectManager.MiscSettings[13];
-                        MiscSettings[13] = i.objectManager.MiscSettings[14];
-                        MiscSettings[12] = i.objectManager.MiscSettings[15];
+                        MiscSettings[15] = i.MiscSettings[12];
+                        MiscSettings[14] = i.MiscSettings[13];
+                        MiscSettings[13] = i.MiscSettings[14];
+                        MiscSettings[12] = i.MiscSettings[15];
 
-                        if (i.objectManager.MiscSettings[0] == 1)
-                        {
-                            i.Rotation.Y += 180;
-                        }
+                        if (i.MiscSettings[0] == 1)
+                            i.Rotation = new Vector3(i.Rotation.X, i.Rotation.Y + 180, i.Rotation.Z);
                     }
                     else if (i.Type == 0x11) Type = 0x04; // Hint
                     else if (i.Type == 0x12) Type = 0x18; // Item balloon
@@ -573,24 +966,22 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         List = 0x00;
                         Type = 0x2E; // Fan
-                        i.Rotation.X = 0;
-                        i.Rotation.Y = 0;
-                        i.Rotation.Z = 0;
+                        i.Rotation = new Vector3();
                     }
                     else if (i.Type == 0xD5) // Digital big block
                     {
-                        float scale = BitConverter.ToSingle(i.objectManager.MiscSettings, 4);
-                        if (BitConverter.ToSingle(i.objectManager.MiscSettings, 8) < scale)
-                            scale = BitConverter.ToSingle(i.objectManager.MiscSettings, 8);
-                        if (BitConverter.ToSingle(i.objectManager.MiscSettings, 12) < scale)
-                            scale = BitConverter.ToSingle(i.objectManager.MiscSettings, 12);
+                        float scale = BitConverter.ToSingle(i.MiscSettings, 4);
+                        if (BitConverter.ToSingle(i.MiscSettings, 8) < scale)
+                            scale = BitConverter.ToSingle(i.MiscSettings, 8);
+                        if (BitConverter.ToSingle(i.MiscSettings, 12) < scale)
+                            scale = BitConverter.ToSingle(i.MiscSettings, 12);
 
-                        if (i.objectManager.MiscSettings[0] < 9)
+                        if (i.MiscSettings[0] < 9)
                         {
                             List = 0x01;
                             Type = 0x80; // Flower
 
-                            MiscSettings[4] = i.objectManager.MiscSettings[0];
+                            MiscSettings[4] = i.MiscSettings[0];
 
                             MiscSettings[8] = BitConverter.GetBytes(scale)[3];
                             MiscSettings[9] = BitConverter.GetBytes(scale)[2];
@@ -613,9 +1004,10 @@ namespace HeroesPowerPlant.LayoutEditor
                         List = 0x05;
                         Type = 0x05; // Casino panel
 
-                        if (i.objectManager.MiscSettings[0] == 1)
+                        if (i.MiscSettings[0] == 1)
                         {
-                            i.Rotation.X -= 90;
+                            if (i.MiscSettings[0] == 1)
+                                i.Rotation = new Vector3(i.Rotation.X - 90, i.Rotation.Y, i.Rotation.Z);
                         }
                         else
                         {
@@ -730,7 +1122,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
 
             if (MatchNotFound) return null;
-            else return new SetObjectHeroes(List, Type, i.Position,
+            else return CreateHeroesObject(List, Type, i.Position,
                 new Vector3(DegreesToBAMS(i.Rotation.X), DegreesToBAMS(i.Rotation.Y), DegreesToBAMS(i.Rotation.Z)), 0, (byte)(2 * i.Rend));
         }
     }

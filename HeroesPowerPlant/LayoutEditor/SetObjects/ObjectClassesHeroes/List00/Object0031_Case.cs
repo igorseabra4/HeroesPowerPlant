@@ -8,19 +8,8 @@ namespace HeroesPowerPlant.LayoutEditor
         Down = 1,
     }
 
-    public class Object0031_Case : SetObjectManagerHeroes
+    public class Object0031_Case : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
-            transformMatrix = //Matrix.Scaling(ScaleX / 20f, ScaleY / 20f, ScaleZ / 20f) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
-                Matrix.Translation(Position);
-        }
 
         public float ScaleX
         {

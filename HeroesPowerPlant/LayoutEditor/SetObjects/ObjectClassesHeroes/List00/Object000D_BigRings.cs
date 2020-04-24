@@ -2,30 +2,29 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object000D_BigRings : SetObjectManagerHeroes
+    public enum RainbowType : short
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
+        Speed = 0,
+        FlyA = 1,
+        FlyB = 2,
+        PowerS = 3,
+        PowerL = 4
+    }
 
+    public class Object000D_BigRings : SetObjectHeroes
+    {
+        public override void CreateTransformMatrix()
+        {
             transformMatrix =
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y) + MathUtil.Pi) *
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
                 Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                 Matrix.Translation(Position);
+
+            CreateBoundingBox();
         }
 
-        public enum RainbowType : short
-        {
-            Speed = 0,
-            FlyA = 1,
-            FlyB = 2,
-            PowerS = 3,
-            PowerL = 4
-        }
-
-        public RainbowType Type
+        public RainbowType RainbowType
         {
             get => (RainbowType)ReadShort(4);
             set => Write(4, (short)value);

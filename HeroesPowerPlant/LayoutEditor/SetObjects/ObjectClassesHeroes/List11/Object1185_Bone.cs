@@ -7,9 +7,9 @@
         FromBelow = 2
     }
 
-    public class Object1185_Bone : SetObjectManagerHeroes
+    public class Object1185_Bone : SetObjectHeroes
     {
-        public BoneType Type
+        public BoneType BoneType
         {
             get => (BoneType)ReadInt(4);
             set => Write(4, (int)value);

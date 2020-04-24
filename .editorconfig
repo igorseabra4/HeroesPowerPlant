@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0059: Atribuição desnecessária de um valor
+csharp_style_unused_value_assignment_preference = discard_variable:suggestion

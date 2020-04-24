@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0026_FormGate : SetObjectManagerHeroes
+    public class Object0026_FormGate : SetObjectHeroes
     {
         public Formation Formation
         {

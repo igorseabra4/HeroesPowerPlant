@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0900_Frog : SetObjectManagerHeroes
+    public class Object0900_Frog : SetObjectHeroes
     {
         public float JumpDirX
         {

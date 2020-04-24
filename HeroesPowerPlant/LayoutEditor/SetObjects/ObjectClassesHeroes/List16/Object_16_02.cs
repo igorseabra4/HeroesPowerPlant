@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_16_02 : SetObjectManagerHeroes
+    public class Object_16_02 : SetObjectHeroes
     {
         public float CoreHP
         {

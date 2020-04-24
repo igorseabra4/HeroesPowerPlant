@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1303_MovingCannon : SetObjectManagerHeroes
+    public class Object1303_MovingCannon : SetObjectHeroes
     {
         public float MaxHeight
         {

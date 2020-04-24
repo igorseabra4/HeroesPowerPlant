@@ -2,18 +2,17 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0001_Spring : SetObjectManagerHeroes
+    public class Object0001_Spring : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
             transformMatrix =
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y) + MathUtil.Pi) *
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
                 Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                 Matrix.Translation(Position);
+
+            CreateBoundingBox();
         }
 
         public float Power

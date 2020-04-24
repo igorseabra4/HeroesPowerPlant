@@ -2,14 +2,14 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1540_EggHammer : SetObjectManagerHeroes
+    public class Object1540_EggHammer : SetObjectHeroes
     {
         public enum TypeEnum : byte
         {
             Normal = 0,
             Helmet = 1
         }
-        public TypeEnum Type
+        public TypeEnum EggHammerType
         {
             get => (TypeEnum)ReadByte(4);
             set => Write(4, (byte)value);

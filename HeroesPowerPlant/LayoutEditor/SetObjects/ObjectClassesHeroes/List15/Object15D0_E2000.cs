@@ -2,14 +2,14 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object15D0_E2000 : SetObjectManagerHeroes
+    public class Object15D0_E2000 : SetObjectHeroes
     {
         public enum TypeEnum : byte
         {
             Normal = 0,
             Special = 1
         }
-        public TypeEnum Type
+        public TypeEnum E2000Type
         {
             get => (TypeEnum)ReadByte(4);
             set => Write(4, (byte)value);

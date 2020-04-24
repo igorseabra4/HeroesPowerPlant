@@ -113,20 +113,46 @@ namespace HeroesPowerPlant.CameraEditor
         private Matrix camPosWorld;
 
         public BoundingBox boundingBox;
-        public BoundingSphere boundingSphere;
-
+        
         public override string ToString()
         {
-            return String.Format("Cam {0}, {1}, {2}, {3}, {4}", CameraType, CameraSpeed, Integer3, ActivationType, TriggerShape);
+            return $"Cam {CameraType}, {CameraSpeed}, {Integer3}, {ActivationType}, {TriggerShape}";
         }
 
         public void CreateBounding()
         {
-            boundingBox = new BoundingBox(-Vector3.One, Vector3.One);
-            boundingBox.Maximum = (Vector3)Vector3.Transform(boundingBox.Maximum, triggerPosWorld);
-            boundingBox.Minimum = (Vector3)Vector3.Transform(boundingBox.Minimum, triggerPosWorld);
+            List<Vector3> vertices = new List<Vector3>();
 
-            boundingSphere = new BoundingSphere(TriggerPosition, Math.Max(Math.Max(TriggerScale.X, TriggerScale.Y), TriggerScale.Z));
+            if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
+                foreach (var v in SharpRenderer.cubeVertices)
+                    vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+            else if (TriggerShape == 4) // cyl
+                foreach (var v in SharpRenderer.cylinderVertices)
+                    vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+            else
+                foreach (var v in SharpRenderer.sphereVertices)
+                    vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+
+            Vector3 Min = vertices[0];
+            Vector3 Max = vertices[0];
+
+            foreach (Vector3 v in vertices)
+            {
+                if (v.X > Max.X)
+                    Max.X = v.X;
+                if (v.Y > Max.Y)
+                    Max.Y = v.Y;
+                if (v.Z > Max.Z)
+                    Max.Z = v.Z;
+                if (v.X < Min.X)
+                    Min.X = v.X;
+                if (v.Y < Min.Y)
+                    Min.Y = v.Y;
+                if (v.Z < Min.Z)
+                    Min.Z = v.Z;
+            }
+
+            boundingBox = new BoundingBox(Min, Max);
         }
 
         public void CreateTransformMatrix()
@@ -140,11 +166,11 @@ namespace HeroesPowerPlant.CameraEditor
             else // sphere
                 triggerPosWorld = Matrix.Scaling(TriggerScale / 2);
 
-            triggerPosWorld = triggerPosWorld
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(TriggerRotX))
-                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(TriggerRotY))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(TriggerRotZ))
-                * Matrix.Translation(TriggerPosition);
+            triggerPosWorld *=
+                Matrix.RotationX(ReadWriteCommon.BAMStoRadians(TriggerRotX)) *
+                Matrix.RotationY(ReadWriteCommon.BAMStoRadians(TriggerRotY)) *
+                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(TriggerRotZ)) *
+                Matrix.Translation(TriggerPosition);
 
             pointAWorld = Matrix.Scaling(5) * Matrix.Translation(PointA);
             pointBWorld = Matrix.Scaling(5) * Matrix.Translation(PointB);
@@ -156,10 +182,8 @@ namespace HeroesPowerPlant.CameraEditor
 
         public void Draw(SharpRenderer renderer)
         {
-            if (Vector3.Distance(renderer.Camera.GetPosition(), TriggerPosition) <= 15000f)
-                if (TriggerShape == 1) //plane
-                    renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
-                else if (TriggerShape == 3) // cube
+            if (Vector3.Distance(renderer.Camera.GetPosition(), TriggerPosition) < 15000f)
+                if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
                     renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
                 else if (TriggerShape == 4) // cyl
                     renderer.DrawCylinderTrigger(triggerPosWorld, isSelected);
@@ -168,7 +192,6 @@ namespace HeroesPowerPlant.CameraEditor
 
             if (isSelected)
             {
-
                 DrawCube(renderer, pointAWorld, Color.Red.ToVector4());
                 DrawCube(renderer, pointBWorld, Color.Blue.ToVector4());
                 DrawCube(renderer, pointCWorld, Color.Green.ToVector4());
@@ -199,43 +222,50 @@ namespace HeroesPowerPlant.CameraEditor
             return TriggerPosition.Length();
         }
 
-        public float? IntersectsWith(Ray r)
+        public float? IntersectsWith(Ray ray)
         {
-            if (r.Intersects(ref boundingBox, out float distance))
-                if (TriangleIntersection(r))
-                    return distance;
+            if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
+            {
+                if (ray.Intersects(ref boundingBox))
+                    return TriangleIntersection(ray, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices);
+            }
+            else if (TriggerShape == 4) // cyl
+            {
+                if (ray.Intersects(ref boundingBox))
+                    return TriangleIntersection(ray, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices);
+            }
+            else
+            {
+                if (ray.Intersects(ref boundingBox))
+                    return TriangleIntersection(ray, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices);
+            }
 
             return null;
         }
 
-        public bool TriangleIntersection(Ray r)
+        public float? TriangleIntersection(Ray r, List<LevelEditor.Triangle> triangles, List<Vector3> vertices)
         {
-            List<Vector3> vertices;
-            List<LevelEditor.Triangle> triangles;
+            bool hasIntersected = false;
+            float smallestDistance = 10000f;
 
-            if (TriggerShape == 1 | TriggerShape == 3)//plane, cube
-            {
-                vertices = Program.MainForm.renderer.cubeVertices;
-                triangles = Program.MainForm.renderer.cubeTriangles;
-            }
-            else if (TriggerShape == 4) // cyl
-            {
-                vertices = Program.MainForm.renderer.cylinderVertices;
-                triangles = Program.MainForm.renderer.cylinderTriangles;
-            }
-            else
-                return r.Intersects(boundingSphere);
-
-            foreach (LevelEditor.Triangle t in triangles)
+            foreach (var t in triangles)
             {
                 Vector3 v1 = (Vector3)Vector3.Transform(vertices[t.vertex1], triggerPosWorld);
                 Vector3 v2 = (Vector3)Vector3.Transform(vertices[t.vertex2], triggerPosWorld);
                 Vector3 v3 = (Vector3)Vector3.Transform(vertices[t.vertex3], triggerPosWorld);
 
-                if (r.Intersects(ref v1, ref v2, ref v3))
-                    return true;
+                if (r.Intersects(ref v1, ref v2, ref v3, out float distance))
+                {
+                    hasIntersected = true;
+
+                    if (distance < smallestDistance)
+                        smallestDistance = distance;
+                }
             }
-            return false;
+
+            if (hasIntersected)
+                return smallestDistance;
+            else return null;
         }
     }
 }

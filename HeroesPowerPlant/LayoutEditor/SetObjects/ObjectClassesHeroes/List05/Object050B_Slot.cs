@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object050B_Slot : SetObjectManagerHeroes
+    public class Object050B_Slot : SetObjectHeroes
     {
         public int Rate
         {

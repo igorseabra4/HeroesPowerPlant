@@ -1,16 +1,18 @@
 ﻿using SharpDX;
 using System;
 using System.Collections.Generic;
+using HeroesPowerPlant.LevelEditor;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0010_Ring : SetObjectManagerShadow
+    public class Object0010_Ring : SetObjectShadow
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
+        private List<Vector3> positionsList;
+        private List<Vector3> transformedPoints;
+        private List<Triangle> transformedTriangles;
 
+        public override void CreateTransformMatrix()
+        {
             transformMatrix =
                 Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + 180f)) *
                 Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
@@ -19,46 +21,94 @@ namespace HeroesPowerPlant.LayoutEditor
 
             positionsList = new List<Vector3>(NumberOfRings);
 
-            if (Type == RingType.Normal) // single ring
+            switch (RingType)
             {
-                positionsList.Add(Vector3.Zero);
-            }
-            else if (Type == RingType.Line) // line of rings
-            {
-                if (NumberOfRings < 2) return;
+                case RingType.Normal:
+                    positionsList.Add(Vector3.Zero);
+                    break;
+                case RingType.Line:
+                    if (NumberOfRings < 2) return;
 
-                for (int i = 0; i < NumberOfRings; i++)
-                    positionsList.Add(new Vector3(0, 0, LenghtRadius * i / (NumberOfRings - 1)));
-            }
-            else if (Type == RingType.Circle) // circle
-            {
-                if (NumberOfRings < 1) return;
+                    for (int i = 0; i < NumberOfRings; i++)
+                        positionsList.Add(new Vector3(0, 0, LenghtRadius * i / (NumberOfRings - 1)));
+                    break;
+                case RingType.Circle:
+                    if (NumberOfRings < 1) return;
 
-                for (int i = 0; i < NumberOfRings; i++)
-                    positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LenghtRadius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
-            }
-            else if (Type == RingType.Arch) // arch
-            {
-                if (NumberOfRings < 2) return;
-                
-                for (int i = 0; i < NumberOfRings; i++)
-                {
-                    Matrix Locator = Matrix.Translation(new Vector3(LenghtRadius, 0, 0));
+                    for (int i = 0; i < NumberOfRings; i++)
+                        positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LenghtRadius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
+                    break;
+                case RingType.Arch:
+                    if (NumberOfRings < 2) return;
 
-                    positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
-                        * Matrix.RotationY(Angle / (NumberOfRings - 1) * i)
-                        * Matrix.Invert(Locator)));
-                }
+                    for (int i = 0; i < NumberOfRings; i++)
+                    {
+                        Matrix Locator = Matrix.Translation(new Vector3(LenghtRadius, 0, 0));
+
+                        positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                            * Matrix.RotationY(Angle / (NumberOfRings - 1) * i)
+                            * Matrix.Invert(Locator)));
+                    }
+                    break;
             }
+
+            CreateBoundingBox();
         }
 
-        private List<Vector3> positionsList;
-
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+        protected override void CreateBoundingBox()
         {
-            int nameIndex = miscSettingByte == -1 ? 0 : MiscSettings[miscSettingByte] < modelNames.Length ? MiscSettings[miscSettingByte] : 0;
+            List<Vector3> modelPoints;
+            transformedPoints = new List<Vector3>();
+            transformedTriangles = new List<Triangle>();
+
+            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[0][0]))
+            {
+                modelPoints = Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[0][0]].vertexListG;
+                for (int i = 0; i < positionsList.Count; i++)
+                {
+                    int pc = modelPoints.Count * i;
+                    foreach (var t in Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[0][0]].triangleList)
+                        transformedTriangles.Add(new Triangle()
+                        {
+                            vertex1 = t.vertex1 + pc,
+                            vertex2 = t.vertex2 + pc,
+                            vertex3 = t.vertex3 + pc
+                        });
+                }
+            }
+            else
+            {
+                modelPoints = SharpRenderer.cubeVertices;
+                for (int i = 0; i < positionsList.Count; i++)
+                {
+                    int pc = modelPoints.Count * i;
+                    foreach (var t in SharpRenderer.cubeTriangles)
+                        transformedTriangles.Add(new Triangle()
+                        {
+                            vertex1 = t.vertex1 + pc,
+                            vertex2 = t.vertex2 + pc,
+                            vertex3 = t.vertex3 + pc
+                        });
+                }
+            }
+
+            foreach (var m in positionsList)
+            {
+                foreach (var v in modelPoints)
+                    transformedPoints.Add((Vector3)Vector3.Transform(v, Matrix.Translation(m)));
+            }
+
+            for (int i = 0; i < transformedPoints.Count; i++)
+                transformedPoints[i] = (Vector3)Vector3.Transform(transformedPoints[i], transformMatrix);
+
+            boundingBox = BoundingBox.FromPoints(transformedPoints.ToArray());
+        }
+
+        public override void Draw(SharpRenderer renderer)
+        {
+            int nameIndex = ModelMiscSetting == -1 ? 0 : MiscSettings[ModelMiscSetting] < ModelNames.Length ? MiscSettings[ModelMiscSetting] : 0;
             
-            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelNames[nameIndex][0]))
+            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[nameIndex][0]))
             {
                 if (isSelected)
                     renderData.Color = renderer.selectedColor;
@@ -79,7 +129,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
                     renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                    Program.MainForm.renderer.dffRenderer.DFFModels[modelNames[nameIndex][0]].Render(renderer.Device);
+                    Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[nameIndex][0]].Render(renderer.Device);
                 }
             }
             else
@@ -108,28 +158,28 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public RingType Type
+        public RingType RingType
         {
             get => (RingType)ReadInt(0);
-            set { Write(0, (int)value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(0, (int)value);
         }
 
         public int NumberOfRings
         {
             get => ReadInt(4);
-            set { Write(4, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, value);
 }
 
         public float LenghtRadius
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float Angle
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
         public bool Ghost

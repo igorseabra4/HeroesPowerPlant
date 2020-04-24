@@ -1,18 +1,18 @@
 ﻿using SharpDX;
 using System;
 using System.Collections.Generic;
+using HeroesPowerPlant.LevelEditor;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0003_Ring : SetObjectManagerHeroes
+    public class Object0003_Ring : SetObjectHeroes
     {
         private List<Matrix> positionsList;
+        private List<Vector3> transformedPoints;
+        private List<Triangle> transformedTriangles;
 
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
             transformMatrix = 
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
@@ -21,7 +21,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             positionsList = new List<Matrix>(NumberOfRings);
 
-            switch (Type) // single ring
+            switch (RingType) // single ring
             {
                 case RingType.Normal:
                     positionsList.Add(Matrix.Identity);
@@ -56,11 +56,85 @@ namespace HeroesPowerPlant.LayoutEditor
                     }
                     break;
             }
+
+            CreateBoundingBox();
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int modelMiscSetting, bool isSelected)
+        protected override void CreateBoundingBox()
         {
-            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(modelNames[0][0]))
+            List<Vector3> modelPoints;
+            transformedPoints = new List<Vector3>();
+            transformedTriangles = new List<Triangle>();
+
+            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[0][0]))
+            {
+                modelPoints = Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[0][0]].vertexListG;
+                for (int i = 0; i < positionsList.Count; i++)
+                {
+                    int pc = modelPoints.Count * i;
+                    foreach (var t in Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[0][0]].triangleList)
+                        transformedTriangles.Add(new Triangle()
+                        {
+                            vertex1 = t.vertex1 + pc,
+                            vertex2 = t.vertex2 + pc,
+                            vertex3 = t.vertex3 + pc
+                        });
+                }
+            }
+            else
+            {
+                modelPoints = SharpRenderer.cubeVertices;
+                for (int i = 0; i < positionsList.Count; i++)
+                {
+                    int pc = modelPoints.Count * i;
+                    foreach (var t in SharpRenderer.cubeTriangles)
+                        transformedTriangles.Add(new Triangle()
+                        {
+                            vertex1 = t.vertex1 + pc,
+                            vertex2 = t.vertex2 + pc,
+                            vertex3 = t.vertex3 + pc
+                        });
+                }
+            }
+
+            foreach (var m in positionsList)
+            {
+                foreach (var v in modelPoints)
+                    transformedPoints.Add((Vector3)Vector3.Transform(v, m));
+            }
+
+            for (int i = 0; i < transformedPoints.Count; i++)
+                transformedPoints[i] = (Vector3)Vector3.Transform(transformedPoints[i], transformMatrix);
+
+            boundingBox = BoundingBox.FromPoints(transformedPoints.ToArray());
+        }
+
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            distance = initialDistance;
+            
+            foreach (var t in transformedTriangles)
+            {
+                Vector3 v1 = transformedPoints[t.vertex1];
+                Vector3 v2 = transformedPoints[t.vertex2];
+                Vector3 v3 = transformedPoints[t.vertex3];
+
+                bool hasIntersected = false;
+                if (r.Intersects(ref v1, ref v2, ref v3, out float latestDistance))
+                {
+                    hasIntersected = true;
+                    if (latestDistance < distance)
+                        distance = latestDistance;
+                }
+                if (hasIntersected)
+                    return true;
+            }
+            return false;
+        }
+
+        public override void Draw(SharpRenderer renderer)
+        {
+            if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[0][0]))
             {
                 if (isSelected)
                     renderData.Color = renderer.selectedObjectColor;
@@ -81,7 +155,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
                     renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                    Program.MainForm.renderer.dffRenderer.DFFModels[modelNames[0][0]].Render(renderer.Device);
+                    Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[0][0]].Render(renderer.Device);
                 }
             }
             else
@@ -110,28 +184,28 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public RingType Type
+        public RingType RingType
         {
             get => (RingType)ReadShort(4);
-            set { Write(4, (short)value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, (short)value);
         }
 
         public short NumberOfRings
         {
             get => ReadShort(6);
-            set { Write(6, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(6, value);
         }
 
         public float TotalLenght
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float Radius
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
     }
 }

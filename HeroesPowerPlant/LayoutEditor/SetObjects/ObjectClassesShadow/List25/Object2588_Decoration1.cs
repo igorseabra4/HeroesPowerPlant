@@ -2,21 +2,17 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object2588_Decoration1 : SetObjectManagerShadow
+    public class Object2588_Decoration1 : SetObjectShadow
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
+            base.CreateTransformMatrix();
+            transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) * transformMatrix;
 
-            transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) *
-                Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
-                Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y)) *
-                Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) *
-                Matrix.Translation(Position);
+            CreateBoundingBox();
         }
 
-        public int Type
+        public int DecorationType
         {
             get => ReadInt(0x0);
             set => Write(0x0, value);
@@ -25,19 +21,19 @@ namespace HeroesPowerPlant.LayoutEditor
         public float ScaleX
         {
             get => ReadFloat(0x4);
-            set { Write(0x4, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(0x4, value);
         }
 
         public float ScaleY
         {
             get => ReadFloat(0x8);
-            set { Write(0x8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(0x8, value);
         }
 
         public float ScaleZ
         {
             get => ReadFloat(0xC);
-            set { Write(0xC, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(0xC, value);
         }
     }
 }

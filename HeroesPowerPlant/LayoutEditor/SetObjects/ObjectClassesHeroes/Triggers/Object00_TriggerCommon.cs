@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -10,36 +11,13 @@ namespace HeroesPowerPlant.LayoutEditor
         CylinderXZ = 3,
     }
 
-    public class Object00_TriggerCommon : SetObjectManagerHeroes
+    public class Object00_TriggerCommon : SetObjectHeroes
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
-        {
-            switch (TriggerShape)
-            {
-                case TriggerCommonShape.Sphere:
-                    return r.Intersects(ref sphereBound, out distance);
-                case TriggerCommonShape.Cube:
-                    return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
-                case TriggerCommonShape.Cylinder:
-                case TriggerCommonShape.CylinderXZ:
-                    return TriangleIntersection(r, Program.MainForm.renderer.cylinderTriangles, Program.MainForm.renderer.cylinderVertices, initialDistance, out distance);
-                default:
-                    return base.TriangleIntersection(r, modelNames, miscSettingByte, initialDistance, out distance);
-            }
-        }
 
-        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
+        public override void CreateTransformMatrix()
         {
-            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-        }
-
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
             switch (TriggerShape)
             {
                 case TriggerCommonShape.Sphere:
@@ -60,9 +38,38 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                 * Matrix.Translation(Position);
+
+            CreateBoundingBox();
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+        protected override void CreateBoundingBox()
+        {
+            List<Vector3> list = new List<Vector3>();
+
+            switch (TriggerShape)
+            {
+                case TriggerCommonShape.Sphere:
+                    list.AddRange(SharpRenderer.sphereVertices);
+                    break;
+                case TriggerCommonShape.Cube:
+                    list.AddRange(SharpRenderer.cubeVertices);
+                    break;
+                case TriggerCommonShape.Cylinder:
+                case TriggerCommonShape.CylinderXZ:
+                    list.AddRange(SharpRenderer.cylinderVertices);
+                    break;
+                default:
+                    base.CreateBoundingBox();
+                    return;
+            }
+
+            for (int i = 0; i < list.Count; i++)
+                list[i] = (Vector3)Vector3.Transform(list[i], transformMatrix);
+
+            boundingBox = BoundingBox.FromPoints(list.ToArray());
+        }
+
+        public override void Draw(SharpRenderer renderer)
         {
             switch (TriggerShape)
             {
@@ -82,40 +89,56 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            switch (TriggerShape)
+            {
+                case TriggerCommonShape.Sphere:
+                    return r.Intersects(ref sphereBound, out distance);
+                case TriggerCommonShape.Cube:
+                    return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
+                case TriggerCommonShape.Cylinder:
+                case TriggerCommonShape.CylinderXZ:
+                    return TriangleIntersection(r, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices, initialDistance, out distance);
+                default:
+                    return base.TriangleIntersection(r, initialDistance, out distance);
+            }
+        }
+
         public TriggerCommonShape TriggerShape
         {
             get => (TriggerCommonShape)ReadInt(4);
-            set { Write(4, (int)value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(4, (int)value);
         }
 
         public float Radius
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float Height
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
         public float ScaleX
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float ScaleY
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
         public float ScaleZ
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(16, value);
         }
     }
 }

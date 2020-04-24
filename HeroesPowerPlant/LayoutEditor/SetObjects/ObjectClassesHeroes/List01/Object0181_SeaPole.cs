@@ -2,21 +2,21 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0181_SeaPole : SetObjectManagerHeroes
+    public class Object0181_SeaPole : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            base.CreateTransformMatrix(Position, Rotation);
+            base.CreateTransformMatrix();
             transformMatrix = Matrix.Scaling(Scale) * transformMatrix;
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int modelMiscSetting, bool isSelected)
+        public override void Draw(SharpRenderer renderer)
         {
-            base.Draw(renderer, modelNames, modelMiscSetting, isSelected);
+            base.Draw(renderer);
 
             string flagModelName = "S01_PN_HATA0.DFF";
 
-            if (Type < 8 && renderer.dffRenderer.DFFModels.ContainsKey(flagModelName))
+            if (FlagType < 8 && renderer.dffRenderer.DFFModels.ContainsKey(flagModelName))
             {
                 renderData.worldViewProjection = Matrix.Scaling(Scale)
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
@@ -41,7 +41,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
         
-        public byte Type
+        public byte FlagType
         {
             get => ReadByte(4);
             set => Write(4, value);
@@ -50,13 +50,13 @@ namespace HeroesPowerPlant.LayoutEditor
         public float FlagAngle
         {
             get => ReadWriteCommon.BAMStoDegrees(ReadShort(10));
-            set { Write(10, (short)ReadWriteCommon.DegreesToBAMS(value)); CreateTransformMatrix(Position, Rotation); }
+            set => Write(10, (short)ReadWriteCommon.DegreesToBAMS(value));
         }
 
         public float Scale
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
     }
 }

@@ -2,14 +2,14 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object15_KlagenCameron : SetObjectManagerHeroes
+    public class Object15_KlagenCameron : SetObjectHeroes
     {
         public enum TypeEnum : byte
         {
             Normal = 0,
             Golden = 1
         }
-        public TypeEnum Type
+        public TypeEnum EnemyType
         {
             get => (TypeEnum)ReadByte(4);
             set => Write(4, (byte)value);

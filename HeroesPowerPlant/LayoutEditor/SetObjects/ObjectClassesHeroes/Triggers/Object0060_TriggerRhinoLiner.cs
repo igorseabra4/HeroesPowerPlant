@@ -2,43 +2,53 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
+    public enum RhinoTriggerType
+    {
+        Start = 0,
+        End = 1,
+        ChangePath = 2,
+        ChangePathSet = 3,
+        Attack = 4,
+        AttackSet = 5,
+        SpeedControl = 6
+    }
 
-    public class Object0060_TriggerRhinoLiner : SetObjectManagerHeroes
+    public class Object0060_TriggerRhinoLiner : SetObjectHeroes
     {
         private BoundingSphere sphereBound;
+        private Matrix destinationMatrix;
 
-        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = Matrix.Scaling(Radius * 2)
+                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
+                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
+                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
+                * Matrix.Translation(Position);
+
+            sphereBound = new BoundingSphere(Position, Radius);
+            boundingBox = BoundingBox.FromSphere(sphereBound);
+
+            destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(TargetX, TargetY, TargetZ);
+        }
+        
+        public override void Draw(SharpRenderer renderer)
+        {
+            renderer.DrawSphereTrigger(transformMatrix, isSelected);
+
+            if (isSelected)
+                renderer.DrawCubeTrigger(destinationMatrix, isSelected);
+        }
+
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
+        public RhinoTriggerType TriggerType
         {
-            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-        }
-
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
-            sphereBound = new BoundingSphere(Position, Radius);
-            transformMatrix = Matrix.Scaling(Radius * 2)
-                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                * Matrix.Translation(Position);
-        }
-
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
-        {
-            renderer.DrawSphereTrigger(transformMatrix, isSelected);
-        }
-
-        public byte Type
-        {
-            get => ReadByte(4);
-            set => Write(4, value);
+            get => (RhinoTriggerType)ReadByte(4);
+            set => Write(4, (byte)value);
         }
 
         public byte SpeedControl
@@ -62,25 +72,25 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Radius
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float TargetX
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
         public float TargetY
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(16, value);
         }
 
         public float TargetZ
         {
             get => ReadFloat(20);
-            set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(20, value);
         }
     }
 }

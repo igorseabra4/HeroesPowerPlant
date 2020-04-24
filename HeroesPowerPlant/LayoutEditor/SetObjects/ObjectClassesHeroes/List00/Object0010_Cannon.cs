@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0010_Cannon : SetObjectManagerHeroes
+    public class Object0010_Cannon : SetObjectHeroes
     {
         public short SpeedElevation
         {

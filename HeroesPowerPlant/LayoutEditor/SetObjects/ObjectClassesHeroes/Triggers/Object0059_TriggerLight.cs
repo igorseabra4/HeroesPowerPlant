@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -39,38 +40,12 @@ namespace HeroesPowerPlant.LayoutEditor
         NotInUse = 3
     }
 
-    public class Object0059_TriggerLight : SetObjectManagerHeroes
+    public class Object0059_TriggerLight : SetObjectHeroes
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
+        public override void CreateTransformMatrix()
         {
-            switch (TriggerShape)
-            {
-                case TriggerLightShape.Sphere:
-                    return r.Intersects(ref sphereBound, out distance);
-                case TriggerLightShape.Cube:
-                    return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
-                case TriggerLightShape.Cylinder:
-                    return TriangleIntersection(r, Program.MainForm.renderer.cylinderTriangles, Program.MainForm.renderer.cylinderVertices, initialDistance, out distance);
-                default:
-                    return base.TriangleIntersection(r, modelNames, miscSettingByte, initialDistance, out distance);
-            }
-        }
-
-        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
-        {
-            if (TriggerShape == TriggerLightShape.NotInUse)
-                return base.CreateBoundingBox(modelNames, miscSettingByte);
-            else
-                return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-        }
-
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
-            
             switch (TriggerShape)
             {
                 case TriggerLightShape.Sphere:
@@ -84,7 +59,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
                     break;
                 case TriggerLightShape.NotInUse:
-                    base.CreateTransformMatrix(Position, Rotation);
+                    base.CreateTransformMatrix();
                     return;
             }
 
@@ -93,21 +68,73 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.Translation(Position);
+
+            CreateBoundingBox();
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+        protected override void CreateBoundingBox()
         {
-            if (TriggerShape == TriggerLightShape.Cube)
-                renderer.DrawCubeTrigger(transformMatrix, isSelected);
-            
-            else if (TriggerShape == TriggerLightShape.Sphere)
-                renderer.DrawSphereTrigger(transformMatrix, isSelected);
-            
-            else if (TriggerShape == TriggerLightShape.Cylinder)
-                renderer.DrawCylinderTrigger(transformMatrix, isSelected);
-            
-            else if (TriggerShape ==  TriggerLightShape.NotInUse)
-                DrawCube(renderer, isSelected);
+            if (TriggerShape == TriggerLightShape.NotInUse)
+                base.CreateBoundingBox();
+            else
+            {
+                List<Vector3> list = new List<Vector3>();
+
+                switch (TriggerShape)
+                {
+                    case TriggerLightShape.Sphere:
+                        list.AddRange(SharpRenderer.sphereVertices);
+                        break;
+                    case TriggerLightShape.Cube:
+                        list.AddRange(SharpRenderer.cubeVertices);
+                        break;
+                    case TriggerLightShape.Cylinder:
+                        list.AddRange(SharpRenderer.cylinderVertices);
+                        break;
+                    default:
+                        base.CreateBoundingBox();
+                        return;
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                    list[i] = (Vector3)Vector3.Transform(list[i], transformMatrix);
+
+                boundingBox = BoundingBox.FromPoints(list.ToArray());
+            }
+        }
+
+        public override void Draw(SharpRenderer renderer)
+        {
+            switch (TriggerShape)
+            {
+                case TriggerLightShape.Sphere:
+                    renderer.DrawSphereTrigger(transformMatrix, isSelected);
+                    break;
+                case TriggerLightShape.Cube:
+                    renderer.DrawCubeTrigger(transformMatrix, isSelected);
+                    break;
+                case TriggerLightShape.Cylinder:
+                    renderer.DrawCylinderTrigger(transformMatrix, isSelected);
+                    break;
+                default:
+                    DrawCube(renderer, isSelected);
+                    break;
+            }
+        }
+
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            switch (TriggerShape)
+            {
+                case TriggerLightShape.Sphere:
+                    return r.Intersects(ref sphereBound, out distance);
+                case TriggerLightShape.Cube:
+                    return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
+                case TriggerLightShape.Cylinder:
+                    return TriangleIntersection(r, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices, initialDistance, out distance);
+                default:
+                    return base.TriangleIntersection(r, initialDistance, out distance);
+            }
         }
 
         public TriggerLightNumber Number
@@ -116,7 +143,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(4, (byte)value);
         }
 
-        public TriggerLightType Type
+        public TriggerLightType TriggerLightType
         {
             get => (TriggerLightType)ReadByte(5);
             set => Write(5, (byte)value);
@@ -125,37 +152,37 @@ namespace HeroesPowerPlant.LayoutEditor
         public TriggerLightShape TriggerShape
         {
             get => (TriggerLightShape)ReadByte(6);
-            set { Write(6, (byte)value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(6, (byte)value);
         }
 
         public float Radius
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float Height
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
         public float ScaleX
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
 
         public float ScaleY
         {
             get => ReadFloat(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
         public float ScaleZ
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(16, value);
         }
     }
 }

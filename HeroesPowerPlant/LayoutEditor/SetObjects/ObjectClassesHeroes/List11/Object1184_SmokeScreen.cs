@@ -2,14 +2,16 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1184_SmokeScreen : SetObjectManagerHeroes
+    public class Object1184_SmokeScreen : SetObjectHeroes
     {        
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            base.CreateTransformMatrix(Position, Rotation);
+            base.CreateTransformMatrix();
 
             transformMatrix = IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity *
                 transformMatrix;
+
+            CreateBoundingBox();
         }
 
         public int ModelNumber

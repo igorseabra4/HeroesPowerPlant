@@ -50,6 +50,8 @@ namespace HeroesPowerPlant.MainForm
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
             LightEditor = new LightEditor.LightMenu();
             SetIdTableEditor = new SetIdTableEditor.SetIdTableEditor();
+
+            LayoutEditor.LayoutEditorSystem.SetupLayoutEditorSystem();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -238,8 +240,9 @@ namespace HeroesPowerPlant.MainForm
             foreach (ToolStripDropDownItem t in CollisionEditorDict.Keys)
                 if (CollisionEditorDict[t].Equals(sender))
                 {
-                    CollisionEditorDict.Remove(t);
                     collisionEditorToolStripMenuItem.DropDownItems.Remove(t);
+                    CollisionEditorDict[t].Close();
+                    CollisionEditorDict.Remove(t);
                     return;
                 }
             throw new Exception("Error closing collision editor");
@@ -296,8 +299,9 @@ namespace HeroesPowerPlant.MainForm
             foreach (ToolStripDropDownItem t in LayoutEditorDict.Keys)
                 if (LayoutEditorDict[t].Equals(sender))
                 {
-                    LayoutEditorDict.Remove(t);
                     layoutEditorToolStripMenuItem.DropDownItems.Remove(t);
+                    LayoutEditorDict[t].Close();
+                    LayoutEditorDict.Remove(t);
                     return;
                 }
             throw new Exception("Error closing layout editor");

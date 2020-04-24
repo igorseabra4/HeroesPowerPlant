@@ -2,25 +2,31 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0105_MovingRuin : SetObjectManagerHeroes
+    public enum MovingRuinType : byte
     {
-        public enum RuinType : byte
-        {
-            Small = 0,
-            Normal = 1,
-            Special = 2
-        }
+        Small = 0,
+        Normal = 1,
+        Special = 2
+    }
 
-        public RuinType Type
+    public class Object0105_MovingRuin : SetObjectHeroes
+    {
+        public MovingRuinType RuinType
         {
-            get => (RuinType)ReadByte(4);
+            get => (MovingRuinType)ReadByte(4);
             set => Write(4, (byte)value);
         }
 
-        public float MovingDistance
+        public float StartY
         {
             get => ReadFloat(8);
             set => Write(8, value);
+        }
+
+        public float Speed
+        {
+            get => ReadFloat(12);
+            set => Write(12, value);
         }
     }
 }

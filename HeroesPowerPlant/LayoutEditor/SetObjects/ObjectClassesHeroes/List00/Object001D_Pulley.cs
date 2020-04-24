@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object001D_Pulley : SetObjectManagerHeroes
+    public class Object001D_Pulley : SetObjectHeroes
     {
         public float Elevation
         {
@@ -20,16 +20,16 @@
             set => Write(12, value);
         }
 
-        public enum PulleyType : short
-        {
-            Up = 0,
-            Down = 1
-        }
-
-        public PulleyType Type
+        public PulleyType PulleyType
         {
             get => (PulleyType)ReadShort(16);
             set => Write(16, (short)value);
         }
+    }
+
+    public enum PulleyType : short
+    {
+        Up = 0,
+        Down = 1
     }
 }

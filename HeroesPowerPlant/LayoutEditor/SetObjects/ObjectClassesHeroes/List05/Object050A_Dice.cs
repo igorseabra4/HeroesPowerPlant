@@ -6,7 +6,7 @@
         Horizontal = 1
     }
 
-    public class Object050A_Dice : SetObjectManagerHeroes
+    public class Object050A_Dice : SetObjectHeroes
     {
         public float Speed
         {
@@ -32,7 +32,7 @@
             set => Write(16, value);
         }
 
-        public DiceType Type
+        public DiceType DiceType
         {
             get => (DiceType)ReadShort(18);
             set => Write(18, (short)value);

@@ -203,23 +203,28 @@ namespace HeroesPowerPlant
         public SharpMesh Pyramid { get; private set; }
         public SharpMesh Sphere { get; private set; }
 
-        public List<Vector3> cubeVertices;
-        public List<LevelEditor.Triangle> cubeTriangles;
-        public List<Vector3> cylinderVertices;
-        public List<LevelEditor.Triangle> cylinderTriangles;
-        public List<Vector3> pyramidVertices;
-        public List<LevelEditor.Triangle> pyramidTriangles;
+        public static List<Vector3> cubeVertices;
+        public static List<Triangle> cubeTriangles;
+        public static List<Vector3> cylinderVertices;
+        public static List<Triangle> cylinderTriangles;
+        public static List<Vector3> pyramidVertices;
+        public static List<Triangle> pyramidTriangles;
+        public static List<Vector3> sphereVertices;
+        public static List<Triangle> sphereTriangles;
 
         public void LoadModels()
         {
             cubeVertices = new List<Vector3>();
-            cubeTriangles = new List<LevelEditor.Triangle>();
+            cubeTriangles = new List<Triangle>();
 
             cylinderVertices = new List<Vector3>();
-            cylinderTriangles = new List<LevelEditor.Triangle>();
+            cylinderTriangles = new List<Triangle>();
 
             pyramidVertices = new List<Vector3>();
-            pyramidTriangles = new List<LevelEditor.Triangle>();
+            pyramidTriangles = new List<Triangle>();
+
+            sphereVertices = new List<Vector3>();
+            sphereTriangles = new List<Triangle>();
 
             for (int i = 0; i < 4; i++)// 3; i++)
             {
@@ -234,13 +239,14 @@ namespace HeroesPowerPlant
                 foreach (LevelEditor.Vertex v in objData.VertexList)
                 {
                     vertexList.Add(new Vertex(v.Position));
-                    if (i == 0) cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z) * 5);
+                    if (i == 0) cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                     else if (i == 1) cylinderVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                     else if (i == 2) pyramidVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
+                    else if (i == 3) sphereVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                 }
 
                 List<int> indexList = new List<int>();
-                foreach (LevelEditor.Triangle t in objData.TriangleList)
+                foreach (Triangle t in objData.TriangleList)
                 {
                     indexList.Add(t.vertex1);
                     indexList.Add(t.vertex2);
@@ -248,6 +254,7 @@ namespace HeroesPowerPlant
                     if (i == 0) cubeTriangles.Add(t);
                     else if (i == 1) cylinderTriangles.Add(t);
                     else if (i == 2) pyramidTriangles.Add(t);
+                    else if (i == 3) sphereTriangles.Add(t);
                 }
 
                 if (i == 0) Cube = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });

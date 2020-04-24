@@ -2,7 +2,7 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object090B_IvyJump : SetObjectManagerHeroes
+    public class Object090B_IvyJump : SetObjectHeroes
     {
         public float Target1X
         {

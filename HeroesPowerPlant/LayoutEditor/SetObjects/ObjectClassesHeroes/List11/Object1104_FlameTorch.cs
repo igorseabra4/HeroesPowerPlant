@@ -9,14 +9,16 @@ namespace HeroesPowerPlant.LayoutEditor
         Unlit = 2
     }
 
-    public class Object1104_FlameTorch : SetObjectManagerHeroes
+    public class Object1104_FlameTorch : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            base.CreateTransformMatrix(Position, Rotation);
+            base.CreateTransformMatrix();
 
-            transformMatrix = IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity *
+            transformMatrix = (IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity) *
                 Matrix.Scaling(Scale + 1f) * transformMatrix;
+
+            CreateBoundingBox();
         }
 
         private string FloorBase = "S11_ON_FIREA_BASE.DFF";
@@ -26,7 +28,7 @@ namespace HeroesPowerPlant.LayoutEditor
         private string AirBlue = "S11_ON_FIREB_BLUE.DFF";
         private string AirRed = "S11_ON_FIREB_RED.DFF";
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int modelMiscSetting, bool isSelected)
+        public override void Draw(SharpRenderer renderer)
         {
             if (BaseType == BaseTypeEnum.None)
                 DrawCube(renderer, isSelected);
@@ -83,7 +85,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Scale
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(16, value);
         }
 
         public bool IsUpsideDown

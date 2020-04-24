@@ -9,22 +9,17 @@ namespace HeroesPowerPlant.LayoutEditor
         Circle = 2
     }
 
-    public class Object1105_Ghost : SetObjectManagerHeroes
+    public class Object1105_Ghost : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
+            base.CreateTransformMatrix();
+            transformMatrix = Matrix.Scaling(Scale + 1f) * transformMatrix;
 
-            transformMatrix =
-                Matrix.Scaling(Scale + 1f) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
-                Matrix.Translation(Position);
+            CreateBoundingBox();
         }
 
-        public GhostType Type
+        public GhostType GhostType
         {
             get => (GhostType)ReadInt(4);
             set => Write(4, (int)value);
@@ -51,7 +46,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Scale
         {
             get => ReadFloat(20);
-            set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(20, value);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1102_CastleWall : SetObjectManagerHeroes
+    public class Object1102_CastleWall : SetObjectHeroes
     {
         public int ModelNumber
         {

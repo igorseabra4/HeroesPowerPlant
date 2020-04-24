@@ -15,6 +15,11 @@ namespace HeroesPowerPlant.CameraEditor
         public CameraEditor()
         {
             InitializeComponent();
+
+#if !DEBUG
+            importSACameraFileToolStripMenuItem.Visible = false;
+#endif
+
             numericUpDownCamType.Maximum = Decimal.MaxValue;
             numericUpDownCamSpeed.Maximum = Decimal.MaxValue;
             numericUpDown3.Maximum = Decimal.MaxValue;
@@ -122,6 +127,7 @@ namespace HeroesPowerPlant.CameraEditor
         public void New()
         {
             CurrentCameraFile = null;
+            CurrentlySelectedCamera = -1;
             ListBoxCameras.Items.Clear();
             toolStripStatusFile.Text = "No file loaded";
             UpdateLabelCameraCount();
@@ -158,7 +164,7 @@ namespace HeroesPowerPlant.CameraEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CurrentCameraFile != null)
-                saveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
+                SaveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
             else
                 saveAsToolStripMenuItem_Click(sender, e);
         }
@@ -173,7 +179,7 @@ namespace HeroesPowerPlant.CameraEditor
             if (SaveCamera.ShowDialog() == DialogResult.OK)
             {
                 CurrentCameraFile = SaveCamera.FileName;
-                saveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
+                SaveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
             }
         }
 
@@ -289,6 +295,7 @@ namespace HeroesPowerPlant.CameraEditor
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             CameraHeroes newCamera = new CameraHeroes() { TriggerPosition = Program.MainForm.renderer.Camera.GetPosition() };
+            newCamera.CreateTransformMatrix();
             ListBoxCameras.Items.Add(newCamera);
             ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
             UpdateLabelCameraCount();
@@ -384,7 +391,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         public void ScreenClicked(Ray r)
         {
-            int index = ListBoxCameras.SelectedIndex;
+            int index = -1;
 
             float smallerDistance = 10000f;
             for (int i = 0; i < ListBoxCameras.Items.Count; i++)
@@ -483,6 +490,14 @@ namespace HeroesPowerPlant.CameraEditor
             {
                 MessageBox.Show(pasteErrorMessage);
             }
+        }
+
+        private void importSACameraFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog openFile = new OpenFileDialog();
+            if (openFile.ShowDialog() == DialogResult.OK)
+                foreach (var c in Other.OtherFunctions.ConvertSACamToHeroes(openFile.FileName))
+                    ListBoxCameras.Items.Add(c);
         }
     }
 }

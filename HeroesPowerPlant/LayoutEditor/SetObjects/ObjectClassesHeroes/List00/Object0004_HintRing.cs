@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0004_HintRing : SetObjectManagerHeroes
+    public class Object0004_HintRing : SetObjectHeroes
     {
         public short LineToPlay
         {

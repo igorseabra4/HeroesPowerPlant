@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0190_Partner : SetObjectManagerShadow
+    public class Object0190_Partner : SetObjectShadow
     {
         public PartnerType Partner
         {

@@ -2,20 +2,22 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0182_Whale : SetObjectManagerHeroes
+    public class Object0182_Whale : SetObjectHeroes
     {
         private Matrix triggerMatrix;
 
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            base.CreateTransformMatrix(Position, Rotation);
+            base.CreateTransformMatrix();
 
             triggerMatrix = Matrix.Scaling(TriggerSize) * Matrix.Translation(TriggerX, TriggerY, TriggerZ);
+
+            CreateBoundingBox();
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+        public override void Draw(SharpRenderer renderer)
         {
-            base.Draw(renderer, modelNames, miscSettingByte, isSelected);
+            base.Draw(renderer);
 
             if (isSelected)
                 renderer.DrawSphereTrigger(triggerMatrix, true);
@@ -30,7 +32,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public short TriggerSize
         {
             get => ReadShort(6);
-            set { Write(6, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(6, value);
         }
 
         public float WhaleScale
@@ -48,19 +50,19 @@ namespace HeroesPowerPlant.LayoutEditor
         public float TriggerX
         {
             get => ReadFloat(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(16, value);
         }
 
         public float TriggerY
         {
             get => ReadFloat(20);
-            set { Write(20, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(20, value);
         }
 
         public float TriggerZ
         {
             get => ReadFloat(24);
-            set { Write(24, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(24, value);
         }
     }
 }

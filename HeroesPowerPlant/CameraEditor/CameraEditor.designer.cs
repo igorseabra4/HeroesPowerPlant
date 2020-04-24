@@ -83,6 +83,7 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortByDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSACameraFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -765,7 +766,8 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sortByDistanceToolStripMenuItem});
+            this.sortByDistanceToolStripMenuItem,
+            this.importSACameraFileToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -773,9 +775,16 @@
             // sortByDistanceToolStripMenuItem
             // 
             this.sortByDistanceToolStripMenuItem.Name = "sortByDistanceToolStripMenuItem";
-            this.sortByDistanceToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.sortByDistanceToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.sortByDistanceToolStripMenuItem.Text = "Sort by Distance";
             this.sortByDistanceToolStripMenuItem.Click += new System.EventHandler(this.sortByDistanceToolStripMenuItem_Click);
+            // 
+            // importSACameraFileToolStripMenuItem
+            // 
+            this.importSACameraFileToolStripMenuItem.Name = "importSACameraFileToolStripMenuItem";
+            this.importSACameraFileToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.importSACameraFileToolStripMenuItem.Text = "Import SA Camera File";
+            this.importSACameraFileToolStripMenuItem.Click += new System.EventHandler(this.importSACameraFileToolStripMenuItem_Click);
             // 
             // groupBox14
             // 
@@ -1117,5 +1126,6 @@
         private System.Windows.Forms.Button buttonPastePointA;
         private System.Windows.Forms.Button buttonPastePointB;
         private System.Windows.Forms.Button buttonPastePointc;
+        private System.Windows.Forms.ToolStripMenuItem importSACameraFileToolStripMenuItem;
     }
 }

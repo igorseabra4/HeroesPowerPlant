@@ -2,16 +2,17 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0180_FlowerPatch : SetObjectManagerHeroes
+    public class Object0180_FlowerPatch : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            base.CreateTransformMatrix(Position, Rotation);
-
+            base.CreateTransformMatrix();
             transformMatrix = Matrix.Scaling(Scale) * transformMatrix;
+
+            CreateBoundingBox();
         }
 
-        public byte Type
+        public byte FlowerPatchType
         {
             get => ReadByte(4);
             set => Write(4, value);
@@ -20,7 +21,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public float Scale
         {
             get => ReadFloat(8);
-            set { Write(8, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(8, value);
         }
     }
 }

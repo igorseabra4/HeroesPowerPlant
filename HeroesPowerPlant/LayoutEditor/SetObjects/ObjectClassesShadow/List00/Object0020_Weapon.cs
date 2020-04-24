@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0020_Weapon : SetObjectManagerShadow
+    public class Object0020_Weapon : SetObjectShadow
     {
         public Weapon WeaponType
         {

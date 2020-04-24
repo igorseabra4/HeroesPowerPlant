@@ -4,9 +4,9 @@ using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object_ShadowEmpty : SetObjectManagerShadow
+    public class Object_ShadowDefault : SetObjectShadow
     {
-        [Browsable(true)]
+        [Browsable(false)]
         public byte[] MiscSettingsBytes
         {
             get => MiscSettings;

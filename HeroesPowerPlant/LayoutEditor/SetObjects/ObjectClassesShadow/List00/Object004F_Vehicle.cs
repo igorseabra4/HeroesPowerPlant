@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object004F_Vehicle : SetObjectManagerShadow
+    public class Object004F_Vehicle : SetObjectShadow
     {
         public Vehicle VehicleType
         {

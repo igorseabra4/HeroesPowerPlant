@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0012_ItemCapsule : SetObjectManagerShadow
+    public class Object0012_ItemCapsule : SetObjectShadow
     {
         public ItemShadow Item
         {

@@ -1,34 +1,14 @@
 ﻿using SharpDX;
+using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0081_TriggerSE : SetObjectManagerHeroes
+    public class Object0081_TriggerSE : SetObjectHeroes
     {
         private BoundingSphere sphereBound;
 
-        public override bool TriangleIntersection(Ray r, string[][] modelNames, int miscSettingByte, float initialDistance, out float distance)
+        public override void CreateTransformMatrix()
         {
-            switch (TriggerShape)
-            {
-                case TriggerSEShape.Sphere:
-                    return r.Intersects(ref sphereBound, out distance);
-                case TriggerSEShape.Cube:
-                    return TriangleIntersection(r, Program.MainForm.renderer.cubeTriangles, Program.MainForm.renderer.cubeVertices, initialDistance, out distance, 0.25f);
-                default:
-                    return base.TriangleIntersection(r, modelNames, miscSettingByte, initialDistance, out distance);
-            }
-        }
-
-        public override BoundingBox CreateBoundingBox(string[][] modelNames, int miscSettingByte)
-        {
-            return new BoundingBox(-Vector3.One / 2, Vector3.One / 2);
-        }
-
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
-        {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
             switch (TriggerShape)
             {
                 case TriggerSEShape.Sphere:
@@ -38,6 +18,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 case TriggerSEShape.Cube:
                     transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
                     break;
+                default:
+                    base.CreateTransformMatrix();
+                    return;
             }
 
             transformMatrix = transformMatrix
@@ -45,9 +28,34 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
                 * Matrix.Translation(Position);
+
+            CreateBoundingBox();
         }
 
-        public override void Draw(SharpRenderer renderer, string[][] modelNames, int miscSettingByte, bool isSelected)
+        protected override void CreateBoundingBox()
+        {
+            List<Vector3> list = new List<Vector3>();
+
+            switch (TriggerShape)
+            {
+                case TriggerSEShape.Sphere:
+                    list.AddRange(SharpRenderer.sphereVertices);
+                    break;
+                case TriggerSEShape.Cube:
+                    list.AddRange(SharpRenderer.cubeVertices);
+                    break;
+                default:
+                    base.CreateBoundingBox();
+                    return;
+            }
+
+            for (int i = 0; i < list.Count; i++)
+                list[i] = (Vector3)Vector3.Transform(list[i], transformMatrix);
+
+            boundingBox = BoundingBox.FromPoints(list.ToArray());
+        }
+
+        public override void Draw(SharpRenderer renderer)
         {
             switch (TriggerShape)
             {
@@ -60,6 +68,19 @@ namespace HeroesPowerPlant.LayoutEditor
                 default:
                     DrawCube(renderer, isSelected);
                     break;
+            }
+        }
+
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            switch (TriggerShape)
+            {
+                case TriggerSEShape.Sphere:
+                    return r.Intersects(ref sphereBound, out distance);
+                case TriggerSEShape.Cube:
+                    return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
+                default:
+                    return base.TriangleIntersection(r, initialDistance, out distance);
             }
         }
 
@@ -106,37 +127,37 @@ namespace HeroesPowerPlant.LayoutEditor
         public TriggerSEShape TriggerShape
         {
             get => (TriggerSEShape)ReadByte(11);
-            set { Write(11, (byte)value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(11, (byte)value);
         }
         
         public short Time
         {
             get => ReadShort(12);
-            set { Write(12, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(12, value);
         }
 
         public short Radius
         {
             get => ReadShort(14);
-            set { Write(14, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(14, value);
         }
 
         public short ScaleX
         {
             get => ReadShort(14);
-            set { Write(14, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(14, value);
         }
 
         public short ScaleY
         {
             get => ReadShort(16);
-            set { Write(16, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(16, value);
         }
 
         public short ScaleZ
         {
             get => ReadShort(18);
-            set { Write(18, value); CreateTransformMatrix(Position, Rotation); }
+            set => Write(18, value);
         }
     }
 }

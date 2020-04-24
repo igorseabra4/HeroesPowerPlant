@@ -34,19 +34,60 @@ namespace HeroesPowerPlant.LayoutEditor
         Searchlight = 6
     }
 
-    public class Object1500_EggFlapper : SetObjectManagerHeroes
+    public class Object1500_EggFlapper : SetObjectHeroes
     {
-        public override void CreateTransformMatrix(Vector3 Position, Vector3 Rotation)
+        public override void CreateTransformMatrix()
         {
-            this.Position = Position;
-            this.Rotation = Rotation;
-
             transformMatrix =
                 Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y) + MathUtil.Pi) *
                 Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
                 Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
                 Matrix.Translation(Position);
+
+            CreateBoundingBox();
         }
+        
+        protected override void Draw(SharpRenderer renderer, string modelName, bool isSelected)
+        {
+            renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
+            renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
+
+            renderer.Device.SetFillModeDefault();
+            renderer.Device.SetCullModeDefault();
+            renderer.Device.SetBlendStateAlphaBlend();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
+
+            renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
+            renderer.tintedShader.Apply();
+
+            foreach (SharpMesh mesh in renderer.dffRenderer.DFFModels[modelName].meshList)
+            {
+                if (mesh == null) continue;
+
+                mesh.Begin(renderer.Device);
+                for (int i = 0; i < mesh.SubSets.Count; i++)
+                {
+                    if (mesh.SubSets[i].DiffuseMapName == "en_pw0")
+                        renderer.Device.DeviceContext.PixelShader.SetShaderResource(0, TextureManager.GetTextureFromDictionary(textureNames[(byte)WeaponType]));
+                    else
+                        renderer.Device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
+                    mesh.Draw(renderer.Device, i);
+                }
+            }
+        }
+
+        private string[] textureNames = new string[] { "en_pw0", "en_rlt0", "en_pw_c", "en_pw_g", "en_rlt5", "en_rlt3", "en_pw2" };
+
+        // None   = 0 "en_pw0"  RED
+        // Needle = 1 "en_rlt0" DARK BLUE
+        // Shot   = 2 "en_pw_c" DARK GREEN
+        // MGun   = 3 "en_pw_g" LIGHT BLUE
+        // Laser  = 4 "en_rlt5" LIGHT GREEN
+        // Bomb   = 5 "en_rlt3" PINK
+        // Search = 6 "en_pw2"  YELLOW
+        // Spec   = X "en_pw_v" GREY
 
         public QualityType Quality
         {

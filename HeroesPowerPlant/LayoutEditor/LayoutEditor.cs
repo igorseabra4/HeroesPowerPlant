@@ -20,6 +20,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
             layoutSystem.BindControl(listBoxObjects);
 
+#if !DEBUG
+            importSALayoutFileToolStripMenuItem.Visible = false;
+#endif
             NumericPosX.Maximum = decimal.MaxValue;
             NumericPosX.Minimum = decimal.MinValue;
             NumericPosY.Maximum = decimal.MaxValue;
@@ -109,7 +112,6 @@ namespace HeroesPowerPlant.LayoutEditor
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Program.MainForm.CloseLayoutEditor(this);
-            Close();
         }
 
         private void byIDToolStripMenuItem_Click(object sender, EventArgs e)
@@ -263,9 +265,9 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (!ProgramIsChangingStuff)
             {
-                layoutSystem.ComboBoxObjectChanged(listBoxObjects.SelectedIndex, ComboBoxObject.SelectedItem as ObjectEntry);
+                layoutSystem.ChangeObjectType(listBoxObjects.SelectedIndex, ComboBoxObject.SelectedItem as ObjectEntry);
                 UpdateList();
-                PropertyGridMisc.SelectedObject = layoutSystem.GetObjectManager(SelectedIndex);
+                PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(SelectedIndex);
                 UpdateDescriptionBox(layoutSystem.GetSetObjectAt(SelectedIndex).Description);
             }
         }
@@ -437,7 +439,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (SelectedIndex == -1)
                 return;
-            layoutSystem.DuplicateSetObject(SelectedIndex, Position);
+            layoutSystem.DuplicateSetObjectAt(SelectedIndex, Position);
             SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
@@ -503,7 +505,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 numericUnkB7.Value = layoutSystem.GetUnkBytes(SelectedIndex)[6];
                 numericUnkB8.Value = layoutSystem.GetUnkBytes(SelectedIndex)[7];
 
-                PropertyGridMisc.SelectedObject = layoutSystem.GetObjectManager(SelectedIndex);
+                PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(SelectedIndex);
                 UpdateDescriptionBox(layoutSystem.GetSetObjectAt(SelectedIndex).Description);
                 ProgramIsChangingStuff = false;
             }
@@ -592,6 +594,17 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 RichTextBoxDescription.Text = "";
             }
+        }
+
+        private void buttonCopyMisc_Click(object sender, EventArgs e)
+        {
+            layoutSystem.CopyMisc(SelectedIndex);
+        }
+
+        private void buttonPasteMisc_Click(object sender, EventArgs e)
+        {
+            layoutSystem.PasteMisc(SelectedIndex);
+            PropertyGridMisc.Refresh();
         }
 
         public void RenderSetObjects(SharpRenderer renderer, bool drawEveryObject)
@@ -745,6 +758,18 @@ namespace HeroesPowerPlant.LayoutEditor
         public void GetClickedModelPosition(Ray ray, Vector3 camPos, bool seeAllObjects, out bool hasIntersected, out float smallestDistance)
         {
             layoutSystem.GetClickedModelPosition(ray, camPos, seeAllObjects, out hasIntersected, out smallestDistance);
+        }
+
+        private void importSALayoutFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog openFile = new OpenFileDialog();
+            if (openFile.ShowDialog() == DialogResult.OK)
+                layoutSystem.ImportSALayout(openFile.FileName);
+        }
+
+        private void PropertyGridMisc_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            layoutSystem.GetSetObjectAt(SelectedIndex).CreateTransformMatrix();
         }
     }
 }

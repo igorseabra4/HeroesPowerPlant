@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0503_TriBumper : SetObjectManagerHeroes
+    public class Object0503_TriBumper : SetObjectHeroes
     {
         public float Power
         {

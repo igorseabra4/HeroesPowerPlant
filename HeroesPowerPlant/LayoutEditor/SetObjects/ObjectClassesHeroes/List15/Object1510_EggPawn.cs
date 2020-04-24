@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object1510_EggPawn : SetObjectManagerHeroes
+    public class Object1510_EggPawn : SetObjectHeroes
     {
         public enum StartModeEnum : byte
         {
@@ -17,7 +15,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public StartModeEnum StartMode
         {
             get => (StartModeEnum)ReadByte(4);
-            set { byte a = (byte)value; Write(4, a); }
+            set => Write(4, (byte)value);
         }
 
         public enum MassTypeEnum : byte
@@ -34,7 +32,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public MassTypeEnum ColorMass
         {
             get => (MassTypeEnum)ReadByte(5);
-            set { byte a = (byte)value; Write(5, a); }
+            set => Write(5, (byte)value);
         }
 
         public enum WeaponTypeEnum : byte

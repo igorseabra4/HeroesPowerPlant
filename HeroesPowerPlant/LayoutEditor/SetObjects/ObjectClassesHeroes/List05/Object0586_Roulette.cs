@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0586_Roulette : SetObjectManagerHeroes
+    public class Object0586_Roulette : SetObjectHeroes
     {
         public float Scale
         {
