@@ -99,7 +99,7 @@ namespace HeroesPowerPlant.CollisionEditor
             data.quadCenterX = Switch(CLReader.ReadSingle());
             data.quadCenterY = Switch(CLReader.ReadSingle());
             data.quadCenterZ = Switch(CLReader.ReadSingle());
-            data.quadLenght = Switch(CLReader.ReadSingle());
+            data.quadLength = Switch(CLReader.ReadSingle());
 
             //Get amount of stuff
             data.basePower = Switch(CLReader.ReadUInt16());
@@ -205,11 +205,11 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public bool ReBuildQuadtree(ref CLFile data, ProgressBar bar)
         {
-            data.CLQuadNodeList[0].NodeSquare.X = data.quadCenterX - (data.quadLenght / 2);
-            data.CLQuadNodeList[0].NodeSquare.Y = data.quadCenterZ - (data.quadLenght / 2);
+            data.CLQuadNodeList[0].NodeSquare.X = data.quadCenterX - (data.quadLength / 2);
+            data.CLQuadNodeList[0].NodeSquare.Y = data.quadCenterZ - (data.quadLength / 2);
 
-            data.CLQuadNodeList[0].NodeSquare.Height = data.quadLenght;
-            data.CLQuadNodeList[0].NodeSquare.Width = data.quadLenght;
+            data.CLQuadNodeList[0].NodeSquare.Height = data.quadLength;
+            data.CLQuadNodeList[0].NodeSquare.Width = data.quadLength;
 
             for (int i = 0; i < data.CLQuadNodeList.Count; i++)
             {

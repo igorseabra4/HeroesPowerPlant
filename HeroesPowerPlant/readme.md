@@ -179,7 +179,7 @@ The texture pattern editor allows you to add, remove and modify texture pattern 
 * Each pattern needs, in the TXD file for the level, a group of textures following a name such as text_animation.n, in which each frame of the animation has a different number n starting from 1.
 * The pattern's texture name is the name of the texture that will be replaced by the animation. The texture with this name will technically not show up ingame. It can be the name of one of the textures in the animation, but this is optional.
 * The animation name is the name of the textures that compose the animation without the number at the end. So, if in the TXD your images are named text_animation.n (with n going from 1 to 8), this field will have "text_animation" in it.
-* The frame count is the total lenght of the animation. Key frames with an offset higher than this will be ignored.
+* The frame count is the total length of the animation. Key frames with an offset higher than this will be ignored.
 * The key frames are the frames in which the image changes. You don't need to change it every frame.
 * The texture number is the number of the texture that will be set in that frame (the number after the dot at the end of the image name).
 * You can have multiple entries (with different texture names) which use the same images (same animation name), but with different frame counts and key frames (such as an animation which plays in a different speed, starts on a different frame, or even a different frame order).

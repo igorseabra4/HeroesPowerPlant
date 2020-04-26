@@ -1,5 +1,5 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object0065_GUNBeetle : SetObjectShadow {
+    public class Object008F_BkWingSmall : SetObjectShadow {
 
         // EnemyBase
         public float MoveRange { //0
@@ -38,18 +38,18 @@
         }
         // end EnemyBase
 
-        public GUNBeetleAppearType AppearType { //7
-            get => (GUNBeetleAppearType)ReadInt(28);
+        public BkWingSmallAppearType AppearType { //7
+            get => (BkWingSmallAppearType)ReadInt(28);
             set => Write(28, (int)value);
         }
 
-        public GUNBeetleActionType ActionType { //8
-            get => (GUNBeetleActionType)ReadInt(32);
+        public BkWingSmallActionType ActionType { //8
+            get => (BkWingSmallActionType)ReadInt(32);
             set => Write(32, (int)value);
         }
 
-        public GUNBeetlePathType PathType { //9
-            get => (GUNBeetlePathType)ReadInt(36);
+        public BkWingSmallPathType PathType { //9
+            get => (BkWingSmallPathType)ReadInt(36);
             set => Write(36, (int)value);
         }
 
@@ -71,45 +71,19 @@
             get => (CommonNoYes)ReadInt(52);
             set => Write(52, (int)value);
         }
-
-        public CommonNoYes IsGolden { //14
-            get => (CommonNoYes)ReadInt(56);
-            set => Write(56, (int)value);
-        }
-        public GUNBeetleWeaponType WeaponType { //15
-            get => (GUNBeetleWeaponType)ReadInt(60);
-            set => Write(60, (int)value);
-        }
-
-        public float SparkDischarge { //16
-            get => ReadFloat(64);
-            set => Write(64, value);
-        }
-        public float SparkWait { //17
-            get => ReadFloat(68);
-            set => Write(68, value);
-        }
     }
 
-    public enum GUNBeetleAppearType {
+    public enum BkWingSmallAppearType {
         WAIT_FLOATING,
         MOVE_ON_PATH
     }
 
-    public enum GUNBeetleActionType {
+    public enum BkWingSmallActionType {
         NONE,
-        SHOCK,
-        USE_WEAPON,
-    }
-    public enum GUNBeetleWeaponType {
-        RIFLE,
-        ROCKET4,
-        BOMB,
-        MACHINEGUN,
-        NONE
+        ATTACK
     }
 
-    public enum GUNBeetlePathType {
+    public enum BkWingSmallPathType {
         LEFTRIGHT,
         UPDOWN,
         RIGHTLEFT,

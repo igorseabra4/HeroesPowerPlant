@@ -20,7 +20,7 @@
             set => Write(12, value);
         }
 
-        public float Strenght
+        public float Strength
         {
             get => ReadFloat(16);
             set => Write(16, value);

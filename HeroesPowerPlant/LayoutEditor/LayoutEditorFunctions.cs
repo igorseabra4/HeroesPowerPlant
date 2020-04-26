@@ -139,7 +139,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             int AmountOfObjects = LayoutFileReader.ReadInt32();
             List<SetObjectShadow> list = new List<SetObjectShadow>(AmountOfObjects);
-            uint TotalMiscLenght = LayoutFileReader.ReadUInt32();
+            uint TotalMiscLength = LayoutFileReader.ReadUInt32();
 
             for (int i = 0; i < AmountOfObjects; i++)
             {
@@ -226,15 +226,15 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutWriter.Write(0);
             }
 
-            int MiscSettingLenght = -(int)layoutWriter.BaseStream.Position;
+            int MiscSettingLength = -(int)layoutWriter.BaseStream.Position;
 
             foreach (SetObjectShadow i in list)
                 layoutWriter.Write(i.MiscSettings);
 
-            MiscSettingLenght += (int)layoutWriter.BaseStream.Position;
+            MiscSettingLength += (int)layoutWriter.BaseStream.Position;
 
             layoutWriter.BaseStream.Position = 8;
-            layoutWriter.Write(MiscSettingLenght);
+            layoutWriter.Write(MiscSettingLength);
 
             layoutWriter.Close();
         }
@@ -828,6 +828,21 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x14: return new Object0014_GoalRing();
                         case 0x20: return new Object0020_Weapon();
                         case 0x4F: return new Object004F_Vehicle();
+                        case 0x64: return new Object0064_GUNSoldier();
+                        case 0x65: return new Object0065_GUNBeetle();
+                        case 0x66: return new Object0066_GUNBigfoot();
+                        case 0x68: return new Object0068_GUNRobot();
+                        case 0x78: return new Object0078_EggPierrot();
+                        case 0x79: return new Object0079_EggPawn();
+                        case 0x7A: return new Object007A_EggShadowAndroid();
+                        case 0x8C: return new Object008C_BkGiant();
+                        case 0x8D: return new Object008D_BkSoldier();
+                        case 0x8E: return new Object008E_BkWingLarge();
+                        case 0x8F: return new Object008F_BkWingSmall();
+                        case 0x90: return new Object0090_BkWorm();
+                        case 0x91: return new Object0091_BkLarva();
+                        case 0x92: return new Object0092_BkChaos();
+                        case 0x93: return new Object0093_BkNinja();
                         case 0x1F: default: return new Object_ShadowDefault(); // warp hole
                     }
                 case 0x01:
@@ -836,10 +851,21 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x90: return new Object0190_Partner();
                         default: return new Object_ShadowDefault();
                     }
+                case 0x07:
+                    switch (Type) {
+                        case 0xD4: return new Object07D4_ElecSecurity();
+                        default: return new Object_ShadowDefault();
+                    }
                 case 0x0B:
                     switch (Type)
                     {
                         case 0xBE: return new Object0BBE_Chao();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x11:
+                    switch (Type)
+                    {
+                        case 0x31: return new Object1131_Vine();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x18:

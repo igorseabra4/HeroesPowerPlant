@@ -30,7 +30,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 case RingType.Line: // line of rings
                     if (NumberOfRings < 2) return;
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(Matrix.Translation(0, 0, TotalLenght * i / (NumberOfRings - 1)));
+                        positionsList.Add(Matrix.Translation(0, 0, TotalLength * i / (NumberOfRings - 1)));
                     break;
 
                 case RingType.Circle: // circle
@@ -42,7 +42,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 case RingType.Arch: // arch
                     if (NumberOfRings < 2) return;
-                    float angle = TotalLenght / Radius;
+                    float angle = TotalLength / Radius;
                     for (int i = 0; i < NumberOfRings; i++)
                     {
                         Matrix Locator = Matrix.Translation(new Vector3(Radius, 0, 0));
@@ -196,7 +196,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(6, value);
         }
 
-        public float TotalLenght
+        public float TotalLength
         {
             get => ReadFloat(8);
             set => Write(8, value);
