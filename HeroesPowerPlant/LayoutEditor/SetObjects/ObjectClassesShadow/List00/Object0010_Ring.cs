@@ -30,20 +30,20 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (NumberOfRings < 2) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, LenghtRadius * i / (NumberOfRings - 1)));
+                        positionsList.Add(new Vector3(0, 0, LengthRadius * i / (NumberOfRings - 1)));
                     break;
                 case RingType.Circle:
                     if (NumberOfRings < 1) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LenghtRadius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
+                        positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LengthRadius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
                     break;
                 case RingType.Arch:
                     if (NumberOfRings < 2) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
                     {
-                        Matrix Locator = Matrix.Translation(new Vector3(LenghtRadius, 0, 0));
+                        Matrix Locator = Matrix.Translation(new Vector3(LengthRadius, 0, 0));
 
                         positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
                             * Matrix.RotationY(Angle / (NumberOfRings - 1) * i)
@@ -170,7 +170,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(4, value);
 }
 
-        public float LenghtRadius
+        public float LengthRadius
         {
             get => ReadFloat(8);
             set => Write(8, value);

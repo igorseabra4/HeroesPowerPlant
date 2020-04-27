@@ -1,5 +1,5 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object0065_GUNBeetle : SetObjectShadow {
+    public class Object008E_BkWingLarge : SetObjectShadow {
 
         // EnemyBase
         public float MoveRange { //0
@@ -38,18 +38,18 @@
         }
         // end EnemyBase
 
-        public GUNBeetleAppearType AppearType { //7
-            get => (GUNBeetleAppearType)ReadInt(28);
+        public BkWingLargeAppearType AppearType { //7
+            get => (BkWingLargeAppearType)ReadInt(28);
             set => Write(28, (int)value);
         }
 
-        public GUNBeetleActionType ActionType { //8
-            get => (GUNBeetleActionType)ReadInt(32);
+        public BkWingLargeActionType ActionType { //8
+            get => (BkWingLargeActionType)ReadInt(32);
             set => Write(32, (int)value);
         }
 
-        public GUNBeetlePathType PathType { //9
-            get => (GUNBeetlePathType)ReadInt(36);
+        public BkWingLargePathType PathType { //9
+            get => (BkWingLargePathType)ReadInt(36);
             set => Write(36, (int)value);
         }
 
@@ -72,44 +72,23 @@
             set => Write(52, (int)value);
         }
 
-        public CommonNoYes IsGolden { //14
-            get => (CommonNoYes)ReadInt(56);
+        public BkWingLargeType BodyAndDeathType { //14
+            get => (BkWingLargeType)ReadInt(56);
             set => Write(56, (int)value);
-        }
-        public GUNBeetleWeaponType WeaponType { //15
-            get => (GUNBeetleWeaponType)ReadInt(60);
-            set => Write(60, (int)value);
-        }
-
-        public float SparkDischarge { //16
-            get => ReadFloat(64);
-            set => Write(64, value);
-        }
-        public float SparkWait { //17
-            get => ReadFloat(68);
-            set => Write(68, value);
         }
     }
 
-    public enum GUNBeetleAppearType {
+    public enum BkWingLargeAppearType {
         WAIT_FLOATING,
         MOVE_ON_PATH
     }
 
-    public enum GUNBeetleActionType {
+    public enum BkWingLargeActionType {
         NONE,
-        SHOCK,
-        USE_WEAPON,
-    }
-    public enum GUNBeetleWeaponType {
-        RIFLE,
-        ROCKET4,
-        BOMB,
-        MACHINEGUN,
-        NONE
+        AIR_CUTTER
     }
 
-    public enum GUNBeetlePathType {
+    public enum BkWingLargePathType {
         LEFTRIGHT,
         UPDOWN,
         RIGHTLEFT,
@@ -119,5 +98,12 @@
         FLY_FORWARD,
         FLY_FORWARD_SWOOP,
         CIRCLE
+    }
+
+    public enum BkWingLargeType {
+        BLACK_HAWK_DISAPPEAR_ON_KILL=0,
+        BLACK_HAWK_FALL_ON_KILL=1,
+        BLACK_VOLT_DISAPPEAR_ON_KILL=16,
+        BLACK_VOLT_FALL_ON_KILL=17
     }
 }

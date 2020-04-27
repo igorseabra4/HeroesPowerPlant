@@ -240,16 +240,16 @@ namespace HeroesPowerPlant.CollisionEditor
             data.quadCenterY = (MaxY + MinY) / 2.0f;
             data.quadCenterZ = (MaxZ + MinZ) / 2.0f;
 
-            data.quadLenght = Math.Max(MaxX - MinX, MaxZ - MinZ);
+            data.quadLength = Math.Max(MaxX - MinX, MaxZ - MinZ);
 
-            data.quadLenght = (float)Math.Ceiling(data.quadLenght);
+            data.quadLength = (float)Math.Ceiling(data.quadLength);
 
-            if (data.quadLenght % 16 != 0)
-                data.quadLenght = (((int)(data.quadLenght) / 16) + 1) * 16;
+            if (data.quadLength % 16 != 0)
+                data.quadLength = (((int)(data.quadLength) / 16) + 1) * 16;
 
             if (data.MaxDepth == 0)
             {
-                data.MaxDepth = (byte)(Math.Log(data.quadLenght / 50) / (Math.Log(2)));
+                data.MaxDepth = (byte)(Math.Log(data.quadLength / 50) / (Math.Log(2)));
                 if (data.MaxDepth > 10)
                     data.MaxDepth = 10;
             }
@@ -273,10 +273,10 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             QuadNode TempNode = new QuadNode();
 
-            TempNode.NodeSquare.X = data.quadCenterX - (data.quadLenght / 2);
-            TempNode.NodeSquare.Y = data.quadCenterZ - (data.quadLenght / 2);
-            TempNode.NodeSquare.Width = data.quadLenght;
-            TempNode.NodeSquare.Height = data.quadLenght;
+            TempNode.NodeSquare.X = data.quadCenterX - (data.quadLength / 2);
+            TempNode.NodeSquare.Y = data.quadCenterZ - (data.quadLength / 2);
+            TempNode.NodeSquare.Width = data.quadLength;
+            TempNode.NodeSquare.Height = data.quadLength;
 
             TempNode.Child = 1;
             TempNode.NodeTriangleArray = Range((ushort)data.CLTriangleArray.Count());
@@ -459,7 +459,7 @@ namespace HeroesPowerPlant.CollisionEditor
             FileWriter.Write(Switch(data.quadCenterX));
             FileWriter.Write(Switch(data.quadCenterY));
             FileWriter.Write(Switch(data.quadCenterZ));
-            FileWriter.Write(Switch(data.quadLenght));
+            FileWriter.Write(Switch(data.quadLength));
             FileWriter.Write(Switch(data.basePower));
             FileWriter.Write(Switch(data.numTriangles));
             FileWriter.Write(Switch(data.numVertices));

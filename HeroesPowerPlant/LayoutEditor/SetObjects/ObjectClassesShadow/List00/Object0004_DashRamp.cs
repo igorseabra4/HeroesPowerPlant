@@ -2,7 +2,7 @@
 {
     public class Object0004_DashRamp : SetObjectShadow
     {
-        public float Strenght
+        public float Strength
         {
             get => ReadFloat(0);
             set => Write(0, value);

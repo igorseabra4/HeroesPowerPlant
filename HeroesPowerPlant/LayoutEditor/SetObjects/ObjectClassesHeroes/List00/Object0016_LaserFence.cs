@@ -17,7 +17,7 @@
             set => Write(4, (int)value);
         }
 
-        public float Lenght
+        public float Length
         {
             get => ReadFloat(8);
             set => Write(8, value);
