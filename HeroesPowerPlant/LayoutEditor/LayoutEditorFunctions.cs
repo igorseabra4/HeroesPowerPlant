@@ -139,6 +139,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             int AmountOfObjects = LayoutFileReader.ReadInt32();
             List<SetObjectShadow> list = new List<SetObjectShadow>(AmountOfObjects);
+            List<int> miscCountL = new List<int>(AmountOfObjects);
             uint TotalMiscLength = LayoutFileReader.ReadUInt32();
 
             for (int i = 0; i < AmountOfObjects; i++)
@@ -157,9 +158,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 byte List = LayoutFileReader.ReadByte();
                 byte Link = LayoutFileReader.ReadByte();
                 byte Rend = LayoutFileReader.ReadByte();
-                int MiscSettingCount = LayoutFileReader.ReadInt32();
+                miscCountL.Add(LayoutFileReader.ReadInt32());
 
-                SetObjectShadow TempObject = CreateShadowObject(List, Type, Position, Rotation, Link, Rend, MiscSettingCount, UnkBytes, false);
+                SetObjectShadow TempObject = CreateShadowObject(List, Type, Position, Rotation, Link, Rend, UnkBytes, false);
 
                 list.Add(TempObject);
             }
@@ -167,7 +168,7 @@ namespace HeroesPowerPlant.LayoutEditor
             LayoutFileReader.BaseStream.Position = 12 + AmountOfObjects * 0x2C;
             for (int i = 0; i < list.Count; i++)
             {
-                list[i].MiscSettings = LayoutFileReader.ReadBytes(list[i].MiscSettingCount);
+                list[i].MiscSettings = LayoutFileReader.ReadBytes(miscCountL[i]);
                 list[i].CreateTransformMatrix();
             }
 
@@ -380,9 +381,9 @@ namespace HeroesPowerPlant.LayoutEditor
             iniWriter.Close();
         }
 
-        public static ObjectEntry[] ReadObjectListData(string FileName)
+        public static Dictionary<(byte, byte), ObjectEntry> ReadObjectListData(string FileName)
         {
-            List<ObjectEntry> list = new List<ObjectEntry>();
+            var list = new Dictionary<(byte, byte), ObjectEntry>();
 
             byte List = 0;
             byte Type = 0;
@@ -417,7 +418,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     ModelMiscSetting = Convert.ToInt32(i.Split('=')[1]);
                 else if (i.StartsWith("EndOfFile"))
                 {
-                    list.Add(new ObjectEntry()
+                    list.Add((List, Type), new ObjectEntry()
                     {
                         List = List,
                         Type = Type,
@@ -433,7 +434,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
                 else if (i.Length == 0)
                 {
-                    list.Add(new ObjectEntry()
+                    list.Add((List, Type), new ObjectEntry()
                     {
                         List = List,
                         Type = Type,
@@ -457,7 +458,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
             }
 
-            return list.ToArray();
+            return list;
         }
         
         public static SetObjectHeroes CreateHeroesObject
@@ -471,7 +472,7 @@ namespace HeroesPowerPlant.LayoutEditor
             heroesObj.Link = Link;
             heroesObj.Rend = Rend;
             heroesObj.UnkBytes = UnkBytes ?? new byte[8];
-            heroesObj.FindObjectEntry(LayoutEditorSystem.HeroesObjectEntries);
+            heroesObj.SetObjectEntry(LayoutEditorSystem.heroesObjectEntry(List, Type));
             if (createMatrix)
                 heroesObj.CreateTransformMatrix();
 
@@ -793,7 +794,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         public static SetObjectShadow CreateShadowObject
-            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, int MiscSettingCount, byte[] UnkBytes = null, bool createMatrix = true)
+            (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null, bool createMatrix = true)
         {
             SetObjectShadow shadowObj = FindObjectClassShadow(List, Type);
             shadowObj.Position = Position;
@@ -803,8 +804,7 @@ namespace HeroesPowerPlant.LayoutEditor
             shadowObj.Link = Link;
             shadowObj.Rend = Rend;
             shadowObj.UnkBytes = UnkBytes ?? new byte[8];
-            shadowObj.MiscSettingCount = MiscSettingCount;            
-            shadowObj.FindObjectEntry(LayoutEditorSystem.ShadowObjectEntries);
+            shadowObj.SetObjectEntry(LayoutEditorSystem.shadowObjectEntry(List, Type));
             if (createMatrix)
                 shadowObj.CreateTransformMatrix();
 

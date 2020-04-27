@@ -48,7 +48,7 @@ namespace HeroesPowerPlant.Other
 					if (newObj.List == 0 && newObj.Type == 0)
 						continue;
 
-					newObj.FindObjectEntry(LayoutEditorSystem.HeroesObjectEntries);
+					newObj.SetObjectEntry(LayoutEditorSystem.heroesObjectEntry(newObj.List, newObj.Type));
 					newObj.CreateTransformMatrix();
 
 					outObjs.Add(newObj);

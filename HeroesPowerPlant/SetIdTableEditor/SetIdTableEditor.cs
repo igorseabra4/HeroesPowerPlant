@@ -1,5 +1,6 @@
 ﻿using HeroesPowerPlant.LayoutEditor;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -28,8 +29,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
             Hide();
         }
 
-        private ObjectEntry[] heroesObjectEntries => LayoutEditorSystem.HeroesObjectEntries;
-        private ObjectEntry[] shadowObjectEntries => LayoutEditorSystem.ShadowObjectEntries;
+        private Dictionary<(byte, byte), ObjectEntry> heroesObjectEntries => LayoutEditorSystem.heroesObjectEntries;
+        private Dictionary<(byte, byte), ObjectEntry> shadowObjectEntries => LayoutEditorSystem.shadowObjectEntries;
         private StageEntry[] heroesStageEntries;
         private StageEntry[] shadowStageEntries;
 

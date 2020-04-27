@@ -3,7 +3,6 @@ using SharpDX;
 using System;
 using System.Collections.Generic;
 using HeroesPowerPlant.LevelEditor;
-using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -28,31 +27,22 @@ namespace HeroesPowerPlant.LayoutEditor
         protected int ModelMiscSetting;
         protected string[][] ModelNames;
         public bool HasMiscSettings;
-        public int MiscSettingCount = -1;
 
         public override string ToString()
         {
             return GetName() + (Link == 0 ? "" : $" ({Link})");
         }
 
-        public void FindObjectEntry(ObjectEntry[] objectEntries)
+        public void SetObjectEntry(ObjectEntry objectEntry)
         {
-            for (int i = 0; i < objectEntries.Length; i++)
-                if (objectEntries[i].List == List & objectEntries[i].Type == Type)
-                {
-                    List = objectEntries[i].List;
-                    Type = objectEntries[i].Type;
-                    Name = objectEntries[i].Name;
-                    DebugName = objectEntries[i].DebugName;
-                    Description = objectEntries[i].Description;
-                    ModelMiscSetting = objectEntries[i].ModelMiscSetting;
-                    ModelNames = objectEntries[i].ModelNames;
-                    HasMiscSettings = objectEntries[i].HasMiscSettings;
-                    if (objectEntries[i].MiscSettingCount != -1)
-                        MiscSettingCount = objectEntries[i].MiscSettingCount;
-                    return;
-                }
-            throw new Exception($"Object entry not found: {List.ToString("X2")} {Type.ToString("X2")}");
+            List = objectEntry.List;
+            Type = objectEntry.Type;
+            Name = objectEntry.Name;
+            DebugName = objectEntry.DebugName;
+            Description = objectEntry.Description;
+            ModelMiscSetting = objectEntry.ModelMiscSetting;
+            ModelNames = objectEntry.ModelNames;
+            HasMiscSettings = objectEntry.HasMiscSettings;
         }
 
         private string GetName()

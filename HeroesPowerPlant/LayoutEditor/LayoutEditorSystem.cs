@@ -19,8 +19,10 @@ namespace HeroesPowerPlant.LayoutEditor
         private string currentlyOpenFileName;
         public string CurrentlyOpenFileName => currentlyOpenFileName;
 
-        private static ObjectEntry[] heroesObjectEntries;
-        private static ObjectEntry[] shadowObjectEntries;
+        public static Dictionary<(byte, byte), ObjectEntry> heroesObjectEntries { get; private set; }
+        public static Dictionary<(byte, byte), ObjectEntry> shadowObjectEntries { get; private set; }
+        public static ObjectEntry heroesObjectEntry(byte List, byte Type) => heroesObjectEntries[(List, Type)];
+        public static ObjectEntry shadowObjectEntry(byte List, byte Type) => shadowObjectEntries[(List, Type)];
 
         public bool autoUnkBytes;
 
@@ -32,9 +34,9 @@ namespace HeroesPowerPlant.LayoutEditor
             string extraObjectEntriesPath = "Resources/Lists/HeroesObjectListCustom.ini";
             if (File.Exists(extraObjectEntriesPath))
             {
-                List<ObjectEntry> temp = heroesObjectEntries.ToList();
-                temp.AddRange(ReadObjectListData(extraObjectEntriesPath));
-                heroesObjectEntries = temp.ToArray();
+                var dict = ReadObjectListData(extraObjectEntriesPath);
+                foreach (var k in dict.Keys)
+                    heroesObjectEntries.Add(k, dict[k]);
             }
         }
 
@@ -58,30 +60,26 @@ namespace HeroesPowerPlant.LayoutEditor
         public static IEnumerable<ObjectEntry> GetAllObjectEntries()
         {
             List<ObjectEntry> list = new List<ObjectEntry>();
-            list.AddRange(heroesObjectEntries);
-            list.AddRange(shadowObjectEntries);
+            list.AddRange(heroesObjectEntries.Values);
+            list.AddRange(shadowObjectEntries.Values);
 
             return list;
         }
 
         public static ObjectEntry[] GetActiveObjectEntries()
         {
-            if (isShadow) return shadowObjectEntries;
-            else return heroesObjectEntries;
+            if (isShadow)
+                return shadowObjectEntries.Values.ToArray();
+            return heroesObjectEntries.Values.ToArray();
         }
-
-        public static ObjectEntry[] HeroesObjectEntries => heroesObjectEntries;
-        public static ObjectEntry[] ShadowObjectEntries => shadowObjectEntries;
-        
+                
         public (byte, byte)[] GetAllCurrentObjectEntries()
         {
             HashSet<(byte, byte)> objectEntries = new HashSet<(byte, byte)>();
 
             foreach (SetObject s in setObjects)
-            {
                 if (!objectEntries.Contains((s.List, s.Type)))
                     objectEntries.Add((s.List, s.Type));
-            }
 
             return objectEntries.ToArray();
         }
@@ -242,7 +240,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 unkBytes.AddRange(new byte[] { 1, currentNum });
                 unkBytes.AddRange(currentNum == 0x80 ? new byte[] { 0x40, 0x80 } : new byte[] { 0, 0 });
 
-                setObjects.Add(CreateShadowObject(0, 0, Position, Vector3.Zero, 0, 10, 0, unkBytes.ToArray()));
+                setObjects.Add(CreateShadowObject(0, 0, Position, Vector3.Zero, 0, 10, unkBytes.ToArray()));
             }
             else
             {
@@ -290,7 +288,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (isShadow)
                 {
                     src = JsonConvert.DeserializeObject<Object_ShadowDefault>(text);
-                    dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.MiscSettingCount, src.UnkBytes);
+                    dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
                 }
                 else
                 {
@@ -325,12 +323,16 @@ namespace HeroesPowerPlant.LayoutEditor
             Vector3 rot = current.Rotation;
             byte link = current.Link;
             byte rend = current.Rend;
-            int msc = current.MiscSettingCount;
             byte[] unkb = current.UnkBytes;
             bool isSelected = current.isSelected;
             
             if (isShadow)
-                setObjects[index] = CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, msc, unkb);
+            {
+                var newObject = CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb, false);
+                int dmsc = shadowObjectEntries[(newEntry.List, newEntry.Type)].MiscSettingCount;
+                newObject.MiscSettings = new byte[dmsc == -1 ? 0 : dmsc];
+                setObjects[index] = newObject;
+            }
             else
                 setObjects[index] = CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
             

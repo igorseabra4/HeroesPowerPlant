@@ -159,6 +159,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             OpenFileDialog openFile = new OpenFileDialog
             {
+                Multiselect = true,
 #if DEBUG
                 Filter = ".bin files|*.bin|.dat files|*.dat"
 #else
@@ -168,7 +169,8 @@ namespace HeroesPowerPlant.LayoutEditor
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 listBoxObjects.BeginUpdate();
-                layoutSystem.ImportLayoutFile(openFile.FileName);
+                foreach (var s in openFile.FileNames)
+                    layoutSystem.ImportLayoutFile(s);
                 listBoxObjects.EndUpdate();
             }
         }

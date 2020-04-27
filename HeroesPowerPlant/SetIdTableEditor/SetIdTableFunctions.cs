@@ -32,7 +32,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             return stageEntries.ToArray();
         }
 
-        public static List<TableEntry> LoadTable(string fileName, bool isShadow, ObjectEntry[] objectEntries)
+        public static List<TableEntry> LoadTable(string fileName, bool isShadow, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
             BinaryReader tableReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
 
@@ -65,7 +65,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             return tableEntries;
         }
 
-        private static TableEntry ReadHeroesTableEntry(BinaryReader tableReader, ObjectEntry[] objectEntries)
+        private static TableEntry ReadHeroesTableEntry(BinaryReader tableReader, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
             TableEntry temporaryEntry = new TableEntry
             {
@@ -78,23 +78,39 @@ namespace HeroesPowerPlant.SetIdTableEditor
             byte objList = tableReader.ReadByte();
             byte objType = tableReader.ReadByte();
 
-            temporaryEntry.FindObjectEntry(objList, objType, objectEntries);
-
+            if (objectEntries.ContainsKey((objType, objList)))
+                temporaryEntry.objectEntry = objectEntries[(objType, objList)];
+            else
+                temporaryEntry.objectEntry = new ObjectEntry()
+                {
+                    Type = objType,
+                    List = objList,
+                    Name = "Unknown/Unused"
+                };
+            
             return temporaryEntry;
         }
 
-        private static TableEntry ReadShadowTableEntry(BinaryReader tableReader, ObjectEntry[] objectEntries)
+        private static TableEntry ReadShadowTableEntry(BinaryReader tableReader, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
             TableEntry temporaryEntry = new TableEntry();
 
             byte objType = tableReader.ReadByte();
             byte objList = tableReader.ReadByte();
             tableReader.ReadInt16();
-
             temporaryEntry.values0 = Switch(tableReader.ReadUInt32());
             temporaryEntry.values1 = Switch(tableReader.ReadUInt32());
 
-            temporaryEntry.FindObjectEntry(objList, objType, objectEntries);
+            if (objectEntries.ContainsKey((objType, objList)))
+                temporaryEntry.objectEntry = objectEntries[(objType, objList)];
+            else
+                temporaryEntry.objectEntry = new ObjectEntry()
+                {
+                    Type = objType,
+                    List = objList,
+                    Name = "Unknown/Unused"
+                };
+
             return temporaryEntry;
         }
 
