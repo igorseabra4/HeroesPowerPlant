@@ -105,7 +105,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 for (int i = 0; i < SharpRenderer.cubeVertices.Count; i++)
                     list.Add((Vector3)Vector3.Transform(SharpRenderer.cubeVertices[i], transformMatrix));
             else
-                for (int i = 0; i < model.vertexListG[i].Length(); i++)
+                for (int i = 0; i < model.vertexListG.Count; i++)
                     list.Add((Vector3)Vector3.Transform(model.vertexListG[i], transformMatrix));
 
             boundingBox = BoundingBox.FromPoints(list.ToArray());

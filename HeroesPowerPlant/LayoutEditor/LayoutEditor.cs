@@ -762,9 +762,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void importSALayoutFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFile = new OpenFileDialog();
+            using OpenFileDialog openFile = new OpenFileDialog() { Multiselect = true };
             if (openFile.ShowDialog() == DialogResult.OK)
-                layoutSystem.ImportSALayout(openFile.FileName);
+                foreach (var s in openFile.FileNames)
+                    layoutSystem.ImportSALayout(s);
         }
 
         private void PropertyGridMisc_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)

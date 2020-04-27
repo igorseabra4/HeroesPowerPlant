@@ -23,17 +23,19 @@ namespace HeroesPowerPlant.Other
 
 			foreach (var obj in objs)
 			{
-				SetObjectHeroes newObj;
+				List<SetObjectHeroes> newObjs = new List<SetObjectHeroes>();
 
 				if (filePath.Contains("set01"))
-					newObj = ConvertObjectsEmeraldCoast(obj);
+					newObjs.AddRange(ConvertObjectsEmeraldCoast(obj));
 				else if (filePath.Contains("set02"))
 				{
-					newObj = ConvertObjectsWindyValley(obj);
+					newObjs.AddRange(ConvertObjectsWindyValley(obj));
 					if (filePath.Contains("set0200"))
-						newObj.Position = new SharpDX.Vector3(newObj.Position.X, newObj.Position.Y, newObj.Position.Z - 5000);
+						foreach (var newObj in newObjs)
+							newObj.Position = new SharpDX.Vector3(newObj.Position.X, newObj.Position.Y, newObj.Position.Z - 5000);
 					if (filePath.Contains("set0201"))
-						newObj.Position = new SharpDX.Vector3(newObj.Position.X, newObj.Position.Y + 1000, newObj.Position.Z);
+						foreach (var newObj in newObjs)
+							newObj.Position = new SharpDX.Vector3(newObj.Position.X, newObj.Position.Y + 1000, newObj.Position.Z);
 				}
 				//else if (filePath.Contains("set0013"))
 				//	newObj = ConvertObjectsCityEscape(obj);
@@ -41,19 +43,22 @@ namespace HeroesPowerPlant.Other
 				//	newObj = ConvertObjectsGreenForest(obj);
 				else continue;
 
-				if (newObj.List == 0 && newObj.Type == 0)
-					continue;
+				foreach (var newObj in newObjs)
+				{
+					if (newObj.List == 0 && newObj.Type == 0)
+						continue;
 
-				newObj.FindObjectEntry(LayoutEditorSystem.HeroesObjectEntries);
-				newObj.CreateTransformMatrix();
+					newObj.FindObjectEntry(LayoutEditorSystem.HeroesObjectEntries);
+					newObj.CreateTransformMatrix();
 
-				outObjs.Add(newObj);
+					outObjs.Add(newObj);
+				}
 			}
 
 			return outObjs;
 		}
 		
-		private static SetObjectHeroes ConvertObjectsEmeraldCoast(SASetObject obj)
+		private static List<SetObjectHeroes> ConvertObjectsEmeraldCoast(SASetObject obj)
 		{
 			SetObjectHeroes objHeroes = LayoutEditorFunctions.CreateHeroesObject(0, 0, obj.Position, obj.Rotation, 0, 10, new byte[36]);
 
@@ -100,12 +105,16 @@ namespace HeroesPowerPlant.Other
 					break;
 			}
 
-			return objHeroes;
+			return new List<SetObjectHeroes>() { objHeroes };
 		}
 
-		private static SetObjectHeroes ConvertObjectsWindyValley(SASetObject obj)
+		private static List<SetObjectHeroes> ConvertObjectsWindyValley(SASetObject obj)
 		{
 			SetObjectHeroes objHeroes = LayoutEditorFunctions.CreateHeroesObject(0, 0, obj.Position, obj.Rotation, 0, 10, new byte[36]);
+			List<SetObjectHeroes> objects = new List<SetObjectHeroes>
+			{
+				objHeroes
+			};
 
 			switch (obj.Type)
 			{
@@ -152,10 +161,6 @@ namespace HeroesPowerPlant.Other
 					objHeroes.Rotation = new SharpDX.Vector3();
 					objHeroes.Type = 0x2E; //fan
 					break;
-				//case 46:
-				//	objHeroes.List = 0x09;
-				//	objHeroes.Type = 0x80;
-				//	break; // butterfly
 				case 47:
 					objHeroes.List = 0x09;
 					objHeroes.Type = 0x09;
@@ -163,7 +168,28 @@ namespace HeroesPowerPlant.Other
 				case 53:
 					objHeroes.List = 0x09;
 					objHeroes.Type = 0x08;
+					objHeroes.Link = 128;
 					break; // homing attackable windmill
+				case 46:
+					objHeroes.List = 0x09;
+					objHeroes.Type = 0x80;
+					objHeroes.MiscSettings[4] = BitConverter.GetBytes(50f)[3];
+					objHeroes.MiscSettings[5] = BitConverter.GetBytes(50f)[2];
+					objHeroes.MiscSettings[6] = BitConverter.GetBytes(50f)[1];
+					objHeroes.MiscSettings[7] = BitConverter.GetBytes(50f)[0];
+					objHeroes.MiscSettings[8] = BitConverter.GetBytes(50f)[3];
+					objHeroes.MiscSettings[9] = BitConverter.GetBytes(50f)[2];
+					objHeroes.MiscSettings[10] = BitConverter.GetBytes(50f)[1];
+					objHeroes.MiscSettings[11] = BitConverter.GetBytes(50f)[0];
+					objHeroes.MiscSettings[12] = BitConverter.GetBytes(50f)[3];
+					objHeroes.MiscSettings[13] = BitConverter.GetBytes(50f)[2];
+					objHeroes.MiscSettings[14] = BitConverter.GetBytes(50f)[1];
+					objHeroes.MiscSettings[15] = BitConverter.GetBytes(50f)[0];
+					objHeroes.MiscSettings[16] = BitConverter.GetBytes(5)[3];
+					objHeroes.MiscSettings[17] = BitConverter.GetBytes(5)[2];
+					objHeroes.MiscSettings[18] = BitConverter.GetBytes(5)[1];
+					objHeroes.MiscSettings[19] = BitConverter.GetBytes(5)[0];
+					break; // butterfly
 				case 59:
 				case 60:
 					objHeroes.List = 0x09;
@@ -173,6 +199,72 @@ namespace HeroesPowerPlant.Other
 					objHeroes.MiscSettings[10] = BitConverter.GetBytes(1.0f)[1];
 					objHeroes.MiscSettings[11] = BitConverter.GetBytes(1.0f)[0];
 					break; // small flower
+				case 70:
+					objHeroes.List = 0x05;
+					objHeroes.Type = 0x87;
+					objHeroes.MiscSettings[4] = BitConverter.GetBytes(1f)[3];
+					objHeroes.MiscSettings[5] = BitConverter.GetBytes(1f)[2];
+					objHeroes.MiscSettings[6] = BitConverter.GetBytes(1f)[1];
+					objHeroes.MiscSettings[7] = BitConverter.GetBytes(1f)[0];
+					objHeroes.MiscSettings[8] = BitConverter.GetBytes(2)[3];
+					objHeroes.MiscSettings[9] = BitConverter.GetBytes(2)[2];
+					objHeroes.MiscSettings[10] = BitConverter.GetBytes(2)[1];
+					objHeroes.MiscSettings[11] = BitConverter.GetBytes(2)[0];
+					objHeroes.MiscSettings[12] = BitConverter.GetBytes(0)[3];
+					objHeroes.MiscSettings[13] = BitConverter.GetBytes(0)[2];
+					objHeroes.MiscSettings[14] = BitConverter.GetBytes(0)[1];
+					objHeroes.MiscSettings[15] = BitConverter.GetBytes(0)[0];
+
+					var extraC2 = LayoutEditorFunctions.CreateHeroesObject(0x5, 0x87,
+						objHeroes.Position, obj.Rotation, 0, 10, new byte[36]);
+					extraC2.MiscSettings[4] = BitConverter.GetBytes(1f)[3];
+					extraC2.MiscSettings[5] = BitConverter.GetBytes(1f)[2];
+					extraC2.MiscSettings[6] = BitConverter.GetBytes(1f)[1];
+					extraC2.MiscSettings[7] = BitConverter.GetBytes(1f)[0];
+					extraC2.MiscSettings[8] = BitConverter.GetBytes(1)[3];
+					extraC2.MiscSettings[9] = BitConverter.GetBytes(1)[2];
+					extraC2.MiscSettings[10] = BitConverter.GetBytes(1)[1];
+					extraC2.MiscSettings[11] = BitConverter.GetBytes(1)[0];
+					extraC2.MiscSettings[12] = BitConverter.GetBytes(600)[3];
+					extraC2.MiscSettings[13] = BitConverter.GetBytes(600)[2];
+					extraC2.MiscSettings[14] = BitConverter.GetBytes(600)[1];
+					extraC2.MiscSettings[15] = BitConverter.GetBytes(600)[0];
+					objects.Add(extraC2);
+
+					var extraCyl2 = LayoutEditorFunctions.CreateHeroesObject(0, 0x50,
+						new SharpDX.Vector3(objHeroes.Position.X, objHeroes.Position.Y - 50, objHeroes.Position.Z)
+						, obj.Rotation, 0, 10, new byte[36]);
+					extraCyl2.MiscSettings[4] = BitConverter.GetBytes(1)[3];
+					extraCyl2.MiscSettings[5] = BitConverter.GetBytes(1)[2];
+					extraCyl2.MiscSettings[6] = BitConverter.GetBytes(1)[1];
+					extraCyl2.MiscSettings[7] = BitConverter.GetBytes(1)[0];
+					extraCyl2.MiscSettings[8] = BitConverter.GetBytes(54f)[3];
+					extraCyl2.MiscSettings[9] = BitConverter.GetBytes(54f)[2];
+					extraCyl2.MiscSettings[10] = BitConverter.GetBytes(54f)[1];
+					extraCyl2.MiscSettings[11] = BitConverter.GetBytes(54f)[0];
+					extraCyl2.MiscSettings[12] = BitConverter.GetBytes(50f)[3];
+					extraCyl2.MiscSettings[13] = BitConverter.GetBytes(50f)[2];
+					extraCyl2.MiscSettings[14] = BitConverter.GetBytes(50f)[1];
+					extraCyl2.MiscSettings[15] = BitConverter.GetBytes(50f)[0];
+					objects.Add(extraCyl2);
+
+					var extraCyl3 = LayoutEditorFunctions.CreateHeroesObject(0, 0x50,
+						new SharpDX.Vector3(objHeroes.Position.X, objHeroes.Position.Y +17.5f, objHeroes.Position.Z)
+						, obj.Rotation, 0, 10, new byte[36]);
+					extraCyl3.MiscSettings[4] = BitConverter.GetBytes(1)[3];
+					extraCyl3.MiscSettings[5] = BitConverter.GetBytes(1)[2];
+					extraCyl3.MiscSettings[6] = BitConverter.GetBytes(1)[1];
+					extraCyl3.MiscSettings[7] = BitConverter.GetBytes(1)[0];
+					extraCyl3.MiscSettings[8] = BitConverter.GetBytes(32.5f)[3];
+					extraCyl3.MiscSettings[9] = BitConverter.GetBytes(32.5f)[2];
+					extraCyl3.MiscSettings[10] = BitConverter.GetBytes(32.5f)[1];
+					extraCyl3.MiscSettings[11] = BitConverter.GetBytes(32.5f)[0];
+					extraCyl3.MiscSettings[12] = BitConverter.GetBytes(25f)[3];
+					extraCyl3.MiscSettings[13] = BitConverter.GetBytes(25f)[2];
+					extraCyl3.MiscSettings[14] = BitConverter.GetBytes(25f)[1];
+					extraCyl3.MiscSettings[15] = BitConverter.GetBytes(25f)[0];
+					objects.Add(extraCyl3);
+					break; // very large floating windmill, casino chip
 				case 50:
 					objHeroes.List = 0x09;
 					objHeroes.Type = 0x83;
@@ -196,6 +288,27 @@ namespace HeroesPowerPlant.Other
 					objHeroes.MiscSettings[9] = BitConverter.GetBytes(1.0f)[2];
 					objHeroes.MiscSettings[10] = BitConverter.GetBytes(1.0f)[1];
 					objHeroes.MiscSettings[11] = BitConverter.GetBytes(1.0f)[0];
+
+					var extraCube = LayoutEditorFunctions.CreateHeroesObject(0, 0x50,
+						new SharpDX.Vector3(objHeroes.Position.X, objHeroes.Position.Y - 25, objHeroes.Position.Z)
+						, obj.Rotation, 0, 10, new byte[36]);
+					extraCube.MiscSettings[4] = BitConverter.GetBytes(2)[3];
+					extraCube.MiscSettings[5] = BitConverter.GetBytes(2)[2];
+					extraCube.MiscSettings[6] = BitConverter.GetBytes(2)[1];
+					extraCube.MiscSettings[7] = BitConverter.GetBytes(2)[0];
+					extraCube.MiscSettings[8] = BitConverter.GetBytes(25.0f)[3];
+					extraCube.MiscSettings[9] = BitConverter.GetBytes(25.0f)[2];
+					extraCube.MiscSettings[10] = BitConverter.GetBytes(25.0f)[1];
+					extraCube.MiscSettings[11] = BitConverter.GetBytes(25.0f)[0];
+					extraCube.MiscSettings[12] = BitConverter.GetBytes(25.0f)[3];
+					extraCube.MiscSettings[13] = BitConverter.GetBytes(25.0f)[2];
+					extraCube.MiscSettings[14] = BitConverter.GetBytes(25.0f)[1];
+					extraCube.MiscSettings[15] = BitConverter.GetBytes(25.0f)[0];
+					extraCube.MiscSettings[16] = BitConverter.GetBytes(25.0f)[3];
+					extraCube.MiscSettings[17] = BitConverter.GetBytes(25.0f)[2];
+					extraCube.MiscSettings[18] = BitConverter.GetBytes(25.0f)[1];
+					extraCube.MiscSettings[19] = BitConverter.GetBytes(25.0f)[0];
+					objects.Add(extraCube);
 					break; // square floating platform, palmtree
 				case 45:
 					objHeroes.List = 0x09;
@@ -205,30 +318,84 @@ namespace HeroesPowerPlant.Other
 					objHeroes.MiscSettings[9] = BitConverter.GetBytes(1.0f)[2];
 					objHeroes.MiscSettings[10] = BitConverter.GetBytes(1.0f)[1];
 					objHeroes.MiscSettings[11] = BitConverter.GetBytes(1.0f)[0];
+
+					var extraCyl = LayoutEditorFunctions.CreateHeroesObject(0, 0x50, 
+						new SharpDX.Vector3(objHeroes.Position.X, objHeroes.Position.Y - 24, objHeroes.Position.Z)
+						, obj.Rotation, 0, 10, new byte[36]);
+					extraCyl.MiscSettings[4] = BitConverter.GetBytes(1)[3];
+					extraCyl.MiscSettings[5] = BitConverter.GetBytes(1)[2];
+					extraCyl.MiscSettings[6] = BitConverter.GetBytes(1)[1];
+					extraCyl.MiscSettings[7] = BitConverter.GetBytes(1)[0];
+					extraCyl.MiscSettings[8] = BitConverter.GetBytes(25.0f)[3];
+					extraCyl.MiscSettings[9] = BitConverter.GetBytes(25.0f)[2];
+					extraCyl.MiscSettings[10] = BitConverter.GetBytes(25.0f)[1];
+					extraCyl.MiscSettings[11] = BitConverter.GetBytes(25.0f)[0];
+					extraCyl.MiscSettings[12] = BitConverter.GetBytes(25.0f)[3];
+					extraCyl.MiscSettings[13] = BitConverter.GetBytes(25.0f)[2];
+					extraCyl.MiscSettings[14] = BitConverter.GetBytes(25.0f)[1];
+					extraCyl.MiscSettings[15] = BitConverter.GetBytes(25.0f)[0];
+					objects.Add(extraCyl);
 					break; // round floating platform, palmtree
+				case 66:// small decoration windmill
+				case 68:// other windmill
+					objHeroes.List = 0x08;
+					objHeroes.Type = 0x02;
 
+					var extraC1 = LayoutEditorFunctions.CreateHeroesObject(0x5, 0x87,
+						objHeroes.Position, obj.Rotation, 0, 10, new byte[36]);
+					extraC1.MiscSettings[4] = BitConverter.GetBytes(1f)[3];
+					extraC1.MiscSettings[5] = BitConverter.GetBytes(1f)[2];
+					extraC1.MiscSettings[6] = BitConverter.GetBytes(1f)[1];
+					extraC1.MiscSettings[7] = BitConverter.GetBytes(1f)[0];
+					extraC1.MiscSettings[8] = BitConverter.GetBytes(0)[3];
+					extraC1.MiscSettings[9] = BitConverter.GetBytes(0)[2];
+					extraC1.MiscSettings[10] = BitConverter.GetBytes(0)[1];
+					extraC1.MiscSettings[11] = BitConverter.GetBytes(0)[0];
+					extraC1.MiscSettings[12] = BitConverter.GetBytes(600)[3];
+					extraC1.MiscSettings[13] = BitConverter.GetBytes(600)[2];
+					extraC1.MiscSettings[14] = BitConverter.GetBytes(600)[1];
+					extraC1.MiscSettings[15] = BitConverter.GetBytes(600)[0];
+					objects.Add(extraC1);
+					break;
+				case 71:
+					objHeroes.List = 0x05;
+					objHeroes.Type = 0x87;
+					objHeroes.MiscSettings[4] = BitConverter.GetBytes(1f)[3];
+					objHeroes.MiscSettings[5] = BitConverter.GetBytes(1f)[2];
+					objHeroes.MiscSettings[6] = BitConverter.GetBytes(1f)[1];
+					objHeroes.MiscSettings[7] = BitConverter.GetBytes(1f)[0];
+					objHeroes.MiscSettings[8] = BitConverter.GetBytes(3)[3];
+					objHeroes.MiscSettings[9] = BitConverter.GetBytes(3)[2];
+					objHeroes.MiscSettings[10] = BitConverter.GetBytes(3)[1];
+					objHeroes.MiscSettings[11] = BitConverter.GetBytes(3)[0];
+					objHeroes.MiscSettings[12] = BitConverter.GetBytes(0)[3];
+					objHeroes.MiscSettings[13] = BitConverter.GetBytes(0)[2];
+					objHeroes.MiscSettings[14] = BitConverter.GetBytes(0)[1];
+					objHeroes.MiscSettings[15] = BitConverter.GetBytes(0)[0];
 
-				//case 66:
-				//	objHeroes.List = 0x09;
-				//	objHeroes.Type = 0x8B;
-				//	break; // small decoration windmill
-				//case 68:
-				//	objHeroes.List = 0x09;
-				//	objHeroes.Type = 0x92;
-				//	break; // other windmill
-				//case 70:
-				//	objHeroes.List = 0x09;
-				//	objHeroes.Type = 0x95;
-				//	break; // very large floating windmill
-				//case 71:
-				//	objHeroes.List = 0x09;
-				//	objHeroes.Type = 0x97;
-				//	break; // bridge between windmill
-
-				//case 65:
-				//	objHeroes.List = 0x07;
-				//	objHeroes.Type = 0x93;
-				//	break; // wall mounted windmill
+					var exBox = LayoutEditorFunctions.CreateHeroesObject(0, 0x50, objHeroes.Position, obj.Rotation, 0, 10, new byte[36]);
+					exBox.MiscSettings[4] = BitConverter.GetBytes(2)[3];
+					exBox.MiscSettings[5] = BitConverter.GetBytes(2)[2];
+					exBox.MiscSettings[6] = BitConverter.GetBytes(2)[1];
+					exBox.MiscSettings[7] = BitConverter.GetBytes(2)[0];
+					exBox.MiscSettings[8] = BitConverter.GetBytes(147f)[3];
+					exBox.MiscSettings[9] = BitConverter.GetBytes(147f)[2];
+					exBox.MiscSettings[10] = BitConverter.GetBytes(147f)[1];
+					exBox.MiscSettings[11] = BitConverter.GetBytes(147f)[0];
+					exBox.MiscSettings[12] = BitConverter.GetBytes(19f)[3];
+					exBox.MiscSettings[13] = BitConverter.GetBytes(19f)[2];
+					exBox.MiscSettings[14] = BitConverter.GetBytes(19f)[1];
+					exBox.MiscSettings[15] = BitConverter.GetBytes(19f)[0];
+					exBox.MiscSettings[16] = BitConverter.GetBytes(12f)[3];
+					exBox.MiscSettings[17] = BitConverter.GetBytes(12f)[2];
+					exBox.MiscSettings[18] = BitConverter.GetBytes(12f)[1];
+					exBox.MiscSettings[19] = BitConverter.GetBytes(12f)[0];
+					objects.Add(exBox);
+					break; // bridge between windmill
+						   //case 65:
+						   //	objHeroes.List = 0x07;
+						   //	objHeroes.Type = 0x93;
+						   //	break; // wall mounted windmill
 
 				case 78:
 					FixItem(objHeroes, obj);
@@ -240,7 +407,7 @@ namespace HeroesPowerPlant.Other
 					break;
 			}
 
-			return objHeroes;
+			return objects;
 		}
 
 		private static void FixDashRamp(SetObjectHeroes objHeroes, SASetObject obj)
