@@ -11,6 +11,21 @@ namespace HeroesPowerPlant.LayoutEditor
 
             CreateBoundingBox();
         }
+        
+        public override void Draw(SharpRenderer renderer)
+        {
+            if (isSelected)
+                renderData.Color = renderer.selectedObjectColor;
+            else
+                renderData.Color = Vector4.One;
+
+            renderer.Device.SetCullModeNone();
+            renderer.Device.SetDepthStateNone();
+            renderer.Device.SetBlendStateAdditive();
+            renderer.Device.ApplyRasterState();
+            renderer.Device.UpdateAllStates();
+            base.Draw(renderer);
+        }
 
         public int CelestialType
         {
