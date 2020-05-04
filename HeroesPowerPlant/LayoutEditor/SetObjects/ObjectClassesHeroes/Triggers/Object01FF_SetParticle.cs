@@ -16,12 +16,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 box.Y = Math.Max(1f, box.Y);
                 box.Z = Math.Max(1f, box.Z);
 
-                transformMatrix = Matrix.Scaling(box * 2) *
-                    Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
-                    Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
-                    Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
-                    Matrix.Translation(Position);
-
+                transformMatrix = Matrix.Scaling(box * 2) * DefaultTransformMatrix();
                 CreateBoundingBox();
             }
             else base.CreateTransformMatrix();

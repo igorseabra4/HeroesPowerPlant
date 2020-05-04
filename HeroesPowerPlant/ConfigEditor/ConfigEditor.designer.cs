@@ -46,6 +46,7 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splineEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rankEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eXEExtractorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.NumericStartHold = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -76,7 +77,6 @@
             this.NumericBragRot = new System.Windows.Forms.NumericUpDown();
             this.ComboLevelConfig = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.eXEExtractorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericStartRot)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -144,15 +144,10 @@
             this.NumericStartRot.DecimalPlaces = 4;
             this.NumericStartRot.Location = new System.Drawing.Point(6, 19);
             this.NumericStartRot.Maximum = new decimal(new int[] {
-            65535,
+            360,
             0,
             0,
             0});
-            this.NumericStartRot.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
             this.NumericStartRot.Name = "NumericStartRot";
             this.NumericStartRot.Size = new System.Drawing.Size(119, 20);
             this.NumericStartRot.TabIndex = 28;
@@ -255,28 +250,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -296,6 +291,14 @@
             this.rankEditorToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.rankEditorToolStripMenuItem.Text = "Rank Editor";
             this.rankEditorToolStripMenuItem.Click += new System.EventHandler(this.rankEditorToolStripMenuItem_Click);
+            // 
+            // eXEExtractorToolStripMenuItem
+            // 
+            this.eXEExtractorToolStripMenuItem.Enabled = false;
+            this.eXEExtractorToolStripMenuItem.Name = "eXEExtractorToolStripMenuItem";
+            this.eXEExtractorToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.eXEExtractorToolStripMenuItem.Text = "EXE Extractor";
+            this.eXEExtractorToolStripMenuItem.Click += new System.EventHandler(this.eXEExtractorToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -418,15 +421,10 @@
             this.NumericEndRot.DecimalPlaces = 4;
             this.NumericEndRot.Location = new System.Drawing.Point(6, 19);
             this.NumericEndRot.Maximum = new decimal(new int[] {
-            65535,
+            360,
             0,
             0,
             0});
-            this.NumericEndRot.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
             this.NumericEndRot.Name = "NumericEndRot";
             this.NumericEndRot.Size = new System.Drawing.Size(119, 20);
             this.NumericEndRot.TabIndex = 28;
@@ -644,15 +642,10 @@
             this.NumericBragRot.DecimalPlaces = 4;
             this.NumericBragRot.Location = new System.Drawing.Point(6, 19);
             this.NumericBragRot.Maximum = new decimal(new int[] {
-            65535,
+            360,
             0,
             0,
             0});
-            this.NumericBragRot.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
             this.NumericBragRot.Name = "NumericBragRot";
             this.NumericBragRot.Size = new System.Drawing.Size(119, 20);
             this.NumericBragRot.TabIndex = 28;
@@ -675,14 +668,6 @@
             this.label1.Size = new System.Drawing.Size(59, 13);
             this.label1.TabIndex = 40;
             this.label1.Text = "Level Flag:";
-            // 
-            // eXEExtractorToolStripMenuItem
-            // 
-            this.eXEExtractorToolStripMenuItem.Enabled = false;
-            this.eXEExtractorToolStripMenuItem.Name = "eXEExtractorToolStripMenuItem";
-            this.eXEExtractorToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
-            this.eXEExtractorToolStripMenuItem.Text = "EXE Extractor";
-            this.eXEExtractorToolStripMenuItem.Click += new System.EventHandler(this.eXEExtractorToolStripMenuItem_Click);
             // 
             // ConfigEditor
             // 

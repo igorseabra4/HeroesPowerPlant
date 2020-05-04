@@ -124,17 +124,12 @@ namespace HeroesPowerPlant.LayoutEditor
             Save();
         }
 
-        public bool Save()
+        public void Save()
         {
-            if (CurrentlyOpenFileName != null)
-            {
-                if (IsShadow)
-                    SaveShadowLayout(setObjects.Cast<SetObjectShadow>(), CurrentlyOpenFileName, autoUnkBytes);
-                else
-                    SaveHeroesLayout(setObjects.Cast<SetObjectHeroes>(), CurrentlyOpenFileName, autoUnkBytes);
-                return true;
-            }
-            else return false;
+            if (IsShadow)
+                SaveShadowLayout(setObjects.Cast<SetObjectShadow>(), CurrentlyOpenFileName, autoUnkBytes);
+            else
+                SaveHeroesLayout(setObjects.Cast<SetObjectHeroes>(), CurrentlyOpenFileName, autoUnkBytes);
         }
 
         public void SaveINI(string fileName)
@@ -211,13 +206,17 @@ namespace HeroesPowerPlant.LayoutEditor
 
         #region Object Editing Methods
 
-        public void SelectedIndexChanged(int index)
+        public void SelectedIndexChanged(int[] index)
+        {
+        }
+
+        public void SelectedIndexChanged(ListBox.SelectedIndexCollection selectedIndices)
         {
             for (int i = 0; i < setObjects.Count; i++)
                 setObjects[i].isSelected = false;
 
-            if (index > -1)
-                GetSetObjectAt(index).isSelected = true;
+            foreach (int i in selectedIndices)
+                GetSetObjectAt(i).isSelected = true;
         }
 
         public void AddNewSetObject()
@@ -261,48 +260,53 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void DuplicateSetObject(int index)
         {
-            PasteSetObject(JsonConvert.SerializeObject(GetSetObjectAt(index)));
+            PasteSetObject(JsonConvert.SerializeObject(new List<SetObject> { GetSetObjectAt(index) }));
         }
 
         public void DuplicateSetObjectAt(int index, Vector3 Position)
         {
-            PasteSetObject(JsonConvert.SerializeObject(GetSetObjectAt(index)));
+            PasteSetObject(JsonConvert.SerializeObject(new List<SetObject> { GetSetObjectAt(index) }));
             setObjects.Last().Position = Position;
             setObjects.Last().CreateTransformMatrix();
         }
-
-        public void CopySetObject(int index)
+        
+        public void CopySetObject(ListBox.SelectedIndexCollection selectedIndices)
         {
-            Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index)));
+            List<SetObject> setObjs = new List<SetObject>();
+            foreach (int i in selectedIndices)
+                setObjs.Add(GetSetObjectAt(i));
+            Clipboard.SetText(JsonConvert.SerializeObject(setObjs));
         }
 
-        public void PasteSetObject(string text = null)
+        public int PasteSetObject(string text = null)
         {
             if (text == null)
                 text = Clipboard.GetText();
-
+            int result = 0;
             try
             {
-                SetObject src;
-                SetObject dest;
-                if (isShadow)
+                var list = JsonConvert.DeserializeObject<List<Object_ShadowDefault>>(text);
+                result = list.Count;
+
+                foreach (var src in list)
                 {
-                    src = JsonConvert.DeserializeObject<Object_ShadowDefault>(text);
-                    dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
+                    SetObject dest;
+
+                    if (isShadow)
+                        dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
+                    else
+                        dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
+                    
+                    dest.MiscSettings = src.MiscSettings;
+                    dest.CreateTransformMatrix();
+                    setObjects.Add(dest);
                 }
-                else
-                {
-                    src = JsonConvert.DeserializeObject<Object_HeroesDefault>(text);
-                    dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
-                }
-                dest.MiscSettings = src.MiscSettings;
-                dest.CreateTransformMatrix();
-                setObjects.Add(dest);
             }
             catch
             {
-                MessageBox.Show($"Error pasting object from clipboard. Are you sure you have a {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} object copied?");
+                MessageBox.Show($"Error pasting object from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
             }
+            return result;
         }
 
         public void RemoveSetObject(int index)
@@ -469,7 +473,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return GetSetObjectAt(index).UnkBytes;
         }
         
-        public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, int currentlySelectedIndex, out int index, out float smallerDistance)
+        public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, out int index, out float smallerDistance)
         {
             index = -1;
             smallerDistance = 40000f;

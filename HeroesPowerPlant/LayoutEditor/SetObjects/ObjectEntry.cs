@@ -28,5 +28,14 @@ namespace HeroesPowerPlant.LayoutEditor
             else
                 return string.Format("{0, 2:X2} {1, 2:X2} {2}", List, Type, "Unknown / Unused");
         }
+
+        public string GetName()
+        {
+            if (Name != "")
+                return Name;
+            if (DebugName != "")
+                return DebugName;
+            return "Unknown/Unused";
+        }
     }
 }

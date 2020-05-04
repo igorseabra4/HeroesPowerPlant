@@ -284,16 +284,22 @@ namespace HeroesPowerPlant.ConfigEditor
             BragPositions.Clear();
 
             if (c.StartPositions != null)
-            foreach (PositionStart s in c.StartPositions)
-                StartPositions.Add(new StartPositionEntry()
+                foreach (PositionStart s in c.StartPositions)
                 {
-                    PositionX = s.Position.X,
-                    PositionY = s.Position.Y,
-                    PositionZ = s.Position.Z,
-                    HoldTime = s.HoldTime,
-                    Mode = s.Mode,
-                    Pitch = s.Pitch
-                });
+                    int pitch = s.Pitch;
+                    while (pitch < 0)
+                        pitch += ushort.MaxValue;
+
+                    StartPositions.Add(new StartPositionEntry()
+                    {
+                        PositionX = s.Position.X,
+                        PositionY = s.Position.Y,
+                        PositionZ = s.Position.Z,
+                        HoldTime = s.HoldTime,
+                        Mode = s.Mode,
+                        Pitch = pitch
+                    });
+                }
 
             while (StartPositions.Count < 5)
                 StartPositions.Add(new StartPositionEntry());
@@ -302,13 +308,19 @@ namespace HeroesPowerPlant.ConfigEditor
 
             if (c.EndPositions != null)
                 foreach (PositionEnd s in c.EndPositions)
-                EndPositions.Add(new EndPositionEntry()
                 {
-                    PositionX = s.Position.X,
-                    PositionY = s.Position.Y,
-                    PositionZ = s.Position.Z,
-                    Pitch = s.Pitch
-                });
+                    int pitch = s.Pitch;
+                    while (pitch < 0)
+                        pitch += ushort.MaxValue;
+
+                    EndPositions.Add(new EndPositionEntry()
+                    {
+                        PositionX = s.Position.X,
+                        PositionY = s.Position.Y,
+                        PositionZ = s.Position.Z,
+                        Pitch = pitch
+                    });
+                }
 
             while (EndPositions.Count < 5)
                 EndPositions.Add(new EndPositionEntry());
@@ -317,13 +329,19 @@ namespace HeroesPowerPlant.ConfigEditor
 
             if (c.BragPositions != null)
                 foreach (PositionEnd s in c.BragPositions)
-                BragPositions.Add(new EndPositionEntry()
                 {
-                    PositionX = s.Position.X,
-                    PositionY = s.Position.Y,
-                    PositionZ = s.Position.Z,
-                    Pitch = s.Pitch
-                });
+                    int pitch = s.Pitch;
+                    while (pitch < 0)
+                        pitch += ushort.MaxValue;
+
+                    BragPositions.Add(new EndPositionEntry()
+                    {
+                        PositionX = s.Position.X,
+                        PositionY = s.Position.Y,
+                        PositionZ = s.Position.Z,
+                        Pitch = pitch
+                    });
+                }
 
             while (BragPositions.Count < 5)
                 BragPositions.Add(new EndPositionEntry());

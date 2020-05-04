@@ -16,31 +16,25 @@ namespace HeroesPowerPlant.ConfigEditor
             NumericStartX.Minimum = decimal.MinValue;
             NumericStartY.Minimum = decimal.MinValue;
             NumericStartZ.Minimum = decimal.MinValue;
-            NumericStartRot.Minimum = decimal.MinValue;
             NumericStartHold.Minimum = 0;
             NumericStartX.Maximum = decimal.MaxValue;
             NumericStartY.Maximum = decimal.MaxValue;
             NumericStartZ.Maximum = decimal.MaxValue;
-            NumericStartRot.Maximum = decimal.MaxValue;
             NumericStartHold.Maximum = 65535;
 
             NumericEndX.Minimum = decimal.MinValue;
             NumericEndY.Minimum = decimal.MinValue;
             NumericEndZ.Minimum = decimal.MinValue;
-            NumericEndRot.Minimum = decimal.MinValue;
             NumericEndX.Maximum = decimal.MaxValue;
             NumericEndY.Maximum = decimal.MaxValue;
             NumericEndZ.Maximum = decimal.MaxValue;
-            NumericEndRot.Maximum = decimal.MaxValue;
 
             NumericBragX.Minimum = decimal.MinValue;
             NumericBragY.Minimum = decimal.MinValue;
             NumericBragZ.Minimum = decimal.MinValue;
-            NumericBragRot.Minimum = decimal.MinValue;
             NumericBragX.Maximum = decimal.MaxValue;
             NumericBragY.Maximum = decimal.MaxValue;
             NumericBragZ.Maximum = decimal.MaxValue;
-            NumericBragRot.Maximum = decimal.MaxValue;
 
             ProgramIsChangingStuff = false;
             
@@ -237,8 +231,8 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ProgramIsChangingStuff)
                 return;
             if (ComboBoxTeam.SelectedItem == null)
-                return
-                    ;
+                return;
+
             EndPositions[ComboBoxTeam.SelectedIndex].PositionX = (float)NumericEndX.Value;
             EndPositions[ComboBoxTeam.SelectedIndex].PositionY = (float)NumericEndY.Value;
             EndPositions[ComboBoxTeam.SelectedIndex].PositionZ = (float)NumericEndZ.Value;

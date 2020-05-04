@@ -101,6 +101,7 @@
             this.buttonPaste = new System.Windows.Forms.Button();
             this.buttonCopyMisc = new System.Windows.Forms.Button();
             this.buttonPasteMisc = new System.Windows.Forms.Button();
+            this.checkBoxDrawObjs = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -313,6 +314,7 @@
             this.listBoxObjects.FormattingEnabled = true;
             this.listBoxObjects.Location = new System.Drawing.Point(12, 27);
             this.listBoxObjects.Name = "listBoxObjects";
+            this.listBoxObjects.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBoxObjects.Size = new System.Drawing.Size(182, 381);
             this.listBoxObjects.TabIndex = 2;
             this.listBoxObjects.SelectedIndexChanged += new System.EventHandler(this.listBoxObjects_SelectedIndexChanged);
@@ -930,11 +932,24 @@
             this.buttonPasteMisc.UseVisualStyleBackColor = true;
             this.buttonPasteMisc.Click += new System.EventHandler(this.buttonPasteMisc_Click);
             // 
+            // checkBoxDrawObjs
+            // 
+            this.checkBoxDrawObjs.AutoSize = true;
+            this.checkBoxDrawObjs.Checked = true;
+            this.checkBoxDrawObjs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxDrawObjs.Location = new System.Drawing.Point(584, 27);
+            this.checkBoxDrawObjs.Name = "checkBoxDrawObjs";
+            this.checkBoxDrawObjs.Size = new System.Drawing.Size(90, 17);
+            this.checkBoxDrawObjs.TabIndex = 89;
+            this.checkBoxDrawObjs.Text = "Draw Objects";
+            this.checkBoxDrawObjs.UseVisualStyleBackColor = true;
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 521);
+            this.Controls.Add(this.checkBoxDrawObjs);
             this.Controls.Add(this.buttonPasteMisc);
             this.Controls.Add(this.buttonCopyMisc);
             this.Controls.Add(this.buttonPaste);
@@ -1078,5 +1093,6 @@
         private System.Windows.Forms.Button buttonCopyMisc;
         private System.Windows.Forms.Button buttonPasteMisc;
         private System.Windows.Forms.ToolStripMenuItem importSALayoutFileToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBoxDrawObjs;
     }
 }

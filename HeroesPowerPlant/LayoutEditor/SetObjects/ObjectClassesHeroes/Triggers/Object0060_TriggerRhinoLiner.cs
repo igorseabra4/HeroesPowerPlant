@@ -20,11 +20,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix()
         {
-            transformMatrix = Matrix.Scaling(Radius * 2)
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                * Matrix.Translation(Position);
+            transformMatrix = Matrix.Scaling(Radius * 2) * DefaultTransformMatrix();
 
             sphereBound = new BoundingSphere(Position, Radius);
             boundingBox = BoundingBox.FromSphere(sphereBound);

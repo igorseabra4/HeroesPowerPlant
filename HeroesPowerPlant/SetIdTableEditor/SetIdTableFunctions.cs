@@ -78,8 +78,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
             byte objList = tableReader.ReadByte();
             byte objType = tableReader.ReadByte();
 
-            if (objectEntries.ContainsKey((objType, objList)))
-                temporaryEntry.objectEntry = objectEntries[(objType, objList)];
+            if (objectEntries.ContainsKey((objList, objType)))
+                temporaryEntry.objectEntry = objectEntries[(objList, objType)];
             else
                 temporaryEntry.objectEntry = new ObjectEntry()
                 {
@@ -100,9 +100,9 @@ namespace HeroesPowerPlant.SetIdTableEditor
             tableReader.ReadInt16();
             temporaryEntry.values0 = Switch(tableReader.ReadUInt32());
             temporaryEntry.values1 = Switch(tableReader.ReadUInt32());
-
-            if (objectEntries.ContainsKey((objType, objList)))
-                temporaryEntry.objectEntry = objectEntries[(objType, objList)];
+            
+            if (objectEntries.ContainsKey((objList, objType)))
+                temporaryEntry.objectEntry = objectEntries[(objList, objType)];
             else
                 temporaryEntry.objectEntry = new ObjectEntry()
                 {

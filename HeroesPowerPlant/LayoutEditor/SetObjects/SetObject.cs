@@ -3,6 +3,7 @@ using SharpDX;
 using System;
 using System.Collections.Generic;
 using HeroesPowerPlant.LevelEditor;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -21,38 +22,25 @@ namespace HeroesPowerPlant.LayoutEditor
         [JsonIgnore]
         public bool isSelected;
 
-        public string Name;
-        protected string DebugName;
-        public string Description;
-        protected int ModelMiscSetting;
-        protected string[][] ModelNames;
+        [JsonIgnore]
+        private ObjectEntry objectEntry;
+        [Browsable(false)]
+        public string GetName => objectEntry.GetName();
+        [Browsable(false)]
+        public string Description => objectEntry.Description;
+        protected int ModelMiscSetting => objectEntry.ModelMiscSetting;
+        protected string[][] ModelNames => objectEntry.ModelNames;
         public bool HasMiscSettings;
 
         public override string ToString()
         {
-            return GetName() + (Link == 0 ? "" : $" ({Link})");
+            return objectEntry.GetName() + (Link == 0 ? "" : $" ({Link})");
         }
 
         public void SetObjectEntry(ObjectEntry objectEntry)
         {
-            List = objectEntry.List;
-            Type = objectEntry.Type;
-            Name = objectEntry.Name;
-            DebugName = objectEntry.DebugName;
-            Description = objectEntry.Description;
-            ModelMiscSetting = objectEntry.ModelMiscSetting;
-            ModelNames = objectEntry.ModelNames;
-            HasMiscSettings = objectEntry.HasMiscSettings;
-        }
-
-        private string GetName()
-        {
-            if (Name != "")
-                return Name;
-            else if (DebugName != "")
-                return DebugName;
-            else
-                return "Unknown/Unused";
+            this.objectEntry = objectEntry;
+            this.HasMiscSettings = objectEntry.HasMiscSettings;
         }
         
         public bool DontDraw(Vector3 camPos)

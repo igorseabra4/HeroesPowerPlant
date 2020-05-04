@@ -1,7 +1,15 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using SharpDX;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1510_EggPawn : SetObjectHeroes
     {
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = DefaultTransformMatrix(MathUtil.Pi);
+            CreateBoundingBox();
+        }
+
         public enum StartModeEnum : byte
         {
             Asleep = 0,

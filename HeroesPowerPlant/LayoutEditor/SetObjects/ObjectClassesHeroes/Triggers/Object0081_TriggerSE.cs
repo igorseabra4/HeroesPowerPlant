@@ -23,11 +23,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     return;
             }
 
-            transformMatrix = transformMatrix
-                * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
-                * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
-                * Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(Rotation.Z))
-                * Matrix.Translation(Position);
+            transformMatrix *= DefaultTransformMatrix();
 
             CreateBoundingBox();
         }

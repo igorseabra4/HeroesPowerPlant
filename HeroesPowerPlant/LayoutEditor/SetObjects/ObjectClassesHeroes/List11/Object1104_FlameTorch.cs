@@ -13,10 +13,8 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         public override void CreateTransformMatrix()
         {
-            base.CreateTransformMatrix();
-
             transformMatrix = (IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity) *
-                Matrix.Scaling(Scale + 1f) * transformMatrix;
+                Matrix.Scaling(Scale + 1f) * DefaultTransformMatrix();
 
             CreateBoundingBox();
         }

@@ -377,6 +377,12 @@ namespace HeroesPowerPlant.CameraEditor
             Clipboard.SetText(JsonConvert.SerializeObject(Program.MainForm.renderer.Camera.ViewMatrix.Position));
         }
 
+        private void buttonCopyFocus_Click(object sender, EventArgs e)
+        {
+            var vMat = Program.MainForm.renderer.Camera.ViewMatrix;
+            Clipboard.SetText(JsonConvert.SerializeObject(vMat.Position + 1000 * vMat.GetCameraVectors()._forwardVector));
+        }
+
         public void RenderCameras(SharpRenderer renderer)
         {
             Vector4 oldColor = renderer.normalColor;

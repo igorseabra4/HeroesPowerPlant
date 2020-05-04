@@ -77,7 +77,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
             foreach (SetObjectHeroes i in list)
             {
-                if (i.List == 0 & i.Type == 0) continue;
+                if (i.List == 0 & i.Type == 0) 
+                    continue;
 
                 layoutWriter.Write(Switch(i.Position.X));
                 layoutWriter.Write(Switch(i.Position.Y));
@@ -354,7 +355,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 iniWriter.WriteLine("obj "
                     + String.Format("{0, 2:X2}", i.List)
                     + String.Format("{0, 2:X2}", i.Type)
-                    + "_" + i.Name.Replace(' ', '-'));
+                    + "_" + i.GetName.Replace(' ', '-'));
                 iniWriter.WriteLine("link " + String.Format("{0, 2:D2}", i.Link));
                 iniWriter.WriteLine("rend " + String.Format("{0, 2:D2}", i.Rend));
                 iniWriter.WriteLine("b " +

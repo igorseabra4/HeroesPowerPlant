@@ -4,17 +4,6 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object000B_DashPanel : SetObjectHeroes
     {
-        public override void CreateTransformMatrix()
-        {
-            transformMatrix =
-                Matrix.RotationY(ReadWriteCommon.BAMStoRadians((int)Rotation.Y)) *
-                Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
-                Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
-                Matrix.Translation(Position);
-
-            CreateBoundingBox();
-        }
-
         public float Speed
         {
             get => ReadFloat(4);

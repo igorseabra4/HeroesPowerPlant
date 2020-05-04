@@ -15,15 +15,16 @@ namespace HeroesPowerPlant.LayoutEditor
         
         public override void CreateTransformMatrix()
         {
-            transformMatrix =
-                Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
-                Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y)) *
-                Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) *
-                Matrix.Translation(Position);
-
+            transformMatrix = DefaultTransformMatrix();
             CreateBoundingBox();
         }
-                
+
+        protected Matrix DefaultTransformMatrix(float yAddDeg = 0) =>
+            Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
+            Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
+            Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) *
+            Matrix.Translation(Position);
+
         public int ReadInt(int j) => BitConverter.ToInt32(MiscSettings, j);
 
         public float ReadFloat(int j) => BitConverter.ToSingle(MiscSettings, j);

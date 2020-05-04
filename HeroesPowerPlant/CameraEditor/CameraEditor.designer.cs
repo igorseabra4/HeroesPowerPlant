@@ -100,6 +100,7 @@
             this.buttonPastePointA = new System.Windows.Forms.Button();
             this.buttonPastePointB = new System.Windows.Forms.Button();
             this.buttonPastePointc = new System.Windows.Forms.Button();
+            this.buttonCopyFocus = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrigShape)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownActType)).BeginInit();
@@ -840,9 +841,9 @@
             // 
             // buttonComeHere
             // 
-            this.buttonComeHere.Location = new System.Drawing.Point(6, 19);
+            this.buttonComeHere.Location = new System.Drawing.Point(6, 16);
             this.buttonComeHere.Name = "buttonComeHere";
-            this.buttonComeHere.Size = new System.Drawing.Size(120, 23);
+            this.buttonComeHere.Size = new System.Drawing.Size(91, 23);
             this.buttonComeHere.TabIndex = 13;
             this.buttonComeHere.Text = "View at Camera";
             this.buttonComeHere.UseVisualStyleBackColor = true;
@@ -850,9 +851,9 @@
             // 
             // buttonCopyViewPos
             // 
-            this.buttonCopyViewPos.Location = new System.Drawing.Point(7, 77);
+            this.buttonCopyViewPos.Location = new System.Drawing.Point(103, 16);
             this.buttonCopyViewPos.Name = "buttonCopyViewPos";
-            this.buttonCopyViewPos.Size = new System.Drawing.Size(120, 23);
+            this.buttonCopyViewPos.Size = new System.Drawing.Size(91, 23);
             this.buttonCopyViewPos.TabIndex = 14;
             this.buttonCopyViewPos.Text = "Copy View Pos.";
             this.buttonCopyViewPos.UseVisualStyleBackColor = true;
@@ -860,21 +861,22 @@
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.buttonCopyFocus);
             this.groupBox11.Controls.Add(this.buttonComeTrigger);
             this.groupBox11.Controls.Add(this.buttonComeHere);
             this.groupBox11.Controls.Add(this.buttonCopyViewPos);
-            this.groupBox11.Location = new System.Drawing.Point(642, 339);
+            this.groupBox11.Location = new System.Drawing.Point(575, 339);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(132, 106);
+            this.groupBox11.Size = new System.Drawing.Size(199, 77);
             this.groupBox11.TabIndex = 15;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Viewport Stuff";
             // 
             // buttonComeTrigger
             // 
-            this.buttonComeTrigger.Location = new System.Drawing.Point(6, 48);
+            this.buttonComeTrigger.Location = new System.Drawing.Point(6, 45);
             this.buttonComeTrigger.Name = "buttonComeTrigger";
-            this.buttonComeTrigger.Size = new System.Drawing.Size(120, 23);
+            this.buttonComeTrigger.Size = new System.Drawing.Size(91, 23);
             this.buttonComeTrigger.TabIndex = 15;
             this.buttonComeTrigger.Text = "View at Trigger";
             this.buttonComeTrigger.UseVisualStyleBackColor = true;
@@ -939,6 +941,16 @@
             this.buttonPastePointc.Text = "Paste";
             this.buttonPastePointc.UseVisualStyleBackColor = true;
             this.buttonPastePointc.Click += new System.EventHandler(this.buttonPastePointc_Click);
+            // 
+            // buttonCopyFocus
+            // 
+            this.buttonCopyFocus.Location = new System.Drawing.Point(103, 45);
+            this.buttonCopyFocus.Name = "buttonCopyFocus";
+            this.buttonCopyFocus.Size = new System.Drawing.Size(91, 23);
+            this.buttonCopyFocus.TabIndex = 16;
+            this.buttonCopyFocus.Text = "Copy Foc. Pos.";
+            this.buttonCopyFocus.UseVisualStyleBackColor = true;
+            this.buttonCopyFocus.Click += new System.EventHandler(this.buttonCopyFocus_Click);
             // 
             // CameraEditor
             // 
@@ -1127,5 +1139,6 @@
         private System.Windows.Forms.Button buttonPastePointB;
         private System.Windows.Forms.Button buttonPastePointc;
         private System.Windows.Forms.ToolStripMenuItem importSACameraFileToolStripMenuItem;
+        private System.Windows.Forms.Button buttonCopyFocus;
     }
 }

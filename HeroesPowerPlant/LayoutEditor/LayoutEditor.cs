@@ -54,11 +54,6 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private LayoutEditorSystem layoutSystem;
         private bool ProgramIsChangingStuff = false;
-        private int SelectedIndex
-        {
-            get => listBoxObjects.SelectedIndex;
-            set => listBoxObjects.SelectedIndex = value;
-        }
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -100,8 +95,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!layoutSystem.Save())
+            if (string.IsNullOrEmpty(layoutSystem.CurrentlyOpenFileName))
                 SaveAs();
+            else
+                layoutSystem.Save();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -191,69 +188,97 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonViewHere_Click(object sender, EventArgs e)
         {
-            layoutSystem.ViewHere(SelectedIndex);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+                layoutSystem.ViewHere(listBoxObjects.SelectedIndex);
         }
 
         private void listBoxObjects_SelectedIndexChanged(object sender, EventArgs e)
         {
             ProgramIsChangingStuff = true;
 
-            layoutSystem.SelectedIndexChanged(SelectedIndex);
+            layoutSystem.SelectedIndexChanged(listBoxObjects.SelectedIndices);
+            Program.MainForm.UnselectEveryoneExceptMe(this);
 
-            if (SelectedIndex != -1)
+            if (listBoxObjects.SelectedIndices.Count == 1)
             {
                 UpdateDisplayData();
-                UpdateGizmoPosition();
-                Program.MainForm.UnselectEveryoneExceptMe(this);
             }
             else
             {
                 DisableDisplayData();
-                ClearGizmos();
                 UpdateObjectAmountLabel();
             }
 
+            UpdateGizmoPosition();
+
             ProgramIsChangingStuff = false;
         }
-        
+
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
             layoutSystem.AddNewSetObject();
-            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
+            listBoxObjects.ClearSelected();
+            listBoxObjects.SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
         private void buttonDuplicate_Click(object sender, EventArgs e)
         {
-            layoutSystem.DuplicateSetObject(SelectedIndex);
-            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                layoutSystem.DuplicateSetObject(listBoxObjects.SelectedIndex);
+                listBoxObjects.ClearSelected();
+                listBoxObjects.SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
+            }
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
-            layoutSystem.CopySetObject(SelectedIndex);
+            layoutSystem.CopySetObject(listBoxObjects.SelectedIndices);
         }
 
         private void buttonPaste_Click(object sender, EventArgs e)
         {
-            layoutSystem.PasteSetObject();
-            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
+            int count = layoutSystem.PasteSetObject();
+
+            listBoxObjects.ClearSelected();
+            for (int i = 0; i < count; i++)
+                listBoxObjects.SetSelected(listBoxObjects.Items.Count - i - 1, true);
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            if (SelectedIndex >= 0)
+            if (listBoxObjects.SelectedIndices.Count > 0)
             {
                 ProgramIsChangingStuff = true;
-                int Temp = SelectedIndex;
 
-                layoutSystem.RemoveSetObject(SelectedIndex);
+                listBoxObjects.BeginUpdate();
 
-                try { SelectedIndex = Temp; }
-                catch { SelectedIndex = Temp - 1; }
+                var sel = new List<int>();
+                foreach (int v in listBoxObjects.SelectedIndices)
+                    sel.Add(v);
 
-                listBoxObjects_SelectedIndexChanged(sender, e);
+                sel.Reverse();
+
+                foreach (int v in sel)
+                    RemoveSetObjectAt(v);
+
+                listBoxObjects.EndUpdate();
+
                 ProgramIsChangingStuff = false;
+                listBoxObjects_SelectedIndexChanged(null, null);
             }
+        }
+        
+        private void RemoveSetObjectAt(int index)
+        {
+            int Temp = listBoxObjects.SelectedIndices[0];
+
+            listBoxObjects.ClearSelected();
+            
+            layoutSystem.RemoveSetObject(index);
+
+            try { listBoxObjects.SelectedIndex = Temp; }
+            catch { listBoxObjects.SelectedIndex = Temp - 1; }
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
@@ -265,125 +290,151 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void ComboBoxObject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!ProgramIsChangingStuff)
+            if (!ProgramIsChangingStuff && listBoxObjects.SelectedIndices.Count == 1)
             {
                 layoutSystem.ChangeObjectType(listBoxObjects.SelectedIndex, ComboBoxObject.SelectedItem as ObjectEntry);
                 UpdateList();
-                PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(SelectedIndex);
-                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(SelectedIndex).Description);
+                PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex);
+                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Description);
             }
         }
 
         private void NumericPos_ValueChanged(object sender, EventArgs e)
         {
-            if (!ProgramIsChangingStuff)
+            if (!ProgramIsChangingStuff && listBoxObjects.SelectedIndices.Count == 1)
             {
-                layoutSystem.SetObjectPosition(SelectedIndex, (float)NumericPosX.Value, (float)NumericPosY.Value, (float)NumericPosZ.Value);
+                layoutSystem.SetObjectPosition(listBoxObjects.SelectedIndex, (float)NumericPosX.Value, (float)NumericPosY.Value, (float)NumericPosZ.Value);
                 UpdateGizmoPosition();
             }
         }
 
         private void NumericRot_ValueChanged(object sender, EventArgs e)
         {
-            if (!ProgramIsChangingStuff)
+            if (!ProgramIsChangingStuff && listBoxObjects.SelectedIndices.Count == 1)
             {
-                layoutSystem.SetObjectRotation(SelectedIndex, (float)NumericRotX.Value, (float)NumericRotY.Value, (float)NumericRotZ.Value);
+                layoutSystem.SetObjectRotation(listBoxObjects.SelectedIndex, (float)NumericRotX.Value, (float)NumericRotY.Value, (float)NumericRotZ.Value);
                 UpdateGizmoPosition();
             }
         }
 
         private void NumericObjLink_ValueChanged(object sender, EventArgs e)
         {
-            if (!ProgramIsChangingStuff)
+            if (!ProgramIsChangingStuff && listBoxObjects.SelectedIndices.Count == 1)
             {
-                layoutSystem.SetObjectLink(SelectedIndex, (byte)NumericObjLink.Value);
+                layoutSystem.SetObjectLink(listBoxObjects.SelectedIndex, (byte)NumericObjLink.Value);
                 UpdateList();
             }
         }
 
         private void ButtonFindNextLink_Click(object sender, EventArgs e)
         {
-            int newIndex = layoutSystem.FindNext(SelectedIndex);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                int newIndex = layoutSystem.FindNext(listBoxObjects.SelectedIndex);
 
-            if (newIndex == SelectedIndex)
-                MessageBox.Show("No other object has this same Link ID!");
-            else
-                SelectedIndex = newIndex;
+                if (newIndex == listBoxObjects.SelectedIndex)
+                    MessageBox.Show("No other object has this same Link ID!");
+                else
+                    listBoxObjects.SelectedIndex = newIndex;
+            }
         }
 
         private void NumericObjRend_ValueChanged(object sender, EventArgs e)
         {
-            if (!ProgramIsChangingStuff)
-                layoutSystem.SetObjectRend(SelectedIndex, (byte)NumericObjRend.Value);
+            if (!ProgramIsChangingStuff && listBoxObjects.SelectedIndices.Count == 1)
+                layoutSystem.SetObjectRend(listBoxObjects.SelectedIndex, (byte)NumericObjRend.Value);
         }
 
         private void numericUnkB_ValueChanged(object sender, EventArgs e)
         {
-            if (!ProgramIsChangingStuff)
-                layoutSystem.SetUnkBytes(SelectedIndex,
+            if (!ProgramIsChangingStuff && listBoxObjects.SelectedIndices.Count == 1)
+                layoutSystem.SetUnkBytes(listBoxObjects.SelectedIndex,
                     (byte)numericUnkB1.Value, (byte)numericUnkB2.Value, (byte)numericUnkB3.Value, (byte)numericUnkB4.Value,
                     (byte)numericUnkB5.Value, (byte)numericUnkB6.Value, (byte)numericUnkB7.Value, (byte)numericUnkB8.Value);
         }
 
         private void ButtonGetSpeed_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetSpeedMemory(SelectedIndex))
-                UpdateDisplayData();
-            else
-                MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (layoutSystem.GetSpeedMemory(listBoxObjects.SelectedIndex))
+                    UpdateDisplayData();
+                else
+                    MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonGetFly_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetFlyMemory(SelectedIndex))
-                UpdateDisplayData();
-            else
-                MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (layoutSystem.GetFlyMemory(listBoxObjects.SelectedIndex))
+                    UpdateDisplayData();
+                else
+                    MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonGetPow_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetPowMemory(SelectedIndex))
-                UpdateDisplayData();
-            else
-                MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (layoutSystem.GetPowMemory(listBoxObjects.SelectedIndex))
+                    UpdateDisplayData();
+                else
+                    MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonSpeedRot_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetSpeedRotMemory(SelectedIndex))
-                UpdateDisplayData();
-            else
-                MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (layoutSystem.GetSpeedRotMemory(listBoxObjects.SelectedIndex))
+                    UpdateDisplayData();
+                else
+                    MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
         private void ButtonFlyRot_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetFlyRotMemory(SelectedIndex))
-                UpdateDisplayData();
-            else
-                MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (layoutSystem.GetFlyRotMemory(listBoxObjects.SelectedIndex))
+                    UpdateDisplayData();
+                else
+                    MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonPowRot_Click(object sender, EventArgs e)
         {
-            if (layoutSystem.GetPowRotMemory(SelectedIndex))
-                UpdateDisplayData();
-            else
-                MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (layoutSystem.GetPowRotMemory(listBoxObjects.SelectedIndex))
+                    UpdateDisplayData();
+                else
+                    MessageBox.Show("Error collecting data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonTeleport_Click(object sender, EventArgs e)
         {
-            if (!layoutSystem.Teleport(SelectedIndex))
-                MessageBox.Show("Error writing data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (!layoutSystem.Teleport(listBoxObjects.SelectedIndex))
+                    MessageBox.Show("Error writing data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonDrop_Click(object sender, EventArgs e)
         {
-            layoutSystem.Drop(SelectedIndex);
-            UpdateDisplayData();
-            UpdateGizmoPosition();
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                layoutSystem.Drop(listBoxObjects.SelectedIndex);
+                UpdateDisplayData();
+                UpdateGizmoPosition();
+            }
         }
 
         private void buttonForceReload_Click(object sender, EventArgs e)
@@ -398,7 +449,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void OpenFile(string fileName, MainForm.MainForm mainForm)
         {
-            layoutSystem.SelectedIndexChanged(-1);
+            layoutSystem.SelectedIndexChanged(new int[] { -1 });
             ProgramIsChangingStuff = true;
             layoutSystem.OpenLayoutFile(fileName);
             UpdateObjectComboBox();
@@ -426,23 +477,29 @@ namespace HeroesPowerPlant.LayoutEditor
             distance = 40000f;
             index = -1;
 
-            if (isMouseDown)
-                GizmoSelect(r);
-            else
-                layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, SelectedIndex, out index, out distance);
+            if (checkBoxDrawObjs.Checked)
+            {
+                if (isMouseDown)
+                    GizmoSelect(r);
+                else
+                    layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, out index, out distance);
+            }
         }
 
-        public void SetSelectedIndex(int index)
+        public void SetSelectedIndex(int index, bool isCtrlDown)
         {
-            SelectedIndex = index;
+            if (!isCtrlDown)
+                listBoxObjects.ClearSelected();
+            listBoxObjects.SelectedIndex = index;
         }
-        
+
         public void PlaceObject(Vector3 Position)
         {
-            if (SelectedIndex == -1)
+            if (listBoxObjects.SelectedIndices.Count != 1)
                 return;
-            layoutSystem.DuplicateSetObjectAt(SelectedIndex, Position);
-            SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
+            layoutSystem.DuplicateSetObjectAt(listBoxObjects.SelectedIndex, Position);
+            listBoxObjects.ClearSelected();
+            listBoxObjects.SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
 
         private void UpdateObjectComboBox()
@@ -477,38 +534,38 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void UpdateDisplayData()
         {
-            if (SelectedIndex != -1)
+            if (listBoxObjects.SelectedIndices.Count == 1)
             {
                 if (displayDataDisabled)
                     EnableDisplayData();
 
                 ProgramIsChangingStuff = true;
 
-                NumericPosX.Value = layoutSystem.GetPosX(SelectedIndex);
-                NumericPosY.Value = layoutSystem.GetPosY(SelectedIndex);
-                NumericPosZ.Value = layoutSystem.GetPosZ(SelectedIndex);
-                NumericRotX.Value = layoutSystem.GetRotX(SelectedIndex);
-                NumericRotY.Value = layoutSystem.GetRotY(SelectedIndex);
-                NumericRotZ.Value = layoutSystem.GetRotZ(SelectedIndex);
+                NumericPosX.Value = layoutSystem.GetPosX(listBoxObjects.SelectedIndex);
+                NumericPosY.Value = layoutSystem.GetPosY(listBoxObjects.SelectedIndex);
+                NumericPosZ.Value = layoutSystem.GetPosZ(listBoxObjects.SelectedIndex);
+                NumericRotX.Value = layoutSystem.GetRotX(listBoxObjects.SelectedIndex);
+                NumericRotY.Value = layoutSystem.GetRotY(listBoxObjects.SelectedIndex);
+                NumericRotZ.Value = layoutSystem.GetRotZ(listBoxObjects.SelectedIndex);
 
                 foreach (ObjectEntry o in LayoutEditorSystem.GetActiveObjectEntries())
-                    if (o.List == layoutSystem.GetSetObjectAt(SelectedIndex).List && o.Type == layoutSystem.GetSetObjectAt(SelectedIndex).Type)
-                ComboBoxObject.SelectedItem = o;
+                    if (o.List == layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).List && o.Type == layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Type)
+                        ComboBoxObject.SelectedItem = o;
 
-                NumericObjLink.Value = layoutSystem.GetObjectLink(SelectedIndex);
-                NumericObjRend.Value = layoutSystem.GetObjectRend(SelectedIndex);
+                NumericObjLink.Value = layoutSystem.GetObjectLink(listBoxObjects.SelectedIndex);
+                NumericObjRend.Value = layoutSystem.GetObjectRend(listBoxObjects.SelectedIndex);
 
-                numericUnkB1.Value = layoutSystem.GetUnkBytes(SelectedIndex)[0];
-                numericUnkB2.Value = layoutSystem.GetUnkBytes(SelectedIndex)[1];
-                numericUnkB3.Value = layoutSystem.GetUnkBytes(SelectedIndex)[2];
-                numericUnkB4.Value = layoutSystem.GetUnkBytes(SelectedIndex)[3];
-                numericUnkB5.Value = layoutSystem.GetUnkBytes(SelectedIndex)[4];
-                numericUnkB6.Value = layoutSystem.GetUnkBytes(SelectedIndex)[5];
-                numericUnkB7.Value = layoutSystem.GetUnkBytes(SelectedIndex)[6];
-                numericUnkB8.Value = layoutSystem.GetUnkBytes(SelectedIndex)[7];
+                numericUnkB1.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[0];
+                numericUnkB2.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[1];
+                numericUnkB3.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[2];
+                numericUnkB4.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[3];
+                numericUnkB5.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[4];
+                numericUnkB6.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[5];
+                numericUnkB7.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[6];
+                numericUnkB8.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[7];
 
-                PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(SelectedIndex);
-                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(SelectedIndex).Description);
+                PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex);
+                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Description);
                 ProgramIsChangingStuff = false;
             }
 
@@ -531,11 +588,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 buttonViewHere.Enabled = false;
                 buttonDrop.Enabled = false;
                 buttonCurrentViewDrop.Enabled = false;
-                ButtonRemove.Enabled = false;
-                buttonDuplicate.Enabled = false;
                 groupBox1.Enabled = false;
-                buttonCopy.Enabled = false;
-                
+
                 displayDataDisabled = true;
             }
         }
@@ -554,10 +608,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 buttonViewHere.Enabled = true;
                 buttonDrop.Enabled = true;
                 buttonCurrentViewDrop.Enabled = true;
-                ButtonRemove.Enabled = true;
-                buttonDuplicate.Enabled = true;
                 groupBox1.Enabled = true;
-                buttonCopy.Enabled = true;
 
                 displayDataDisabled = false;
             }
@@ -569,9 +620,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 objectAmountLabel.Text = "0 objects";
             else
             {
-                objectAmountLabel.Text = SelectedIndex == -1 ?
+                objectAmountLabel.Text = listBoxObjects.SelectedIndex == -1 ?
                     layoutSystem.GetSetObjectAmount().ToString() + " objects" :
-                    string.Format("{0}/{1} objects", SelectedIndex + 1, layoutSystem.GetSetObjectAmount());
+                    $"{listBoxObjects.SelectedIndex + 1}/{layoutSystem.GetSetObjectAmount()} objects";
             }
         }
 
@@ -600,22 +651,29 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonCopyMisc_Click(object sender, EventArgs e)
         {
-            layoutSystem.CopyMisc(SelectedIndex);
+            if (listBoxObjects.SelectedIndices.Count == 1)
+                layoutSystem.CopyMisc(listBoxObjects.SelectedIndex);
         }
 
         private void buttonPasteMisc_Click(object sender, EventArgs e)
         {
-            layoutSystem.PasteMisc(SelectedIndex);
-            PropertyGridMisc.Refresh();
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                layoutSystem.PasteMisc(listBoxObjects.SelectedIndex);
+                PropertyGridMisc.Refresh();
+            }
         }
 
         public void RenderSetObjects(SharpRenderer renderer, bool drawEveryObject)
         {
-            layoutSystem.RenderSetObjects(renderer, drawEveryObject);
+            if (checkBoxDrawObjs.Checked)
+            {
+                layoutSystem.RenderSetObjects(renderer, drawEveryObject);
 
-            if (DrawGizmos)
-                foreach (Gizmo g in gizmos)
-                    g.Draw(renderer);
+                if (DrawGizmos)
+                    foreach (Gizmo g in gizmos)
+                        g.Draw(renderer);
+            }
         }
 
         public void UpdateAllMatrices()
@@ -639,10 +697,15 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void UpdateGizmoPosition()
         {
-            if (SelectedIndex == -1)
+            if (listBoxObjects.SelectedIndices.Count == 0 || !checkBoxDrawObjs.Checked)
                 ClearGizmos();
             else
-                UpdateGizmoPosition(layoutSystem.GetSetObjectAt(SelectedIndex).GetGizmoCenter());
+            {
+                BoundingSphere b = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).GetGizmoCenter();
+                foreach (int i in listBoxObjects.SelectedIndices)
+                    b = BoundingSphere.Merge(b, layoutSystem.GetSetObjectAt(i).GetGizmoCenter());
+                UpdateGizmoPosition(b);
+            }
         }
 
         private void UpdateGizmoPosition(BoundingSphere position)
@@ -659,7 +722,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private bool GizmoSelect(Ray r)
         {
-            if (!DrawGizmos)
+            if (!DrawGizmos || !checkBoxDrawObjs.Checked)
                 return false;
 
             float dist = 10000f;
@@ -695,7 +758,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (gizmos[0].isSelected || gizmos[1].isSelected || gizmos[2].isSelected)
             {
-                Vector3 gizmoCenter = layoutSystem.GetSetObjectAt(SelectedIndex).GetGizmoCenter().Center;
+                Vector3 gizmoCenter = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).GetGizmoCenter().Center;
                 Vector3 direction1 = (Vector3)Vector3.Transform(gizmoCenter, viewProjection);
 
                 if (gizmos[0].isSelected)
@@ -705,7 +768,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     direction.Z = 0;
                     direction.Normalize();
 
-                    NumericPosX.Value += (decimal)((distanceX * direction.X - distanceY * direction.Y) / 2);
+                    foreach (int i in listBoxObjects.SelectedIndices)
+                    {
+                        layoutSystem.GetSetObjectAt(i).Position.X += (distanceX * direction.X - distanceY * direction.Y) / 2;
+                        layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
+                        UpdateDisplayData();
+                    }
                 }
                 else if (gizmos[1].isSelected)
                 {
@@ -714,7 +782,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     direction.Z = 0;
                     direction.Normalize();
 
-                    NumericPosY.Value += (decimal)((distanceX * direction.X - distanceY * direction.Y) / 2);
+                    foreach (int i in listBoxObjects.SelectedIndices)
+                    {
+                        layoutSystem.GetSetObjectAt(i).Position.Y += (distanceX * direction.X - distanceY * direction.Y) / 2;
+                        layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
+                        UpdateDisplayData();
+                    }
                 }
                 else if (gizmos[2].isSelected)
                 {
@@ -723,7 +796,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     direction.Z = 0;
                     direction.Normalize();
 
-                    NumericPosZ.Value += (decimal)((distanceX * direction.X - distanceY * direction.Y) / 2);
+                    foreach (int i in listBoxObjects.SelectedIndices)
+                    {
+                        layoutSystem.GetSetObjectAt(i).Position.Z += (distanceX * direction.X - distanceY * direction.Y) / 2;
+                        layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
+                        UpdateDisplayData();
+                    }
                 }
 
                 finishedMovingGizmo = true;
@@ -733,9 +811,12 @@ namespace HeroesPowerPlant.LayoutEditor
         
         private void buttonCurrentViewDrop_Click(object sender, EventArgs e)
         {
-            layoutSystem.DropToCurrentView(SelectedIndex);
-            UpdateDisplayData();
-            UpdateGizmoPosition();
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                layoutSystem.DropToCurrentView(listBoxObjects.SelectedIndex);
+                UpdateDisplayData();
+                UpdateGizmoPosition();
+            }
         }
 
         private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)
@@ -759,7 +840,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void GetClickedModelPosition(Ray ray, Vector3 camPos, bool seeAllObjects, out bool hasIntersected, out float smallestDistance)
         {
-            layoutSystem.GetClickedModelPosition(ray, camPos, seeAllObjects, out hasIntersected, out smallestDistance);
+            hasIntersected = false;
+            smallestDistance = 0;
+
+            if (checkBoxDrawObjs.Checked)            
+                layoutSystem.GetClickedModelPosition(ray, camPos, seeAllObjects, out hasIntersected, out smallestDistance);
         }
 
         private void importSALayoutFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -772,7 +857,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void PropertyGridMisc_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            layoutSystem.GetSetObjectAt(SelectedIndex).CreateTransformMatrix();
+            layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
         }
     }
 }

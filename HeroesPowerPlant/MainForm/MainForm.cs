@@ -363,10 +363,13 @@ namespace HeroesPowerPlant.MainForm
                     renderPanel.ClientRectangle.X,
                     renderPanel.ClientRectangle.Y,
                     renderPanel.ClientRectangle.Width,
-                    renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown, e.Button == MouseButtons.Left, PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
+                    renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown,
+                    PressedKeys.Contains(Keys.ControlKey),
+                    e.Button == MouseButtons.Left, 
+                    PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
         }
 
-        private void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool leftClick, bool placeNewObject)
+        private void ScreenClicked(Rectangle viewRectangle, int X, int Y, bool isMouseDown, bool isCtrlDown, bool leftClick, bool placeNewObject)
         {
             Ray ray = Ray.GetPickRay(X, Y, new Viewport(viewRectangle), renderer.viewProjection);
 
@@ -374,7 +377,7 @@ namespace HeroesPowerPlant.MainForm
                 ScreenClickedPlaceObject(ray);
             
             else if (leftClick && renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
-                ScreenClickedSelectObject(ray, isMouseDown);
+                ScreenClickedSelectObject(ray, isMouseDown, isCtrlDown);
             
             else if (leftClick && renderer.ShowCameras && !isMouseDown)
                 CameraEditor.ScreenClicked(ray);
@@ -432,7 +435,7 @@ namespace HeroesPowerPlant.MainForm
             //    Program.CameraEditor.PlaceObject(position);
         }
 
-        private void ScreenClickedSelectObject(Ray ray, bool isMouseDown)
+        private void ScreenClickedSelectObject(Ray ray, bool isMouseDown, bool isCtrlDown)
         {
             // select object in layout editor
             float minDistance = 40000f;
@@ -456,9 +459,9 @@ namespace HeroesPowerPlant.MainForm
                     if (l.finishedMovingGizmo)
                         l.finishedMovingGizmo = false;
                     else if (l == e)
-                        l.SetSelectedIndex(index);
+                        l.SetSelectedIndex(index, isCtrlDown);
                     else
-                        l.SetSelectedIndex(-1);
+                        l.SetSelectedIndex(-1, false);
                 }
         }
 
@@ -466,7 +469,7 @@ namespace HeroesPowerPlant.MainForm
         {
             foreach (var l in LayoutEditors)
                 if (l != editor)
-                    l.SetSelectedIndex(-1);
+                    l.SetSelectedIndex(-1, false);
         }
 
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)

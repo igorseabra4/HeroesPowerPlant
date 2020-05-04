@@ -13,11 +13,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix()
         {
-            transformMatrix =
-                Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + 180f)) *
-                Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
-                Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) *
-                Matrix.Translation(Position);
+            transformMatrix = DefaultTransformMatrix(180f);
 
             positionsList = new List<Vector3>(NumberOfRings);
 

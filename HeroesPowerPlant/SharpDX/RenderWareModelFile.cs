@@ -45,11 +45,11 @@ namespace HeroesPowerPlant
             else
                 isNoCulling = false;
 
-            if (materialType.Contains("D") | materialType.Contains("O"))
+            if (materialType.Contains("D") || materialType.Contains("O"))
                 ChunkName = "O";
-            else if (materialType.Contains("K") | materialType.Contains("G"))
+            else if (materialType.Contains("K") || materialType.Contains("G"))
                 ChunkName = "K";
-            else if (materialType.Contains("P") | materialType.Contains("A"))
+            else if (materialType.Contains("P") || materialType.Contains("A"))
                 ChunkName = "P";
 
             foreach (string s in materialType.Split('_'))
@@ -277,76 +277,79 @@ namespace HeroesPowerPlant
         
         private void AddGeometry(SharpDevice device, Geometry_000F g, Matrix transformMatrix)
         {
-            List<string> MaterialList = new List<string>();
+            List<string> materialList = new List<string>();
             foreach (Material_0007 m in g.materialList.materialList)
             {
                 if (m.texture != null)
                 {
                     string textureName = m.texture.diffuseTextureName.stringString;
-                    if (!MaterialList.Contains(textureName))
-                        MaterialList.Add(textureName);
+                    materialList.Add(textureName);
                 }
                 else
-                    MaterialList.Add(DefaultTexture);
+                    materialList.Add(DefaultTexture);
             }
 
             if ((g.geometryStruct.geometryFlags2 & GeometryFlags2.isNativeGeometry) != 0)
             {
-                AddNativeData(device, g.geometryExtension, MaterialList, transformMatrix);
+                AddNativeData(device, g.geometryExtension, materialList, transformMatrix);
                 return;
             }
 
-            List<VertexColoredTextured> vertexList = new List<VertexColoredTextured>();
+            List<Vector3> vertexList1 = new List<Vector3>();
+            List<Vector3> normalList = new List<Vector3>();
+            List<Vector2> textCoordList = new List<Vector2>();
+            List<SharpDX.Color> colorList = new List<SharpDX.Color>();
 
             if ((g.geometryStruct.geometryFlags & GeometryFlags.hasVertexPositions) != 0)
             {
-                foreach (Vertex3 v in g.geometryStruct.morphTargets[0].vertices)
+                MorphTarget m = g.geometryStruct.morphTargets[0];
+                foreach (Vertex3 v in m.vertices)
                 {
-                    Vector3 Position = (Vector3)Vector3.Transform(new Vector3(v.X, v.Y, v.Z), transformMatrix);
-                    
-                    vertexList.Add(new VertexColoredTextured(Position, new Vector2(), SharpDX.Color.White));
-                    vertexListG.Add(Position);
+                    Vector3 pos = (Vector3)Vector3.Transform(new Vector3(v.X, v.Y, v.Z), transformMatrix);
+                    vertexList1.Add(pos);
+                    vertexListG.Add(pos);
                 }
+            }
+
+            if ((g.geometryStruct.geometryFlags & GeometryFlags.hasNormals) != 0)
+            {
+                for (int i = 0; i < vertexList1.Count; i++)
+                    normalList.Add(new Vector3(g.geometryStruct.morphTargets[0].normals[i].X, g.geometryStruct.morphTargets[0].normals[i].Y, g.geometryStruct.morphTargets[0].normals[i].Z));
             }
 
             if ((g.geometryStruct.geometryFlags & GeometryFlags.hasVertexColors) != 0)
             {
-                for (int i = 0; i < vertexList.Count; i++)
+                for (int i = 0; i < vertexList1.Count; i++)
                 {
                     RenderWareFile.Color c = g.geometryStruct.vertexColors[i];
-
-                    VertexColoredTextured v = vertexList[i];
-                    v.Color = new SharpDX.Color(c.R, c.G, c.B, c.A);
-                    vertexList[i] = v;
+                    colorList.Add(new SharpDX.Color(c.R, c.G, c.B, c.A));
                 }
             }
             else
             {
-                for (int i = 0; i < vertexList.Count; i++)
-                {
-                    VertexColoredTextured v = vertexList[i];
-                    v.Color = SharpDX.Color.White;
-                    vertexList[i] = v;
-                }
+                for (int i = 0; i < vertexList1.Count; i++)
+                    colorList.Add(new SharpDX.Color(1f, 1f, 1f, 1f));
             }
 
             if ((g.geometryStruct.geometryFlags & GeometryFlags.hasTextCoords) != 0)
             {
-                for (int i = 0; i < vertexList.Count; i++)
+                for (int i = 0; i < vertexList1.Count; i++)
                 {
                     Vertex2 tc = g.geometryStruct.textCoords[i];
-
-                    VertexColoredTextured v = vertexList[i];
-                    v.TextureCoordinate = new Vector2(tc.X, tc.Y);
-                    vertexList[i] = v;
+                    textCoordList.Add(new Vector2(tc.X, tc.Y));
                 }
+            }
+            else
+            {
+                for (int i = 0; i < vertexList1.Count; i++)
+                    textCoordList.Add(new Vector2());
             }
 
             List<SharpSubSet> SubsetList = new List<SharpSubSet>();
             List<int> indexList = new List<int>();
             int previousIndexCount = 0;
 
-            for (int i = 0; i < MaterialList.Count; i++)
+            for (int i = 0; i < materialList.Count; i++)
             {
                 foreach (Triangle t in g.geometryStruct.triangles)
                 {
@@ -363,16 +366,21 @@ namespace HeroesPowerPlant
                 if (indexList.Count - previousIndexCount > 0)
                 {
                     SubsetList.Add(new SharpSubSet(previousIndexCount, indexList.Count - previousIndexCount,
-                        TextureManager.GetTextureFromDictionary(MaterialList[i]), MaterialList[i]));
+                        TextureManager.GetTextureFromDictionary(materialList[i]), materialList[i]));
                 }
-                
+
                 previousIndexCount = indexList.Count();
             }
 
-            triangleListOffset += vertexList.Count;
+            triangleListOffset += vertexList1.Count;
 
             if (SubsetList.Count > 0)
-                meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
+            {
+                VertexColoredTextured[] vertices = new VertexColoredTextured[vertexList1.Count];
+                for (int i = 0; i < vertices.Length; i++)
+                    vertices[i] = new VertexColoredTextured(vertexList1[i], textCoordList[i], colorList[i]);
+                meshList.Add(SharpMesh.Create(device, vertices, indexList.ToArray(), SubsetList));
+            }
         }
 
         void AddNativeData(SharpDevice device, Extension_0003 extension, List<string> MaterialStream, Matrix transformMatrix)
