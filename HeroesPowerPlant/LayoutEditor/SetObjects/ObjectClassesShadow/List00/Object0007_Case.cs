@@ -2,12 +2,10 @@
 {
     public class Object0007_Case : SetObjectShadow
     {
-        public string Note => "Not all misc. settings are in list yet.";
-
-        public int CaseType
+        public LockedCaseType CaseType
         {
-            get => ReadInt(0);
-            set => Write(0, value);
+            get => (LockedCaseType)ReadInt(0);
+            set => Write(0, (int)value);
         }
 
         public float ScaleX
@@ -27,6 +25,11 @@
             get => ReadFloat(12);
             set => Write(12, value);
         }
+    }
+
+    public enum LockedCaseType {
+        BlackArms,
+        GUN
     }
 }
 
