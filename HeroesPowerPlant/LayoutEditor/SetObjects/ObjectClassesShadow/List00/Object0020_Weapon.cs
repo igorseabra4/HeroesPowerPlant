@@ -11,6 +11,7 @@
 
     public enum Weapon
     {
+        NotValidInObject = -1,
         None = 0x00,
         Pistol = 0x01,
         SubmachineGun = 0x02,
@@ -32,15 +33,15 @@
         RPG = 0x12,
         FourShot = 0x13,
         EightShot = 0x14,
-        WormShooteBlack = 0x15,
+        WormShooterBlack = 0x15,
         WideWormShooterRed = 0x16,
         BigWormShooterGold = 0x17,
         VacuumPod = 0x18,
         LaserRifle = 0x19,
         Splitter = 0x1A,
         Refractor = 0x1B,
-        None1C = 0x1C,
-        None1D = 0x1D,
+        UnusedGUNWeaponSlot = 0x1C,
+        UnusedBlackArmsWeaponSlot = 0x1D,
         Knife = 0x1E,
         BlackSword = 0x1F,
         DarkHammer = 0x20,
