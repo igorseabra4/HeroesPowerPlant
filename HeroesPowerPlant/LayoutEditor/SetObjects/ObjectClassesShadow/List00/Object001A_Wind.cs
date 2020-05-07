@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor {
-    public class Object2594_Fan : SetObjectShadow {
+    public class Object001A_Wind : SetObjectShadow {
+        // Technically a copy of "Fan", with a unique model
 
-        public FanType FanType { //0 or 1
+        public FanType DirectionType { //0 or 1
             get => (FanType)ReadInt(0);
             set => Write(0, (int)value);
         }
 
-        public FanForm FanForm { //0
+        public FanForm BlowerType { //0 or 1
             get => (FanForm)ReadInt(4);
             set => Write(4, (int)value);
         }
@@ -18,7 +19,7 @@ namespace HeroesPowerPlant.LayoutEditor {
             set => Write(8, value);
         }
 
-        [Description("Only for FanForm BoxType")]
+        [Description("Only for BlowerType BoxType")]
         public float BoxTypeAirHeight { //always 0
             get => ReadFloat(12);
             set => Write(12, value);
@@ -49,32 +50,16 @@ namespace HeroesPowerPlant.LayoutEditor {
             get => (CommonNoYes)ReadInt(32);
             set => Write(32, (int)value);
         }
-
-        public FanRunning FanRunning { //-1 or 255
+        public FanRunning WindBlowing { //-1 or 255
             get => (FanRunning)ReadInt(36);
             set => Write(36, (int)value);
         }
 
-        [Description("FanRunning shares this, can set to LinkID to watch for")]
+        [Description("WindBlowing shares this, can set to LinkID to watch for")]
         public int LinkIDMakeRun {
             get => ReadInt(36);
             set => Write(36, value);
         }
-    }
-
-    public enum FanType {
-        UpperWay,
-        SideWay
-    }
-
-    public enum FanForm {
-        Cylinder,
-        Box,
-    }
-
-    public enum FanRunning {
-        Yes=-1,
-        No=255
     }
 }
 
