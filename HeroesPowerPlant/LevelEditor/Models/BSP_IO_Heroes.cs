@@ -183,19 +183,13 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         textureStruct = new TextureStruct_0001()
                         {
-                            filterMode = TextureFilterMode.FILTERLINEAR,
-                            addressModeU = TextureAddressMode.TEXTUREADDRESSWRAP,
-                            addressModeV = TextureAddressMode.TEXTUREADDRESSWRAP,
-                            useMipLevels = 1
+                            FilterMode = TextureFilterMode.FILTERLINEAR,
+                            AddressModeU = TextureAddressMode.TEXTUREADDRESSWRAP,
+                            AddressModeV = TextureAddressMode.TEXTUREADDRESSWRAP,
+                            UseMipLevels = 1
                         },
-                        diffuseTextureName = new String_0002()
-                        {
-                            stringString = data.MaterialList[i]
-                        },
-                        alphaTextureName = new String_0002()
-                        {
-                            stringString = ""
-                        },
+                        diffuseTextureName = new String_0002(data.MaterialList[i]),
+                        alphaTextureName = new String_0002(""),
                         textureExtension = new Extension_0003()
                     },
                     materialExtension = new Extension_0003(),

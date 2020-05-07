@@ -211,30 +211,24 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         textureStruct = new TextureStruct_0001() // use wrap as default
                         {
-                            filterMode = TextureFilterMode.FILTERLINEAR,
+                            FilterMode = TextureFilterMode.FILTERLINEAR,
 
-                            addressModeU =
+                            AddressModeU =
                             scene.Materials[i].TextureDiffuse.WrapModeU == TextureWrapMode.Clamp ? TextureAddressMode.TEXTUREADDRESSCLAMP :
                             scene.Materials[i].TextureDiffuse.WrapModeU == TextureWrapMode.Decal ? TextureAddressMode.TEXTUREADDRESSBORDER :
                             scene.Materials[i].TextureDiffuse.WrapModeU == TextureWrapMode.Mirror ? TextureAddressMode.TEXTUREADDRESSMIRROR :
                             TextureAddressMode.TEXTUREADDRESSWRAP,
 
-                            addressModeV =
+                            AddressModeV =
                             scene.Materials[i].TextureDiffuse.WrapModeV == TextureWrapMode.Clamp ? TextureAddressMode.TEXTUREADDRESSCLAMP :
                             scene.Materials[i].TextureDiffuse.WrapModeV == TextureWrapMode.Decal ? TextureAddressMode.TEXTUREADDRESSBORDER :
                             scene.Materials[i].TextureDiffuse.WrapModeV == TextureWrapMode.Mirror ? TextureAddressMode.TEXTUREADDRESSMIRROR :
                             TextureAddressMode.TEXTUREADDRESSWRAP,
 
-                            useMipLevels = 1
+                            UseMipLevels = 1
                         },
-                        diffuseTextureName = new String_0002()
-                        {
-                            stringString = Path.GetFileNameWithoutExtension(scene.Materials[i].TextureDiffuse.FilePath)
-                        },
-                        alphaTextureName = new String_0002()
-                        {
-                            stringString = ""
-                        },
+                        diffuseTextureName = new String_0002(Path.GetFileNameWithoutExtension(scene.Materials[i].TextureDiffuse.FilePath)),
+                        alphaTextureName = new String_0002(""),
                         textureExtension = new Extension_0003()
                     } : null,
                     materialExtension = new Extension_0003(),
