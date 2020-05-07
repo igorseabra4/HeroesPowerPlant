@@ -820,14 +820,36 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         case 0x01: case 0x02: case 0x03: case 0x06: return new Object00_SpringShadow();
                         case 0x04: return new Object0004_DashRamp();
+                        case 0x05: return new Object0005_Checkpoint();
                         case 0x07: return new Object0007_Case();
+                        case 0x08: return new Object0008_Pulley();
+                        case 0x09: return new Object0009_WoodBox();
+                        case 0x0A: return new Object000A_MetalBox();
+                        case 0x0B: return new Object000B_UnbreakableBox();
+                        case 0x0C: return new Object000C_WeaponBox();
                         case 0x0E: return new Object000E_Rocket();
                         case 0x0F: return new Object000F_Platform();
                         case 0x10: return new Object0010_Ring();
+                        case 0x11: return new Object0011_HintBall();
                         case 0x12: return new Object0012_ItemCapsule();
+                        case 0x13: return new Object0013_Balloon();
                         case 0x14: return new Object0014_GoalRing();
+                        case 0x15: return new Object0015_BallSwitch();
+                        case 0x16: return new Object0016_TargetSwitch();
+                        case 0x19: return new Object0019_Weight();
+                        case 0x1A: return new Object001A_Wind();
+                        case 0x1B: return new Object001B_Roadblock();
                         case 0x20: return new Object0020_Weapon();
+                        case 0x23: return new Object0023_OverturnableObject();
+                        case 0x3A: return new Object003A_SpecialWeaponBox();
+                        case 0x33: return new Object0033_EnergyCore();
+                        case 0x34: return new Object0034_Fire();
+                        case 0x35: return new Object0034_Fire(); //PoisonGas
                         case 0x4F: return new Object004F_Vehicle();
+                        case 0x50: return new Object0050_Trigger();
+                        case 0x51: return new Object0051_TriggerTalking();
+                        case 0x5A: return new Object005A_Pole();
+                        case 0x62: return new Object0062_LightColli();
                         case 0x64: return new Object0064_GUNSoldier();
                         case 0x65: return new Object0065_GUNBeetle();
                         case 0x66: return new Object0066_GUNBigfoot();
@@ -848,12 +870,35 @@ namespace HeroesPowerPlant.LayoutEditor
                 case 0x01:
                     switch (Type)
                     {
+                        case 0x2C: return new Object012C_EnvironmentalWeapon();
                         case 0x90: return new Object0190_Partner();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x03:
+                    switch (Type) {
+                        case 0xE9: return new Object03E9_FallingBuilding();
+                        case 0xEA: return new Object03EA_GiantSkyLaser();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x07:
                     switch (Type) {
+                        case 0xD1: return new Object07D1_Searchlight();
+                        case 0xD2: return new Object07D2_ColorSwitch();
+                        case 0xD3: return new Object07D3_RisingLaserBar();
                         case 0xD4: return new Object07D4_ElecSecurity();
+                        case 0xD5: return new Object07D5_LightspeedRisingBlock();
+                        case 0xD7: return new Object07D7_DigitalBreakableTile();
+                        case 0xDE: return new Object00_SpringShadow();
+                        case 0xDF: return new Object07DF_LightspeedFirewall();
+                        case 0xE1: return new Object07E1_TriggerDigitalBreakableTile();
+                        case 0xEB: return new Object07EB_CubePlatformCircle();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x08:
+                    switch (Type) {
+                        case 0x34: return new Object0834_TornadoObject1();
+                        case 0x35: return new Object0835_TornadoObject2();
+                        case 0x36: return new Object0836_TornadoObject3();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x0B:
@@ -862,16 +907,43 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xBE: return new Object0BBE_Chao();
                         default: return new Object_ShadowDefault();
                     }
+                case 0x10:
+                    switch (Type) {
+                        case 0x69: return new Object1069_FleetHolderEggmanBattleship();
+                        default: return new Object_ShadowDefault();
+                    }
                 case 0x11:
                     switch (Type)
                     {
                         case 0x31: return new Object1131_Vine();
                         default: return new Object_ShadowDefault();
                     }
+                case 0x13:
+                    switch (Type)
+                    {
+                        case 0x92: return new Object1392_SpaceDebris();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x17:
+                    switch (Type)
+                    {
+                        case 0x72: return new Object1772_ConcreteDoor();
+                        case 0x73: return new Object1773_CrushingWalls();
+                        case 0xD4: return new Object11D4_BAGunShip();
+                        case 0xD5: return new Object17D5_BlackArmsMine();
+                        default: return new Object_ShadowDefault();
+                    }
                 case 0x18:
                     switch (Type)
                     {
+                        case 0x39: return new Object1839_RisingLava();
                         case 0x9E: return new Object189E_ARKDriftingPlat1();
+                        default: return new Object_ShadowDefault();
+                    }
+                case 0x19:
+                    switch (Type) {
+                        case 0x01: return new Object1901_CometBarrier();
+                        case 0x03: return new Object1903_BlackDoomHologram();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x25:
@@ -879,7 +951,14 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         case 0x88: return new Object2588_Decoration1();
                         case 0x89: return new Object2589_Destructable1();
+                        case 0x8A: return new Object258A_Effect1();
                         case 0x90: return new Object2588_Decoration1();
+                        case 0x91: return new Object2589_Destructable1();
+                        case 0x93: return new Object2593_SetGenerator();
+                        case 0x94: return new Object2594_Fan();
+                        case 0x95: return new Object2595_MissionClearCollision();
+                        case 0x97: return new Object2597_SetSeLoop();
+                        case 0x98: return new Object2598_SetSeOneShot();
                         default: return new Object_ShadowDefault();
                     }
                 default: return new Object_ShadowDefault();
