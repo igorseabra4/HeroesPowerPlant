@@ -2,6 +2,7 @@
 {
     public enum ItemShadow
     {
+        NotValidInObject = -1,
         Rings5 = 0,
         Rings10 = 1,
         Rings20 = 2,
