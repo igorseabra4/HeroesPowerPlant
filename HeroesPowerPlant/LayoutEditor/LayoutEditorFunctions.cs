@@ -393,7 +393,6 @@ namespace HeroesPowerPlant.LayoutEditor
             int MiscSettingCount = -1;
             int ModelMiscSetting = -1;
             string DebugName = "";
-            string Description = "";
             List<string[]> Models = new List<string[]>();
 
             foreach (string i in File.ReadAllLines(FileName))
@@ -411,8 +410,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     MiscSettingCount = Convert.ToInt32(i.Split('=')[1]);
                 else if (i.StartsWith("Debug="))
                     DebugName = i.Split('=')[1];
-                else if (i.StartsWith("Description="))
-                    Description = i.Split('=')[1];
                 else if (i.StartsWith("Model="))
                     Models.Add(i.Split('=')[1].Split(','));
                 else if (i.StartsWith("ModelMiscSetting="))
@@ -427,7 +424,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         HasMiscSettings = HasMiscSettings,
                         DebugName = DebugName,
                         ModelNames = Models.ToArray(),
-                        Description = Description,
                         MiscSettingCount = MiscSettingCount,
                         ModelMiscSetting = ModelMiscSetting
                     });
@@ -443,7 +439,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         HasMiscSettings = HasMiscSettings,
                         DebugName = DebugName,
                         ModelNames = Models.ToArray(),
-                        Description = Description,
                         MiscSettingCount = MiscSettingCount,
                         ModelMiscSetting = ModelMiscSetting
                     });
@@ -453,7 +448,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     HasMiscSettings = true;
                     DebugName = "";
                     Models = new List<string[]>();
-                    Description = "";
                     MiscSettingCount = -1;
                     ModelMiscSetting = -1;
                 }
@@ -487,7 +481,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 case 0:
                     switch (Type)
                     {
-                        case 0: case 0x1B: case 0x28: case 0x67: return new Object_HeroesEmpty();
+                        case 0: return new Object0000_Nothing();
+                        case 0x1B: case 0x28: case 0x67: return new Object_HeroesEmpty();
                         case 0x1: return new Object0001_Spring();
                         case 0x2: return new Object0002_TripleSpring();
                         case 0x3: return new Object0003_Ring();

@@ -295,7 +295,6 @@ namespace HeroesPowerPlant.LayoutEditor
                 layoutSystem.ChangeObjectType(listBoxObjects.SelectedIndex, ComboBoxObject.SelectedItem as ObjectEntry);
                 UpdateList();
                 PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex);
-                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Description);
             }
         }
 
@@ -565,7 +564,6 @@ namespace HeroesPowerPlant.LayoutEditor
                 numericUnkB8.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[7];
 
                 PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex);
-                UpdateDescriptionBox(layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Description);
                 ProgramIsChangingStuff = false;
             }
 
@@ -636,19 +634,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Text = "Layout Editor - " + Path.GetFileName(layoutSystem.CurrentlyOpenFileName);
             mainForm.SetLayoutEditorStripItemName(this, Path.GetFileName(layoutSystem.CurrentlyOpenFileName));
         }
-
-        private void UpdateDescriptionBox(string Description)
-        {
-            try
-            {
-                RichTextBoxDescription.Text = Description;
-            }
-            catch
-            {
-                RichTextBoxDescription.Text = "";
-            }
-        }
-
+        
         private void buttonCopyMisc_Click(object sender, EventArgs e)
         {
             if (listBoxObjects.SelectedIndices.Count == 1)

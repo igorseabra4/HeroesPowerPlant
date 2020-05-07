@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -41,6 +42,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return r.Intersects(ref sphereBound, out distance);
         }
 
+        [Description("Player activates Start and End, Rhino Liner activates the rest")]
         public RhinoTriggerType TriggerType
         {
             get => (RhinoTriggerType)ReadByte(4);

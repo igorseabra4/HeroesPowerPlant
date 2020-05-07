@@ -79,7 +79,6 @@
             this.ButtonGetPow = new System.Windows.Forms.Button();
             this.ButtonGetFly = new System.Windows.Forms.Button();
             this.ButtonGetSpeed = new System.Windows.Forms.Button();
-            this.RichTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.PropertyGridMisc = new System.Windows.Forms.PropertyGrid();
             this.buttonDrop = new System.Windows.Forms.Button();
             this.buttonCurrentViewDrop = new System.Windows.Forms.Button();
@@ -285,7 +284,7 @@
             this.objectAmountLabel,
             this.toolStripStatusLabel1,
             this.openFileLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 499);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 506);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(671, 22);
             this.statusStrip1.TabIndex = 1;
@@ -321,7 +320,7 @@
             // 
             // buttonDuplicate
             // 
-            this.buttonDuplicate.Location = new System.Drawing.Point(106, 414);
+            this.buttonDuplicate.Location = new System.Drawing.Point(106, 419);
             this.buttonDuplicate.Name = "buttonDuplicate";
             this.buttonDuplicate.Size = new System.Drawing.Size(88, 23);
             this.buttonDuplicate.TabIndex = 61;
@@ -332,7 +331,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(106, 472);
+            this.buttonClear.Location = new System.Drawing.Point(106, 477);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(88, 23);
             this.buttonClear.TabIndex = 64;
@@ -343,7 +342,7 @@
             // 
             // ButtonRemove
             // 
-            this.ButtonRemove.Location = new System.Drawing.Point(106, 443);
+            this.ButtonRemove.Location = new System.Drawing.Point(106, 448);
             this.ButtonRemove.Name = "ButtonRemove";
             this.ButtonRemove.Size = new System.Drawing.Size(88, 23);
             this.ButtonRemove.TabIndex = 63;
@@ -354,7 +353,7 @@
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(12, 414);
+            this.ButtonAdd.Location = new System.Drawing.Point(12, 419);
             this.ButtonAdd.Name = "ButtonAdd";
             this.ButtonAdd.Size = new System.Drawing.Size(88, 23);
             this.ButtonAdd.TabIndex = 62;
@@ -643,29 +642,13 @@
             this.ButtonGetSpeed.UseVisualStyleBackColor = true;
             this.ButtonGetSpeed.Click += new System.EventHandler(this.ButtonGetSpeed_Click);
             // 
-            // RichTextBoxDescription
-            // 
-            this.RichTextBoxDescription.BackColor = System.Drawing.SystemColors.Control;
-            this.RichTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.RichTextBoxDescription.Cursor = System.Windows.Forms.Cursors.Default;
-            this.RichTextBoxDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RichTextBoxDescription.Location = new System.Drawing.Point(485, 377);
-            this.RichTextBoxDescription.Name = "RichTextBoxDescription";
-            this.RichTextBoxDescription.ReadOnly = true;
-            this.RichTextBoxDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.RichTextBoxDescription.Size = new System.Drawing.Size(181, 119);
-            this.RichTextBoxDescription.TabIndex = 77;
-            this.RichTextBoxDescription.TabStop = false;
-            this.RichTextBoxDescription.Text = "";
-            // 
             // PropertyGridMisc
             // 
-            this.PropertyGridMisc.HelpVisible = false;
             this.PropertyGridMisc.LineColor = System.Drawing.SystemColors.ControlDark;
             this.PropertyGridMisc.Location = new System.Drawing.Point(200, 214);
             this.PropertyGridMisc.Name = "PropertyGridMisc";
             this.PropertyGridMisc.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.PropertyGridMisc.Size = new System.Drawing.Size(279, 207);
+            this.PropertyGridMisc.Size = new System.Drawing.Size(279, 286);
             this.PropertyGridMisc.TabIndex = 78;
             this.PropertyGridMisc.TabStop = false;
             this.PropertyGridMisc.ToolbarVisible = false;
@@ -758,9 +741,9 @@
             this.groupBox1.Controls.Add(this.numericUnkB3);
             this.groupBox1.Controls.Add(this.numericUnkB2);
             this.groupBox1.Controls.Add(this.numericUnkB1);
-            this.groupBox1.Location = new System.Drawing.Point(200, 427);
+            this.groupBox1.Location = new System.Drawing.Point(485, 377);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(279, 70);
+            this.groupBox1.Size = new System.Drawing.Size(181, 123);
             this.groupBox1.TabIndex = 67;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unknown Bytes";
@@ -768,63 +751,63 @@
             // numericUnkB8
             // 
             this.numericUnkB8.Hexadecimal = true;
-            this.numericUnkB8.Location = new System.Drawing.Point(210, 45);
+            this.numericUnkB8.Location = new System.Drawing.Point(99, 97);
             this.numericUnkB8.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUnkB8.Name = "numericUnkB8";
-            this.numericUnkB8.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB8.Size = new System.Drawing.Size(69, 20);
             this.numericUnkB8.TabIndex = 88;
             this.numericUnkB8.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // numericUnkB7
             // 
             this.numericUnkB7.Hexadecimal = true;
-            this.numericUnkB7.Location = new System.Drawing.Point(142, 45);
+            this.numericUnkB7.Location = new System.Drawing.Point(6, 97);
             this.numericUnkB7.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUnkB7.Name = "numericUnkB7";
-            this.numericUnkB7.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB7.Size = new System.Drawing.Size(75, 20);
             this.numericUnkB7.TabIndex = 87;
             this.numericUnkB7.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // numericUnkB6
             // 
             this.numericUnkB6.Hexadecimal = true;
-            this.numericUnkB6.Location = new System.Drawing.Point(74, 45);
+            this.numericUnkB6.Location = new System.Drawing.Point(99, 71);
             this.numericUnkB6.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUnkB6.Name = "numericUnkB6";
-            this.numericUnkB6.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB6.Size = new System.Drawing.Size(69, 20);
             this.numericUnkB6.TabIndex = 86;
             this.numericUnkB6.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // numericUnkB5
             // 
             this.numericUnkB5.Hexadecimal = true;
-            this.numericUnkB5.Location = new System.Drawing.Point(6, 45);
+            this.numericUnkB5.Location = new System.Drawing.Point(6, 71);
             this.numericUnkB5.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUnkB5.Name = "numericUnkB5";
-            this.numericUnkB5.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB5.Size = new System.Drawing.Size(75, 20);
             this.numericUnkB5.TabIndex = 85;
             this.numericUnkB5.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // checkBoxAutoBytes
             // 
             this.checkBoxAutoBytes.AutoSize = true;
-            this.checkBoxAutoBytes.Location = new System.Drawing.Point(224, 0);
+            this.checkBoxAutoBytes.Location = new System.Drawing.Point(108, 0);
             this.checkBoxAutoBytes.Name = "checkBoxAutoBytes";
             this.checkBoxAutoBytes.Size = new System.Drawing.Size(48, 17);
             this.checkBoxAutoBytes.TabIndex = 81;
@@ -835,42 +818,42 @@
             // numericUnkB4
             // 
             this.numericUnkB4.Hexadecimal = true;
-            this.numericUnkB4.Location = new System.Drawing.Point(210, 19);
+            this.numericUnkB4.Location = new System.Drawing.Point(99, 45);
             this.numericUnkB4.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUnkB4.Name = "numericUnkB4";
-            this.numericUnkB4.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB4.Size = new System.Drawing.Size(69, 20);
             this.numericUnkB4.TabIndex = 84;
             this.numericUnkB4.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // numericUnkB3
             // 
             this.numericUnkB3.Hexadecimal = true;
-            this.numericUnkB3.Location = new System.Drawing.Point(142, 19);
+            this.numericUnkB3.Location = new System.Drawing.Point(6, 45);
             this.numericUnkB3.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUnkB3.Name = "numericUnkB3";
-            this.numericUnkB3.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB3.Size = new System.Drawing.Size(75, 20);
             this.numericUnkB3.TabIndex = 83;
             this.numericUnkB3.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // numericUnkB2
             // 
             this.numericUnkB2.Hexadecimal = true;
-            this.numericUnkB2.Location = new System.Drawing.Point(74, 19);
+            this.numericUnkB2.Location = new System.Drawing.Point(99, 19);
             this.numericUnkB2.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.numericUnkB2.Name = "numericUnkB2";
-            this.numericUnkB2.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB2.Size = new System.Drawing.Size(69, 20);
             this.numericUnkB2.TabIndex = 82;
             this.numericUnkB2.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
@@ -884,13 +867,13 @@
             0,
             0});
             this.numericUnkB1.Name = "numericUnkB1";
-            this.numericUnkB1.Size = new System.Drawing.Size(62, 20);
+            this.numericUnkB1.Size = new System.Drawing.Size(75, 20);
             this.numericUnkB1.TabIndex = 81;
             this.numericUnkB1.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(12, 443);
+            this.buttonCopy.Location = new System.Drawing.Point(12, 448);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(88, 23);
             this.buttonCopy.TabIndex = 81;
@@ -901,7 +884,7 @@
             // 
             // buttonPaste
             // 
-            this.buttonPaste.Location = new System.Drawing.Point(12, 472);
+            this.buttonPaste.Location = new System.Drawing.Point(12, 477);
             this.buttonPaste.Name = "buttonPaste";
             this.buttonPaste.Size = new System.Drawing.Size(88, 23);
             this.buttonPaste.TabIndex = 82;
@@ -948,7 +931,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 521);
+            this.ClientSize = new System.Drawing.Size(671, 528);
             this.Controls.Add(this.checkBoxDrawObjs);
             this.Controls.Add(this.buttonPasteMisc);
             this.Controls.Add(this.buttonCopyMisc);
@@ -958,7 +941,6 @@
             this.Controls.Add(this.buttonCurrentViewDrop);
             this.Controls.Add(this.buttonDrop);
             this.Controls.Add(this.PropertyGridMisc);
-            this.Controls.Add(this.RichTextBoxDescription);
             this.Controls.Add(this.GroupBoxGameStuff);
             this.Controls.Add(this.buttonViewHere);
             this.Controls.Add(this.ButtonFindNextLink);
@@ -1063,7 +1045,6 @@
         internal System.Windows.Forms.Button ButtonGetPow;
         internal System.Windows.Forms.Button ButtonGetFly;
         internal System.Windows.Forms.Button ButtonGetSpeed;
-        internal System.Windows.Forms.RichTextBox RichTextBoxDescription;
         private System.Windows.Forms.ToolStripStatusLabel objectAmountLabel;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel openFileLabel;

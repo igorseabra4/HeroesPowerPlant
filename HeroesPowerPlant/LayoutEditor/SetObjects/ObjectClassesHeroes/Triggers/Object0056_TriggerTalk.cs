@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -26,14 +27,14 @@ namespace HeroesPowerPlant.LayoutEditor
             switch (TriggerShape)
             {
                 case TriggerTalkShape.Sphere:
-                    sphereBound = new BoundingSphere(Position, Radius_ScaleX);
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2);
+                    sphereBound = new BoundingSphere(Position, Radius);
+                    transformMatrix = Matrix.Scaling(Radius * 2);
                     break;
                 case TriggerTalkShape.Cube:
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, ScaleZ * 2);
+                    transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
                     break;
                 case TriggerTalkShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, Radius_ScaleX * 2);
+                    transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
                     break;
             }
 
@@ -112,18 +113,35 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(8, (int)value);
         }
 
-        public float Radius_ScaleX
+        [Description("Used only for Sphere and Cylinder")]
+        public float Radius
         {
             get => ReadFloat(12);
             set => Write(12, value);
         }
 
-        public float Height_ScaleY
+        [Description("Used only for Cylinder")]
+        public float Height
         {
             get => ReadFloat(16);
             set => Write(16, value);
         }
 
+        [Description("Used only for Cube")]
+        public float ScaleX
+        {
+            get => ReadFloat(12);
+            set => Write(12, value);
+        }
+
+        [Description("Used only for Cube")]
+        public float ScaleY
+        {
+            get => ReadFloat(16);
+            set => Write(16, value);
+        }
+
+        [Description("Used only for Cube")]
         public float ScaleZ
         {
             get => ReadFloat(20);

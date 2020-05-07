@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -40,7 +41,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.dffRenderer.DFFModels[flagModelName].Render(renderer.Device);
             }
         }
-        
+
+        [Description("Types range from 0 to 15. 8 to 15 are the same as 0 to 7 but without the flag itself.")]
         public byte FlagType
         {
             get => ReadByte(4);

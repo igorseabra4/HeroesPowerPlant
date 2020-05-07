@@ -26,8 +26,6 @@ namespace HeroesPowerPlant.LayoutEditor
         private ObjectEntry objectEntry;
         [Browsable(false)]
         public string GetName => objectEntry.GetName();
-        [Browsable(false)]
-        public string Description => objectEntry.Description;
         protected int ModelMiscSetting => objectEntry.ModelMiscSetting;
         protected string[][] ModelNames => objectEntry.ModelNames;
         public bool HasMiscSettings;
@@ -37,11 +35,11 @@ namespace HeroesPowerPlant.LayoutEditor
             return objectEntry.GetName() + (Link == 0 ? "" : $" ({Link})");
         }
 
-        public void SetObjectEntry(ObjectEntry objectEntry)
+        public virtual void SetObjectEntry(ObjectEntry objectEntry)
         {
             this.objectEntry = objectEntry;
             this.HasMiscSettings = objectEntry.HasMiscSettings;
-        }
+         }
         
         public bool DontDraw(Vector3 camPos)
         {

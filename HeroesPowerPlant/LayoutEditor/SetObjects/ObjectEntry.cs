@@ -8,12 +8,6 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Type;
         public string Name;
         public string DebugName;
-        private string _description;
-        public string Description
-        {
-            get => MiscSettingCount == -1 ? _description : _description + "\nSetting Count: " + (MiscSettingCount / 4).ToString();
-            set => _description = value;
-        }
         public int ModelMiscSetting;
         public string[][] ModelNames;
         public bool HasMiscSettings;

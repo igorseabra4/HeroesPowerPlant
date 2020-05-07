@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SharpDX;
 using System;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -13,6 +14,18 @@ namespace HeroesPowerPlant.LayoutEditor
             MiscSettings = new byte[0];
         }
         
+        public string DefaultMiscSettingCount { get; private set; }
+
+        public override void SetObjectEntry(ObjectEntry objectEntry)
+        {
+            base.SetObjectEntry(objectEntry);
+
+            if (objectEntry.MiscSettingCount == -1)
+                DefaultMiscSettingCount = "Unknown";
+            else
+                DefaultMiscSettingCount = (objectEntry.MiscSettingCount / 4).ToString();
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = DefaultTransformMatrix();

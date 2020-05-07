@@ -1,4 +1,6 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.ComponentModel;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public enum LaserFenceType
     {
@@ -29,24 +31,30 @@
             set => Write(12, value);
         }
 
+        private const string desc = "Interval, SwitchID, Speed and EnemyID are actually the same setting. Which one is used depends on Type.";
+
+        [Description(desc)]
         public int Interval
         {
             get => ReadInt(16);
             set => Write(16, value);
         }
 
+        [Description(desc)]
         public int SwitchID
         {
             get => ReadInt(16);
             set => Write(16, value);
         }
 
+        [Description(desc)]
         public int Speed
         {
             get => ReadInt(16);
             set => Write(16, value);
         }
 
+        [Description(desc)]
         public int EnemyID
         {
             get => ReadInt(16);

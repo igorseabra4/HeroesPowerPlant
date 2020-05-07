@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -25,12 +26,14 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(4, (short)value);
         }
 
+        [Description("In frames")]
         public short AdditionalControlTime
         {
             get => ReadShort(6);
             set => Write(6, value);
         }
 
+        [Description("Defaults to 5.0")]
         public float Speed
         {
             get => ReadFloat(8);

@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -29,6 +30,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(12, value);
         }
 
+        [Description("Doesn't use actual Link ID. Use this one.")]
         public byte LinkID
         {
             get => ReadByte(16);

@@ -1,4 +1,6 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.ComponentModel;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public enum PlatformType
     {
@@ -10,6 +12,7 @@
 
     public class Object11_FloatingPlatform : SetObjectHeroes
     {
+        [Description("Disappear mode is unused. Delay can be negative to make the platform faster.")]
         public PlatformType PlatformType
         {
             get => (PlatformType)ReadByte(4);
