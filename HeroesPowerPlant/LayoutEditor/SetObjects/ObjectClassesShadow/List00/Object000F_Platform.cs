@@ -2,16 +2,20 @@
 {
     public class Object000F_Platform : SetObjectShadow
     {
-        public int PlatformType
+        // Needs further research
+        // ElecBlock
+        // Enums: BlockType 0-9 (unused?); CollisionFlag<FALSE/TRUE>
+        // ElecBlock(BlockType, SearchRange, InitialY, CollisionFlag)
+        public PlatformBlockType PlatformType
         {
-            get => ReadInt(0);
-            set => Write(0, value);
+            get => (PlatformBlockType)ReadInt(0);
+            set => Write(0, (int)value);
         }
 
-        public int Unknown_04
+        public PlatformMoveType MovementType
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            get => (PlatformMoveType)ReadInt(4);
+            set => Write(4, (int)value);
         }
 
         public float TravelTime
@@ -26,15 +30,15 @@
             set => Write(12, value);
         }
 
-        public int Unknown_10
+        public float float_10
         {
-            get => ReadInt(0x10);
+            get => ReadFloat(0x10);
             set => Write(0x10, value);
         }
 
-        public int Unknown_14
+        public float float_14
         {
-            get => ReadInt(0x14);
+            get => ReadFloat(0x14);
             set => Write(0x14, value);
         }
 
@@ -56,10 +60,25 @@
             set => Write(0x20, value);
         }
 
-        public int Unknown_24
+        public float float_24
         {
-            get => ReadInt(0x24);
+            get => ReadFloat(0x24);
             set => Write(0x24, value);
         }
+    }
+
+    public enum PlatformBlockType {
+        Type0,
+        Type1,
+        Type2,
+        Type3
+    }
+
+    public enum PlatformMoveType {
+        Linear=0,
+        Unknown2=2,
+        TranslationOnLinkID=3,
+        Lerp=4,
+        Slerp=6
     }
 }
