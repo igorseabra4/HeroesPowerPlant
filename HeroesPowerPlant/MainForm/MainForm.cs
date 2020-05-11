@@ -472,6 +472,22 @@ namespace HeroesPowerPlant.MainForm
                     l.SetSelectedIndex(-1, false);
         }
 
+        public void OpenShadowLayoutEditors(string fileName, string fileNamePrefix)
+        {
+            if (LayoutEditors.Count == 0)
+            {
+                foreach (string s in new string[]
+                {
+                    Path.Combine(fileName, fileNamePrefix) + "_ds1.dat",
+                    Path.Combine(fileName, fileNamePrefix) + "_cmn.dat",
+                    Path.Combine(fileName, fileNamePrefix) + "_nrm.dat",
+                    Path.Combine(fileName, fileNamePrefix) + "_hrd.dat"
+                })
+                    if (File.Exists(s))
+                        AddLayoutEditor(s, false);
+            }
+        }
+
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)
         {
             foreach (var l in LayoutEditors)

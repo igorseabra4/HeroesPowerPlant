@@ -455,11 +455,11 @@ namespace HeroesPowerPlant.LevelEditor
 
             if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                OpenONEShadowFolder(openFile.FileName);
+                OpenONEShadowFolder(openFile.FileName, false);
             }
         }
 
-        public void OpenONEShadowFolder(string fileName)
+        public void OpenONEShadowFolder(string fileName, bool startup)
         {
             SetShadowMode();
             openONEfilePath = fileName;
@@ -468,6 +468,9 @@ namespace HeroesPowerPlant.LevelEditor
 
             InitBSPList();
             shadowCollisionEditor.InitBSPList();
+
+            if (!startup)
+                Program.MainForm.OpenShadowLayoutEditors(fileName, bspRenderer.currentShadowFolderNamePrefix);
         }
         
         private void saveToolStripMenuItem2_Click(object sender, EventArgs e)
