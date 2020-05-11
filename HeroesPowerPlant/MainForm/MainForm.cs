@@ -460,7 +460,7 @@ namespace HeroesPowerPlant.MainForm
                         l.finishedMovingGizmo = false;
                     else if (l == e)
                         l.SetSelectedIndex(index, isCtrlDown);
-                    else
+                    else if (!isCtrlDown)
                         l.SetSelectedIndex(-1, false);
                 }
         }

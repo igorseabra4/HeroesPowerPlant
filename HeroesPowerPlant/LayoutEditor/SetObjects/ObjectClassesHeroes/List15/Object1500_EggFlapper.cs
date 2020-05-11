@@ -42,35 +42,33 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
         
-        protected override void Draw(SharpRenderer renderer, RenderWareModelFile model)
+        public override void Draw(SharpRenderer renderer)
         {
-            renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
-            renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
+            SetRendererStates(renderer);
 
-            renderer.Device.SetFillModeDefault();
-            renderer.Device.SetCullModeDefault();
-            renderer.Device.SetBlendStateAlphaBlend();
-            renderer.Device.ApplyRasterState();
-            renderer.Device.UpdateAllStates();
 
-            renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
-            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
-            renderer.tintedShader.Apply();
+            if (models == null)
+                DrawCube(renderer);
+            else
+                foreach (var model in models)
+                    if (model != null)
+                        foreach (SharpMesh mesh in model.meshList)
+                        {
+                            if (mesh == null)
+                                continue;
 
-            foreach (SharpMesh mesh in model.meshList)
-            {
-                if (mesh == null) continue;
-
-                mesh.Begin(renderer.Device);
-                for (int i = 0; i < mesh.SubSets.Count; i++)
-                {
-                    if (mesh.SubSets[i].DiffuseMapName == "en_pw0")
-                        renderer.Device.DeviceContext.PixelShader.SetShaderResource(0, TextureManager.GetTextureFromDictionary(textureNames[(byte)WeaponType]));
+                            mesh.Begin(renderer.Device);
+                            for (int i = 0; i < mesh.SubSets.Count; i++)
+                            {
+                                if (mesh.SubSets[i].DiffuseMapName == "en_pw0")
+                                    renderer.Device.DeviceContext.PixelShader.SetShaderResource(0, TextureManager.GetTextureFromDictionary(textureNames[(byte)WeaponType]));
+                                else
+                                    renderer.Device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
+                                mesh.Draw(renderer.Device, i);
+                            }
+                        }
                     else
-                        renderer.Device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
-                    mesh.Draw(renderer.Device, i);
-                }
-            }
+                        DrawCube(renderer);
         }
 
         private string[] textureNames = new string[] { "en_pw0", "en_rlt0", "en_pw_c", "en_pw_g", "en_rlt5", "en_rlt3", "en_pw2" };

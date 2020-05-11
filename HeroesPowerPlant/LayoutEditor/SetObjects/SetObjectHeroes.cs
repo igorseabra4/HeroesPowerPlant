@@ -17,6 +17,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void CreateTransformMatrix()
         {
             transformMatrix = DefaultTransformMatrix();
+            SetDFFModels();
             CreateBoundingBox();
         }
 
@@ -25,7 +26,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Matrix.RotationX(ReadWriteCommon.BAMStoRadians((int)Rotation.X)) *
             Matrix.RotationZ(ReadWriteCommon.BAMStoRadians((int)Rotation.Z)) *
             Matrix.Translation(Position);
-
+        
         public float ReadFloat(int j) => BitConverter.ToSingle(new byte[] { MiscSettings[j + 3], MiscSettings[j + 2], MiscSettings[j + 1], MiscSettings[j] }, 0);
 
         public byte ReadByte(int j) => MiscSettings[j];

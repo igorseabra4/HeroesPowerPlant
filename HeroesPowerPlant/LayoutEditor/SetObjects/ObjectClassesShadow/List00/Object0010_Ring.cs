@@ -53,6 +53,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         protected override void CreateBoundingBox()
         {
+            SetDFFModels();
+
             List<Vector3> modelPoints;
             transformedPoints = new List<Vector3>();
             transformedTriangles = new List<Triangle>();

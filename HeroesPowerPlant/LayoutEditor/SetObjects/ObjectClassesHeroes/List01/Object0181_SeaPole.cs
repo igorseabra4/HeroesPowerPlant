@@ -19,6 +19,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
             if (FlagType < 8 && renderer.dffRenderer.DFFModels.ContainsKey(flagModelName))
             {
+                SetRendererStates(renderer);
+
                 renderData.worldViewProjection = Matrix.Scaling(Scale)
                 * Matrix.RotationX(ReadWriteCommon.BAMStoRadians(Rotation.X))
                 * Matrix.RotationY(ReadWriteCommon.BAMStoRadians(Rotation.Y))
@@ -26,17 +28,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 * Matrix.RotationY(MathUtil.DegreesToRadians(FlagAngle))
                 * Matrix.Translation(Position) * renderer.viewProjection;
 
-                renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
-
-                renderer.Device.SetFillModeDefault();
-                renderer.Device.SetCullModeDefault();
-                renderer.Device.SetBlendStateAlphaBlend();
-                renderer.Device.ApplyRasterState();
-                renderer.Device.UpdateAllStates();
-
                 renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
                 renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
-                renderer.tintedShader.Apply();
 
                 renderer.dffRenderer.DFFModels[flagModelName].Render(renderer.Device);
             }

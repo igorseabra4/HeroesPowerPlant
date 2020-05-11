@@ -58,6 +58,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         protected override void CreateBoundingBox()
         {
+            SetDFFModels();
+
             List<Vector3> modelPoints;
             transformedPoints = new List<Vector3>();
             transformedTriangles = new List<Triangle>();
@@ -132,10 +134,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[0][0]))
             {
-                if (isSelected)
-                    renderData.Color = renderer.selectedObjectColor;
-                else
-                    renderData.Color = Vector4.One;
+                renderData.Color = isSelected ? renderer.selectedObjectColor : Vector4.One;
 
                 renderer.Device.SetCullModeDefault();
                 renderer.Device.SetDefaultBlendState();
@@ -156,10 +155,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
             else
             {
-                if (isSelected)
-                    renderData.Color = renderer.selectedColor;
-                else
-                    renderData.Color = renderer.normalColor;
+                renderData.Color = isSelected ? renderer.selectedColor : renderer.normalColor;
 
                 renderer.Device.SetFillModeDefault();
                 renderer.Device.SetCullModeNone();

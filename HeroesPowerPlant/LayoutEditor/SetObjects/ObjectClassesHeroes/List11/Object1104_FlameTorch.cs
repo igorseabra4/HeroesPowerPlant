@@ -62,6 +62,12 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        protected void Draw(SharpRenderer renderer, string modelName)
+        {
+            SetRendererStates(renderer);
+            renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
+        }
+
         public bool IsBlue
         {
             get => ReadInt(4) != 0;

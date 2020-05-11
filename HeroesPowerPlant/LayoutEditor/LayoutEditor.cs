@@ -489,7 +489,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (!isCtrlDown)
                 listBoxObjects.ClearSelected();
-            listBoxObjects.SelectedIndex = index;
+            listBoxObjects.SelectedIndices.Add(index);
         }
 
         public void PlaceObject(Vector3 Position)
