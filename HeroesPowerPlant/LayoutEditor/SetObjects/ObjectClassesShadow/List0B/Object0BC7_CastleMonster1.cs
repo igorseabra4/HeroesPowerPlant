@@ -1,22 +1,18 @@
-﻿using System.ComponentModel;
-
-namespace HeroesPowerPlant.LayoutEditor {
-    public class Object1772_ConcreteDoor : SetObjectShadow {
-        public float Detect_X {
+﻿namespace HeroesPowerPlant.LayoutEditor {
+    public class Object0BC7_CastleMonster1 : SetObjectShadow {
+        public float float0 {
             get => ReadFloat(0);
             set => Write(0, value);
         }
-        public float Detect_Y {
+        public float float1 {
             get => ReadFloat(4);
             set => Write(4, value);
         }
-        public float Detect_Z {
+        public float float2 {
             get => ReadFloat(8);
             set => Write(8, value);
         }
-
-        [Description("m/s to close\n smaller = slower")]
-        public float CloseSpeed {
+        public float float3 {
             get => ReadFloat(12);
             set => Write(12, value);
         }

@@ -1,35 +1,49 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
+﻿using System.ComponentModel;
+
+namespace HeroesPowerPlant.LayoutEditor {
     public class Object07D3_RisingLaserBar : SetObjectShadow {
-        public int int0 { //0
-            get => ReadInt(0);
-            set => Write(0, value);
+        //ElecBar (scale,offset,Task,Gadget,mat1,mat2)
+
+        [Description("UpperWay = Y axis++\nSideWay = Z axis--")]
+        public FanType TravelDirection { //0
+            get => (FanType)ReadInt(0);
+            set => Write(0, (int)value);
         }
-        public float f1 {
+        public float BarWidth {
             get => ReadFloat(4);
             set => Write(4, value);
         }
 
-        public float f2 {
+        [Description("Starts at object placement, goes up")]
+        public float TravelDistance {
             get => ReadFloat(8);
             set => Write(8, value);
         }
-        public float f3 {
+
+        [Description("How long it takes to reach the top, smaller = faster")]
+        public float TravelTime {
             get => ReadFloat(12);
             set => Write(12, value);
         }
-        public float f4 {
+
+        [Description("Time to wait to spawn a new bar, also applies to multiples")]
+        public float SpawnBarTime {
             get => ReadFloat(16);
             set => Write(16, value);
         }
-        public float f5 {
+
+        [Description("Time to spend fading in/out; Applies to both")]
+        public float FadeTime {
             get => ReadFloat(20);
             set => Write(20, value);
         }
-        public float f6 {
+
+        [Description("Valid float between 0-1")]
+        public float Synchronize {
             get => ReadFloat(24);
             set => Write(24, value);
         }
-        public int int7 { //3, 6
+        public int NumberOfBars {
             get => ReadInt(28);
             set => Write(28, value);
         }

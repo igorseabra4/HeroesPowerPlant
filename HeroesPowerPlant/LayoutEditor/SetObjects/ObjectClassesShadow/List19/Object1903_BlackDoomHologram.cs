@@ -1,10 +1,16 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
+﻿using System.ComponentModel;
+
+namespace HeroesPowerPlant.LayoutEditor {
     public class Object1903_BlackDoomHologram : SetObjectShadow {
-        public float float0 {
+        //BDHologram
+
+        [Description("Distance (straight line) from player to object\nWhen met, the hologram disappears.")]
+        public float DetectDistance {
             get => ReadFloat(0);
             set => Write(0, value);
         }
-        public int int1 {
+
+        public int VoiceID {
             get => ReadInt(4);
             set => Write(4, value);
         }
