@@ -1,6 +1,11 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
+﻿using System.ComponentModel;
+
+namespace HeroesPowerPlant.LayoutEditor {
     public class Object005A_Pole : SetObjectShadow {
-        public float float0 {
+        //CatchStick
+
+        [Description("Extends equally up/down from object location")]
+        public float Length {
             get => ReadFloat(0);
             set => Write(0, value);
         }

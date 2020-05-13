@@ -450,8 +450,6 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 IsFolderPicker = true
             };
-            if (openONEfilePath != null)
-                openFile.DefaultFileName = openONEfilePath;
 
             if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
             {
