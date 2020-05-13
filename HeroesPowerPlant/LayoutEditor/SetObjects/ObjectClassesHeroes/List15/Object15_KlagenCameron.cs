@@ -1,9 +1,15 @@
-﻿using System;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object15_KlagenCameron : SetObjectHeroes
     {
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = DefaultTransformMatrix(MathUtil.Pi);
+            CreateBoundingBox();
+        }
+
         public enum TypeEnum : byte
         {
             Normal = 0,
