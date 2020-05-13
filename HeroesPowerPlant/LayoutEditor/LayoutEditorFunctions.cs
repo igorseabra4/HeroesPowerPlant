@@ -837,9 +837,9 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x23: return new Object0023_OverturnableObject();
                         case 0x3A: return new Object003A_SpecialWeaponBox();
                         case 0x33: return new Object0033_EnergyCore();
-                        case 0x34: return new Object0034_Fire();
-                        case 0x35: return new Object0034_Fire(); //PoisonGas
-                        case 0x37: return new Object0034_Fire(); //CaptureCage
+                        case 0x34: return new Object003X_UnusedMiscByteScaleType(); //Fire
+                        case 0x35: return new Object003X_UnusedMiscByteScaleType(); //PoisonGas
+                        case 0x37: return new Object003X_UnusedMiscByteScaleType(); //CaptureCage
                         case 0x4F: return new Object004F_Vehicle();
                         case 0x50: return new Object0050_Trigger();
                         case 0x51: return new Object0051_TriggerTalking();

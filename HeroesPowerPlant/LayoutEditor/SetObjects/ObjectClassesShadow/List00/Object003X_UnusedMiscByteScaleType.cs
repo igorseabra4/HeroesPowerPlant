@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor {
-    public class Object0034_Fire : SetObjectShadow {
+    public class Object003X_UnusedMiscByteScaleType : SetObjectShadow {
         // Fire(ScaleX, ScaleY, ScaleZ)
-        // Probably late in development changed to hardcoded fire scale
+        // Probably late in development changed to hardcoded fire scale (applies to multiple objects)
         // OR oversight and forgot to read from params
         // Still documenting this as some objects have misc bytes, even if unused
         // In the future a Gecko code might re-enable the object to read these.
