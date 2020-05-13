@@ -3,6 +3,7 @@
 namespace HeroesPowerPlant.LayoutEditor {
     public class Object2593_SetGenerator : SetObjectShadow {
         // AKA EnemySpawner
+        //SetGenerator(ComId, delay, scoreId)
 
         [Description("Set an enemy to have a LinkID, then reference that LinkID to select that enemy.")]
         public int EnemyToSpawnLinkID {
@@ -11,7 +12,7 @@ namespace HeroesPowerPlant.LayoutEditor {
         }
         
         [Description("LinkID to watch for to start spawning enemies. Often activated by Trigger [00 50] of type LinkIDTrigger.")]
-        public int LinkIDToStart {
+        public int LinkIDToStart { //ComID?
             get => ReadInt(4);
             set => Write(4, value);
         }
@@ -27,13 +28,9 @@ namespace HeroesPowerPlant.LayoutEditor {
             set => Write(12, value);
         }
 
-        public int field4AsInt {
+        [Description("Purpose unknown, name from DOL params for this object")]
+        public int ScoreId {
             get => ReadInt(16);
-            set => Write(16, value);
-        }
-
-        public float field4AsFloat {
-            get => ReadFloat(16);
             set => Write(16, value);
         }
     }

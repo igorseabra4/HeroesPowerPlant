@@ -39,13 +39,13 @@ namespace HeroesPowerPlant.LayoutEditor {
         }
 
         [Description("")]
-        public float Speed {
+        public float Unknown6 {
             get => ReadFloat(24);
             set => Write(24, value);
         }
 
         [Description("")]
-        public float Range {
+        public float Unknown7 {
             get => ReadFloat(28);
             set => Write(28, value);
         }
