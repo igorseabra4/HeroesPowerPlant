@@ -885,12 +885,12 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xD5: return new Object07D5_LightspeedRisingBlock();
                         case 0xD7: return new Object07D7_DigitalBreakableTile();
                         case 0xD8: return new Object07D8_LaserWallBarrier();
-                        case 0xDA: return new Object07DA_MatrixTerminal1();
+                        case 0xDA: return new Object07DA_MatrixTerminalElecFan();
                         case 0xDE: return new Object00_SpringShadow();
                         case 0xDF: return new Object07DF_LightspeedFirewall();
                         case 0xE1: return new Object07E1_TriggerDigitalBreakableTile();
-                        case 0xE2: return new Object07EX_SpinningElec(); //Spinning Dark Cube
-                        case 0xE8: return new Object07EX_SpinningElec(); //Spinning Hexagon
+                        case 0xE2: return new Object07E2_ElecCube();
+                        case 0xE8: return new Object07E8_ElecRollHexa();
                         case 0xEB: return new Object07EB_CubePlatformCircle();
                         default: return new Object_ShadowDefault();
                     }

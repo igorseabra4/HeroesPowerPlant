@@ -4,8 +4,8 @@ namespace HeroesPowerPlant.LayoutEditor {
     public class Object001A_Wind : SetObjectShadow {
         // Technically a copy of "Fan", with a unique model
 
-        public FanType DirectionType { //0 or 1
-            get => (FanType)ReadInt(0);
+        public CommonDirectionType DirectionType { //0 or 1
+            get => (CommonDirectionType)ReadInt(0);
             set => Write(0, (int)value);
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object13F1_HeavyBaseDoor : SetObjectShadow {
+        //SetBaseDoor(type: normal/key, model, width, height, depth)
         public int int0 {
             get => ReadInt(0);
             set => Write(0, value);

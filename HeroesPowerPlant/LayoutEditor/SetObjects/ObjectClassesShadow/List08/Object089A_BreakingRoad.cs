@@ -1,6 +1,7 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object089A_BreakingRoad : SetObjectShadow {
-        public int int0 {
+        //BreakRoad(RoadType)
+        public int RoadType {
             get => ReadInt(0);
             set => Write(0, value);
         }

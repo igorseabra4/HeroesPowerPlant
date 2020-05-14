@@ -3,8 +3,8 @@
 namespace HeroesPowerPlant.LayoutEditor {
     public class Object2594_Fan : SetObjectShadow {
 
-        public FanType FanType { //0 or 1
-            get => (FanType)ReadInt(0);
+        public CommonDirectionType FanType { //0 or 1
+            get => (CommonDirectionType)ReadInt(0);
             set => Write(0, (int)value);
         }
 
@@ -60,11 +60,6 @@ namespace HeroesPowerPlant.LayoutEditor {
             get => ReadInt(36);
             set => Write(36, value);
         }
-    }
-
-    public enum FanType {
-        UpperWay,
-        SideWay
     }
 
     public enum FanForm {

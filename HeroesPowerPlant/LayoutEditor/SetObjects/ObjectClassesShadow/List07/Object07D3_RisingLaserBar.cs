@@ -5,8 +5,8 @@ namespace HeroesPowerPlant.LayoutEditor {
         //ElecBar (scale,offset,Task,Gadget,mat1,mat2)
 
         [Description("UpperWay = Y axis++\nSideWay = Z axis--")]
-        public FanType TravelDirection { //0
-            get => (FanType)ReadInt(0);
+        public CommonDirectionType TravelDirection { //0
+            get => (CommonDirectionType)ReadInt(0);
             set => Write(0, (int)value);
         }
         public float BarWidth {

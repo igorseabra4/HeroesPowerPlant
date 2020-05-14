@@ -46,6 +46,11 @@
         ShadowSpecialWeapons,
     }
 
+    public enum CommonDirectionType {
+        UpperWay,
+        SideWay
+    }
+
     /*
      * 
     public string Note => "Not all misc. settings are in list yet.";
