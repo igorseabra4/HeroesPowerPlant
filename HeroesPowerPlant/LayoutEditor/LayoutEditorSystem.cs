@@ -283,8 +283,8 @@ namespace HeroesPowerPlant.LayoutEditor
             if (text == null)
                 text = Clipboard.GetText();
             int result = 0;
-            try
-            {
+            //try
+            //{
                 var list = JsonConvert.DeserializeObject<List<Object_ShadowDefault>>(text);
                 result = list.Count;
 
@@ -301,11 +301,11 @@ namespace HeroesPowerPlant.LayoutEditor
                     dest.CreateTransformMatrix();
                     setObjects.Add(dest);
                 }
-            }
-            catch
-            {
-                MessageBox.Show($"Error pasting object from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
-            }
+            //}
+            //catch
+            //{
+            //    MessageBox.Show($"Error pasting object from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
+            //}
             return result;
         }
 
