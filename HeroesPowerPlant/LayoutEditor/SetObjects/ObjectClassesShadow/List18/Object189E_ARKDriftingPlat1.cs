@@ -1,11 +1,11 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object189E_ARKDriftingPlat1 : SetObjectShadow
-    {
-        public int PlatformType
+    public class Object189E_ARKDriftingPlat1 : SetObjectShadow {
+        //FootingBreak(Type{Burst,Hover}, WaitSec, HoverLength point, HoverSec, MoveLengthX point, MoveLengthY point, MoveLengthZ point, MoveSec)
+        public ARKDriftingPlatformType PlatformType
         {
-            get => ReadInt(0x0);
-            set => Write(0x0, value);
+            get => (ARKDriftingPlatformType)ReadInt(0x0);
+            set => Write(0x0, (int)value);
         }
 
         public float ExplosionDelay
@@ -14,14 +14,12 @@
             set => Write(0x4, value);
         }
 
-        public float Bobbing1
-        {
+        public float HoverLength {
             get => ReadFloat(0x8);
             set => Write(0x8, value);
         }
 
-        public float Bobbing2
-        {
+        public float HoverSec {
             get => ReadFloat(0xC);
             set => Write(0xC, value);
         }
@@ -48,5 +46,10 @@
             get => ReadFloat(0x1C);
             set => Write(0x1C, value);
         }
+    }
+
+    public enum ARKDriftingPlatformType {
+        Burst,
+        Hover
     }
 }

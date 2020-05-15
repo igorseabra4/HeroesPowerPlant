@@ -1,15 +1,15 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object07DA_MatrixTerminal1 : SetObjectShadow {
-
-        public float f0 {
+    public class Object07DA_MatrixTerminalElecFan : SetObjectShadow {
+        //ElecFan(height, radius, power)
+        public float Height {
             get => ReadFloat(0);
             set => Write(0, value);
         }
-        public float f1 {
+        public float Radius {
             get => ReadFloat(4);
             set => Write(4, value);
         }
-        public float f2 {
+        public float Power {
             get => ReadFloat(8);
             set => Write(8, value);
         }

@@ -1,12 +1,17 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object1004_ArkCrackedWall : SetObjectShadow {
-        public int int0 {
-            get => ReadInt(0);
-            set => Write(0, value);
+        //BombingWall(Type{Out,In},Range point)
+        public BombingWallType WallSide {
+            get => (BombingWallType)ReadInt(0);
+            set => Write(0, (int)value);
         }
-        public float float1 {
+        public float Range {
             get => ReadFloat(4);
             set => Write(4, value);
         }
+    }
+    public enum BombingWallType {
+        Out,
+        In
     }
 }

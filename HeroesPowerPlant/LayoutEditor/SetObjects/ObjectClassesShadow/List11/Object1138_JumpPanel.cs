@@ -1,27 +1,30 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object1138_JumpPanel : SetObjectShadow {
-        
-        public int int0 {
+        //Catapult(model, level, nocontrol time (sec))
+        public int Model {
             get => ReadInt(0);
             set => Write(0, value);
         }
-        public float float1 {
+        public float Strength {
             get => ReadFloat(4);
             set => Write(4, value);
         }
-        public float float2 {
+        public float NoControlTimeAfterLaunch {
             get => ReadFloat(8);
             set => Write(8, value);
         }
-        public float float3 {
+
+        public float AngleX {
             get => ReadFloat(12);
             set => Write(12, value);
         }
-        public float float_unk4 {
+
+        public float Unused_AngleY {
             get => ReadFloat(16);
             set => Write(16, value);
         }
-        public float float5 {
+
+        public float AngleZ {
             get => ReadFloat(20);
             set => Write(20, value);
         }

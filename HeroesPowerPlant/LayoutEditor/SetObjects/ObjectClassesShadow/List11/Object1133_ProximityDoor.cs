@@ -2,7 +2,8 @@
 
 namespace HeroesPowerPlant.LayoutEditor {
     public class Object1133_ProximityDoor : SetObjectShadow {
-        //SetDoor(type, model, width, height, depth, DOOR(model, speed, range)
+        //SetBaseDoor(type: normal/key, model, width, height, depth)
+        //SetDoor(type, model, width, height, depth)
         // Enum type { normal, key }
 
         [Description("Open/Close Behavior")]
@@ -17,42 +18,42 @@ namespace HeroesPowerPlant.LayoutEditor {
             set => Write(4, value);
         }
 
-        public float Detect_X {
+        public float DetectRange_X {
             get => ReadFloat(8);
             set => Write(8, value);
         }
 
-        public float Detect_Y {
+        public float DetectRange_Y {
             get => ReadFloat(12);
             set => Write(12, value);
         }
 
-        public float Detect_Z {
+        public float DetectRange_Z {
             get => ReadFloat(16);
             set => Write(16, value);
         }
 
-        [Description("")]
-        public float Unknown5 {
+        [Description("Detection offset on X Axis")]
+        public float Offset_X {
             get => ReadFloat(20);
             set => Write(20, value);
         }
 
-        [Description("")]
-        public float Unknown6 {
+        [Description("Detection offset on Y Axis")]
+        public float Offset_Y {
             get => ReadFloat(24);
             set => Write(24, value);
         }
 
-        [Description("")]
-        public float Unknown7 {
+        [Description("Detection offset on Z Axis")]
+        public float Offset_Z {
             get => ReadFloat(28);
             set => Write(28, value);
         }
     }
 
     public enum ProximityDoorLockType {
-        OpenWhenPlayerNear, //normal
-        LockedUntilLinkID //key
+        ActivateWhenPlayerNear, //normal
+        NotActivatedUntilLinkID //key
     }
 }

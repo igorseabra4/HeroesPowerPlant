@@ -5,7 +5,7 @@ namespace HeroesPowerPlant.LayoutEditor {
 
         //SetCollision
 
-        public TriggerType Type {
+        public TriggerType TriggerType {
             get => (TriggerType)ReadInt(0);
             set => Write(0, (int)value);
         }

@@ -1,14 +1,16 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object07D7_DigitalBreakableTile : SetObjectShadow {
-        public int int0 {
-            get => ReadInt(0);
-            set => Write(0, value);
+        //ElecCristalWall(type<Horizontal,Vertical>, AppearAngleX, AppearAngleY)
+
+        public CommonDirectionType DirectionType {
+            get => (CommonDirectionType)ReadInt(0);
+            set => Write(0, (int)value);
         }
-        public float float1 {
+        public float AppearAngleX {
             get => ReadFloat(4);
             set => Write(4, value);
         }
-        public float float2 {
+        public float AppearAngleY {
             get => ReadFloat(8);
             set => Write(8, value);
         }

@@ -1,18 +1,19 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object1132_ElevatorPlatformColumn : SetObjectShadow {
-        public int int0 {
+        //Elevator(model, distance, speed, range)
+        public int Model {
             get => ReadInt(0);
             set => Write(0, value);
         }
-        public float float1 {
+        public float TravelDistance {
             get => ReadFloat(4);
             set => Write(4, value);
         }
-        public float float2 {
+        public float Speed {
             get => ReadFloat(8);
             set => Write(8, value);
         }
-        public float float3 {
+        public float DetectRange {
             get => ReadFloat(12);
             set => Write(12, value);
         }

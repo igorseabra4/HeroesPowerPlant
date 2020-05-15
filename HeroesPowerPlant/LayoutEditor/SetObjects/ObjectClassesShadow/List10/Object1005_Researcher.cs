@@ -1,8 +1,14 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object1005_Researcher : SetObjectShadow {
-        public int int0 {
-            get => ReadInt(0);
-            set => Write(0, value);
+        //Researcher
+        public ResearcherType PositionType {
+            get => (ResearcherType)ReadInt(0);
+            set => Write(0, (int)value);
         }
+    }
+
+    public enum ResearcherType {
+        FaceUp,
+        FaceDown
     }
 }

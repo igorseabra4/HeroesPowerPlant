@@ -1,14 +1,15 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor {
     public class Object13F0_SlideoutPlatform : SetObjectShadow {
-        public int int0 {
+        //SetPopFooting(model sec_begin, sec_wait)
+        public int Model {
             get => ReadInt(0);
             set => Write(0, value);
         }
-        public float float1 {
+        public float SecBegin {
             get => ReadFloat(4);
             set => Write(4, value);
         }
-        public float float2 {
+        public float SecWait {
             get => ReadFloat(8);
             set => Write(8, value);
         }
