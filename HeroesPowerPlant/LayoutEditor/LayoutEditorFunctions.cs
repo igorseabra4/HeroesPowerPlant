@@ -896,13 +896,13 @@ namespace HeroesPowerPlant.LayoutEditor
                     }
                 case 0x08:
                     switch (Type) {
-                        case 0x34: return new Object0834_TornadoObject1();
-                        case 0x35: return new Object0835_TornadoObject2();
-                        case 0x36: return new Object0836_TornadoObject3();
+                        case 0x34: return new Object0834_Tornado();
+                        case 0x35: return new Object0835_TornadoCollision();
+                        case 0x36: return new Object0836_RollCircle();
                         case 0x37: return new Object0837_CollapsingPillar();
                         case 0x38: return new Object0838_RuinsStoneGuardian();
-                        case 0x39: return new Object0839_RuinsJewel();
-                        case 0x99: return new Object0899_BlackTankPathing();
+                        case 0x39: return new Object106C_SkyRuinsJewel(); //RuinsJewel / PowerDeviceCage
+                        case 0x99: return new Object1451_CommandCollision(); //BlackTankCommandCollision
                         case 0x9A: return new Object089A_BreakingRoad();
                         case 0x9C: return new Object089C_FallingRoad();
                         default: return new Object_ShadowDefault();
@@ -912,19 +912,19 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xBB: return new Object0BBB_SmallLantern();
                         case 0xBC: return new Object0BBC_PopupDummyGhost();
                         case 0xBE: return new Object0BBE_Chao();
-                        case 0xC7: return new Object0BC7_CastleMonster1();
-                        case 0xC8: return new Object0BC8_CastleMonster2();
+                        case 0xC7: return new Object0BC7_CastleMonster();
+                        case 0xC8: return new Object0BC8_CastleMonsterControl();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x0C:
                     switch (Type) {
-                        case 0x80: return new Object0C80_BouncyBall();
+                        case 0x80: return new Object0C80_BounceBall();
                         case 0x81: return new Object0C81_CircusGong();
                         case 0x82: return new Object0C82_GameBalloonsGhosts();
                         case 0x83: return new Object0C83_CircusGameTarget();
                         case 0x87: return new Object005A_Pole(); //CircusPole
                         case 0x88: return new Object0C88_Zipline();
-                        case 0x89: return new Object0C89_TentCurtain();
+                        case 0x89: return new Object1133_ProximityDoor(); //TentCurtain
                         default: return new Object_ShadowDefault();
                     }
                 case 0x0F:
@@ -950,21 +950,24 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x31: return new Object1131_Vine();
                         case 0x32: return new Object1132_ElevatorPlatformColumn();
                         case 0x33: return new Object1133_ProximityDoor();
+                        case 0x34: return new Object1134_DamageBlock();
+                        case 0x35: return new Object1130_FenceWall(); //ShatterTrijumpPanel (BreakWall)
                         case 0x37: return new Object1137_StretchGrass();
                         case 0x38: return new Object1138_JumpPanel();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x13:
                     switch (Type) {
-                        case 0x8A: return new Object138B_MeteorsHolder(); //138A Meteor
+                        case 0x8A: return new Object138B_MeteorsHolder(); //Meteor
                         case 0x8B: return new Object138B_MeteorsHolder();
                         case 0x8E: return new Object138E_ArkCannon();
                         case 0x92: return new Object1392_SpaceDebris();
                         case 0xED: return new Object13ED_EscapePodPathSwitch();
                         case 0xEF: return new Object13EF_SecurityLaser();
                         case 0xF0: return new Object13F0_SlideoutPlatform();
-                        case 0xF1: return new Object13F1_HeavyBaseDoor();
-                        case 0xF2: return new Object13F2_EscapePodPathing();
+                        case 0xF1: return new Object1133_ProximityDoor(); //HeavyBaseDoor
+                        case 0xF2: return new Object1451_CommandCollision(); //EscapePodCommandCollision
+                        case 0xF3: return new Object13F3_EscapePodDownRail();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x14:

@@ -39,7 +39,7 @@
             set => Write(28, value);
         }
 
-        public SecurityLaserType Type {
+        public SecurityLaserType LaserType {
             get => (SecurityLaserType)ReadInt(32);
             set => Write(32, (int)value);
         }

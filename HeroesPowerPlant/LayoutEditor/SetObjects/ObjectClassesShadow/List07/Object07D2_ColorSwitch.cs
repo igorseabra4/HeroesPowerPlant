@@ -7,7 +7,7 @@
             get => (ElecPanelColor)ReadInt(0);
             set => Write(0, (int)value);
         }
-        public ElecPanelType Type { //0 or 1
+        public ElecPanelType PanelType { //0 or 1
             get => (ElecPanelType)ReadInt(4);
             set => Write(4, (int)value);
         }

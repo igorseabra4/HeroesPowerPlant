@@ -2,7 +2,7 @@
     public class Object07D7_DigitalBreakableTile : SetObjectShadow {
         //ElecCristalWall(type<Horizontal,Vertical>, AppearAngleX, AppearAngleY)
 
-        public CommonDirectionType Type {
+        public CommonDirectionType DirectionType {
             get => (CommonDirectionType)ReadInt(0);
             set => Write(0, (int)value);
         }

@@ -1,4 +1,6 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
+﻿using System.ComponentModel;
+
+namespace HeroesPowerPlant.LayoutEditor {
     public class Object0059_TriggerSkybox : SetObjectShadow {
 
         // 0 unk (always 0)
@@ -8,6 +10,8 @@
         // 4 int
         // 5 int
         // 6 int
+
+        [Description("Always 0 in original objects, purpose unknown")]
         public int Unknown0 {
             get => ReadInt(0);
             set => Write(0, value);
