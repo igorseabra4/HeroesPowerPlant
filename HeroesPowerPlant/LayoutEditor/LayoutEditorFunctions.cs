@@ -1004,11 +1004,13 @@ namespace HeroesPowerPlant.LayoutEditor
                     }
                 case 0x25:
                     switch (Type) {
+                        case 0x86: return new Object2586_Sample();
                         case 0x88: return new Object2588_Decoration1();
                         case 0x89: return new Object2589_Destructable1();
                         case 0x8A: return new Object258A_Effect1();
                         case 0x90: return new Object2588_Decoration1();
                         case 0x91: return new Object2589_Destructable1();
+                        case 0x92: return new Object2592_DebugMissionClearCollision();
                         case 0x93: return new Object2593_SetGenerator();
                         case 0x94: return new Object2594_Fan();
                         case 0x95: return new Object2595_MissionClearCollision();
