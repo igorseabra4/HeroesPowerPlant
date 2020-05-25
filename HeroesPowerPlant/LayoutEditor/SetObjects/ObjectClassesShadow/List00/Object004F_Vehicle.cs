@@ -23,6 +23,7 @@
         BlackVolt = 0x09,
         GUNTurret = 0x0A,
         BATurret = 0x0B,
-        GUNLift = 0x0C
+        GUNLiftFast = 0x0C,
+        GUNLiftSlow = 0x0D
     }
 }
