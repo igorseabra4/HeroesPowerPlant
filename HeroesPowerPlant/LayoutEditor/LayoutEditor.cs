@@ -334,7 +334,10 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (newIndex == listBoxObjects.SelectedIndex)
                     MessageBox.Show("No other object has this same Link ID!");
                 else
+                {
+                    listBoxObjects.SelectedIndices.Clear();
                     listBoxObjects.SelectedIndex = newIndex;
+                }
             }
         }
 
