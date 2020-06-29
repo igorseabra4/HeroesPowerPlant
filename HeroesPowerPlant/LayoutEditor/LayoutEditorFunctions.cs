@@ -695,7 +695,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x4: return new Object1104_FlameTorch();
                         case 0x5: return new Object1105_Ghost();
                         case 0x6: return new Object11_FloatingPlatform();
-                        case 0x7: return new Object11_MansionWallThunder();
+                        case 0x7: return new Object1107_CrackedWall();
                         case 0x8: return new Object1108_MansionDoor();
                         case 0x9: return new Object_HeroesEmpty();
                         case 0xA: return new Object_HeroesEmpty();
