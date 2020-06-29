@@ -701,7 +701,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xA: return new Object_HeroesEmpty();
                         case 0xB: return new Object_F1Range();
                         case 0xC: return new Object110C_TriggerMusic();
-                        case 0x80: return new Object_IntTypeFloatScale();
+                        case 0x80: return new Object1180_Light();
                         case 0x81: return new Object1181_Celestial();
                         case 0x82: return new Object11_MansionWallThunder();
                         case 0x83: return new Object_F1Range();
