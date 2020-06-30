@@ -76,7 +76,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         renderData.worldViewProjection = Matrix.Scaling(ModelScale + i * 0.02f) * Matrix.Translation(0f, 10f * ModelScale, 0f) * transformMatrix * renderer.viewProjection;
                         renderData.Color = (isSelected ? renderer.selectedObjectColor * (i == 0 ? 0.7f : 0.35f) : Vector4.One * (i == 0 ? 0.7f : 0.35f));
                         renderer.Device.SetBlendStateAdditive();
-                        renderer.Device.SetDepthStateNone();
                         renderer.Device.SetCullModeNone();
                         renderer.Device.ApplyRasterState();
                         renderer.Device.UpdateAllStates();
