@@ -21,7 +21,6 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 renderer.Device.SetBlendStateAdditive();
                 renderer.Device.SetCullModeNone();
-                renderer.Device.SetDepthStateNone();
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
 
