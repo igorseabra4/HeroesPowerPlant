@@ -30,7 +30,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[0][i]))
                     {
                         SetRendererStates(renderer);
-                        renderData.worldViewProjection = Matrix.Scaling(ModelScale) * Matrix.Translation(0f, (i == 0 ? 10f : 0f) * ModelScale, 0f) * transformMatrix * renderer.viewProjection;
+                        renderData.worldViewProjection = Matrix.Scaling(ModelScale + i * 0.02f) * Matrix.Translation(0f, 10f * ModelScale, 0f) * Matrix.RotationY(-i * ((float)MathUtil.Pi / 360f)) * transformMatrix * renderer.viewProjection;
 
                         renderer.Device.SetDefaultBlendState();
                         renderer.Device.SetDefaultDepthState();
