@@ -14,7 +14,6 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
 
                 renderer.Device.SetBlendStateAdditive();
-                renderer.Device.SetDepthStateNone();
                 renderer.Device.SetCullModeNone();
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
