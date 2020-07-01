@@ -708,7 +708,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x84: return new Object1184_SmokeScreen();
                         case 0x85: return new Object1185_Bone();
                         case 0x88: return new Object1188_Curtain();
-                        case 0x89: return new Object_L1Type();
+                        case 0x89: return new Object1189_SpiderLight();
                         default: return new Object_HeroesDefault();
                     }
                 case 0x13:
