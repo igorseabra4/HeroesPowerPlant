@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[(int)ModelNumber][0]))
             {
                 SetRendererStates(renderer);
-                renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
+                renderData.worldViewProjection = Matrix.Scaling(Scale) * transformMatrix * renderer.viewProjection;
 
                 renderer.Device.SetBlendStateAdditive();
                 renderer.Device.SetCullModeNone();
@@ -33,7 +33,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
 
-                renderData.worldViewProjection = Matrix.Scaling(4) * transformMatrix * renderer.viewProjection;
+                renderData.worldViewProjection = Matrix.Scaling(Scale) * transformMatrix * renderer.viewProjection;
 
                 renderer.Device.UpdateData(renderer.basicBuffer, renderData);
                 renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.basicBuffer);
