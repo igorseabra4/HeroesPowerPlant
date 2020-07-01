@@ -7,7 +7,7 @@ namespace HeroesPowerPlant.LayoutEditor
     
         public override void Draw(SharpRenderer renderer)
         {
-            if (models != null && renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[(int)ModelNumber][0]))
+            if (renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[(int)ModelNumber][0]))
             {
                 SetRendererStates(renderer);
                 renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
@@ -20,8 +20,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
                 renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                if (renderer.dffRenderer.DFFModels[ModelNames[(int)ModelNumber][0]] != null)
-                    renderer.dffRenderer.DFFModels[ModelNames[(int)ModelNumber][0]].Render(renderer.Device);
+                renderer.dffRenderer.DFFModels[ModelNames[(int)ModelNumber][0]].Render(renderer.Device);
             }
 
             else
