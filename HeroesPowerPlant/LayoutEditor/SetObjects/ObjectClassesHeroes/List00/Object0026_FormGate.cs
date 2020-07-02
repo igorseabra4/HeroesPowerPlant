@@ -1,3 +1,5 @@
+using SharpDX;
+
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0026_FormGate : SetObjectHeroes
