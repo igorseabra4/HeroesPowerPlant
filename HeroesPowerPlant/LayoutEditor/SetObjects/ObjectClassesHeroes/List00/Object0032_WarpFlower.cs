@@ -16,6 +16,47 @@ namespace HeroesPowerPlant.LayoutEditor
             transformMatrix = Matrix.Scaling(Scale + 1f) * DefaultTransformMatrix();
             CreateBoundingBox();
         }
+        
+        public override void Draw(SharpRenderer renderer)
+        {
+            SetDFFModels();
+
+            if (models != null)
+            {
+                for (int i = 0; i < models.Length; i++)
+                {
+                    if (renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[0][i]))
+                    {
+                        if (i == 2 | i == 3)
+                        {
+                            SetRendererStates(renderer);
+                            renderData.worldViewProjection = Matrix.Translation(0f, 20f, 0f) * transformMatrix * renderer.viewProjection;
+
+                            renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+                            renderer.dffRenderer.DFFModels["OBJ_FLOWERC.DFF"].Render(renderer.Device);
+
+                            if (FlowerType == FlowerType.Warp)
+                            {
+                                renderData.worldViewProjection = Matrix.Translation(-30f, 30f, 0f) * transformMatrix * renderer.viewProjection;
+                                renderer.Device.SetBlendStateAdditive();
+                                renderer.Device.SetCullModeNone();
+                                renderer.Device.ApplyRasterState();
+                                renderer.Device.UpdateAllStates();
+
+                                renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+                                renderer.dffRenderer.DFFModels["EF_FLOWARP.DFF"].Render(renderer.Device);
+                            }
+                        }
+
+                        else
+                        {
+                            SetRendererStates(renderer);
+                            renderer.dffRenderer.DFFModels[ModelNames[0][i]].Render(renderer.Device);
+                        }
+                    }
+                }
+            }
+        }
 
         public FlowerType FlowerType
         {
