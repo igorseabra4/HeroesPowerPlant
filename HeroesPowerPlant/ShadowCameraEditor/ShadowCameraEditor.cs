@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using static HeroesPowerPlant.ShadowCameraEditor.ShadowCameraEditorFunctions;
+
 
 namespace HeroesPowerPlant.ShadowCameraEditor {
     public partial class ShadowCameraEditor : Form {
+
+        public string CurrentCameraFile;
+
         public ShadowCameraEditor() {
             InitializeComponent();
         }
@@ -28,6 +33,37 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             foreach (byte[] i in cameraList) {
                 CameraWriter.Write(i);
             }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e) {
+            OpenFileDialog OpenCamera = new OpenFileDialog() {
+                Filter = "DAT Files|*.dat"
+            };
+            if (OpenCamera.ShowDialog() == DialogResult.OK) {
+                OpenFile(OpenCamera.FileName);
+            }
+        }
+
+        public void OpenFile(string fileName) {
+            if (File.Exists(fileName)) {
+                CurrentCameraFile = fileName;
+
+                ListBoxCameras.Items.Clear();
+                ListBoxCameras.Items.AddRange(ImportCameraFile(CurrentCameraFile).ToArray());
+
+                toolStripStatusFile.Text = "Loaded " + CurrentCameraFile;
+                UpdateLabelCameraCount();
+
+                ListBoxCameras.SelectedIndex = -1;
+            }
+        }
+        private void UpdateLabelCameraCount() {
+            toolStripStatusLabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
+            /*if (CurrentlySelectedCamera == -1)
+                toolStripStatusLabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
+            else if (ListBoxCameras.Items.Count > 0)
+                toolStripStatusLabelCameraCount.Text = "Camera " + (CurrentlySelectedCamera + 1).ToString() + "/" + ListBoxCameras.Items.Count.ToString();
+        */
         }
     }
 }

@@ -2,22 +2,26 @@
 
 namespace HeroesPowerPlant.ShadowCameraEditor {
  /*     // HEADER : SIZE=0x18
-        0x0 =
-        0x4 = 
-        0x8 =
+        0x0 = magic
+        0x4 = magic
+        0x8 = stageID int
         0xC =
         0x10 =
         0x14 = NumberOfCameras int
 
         //CAMERA : SIZE=0xDC
-        0x0 - 0x18 = Unknown atm
+        0x0 - 0x18 = Unknown
         0x1C = CameraAffectSpeed int
         0x20 - 0x2B = TriggerPosition Vector3
         0x2C - 0x37 = Unknown
         0x38 - 0x43 = TriggerScale Vector3
  */
     public class ShadowCamera {
-
+        public byte[] UnknownSection1;
+        public Vector3 TriggerPosition;
+        public byte[] UnknownSection2;
+        public Vector3 TriggerScale;
+        public byte[] UnknownSection3;
 
         /*
         public int CameraType;
@@ -48,6 +52,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public int Integer38;
         public int Integer39;*/
 
-        public ShadowCamera() { }
+        public ShadowCamera(byte[] sec1, Vector3 triggerPos, byte[] sec2, Vector3 triggerScale, byte[] sec3) {
+            UnknownSection1 = sec1;
+            TriggerPosition = triggerPos;
+            UnknownSection2 = sec2;
+            TriggerScale = triggerScale;
+            UnknownSection3 = sec3;
+        }
     }
 }

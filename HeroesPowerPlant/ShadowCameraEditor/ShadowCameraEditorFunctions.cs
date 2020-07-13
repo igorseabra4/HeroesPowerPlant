@@ -10,48 +10,25 @@ namespace HeroesPowerPlant.ShadowCameraEditor
         public static List<ShadowCamera> ImportCameraFile(string fileName)
         {
             List<ShadowCamera> list = new List<ShadowCamera>();
-            return list;
-            /*
             using (BinaryReader camReader = new BinaryReader(new FileStream(fileName, FileMode.Open)))
             {
                 camReader.BaseStream.Position = 0;
+                byte[] headerArray = camReader.ReadBytes(0x18);
 
                 while (camReader.BaseStream.Position != camReader.BaseStream.Length)
                 {
                     ShadowCamera TempCam = new ShadowCamera(
-                        cameraType: Switch(camReader.ReadInt32()),
-                        cameraSpeed: Switch(camReader.ReadInt32()),
-                        integer3: Switch(camReader.ReadInt32()),
-                        activationType: Switch(camReader.ReadInt32()),
-                        triggerShape: Switch(camReader.ReadInt32()),
-                        triggerPosition: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        triggerRotX: Switch(camReader.ReadInt32()),
-                        triggerRotY: Switch(camReader.ReadInt32()),
-                        triggerRotZ: Switch(camReader.ReadInt32()),
-                        triggerScale: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        camPos: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        camRotX: Switch(camReader.ReadInt32()),
-                        camRotY: Switch(camReader.ReadInt32()),
-                        camRotZ: Switch(camReader.ReadInt32()),
-                        pointA: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        pointB: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        pointC: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        integer30: Switch(camReader.ReadInt32()),
-                        integer31: Switch(camReader.ReadInt32()),
-                        floatX32: Switch(camReader.ReadSingle()),
-                        floatY33: Switch(camReader.ReadSingle()),
-                        floatX34: Switch(camReader.ReadSingle()),
-                        floatY35: Switch(camReader.ReadSingle()),
-                        integer36: Switch(camReader.ReadInt32()),
-                        integer37: Switch(camReader.ReadInt32()),
-                        integer38: Switch(camReader.ReadInt32()),
-                        integer39: Switch(camReader.ReadInt32())
+                        camReader.ReadBytes(0x1C),
+                        new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        camReader.ReadBytes(0xC),
+                        new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
+                        camReader.ReadBytes(0x9C)
                     );
 
-                    if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
-                        continue;
+                    //if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
+                     //   continue;
 
-                    TempCam.CreateTransformMatrix();
+                    //TempCam.CreateTransformMatrix();
 
                     list.Add(TempCam);
                 }
@@ -59,6 +36,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             return list;
         }
 
+        /*
         public static void SaveCameraFile(string fileName, IEnumerable<CameraHeroes> list)
         {
             BinaryWriter CameraWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
@@ -110,6 +88,5 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             }
 
             CameraWriter.Close();*/
-        }
     }
 }
