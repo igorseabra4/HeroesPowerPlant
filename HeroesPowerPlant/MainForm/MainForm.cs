@@ -19,6 +19,7 @@ namespace HeroesPowerPlant.MainForm
         public Dictionary<ToolStripDropDownItem, CollisionEditor.CollisionEditor> CollisionEditorDict;
         public Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor> LayoutEditorDict;
         public CameraEditor.CameraEditor CameraEditor;
+        public ShadowCameraEditor.ShadowCameraEditor ShadowCameraEditor;
         public ParticleEditor.ParticleMenu ParticleEditor;
         public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
         public LightEditor.LightMenu LightEditor;
@@ -46,6 +47,7 @@ namespace HeroesPowerPlant.MainForm
             CollisionEditorDict = new Dictionary<ToolStripDropDownItem, CollisionEditor.CollisionEditor>();
             LayoutEditorDict = new Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor>();
             CameraEditor = new CameraEditor.CameraEditor();
+            ShadowCameraEditor = new ShadowCameraEditor.ShadowCameraEditor();
             ParticleEditor = new ParticleEditor.ParticleMenu();
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
             LightEditor = new LightEditor.LightMenu();
@@ -1092,6 +1094,10 @@ namespace HeroesPowerPlant.MainForm
         {
             if (!MemoryFunctions.Teleport(renderer.Camera.GetPosition()))
                 MessageBox.Show("Unable to teleport player.");
+        }
+
+        private void shadowCameraEditorToolStripMenuItem_Click(object sender, EventArgs e) {
+            ShadowCameraEditor.Show();
         }
     }
 }

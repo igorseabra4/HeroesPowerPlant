@@ -2,6 +2,12 @@
 {
     public class Object00_SpringShadow : SetObjectShadow
     {
+
+        public override void CreateTransformMatrix() {
+            transformMatrix = DefaultTransformMatrix(180f);
+            CreateBoundingBox();
+        }
+
         public float Strength
         {
             get => ReadFloat(0);
