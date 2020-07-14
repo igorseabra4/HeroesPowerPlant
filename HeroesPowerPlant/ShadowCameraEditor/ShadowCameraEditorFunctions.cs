@@ -18,17 +18,30 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 while (camReader.BaseStream.Position != camReader.BaseStream.Length)
                 {
                     ShadowCamera TempCam = new ShadowCamera(
-                        camReader.ReadBytes(0x1C),
-                        new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        camReader.ReadBytes(0xC),
-                        new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        camReader.ReadBytes(0x9C)
+                        camReader.ReadInt32(), //i_00
+                        camReader.ReadInt32(),
+                        camReader.ReadInt32(),
+                        camReader.ReadInt32(),
+                        camReader.ReadInt32(),
+                        camReader.ReadInt32(),
+                        camReader.ReadInt32(),
+                        camReader.ReadInt32(), //i_1C
+                        new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        camReader.ReadSingle(), //i_44
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //i_58
+                        camReader.ReadBytes(0x80)
                     );
 
                     //if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
                      //   continue;
 
-                    //TempCam.CreateTransformMatrix();
+                    TempCam.CreateTransformMatrix();
 
                     list.Add(TempCam);
                 }
