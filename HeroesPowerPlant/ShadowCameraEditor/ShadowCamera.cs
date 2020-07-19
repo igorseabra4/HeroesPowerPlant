@@ -17,6 +17,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         0x20 - 0x2B = TriggerPosition Vector3
         0x2C - 0x37 = Unknown
         0x38 - 0x43 = TriggerScale Vector3
+        0x44 - 0x5B = floats (Unknown)
  */
     public class ShadowCamera {
         public int field_00;

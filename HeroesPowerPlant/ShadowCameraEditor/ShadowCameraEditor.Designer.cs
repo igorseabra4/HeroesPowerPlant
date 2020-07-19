@@ -102,12 +102,13 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(781, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1041, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -119,110 +120,118 @@
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.newToolStripMenuItem.Text = "New";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveAsToolStripMenuItem.Text = "Save As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sortByDistanceToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // sortByDistanceToolStripMenuItem
             // 
             this.sortByDistanceToolStripMenuItem.Name = "sortByDistanceToolStripMenuItem";
-            this.sortByDistanceToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.sortByDistanceToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.sortByDistanceToolStripMenuItem.Text = "Sort by Distance";
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusFile,
             this.toolStripStatusSep,
             this.toolStripStatusLabelCameraCount});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 449);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 554);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(781, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1041, 26);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusFile
             // 
             this.toolStripStatusFile.Name = "toolStripStatusFile";
-            this.toolStripStatusFile.Size = new System.Drawing.Size(81, 17);
+            this.toolStripStatusFile.Size = new System.Drawing.Size(105, 20);
             this.toolStripStatusFile.Text = "No file loaded";
             // 
             // toolStripStatusSep
             // 
             this.toolStripStatusSep.Name = "toolStripStatusSep";
-            this.toolStripStatusSep.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusSep.Size = new System.Drawing.Size(13, 20);
             this.toolStripStatusSep.Text = "|";
             // 
             // toolStripStatusLabelCameraCount
             // 
             this.toolStripStatusLabelCameraCount.Name = "toolStripStatusLabelCameraCount";
-            this.toolStripStatusLabelCameraCount.Size = new System.Drawing.Size(60, 17);
+            this.toolStripStatusLabelCameraCount.Size = new System.Drawing.Size(76, 20);
             this.toolStripStatusLabelCameraCount.Text = "0 cameras";
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(8, 363);
+            this.buttonCopy.Location = new System.Drawing.Point(11, 447);
+            this.buttonCopy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(147, 23);
+            this.buttonCopy.Size = new System.Drawing.Size(196, 28);
             this.buttonCopy.TabIndex = 21;
             this.buttonCopy.Text = "Duplicate";
             this.buttonCopy.UseVisualStyleBackColor = true;
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(8, 421);
+            this.buttonClear.Location = new System.Drawing.Point(11, 518);
+            this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(147, 23);
+            this.buttonClear.Size = new System.Drawing.Size(196, 28);
             this.buttonClear.TabIndex = 18;
             this.buttonClear.Text = "Clear";
             this.buttonClear.UseVisualStyleBackColor = true;
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(8, 392);
+            this.buttonDelete.Location = new System.Drawing.Point(11, 482);
+            this.buttonDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(147, 23);
+            this.buttonDelete.Size = new System.Drawing.Size(196, 28);
             this.buttonDelete.TabIndex = 19;
             this.buttonDelete.Text = "Delete";
             this.buttonDelete.UseVisualStyleBackColor = true;
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(8, 334);
+            this.buttonAdd.Location = new System.Drawing.Point(11, 411);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(147, 23);
+            this.buttonAdd.Size = new System.Drawing.Size(196, 28);
             this.buttonAdd.TabIndex = 20;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -230,9 +239,11 @@
             // ListBoxCameras
             // 
             this.ListBoxCameras.FormattingEnabled = true;
-            this.ListBoxCameras.Location = new System.Drawing.Point(8, 26);
+            this.ListBoxCameras.ItemHeight = 16;
+            this.ListBoxCameras.Location = new System.Drawing.Point(11, 32);
+            this.ListBoxCameras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ListBoxCameras.Name = "ListBoxCameras";
-            this.ListBoxCameras.Size = new System.Drawing.Size(147, 303);
+            this.ListBoxCameras.Size = new System.Drawing.Size(195, 372);
             this.ListBoxCameras.TabIndex = 17;
             this.ListBoxCameras.SelectedIndexChanged += new System.EventHandler(this.ListBoxCameras_SelectedIndexChanged);
             // 
@@ -241,9 +252,11 @@
             this.groupBox3.Controls.Add(this.numericUpDownTriggerRotX);
             this.groupBox3.Controls.Add(this.numericUpDownTriggerRotY);
             this.groupBox3.Controls.Add(this.numericUpDownTriggerRotZ);
-            this.groupBox3.Location = new System.Drawing.Point(473, 105);
+            this.groupBox3.Location = new System.Drawing.Point(631, 129);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(296, 46);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Size = new System.Drawing.Size(395, 57);
             this.groupBox3.TabIndex = 24;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Trigger Rotation (X, Y, Z)";
@@ -251,26 +264,32 @@
             // numericUpDownTriggerRotX
             // 
             this.numericUpDownTriggerRotX.DecimalPlaces = 4;
-            this.numericUpDownTriggerRotX.Location = new System.Drawing.Point(6, 19);
+            this.numericUpDownTriggerRotX.Location = new System.Drawing.Point(8, 23);
+            this.numericUpDownTriggerRotX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerRotX.Name = "numericUpDownTriggerRotX";
-            this.numericUpDownTriggerRotX.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerRotX.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerRotX.TabIndex = 2;
+            this.numericUpDownTriggerRotX.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownTriggerRotY
             // 
             this.numericUpDownTriggerRotY.DecimalPlaces = 4;
-            this.numericUpDownTriggerRotY.Location = new System.Drawing.Point(103, 19);
+            this.numericUpDownTriggerRotY.Location = new System.Drawing.Point(137, 23);
+            this.numericUpDownTriggerRotY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerRotY.Name = "numericUpDownTriggerRotY";
-            this.numericUpDownTriggerRotY.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerRotY.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerRotY.TabIndex = 2;
+            this.numericUpDownTriggerRotY.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownTriggerRotZ
             // 
             this.numericUpDownTriggerRotZ.DecimalPlaces = 4;
-            this.numericUpDownTriggerRotZ.Location = new System.Drawing.Point(200, 19);
+            this.numericUpDownTriggerRotZ.Location = new System.Drawing.Point(267, 23);
+            this.numericUpDownTriggerRotZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerRotZ.Name = "numericUpDownTriggerRotZ";
-            this.numericUpDownTriggerRotZ.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerRotZ.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerRotZ.TabIndex = 2;
+            this.numericUpDownTriggerRotZ.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // groupBox5
             // 
@@ -280,9 +299,11 @@
             this.groupBox5.Controls.Add(this.numericUpDownCamPosX);
             this.groupBox5.Controls.Add(this.numericUpDownCamPosY);
             this.groupBox5.Controls.Add(this.numericUpDownCamPosZ);
-            this.groupBox5.Location = new System.Drawing.Point(171, 209);
+            this.groupBox5.Location = new System.Drawing.Point(228, 257);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(592, 59);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Size = new System.Drawing.Size(789, 73);
             this.groupBox5.TabIndex = 25;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Unknown Floats";
@@ -290,59 +311,73 @@
             // numericUpDown_fXX1
             // 
             this.numericUpDown_fXX1.DecimalPlaces = 4;
-            this.numericUpDown_fXX1.Location = new System.Drawing.Point(300, 20);
+            this.numericUpDown_fXX1.Location = new System.Drawing.Point(400, 25);
+            this.numericUpDown_fXX1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_fXX1.Name = "numericUpDown_fXX1";
-            this.numericUpDown_fXX1.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_fXX1.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_fXX1.TabIndex = 3;
+            this.numericUpDown_fXX1.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_fXX2
             // 
             this.numericUpDown_fXX2.DecimalPlaces = 4;
-            this.numericUpDown_fXX2.Location = new System.Drawing.Point(397, 20);
+            this.numericUpDown_fXX2.Location = new System.Drawing.Point(529, 25);
+            this.numericUpDown_fXX2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_fXX2.Name = "numericUpDown_fXX2";
-            this.numericUpDown_fXX2.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_fXX2.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_fXX2.TabIndex = 4;
+            this.numericUpDown_fXX2.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_fXX3
             // 
             this.numericUpDown_fXX3.DecimalPlaces = 4;
-            this.numericUpDown_fXX3.Location = new System.Drawing.Point(493, 20);
+            this.numericUpDown_fXX3.Location = new System.Drawing.Point(657, 25);
+            this.numericUpDown_fXX3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_fXX3.Name = "numericUpDown_fXX3";
-            this.numericUpDown_fXX3.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_fXX3.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_fXX3.TabIndex = 5;
+            this.numericUpDown_fXX3.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownCamPosX
             // 
             this.numericUpDownCamPosX.DecimalPlaces = 4;
-            this.numericUpDownCamPosX.Location = new System.Drawing.Point(6, 19);
+            this.numericUpDownCamPosX.Location = new System.Drawing.Point(8, 23);
+            this.numericUpDownCamPosX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownCamPosX.Name = "numericUpDownCamPosX";
-            this.numericUpDownCamPosX.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownCamPosX.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownCamPosX.TabIndex = 2;
+            this.numericUpDownCamPosX.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownCamPosY
             // 
             this.numericUpDownCamPosY.DecimalPlaces = 4;
-            this.numericUpDownCamPosY.Location = new System.Drawing.Point(103, 19);
+            this.numericUpDownCamPosY.Location = new System.Drawing.Point(137, 23);
+            this.numericUpDownCamPosY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownCamPosY.Name = "numericUpDownCamPosY";
-            this.numericUpDownCamPosY.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownCamPosY.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownCamPosY.TabIndex = 2;
+            this.numericUpDownCamPosY.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownCamPosZ
             // 
             this.numericUpDownCamPosZ.DecimalPlaces = 4;
-            this.numericUpDownCamPosZ.Location = new System.Drawing.Point(199, 19);
+            this.numericUpDownCamPosZ.Location = new System.Drawing.Point(265, 23);
+            this.numericUpDownCamPosZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownCamPosZ.Name = "numericUpDownCamPosZ";
-            this.numericUpDownCamPosZ.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownCamPosZ.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownCamPosZ.TabIndex = 2;
+            this.numericUpDownCamPosZ.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.numericUpDownTriggerScaleX);
             this.groupBox4.Controls.Add(this.numericUpDownTriggerScaleY);
             this.groupBox4.Controls.Add(this.numericUpDownTriggerScaleZ);
-            this.groupBox4.Location = new System.Drawing.Point(171, 157);
+            this.groupBox4.Location = new System.Drawing.Point(228, 193);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(296, 46);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Size = new System.Drawing.Size(395, 57);
             this.groupBox4.TabIndex = 27;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Trigger Scale (X, Y, Z)";
@@ -350,35 +385,43 @@
             // numericUpDownTriggerScaleX
             // 
             this.numericUpDownTriggerScaleX.DecimalPlaces = 4;
-            this.numericUpDownTriggerScaleX.Location = new System.Drawing.Point(6, 19);
+            this.numericUpDownTriggerScaleX.Location = new System.Drawing.Point(8, 23);
+            this.numericUpDownTriggerScaleX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerScaleX.Name = "numericUpDownTriggerScaleX";
-            this.numericUpDownTriggerScaleX.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerScaleX.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerScaleX.TabIndex = 2;
+            this.numericUpDownTriggerScaleX.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownTriggerScaleY
             // 
             this.numericUpDownTriggerScaleY.DecimalPlaces = 4;
-            this.numericUpDownTriggerScaleY.Location = new System.Drawing.Point(103, 19);
+            this.numericUpDownTriggerScaleY.Location = new System.Drawing.Point(137, 23);
+            this.numericUpDownTriggerScaleY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerScaleY.Name = "numericUpDownTriggerScaleY";
-            this.numericUpDownTriggerScaleY.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerScaleY.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerScaleY.TabIndex = 2;
+            this.numericUpDownTriggerScaleY.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownTriggerScaleZ
             // 
             this.numericUpDownTriggerScaleZ.DecimalPlaces = 4;
-            this.numericUpDownTriggerScaleZ.Location = new System.Drawing.Point(200, 19);
+            this.numericUpDownTriggerScaleZ.Location = new System.Drawing.Point(267, 23);
+            this.numericUpDownTriggerScaleZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerScaleZ.Name = "numericUpDownTriggerScaleZ";
-            this.numericUpDownTriggerScaleZ.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerScaleZ.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerScaleZ.TabIndex = 2;
+            this.numericUpDownTriggerScaleZ.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.numericUpDownTriggerPosZ);
             this.groupBox2.Controls.Add(this.numericUpDownTriggerPosY);
             this.groupBox2.Controls.Add(this.numericUpDownTriggerPosX);
-            this.groupBox2.Location = new System.Drawing.Point(171, 105);
+            this.groupBox2.Location = new System.Drawing.Point(228, 129);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(296, 46);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(395, 57);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Trigger Position (X, Y, Z)";
@@ -386,26 +429,32 @@
             // numericUpDownTriggerPosZ
             // 
             this.numericUpDownTriggerPosZ.DecimalPlaces = 4;
-            this.numericUpDownTriggerPosZ.Location = new System.Drawing.Point(200, 19);
+            this.numericUpDownTriggerPosZ.Location = new System.Drawing.Point(267, 23);
+            this.numericUpDownTriggerPosZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerPosZ.Name = "numericUpDownTriggerPosZ";
-            this.numericUpDownTriggerPosZ.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerPosZ.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerPosZ.TabIndex = 2;
+            this.numericUpDownTriggerPosZ.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownTriggerPosY
             // 
             this.numericUpDownTriggerPosY.DecimalPlaces = 4;
-            this.numericUpDownTriggerPosY.Location = new System.Drawing.Point(103, 19);
+            this.numericUpDownTriggerPosY.Location = new System.Drawing.Point(137, 23);
+            this.numericUpDownTriggerPosY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerPosY.Name = "numericUpDownTriggerPosY";
-            this.numericUpDownTriggerPosY.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerPosY.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerPosY.TabIndex = 2;
+            this.numericUpDownTriggerPosY.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDownTriggerPosX
             // 
             this.numericUpDownTriggerPosX.DecimalPlaces = 4;
-            this.numericUpDownTriggerPosX.Location = new System.Drawing.Point(6, 19);
+            this.numericUpDownTriggerPosX.Location = new System.Drawing.Point(8, 23);
+            this.numericUpDownTriggerPosX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownTriggerPosX.Name = "numericUpDownTriggerPosX";
-            this.numericUpDownTriggerPosX.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDownTriggerPosX.Size = new System.Drawing.Size(121, 22);
             this.numericUpDownTriggerPosX.TabIndex = 2;
+            this.numericUpDownTriggerPosX.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // groupBox1
             // 
@@ -417,74 +466,92 @@
             this.groupBox1.Controls.Add(this.numericUpDown_i08);
             this.groupBox1.Controls.Add(this.numericUpDown_i04);
             this.groupBox1.Controls.Add(this.numericUpDown_i00);
-            this.groupBox1.Location = new System.Drawing.Point(171, 26);
+            this.groupBox1.Location = new System.Drawing.Point(228, 32);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(399, 71);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(532, 87);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unknown Starter Ints";
             // 
             // numericUpDown_i1C
             // 
-            this.numericUpDown_i1C.Location = new System.Drawing.Point(297, 45);
+            this.numericUpDown_i1C.Location = new System.Drawing.Point(396, 55);
+            this.numericUpDown_i1C.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i1C.Name = "numericUpDown_i1C";
-            this.numericUpDown_i1C.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i1C.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i1C.TabIndex = 8;
+            this.numericUpDown_i1C.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_i0C
             // 
-            this.numericUpDown_i0C.Location = new System.Drawing.Point(297, 19);
+            this.numericUpDown_i0C.Location = new System.Drawing.Point(396, 23);
+            this.numericUpDown_i0C.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i0C.Name = "numericUpDown_i0C";
-            this.numericUpDown_i0C.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i0C.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i0C.TabIndex = 7;
+            this.numericUpDown_i0C.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_i18
             // 
-            this.numericUpDown_i18.Location = new System.Drawing.Point(200, 45);
+            this.numericUpDown_i18.Location = new System.Drawing.Point(267, 55);
+            this.numericUpDown_i18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i18.Name = "numericUpDown_i18";
-            this.numericUpDown_i18.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i18.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i18.TabIndex = 6;
+            this.numericUpDown_i18.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_i14
             // 
-            this.numericUpDown_i14.Location = new System.Drawing.Point(103, 45);
+            this.numericUpDown_i14.Location = new System.Drawing.Point(137, 55);
+            this.numericUpDown_i14.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i14.Name = "numericUpDown_i14";
-            this.numericUpDown_i14.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i14.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i14.TabIndex = 5;
+            this.numericUpDown_i14.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_i10
             // 
-            this.numericUpDown_i10.Location = new System.Drawing.Point(6, 45);
+            this.numericUpDown_i10.Location = new System.Drawing.Point(8, 55);
+            this.numericUpDown_i10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i10.Name = "numericUpDown_i10";
-            this.numericUpDown_i10.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i10.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i10.TabIndex = 4;
+            this.numericUpDown_i10.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_i08
             // 
-            this.numericUpDown_i08.Location = new System.Drawing.Point(200, 19);
+            this.numericUpDown_i08.Location = new System.Drawing.Point(267, 23);
+            this.numericUpDown_i08.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i08.Name = "numericUpDown_i08";
-            this.numericUpDown_i08.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i08.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i08.TabIndex = 3;
+            this.numericUpDown_i08.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_i04
             // 
-            this.numericUpDown_i04.Location = new System.Drawing.Point(105, 19);
+            this.numericUpDown_i04.Location = new System.Drawing.Point(140, 23);
+            this.numericUpDown_i04.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i04.Name = "numericUpDown_i04";
-            this.numericUpDown_i04.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i04.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i04.TabIndex = 2;
+            this.numericUpDown_i04.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_i00
             // 
-            this.numericUpDown_i00.Location = new System.Drawing.Point(6, 19);
+            this.numericUpDown_i00.Location = new System.Drawing.Point(8, 23);
+            this.numericUpDown_i00.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_i00.Name = "numericUpDown_i00";
-            this.numericUpDown_i00.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i00.Size = new System.Drawing.Size(121, 22);
             this.numericUpDown_i00.TabIndex = 1;
+            this.numericUpDown_i00.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // ShadowCameraEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 471);
+            this.ClientSize = new System.Drawing.Size(1041, 580);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -499,6 +566,7 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "ShadowCameraEditor";
             this.Text = "ShadowCameraEditor";

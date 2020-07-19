@@ -4,12 +4,13 @@ using System.IO;
 using SharpDX;
 using System.Windows.Forms;
 using static HeroesPowerPlant.ShadowCameraEditor.ShadowCameraEditorFunctions;
-
+using System.Linq;
 
 namespace HeroesPowerPlant.ShadowCameraEditor {
     public partial class ShadowCameraEditor : Form {
 
         public string CurrentCameraFile;
+        public byte[] headerArray;
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
         private bool hasRemoved = false;
@@ -68,6 +69,18 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         }
 
+        public void RenderCameras(SharpRenderer renderer)
+        {
+            Vector4 oldColor = renderer.normalColor;
+            renderer.normalColor = new Vector4(0.6f, 0.25f, 0.7f, 0.8f);
+
+            foreach (ShadowCamera c in ListBoxCameras.Items)
+                if (renderer.frustum.Intersects(ref c.boundingBox))
+                    c.Draw(renderer);
+
+            renderer.normalColor = oldColor;
+        }
+
         private void button1_Click(object sender, EventArgs e) {
             using BinaryReader camReader = new BinaryReader(new FileStream("C:\\Users\\dreamsyntax\\cam.dat", FileMode.Open));
             camReader.BaseStream.Position = 0;
@@ -102,21 +115,44 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 CurrentCameraFile = fileName;
 
                 ListBoxCameras.Items.Clear();
-                ListBoxCameras.Items.AddRange(ImportCameraFile(CurrentCameraFile).ToArray());
-
+                (byte[] header, List<ShadowCamera> tempList) = ImportCameraFile(CurrentCameraFile);
+                headerArray = header;
+                ListBoxCameras.Items.AddRange(tempList.ToArray());
                 toolStripStatusFile.Text = "Loaded " + CurrentCameraFile;
                 UpdateLabelCameraCount();
 
                 ListBoxCameras.SelectedIndex = -1;
             }
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentCameraFile != null)
+                SaveCameraFile(CurrentCameraFile, headerArray, ListBoxCameras.Items.Cast<ShadowCamera>());
+            else
+                saveAsToolStripMenuItem_Click(sender, e);
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog SaveCamera = new SaveFileDialog()
+            {
+                Filter = "DAT Files|*.dat",
+                FileName = CurrentCameraFile
+            };
+            if (SaveCamera.ShowDialog() == DialogResult.OK)
+            {
+                CurrentCameraFile = SaveCamera.FileName;
+                SaveCameraFile(CurrentCameraFile, headerArray, ListBoxCameras.Items.Cast<ShadowCamera>());
+            }
+        }
+
         private void UpdateLabelCameraCount() {
             toolStripStatusLabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
-            /*if (CurrentlySelectedCamera == -1)
+            if (CurrentlySelectedCamera == -1)
                 toolStripStatusLabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
             else if (ListBoxCameras.Items.Count > 0)
                 toolStripStatusLabelCameraCount.Text = "Camera " + (CurrentlySelectedCamera + 1).ToString() + "/" + ListBoxCameras.Items.Count.ToString();
-        */
         }
 
         private void ListBoxCameras_SelectedIndexChanged(object sender, EventArgs e) {
@@ -178,38 +214,16 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 current.field_18 = (int)numericUpDown_i18.Value;
                 current.field_1C = (int)numericUpDown_i1C.Value;
                 current.TriggerPosition = new Vector3((float)numericUpDownTriggerPosX.Value, (float)numericUpDownTriggerPosY.Value, (float)numericUpDownTriggerPosZ.Value);
-                current.TriggerRotation = new Vector3(((float)numericUpDownTriggerRotX.Value) / (180f / Math.PI))
-                /*
-                current.CameraType = (int)numericUpDownCamType.Value;
-                current.CameraSpeed = (int)numericUpDownCamSpeed.Value;
-                current.Integer3 = (int)numericUpDown3.Value;
-                current.ActivationType = (int)numericUpDownActType.Value;
-                current.TriggerShape = (int)numericUpDownTrigShape.Value;
-                current.TriggerPosition = new Vector3((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value);
-                current.TriggerRotX = ReadWriteCommon.DegreesToBAMS((float)numericUpDownColRotX.Value);
-                current.TriggerRotY = ReadWriteCommon.DegreesToBAMS((float)numericUpDownColRotY.Value);
-                current.TriggerRotZ = ReadWriteCommon.DegreesToBAMS((float)numericUpDownColRotZ.Value);
-                current.TriggerScale = new Vector3((float)numericUpDownColSclX.Value, (float)numericUpDownColSclY.Value, (float)numericUpDownColSclZ.Value);
-                current.CamPos = new Vector3((float)numericUpDownCamPosX.Value, (float)numericUpDownCamPosY.Value, (float)numericUpDownCamPosZ.Value);
-                current.CamRotX = ReadWriteCommon.DegreesToBAMS((float)numericUpDownCamRotX.Value);
-                current.CamRotY = ReadWriteCommon.DegreesToBAMS((float)numericUpDownCamRotY.Value);
-                current.CamRotZ = ReadWriteCommon.DegreesToBAMS((float)numericUpDownCamRotZ.Value);
-                current.PointA = new Vector3((float)numericUpDown21.Value, (float)numericUpDown22.Value, (float)numericUpDown23.Value);
-                current.PointB = new Vector3((float)numericUpDown24.Value, (float)numericUpDown25.Value, (float)numericUpDown26.Value);
-                current.PointC = new Vector3((float)numericUpDown27.Value, (float)numericUpDown28.Value, (float)numericUpDown29.Value);
-                current.Integer30 = (int)numericUpDown30.Value;
-                current.Integer31 = (int)numericUpDown31.Value;
-                current.FloatX32 = (float)numericUpDown32.Value;
-                current.FloatY33 = (float)numericUpDown33.Value;
-                current.FloatX34 = (float)numericUpDown34.Value;
-                current.FloatY35 = (float)numericUpDown35.Value;
-                current.Integer36 = (int)numericUpDown36.Value;
-                current.Integer37 = (int)numericUpDown37.Value;
-                current.Integer38 = (int)numericUpDown38.Value;
-                current.Integer39 = (int)numericUpDown39.Value;
+                current.TriggerRotation = new Vector3((float)((float)numericUpDownTriggerRotX.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotY.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotZ.Value / (180f / Math.PI)));
+                current.TriggerScale = new Vector3((float)numericUpDownTriggerScaleX.Value, (float)numericUpDownTriggerScaleY.Value, (float)numericUpDownTriggerScaleZ.Value);
+                current.field_44 = (float)numericUpDownCamPosX.Value;
+                current.field_48 = (float)numericUpDownCamPosY.Value;
+                current.field_4C = (float)numericUpDownCamPosZ.Value;
+                current.field_50 = (float)numericUpDown_fXX1.Value;
+                current.field_54 = (float)numericUpDown_fXX2.Value;
+                current.field_58 = (float)numericUpDown_fXX3.Value;
                 current.CreateTransformMatrix();
-
-                ListBoxCameras.Items[CurrentlySelectedCamera] = current;*/
+                ListBoxCameras.Items[CurrentlySelectedCamera] = current;
             }
         }
     }
