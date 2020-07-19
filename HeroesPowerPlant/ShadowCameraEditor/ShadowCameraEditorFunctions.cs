@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.ShadowCameraEditor
 {
@@ -37,7 +36,38 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                         camReader.ReadSingle(),
                         camReader.ReadSingle(),
                         camReader.ReadSingle(), //i_58
-                        camReader.ReadBytes(0x80)
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //60
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //70
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //80
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //90
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //A0
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //B0
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //C0
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle(), //D0
+                        camReader.ReadSingle(),
+                        camReader.ReadSingle()
                     );
 
                     //if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
@@ -56,10 +86,6 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             BinaryWriter CameraWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
 
             CameraWriter.Write(headerArray);
-            /*foreach (byte[] i in cameraList)
-            {
-                CameraWriter.Write(i);
-            }*/
 
             foreach (ShadowCamera i in list)
             {
@@ -86,48 +112,38 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 CameraWriter.Write(i.field_50);
                 CameraWriter.Write(i.field_54);
                 CameraWriter.Write(i.field_58);
-                CameraWriter.Write(i.UnknownSection3);
-
-
-                /*CameraWriter.Write(Switch(i.CameraType));
-                CameraWriter.Write(Switch(i.CameraSpeed));
-                CameraWriter.Write(Switch(i.Integer3));
-                CameraWriter.Write(Switch(i.ActivationType));
-                CameraWriter.Write(Switch(i.TriggerShape));
-                CameraWriter.Write(Switch(i.TriggerPosition.X));
-                CameraWriter.Write(Switch(i.TriggerPosition.Y));
-                CameraWriter.Write(Switch(i.TriggerPosition.Z));
-                CameraWriter.Write(Switch(i.TriggerRotX));
-                CameraWriter.Write(Switch(i.TriggerRotY));
-                CameraWriter.Write(Switch(i.TriggerRotZ));
-                CameraWriter.Write(Switch(i.TriggerScale.X));
-                CameraWriter.Write(Switch(i.TriggerScale.Y));
-                CameraWriter.Write(Switch(i.TriggerScale.Z));
-                CameraWriter.Write(Switch(i.CamPos.X));
-                CameraWriter.Write(Switch(i.CamPos.Y));
-                CameraWriter.Write(Switch(i.CamPos.Z));
-                CameraWriter.Write(Switch(i.CamRotX));
-                CameraWriter.Write(Switch(i.CamRotY));
-                CameraWriter.Write(Switch(i.CamRotZ));
-                CameraWriter.Write(Switch(i.PointA.X));
-                CameraWriter.Write(Switch(i.PointA.Y));
-                CameraWriter.Write(Switch(i.PointA.Z));
-                CameraWriter.Write(Switch(i.PointB.X));
-                CameraWriter.Write(Switch(i.PointB.Y));
-                CameraWriter.Write(Switch(i.PointB.Z));
-                CameraWriter.Write(Switch(i.PointC.X));
-                CameraWriter.Write(Switch(i.PointC.Y));
-                CameraWriter.Write(Switch(i.PointC.Z));
-                CameraWriter.Write(Switch(i.Integer30));
-                CameraWriter.Write(Switch(i.Integer31));
-                CameraWriter.Write(Switch(i.FloatX32));
-                CameraWriter.Write(Switch(i.FloatY33));
-                CameraWriter.Write(Switch(i.FloatX34));
-                CameraWriter.Write(Switch(i.FloatY35));
-                CameraWriter.Write(Switch(i.Integer36));
-                CameraWriter.Write(Switch(i.Integer37));
-                CameraWriter.Write(Switch(i.Integer38));
-                CameraWriter.Write(Switch(i.Integer39));*/
+                CameraWriter.Write(i.field_5C);
+                CameraWriter.Write(i.field_60);
+                CameraWriter.Write(i.field_64);
+                CameraWriter.Write(i.field_68);
+                CameraWriter.Write(i.field_6C);
+                CameraWriter.Write(i.field_70);
+                CameraWriter.Write(i.field_74);
+                CameraWriter.Write(i.field_78);
+                CameraWriter.Write(i.field_7C);
+                CameraWriter.Write(i.field_80);
+                CameraWriter.Write(i.field_84);
+                CameraWriter.Write(i.field_88);
+                CameraWriter.Write(i.field_8C);
+                CameraWriter.Write(i.field_90);
+                CameraWriter.Write(i.field_94);
+                CameraWriter.Write(i.field_98);
+                CameraWriter.Write(i.field_9C);
+                CameraWriter.Write(i.field_A0);
+                CameraWriter.Write(i.field_A4);
+                CameraWriter.Write(i.field_A8);
+                CameraWriter.Write(i.field_AC);
+                CameraWriter.Write(i.field_B0);
+                CameraWriter.Write(i.field_B4);
+                CameraWriter.Write(i.field_B8);
+                CameraWriter.Write(i.field_BC);
+                CameraWriter.Write(i.field_C0);
+                CameraWriter.Write(i.field_C4);
+                CameraWriter.Write(i.field_C8);
+                CameraWriter.Write(i.field_CC);
+                CameraWriter.Write(i.field_D0);
+                CameraWriter.Write(i.field_D4);
+                CameraWriter.Write(i.field_D8);
             }
             CameraWriter.Close();
         }

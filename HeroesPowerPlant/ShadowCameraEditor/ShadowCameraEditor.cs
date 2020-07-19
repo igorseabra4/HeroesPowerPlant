@@ -5,6 +5,7 @@ using SharpDX;
 using System.Windows.Forms;
 using static HeroesPowerPlant.ShadowCameraEditor.ShadowCameraEditorFunctions;
 using System.Linq;
+using HeroesPowerPlant.LayoutEditor;
 
 namespace HeroesPowerPlant.ShadowCameraEditor {
     public partial class ShadowCameraEditor : Form {
@@ -14,7 +15,6 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
         private bool hasRemoved = false;
-
 
         public ShadowCameraEditor() {
             InitializeComponent();
@@ -36,12 +36,44 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDownTriggerScaleX.Maximum = Decimal.MaxValue;
             numericUpDownTriggerScaleY.Maximum = Decimal.MaxValue;
             numericUpDownTriggerScaleZ.Maximum = Decimal.MaxValue;
-            numericUpDownCamPosX.Maximum = Decimal.MaxValue;
-            numericUpDownCamPosY.Maximum = Decimal.MaxValue;
-            numericUpDownCamPosZ.Maximum = Decimal.MaxValue;
-            numericUpDown_fXX1.Maximum = Decimal.MaxValue;
-            numericUpDown_fXX2.Maximum = Decimal.MaxValue;
-            numericUpDown_fXX3.Maximum = Decimal.MaxValue;
+            numericUpDown_f44.Maximum = Decimal.MaxValue;
+            numericUpDown_f48.Maximum = Decimal.MaxValue;
+            numericUpDown_f4C.Maximum = Decimal.MaxValue;
+            numericUpDown_f50.Maximum = Decimal.MaxValue;
+            numericUpDown_f54.Maximum = Decimal.MaxValue;
+            numericUpDown_f58.Maximum = Decimal.MaxValue;
+            numericUpDown_f5C.Maximum = Decimal.MaxValue;
+            numericUpDown_f60.Maximum = Decimal.MaxValue;
+            numericUpDown_f64.Maximum = Decimal.MaxValue;
+            numericUpDown_f68.Maximum = Decimal.MaxValue;
+            numericUpDown_f6C.Maximum = Decimal.MaxValue;
+            numericUpDown_f70.Maximum = Decimal.MaxValue;
+            numericUpDown_f74.Maximum = Decimal.MaxValue;
+            numericUpDown_f78.Maximum = Decimal.MaxValue;
+            numericUpDown_f7C.Maximum = Decimal.MaxValue;
+            numericUpDown_f80.Maximum = Decimal.MaxValue;
+            numericUpDown_f84.Maximum = Decimal.MaxValue;
+            numericUpDown_f88.Maximum = Decimal.MaxValue;
+            numericUpDown_f8C.Maximum = Decimal.MaxValue;
+            numericUpDown_f90.Maximum = Decimal.MaxValue;
+            numericUpDown_f94.Maximum = Decimal.MaxValue;
+            numericUpDown_f98.Maximum = Decimal.MaxValue;
+            numericUpDown_f9C.Maximum = Decimal.MaxValue;
+            numericUpDown_fA0.Maximum = Decimal.MaxValue;
+            numericUpDown_fA4.Maximum = Decimal.MaxValue;
+            numericUpDown_fA8.Maximum = Decimal.MaxValue;
+            numericUpDown_fAC.Maximum = Decimal.MaxValue;
+            numericUpDown_fB0.Maximum = Decimal.MaxValue;
+            numericUpDown_fB4.Maximum = Decimal.MaxValue;
+            numericUpDown_fB8.Maximum = Decimal.MaxValue;
+            numericUpDown_fBC.Maximum = Decimal.MaxValue;
+            numericUpDown_fC0.Maximum = Decimal.MaxValue;
+            numericUpDown_fC4.Maximum = Decimal.MaxValue;
+            numericUpDown_fC8.Maximum = Decimal.MaxValue;
+            numericUpDown_fCC.Maximum = Decimal.MaxValue;
+            numericUpDown_fD0.Maximum = Decimal.MaxValue;
+            numericUpDown_fD4.Maximum = Decimal.MaxValue;
+            numericUpDown_fD8.Maximum = Decimal.MaxValue;
 
             numericUpDown_i00.Minimum = Decimal.MinValue;
             numericUpDown_i04.Minimum = Decimal.MinValue;
@@ -60,13 +92,44 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDownTriggerScaleX.Minimum = Decimal.MinValue;
             numericUpDownTriggerScaleY.Minimum = Decimal.MinValue;
             numericUpDownTriggerScaleZ.Minimum = Decimal.MinValue;
-            numericUpDownCamPosX.Minimum = Decimal.MinValue;
-            numericUpDownCamPosY.Minimum = Decimal.MinValue;
-            numericUpDownCamPosZ.Minimum = Decimal.MinValue;
-            numericUpDown_fXX1.Minimum = Decimal.MinValue;
-            numericUpDown_fXX2.Minimum = Decimal.MinValue;
-            numericUpDown_fXX3.Minimum = Decimal.MinValue;
-
+            numericUpDown_f44.Minimum = Decimal.MinValue;
+            numericUpDown_f48.Minimum = Decimal.MinValue;
+            numericUpDown_f4C.Minimum = Decimal.MinValue;
+            numericUpDown_f50.Minimum = Decimal.MinValue;
+            numericUpDown_f54.Minimum = Decimal.MinValue;
+            numericUpDown_f58.Minimum = Decimal.MinValue;
+            numericUpDown_f5C.Minimum = Decimal.MinValue;
+            numericUpDown_f60.Minimum = Decimal.MinValue;
+            numericUpDown_f64.Minimum = Decimal.MinValue;
+            numericUpDown_f68.Minimum = Decimal.MinValue;
+            numericUpDown_f6C.Minimum = Decimal.MinValue;
+            numericUpDown_f70.Minimum = Decimal.MinValue;
+            numericUpDown_f74.Minimum = Decimal.MinValue;
+            numericUpDown_f78.Minimum = Decimal.MinValue;
+            numericUpDown_f7C.Minimum = Decimal.MinValue;
+            numericUpDown_f80.Minimum = Decimal.MinValue;
+            numericUpDown_f84.Minimum = Decimal.MinValue;
+            numericUpDown_f88.Minimum = Decimal.MinValue;
+            numericUpDown_f8C.Minimum = Decimal.MinValue;
+            numericUpDown_f90.Minimum = Decimal.MinValue;
+            numericUpDown_f94.Minimum = Decimal.MinValue;
+            numericUpDown_f98.Minimum = Decimal.MinValue;
+            numericUpDown_f9C.Minimum = Decimal.MinValue;
+            numericUpDown_fA0.Minimum = Decimal.MinValue;
+            numericUpDown_fA4.Minimum = Decimal.MinValue;
+            numericUpDown_fA8.Minimum = Decimal.MinValue;
+            numericUpDown_fAC.Minimum = Decimal.MinValue;
+            numericUpDown_fB0.Minimum = Decimal.MinValue;
+            numericUpDown_fB4.Minimum = Decimal.MinValue;
+            numericUpDown_fB8.Minimum = Decimal.MinValue;
+            numericUpDown_fBC.Minimum = Decimal.MinValue;
+            numericUpDown_fC0.Minimum = Decimal.MinValue;
+            numericUpDown_fC4.Minimum = Decimal.MinValue;
+            numericUpDown_fC8.Minimum = Decimal.MinValue;
+            numericUpDown_fCC.Minimum = Decimal.MinValue;
+            numericUpDown_fD0.Minimum = Decimal.MinValue;
+            numericUpDown_fD4.Minimum = Decimal.MinValue;
+            numericUpDown_fD8.Minimum = Decimal.MinValue;
         }
 
         public void RenderCameras(SharpRenderer renderer)
@@ -80,27 +143,6 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
             renderer.normalColor = oldColor;
         }
-
-        private void button1_Click(object sender, EventArgs e) {
-            using BinaryReader camReader = new BinaryReader(new FileStream("C:\\Users\\dreamsyntax\\cam.dat", FileMode.Open));
-            camReader.BaseStream.Position = 0;
-            byte[] headerArray = camReader.ReadBytes(0x18);
-            List<byte[]> cameraList = new List<byte[]>();
-            float insertject = 8;
-            while (camReader.BaseStream.Position != camReader.BaseStream.Length) {
-                cameraList.Add(camReader.ReadBytes(0x18));
-                cameraList.Add(BitConverter.GetBytes(insertject));
-                camReader.ReadBytes(0x4); //trash
-                cameraList.Add(camReader.ReadBytes(0xC0));
-            }
-
-            BinaryWriter CameraWriter = new BinaryWriter(new FileStream("C:\\Users\\dreamsyntax\\Desktop\\CameraResearch\\files\\stg0403\\stg0403_cam.dat", FileMode.Create));
-            CameraWriter.Write(headerArray);
-            foreach (byte[] i in cameraList) {
-                CameraWriter.Write(i);
-            }
-        }
-
         private void openToolStripMenuItem_Click(object sender, EventArgs e) {
             OpenFileDialog OpenCamera = new OpenFileDialog() {
                 Filter = "DAT Files|*.dat"
@@ -187,12 +229,44 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                     numericUpDownTriggerScaleX.Value = (decimal)current.TriggerScale.X;
                     numericUpDownTriggerScaleY.Value = (decimal)current.TriggerScale.Y;
                     numericUpDownTriggerScaleZ.Value = (decimal)current.TriggerScale.Z;
-                    numericUpDownCamPosX.Value = (decimal)current.field_44;
-                    numericUpDownCamPosY.Value = (decimal)current.field_48;
-                    numericUpDownCamPosZ.Value = (decimal)current.field_4C;
-                    numericUpDown_fXX1.Value = (decimal)(current.field_50);
-                    numericUpDown_fXX2.Value = (decimal)(current.field_54);
-                    numericUpDown_fXX3.Value = (decimal)(current.field_58);
+                    numericUpDown_f44.Value = (decimal)current.field_44;
+                    numericUpDown_f48.Value = (decimal)current.field_48;
+                    numericUpDown_f4C.Value = (decimal)current.field_4C;
+                    numericUpDown_f50.Value = (decimal)(current.field_50);
+                    numericUpDown_f54.Value = (decimal)(current.field_54);
+                    numericUpDown_f58.Value = (decimal)(current.field_58);
+                    numericUpDown_f5C.Value = (decimal)(current.field_5C);
+                    numericUpDown_f60.Value = (decimal)(current.field_60);
+                    numericUpDown_f64.Value = (decimal)(current.field_64);
+                    numericUpDown_f68.Value = (decimal)(current.field_68);
+                    numericUpDown_f6C.Value = (decimal)(current.field_6C);
+                    numericUpDown_f70.Value = (decimal)(current.field_70);
+                    numericUpDown_f74.Value = (decimal)(current.field_74);
+                    numericUpDown_f78.Value = (decimal)(current.field_78);
+                    numericUpDown_f7C.Value = (decimal)(current.field_7C);
+                    numericUpDown_f80.Value = (decimal)(current.field_80);
+                    numericUpDown_f84.Value = (decimal)(current.field_84);
+                    numericUpDown_f88.Value = (decimal)(current.field_88);
+                    numericUpDown_f8C.Value = (decimal)(current.field_8C);
+                    numericUpDown_f90.Value = (decimal)(current.field_90);
+                    numericUpDown_f94.Value = (decimal)(current.field_94);
+                    numericUpDown_f98.Value = (decimal)(current.field_98);
+                    numericUpDown_f9C.Value = (decimal)(current.field_9C);
+                    numericUpDown_fA0.Value = (decimal)(current.field_A0);
+                    numericUpDown_fA4.Value = (decimal)(current.field_A4);
+                    numericUpDown_fA8.Value = (decimal)(current.field_A8);
+                    numericUpDown_fAC.Value = (decimal)(current.field_AC);
+                    numericUpDown_fB0.Value = (decimal)(current.field_B0);
+                    numericUpDown_fB4.Value = (decimal)(current.field_B4);
+                    numericUpDown_fB8.Value = (decimal)(current.field_B8);
+                    numericUpDown_fBC.Value = (decimal)(current.field_BC);
+                    numericUpDown_fC0.Value = (decimal)(current.field_C0);
+                    numericUpDown_fC4.Value = (decimal)(current.field_C4);
+                    numericUpDown_fC8.Value = (decimal)(current.field_C8);
+                    numericUpDown_fCC.Value = (decimal)(current.field_CC);
+                    numericUpDown_fD0.Value = (decimal)(current.field_D0);
+                    numericUpDown_fD4.Value = (decimal)(current.field_D4);
+                    numericUpDown_fD8.Value = (decimal)(current.field_D8);
                 } catch {
                     MessageBox.Show("Could not load this camera properly: one or more properties are unsupported.");
                 }
@@ -216,12 +290,44 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 current.TriggerPosition = new Vector3((float)numericUpDownTriggerPosX.Value, (float)numericUpDownTriggerPosY.Value, (float)numericUpDownTriggerPosZ.Value);
                 current.TriggerRotation = new Vector3((float)((float)numericUpDownTriggerRotX.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotY.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotZ.Value / (180f / Math.PI)));
                 current.TriggerScale = new Vector3((float)numericUpDownTriggerScaleX.Value, (float)numericUpDownTriggerScaleY.Value, (float)numericUpDownTriggerScaleZ.Value);
-                current.field_44 = (float)numericUpDownCamPosX.Value;
-                current.field_48 = (float)numericUpDownCamPosY.Value;
-                current.field_4C = (float)numericUpDownCamPosZ.Value;
-                current.field_50 = (float)numericUpDown_fXX1.Value;
-                current.field_54 = (float)numericUpDown_fXX2.Value;
-                current.field_58 = (float)numericUpDown_fXX3.Value;
+                current.field_44 = (float)numericUpDown_f44.Value;
+                current.field_48 = (float)numericUpDown_f48.Value;
+                current.field_4C = (float)numericUpDown_f4C.Value;
+                current.field_50 = (float)numericUpDown_f50.Value;
+                current.field_54 = (float)numericUpDown_f54.Value;
+                current.field_58 = (float)numericUpDown_f58.Value;
+                current.field_5C = (float)numericUpDown_f5C.Value;
+                current.field_60 = (float)numericUpDown_f60.Value;
+                current.field_64 = (float)numericUpDown_f64.Value;
+                current.field_68 = (float)numericUpDown_f68.Value;
+                current.field_6C = (float)numericUpDown_f6C.Value;
+                current.field_70 = (float)numericUpDown_f70.Value;
+                current.field_74 = (float)numericUpDown_f74.Value;
+                current.field_78 = (float)numericUpDown_f78.Value;
+                current.field_7C = (float)numericUpDown_f7C.Value;
+                current.field_80 = (float)numericUpDown_f80.Value;
+                current.field_84 = (float)numericUpDown_f84.Value;
+                current.field_88 = (float)numericUpDown_f88.Value;
+                current.field_8C = (float)numericUpDown_f8C.Value;
+                current.field_90 = (float)numericUpDown_f90.Value;
+                current.field_94 = (float)numericUpDown_f94.Value;
+                current.field_98 = (float)numericUpDown_f98.Value;
+                current.field_9C = (float)numericUpDown_f9C.Value;
+                current.field_A0 = (float)numericUpDown_fA0.Value;
+                current.field_A4 = (float)numericUpDown_fA4.Value;
+                current.field_A8 = (float)numericUpDown_fA8.Value;
+                current.field_AC = (float)numericUpDown_fAC.Value;
+                current.field_B0 = (float)numericUpDown_fB0.Value;
+                current.field_B4 = (float)numericUpDown_fB4.Value;
+                current.field_B8 = (float)numericUpDown_fB8.Value;
+                current.field_BC = (float)numericUpDown_fBC.Value;
+                current.field_C0 = (float)numericUpDown_fC0.Value;
+                current.field_C4 = (float)numericUpDown_fC4.Value;
+                current.field_C8 = (float)numericUpDown_fC8.Value;
+                current.field_CC = (float)numericUpDown_fCC.Value;
+                current.field_D0 = (float)numericUpDown_fD0.Value;
+                current.field_D4 = (float)numericUpDown_fD4.Value;
+                current.field_D8 = (float)numericUpDown_fD8.Value;
                 current.CreateTransformMatrix();
                 ListBoxCameras.Items[CurrentlySelectedCamera] = current;
             }

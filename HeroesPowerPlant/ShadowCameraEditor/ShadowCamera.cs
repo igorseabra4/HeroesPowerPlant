@@ -37,7 +37,41 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public float field_50;
         public float field_54;
         public float field_58;
-        public byte[] UnknownSection3; //0x80 remaining length
+        public float field_5C;
+        //const string
+        public float field_60;
+        public float field_64;
+        public float field_68;
+        public float field_6C;
+        //end
+        public float field_70;
+        public float field_74;
+        public float field_78;
+        public float field_7C;
+        public float field_80;
+        public float field_84;
+        public float field_88;
+        public float field_8C;
+        public float field_90;
+        public float field_94;
+        public float field_98;
+        public float field_9C;
+        public float field_A0;
+        public float field_A4;
+        public float field_A8;
+        public float field_AC;
+        public float field_B0;
+        public float field_B4;
+        public float field_B8;
+        public float field_BC;
+        public float field_C0;
+        public float field_C4;
+        public float field_C8;
+        public float field_CC;
+        public float field_D0;
+        public float field_D4;
+        public float field_D8;
+        //public byte[] UnknownSection3; //0x80 remaining length
 
         /*
         public int CameraType;
@@ -70,8 +104,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         public ShadowCamera(int i_00, int i_04, int i_08, int i_0C, int i_10, int i_14,
             int i_18, int i_1C, Vector3 triggerPos, Vector3 triggerRot, Vector3 triggerScale,
-            float f_44, float f_48, float f_4C, float f_50, float f_54, float f_58,
-            byte[] sec3) {
+            float f_44, float f_48, float f_4C, float f_50, float f_54, float f_58, float f_5C,
+            float f_60, float f_64, float f_68, float f_6C, float f_70, float f_74, float f_78,
+            float f_7C, float f_80, float f_84, float f_88, float f_8C, float f_90, float f_94,
+            float f_98, float f_9C, float f_A0, float f_A4, float f_A8, float f_AC, float f_B0,
+            float f_B4, float f_B8, float f_BC, float f_C0, float f_C4, float f_C8, float f_CC,
+            float f_D0, float f_D4, float f_D8) {
             field_00 = i_00;
             field_04 = i_04;
             field_08 = i_08;
@@ -89,7 +127,38 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_50 = f_50;
             field_54 = f_54;
             field_58 = f_58;
-            UnknownSection3 = sec3;
+            field_5C = f_5C;
+            field_60 = f_60;
+            field_64 = f_64;
+            field_68 = f_68;
+            field_6C = f_6C;
+            field_70 = f_70;
+            field_74 = f_74;
+            field_78 = f_78;
+            field_7C = f_7C;
+            field_80 = f_80;
+            field_84 = f_84;
+            field_88 = f_88;
+            field_8C = f_8C;
+            field_90 = f_90;
+            field_94 = f_94;
+            field_98 = f_98;
+            field_9C = f_9C;
+            field_A0 = f_A0;
+            field_A4 = f_A4;
+            field_A8 = f_A8;
+            field_AC = f_AC;
+            field_B0 = f_B0;
+            field_B4 = f_B4;
+            field_B8 = f_B8;
+            field_BC = f_BC;
+            field_C0 = f_C0;
+            field_C4 = f_C4;
+            field_C8 = f_C8;
+            field_CC = f_CC;
+            field_D0 = f_D0;
+            field_D4 = f_D4;
+            field_D8 = f_D8;
         }
 
         public bool isSelected;
