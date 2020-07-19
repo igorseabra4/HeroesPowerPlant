@@ -45,6 +45,9 @@
             this.numericUpDownTriggerRotY = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTriggerRotZ = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_fXX1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_fXX2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_fXX3 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownCamPosX = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownCamPosY = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownCamPosZ = new System.Windows.Forms.NumericUpDown();
@@ -57,17 +60,14 @@
             this.numericUpDownTriggerPosY = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTriggerPosX = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_i1C = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_i0C = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_i18 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i14 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i10 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i08 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i04 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i00 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_i18 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_i0C = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_i1C = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -75,6 +75,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRotY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRotZ)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fXX1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fXX2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fXX3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamPosX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamPosY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamPosZ)).BeginInit();
@@ -87,17 +90,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosX)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i1C)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i0C)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i18)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i08)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i00)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i18)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i0C)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i1C)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -234,6 +234,7 @@
             this.ListBoxCameras.Name = "ListBoxCameras";
             this.ListBoxCameras.Size = new System.Drawing.Size(147, 303);
             this.ListBoxCameras.TabIndex = 17;
+            this.ListBoxCameras.SelectedIndexChanged += new System.EventHandler(this.ListBoxCameras_SelectedIndexChanged);
             // 
             // groupBox3
             // 
@@ -273,9 +274,9 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.numericUpDown1);
-            this.groupBox5.Controls.Add(this.numericUpDown2);
-            this.groupBox5.Controls.Add(this.numericUpDown3);
+            this.groupBox5.Controls.Add(this.numericUpDown_fXX1);
+            this.groupBox5.Controls.Add(this.numericUpDown_fXX2);
+            this.groupBox5.Controls.Add(this.numericUpDown_fXX3);
             this.groupBox5.Controls.Add(this.numericUpDownCamPosX);
             this.groupBox5.Controls.Add(this.numericUpDownCamPosY);
             this.groupBox5.Controls.Add(this.numericUpDownCamPosZ);
@@ -285,6 +286,30 @@
             this.groupBox5.TabIndex = 25;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Unknown Floats";
+            // 
+            // numericUpDown_fXX1
+            // 
+            this.numericUpDown_fXX1.DecimalPlaces = 4;
+            this.numericUpDown_fXX1.Location = new System.Drawing.Point(300, 20);
+            this.numericUpDown_fXX1.Name = "numericUpDown_fXX1";
+            this.numericUpDown_fXX1.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_fXX1.TabIndex = 3;
+            // 
+            // numericUpDown_fXX2
+            // 
+            this.numericUpDown_fXX2.DecimalPlaces = 4;
+            this.numericUpDown_fXX2.Location = new System.Drawing.Point(397, 20);
+            this.numericUpDown_fXX2.Name = "numericUpDown_fXX2";
+            this.numericUpDown_fXX2.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_fXX2.TabIndex = 4;
+            // 
+            // numericUpDown_fXX3
+            // 
+            this.numericUpDown_fXX3.DecimalPlaces = 4;
+            this.numericUpDown_fXX3.Location = new System.Drawing.Point(493, 20);
+            this.numericUpDown_fXX3.Name = "numericUpDown_fXX3";
+            this.numericUpDown_fXX3.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_fXX3.TabIndex = 5;
             // 
             // numericUpDownCamPosX
             // 
@@ -399,6 +424,27 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unknown Starter Ints";
             // 
+            // numericUpDown_i1C
+            // 
+            this.numericUpDown_i1C.Location = new System.Drawing.Point(297, 45);
+            this.numericUpDown_i1C.Name = "numericUpDown_i1C";
+            this.numericUpDown_i1C.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i1C.TabIndex = 8;
+            // 
+            // numericUpDown_i0C
+            // 
+            this.numericUpDown_i0C.Location = new System.Drawing.Point(297, 19);
+            this.numericUpDown_i0C.Name = "numericUpDown_i0C";
+            this.numericUpDown_i0C.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i0C.TabIndex = 7;
+            // 
+            // numericUpDown_i18
+            // 
+            this.numericUpDown_i18.Location = new System.Drawing.Point(200, 45);
+            this.numericUpDown_i18.Name = "numericUpDown_i18";
+            this.numericUpDown_i18.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_i18.TabIndex = 6;
+            // 
             // numericUpDown_i14
             // 
             this.numericUpDown_i14.Location = new System.Drawing.Point(103, 45);
@@ -422,7 +468,7 @@
             // 
             // numericUpDown_i04
             // 
-            this.numericUpDown_i04.Location = new System.Drawing.Point(103, 19);
+            this.numericUpDown_i04.Location = new System.Drawing.Point(105, 19);
             this.numericUpDown_i04.Name = "numericUpDown_i04";
             this.numericUpDown_i04.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_i04.TabIndex = 2;
@@ -433,51 +479,6 @@
             this.numericUpDown_i00.Name = "numericUpDown_i00";
             this.numericUpDown_i00.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_i00.TabIndex = 1;
-            // 
-            // numericUpDown_i18
-            // 
-            this.numericUpDown_i18.Location = new System.Drawing.Point(200, 45);
-            this.numericUpDown_i18.Name = "numericUpDown_i18";
-            this.numericUpDown_i18.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_i18.TabIndex = 6;
-            // 
-            // numericUpDown_i0C
-            // 
-            this.numericUpDown_i0C.Location = new System.Drawing.Point(297, 19);
-            this.numericUpDown_i0C.Name = "numericUpDown_i0C";
-            this.numericUpDown_i0C.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_i0C.TabIndex = 7;
-            // 
-            // numericUpDown_i1C
-            // 
-            this.numericUpDown_i1C.Location = new System.Drawing.Point(297, 45);
-            this.numericUpDown_i1C.Name = "numericUpDown_i1C";
-            this.numericUpDown_i1C.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_i1C.TabIndex = 8;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.DecimalPlaces = 4;
-            this.numericUpDown1.Location = new System.Drawing.Point(300, 20);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown1.TabIndex = 3;
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.DecimalPlaces = 4;
-            this.numericUpDown2.Location = new System.Drawing.Point(397, 20);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown2.TabIndex = 4;
-            // 
-            // numericUpDown3
-            // 
-            this.numericUpDown3.DecimalPlaces = 4;
-            this.numericUpDown3.Location = new System.Drawing.Point(493, 20);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown3.TabIndex = 5;
             // 
             // ShadowCameraEditor
             // 
@@ -510,6 +511,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRotY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerRotZ)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fXX1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fXX2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fXX3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamPosX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamPosY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCamPosZ)).EndInit();
@@ -522,17 +526,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosX)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i1C)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i0C)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i18)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i08)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i04)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i00)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i18)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i0C)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i1C)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -582,8 +583,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_i1C;
         private System.Windows.Forms.NumericUpDown numericUpDown_i0C;
         private System.Windows.Forms.NumericUpDown numericUpDown_i18;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDown_fXX1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_fXX2;
+        private System.Windows.Forms.NumericUpDown numericUpDown_fXX3;
     }
 }

@@ -128,7 +128,9 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
 
             triggerPosWorld *=
-                Matrix.RotationYawPitchRoll(TriggerRotation.X, TriggerRotation.Y, TriggerRotation.Z);
+                //Matrix.RotationX(ReadWriteCommon.BAMStoRadians(TriggerRotationX)) *
+                //Matrix.RotationY(ReadWriteCommon.BAMStoRadians(TriggerRotationY)) *
+                //Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(TriggerRotationZ)) *
                 Matrix.Translation(TriggerPosition);
 
             //pointAWorld = Matrix.Scaling(5) * Matrix.Translation(PointA);
