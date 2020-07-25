@@ -5,7 +5,6 @@ using SharpDX;
 using System.Windows.Forms;
 using static HeroesPowerPlant.ShadowCameraEditor.ShadowCameraEditorFunctions;
 using System.Linq;
-using HeroesPowerPlant.LayoutEditor;
 
 namespace HeroesPowerPlant.ShadowCameraEditor {
     public partial class ShadowCameraEditor : Form {
@@ -63,8 +62,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_fA4.Maximum = Decimal.MaxValue;
             numericUpDown_fA8.Maximum = Decimal.MaxValue;
             numericUpDown_fAC.Maximum = Decimal.MaxValue;
-            numericUpDown_fB0.Maximum = Decimal.MaxValue;
-            numericUpDown_fB4.Maximum = Decimal.MaxValue;
+            numericUpDown_TransitionTimeEnter.Maximum = Decimal.MaxValue;
+            numericUpDown_TransitionTimeExit.Maximum = Decimal.MaxValue;
             numericUpDown_fB8.Maximum = Decimal.MaxValue;
             numericUpDown_fBC.Maximum = Decimal.MaxValue;
             numericUpDown_fC0.Maximum = Decimal.MaxValue;
@@ -119,8 +118,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_fA4.Minimum = Decimal.MinValue;
             numericUpDown_fA8.Minimum = Decimal.MinValue;
             numericUpDown_fAC.Minimum = Decimal.MinValue;
-            numericUpDown_fB0.Minimum = Decimal.MinValue;
-            numericUpDown_fB4.Minimum = Decimal.MinValue;
+            numericUpDown_TransitionTimeEnter.Minimum = Decimal.MinValue;
+            numericUpDown_TransitionTimeExit.Minimum = Decimal.MinValue;
             numericUpDown_fB8.Minimum = Decimal.MinValue;
             numericUpDown_fBC.Minimum = Decimal.MinValue;
             numericUpDown_fC0.Minimum = Decimal.MinValue;
@@ -256,8 +255,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                     numericUpDown_fA4.Value = (decimal)(current.field_A4);
                     numericUpDown_fA8.Value = (decimal)(current.field_A8);
                     numericUpDown_fAC.Value = (decimal)(current.field_AC);
-                    numericUpDown_fB0.Value = (decimal)(current.field_B0);
-                    numericUpDown_fB4.Value = (decimal)(current.field_B4);
+                    numericUpDown_TransitionTimeEnter.Value = (decimal)(current.TransitionTimeEnter);
+                    numericUpDown_TransitionTimeExit.Value = (decimal)(current.TransitionTimeExit);
                     numericUpDown_fB8.Value = (decimal)(current.field_B8);
                     numericUpDown_fBC.Value = (decimal)(current.field_BC);
                     numericUpDown_fC0.Value = (decimal)(current.field_C0);
@@ -317,8 +316,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 current.field_A4 = (float)numericUpDown_fA4.Value;
                 current.field_A8 = (float)numericUpDown_fA8.Value;
                 current.field_AC = (float)numericUpDown_fAC.Value;
-                current.field_B0 = (float)numericUpDown_fB0.Value;
-                current.field_B4 = (float)numericUpDown_fB4.Value;
+                current.TransitionTimeEnter = (float)numericUpDown_TransitionTimeEnter.Value;
+                current.TransitionTimeExit = (float)numericUpDown_TransitionTimeExit.Value;
                 current.field_B8 = (float)numericUpDown_fB8.Value;
                 current.field_BC = (float)numericUpDown_fBC.Value;
                 current.field_C0 = (float)numericUpDown_fC0.Value;

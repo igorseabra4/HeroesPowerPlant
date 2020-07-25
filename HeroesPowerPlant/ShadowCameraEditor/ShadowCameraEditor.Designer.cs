@@ -90,8 +90,8 @@
             this.numericUpDown_f90 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_f94 = new System.Windows.Forms.NumericUpDown();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown_fB0 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_fB4 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_TransitionTimeEnter = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_TransitionTimeExit = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fB8 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fA4 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fA8 = new System.Windows.Forms.NumericUpDown();
@@ -99,10 +99,10 @@
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.numericUpDown_fC8 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fCC = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_fD0 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fBC = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fC0 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fC4 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_fD0 = new System.Windows.Forms.NumericUpDown();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.numericUpDown_fD4 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fD8 = new System.Windows.Forms.NumericUpDown();
@@ -158,8 +158,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f90)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f94)).BeginInit();
             this.groupBox9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fB0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fB4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TransitionTimeEnter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TransitionTimeExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fB8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fA4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fA8)).BeginInit();
@@ -167,10 +167,10 @@
             this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fC8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fCC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fBC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fC0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fC4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD0)).BeginInit();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD8)).BeginInit();
@@ -793,8 +793,8 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.numericUpDown_fB0);
-            this.groupBox9.Controls.Add(this.numericUpDown_fB4);
+            this.groupBox9.Controls.Add(this.numericUpDown_TransitionTimeEnter);
+            this.groupBox9.Controls.Add(this.numericUpDown_TransitionTimeExit);
             this.groupBox9.Controls.Add(this.numericUpDown_fB8);
             this.groupBox9.Controls.Add(this.numericUpDown_fA4);
             this.groupBox9.Controls.Add(this.numericUpDown_fA8);
@@ -806,23 +806,23 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "floatA4 - float B8";
             // 
-            // numericUpDown_fB0
+            // numericUpDown_TransitionTimeEnter
             // 
-            this.numericUpDown_fB0.DecimalPlaces = 4;
-            this.numericUpDown_fB0.Location = new System.Drawing.Point(300, 20);
-            this.numericUpDown_fB0.Name = "numericUpDown_fB0";
-            this.numericUpDown_fB0.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_fB0.TabIndex = 3;
-            this.numericUpDown_fB0.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_TransitionTimeEnter.DecimalPlaces = 4;
+            this.numericUpDown_TransitionTimeEnter.Location = new System.Drawing.Point(300, 20);
+            this.numericUpDown_TransitionTimeEnter.Name = "numericUpDown_TransitionTimeEnter";
+            this.numericUpDown_TransitionTimeEnter.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_TransitionTimeEnter.TabIndex = 3;
+            this.numericUpDown_TransitionTimeEnter.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
-            // numericUpDown_fB4
+            // numericUpDown_TransitionTimeExit
             // 
-            this.numericUpDown_fB4.DecimalPlaces = 4;
-            this.numericUpDown_fB4.Location = new System.Drawing.Point(397, 20);
-            this.numericUpDown_fB4.Name = "numericUpDown_fB4";
-            this.numericUpDown_fB4.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_fB4.TabIndex = 4;
-            this.numericUpDown_fB4.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_TransitionTimeExit.DecimalPlaces = 4;
+            this.numericUpDown_TransitionTimeExit.Location = new System.Drawing.Point(397, 20);
+            this.numericUpDown_TransitionTimeExit.Name = "numericUpDown_TransitionTimeExit";
+            this.numericUpDown_TransitionTimeExit.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_TransitionTimeExit.TabIndex = 4;
+            this.numericUpDown_TransitionTimeExit.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // numericUpDown_fB8
             // 
@@ -893,6 +893,15 @@
             this.numericUpDown_fCC.TabIndex = 4;
             this.numericUpDown_fCC.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
+            // numericUpDown_fD0
+            // 
+            this.numericUpDown_fD0.DecimalPlaces = 4;
+            this.numericUpDown_fD0.Location = new System.Drawing.Point(493, 20);
+            this.numericUpDown_fD0.Name = "numericUpDown_fD0";
+            this.numericUpDown_fD0.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_fD0.TabIndex = 5;
+            this.numericUpDown_fD0.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            // 
             // numericUpDown_fBC
             // 
             this.numericUpDown_fBC.DecimalPlaces = 4;
@@ -919,15 +928,6 @@
             this.numericUpDown_fC4.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fC4.TabIndex = 2;
             this.numericUpDown_fC4.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
-            // 
-            // numericUpDown_fD0
-            // 
-            this.numericUpDown_fD0.DecimalPlaces = 4;
-            this.numericUpDown_fD0.Location = new System.Drawing.Point(493, 20);
-            this.numericUpDown_fD0.Name = "numericUpDown_fD0";
-            this.numericUpDown_fD0.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_fD0.TabIndex = 5;
-            this.numericUpDown_fD0.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // groupBox11
             // 
@@ -1040,8 +1040,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f90)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f94)).EndInit();
             this.groupBox9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fB0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fB4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TransitionTimeEnter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TransitionTimeExit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fB8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fA4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fA8)).EndInit();
@@ -1049,10 +1049,10 @@
             this.groupBox10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fC8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fCC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fBC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fC0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fC4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD0)).EndInit();
             this.groupBox11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fD8)).EndInit();
@@ -1130,8 +1130,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_f90;
         private System.Windows.Forms.NumericUpDown numericUpDown_f94;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.NumericUpDown numericUpDown_fB0;
-        private System.Windows.Forms.NumericUpDown numericUpDown_fB4;
+        private System.Windows.Forms.NumericUpDown numericUpDown_TransitionTimeEnter;
+        private System.Windows.Forms.NumericUpDown numericUpDown_TransitionTimeExit;
         private System.Windows.Forms.NumericUpDown numericUpDown_fB8;
         private System.Windows.Forms.NumericUpDown numericUpDown_fA4;
         private System.Windows.Forms.NumericUpDown numericUpDown_fA8;

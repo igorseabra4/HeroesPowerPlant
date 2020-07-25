@@ -1,7 +1,6 @@
 ﻿using SharpDX;
 using System.Collections.Generic;
 
-
 namespace HeroesPowerPlant.ShadowCameraEditor {
  /*     // HEADER : SIZE=0x18
         0x0 = magic
@@ -60,8 +59,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public float field_A4;
         public float field_A8;
         public float field_AC;
-        public float field_B0;
-        public float field_B4;
+        public float TransitionTimeEnter;
+        public float TransitionTimeExit;
         public float field_B8;
         public float field_BC;
         public float field_C0;
@@ -107,8 +106,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             float f_44, float f_48, float f_4C, float f_50, float f_54, float f_58, float f_5C,
             float f_60, float f_64, float f_68, float f_6C, float f_70, float f_74, float f_78,
             float f_7C, float f_80, float f_84, float f_88, float f_8C, float f_90, float f_94,
-            float f_98, float f_9C, float f_A0, float f_A4, float f_A8, float f_AC, float f_B0,
-            float f_B4, float f_B8, float f_BC, float f_C0, float f_C4, float f_C8, float f_CC,
+            float f_98, float f_9C, float f_A0, float f_A4, float f_A8, float f_AC, float transitionTimeEnter,
+            float transitionTimeExit, float f_B8, float f_BC, float f_C0, float f_C4, float f_C8, float f_CC,
             float f_D0, float f_D4, float f_D8) {
             field_00 = i_00;
             field_04 = i_04;
@@ -148,8 +147,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_A4 = f_A4;
             field_A8 = f_A8;
             field_AC = f_AC;
-            field_B0 = f_B0;
-            field_B4 = f_B4;
+            TransitionTimeEnter = transitionTimeEnter;
+            TransitionTimeExit = transitionTimeExit;
             field_B8 = f_B8;
             field_BC = f_BC;
             field_C0 = f_C0;

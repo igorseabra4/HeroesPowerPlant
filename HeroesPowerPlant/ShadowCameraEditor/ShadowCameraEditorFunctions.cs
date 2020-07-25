@@ -133,8 +133,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 CameraWriter.Write(i.field_A4);
                 CameraWriter.Write(i.field_A8);
                 CameraWriter.Write(i.field_AC);
-                CameraWriter.Write(i.field_B0);
-                CameraWriter.Write(i.field_B4);
+                CameraWriter.Write(i.TransitionTimeEnter);
+                CameraWriter.Write(i.TransitionTimeExit);
                 CameraWriter.Write(i.field_B8);
                 CameraWriter.Write(i.field_BC);
                 CameraWriter.Write(i.field_C0);
