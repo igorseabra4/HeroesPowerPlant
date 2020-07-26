@@ -377,12 +377,14 @@ namespace HeroesPowerPlant.MainForm
 
             if (!isMouseDown && placeNewObject)
                 ScreenClickedPlaceObject(ray);
-            
+
             else if (leftClick && renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
                 ScreenClickedSelectObject(ray, isMouseDown, isCtrlDown);
-            
+
             else if (leftClick && renderer.ShowCameras && !isMouseDown)
-                CameraEditor.ScreenClicked(ray);
+                ShadowCameraEditor.ScreenClicked(ray);
+                    //TODO Separate for Shadow/Heroes
+                    //CameraEditor.ScreenClicked(ray);
         }
 
         private void ScreenClickedPlaceObject(Ray ray)

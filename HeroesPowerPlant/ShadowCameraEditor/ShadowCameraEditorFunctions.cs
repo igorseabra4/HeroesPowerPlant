@@ -7,14 +7,17 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 {
     public static class ShadowCameraEditorFunctions
     {
-        public static Tuple<byte[], List<ShadowCamera>> ImportCameraFile(string fileName)
+        public static Tuple<ShadowCameraFileHeader, List<ShadowCamera>> ImportCameraFile(string fileName)
         {
             List<ShadowCamera> list = new List<ShadowCamera>();
-            byte[] headerArray;
+            ShadowCameraFileHeader header;
             using (BinaryReader camReader = new BinaryReader(new FileStream(fileName, FileMode.Open)))
             {
                 camReader.BaseStream.Position = 0;
-                headerArray = camReader.ReadBytes(0x18);
+                header = new ShadowCameraFileHeader(
+                    camReader.ReadInt32(), camReader.ReadInt32(), camReader.ReadInt32(),
+                    camReader.ReadInt32(), camReader.ReadInt32(), camReader.ReadInt32()
+                    );
 
                 while (camReader.BaseStream.Position != camReader.BaseStream.Length)
                 {
@@ -78,14 +81,19 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                     list.Add(TempCam);
                 }
             }
-            return Tuple.Create(headerArray, list);
+            return Tuple.Create(header, list);
         }
 
-        public static void SaveCameraFile(string fileName, byte[] headerArray, IEnumerable<ShadowCamera> list)
+        public static void SaveCameraFile(string fileName, ShadowCameraFileHeader header, IEnumerable<ShadowCamera> list)
         {
             BinaryWriter CameraWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
 
-            CameraWriter.Write(headerArray);
+            CameraWriter.Write(header.magic_00);
+            CameraWriter.Write(header.magic_04);
+            CameraWriter.Write(header.stageId);
+            CameraWriter.Write(header.unknown_0C);
+            CameraWriter.Write(header.unknown_10);
+            CameraWriter.Write(header.numberOfCameras);
 
             foreach (ShadowCamera i in list)
             {

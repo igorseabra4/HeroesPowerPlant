@@ -101,6 +101,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public int Integer38;
         public int Integer39;*/
 
+        public ShadowCamera() { }
         public ShadowCamera(int i_00, int i_04, int i_08, int i_0C, int i_10, int i_14,
             int i_18, int i_1C, Vector3 triggerPos, Vector3 triggerRot, Vector3 triggerScale,
             float f_44, float f_48, float f_4C, float f_50, float f_54, float f_58, float f_5C,
@@ -160,6 +161,58 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_D8 = f_D8;
         }
 
+        public ShadowCamera(ShadowCamera camera) {
+            field_00 = camera.field_00;
+            field_04 = camera.field_04;
+            field_08 = camera.field_08;
+            field_0C = camera.field_0C;
+            field_10 = camera.field_10;
+            field_14 = camera.field_14;
+            field_18 = camera.field_18;
+            field_1C = camera.field_1C;
+            TriggerPosition = camera.TriggerPosition;
+            TriggerRotation = camera.TriggerRotation;
+            TriggerScale = camera.TriggerScale;
+            field_44 = camera.field_44;
+            field_48 = camera.field_48;
+            field_4C = camera.field_4C;
+            field_50 = camera.field_50;
+            field_54 = camera.field_54;
+            field_58 = camera.field_58;
+            field_5C = camera.field_5C;
+            field_60 = camera.field_60;
+            field_64 = camera.field_64;
+            field_68 = camera.field_68;
+            field_6C = camera.field_6C;
+            field_70 = camera.field_70;
+            field_74 = camera.field_74;
+            field_78 = camera.field_78;
+            field_7C = camera.field_7C;
+            field_80 = camera.field_80;
+            field_84 = camera.field_84;
+            field_88 = camera.field_88;
+            field_8C = camera.field_8C;
+            field_90 = camera.field_90;
+            field_94 = camera.field_94;
+            field_98 = camera.field_98;
+            field_9C = camera.field_9C;
+            field_A0 = camera.field_A0;
+            field_A4 = camera.field_A4;
+            field_A8 = camera.field_A8;
+            field_AC = camera.field_AC;
+            TransitionTimeEnter = camera.TransitionTimeEnter;
+            TransitionTimeExit = camera.TransitionTimeExit;
+            field_B8 = camera.field_B8;
+            field_BC = camera.field_BC;
+            field_C0 = camera.field_C0;
+            field_C4 = camera.field_C4;
+            field_C8 = camera.field_C8;
+            field_CC = camera.field_CC;
+            field_D0 = camera.field_D0;
+            field_D4 = camera.field_D4;
+            field_D8 = camera.field_D8;
+        }
+
         public bool isSelected;
 
         private static DefaultRenderData renderData;
@@ -197,9 +250,9 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
 
             triggerPosWorld *=
-                //Matrix.RotationX(ReadWriteCommon.BAMStoRadians(TriggerRotationX)) *
-                //Matrix.RotationY(ReadWriteCommon.BAMStoRadians(TriggerRotationY)) *
-                //Matrix.RotationZ(ReadWriteCommon.BAMStoRadians(TriggerRotationZ)) *
+                Matrix.RotationX(TriggerRotation.X) *
+                Matrix.RotationY(TriggerRotation.Y) *
+                Matrix.RotationZ(TriggerRotation.Z) *
                 Matrix.Translation(TriggerPosition);
 
             //pointAWorld = Matrix.Scaling(5) * Matrix.Translation(PointA);
@@ -249,11 +302,11 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         }
 
         public float? IntersectsWith(Ray ray) {
-            /*if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
-            {
-                if (ray.Intersects(ref boundingBox))
+            //if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
+            //{
+            if (ray.Intersects(ref boundingBox))
                     return TriangleIntersection(ray, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices);
-            } else if (TriggerShape == 4) // cyl
+            /*} else if (TriggerShape == 4) // cyl
               {
                 if (ray.Intersects(ref boundingBox))
                     return TriangleIntersection(ray, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices);

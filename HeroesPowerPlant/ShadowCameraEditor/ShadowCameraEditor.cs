@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
     public partial class ShadowCameraEditor : Form {
 
         public string CurrentCameraFile;
-        public byte[] headerArray;
+        public ShadowCameraFileHeader header;
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
         private bool hasRemoved = false;
@@ -156,8 +156,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 CurrentCameraFile = fileName;
 
                 ListBoxCameras.Items.Clear();
-                (byte[] header, List<ShadowCamera> tempList) = ImportCameraFile(CurrentCameraFile);
-                headerArray = header;
+                (ShadowCameraFileHeader header, List<ShadowCamera> tempList) = ImportCameraFile(CurrentCameraFile);
+                this.header = header;
                 ListBoxCameras.Items.AddRange(tempList.ToArray());
                 toolStripStatusFile.Text = "Loaded " + CurrentCameraFile;
                 UpdateLabelCameraCount();
@@ -168,9 +168,10 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentCameraFile != null)
-                SaveCameraFile(CurrentCameraFile, headerArray, ListBoxCameras.Items.Cast<ShadowCamera>());
-            else
+            if (CurrentCameraFile != null) {
+                header.numberOfCameras = ListBoxCameras.Items.Count;
+                SaveCameraFile(CurrentCameraFile, header, ListBoxCameras.Items.Cast<ShadowCamera>());
+            } else
                 saveAsToolStripMenuItem_Click(sender, e);
         }
 
@@ -184,7 +185,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             if (SaveCamera.ShowDialog() == DialogResult.OK)
             {
                 CurrentCameraFile = SaveCamera.FileName;
-                SaveCameraFile(CurrentCameraFile, headerArray, ListBoxCameras.Items.Cast<ShadowCamera>());
+                header.numberOfCameras = ListBoxCameras.Items.Count;
+                SaveCameraFile(CurrentCameraFile, header, ListBoxCameras.Items.Cast<ShadowCamera>());
             }
         }
 
@@ -330,6 +332,60 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 current.CreateTransformMatrix();
                 ListBoxCameras.Items[CurrentlySelectedCamera] = current;
             }
+        }
+
+        public void ScreenClicked(Ray r) {
+            int index = -1;
+
+            float smallerDistance = 10000f;
+            for (int i = 0; i < ListBoxCameras.Items.Count; i++) {
+                if (((ShadowCamera)ListBoxCameras.Items[i]).isSelected) continue;
+
+                float? distance = ((ShadowCamera)ListBoxCameras.Items[i]).IntersectsWith(r);
+                if (distance != null)
+                    if (distance < smallerDistance)
+                        index = i;
+            }
+
+            ListBoxCameras.SelectedIndex = index;
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e) {
+            ShadowCamera newCamera = new ShadowCamera() { TriggerPosition = Program.MainForm.renderer.Camera.GetPosition() };
+            newCamera.CreateTransformMatrix();
+            ListBoxCameras.Items.Add(newCamera);
+            ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
+            UpdateLabelCameraCount();
+        }
+
+        private void buttonDuplicate_Click(object sender, EventArgs e) {
+            ShadowCamera newCamera = new ShadowCamera((ShadowCamera)ListBoxCameras.Items[CurrentlySelectedCamera]);
+            newCamera.CreateTransformMatrix();
+            ListBoxCameras.Items.Add(newCamera);
+            ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
+            UpdateLabelCameraCount();
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e) {
+            if (CurrentlySelectedCamera == -1)
+                return;
+
+            int Save = CurrentlySelectedCamera;
+            hasRemoved = true;
+            ListBoxCameras.Items.RemoveAt(CurrentlySelectedCamera);
+
+            if (Save < ListBoxCameras.Items.Count)
+                ListBoxCameras.SelectedIndex = Save;
+            else
+                ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
+
+            UpdateLabelCameraCount();
+        }
+
+        private void buttonClear_Click(object sender, EventArgs e) {
+            hasRemoved = true;
+            ListBoxCameras.Items.Clear();
+            UpdateLabelCameraCount();
         }
     }
 }
