@@ -33,16 +33,14 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public float field_44;
         public float field_48;
         public float field_4C;
-        public float field_50;
-        public float field_54;
-        public float field_58;
-        public float field_5C;
-        //const string
-        public float field_60;
-        public float field_64;
+        public float PointA_X;
+        public float PointA_Y;
+        public float PointA_Z;
+        public float CameraRotation;
+        public float FOV_Height;
+        public float FOV_Width;
         public float field_68;
         public float field_6C;
-        //end
         public float field_70;
         public float field_74;
         public float field_78;
@@ -51,8 +49,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public float field_84;
         public float field_88;
         public float field_8C;
-        public float field_90;
-        public float field_94;
+        public float CameraDistanceFromPlayer;
+        public float CameraHeightFromPlayer;
         public float field_98;
         public float field_9C;
         public float field_A0;
@@ -70,7 +68,6 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public float field_D0;
         public float field_D4;
         public float field_D8;
-        //public byte[] UnknownSection3; //0x80 remaining length
 
         /*
         public int CameraType;
@@ -124,12 +121,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_44 = f_44;
             field_48 = f_48;
             field_4C = f_4C;
-            field_50 = f_50;
-            field_54 = f_54;
-            field_58 = f_58;
-            field_5C = f_5C;
-            field_60 = f_60;
-            field_64 = f_64;
+            PointA_X = f_50;
+            PointA_Y = f_54;
+            PointA_Z = f_58;
+            CameraRotation = f_5C;
+            FOV_Height = f_60;
+            FOV_Width = f_64;
             field_68 = f_68;
             field_6C = f_6C;
             field_70 = f_70;
@@ -140,8 +137,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_84 = f_84;
             field_88 = f_88;
             field_8C = f_8C;
-            field_90 = f_90;
-            field_94 = f_94;
+            CameraDistanceFromPlayer = f_90;
+            CameraHeightFromPlayer = f_94;
             field_98 = f_98;
             field_9C = f_9C;
             field_A0 = f_A0;
@@ -176,12 +173,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_44 = camera.field_44;
             field_48 = camera.field_48;
             field_4C = camera.field_4C;
-            field_50 = camera.field_50;
-            field_54 = camera.field_54;
-            field_58 = camera.field_58;
-            field_5C = camera.field_5C;
-            field_60 = camera.field_60;
-            field_64 = camera.field_64;
+            PointA_X = camera.PointA_X;
+            PointA_Y = camera.PointA_Y;
+            PointA_Z = camera.PointA_Z;
+            CameraRotation = camera.CameraRotation;
+            FOV_Height = camera.FOV_Height;
+            FOV_Width = camera.FOV_Width;
             field_68 = camera.field_68;
             field_6C = camera.field_6C;
             field_70 = camera.field_70;
@@ -192,8 +189,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_84 = camera.field_84;
             field_88 = camera.field_88;
             field_8C = camera.field_8C;
-            field_90 = camera.field_90;
-            field_94 = camera.field_94;
+            CameraDistanceFromPlayer = camera.CameraDistanceFromPlayer;
+            CameraHeightFromPlayer = camera.CameraHeightFromPlayer;
             field_98 = camera.field_98;
             field_9C = camera.field_9C;
             field_A0 = camera.field_A0;
@@ -255,7 +252,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 Matrix.RotationZ(TriggerRotation.Z) *
                 Matrix.Translation(TriggerPosition);
 
-            //pointAWorld = Matrix.Scaling(5) * Matrix.Translation(PointA);
+            pointAWorld = Matrix.Scaling(5) * Matrix.Translation(PointA_X, PointA_Y, PointA_Z);
            // pointBWorld = Matrix.Scaling(5) * Matrix.Translation(PointB);
             //pointCWorld = Matrix.Scaling(5) * Matrix.Translation(PointC);
             //camPosWorld = Matrix.Scaling(5) * Matrix.Translation(CamPos);
@@ -272,12 +269,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 //else // sphere
                   //  renderer.DrawSphereTrigger(triggerPosWorld, isSelected);
 
-            /*if (isSelected) {
+            if (isSelected) {
                 DrawCube(renderer, pointAWorld, Color.Red.ToVector4());
-                DrawCube(renderer, pointBWorld, Color.Blue.ToVector4());
+                /*DrawCube(renderer, pointBWorld, Color.Blue.ToVector4());
                 DrawCube(renderer, pointCWorld, Color.Green.ToVector4());
-                DrawCube(renderer, camPosWorld, Color.Pink.ToVector4());
-            }*/
+                DrawCube(renderer, camPosWorld, Color.Pink.ToVector4());*/
+            }
         }
 
         public void DrawCube(SharpRenderer renderer, Matrix transformMatrix, Vector4 color) {
