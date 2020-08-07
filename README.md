@@ -8,13 +8,16 @@ Heroes Power Plant is a level editor for Sonic Heroes and Shadow the Hedgehog cr
 
 If the direct runtime links do not function sometime in the future, consider using the following static link: https://dotnet.microsoft.com/download/dotnet-core/3.0
 
+## Guide
+Please see the [Heroes Power Plant Wiki](https://github.com/igorseabra4/HeroesPowerPlant/wiki) for a complete guide on using the tool, as well as creating custom stages for Sonic Heroes and Shadow the Hedgehog.
+
 ## Editors Included
 *  Level Editor - Sonic Heroes (PC, Xbox, GameCube) and Shadow the Hedgehog (Xbox, GameCube)
 *  Visibility Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Collision Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Object Layout Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Camera Editor - Sonic Heroes (all platforms)
-*  Start/Ending/Bragging Position Editor - Sonic Heroes PC only, use with Generic Stage Injection Mod
+*  Start/Ending/Bragging Position Editor - Sonic Heroes PC only, use with Reloaded II Stage Injector
 *  Spline Editor - for Sonic Heroes PC only, use with Generic Stage Injection Mod
 *  Particle (PTCL) Editor - Sonic Heroes (all platforms)
 *  Texture Pattern (TXC) Editor - Sonic Heroes (all platforms)
