@@ -45,7 +45,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
             if (!File.Exists(ConfigPath))
             {
                 Save();
-                System.Windows.Forms.MessageBox.Show("It appears this is your first time using Heroes Power Plant.\nIf you haven't yet, please check out readme.md as that file has useful info regarding use of the program.\nThere are also tutorials available on YouTube and Sonic Retro.");
+                System.Windows.Forms.MessageBox.Show("It appears this is your first time using Heroes Power Plant.\nIf you haven't yet, please check out the Heroes Power Plant wiki on GitHub, as it features a complete guide on using the program and creating custom stages for Sonic Heroes and Shadow the Hedgehog.");
                 mainForm.AboutBox.Show();
             }
 

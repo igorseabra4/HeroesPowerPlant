@@ -39,6 +39,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -114,7 +115,7 @@
             this.labelCopyright.Name = "labelCopyright";
             this.labelCopyright.Size = new System.Drawing.Size(271, 17);
             this.labelCopyright.TabIndex = 21;
-            this.labelCopyright.Text = "(C) 2019 igorseabra4 and friends";
+            this.labelCopyright.Text = "(C) 2020 igorseabra4 and friends";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCompanyName
@@ -146,6 +147,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.button3);
+            this.flowLayoutPanel1.Controls.Add(this.button4);
             this.flowLayoutPanel1.Controls.Add(this.button1);
             this.flowLayoutPanel1.Controls.Add(this.button2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -159,9 +161,9 @@
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button3.Location = new System.Drawing.Point(200, 3);
+            this.button3.Location = new System.Drawing.Point(217, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(71, 22);
+            this.button3.Size = new System.Drawing.Size(54, 22);
             this.button3.TabIndex = 26;
             this.button3.Text = "Close";
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -169,22 +171,32 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(89, 3);
+            this.button1.Location = new System.Drawing.Point(98, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 22);
+            this.button1.Size = new System.Drawing.Size(63, 22);
             this.button1.TabIndex = 27;
-            this.button1.Text = "Source on GitHub";
+            this.button1.Text = "Source";
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(8, 3);
+            this.button2.Location = new System.Drawing.Point(22, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 22);
+            this.button2.Size = new System.Drawing.Size(70, 22);
             this.button2.TabIndex = 28;
             this.button2.Text = "Join HHC!";
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(167, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(44, 22);
+            this.button4.TabIndex = 29;
+            this.button4.Text = "Wiki";
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // AboutBox
             // 
@@ -221,5 +233,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }

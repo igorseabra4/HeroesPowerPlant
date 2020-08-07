@@ -83,6 +83,11 @@ namespace HeroesPowerPlant.MainForm
             OpenBrowser("https://discordapp.com/invite/Ku9KRy6");
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OpenBrowser("https://github.com/igorseabra4/HeroesPowerPlant/wiki");
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             Hide();
