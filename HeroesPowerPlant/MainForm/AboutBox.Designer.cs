@@ -37,9 +37,9 @@
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -168,6 +168,16 @@
             this.button3.Text = "Close";
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(167, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(44, 22);
+            this.button4.TabIndex = 29;
+            this.button4.Text = "Wiki";
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -187,16 +197,6 @@
             this.button2.TabIndex = 28;
             this.button2.Text = "Join HHC!";
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(167, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(44, 22);
-            this.button4.TabIndex = 29;
-            this.button4.Text = "Wiki";
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // AboutBox
             // 

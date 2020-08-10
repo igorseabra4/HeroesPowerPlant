@@ -308,7 +308,7 @@ namespace HeroesPowerPlant.LevelEditor
                     for (int i = 0; i < w.materialList.materialList.Length; i++)
                     {
                         var mat = w.materialList.materialList[i];
-                        string objName = mat.materialStruct.isTextured != 0 ? mat.texture.diffuseTextureName.stringString : "default";
+                        string objName = Path.GetFileNameWithoutExtension(fileName) + "_" + (mat.materialStruct.isTextured != 0 ? mat.texture.diffuseTextureName.stringString : "default");
 
                         scene.Materials.Add(new Material() {
                             ColorDiffuse = new Color4D(
@@ -328,11 +328,11 @@ namespace HeroesPowerPlant.LevelEditor
 
                     if (w.firstWorldChunk.sectionIdentifier == Section.AtomicSector)
                     {
-                        GetAtomicTriangleList(scene, (AtomicSector_0009)w.firstWorldChunk, flipUVs);
+                        GetAtomicTriangleList(scene, (AtomicSector_0009)w.firstWorldChunk);
                     }
                     else if (w.firstWorldChunk.sectionIdentifier == Section.PlaneSector)
                     {
-                        GetPlaneTriangleList(scene, (PlaneSector_000A)w.firstWorldChunk, flipUVs);
+                        GetPlaneTriangleList(scene, (PlaneSector_000A)w.firstWorldChunk);
                     }
                 }
             }
@@ -349,32 +349,53 @@ namespace HeroesPowerPlant.LevelEditor
                 //latest = latest.Children[0];
             }
             
-            new AssimpContext().ExportFile(scene, fileName, format.FormatId);
+            new AssimpContext().ExportFile(scene, fileName, format.FormatId,
+
+                //PostProcessSteps.GenerateNormals |
+                PostProcessSteps.JoinIdenticalVertices |
+                PostProcessSteps.RemoveRedundantMaterials |
+                PostProcessSteps.ValidateDataStructure |
+
+                PostProcessSteps.Debone |
+                PostProcessSteps.FindInstances |
+                PostProcessSteps.FindInvalidData |
+                PostProcessSteps.OptimizeGraph |
+                PostProcessSteps.OptimizeMeshes |
+                PostProcessSteps.Triangulate |
+                PostProcessSteps.PreTransformVertices |
+
+                (flipUVs ? PostProcessSteps.FlipUVs : 0));
         }
 
-        private static void GetPlaneTriangleList(Scene scene, PlaneSector_000A planeSection, bool flipUVs)
+        private static void GetPlaneTriangleList(Scene scene, PlaneSector_000A planeSection)
         {
             if (planeSection.leftSection is AtomicSector_0009 a1)
             {
-                GetAtomicTriangleList(scene, a1, flipUVs);
+                GetAtomicTriangleList(scene, a1);
             }
             else if (planeSection.leftSection is PlaneSector_000A p1)
             {
-                GetPlaneTriangleList(scene, p1, flipUVs);
+                GetPlaneTriangleList(scene, p1);
             }
 
             if (planeSection.rightSection is AtomicSector_0009 a2)
             {
-                GetAtomicTriangleList(scene, a2, flipUVs);
+                GetAtomicTriangleList(scene, a2);
             }
             else if (planeSection.rightSection is PlaneSector_000A p2)
             {
-                GetPlaneTriangleList(scene, p2, flipUVs);
+                GetPlaneTriangleList(scene, p2);
             }
         }
 
-        private static void GetAtomicTriangleList(Scene scene, AtomicSector_0009 atomic, bool flipUVs)
+        private static void GetAtomicTriangleList(Scene scene, AtomicSector_0009 atomic)
         {
+            if (atomic.atomicSectorStruct.isNativeData)
+            {
+                GetNativeTriangleList(scene, atomic.atomicSectorExtension);
+                return;
+            }
+
             int[] totalVertexIndices = new int[scene.MeshCount];
 
             for (int i = 0; i < scene.MeshCount; i++)
@@ -395,7 +416,7 @@ namespace HeroesPowerPlant.LevelEditor
                     mesh.Vertices.Add(new Vector3D(v.X, v.Y, v.Z));
 
                 foreach (Vertex2 v in atomic.atomicSectorStruct.uvArray)
-                    mesh.TextureCoordinateChannels[0].Add(new Vector3D(v.X, flipUVs ? -v.Y : v.Y, 0f));
+                    mesh.TextureCoordinateChannels[0].Add(new Vector3D(v.X, v.Y, 0f));
 
                 foreach (RenderWareFile.Color c in atomic.atomicSectorStruct.colorArray)
                     mesh.VertexColorChannels[0].Add(new Color4D(
@@ -403,6 +424,113 @@ namespace HeroesPowerPlant.LevelEditor
                         c.G / 255f,
                         c.B / 255f,
                         c.A / 255f));
+            }
+        }
+
+        private static void GetNativeTriangleList(Scene scene, Extension_0003 extension)
+        {
+            NativeDataGC n = null;
+
+            foreach (RWSection rw in extension.extensionSectionList)
+            {
+                if (rw is BinMeshPLG_050E binmesh)
+                {
+                    if (binmesh.numMeshes == 0) return;
+                }
+                if (rw is NativeDataPLG_0510 native)
+                {
+                    n = native.nativeDataStruct.nativeData;
+                }
+            }
+
+            if (n == null)
+                throw new Exception("Native data not found");
+
+            List<Vertex3> vertexList_init = new List<Vertex3>();
+            List<RenderWareFile.Color> colorList_init = new List<RenderWareFile.Color>();
+            List<Vertex2> textCoordList_init = new List<Vertex2>();
+
+            foreach (Declaration d in n.declarations)
+            {
+                foreach (object o in d.entryList)
+                {
+                    if (o is Vertex3 v)
+                        vertexList_init.Add(v);
+                    else if (o is RenderWareFile.Color c)
+                        colorList_init.Add(c);
+                    else if (o is Vertex2 t)
+                        textCoordList_init.Add(t);
+                    else throw new Exception();
+                }
+            }
+
+            foreach (TriangleDeclaration td in n.triangleDeclarations)
+            {
+                Mesh mesh = new Mesh(PrimitiveType.Triangle)
+                {
+                    MaterialIndex = td.MaterialIndex,
+                    Name = scene.Materials[td.MaterialIndex].Name.Replace("mat_", "mesh_") + "_" + (scene.MeshCount + 1).ToString()
+                };
+
+                foreach (TriangleList tl in td.TriangleListList)
+                {
+                    int totalVertexIndices = mesh.VertexCount;
+                    int vcount = 0;
+
+                    foreach (int[] objectList in tl.entries)
+                    {
+                        for (int j = 0; j < objectList.Count(); j++)
+                        {
+                            if (n.declarations[j].declarationType == Declarations.Vertex)
+                            {
+                                var v = vertexList_init[objectList[j]];
+                                mesh.Vertices.Add(new Vector3D(v.X, v.Y, v.Z));
+                                vcount++;
+                            }
+                            else if (n.declarations[j].declarationType == Declarations.Color)
+                            {
+                                var c = colorList_init[objectList[j]];
+                                mesh.VertexColorChannels[0].Add(new Color4D(
+                                        c.R / 255f,
+                                        c.G / 255f,
+                                        c.B / 255f,
+                                        c.A / 255f));
+                            }
+                            else if (n.declarations[j].declarationType == Declarations.TextCoord)
+                            {
+                                var v = textCoordList_init[objectList[j]];
+                                mesh.TextureCoordinateChannels[0].Add(new Vector3D(v.X, v.Y, 0f));
+                            }
+                        }
+                    }
+
+                    bool control = true;
+                    for (int i = 2; i < vcount; i++)
+                    {
+                        if (control)
+                        {
+                            mesh.Faces.Add(new Face(new int[] {
+                                i - 2 + totalVertexIndices,
+                                i - 1 + totalVertexIndices,
+                                i + totalVertexIndices
+                            }));
+
+                            control = false;
+                        }
+                        else
+                        {
+                            mesh.Faces.Add(new Face(new int[] {
+                                i - 2 + totalVertexIndices,       
+                                i + totalVertexIndices,
+                                i - 1 + totalVertexIndices
+                            }));
+
+                            control = true;
+                        }
+                    }
+                }
+
+                scene.Meshes.Add(mesh);
             }
         }
     }
