@@ -1,4 +1,4 @@
 ﻿{
   "version": "v0.8.9",
-  "versionName": "* Removed readme.md file.\n* Added link to Heroes Power Plant wiki from About Box.\n# Level Editor\n* Adds support for exporting Native Data (GameCube models) to formats other than OBJ.\n# Layout Editor\n* Fixes issue with Duplicate button.\n* Fixes issue copying/pasting Rings object."
+  "versionName": "\n* Removed readme.md file.\n* Added link to Heroes Power Plant wiki from About Box.\n* Fixes issue with automatic updater.\n# Level Editor\n* Adds support for exporting Native Data (GameCube models) to formats other than OBJ.\n# Layout Editor\n* Fixes issue with Duplicate button.\n* Fixes issue copying/pasting Rings object."
 }
