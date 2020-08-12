@@ -20,7 +20,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
  */
     public class ShadowCamera {
         public int field_00;
-        public int field_04;
+        public ShadowCameraMode CameraMode;
         public int field_08;
         public int field_0C;
         public int field_10;
@@ -99,21 +99,21 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public int Integer39;*/
 
         public ShadowCamera() { }
-        public ShadowCamera(int i_00, int i_04, int i_08, int i_0C, int i_10, int i_14,
-            int i_18, int i_1C, Vector3 triggerPos, Vector3 triggerRot, Vector3 triggerScale,
+        public ShadowCamera(int i_00, int CameraMode, int i_08, int i_0C, int i_10, int i_14,
+            int LookBLinkId, int i_1C, Vector3 triggerPos, Vector3 triggerRot, Vector3 triggerScale,
             float f_44, float f_48, float f_4C, float f_50, float f_54, float f_58, float f_5C,
             float f_60, float f_64, float f_68, float f_6C, float f_70, float f_74, float f_78,
-            float f_7C, float f_80, float f_84, float f_88, float f_8C, float f_90, float f_94,
-            float f_98, float f_9C, float f_A0, float f_A4, float f_A8, float f_AC, float transitionTimeEnter,
+            float f_7C, float f_80, float f_84, float f_88, float f_8C, float CameraDistanceFromPlayerLookA, float CameraHeightFromPlayerLookA,
+            float CameraDistanceFromPlayerLookB, float CameraHeightFromPlayerLookB, float f_A0, float f_A4, float f_A8, float f_AC, float transitionTimeEnter,
             float transitionTimeExit, float f_B8, float f_BC, float f_C0, float f_C4, float f_C8, float f_CC,
             float f_D0, float f_D4, float f_D8) {
             field_00 = i_00;
-            field_04 = i_04;
+            this.CameraMode = (ShadowCameraMode)CameraMode;
             field_08 = i_08;
             field_0C = i_0C;
             field_10 = i_10;
             field_14 = i_14;
-            LookBLinkId = i_18;
+            this.LookBLinkId = LookBLinkId;
             field_1C = i_1C;
             TriggerPosition = triggerPos;
             TriggerRotation = triggerRot;
@@ -137,10 +137,10 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             PointB_X = f_84;
             PointB_Y = f_88;
             PointB_Z = f_8C;
-            CameraDistanceFromPlayerLookA = f_90;
-            CameraHeightFromPlayerLookA = f_94;
-            CameraDistanceFromPlayerLookB = f_98;
-            CameraHeightFromPlayerLookB = f_9C;
+            this.CameraDistanceFromPlayerLookA = CameraDistanceFromPlayerLookA;
+            this.CameraHeightFromPlayerLookA = CameraHeightFromPlayerLookA;
+            this.CameraDistanceFromPlayerLookB = CameraDistanceFromPlayerLookB;
+            this.CameraHeightFromPlayerLookB = CameraHeightFromPlayerLookB;
             field_A0 = f_A0;
             field_A4 = f_A4;
             field_A8 = f_A8;
@@ -160,7 +160,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         public ShadowCamera(ShadowCamera camera) {
             field_00 = camera.field_00;
-            field_04 = camera.field_04;
+            CameraMode = camera.CameraMode;
             field_08 = camera.field_08;
             field_0C = camera.field_0C;
             field_10 = camera.field_10;
@@ -223,7 +223,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public BoundingBox boundingBox;
 
         public override string ToString() {
-            return $"Cam {field_00}, {field_04}, {field_08}, {field_0C}, {field_10}";
+            return $"Cam {field_00}, {CameraMode}, {field_08}, {field_0C}, {field_10}";
         }
 
         public void CreateBounding() {

@@ -57,33 +57,33 @@
             this.numericUpDownTriggerPosY = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_TriggerPosX = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox_cameraMode = new System.Windows.Forms.ComboBox();
             this.numericUpDown_i1C = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i0C = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_LookBLinkId = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i14 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i10 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i08 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_i04 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i00 = new System.Windows.Forms.NumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.numericUpDown_f68 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_f6C = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_f70 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_f74 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_CameraRotation = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_FOV_Height = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_FOV_Width = new System.Windows.Forms.NumericUpDown();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown_f80 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_PointB_X = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_PointB_Y = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_f74 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_PointB_Z = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_f80 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_f78 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_f7C = new System.Windows.Forms.NumericUpDown();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.numericUpDown_CameraDistanceFromPlayerLookB = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_CameraHeightFromPlayerLookB = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_fA0 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_PointB_Z = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_CameraDistanceFromPlayerLookA = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_CameraHeightFromPlayerLookA = new System.Windows.Forms.NumericUpDown();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -134,27 +134,26 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i08)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i00)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f68)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f6C)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f70)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f74)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraRotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FOV_Height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FOV_Width)).BeginInit();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f80)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_X)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_Y)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f74)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_Z)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f80)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f78)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f7C)).BeginInit();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraDistanceFromPlayerLookB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraHeightFromPlayerLookB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fA0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_Z)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraDistanceFromPlayerLookA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraHeightFromPlayerLookA)).BeginInit();
             this.groupBox9.SuspendLayout();
@@ -346,7 +345,7 @@
             this.numericUpDown_TriggerRotX.Name = "numericUpDown_TriggerRotX";
             this.numericUpDown_TriggerRotX.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_TriggerRotX.TabIndex = 2;
-            this.numericUpDown_TriggerRotX.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_TriggerRotX.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDownTriggerRotY
             // 
@@ -355,7 +354,7 @@
             this.numericUpDownTriggerRotY.Name = "numericUpDownTriggerRotY";
             this.numericUpDownTriggerRotY.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownTriggerRotY.TabIndex = 2;
-            this.numericUpDownTriggerRotY.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownTriggerRotY.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDownTriggerRotZ
             // 
@@ -364,7 +363,7 @@
             this.numericUpDownTriggerRotZ.Name = "numericUpDownTriggerRotZ";
             this.numericUpDownTriggerRotZ.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownTriggerRotZ.TabIndex = 2;
-            this.numericUpDownTriggerRotZ.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownTriggerRotZ.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox5
             // 
@@ -385,7 +384,7 @@
             this.numericUpDown_PointA_X.Name = "numericUpDown_PointA_X";
             this.numericUpDown_PointA_X.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_PointA_X.TabIndex = 3;
-            this.numericUpDown_PointA_X.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_PointA_X.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_PointA_Y
             // 
@@ -394,7 +393,7 @@
             this.numericUpDown_PointA_Y.Name = "numericUpDown_PointA_Y";
             this.numericUpDown_PointA_Y.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_PointA_Y.TabIndex = 4;
-            this.numericUpDown_PointA_Y.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_PointA_Y.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_PointA_Z
             // 
@@ -403,7 +402,7 @@
             this.numericUpDown_PointA_Z.Name = "numericUpDown_PointA_Z";
             this.numericUpDown_PointA_Z.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_PointA_Z.TabIndex = 5;
-            this.numericUpDown_PointA_Z.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_PointA_Z.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox4
             // 
@@ -424,7 +423,7 @@
             this.numericUpDown_TriggerScaleX.Name = "numericUpDown_TriggerScaleX";
             this.numericUpDown_TriggerScaleX.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_TriggerScaleX.TabIndex = 2;
-            this.numericUpDown_TriggerScaleX.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_TriggerScaleX.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDownTriggerScaleY
             // 
@@ -433,7 +432,7 @@
             this.numericUpDownTriggerScaleY.Name = "numericUpDownTriggerScaleY";
             this.numericUpDownTriggerScaleY.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownTriggerScaleY.TabIndex = 2;
-            this.numericUpDownTriggerScaleY.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownTriggerScaleY.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDownTriggerScaleZ
             // 
@@ -442,7 +441,7 @@
             this.numericUpDownTriggerScaleZ.Name = "numericUpDownTriggerScaleZ";
             this.numericUpDownTriggerScaleZ.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownTriggerScaleZ.TabIndex = 2;
-            this.numericUpDownTriggerScaleZ.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownTriggerScaleZ.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox2
             // 
@@ -463,7 +462,7 @@
             this.numericUpDownTriggerPosZ.Name = "numericUpDownTriggerPosZ";
             this.numericUpDownTriggerPosZ.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownTriggerPosZ.TabIndex = 2;
-            this.numericUpDownTriggerPosZ.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownTriggerPosZ.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDownTriggerPosY
             // 
@@ -472,7 +471,7 @@
             this.numericUpDownTriggerPosY.Name = "numericUpDownTriggerPosY";
             this.numericUpDownTriggerPosY.Size = new System.Drawing.Size(91, 20);
             this.numericUpDownTriggerPosY.TabIndex = 2;
-            this.numericUpDownTriggerPosY.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDownTriggerPosY.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_TriggerPosX
             // 
@@ -481,81 +480,82 @@
             this.numericUpDown_TriggerPosX.Name = "numericUpDown_TriggerPosX";
             this.numericUpDown_TriggerPosX.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_TriggerPosX.TabIndex = 2;
-            this.numericUpDown_TriggerPosX.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_TriggerPosX.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox_cameraMode);
             this.groupBox1.Controls.Add(this.numericUpDown_i1C);
             this.groupBox1.Controls.Add(this.numericUpDown_i0C);
             this.groupBox1.Controls.Add(this.numericUpDown_LookBLinkId);
             this.groupBox1.Controls.Add(this.numericUpDown_i14);
             this.groupBox1.Controls.Add(this.numericUpDown_i10);
             this.groupBox1.Controls.Add(this.numericUpDown_i08);
-            this.groupBox1.Controls.Add(this.numericUpDown_i04);
             this.groupBox1.Controls.Add(this.numericUpDown_i00);
             this.groupBox1.Location = new System.Drawing.Point(171, 26);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(628, 71);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "int 00                int 04            int 08           int 0C            int 10" +
-    "              int 14        LookB LinkID             int 1C";
+            this.groupBox1.Text = "int 00               CameraMode                        int 08           int 0C   " +
+    "         int 10              int 14        LookB LinkID             int 1C";
+            // 
+            // comboBox_cameraMode
+            // 
+            this.comboBox_cameraMode.FormattingEnabled = true;
+            this.comboBox_cameraMode.Location = new System.Drawing.Point(75, 19);
+            this.comboBox_cameraMode.Name = "comboBox_cameraMode";
+            this.comboBox_cameraMode.Size = new System.Drawing.Size(118, 21);
+            this.comboBox_cameraMode.TabIndex = 9;
+            this.comboBox_cameraMode.SelectedIndexChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_i1C
             // 
-            this.numericUpDown_i1C.Location = new System.Drawing.Point(467, 19);
+            this.numericUpDown_i1C.Location = new System.Drawing.Point(549, 19);
             this.numericUpDown_i1C.Name = "numericUpDown_i1C";
             this.numericUpDown_i1C.Size = new System.Drawing.Size(73, 20);
             this.numericUpDown_i1C.TabIndex = 8;
-            this.numericUpDown_i1C.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_i1C.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_i0C
             // 
-            this.numericUpDown_i0C.Location = new System.Drawing.Point(199, 19);
+            this.numericUpDown_i0C.Location = new System.Drawing.Point(271, 19);
             this.numericUpDown_i0C.Name = "numericUpDown_i0C";
             this.numericUpDown_i0C.Size = new System.Drawing.Size(58, 20);
             this.numericUpDown_i0C.TabIndex = 7;
-            this.numericUpDown_i0C.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_i0C.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_LookBLinkId
             // 
-            this.numericUpDown_LookBLinkId.Location = new System.Drawing.Point(379, 19);
+            this.numericUpDown_LookBLinkId.Location = new System.Drawing.Point(461, 19);
             this.numericUpDown_LookBLinkId.Name = "numericUpDown_LookBLinkId";
             this.numericUpDown_LookBLinkId.Size = new System.Drawing.Size(82, 20);
             this.numericUpDown_LookBLinkId.TabIndex = 6;
-            this.numericUpDown_LookBLinkId.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_LookBLinkId.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_i14
             // 
-            this.numericUpDown_i14.Location = new System.Drawing.Point(325, 19);
+            this.numericUpDown_i14.Location = new System.Drawing.Point(397, 19);
             this.numericUpDown_i14.Name = "numericUpDown_i14";
             this.numericUpDown_i14.Size = new System.Drawing.Size(48, 20);
             this.numericUpDown_i14.TabIndex = 5;
-            this.numericUpDown_i14.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_i14.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_i10
             // 
-            this.numericUpDown_i10.Location = new System.Drawing.Point(263, 19);
+            this.numericUpDown_i10.Location = new System.Drawing.Point(335, 19);
             this.numericUpDown_i10.Name = "numericUpDown_i10";
             this.numericUpDown_i10.Size = new System.Drawing.Size(56, 20);
             this.numericUpDown_i10.TabIndex = 4;
-            this.numericUpDown_i10.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_i10.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_i08
             // 
-            this.numericUpDown_i08.Location = new System.Drawing.Point(143, 19);
+            this.numericUpDown_i08.Location = new System.Drawing.Point(214, 19);
             this.numericUpDown_i08.Name = "numericUpDown_i08";
             this.numericUpDown_i08.Size = new System.Drawing.Size(51, 20);
             this.numericUpDown_i08.TabIndex = 3;
-            this.numericUpDown_i08.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
-            // 
-            // numericUpDown_i04
-            // 
-            this.numericUpDown_i04.Location = new System.Drawing.Point(75, 19);
-            this.numericUpDown_i04.Name = "numericUpDown_i04";
-            this.numericUpDown_i04.Size = new System.Drawing.Size(62, 20);
-            this.numericUpDown_i04.TabIndex = 2;
-            this.numericUpDown_i04.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_i08.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_i00
             // 
@@ -563,7 +563,7 @@
             this.numericUpDown_i00.Name = "numericUpDown_i00";
             this.numericUpDown_i00.Size = new System.Drawing.Size(63, 20);
             this.numericUpDown_i00.TabIndex = 1;
-            this.numericUpDown_i00.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_i00.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox6
             // 
@@ -586,7 +586,7 @@
             this.numericUpDown_f68.Name = "numericUpDown_f68";
             this.numericUpDown_f68.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f68.TabIndex = 3;
-            this.numericUpDown_f68.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f68.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_f6C
             // 
@@ -595,7 +595,7 @@
             this.numericUpDown_f6C.Name = "numericUpDown_f6C";
             this.numericUpDown_f6C.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f6C.TabIndex = 4;
-            this.numericUpDown_f6C.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f6C.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_f70
             // 
@@ -604,7 +604,16 @@
             this.numericUpDown_f70.Name = "numericUpDown_f70";
             this.numericUpDown_f70.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f70.TabIndex = 5;
-            this.numericUpDown_f70.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f70.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
+            // 
+            // numericUpDown_f74
+            // 
+            this.numericUpDown_f74.DecimalPlaces = 4;
+            this.numericUpDown_f74.Location = new System.Drawing.Point(300, 20);
+            this.numericUpDown_f74.Name = "numericUpDown_f74";
+            this.numericUpDown_f74.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_f74.TabIndex = 2;
+            this.numericUpDown_f74.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_CameraRotation
             // 
@@ -613,7 +622,7 @@
             this.numericUpDown_CameraRotation.Name = "numericUpDown_CameraRotation";
             this.numericUpDown_CameraRotation.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_CameraRotation.TabIndex = 2;
-            this.numericUpDown_CameraRotation.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_CameraRotation.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_FOV_Height
             // 
@@ -622,7 +631,7 @@
             this.numericUpDown_FOV_Height.Name = "numericUpDown_FOV_Height";
             this.numericUpDown_FOV_Height.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_FOV_Height.TabIndex = 2;
-            this.numericUpDown_FOV_Height.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_FOV_Height.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_FOV_Width
             // 
@@ -631,7 +640,7 @@
             this.numericUpDown_FOV_Width.Name = "numericUpDown_FOV_Width";
             this.numericUpDown_FOV_Width.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_FOV_Width.TabIndex = 2;
-            this.numericUpDown_FOV_Width.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_FOV_Width.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox7
             // 
@@ -645,15 +654,6 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "LookAt PointB Position (X, Y, Z)";
             // 
-            // numericUpDown_f80
-            // 
-            this.numericUpDown_f80.DecimalPlaces = 4;
-            this.numericUpDown_f80.Location = new System.Drawing.Point(200, 15);
-            this.numericUpDown_f80.Name = "numericUpDown_f80";
-            this.numericUpDown_f80.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_f80.TabIndex = 3;
-            this.numericUpDown_f80.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
-            // 
             // numericUpDown_PointB_X
             // 
             this.numericUpDown_PointB_X.DecimalPlaces = 4;
@@ -661,7 +661,7 @@
             this.numericUpDown_PointB_X.Name = "numericUpDown_PointB_X";
             this.numericUpDown_PointB_X.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_PointB_X.TabIndex = 4;
-            this.numericUpDown_PointB_X.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_PointB_X.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_PointB_Y
             // 
@@ -670,16 +670,25 @@
             this.numericUpDown_PointB_Y.Name = "numericUpDown_PointB_Y";
             this.numericUpDown_PointB_Y.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_PointB_Y.TabIndex = 5;
-            this.numericUpDown_PointB_Y.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_PointB_Y.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
-            // numericUpDown_f74
+            // numericUpDown_PointB_Z
             // 
-            this.numericUpDown_f74.DecimalPlaces = 4;
-            this.numericUpDown_f74.Location = new System.Drawing.Point(300, 20);
-            this.numericUpDown_f74.Name = "numericUpDown_f74";
-            this.numericUpDown_f74.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_f74.TabIndex = 2;
-            this.numericUpDown_f74.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_PointB_Z.DecimalPlaces = 4;
+            this.numericUpDown_PointB_Z.Location = new System.Drawing.Point(198, 18);
+            this.numericUpDown_PointB_Z.Name = "numericUpDown_PointB_Z";
+            this.numericUpDown_PointB_Z.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_PointB_Z.TabIndex = 2;
+            this.numericUpDown_PointB_Z.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
+            // 
+            // numericUpDown_f80
+            // 
+            this.numericUpDown_f80.DecimalPlaces = 4;
+            this.numericUpDown_f80.Location = new System.Drawing.Point(200, 15);
+            this.numericUpDown_f80.Name = "numericUpDown_f80";
+            this.numericUpDown_f80.Size = new System.Drawing.Size(91, 20);
+            this.numericUpDown_f80.TabIndex = 3;
+            this.numericUpDown_f80.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_f78
             // 
@@ -688,7 +697,7 @@
             this.numericUpDown_f78.Name = "numericUpDown_f78";
             this.numericUpDown_f78.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f78.TabIndex = 2;
-            this.numericUpDown_f78.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f78.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_f7C
             // 
@@ -697,7 +706,7 @@
             this.numericUpDown_f7C.Name = "numericUpDown_f7C";
             this.numericUpDown_f7C.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f7C.TabIndex = 2;
-            this.numericUpDown_f7C.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f7C.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox8
             // 
@@ -721,7 +730,7 @@
             this.numericUpDown_CameraDistanceFromPlayerLookB.Name = "numericUpDown_CameraDistanceFromPlayerLookB";
             this.numericUpDown_CameraDistanceFromPlayerLookB.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_CameraDistanceFromPlayerLookB.TabIndex = 3;
-            this.numericUpDown_CameraDistanceFromPlayerLookB.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_CameraDistanceFromPlayerLookB.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_CameraHeightFromPlayerLookB
             // 
@@ -730,7 +739,7 @@
             this.numericUpDown_CameraHeightFromPlayerLookB.Name = "numericUpDown_CameraHeightFromPlayerLookB";
             this.numericUpDown_CameraHeightFromPlayerLookB.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_CameraHeightFromPlayerLookB.TabIndex = 4;
-            this.numericUpDown_CameraHeightFromPlayerLookB.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_CameraHeightFromPlayerLookB.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fA0
             // 
@@ -739,16 +748,7 @@
             this.numericUpDown_fA0.Name = "numericUpDown_fA0";
             this.numericUpDown_fA0.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fA0.TabIndex = 5;
-            this.numericUpDown_fA0.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
-            // 
-            // numericUpDown_PointB_Z
-            // 
-            this.numericUpDown_PointB_Z.DecimalPlaces = 4;
-            this.numericUpDown_PointB_Z.Location = new System.Drawing.Point(198, 18);
-            this.numericUpDown_PointB_Z.Name = "numericUpDown_PointB_Z";
-            this.numericUpDown_PointB_Z.Size = new System.Drawing.Size(91, 20);
-            this.numericUpDown_PointB_Z.TabIndex = 2;
-            this.numericUpDown_PointB_Z.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fA0.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_CameraDistanceFromPlayerLookA
             // 
@@ -757,7 +757,7 @@
             this.numericUpDown_CameraDistanceFromPlayerLookA.Name = "numericUpDown_CameraDistanceFromPlayerLookA";
             this.numericUpDown_CameraDistanceFromPlayerLookA.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_CameraDistanceFromPlayerLookA.TabIndex = 2;
-            this.numericUpDown_CameraDistanceFromPlayerLookA.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_CameraDistanceFromPlayerLookA.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_CameraHeightFromPlayerLookA
             // 
@@ -766,7 +766,7 @@
             this.numericUpDown_CameraHeightFromPlayerLookA.Name = "numericUpDown_CameraHeightFromPlayerLookA";
             this.numericUpDown_CameraHeightFromPlayerLookA.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_CameraHeightFromPlayerLookA.TabIndex = 2;
-            this.numericUpDown_CameraHeightFromPlayerLookA.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_CameraHeightFromPlayerLookA.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox9
             // 
@@ -791,7 +791,7 @@
             this.numericUpDown_TransitionTimeEnter.Name = "numericUpDown_TransitionTimeEnter";
             this.numericUpDown_TransitionTimeEnter.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_TransitionTimeEnter.TabIndex = 3;
-            this.numericUpDown_TransitionTimeEnter.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_TransitionTimeEnter.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_TransitionTimeExit
             // 
@@ -800,7 +800,7 @@
             this.numericUpDown_TransitionTimeExit.Name = "numericUpDown_TransitionTimeExit";
             this.numericUpDown_TransitionTimeExit.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_TransitionTimeExit.TabIndex = 4;
-            this.numericUpDown_TransitionTimeExit.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_TransitionTimeExit.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fB8
             // 
@@ -809,7 +809,7 @@
             this.numericUpDown_fB8.Name = "numericUpDown_fB8";
             this.numericUpDown_fB8.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fB8.TabIndex = 5;
-            this.numericUpDown_fB8.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fB8.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fA4
             // 
@@ -818,7 +818,7 @@
             this.numericUpDown_fA4.Name = "numericUpDown_fA4";
             this.numericUpDown_fA4.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fA4.TabIndex = 2;
-            this.numericUpDown_fA4.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fA4.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fA8
             // 
@@ -827,7 +827,7 @@
             this.numericUpDown_fA8.Name = "numericUpDown_fA8";
             this.numericUpDown_fA8.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fA8.TabIndex = 2;
-            this.numericUpDown_fA8.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fA8.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fAC
             // 
@@ -836,7 +836,7 @@
             this.numericUpDown_fAC.Name = "numericUpDown_fAC";
             this.numericUpDown_fAC.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fAC.TabIndex = 2;
-            this.numericUpDown_fAC.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fAC.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox10
             // 
@@ -861,7 +861,7 @@
             this.numericUpDown_fC8.Name = "numericUpDown_fC8";
             this.numericUpDown_fC8.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fC8.TabIndex = 3;
-            this.numericUpDown_fC8.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fC8.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fCC
             // 
@@ -870,7 +870,7 @@
             this.numericUpDown_fCC.Name = "numericUpDown_fCC";
             this.numericUpDown_fCC.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fCC.TabIndex = 4;
-            this.numericUpDown_fCC.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fCC.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fD0
             // 
@@ -879,7 +879,7 @@
             this.numericUpDown_fD0.Name = "numericUpDown_fD0";
             this.numericUpDown_fD0.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fD0.TabIndex = 5;
-            this.numericUpDown_fD0.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fD0.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fBC
             // 
@@ -888,7 +888,7 @@
             this.numericUpDown_fBC.Name = "numericUpDown_fBC";
             this.numericUpDown_fBC.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fBC.TabIndex = 2;
-            this.numericUpDown_fBC.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fBC.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fC0
             // 
@@ -897,7 +897,7 @@
             this.numericUpDown_fC0.Name = "numericUpDown_fC0";
             this.numericUpDown_fC0.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fC0.TabIndex = 2;
-            this.numericUpDown_fC0.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fC0.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fC4
             // 
@@ -906,7 +906,7 @@
             this.numericUpDown_fC4.Name = "numericUpDown_fC4";
             this.numericUpDown_fC4.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fC4.TabIndex = 2;
-            this.numericUpDown_fC4.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fC4.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox11
             // 
@@ -926,7 +926,7 @@
             this.numericUpDown_fD4.Name = "numericUpDown_fD4";
             this.numericUpDown_fD4.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fD4.TabIndex = 2;
-            this.numericUpDown_fD4.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fD4.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_fD8
             // 
@@ -935,7 +935,7 @@
             this.numericUpDown_fD8.Name = "numericUpDown_fD8";
             this.numericUpDown_fD8.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_fD8.TabIndex = 2;
-            this.numericUpDown_fD8.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_fD8.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox12
             // 
@@ -956,7 +956,7 @@
             this.numericUpDown_f44.Name = "numericUpDown_f44";
             this.numericUpDown_f44.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f44.TabIndex = 2;
-            this.numericUpDown_f44.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f44.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_f48
             // 
@@ -965,7 +965,7 @@
             this.numericUpDown_f48.Name = "numericUpDown_f48";
             this.numericUpDown_f48.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f48.TabIndex = 2;
-            this.numericUpDown_f48.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f48.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_f4C
             // 
@@ -974,7 +974,7 @@
             this.numericUpDown_f4C.Name = "numericUpDown_f4C";
             this.numericUpDown_f4C.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_f4C.TabIndex = 2;
-            this.numericUpDown_f4C.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            this.numericUpDown_f4C.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // groupBox13
             // 
@@ -1030,6 +1030,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "ShadowCameraEditor";
+            this.ShowIcon = false;
             this.Text = "ShadowCameraEditor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1058,27 +1059,26 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i08)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i04)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i00)).EndInit();
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f68)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f6C)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f70)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f74)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraRotation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FOV_Height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FOV_Width)).EndInit();
             this.groupBox7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f80)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_X)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_Y)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f74)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_Z)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f80)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f78)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f7C)).EndInit();
             this.groupBox8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraDistanceFromPlayerLookB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraHeightFromPlayerLookB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_fA0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_PointB_Z)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraDistanceFromPlayerLookA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraHeightFromPlayerLookA)).EndInit();
             this.groupBox9.ResumeLayout(false);
@@ -1142,7 +1142,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_i14;
         private System.Windows.Forms.NumericUpDown numericUpDown_i10;
         private System.Windows.Forms.NumericUpDown numericUpDown_i08;
-        private System.Windows.Forms.NumericUpDown numericUpDown_i04;
         private System.Windows.Forms.NumericUpDown numericUpDown_i00;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusFile;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSep;
@@ -1197,5 +1196,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_f4C;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.GroupBox groupBox14;
+        private System.Windows.Forms.ComboBox comboBox_cameraMode;
     }
 }

@@ -17,9 +17,9 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         public ShadowCameraEditor() {
             InitializeComponent();
+            comboBox_cameraMode.DataSource = Enum.GetValues(typeof(ShadowCameraMode));
 
             numericUpDown_i00.Maximum = Decimal.MaxValue;
-            numericUpDown_i04.Maximum = Decimal.MaxValue;
             numericUpDown_i08.Maximum = Decimal.MaxValue;
             numericUpDown_i0C.Maximum = Decimal.MaxValue;
             numericUpDown_i10.Maximum = Decimal.MaxValue;
@@ -75,7 +75,6 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_fD8.Maximum = Decimal.MaxValue;
 
             numericUpDown_i00.Minimum = Decimal.MinValue;
-            numericUpDown_i04.Minimum = Decimal.MinValue;
             numericUpDown_i08.Minimum = Decimal.MinValue;
             numericUpDown_i0C.Minimum = Decimal.MinValue;
             numericUpDown_i10.Minimum = Decimal.MinValue;
@@ -203,7 +202,11 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
             if (!hasRemoved & CurrentlySelectedCamera != -1)
                 //TODO: Fix unhandled exception on FileChange with less cameras
-                (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
+                try {
+                    (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
+                } catch {
+                    MessageBox.Show("Tell dream to fix this popup when you change cam files");
+                }
             else if (hasRemoved) hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
@@ -215,7 +218,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                     current.isSelected = true;
 
                     numericUpDown_i00.Value = current.field_00;
-                    numericUpDown_i04.Value = current.field_04;
+                    comboBox_cameraMode.SelectedItem = current.CameraMode;
                     numericUpDown_i08.Value = current.field_08;
                     numericUpDown_i0C.Value = current.field_0C;
                     numericUpDown_i10.Value = current.field_10;
@@ -225,9 +228,9 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                     numericUpDown_TriggerPosX.Value = (decimal)current.TriggerPosition.X;
                     numericUpDownTriggerPosY.Value = (decimal)current.TriggerPosition.Y;
                     numericUpDownTriggerPosZ.Value = (decimal)current.TriggerPosition.Z;
-                    numericUpDown_TriggerRotX.Value = (decimal)(current.TriggerRotation.X * (180f / Math.PI)); //(current.TriggerRotationX * (360f / 65536f));
-                    numericUpDownTriggerRotY.Value = (decimal)(current.TriggerRotation.Y * (180f / Math.PI)); //(current.TriggerRotationY * (360f / 65536f));
-                    numericUpDownTriggerRotZ.Value = (decimal)(current.TriggerRotation.Z * (180f / Math.PI)); //(current.TriggerRotationZ * (360f / 65536f));
+                    numericUpDown_TriggerRotX.Value = (decimal)(current.TriggerRotation.X * (180f / Math.PI));
+                    numericUpDownTriggerRotY.Value = (decimal)(current.TriggerRotation.Y * (180f / Math.PI));
+                    numericUpDownTriggerRotZ.Value = (decimal)(current.TriggerRotation.Z * (180f / Math.PI));
                     numericUpDown_TriggerScaleX.Value = (decimal)current.TriggerScale.X;
                     numericUpDownTriggerScaleY.Value = (decimal)current.TriggerScale.Y;
                     numericUpDownTriggerScaleZ.Value = (decimal)current.TriggerScale.Z;
@@ -278,11 +281,11 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             ProgramIsChangingStuff = false;
         }
 
-        private void numericUpDown_ValueChanged(object sender, EventArgs e) {
+        private void CameraData_ValueChanged(object sender, EventArgs e) {
             if (!ProgramIsChangingStuff & CurrentlySelectedCamera != -1) {
                 ShadowCamera current = ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera;
                 current.field_00 = (int)numericUpDown_i00.Value;
-                current.field_04 = (int)numericUpDown_i04.Value;
+                current.CameraMode = (ShadowCameraMode)comboBox_cameraMode.SelectedItem;
                 current.field_08 = (int)numericUpDown_i08.Value;
                 current.field_0C = (int)numericUpDown_i0C.Value;
                 current.field_10 = (int)numericUpDown_i10.Value;

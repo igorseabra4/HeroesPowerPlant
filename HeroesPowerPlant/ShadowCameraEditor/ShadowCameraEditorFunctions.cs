@@ -98,7 +98,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             foreach (ShadowCamera i in list)
             {
                 CameraWriter.Write(i.field_00);
-                CameraWriter.Write(i.field_04);
+                CameraWriter.Write((int)i.CameraMode);
                 CameraWriter.Write(i.field_08);
                 CameraWriter.Write(i.field_0C);
                 CameraWriter.Write(i.field_10);

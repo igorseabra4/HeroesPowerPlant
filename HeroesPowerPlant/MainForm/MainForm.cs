@@ -1099,6 +1099,7 @@ namespace HeroesPowerPlant.MainForm
         }
 
         private void shadowCameraEditorToolStripMenuItem_Click(object sender, EventArgs e) {
+            //TODO: Fix disposed obj exception
             ShadowCameraEditor.Show();
         }
     }
