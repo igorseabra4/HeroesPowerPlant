@@ -97,7 +97,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
             foreach (ShadowCamera i in list)
             {
-                CameraWriter.Write(i.field_00);
+                CameraWriter.Write(i.CameraNumber);
                 CameraWriter.Write((int)i.CameraMode);
                 CameraWriter.Write(i.field_08);
                 CameraWriter.Write(i.field_0C);
@@ -114,12 +114,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 CameraWriter.Write(i.TriggerScale.X);
                 CameraWriter.Write(i.TriggerScale.Y);
                 CameraWriter.Write(i.TriggerScale.Z);
-                CameraWriter.Write(i.field_44);
-                CameraWriter.Write(i.field_48);
-                CameraWriter.Write(i.field_4C);
-                CameraWriter.Write(i.PointA_X);
-                CameraWriter.Write(i.PointA_Y);
-                CameraWriter.Write(i.PointA_Z);
+                CameraWriter.Write(i.PointA_LookFrom_X);
+                CameraWriter.Write(i.PointA_LookFrom_Y);
+                CameraWriter.Write(i.PointA_LookFrom_Z);
+                CameraWriter.Write(i.PointA_LookAt_X);
+                CameraWriter.Write(i.PointA_LookAt_Y);
+                CameraWriter.Write(i.PointA_LookAt_Z);
                 CameraWriter.Write(i.CameraRotation);
                 CameraWriter.Write(i.FOV_Height);
                 CameraWriter.Write(i.FOV_Width);
@@ -127,12 +127,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 CameraWriter.Write(i.field_6C);
                 CameraWriter.Write(i.field_70);
                 CameraWriter.Write(i.field_74);
-                CameraWriter.Write(i.field_78);
-                CameraWriter.Write(i.field_7C);
-                CameraWriter.Write(i.field_80);
-                CameraWriter.Write(i.PointB_X);
-                CameraWriter.Write(i.PointB_Y);
-                CameraWriter.Write(i.PointB_Z);
+                CameraWriter.Write(i.PointB_LookFrom_X);
+                CameraWriter.Write(i.PointB_LookFrom_Y);
+                CameraWriter.Write(i.PointB_LookFrom_Z);
+                CameraWriter.Write(i.PointB_LookAt_X);
+                CameraWriter.Write(i.PointB_LookAt_Y);
+                CameraWriter.Write(i.PointB_LookAt_Z);
                 CameraWriter.Write(i.CameraDistanceFromPlayerLookA);
                 CameraWriter.Write(i.CameraHeightFromPlayerLookA);
                 CameraWriter.Write(i.CameraDistanceFromPlayerLookB);

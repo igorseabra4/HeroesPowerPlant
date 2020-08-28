@@ -15,11 +15,19 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         int CurrentlySelectedCamera = -1;
         private bool hasRemoved = false;
 
+        protected override void OnFormClosing(FormClosingEventArgs e) {
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+
+            e.Cancel = true;
+            Hide();
+        }
+
         public ShadowCameraEditor() {
             InitializeComponent();
             comboBox_cameraMode.DataSource = Enum.GetValues(typeof(ShadowCameraMode));
 
-            numericUpDown_i00.Maximum = Decimal.MaxValue;
+            numericUpDown_cameraNumber.Maximum = Decimal.MaxValue;
             numericUpDown_i08.Maximum = Decimal.MaxValue;
             numericUpDown_i0C.Maximum = Decimal.MaxValue;
             numericUpDown_i10.Maximum = Decimal.MaxValue;
@@ -35,12 +43,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_TriggerScaleX.Maximum = Decimal.MaxValue;
             numericUpDownTriggerScaleY.Maximum = Decimal.MaxValue;
             numericUpDownTriggerScaleZ.Maximum = Decimal.MaxValue;
-            numericUpDown_f44.Maximum = Decimal.MaxValue;
-            numericUpDown_f48.Maximum = Decimal.MaxValue;
-            numericUpDown_f4C.Maximum = Decimal.MaxValue;
-            numericUpDown_PointA_X.Maximum = Decimal.MaxValue;
-            numericUpDown_PointA_Y.Maximum = Decimal.MaxValue;
-            numericUpDown_PointA_Z.Maximum = Decimal.MaxValue;
+            numericUpDown_PointA_LookFrom_X.Maximum = Decimal.MaxValue;
+            numericUpDown_PointA_LookFrom_Y.Maximum = Decimal.MaxValue;
+            numericUpDown_PointA_LookFrom_Z.Maximum = Decimal.MaxValue;
+            numericUpDown_PointA_LookAt_X.Maximum = Decimal.MaxValue;
+            numericUpDown_PointA_LookAt_Y.Maximum = Decimal.MaxValue;
+            numericUpDown_PointA_LookAt_Z.Maximum = Decimal.MaxValue;
             numericUpDown_CameraRotation.Maximum = Decimal.MaxValue;
             numericUpDown_FOV_Height.Maximum = Decimal.MaxValue;
             numericUpDown_FOV_Width.Maximum = Decimal.MaxValue;
@@ -48,12 +56,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_f6C.Maximum = Decimal.MaxValue;
             numericUpDown_f70.Maximum = Decimal.MaxValue;
             numericUpDown_f74.Maximum = Decimal.MaxValue;
-            numericUpDown_f78.Maximum = Decimal.MaxValue;
-            numericUpDown_f7C.Maximum = Decimal.MaxValue;
-            numericUpDown_f80.Maximum = Decimal.MaxValue;
-            numericUpDown_PointB_X.Maximum = Decimal.MaxValue;
-            numericUpDown_PointB_Y.Maximum = Decimal.MaxValue;
-            numericUpDown_PointB_Z.Maximum = Decimal.MaxValue;
+            numericUpDown_PointB_LookFrom_X.Maximum = Decimal.MaxValue;
+            numericUpDown_PointB_LookFrom_Y.Maximum = Decimal.MaxValue;
+            numericUpDown_PointB_LookFrom_Z.Maximum = Decimal.MaxValue;
+            numericUpDown_PointB_LookAt_X.Maximum = Decimal.MaxValue;
+            numericUpDown_PointB_LookAt_Y.Maximum = Decimal.MaxValue;
+            numericUpDown_PointB_LookAt_Z.Maximum = Decimal.MaxValue;
             numericUpDown_CameraDistanceFromPlayerLookA.Maximum = Decimal.MaxValue;
             numericUpDown_CameraHeightFromPlayerLookA.Maximum = Decimal.MaxValue;
             numericUpDown_CameraDistanceFromPlayerLookB.Maximum = Decimal.MaxValue;
@@ -74,7 +82,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_fD4.Maximum = Decimal.MaxValue;
             numericUpDown_fD8.Maximum = Decimal.MaxValue;
 
-            numericUpDown_i00.Minimum = Decimal.MinValue;
+            numericUpDown_cameraNumber.Minimum = Decimal.MinValue;
             numericUpDown_i08.Minimum = Decimal.MinValue;
             numericUpDown_i0C.Minimum = Decimal.MinValue;
             numericUpDown_i10.Minimum = Decimal.MinValue;
@@ -90,12 +98,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_TriggerScaleX.Minimum = Decimal.MinValue;
             numericUpDownTriggerScaleY.Minimum = Decimal.MinValue;
             numericUpDownTriggerScaleZ.Minimum = Decimal.MinValue;
-            numericUpDown_f44.Minimum = Decimal.MinValue;
-            numericUpDown_f48.Minimum = Decimal.MinValue;
-            numericUpDown_f4C.Minimum = Decimal.MinValue;
-            numericUpDown_PointA_X.Minimum = Decimal.MinValue;
-            numericUpDown_PointA_Y.Minimum = Decimal.MinValue;
-            numericUpDown_PointA_Z.Minimum = Decimal.MinValue;
+            numericUpDown_PointA_LookFrom_X.Minimum = Decimal.MinValue;
+            numericUpDown_PointA_LookFrom_Y.Minimum = Decimal.MinValue;
+            numericUpDown_PointA_LookFrom_Z.Minimum = Decimal.MinValue;
+            numericUpDown_PointA_LookAt_X.Minimum = Decimal.MinValue;
+            numericUpDown_PointA_LookAt_Y.Minimum = Decimal.MinValue;
+            numericUpDown_PointA_LookAt_Z.Minimum = Decimal.MinValue;
             numericUpDown_CameraRotation.Minimum = Decimal.MinValue;
             numericUpDown_FOV_Height.Minimum = Decimal.MinValue;
             numericUpDown_FOV_Width.Minimum = Decimal.MinValue;
@@ -103,12 +111,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_f6C.Minimum = Decimal.MinValue;
             numericUpDown_f70.Minimum = Decimal.MinValue;
             numericUpDown_f74.Minimum = Decimal.MinValue;
-            numericUpDown_f78.Minimum = Decimal.MinValue;
-            numericUpDown_f7C.Minimum = Decimal.MinValue;
-            numericUpDown_f80.Minimum = Decimal.MinValue;
-            numericUpDown_PointB_X.Minimum = Decimal.MinValue;
-            numericUpDown_PointB_Y.Minimum = Decimal.MinValue;
-            numericUpDown_PointB_Z.Minimum = Decimal.MinValue;
+            numericUpDown_PointB_LookFrom_X.Minimum = Decimal.MinValue;
+            numericUpDown_PointB_LookFrom_Y.Minimum = Decimal.MinValue;
+            numericUpDown_PointB_LookFrom_Z.Minimum = Decimal.MinValue;
+            numericUpDown_PointB_LookAt_X.Minimum = Decimal.MinValue;
+            numericUpDown_PointB_LookAt_Y.Minimum = Decimal.MinValue;
+            numericUpDown_PointB_LookAt_Z.Minimum = Decimal.MinValue;
             numericUpDown_CameraDistanceFromPlayerLookA.Minimum = Decimal.MinValue;
             numericUpDown_CameraHeightFromPlayerLookA.Minimum = Decimal.MinValue;
             numericUpDown_CameraDistanceFromPlayerLookB.Minimum = Decimal.MinValue;
@@ -128,6 +136,14 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_fD0.Minimum = Decimal.MinValue;
             numericUpDown_fD4.Minimum = Decimal.MinValue;
             numericUpDown_fD8.Minimum = Decimal.MinValue;
+        }
+        public void New() {
+            CurrentCameraFile = null;
+            header = null;
+            CurrentlySelectedCamera = -1;
+            ListBoxCameras.Items.Clear();
+            toolStripStatusFile.Text = "No file loaded";
+            UpdateLabelCameraCount();
         }
 
         public void RenderCameras(SharpRenderer renderer)
@@ -162,6 +178,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 UpdateLabelCameraCount();
 
                 ListBoxCameras.SelectedIndex = -1;
+                CurrentlySelectedCamera = -1;
             }
         }
 
@@ -179,7 +196,6 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             SaveFileDialog SaveCamera = new SaveFileDialog()
             {
                 Filter = "DAT Files|*.dat",
-                FileName = CurrentCameraFile
             };
             if (SaveCamera.ShowDialog() == DialogResult.OK)
             {
@@ -201,12 +217,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             ProgramIsChangingStuff = true;
 
             if (!hasRemoved & CurrentlySelectedCamera != -1)
-                //TODO: Fix unhandled exception on FileChange with less cameras
-                try {
-                    (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
-                } catch {
-                    MessageBox.Show("Tell dream to fix this popup when you change cam files");
-                }
+               (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
             else if (hasRemoved) hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
@@ -217,7 +228,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
                     current.isSelected = true;
 
-                    numericUpDown_i00.Value = current.field_00;
+                    numericUpDown_cameraNumber.Value = current.CameraNumber;
                     comboBox_cameraMode.SelectedItem = current.CameraMode;
                     numericUpDown_i08.Value = current.field_08;
                     numericUpDown_i0C.Value = current.field_0C;
@@ -234,12 +245,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                     numericUpDown_TriggerScaleX.Value = (decimal)current.TriggerScale.X;
                     numericUpDownTriggerScaleY.Value = (decimal)current.TriggerScale.Y;
                     numericUpDownTriggerScaleZ.Value = (decimal)current.TriggerScale.Z;
-                    numericUpDown_f44.Value = (decimal)current.field_44;
-                    numericUpDown_f48.Value = (decimal)current.field_48;
-                    numericUpDown_f4C.Value = (decimal)current.field_4C;
-                    numericUpDown_PointA_X.Value = (decimal)current.PointA_X;
-                    numericUpDown_PointA_Y.Value = (decimal)current.PointA_Y;
-                    numericUpDown_PointA_Z.Value = (decimal)current.PointA_Z;
+                    numericUpDown_PointA_LookFrom_X.Value = (decimal)current.PointA_LookFrom_X;
+                    numericUpDown_PointA_LookFrom_Y.Value = (decimal)current.PointA_LookFrom_Y;
+                    numericUpDown_PointA_LookFrom_Z.Value = (decimal)current.PointA_LookFrom_Z;
+                    numericUpDown_PointA_LookAt_X.Value = (decimal)current.PointA_LookAt_X;
+                    numericUpDown_PointA_LookAt_Y.Value = (decimal)current.PointA_LookAt_Y;
+                    numericUpDown_PointA_LookAt_Z.Value = (decimal)current.PointA_LookAt_Z;
                     numericUpDown_CameraRotation.Value = (decimal)(current.CameraRotation * (180f / Math.PI));
                     numericUpDown_FOV_Height.Value = (decimal)(current.FOV_Height * (180f / Math.PI));
                     numericUpDown_FOV_Width.Value = (decimal)(current.FOV_Width * (180f / Math.PI));
@@ -247,12 +258,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                     numericUpDown_f6C.Value = (decimal)current.field_6C;
                     numericUpDown_f70.Value = (decimal)current.field_70;
                     numericUpDown_f74.Value = (decimal)current.field_74;
-                    numericUpDown_f78.Value = (decimal)current.field_78;
-                    numericUpDown_f7C.Value = (decimal)current.field_7C;
-                    numericUpDown_f80.Value = (decimal)current.field_80;
-                    numericUpDown_PointB_X.Value = (decimal)current.PointB_X;
-                    numericUpDown_PointB_Y.Value = (decimal)current.PointB_Y;
-                    numericUpDown_PointB_Z.Value = (decimal)current.PointB_Z;
+                    numericUpDown_PointB_LookFrom_X.Value = (decimal)current.PointB_LookFrom_X;
+                    numericUpDown_PointB_LookFrom_Y.Value = (decimal)current.PointB_LookFrom_Y;
+                    numericUpDown_PointB_LookFrom_Z.Value = (decimal)current.PointB_LookFrom_Z;
+                    numericUpDown_PointB_LookAt_X.Value = (decimal)current.PointB_LookAt_X;
+                    numericUpDown_PointB_LookAt_Y.Value = (decimal)current.PointB_LookAt_Y;
+                    numericUpDown_PointB_LookAt_Z.Value = (decimal)current.PointB_LookAt_Z;
                     numericUpDown_CameraDistanceFromPlayerLookA.Value = (decimal)current.CameraDistanceFromPlayerLookA;
                     numericUpDown_CameraHeightFromPlayerLookA.Value = (decimal)current.CameraHeightFromPlayerLookA;
                     numericUpDown_CameraDistanceFromPlayerLookB.Value = (decimal)current.CameraDistanceFromPlayerLookB;
@@ -284,7 +295,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         private void CameraData_ValueChanged(object sender, EventArgs e) {
             if (!ProgramIsChangingStuff & CurrentlySelectedCamera != -1) {
                 ShadowCamera current = ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera;
-                current.field_00 = (int)numericUpDown_i00.Value;
+                current.CameraNumber = (int)numericUpDown_cameraNumber.Value;
                 current.CameraMode = (ShadowCameraMode)comboBox_cameraMode.SelectedItem;
                 current.field_08 = (int)numericUpDown_i08.Value;
                 current.field_0C = (int)numericUpDown_i0C.Value;
@@ -295,12 +306,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 current.TriggerPosition = new Vector3((float)numericUpDown_TriggerPosX.Value, (float)numericUpDownTriggerPosY.Value, (float)numericUpDownTriggerPosZ.Value);
                 current.TriggerRotation = new Vector3((float)((float)numericUpDown_TriggerRotX.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotY.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotZ.Value / (180f / Math.PI)));
                 current.TriggerScale = new Vector3((float)numericUpDown_TriggerScaleX.Value, (float)numericUpDownTriggerScaleY.Value, (float)numericUpDownTriggerScaleZ.Value);
-                current.field_44 = (float)numericUpDown_f44.Value;
-                current.field_48 = (float)numericUpDown_f48.Value;
-                current.field_4C = (float)numericUpDown_f4C.Value;
-                current.PointA_X = (float)numericUpDown_PointA_X.Value;
-                current.PointA_Y = (float)numericUpDown_PointA_Y.Value;
-                current.PointA_Z = (float)numericUpDown_PointA_Z.Value;
+                current.PointA_LookFrom_X = (float)numericUpDown_PointA_LookFrom_X.Value;
+                current.PointA_LookFrom_Y = (float)numericUpDown_PointA_LookFrom_Y.Value;
+                current.PointA_LookFrom_Z = (float)numericUpDown_PointA_LookFrom_Z.Value;
+                current.PointA_LookAt_X = (float)numericUpDown_PointA_LookAt_X.Value;
+                current.PointA_LookAt_Y = (float)numericUpDown_PointA_LookAt_Y.Value;
+                current.PointA_LookAt_Z = (float)numericUpDown_PointA_LookAt_Z.Value;
                 current.CameraRotation = (float)((float)numericUpDown_CameraRotation.Value / (180f / Math.PI));
                 current.FOV_Height = (float)((float)numericUpDown_FOV_Height.Value / (180f / Math.PI));
                 current.FOV_Width = (float)((float)numericUpDown_FOV_Width.Value / (180f / Math.PI));
@@ -308,12 +319,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 current.field_6C = (float)numericUpDown_f6C.Value;
                 current.field_70 = (float)numericUpDown_f70.Value;
                 current.field_74 = (float)numericUpDown_f74.Value;
-                current.field_78 = (float)numericUpDown_f78.Value;
-                current.field_7C = (float)numericUpDown_f7C.Value;
-                current.field_80 = (float)numericUpDown_f80.Value;
-                current.PointB_X = (float)numericUpDown_PointB_X.Value;
-                current.PointB_Y = (float)numericUpDown_PointB_Y.Value;
-                current.PointB_Z = (float)numericUpDown_PointB_Z.Value;
+                current.PointB_LookFrom_X = (float)numericUpDown_PointB_LookFrom_X.Value;
+                current.PointB_LookFrom_Y = (float)numericUpDown_PointB_LookFrom_Y.Value;
+                current.PointB_LookFrom_Z = (float)numericUpDown_PointB_LookFrom_Z.Value;
+                current.PointB_LookAt_X = (float)numericUpDown_PointB_LookAt_X.Value;
+                current.PointB_LookAt_Y = (float)numericUpDown_PointB_LookAt_Y.Value;
+                current.PointB_LookAt_Z = (float)numericUpDown_PointB_LookAt_Z.Value;
                 current.CameraDistanceFromPlayerLookA = (float)numericUpDown_CameraDistanceFromPlayerLookA.Value;
                 current.CameraHeightFromPlayerLookA = (float)numericUpDown_CameraHeightFromPlayerLookA.Value;
                 current.CameraDistanceFromPlayerLookB = (float)numericUpDown_CameraDistanceFromPlayerLookB.Value;
@@ -390,6 +401,24 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             hasRemoved = true;
             ListBoxCameras.Items.Clear();
             UpdateLabelCameraCount();
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e) {
+            New();
+        }
+
+        private void sortByDistanceToolStripMenuItem_Click(object sender, EventArgs e) {
+            IEnumerable<ShadowCamera> cameras = ListBoxCameras.Items.Cast<ShadowCamera>();
+            cameras = cameras.OrderBy(c => c.GetDistance()).ToList();
+            ListBoxCameras.Items.Clear();
+            ListBoxCameras.Items.AddRange(cameras.ToArray());
+        }
+
+        private void sortByCameraNumberToolStripMenuItem_Click(object sender, EventArgs e) {
+            IEnumerable<ShadowCamera> cameras = ListBoxCameras.Items.Cast<ShadowCamera>();
+            cameras = cameras.OrderBy(c => c.CameraNumber).ToList();
+            ListBoxCameras.Items.Clear();
+            ListBoxCameras.Items.AddRange(cameras.ToArray());
         }
     }
 }

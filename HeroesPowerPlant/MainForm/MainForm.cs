@@ -118,6 +118,7 @@ namespace HeroesPowerPlant.MainForm
             ClearCollisionEditors();
             ClearLayoutEditors();
             CameraEditor.New();
+            ShadowCameraEditor.New();
             ParticleEditor.New();
             TexturePatternEditor.New();
             SetIdTableEditor.New();
@@ -1041,6 +1042,7 @@ namespace HeroesPowerPlant.MainForm
                 l.TopMost = value;
             ConfigEditor.SplineEditor.TopMost = value;
             CameraEditor.TopMost = value;
+            ShadowCameraEditor.TopMost = value;
             ParticleEditor.TopMost = value;
             TexturePatternEditor.TopMost = value;
             SetIdTableEditor.TopMost = value;
