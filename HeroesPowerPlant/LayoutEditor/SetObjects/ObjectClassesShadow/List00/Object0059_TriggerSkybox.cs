@@ -27,7 +27,7 @@ namespace HeroesPowerPlant.LayoutEditor {
         }
 
         [Description("Force the chunk(s) On or Off while in Radius.\n Ignores Visibility constraints")]
-        public CommonNoYes Draw {
+        public CommonNoYes DrawMode {
             get => (CommonNoYes)ReadInt(4);
             set => Write(4, (int)value);
         }

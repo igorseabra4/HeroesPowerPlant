@@ -223,17 +223,16 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonDuplicate_Click(object sender, EventArgs e)
         {
-            if (listBoxObjects.SelectedIndices.Count == 1)
-            {
-                layoutSystem.DuplicateSetObject(listBoxObjects.SelectedIndex);
-                listBoxObjects.ClearSelected();
-                listBoxObjects.SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
-            }
+            int count = layoutSystem.PasteSetObject(layoutSystem.SerializeSetObject(listBoxObjects.SelectedIndices));
+
+            listBoxObjects.ClearSelected();
+            for (int i = 0; i < count; i++)
+                listBoxObjects.SetSelected(listBoxObjects.Items.Count - i - 1, true);
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
-            layoutSystem.CopySetObject(listBoxObjects.SelectedIndices);
+            Clipboard.SetText(layoutSystem.SerializeSetObject(listBoxObjects.SelectedIndices));
         }
 
         private void buttonPaste_Click(object sender, EventArgs e)

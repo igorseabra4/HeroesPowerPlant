@@ -258,11 +258,6 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public void DuplicateSetObject(int index)
-        {
-            PasteSetObject(JsonConvert.SerializeObject(new List<SetObject> { GetSetObjectAt(index) }));
-        }
-
         public void DuplicateSetObjectAt(int index, Vector3 Position)
         {
             PasteSetObject(JsonConvert.SerializeObject(new List<SetObject> { GetSetObjectAt(index) }));
@@ -270,12 +265,12 @@ namespace HeroesPowerPlant.LayoutEditor
             setObjects.Last().CreateTransformMatrix();
         }
         
-        public void CopySetObject(ListBox.SelectedIndexCollection selectedIndices)
+        public string SerializeSetObject(ListBox.SelectedIndexCollection selectedIndices)
         {
             List<SetObject> setObjs = new List<SetObject>();
             foreach (int i in selectedIndices)
                 setObjs.Add(GetSetObjectAt(i));
-            Clipboard.SetText(JsonConvert.SerializeObject(setObjs));
+            return JsonConvert.SerializeObject(setObjs);
         }
 
         public int PasteSetObject(string text = null)
@@ -283,9 +278,11 @@ namespace HeroesPowerPlant.LayoutEditor
             if (text == null)
                 text = Clipboard.GetText();
             int result = 0;
+#if RELEASE
             try
             {
-                var list = JsonConvert.DeserializeObject<List<Object_ShadowDefault>>(text);
+#endif
+            var list = JsonConvert.DeserializeObject<List<Object_ShadowDefault>>(text);
                 result = list.Count;
 
                 foreach (var src in list)
@@ -293,19 +290,21 @@ namespace HeroesPowerPlant.LayoutEditor
                     SetObject dest;
 
                     if (isShadow)
-                        dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
+                        dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
                     else
-                        dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes);
+                        dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
                     
                     dest.MiscSettings = src.MiscSettings;
                     dest.CreateTransformMatrix();
                     setObjects.Add(dest);
                 }
+#if RELEASE
             }
             catch
             {
                 MessageBox.Show($"Error pasting object from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
             }
+#endif
             return result;
         }
 
@@ -415,9 +414,9 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        #endregion
+#endregion
 
-        #region GUI Return Methods
+#region GUI Return Methods
 
         public decimal GetPosX(int index)
         {
@@ -519,9 +518,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
             return index;
         }
-        #endregion
+#endregion
 
-        #region Sorting Methods
+#region Sorting Methods
         public void SortObjectsByID()
         {
             List<SetObject> sorted = setObjects.OrderBy(f => f.Link).ToList();
@@ -537,9 +536,9 @@ namespace HeroesPowerPlant.LayoutEditor
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
         }
-        #endregion
+#endregion
 
-        #region Memory Functions
+#region Memory Functions
 
         public bool GetSpeedMemory(int index)
         {
@@ -605,6 +604,6 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             return MemoryFunctions.Teleport(GetSetObjectAt(index).Position);
         }
-        #endregion
+#endregion
     }
 }

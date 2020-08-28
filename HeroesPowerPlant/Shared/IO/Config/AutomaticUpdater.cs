@@ -32,7 +32,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
                 if (oldVersion.version != updatedVersion.version)
                 {
-                    string messageText = "There is an update available for Heroes Power Plant: " + updatedVersion.versionName + ". Do you wish to download it?";
+                    string messageText = "There is an update available for Heroes Power Plant: \n\n" + updatedVersion.versionName + "\n\nDo you wish to download it?";
                     DialogResult d = MessageBox.Show(messageText, "Update Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
                     if (d == DialogResult.Yes)
@@ -86,8 +86,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                             if (Directory.Exists(Application.StartupPath + s))
                                 foreach (string s2 in Directory.GetFiles(Application.StartupPath + s))
                                 {
-                                    if ((Path.GetExtension(s2).ToLower().Equals(".zip") && !Path.GetFileName(s2).Equals("Reloaded-Mod-Template.zip")) ||
-                                        Path.GetExtension(s2).ToLower().Equals(".json"))
+                                    if (Path.GetExtension(s2).ToLower().Equals(".zip") || Path.GetFileNameWithoutExtension(s2).Equals("HPPConfig.json"))
                                         continue;
 
                                     string newFilePath = oldPath + s + "\\" + Path.GetFileName(s2);
