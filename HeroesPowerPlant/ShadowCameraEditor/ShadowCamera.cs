@@ -184,9 +184,10 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         private static DefaultRenderData renderData;
 
         private Matrix triggerPosWorld;
-        private Matrix pointAWorld;
-        private Matrix pointBWorld;
-        private Matrix camPosWorld;
+        private Matrix pointLookAtAWorld;
+        private Matrix pointLookAtBWorld;
+        private Matrix pointLookFromAWorld;
+        private Matrix pointLookFromBWorld;
 
         public BoundingBox boundingBox;
 
@@ -213,17 +214,16 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public void CreateTransformMatrix() {
             triggerPosWorld = Matrix.Scaling(TriggerScale * 2);
 
-
             triggerPosWorld *=
                 Matrix.RotationX(TriggerRotation.X) *
                 Matrix.RotationY(TriggerRotation.Y) *
                 Matrix.RotationZ(TriggerRotation.Z) *
                 Matrix.Translation(TriggerPosition);
 
-            pointAWorld = Matrix.Scaling(20) * Matrix.Translation(PointA_LookAt_X, PointA_LookAt_Y, PointA_LookAt_Z);
-            pointBWorld = Matrix.Scaling(20) * Matrix.Translation(PointB_LookAt_X, PointB_LookAt_Y, PointB_LookAt_Z);
-            //pointCWorld = Matrix.Scaling(5) * Matrix.Translation(PointC);
-            //camPosWorld = Matrix.Scaling(5) * Matrix.Translation(CamPos);
+            pointLookAtAWorld = Matrix.Scaling(20) * Matrix.Translation(PointA_LookAt_X, PointA_LookAt_Y, PointA_LookAt_Z);
+            pointLookAtBWorld = Matrix.Scaling(20) * Matrix.Translation(PointB_LookAt_X, PointB_LookAt_Y, PointB_LookAt_Z);
+            pointLookFromAWorld = Matrix.Scaling(20) * Matrix.Translation(PointA_LookFrom_X, PointA_LookFrom_Y, PointA_LookFrom_Z);
+            pointLookFromBWorld = Matrix.Scaling(20) * Matrix.Translation(PointB_LookFrom_X, PointB_LookFrom_Y, PointB_LookFrom_Z);
 
             CreateBounding();
         }
@@ -238,10 +238,10 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                   //  renderer.DrawSphereTrigger(triggerPosWorld, isSelected);
 
             if (isSelected) {
-                DrawCube(renderer, pointAWorld, Color.Red.ToVector4());
-                DrawCube(renderer, pointBWorld, Color.Blue.ToVector4());
-                /*DrawCube(renderer, pointCWorld, Color.Green.ToVector4());
-                DrawCube(renderer, camPosWorld, Color.Pink.ToVector4());*/
+                DrawCube(renderer, pointLookAtAWorld, Color.Red.ToVector4());
+                DrawCube(renderer, pointLookAtBWorld, Color.Blue.ToVector4());
+                DrawCube(renderer, pointLookFromAWorld, Color.Green.ToVector4());
+                DrawCube(renderer, pointLookFromBWorld, Color.Pink.ToVector4());
             }
         }
 
