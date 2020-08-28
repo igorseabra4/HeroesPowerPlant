@@ -26,7 +26,7 @@
         SetCamEdit=6,
         FixEye=7,
         FixLook=8,
-        General_Unknown=10,
+        General_withCamDistCamHeight=10,
         LookFront=11,
         FixEye2=12,
         FixLook2=13,
