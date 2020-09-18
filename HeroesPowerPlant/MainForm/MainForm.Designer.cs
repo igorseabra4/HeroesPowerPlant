@@ -86,6 +86,7 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
+            this.shadowCameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -168,7 +169,8 @@ namespace HeroesPowerPlant.MainForm
             this.particleEditorF8ToolStripMenuItem,
             this.texturePatternEditorF9ToolStripMenuItem,
             this.lightEditorF10ToolStripMenuItem,
-            this.sETIDTableEditorToolStripMenuItem});
+            this.sETIDTableEditorToolStripMenuItem,
+            this.shadowCameraEditorToolStripMenuItem});
             this.editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
             this.editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.editorsToolStripMenuItem.Text = "Editors";
@@ -550,6 +552,13 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
+            // shadowCameraEditorToolStripMenuItem
+            // 
+            this.shadowCameraEditorToolStripMenuItem.Name = "shadowCameraEditorToolStripMenuItem";
+            this.shadowCameraEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.shadowCameraEditorToolStripMenuItem.Text = "Shadow Camera Editor";
+            this.shadowCameraEditorToolStripMenuItem.Click += new System.EventHandler(this.shadowCameraEditorToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -636,6 +645,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem newToolStripMenuItem1;
         private ToolStripMenuItem checkForUpdatesOnStartupToolStripMenuItem;
         private ToolStripMenuItem checkForUpdatesNowToolStripMenuItem;
+        private ToolStripMenuItem shadowCameraEditorToolStripMenuItem;
     }
 }
 

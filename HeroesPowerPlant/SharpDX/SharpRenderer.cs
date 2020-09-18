@@ -314,9 +314,10 @@ namespace HeroesPowerPlant
                     foreach (var l in mainForm.LayoutEditorDict.Values)
                         l.RenderSetObjects(this, false);
 
-                if (ShowCameras)
+                if (ShowCameras) {
                     mainForm.CameraEditor.RenderCameras(this);
-
+                    mainForm.ShadowCameraEditor.RenderCameras(this);
+                }
                 if (ShowStartPositions)
                     mainForm.ConfigEditor.RenderStartPositions(this);
 

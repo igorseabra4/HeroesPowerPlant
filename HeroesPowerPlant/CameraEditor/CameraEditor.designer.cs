@@ -93,6 +93,7 @@
             this.buttonComeHere = new System.Windows.Forms.Button();
             this.buttonCopyViewPos = new System.Windows.Forms.Button();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.buttonCopyFocus = new System.Windows.Forms.Button();
             this.buttonComeTrigger = new System.Windows.Forms.Button();
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonPasteTriggerPos = new System.Windows.Forms.Button();
@@ -100,7 +101,6 @@
             this.buttonPastePointA = new System.Windows.Forms.Button();
             this.buttonPastePointB = new System.Windows.Forms.Button();
             this.buttonPastePointc = new System.Windows.Forms.Button();
-            this.buttonCopyFocus = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrigShape)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownActType)).BeginInit();
@@ -739,28 +739,28 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -872,6 +872,16 @@
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Viewport Stuff";
             // 
+            // buttonCopyFocus
+            // 
+            this.buttonCopyFocus.Location = new System.Drawing.Point(103, 45);
+            this.buttonCopyFocus.Name = "buttonCopyFocus";
+            this.buttonCopyFocus.Size = new System.Drawing.Size(91, 23);
+            this.buttonCopyFocus.TabIndex = 16;
+            this.buttonCopyFocus.Text = "Copy Foc. Pos.";
+            this.buttonCopyFocus.UseVisualStyleBackColor = true;
+            this.buttonCopyFocus.Click += new System.EventHandler(this.buttonCopyFocus_Click);
+            // 
             // buttonComeTrigger
             // 
             this.buttonComeTrigger.Location = new System.Drawing.Point(6, 45);
@@ -941,16 +951,6 @@
             this.buttonPastePointc.Text = "Paste";
             this.buttonPastePointc.UseVisualStyleBackColor = true;
             this.buttonPastePointc.Click += new System.EventHandler(this.buttonPastePointc_Click);
-            // 
-            // buttonCopyFocus
-            // 
-            this.buttonCopyFocus.Location = new System.Drawing.Point(103, 45);
-            this.buttonCopyFocus.Name = "buttonCopyFocus";
-            this.buttonCopyFocus.Size = new System.Drawing.Size(91, 23);
-            this.buttonCopyFocus.TabIndex = 16;
-            this.buttonCopyFocus.Text = "Copy Foc. Pos.";
-            this.buttonCopyFocus.UseVisualStyleBackColor = true;
-            this.buttonCopyFocus.Click += new System.EventHandler(this.buttonCopyFocus_Click);
             // 
             // CameraEditor
             // 

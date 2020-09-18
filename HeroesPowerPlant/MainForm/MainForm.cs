@@ -19,6 +19,7 @@ namespace HeroesPowerPlant.MainForm
         public Dictionary<ToolStripDropDownItem, CollisionEditor.CollisionEditor> CollisionEditorDict;
         public Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor> LayoutEditorDict;
         public CameraEditor.CameraEditor CameraEditor;
+        public ShadowCameraEditor.ShadowCameraEditor ShadowCameraEditor;
         public ParticleEditor.ParticleMenu ParticleEditor;
         public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
         public LightEditor.LightMenu LightEditor;
@@ -46,6 +47,7 @@ namespace HeroesPowerPlant.MainForm
             CollisionEditorDict = new Dictionary<ToolStripDropDownItem, CollisionEditor.CollisionEditor>();
             LayoutEditorDict = new Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor>();
             CameraEditor = new CameraEditor.CameraEditor();
+            ShadowCameraEditor = new ShadowCameraEditor.ShadowCameraEditor();
             ParticleEditor = new ParticleEditor.ParticleMenu();
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
             LightEditor = new LightEditor.LightMenu();
@@ -116,6 +118,7 @@ namespace HeroesPowerPlant.MainForm
             ClearCollisionEditors();
             ClearLayoutEditors();
             CameraEditor.New();
+            ShadowCameraEditor.New();
             ParticleEditor.New();
             TexturePatternEditor.New();
             SetIdTableEditor.New();
@@ -375,12 +378,14 @@ namespace HeroesPowerPlant.MainForm
 
             if (!isMouseDown && placeNewObject)
                 ScreenClickedPlaceObject(ray);
-            
+
             else if (leftClick && renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
                 ScreenClickedSelectObject(ray, isMouseDown, isCtrlDown);
-            
-            else if (leftClick && renderer.ShowCameras && !isMouseDown)
+
+            else if (leftClick && renderer.ShowCameras && !isMouseDown) {
                 CameraEditor.ScreenClicked(ray);
+                ShadowCameraEditor.ScreenClicked(ray);
+            }
         }
 
         private void ScreenClickedPlaceObject(Ray ray)
@@ -1037,6 +1042,7 @@ namespace HeroesPowerPlant.MainForm
                 l.TopMost = value;
             ConfigEditor.SplineEditor.TopMost = value;
             CameraEditor.TopMost = value;
+            ShadowCameraEditor.TopMost = value;
             ParticleEditor.TopMost = value;
             TexturePatternEditor.TopMost = value;
             SetIdTableEditor.TopMost = value;
@@ -1092,6 +1098,11 @@ namespace HeroesPowerPlant.MainForm
         {
             if (!MemoryFunctions.Teleport(renderer.Camera.GetPosition()))
                 MessageBox.Show("Unable to teleport player.");
+        }
+
+        private void shadowCameraEditorToolStripMenuItem_Click(object sender, EventArgs e) {
+            //TODO: Fix disposed obj exception
+            ShadowCameraEditor.Show();
         }
     }
 }

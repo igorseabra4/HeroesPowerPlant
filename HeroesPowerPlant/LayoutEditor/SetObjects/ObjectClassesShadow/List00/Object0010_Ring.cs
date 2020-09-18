@@ -11,9 +11,16 @@ namespace HeroesPowerPlant.LayoutEditor
         private List<Vector3> transformedPoints;
         private List<Triangle> transformedTriangles;
 
+        protected Matrix ShadowRingTransformMatrix(float yAddDeg = 0) =>
+            Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
+            Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
+            Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) *
+            Matrix.Translation(Position);
+
         public override void CreateTransformMatrix()
         {
-            transformMatrix = DefaultTransformMatrix(180f);
+            transformMatrix = ShadowRingTransformMatrix(180f);
+                //DefaultTransformMatrix(180f);
 
             positionsList = new List<Vector3>(NumberOfRings);
 
@@ -37,6 +44,11 @@ namespace HeroesPowerPlant.LayoutEditor
                 case RingType.Arch:
                     if (NumberOfRings < 2) return;
 
+                    
+                    for (int i = 0; i < NumberOfRings; i++)
+                        positionsList.Add(new Vector3(0, 0, LengthRadius * i / (NumberOfRings - 1)));
+                    break;
+                    /*
                     for (int i = 0; i < NumberOfRings; i++)
                     {
                         Matrix Locator = Matrix.Translation(new Vector3(LengthRadius, 0, 0));
@@ -45,7 +57,7 @@ namespace HeroesPowerPlant.LayoutEditor
                             * Matrix.RotationY(Angle / (NumberOfRings - 1) * i)
                             * Matrix.Invert(Locator)));
                     }
-                    break;
+                    break;*/
             }
 
             CreateBoundingBox();
