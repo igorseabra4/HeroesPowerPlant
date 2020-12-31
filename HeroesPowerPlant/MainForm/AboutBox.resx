@@ -120,6 +120,8 @@
   <data name="textBoxDescription.Text" xml:space="preserve">
     <value>Heroes Power Plant is a level editor for Sonic Heroes and Shadow the Hedgehog made by igorseabra4 using C# and SharpDX. Integrates editors for various types of files with a 3D view of the stage.
 
+This fork focuses on Shadow the Hedgehog features.
+
 Additional credits go to:
 Sewer56, DeadlyFugu, LimblessVector, Muzzarino, Shadowth117, dreamsyntax.
 

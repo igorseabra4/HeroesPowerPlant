@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>NET472;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>NET472;netcoreapp3.1</TargetFrameworks>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -20,7 +20,7 @@
     <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
     <Company>Heroes Hacking Central</Company>
     <Product>Heroes Power Plant</Product>
-    <Copyright>Copyright © 2020 igorseabra4 + friends</Copyright>
+    <Copyright>Copyright © 2021 igorseabra4 + friends</Copyright>
     <AssemblyVersion>1.6.0.0</AssemblyVersion>
     <FileVersion>1.6.0.0</FileVersion>
     <LangVersion>latest</LangVersion>
