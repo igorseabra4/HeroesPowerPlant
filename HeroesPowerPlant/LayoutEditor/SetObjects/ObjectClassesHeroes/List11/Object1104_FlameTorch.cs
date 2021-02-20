@@ -33,38 +33,42 @@ namespace HeroesPowerPlant.LayoutEditor
             else if (BaseType == BaseTypeEnum.Floor)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
-                    Draw(renderer, FloorBase);
+                    Draw(renderer, FloorBase, false);
                 if (IsBlue)
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
-                        Draw(renderer, FloorBlue);
+                        Draw(renderer, FloorBlue, false);
                 }
                 else
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorRed))
-                        Draw(renderer, FloorRed);
+                        Draw(renderer, FloorRed, false);
                 }
             }
             else if (BaseType == BaseTypeEnum.Air)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
-                    Draw(renderer, AirBase);
+                    Draw(renderer, AirBase, false);
                 if (IsBlue)
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
-                        Draw(renderer, AirBlue);
+                        Draw(renderer, AirBlue, true);
                 }
                 else
                 {
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirRed))
-                        Draw(renderer, AirRed);
+                        Draw(renderer, AirRed, true);
                 }
             }
         }
 
-        protected void Draw(SharpRenderer renderer, string modelName)
+        protected void Draw(SharpRenderer renderer, string modelName, bool IsAirFloor)
         {
             SetRendererStates(renderer);
+            if (IsAirFloor)
+                renderData.worldViewProjection = Matrix.RotationX(MathUtil.Pi) * transformMatrix * renderer.viewProjection;
+                renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+                renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
             renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
         }
 
