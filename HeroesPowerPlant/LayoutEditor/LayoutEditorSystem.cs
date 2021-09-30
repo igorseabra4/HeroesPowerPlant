@@ -28,10 +28,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public static void SetupLayoutEditorSystem()
         {
-            heroesObjectEntries = ReadObjectListData("Resources/Lists/HeroesObjectList.ini");
-            shadowObjectEntries = ReadObjectListData("Resources/Lists/ShadowObjectList.ini");
+            heroesObjectEntries = ReadObjectListData(Application.StartupPath + "/Resources/Lists/HeroesObjectList.ini");
+            shadowObjectEntries = ReadObjectListData(Application.StartupPath + "/Resources/Lists/ShadowObjectList.ini");
 
-            string extraObjectEntriesPath = "Resources/Lists/HeroesObjectListCustom.ini";
+            string extraObjectEntriesPath = Application.StartupPath + "/Resources/Lists/HeroesObjectListCustom.ini";
             if (File.Exists(extraObjectEntriesPath))
             {
                 var dict = ReadObjectListData(extraObjectEntriesPath);
