@@ -3,10 +3,10 @@ Heroes Power Plant is a level editor for Sonic Heroes and Shadow the Hedgehog cr
 
 ## Prerequisites
 - Windows 7, 8.1, 10 or above.
-- [.NET Core 3.0 Runtime (x64)](https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-3.0.1-windows-x64-installer)
-- [.NET Core 3.0 Desktop Runtime (x64)](https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-desktop-3.0.1-windows-x64-installer)
+- [.NET Core 3.1 Runtime (x64)](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-desktop-3.1.19-windows-x64-installer)
+- [.NET Core 3.1 Desktop Runtime (x64)](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-3.1.19-windows-x64-installer)
 
-If the direct runtime links do not function sometime in the future, consider using the following static link: https://dotnet.microsoft.com/download/dotnet-core/3.0
+If the direct runtime links do not function sometime in the future, consider using the following static link: https://dotnet.microsoft.com/download/dotnet/3.1
 
 ## Guide
 Please see the [Heroes Power Plant Wiki](https://github.com/igorseabra4/HeroesPowerPlant/wiki) for a complete guide on using the tool, as well as creating custom stages for Sonic Heroes and Shadow the Hedgehog.
@@ -16,7 +16,7 @@ Please see the [Heroes Power Plant Wiki](https://github.com/igorseabra4/HeroesPo
 *  Visibility Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Collision Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Object Layout Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
-*  Camera Editor - Sonic Heroes (all platforms)
+*  Camera Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Start/Ending/Bragging Position Editor - Sonic Heroes PC only, use with Reloaded II Stage Injector
 *  Spline Editor - for Sonic Heroes PC only, use with Generic Stage Injection Mod
 *  Particle (PTCL) Editor - Sonic Heroes (all platforms)
