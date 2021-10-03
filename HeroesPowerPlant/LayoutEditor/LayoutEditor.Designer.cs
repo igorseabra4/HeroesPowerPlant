@@ -101,6 +101,19 @@
             this.buttonCopyMisc = new System.Windows.Forms.Button();
             this.buttonPasteMisc = new System.Windows.Forms.Button();
             this.checkBoxDrawObjs = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button_shadowGC_try_hooking_dolphin = new System.Windows.Forms.Button();
+            this.button_shadowGC_updateObject = new System.Windows.Forms.Button();
+            this.button_shadowGC_debug_obj = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.button_shadowGC_p1_getGravity = new System.Windows.Forms.Button();
+            this.button_shadowGC_p1_getRotation = new System.Windows.Forms.Button();
+            this.button_shadowGC_p1_getPosition = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.buttonPlayTriggerTalkingAudio = new System.Windows.Forms.Button();
+            this.buttonLoadFNT = new System.Windows.Forms.Button();
+            this.buttonLoadAFS = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -125,6 +138,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -134,7 +151,7 @@
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(671, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(859, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -286,7 +303,8 @@
             this.openFileLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 506);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(671, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(859, 22);
+            this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -927,11 +945,161 @@
             this.checkBoxDrawObjs.Text = "Draw Objects";
             this.checkBoxDrawObjs.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.groupBox5);
+            this.groupBox4.Controls.Add(this.groupBox6);
+            this.groupBox4.Location = new System.Drawing.Point(672, 27);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(181, 142);
+            this.groupBox4.TabIndex = 90;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Shadow USGC RealTime Editor";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.button_shadowGC_try_hooking_dolphin);
+            this.groupBox5.Controls.Add(this.button_shadowGC_updateObject);
+            this.groupBox5.Controls.Add(this.button_shadowGC_debug_obj);
+            this.groupBox5.Location = new System.Drawing.Point(93, 19);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(81, 115);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "SEL OBJ";
+            // 
+            // button_shadowGC_try_hooking_dolphin
+            // 
+            this.button_shadowGC_try_hooking_dolphin.Enabled = false;
+            this.button_shadowGC_try_hooking_dolphin.Location = new System.Drawing.Point(6, 80);
+            this.button_shadowGC_try_hooking_dolphin.Name = "button_shadowGC_try_hooking_dolphin";
+            this.button_shadowGC_try_hooking_dolphin.Size = new System.Drawing.Size(69, 23);
+            this.button_shadowGC_try_hooking_dolphin.TabIndex = 2;
+            this.button_shadowGC_try_hooking_dolphin.TabStop = false;
+            this.button_shadowGC_try_hooking_dolphin.Text = "TryHook";
+            this.button_shadowGC_try_hooking_dolphin.UseVisualStyleBackColor = true;
+            // 
+            // button_shadowGC_updateObject
+            // 
+            this.button_shadowGC_updateObject.Enabled = false;
+            this.button_shadowGC_updateObject.Location = new System.Drawing.Point(6, 22);
+            this.button_shadowGC_updateObject.Name = "button_shadowGC_updateObject";
+            this.button_shadowGC_updateObject.Size = new System.Drawing.Size(69, 23);
+            this.button_shadowGC_updateObject.TabIndex = 0;
+            this.button_shadowGC_updateObject.TabStop = false;
+            this.button_shadowGC_updateObject.Text = "Update";
+            this.button_shadowGC_updateObject.UseVisualStyleBackColor = true;
+            // 
+            // button_shadowGC_debug_obj
+            // 
+            this.button_shadowGC_debug_obj.Enabled = false;
+            this.button_shadowGC_debug_obj.Location = new System.Drawing.Point(6, 51);
+            this.button_shadowGC_debug_obj.Name = "button_shadowGC_debug_obj";
+            this.button_shadowGC_debug_obj.Size = new System.Drawing.Size(69, 23);
+            this.button_shadowGC_debug_obj.TabIndex = 1;
+            this.button_shadowGC_debug_obj.TabStop = false;
+            this.button_shadowGC_debug_obj.Text = "Debug";
+            this.button_shadowGC_debug_obj.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.button_shadowGC_p1_getGravity);
+            this.groupBox6.Controls.Add(this.button_shadowGC_p1_getRotation);
+            this.groupBox6.Controls.Add(this.button_shadowGC_p1_getPosition);
+            this.groupBox6.Location = new System.Drawing.Point(6, 19);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(81, 115);
+            this.groupBox6.TabIndex = 4;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "P1";
+            // 
+            // button_shadowGC_p1_getGravity
+            // 
+            this.button_shadowGC_p1_getGravity.Enabled = false;
+            this.button_shadowGC_p1_getGravity.Location = new System.Drawing.Point(6, 80);
+            this.button_shadowGC_p1_getGravity.Name = "button_shadowGC_p1_getGravity";
+            this.button_shadowGC_p1_getGravity.Size = new System.Drawing.Size(69, 23);
+            this.button_shadowGC_p1_getGravity.TabIndex = 2;
+            this.button_shadowGC_p1_getGravity.TabStop = false;
+            this.button_shadowGC_p1_getGravity.Text = "Gravity";
+            this.button_shadowGC_p1_getGravity.UseVisualStyleBackColor = true;
+            // 
+            // button_shadowGC_p1_getRotation
+            // 
+            this.button_shadowGC_p1_getRotation.Enabled = false;
+            this.button_shadowGC_p1_getRotation.Location = new System.Drawing.Point(6, 51);
+            this.button_shadowGC_p1_getRotation.Name = "button_shadowGC_p1_getRotation";
+            this.button_shadowGC_p1_getRotation.Size = new System.Drawing.Size(69, 23);
+            this.button_shadowGC_p1_getRotation.TabIndex = 1;
+            this.button_shadowGC_p1_getRotation.TabStop = false;
+            this.button_shadowGC_p1_getRotation.Text = "Rotation";
+            this.button_shadowGC_p1_getRotation.UseVisualStyleBackColor = true;
+            // 
+            // button_shadowGC_p1_getPosition
+            // 
+            this.button_shadowGC_p1_getPosition.Enabled = false;
+            this.button_shadowGC_p1_getPosition.Location = new System.Drawing.Point(6, 22);
+            this.button_shadowGC_p1_getPosition.Name = "button_shadowGC_p1_getPosition";
+            this.button_shadowGC_p1_getPosition.Size = new System.Drawing.Size(69, 23);
+            this.button_shadowGC_p1_getPosition.TabIndex = 0;
+            this.button_shadowGC_p1_getPosition.TabStop = false;
+            this.button_shadowGC_p1_getPosition.Text = "Position";
+            this.button_shadowGC_p1_getPosition.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.buttonPlayTriggerTalkingAudio);
+            this.groupBox7.Controls.Add(this.buttonLoadFNT);
+            this.groupBox7.Controls.Add(this.buttonLoadAFS);
+            this.groupBox7.Location = new System.Drawing.Point(672, 175);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(113, 122);
+            this.groupBox7.TabIndex = 91;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Shadow AFS/FNT";
+            // 
+            // buttonPlayTriggerTalkingAudio
+            // 
+            this.buttonPlayTriggerTalkingAudio.Enabled = false;
+            this.buttonPlayTriggerTalkingAudio.Location = new System.Drawing.Point(18, 77);
+            this.buttonPlayTriggerTalkingAudio.Name = "buttonPlayTriggerTalkingAudio";
+            this.buttonPlayTriggerTalkingAudio.Size = new System.Drawing.Size(69, 23);
+            this.buttonPlayTriggerTalkingAudio.TabIndex = 2;
+            this.buttonPlayTriggerTalkingAudio.TabStop = false;
+            this.buttonPlayTriggerTalkingAudio.Text = "Preview";
+            this.buttonPlayTriggerTalkingAudio.UseVisualStyleBackColor = true;
+            // 
+            // buttonLoadFNT
+            // 
+            this.buttonLoadFNT.Enabled = false;
+            this.buttonLoadFNT.Location = new System.Drawing.Point(18, 48);
+            this.buttonLoadFNT.Name = "buttonLoadFNT";
+            this.buttonLoadFNT.Size = new System.Drawing.Size(69, 23);
+            this.buttonLoadFNT.TabIndex = 1;
+            this.buttonLoadFNT.TabStop = false;
+            this.buttonLoadFNT.Text = "FNT";
+            this.buttonLoadFNT.UseVisualStyleBackColor = true;
+            this.buttonLoadFNT.Click += new System.EventHandler(this.buttonLoadFNT_Click);
+            // 
+            // buttonLoadAFS
+            // 
+            this.buttonLoadAFS.Enabled = false;
+            this.buttonLoadAFS.Location = new System.Drawing.Point(18, 19);
+            this.buttonLoadAFS.Name = "buttonLoadAFS";
+            this.buttonLoadAFS.Size = new System.Drawing.Size(69, 23);
+            this.buttonLoadAFS.TabIndex = 0;
+            this.buttonLoadAFS.TabStop = false;
+            this.buttonLoadAFS.Text = "AFS";
+            this.buttonLoadAFS.UseVisualStyleBackColor = true;
+            this.buttonLoadAFS.Click += new System.EventHandler(this.buttonLoadAFS_Click);
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 528);
+            this.ClientSize = new System.Drawing.Size(859, 528);
+            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.checkBoxDrawObjs);
             this.Controls.Add(this.buttonPasteMisc);
             this.Controls.Add(this.buttonCopyMisc);
@@ -959,12 +1127,12 @@
             this.Controls.Add(this.listBoxObjects);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(875, 567);
+            this.MinimumSize = new System.Drawing.Size(687, 567);
             this.Name = "LayoutEditor";
             this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Layout Editor";
             this.TopMost = true;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LayoutEditor_KeyDown);
@@ -995,6 +1163,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1075,5 +1247,18 @@
         private System.Windows.Forms.Button buttonPasteMisc;
         private System.Windows.Forms.ToolStripMenuItem importSALayoutFileToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxDrawObjs;
+        internal System.Windows.Forms.GroupBox groupBox4;
+        internal System.Windows.Forms.GroupBox groupBox5;
+        internal System.Windows.Forms.Button button_shadowGC_try_hooking_dolphin;
+        internal System.Windows.Forms.Button button_shadowGC_updateObject;
+        internal System.Windows.Forms.Button button_shadowGC_debug_obj;
+        internal System.Windows.Forms.GroupBox groupBox6;
+        internal System.Windows.Forms.Button button_shadowGC_p1_getGravity;
+        internal System.Windows.Forms.Button button_shadowGC_p1_getRotation;
+        internal System.Windows.Forms.Button button_shadowGC_p1_getPosition;
+        internal System.Windows.Forms.GroupBox groupBox7;
+        internal System.Windows.Forms.Button buttonPlayTriggerTalkingAudio;
+        internal System.Windows.Forms.Button buttonLoadFNT;
+        internal System.Windows.Forms.Button buttonLoadAFS;
     }
 }

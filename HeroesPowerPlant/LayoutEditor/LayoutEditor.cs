@@ -9,6 +9,7 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public partial class LayoutEditor : Form
     {
+        private AFSLib.AfsArchive loadedAFS;
         public LayoutEditor()
         {
             InitializeComponent();
@@ -846,6 +847,24 @@ namespace HeroesPowerPlant.LayoutEditor
         private void PropertyGridMisc_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
+        }
+
+        private void buttonLoadAFS_Click(object sender, EventArgs e) {
+
+            using OpenFileDialog openFile = new OpenFileDialog();
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+                AFSLib.AfsArchive.TryFromFile(data, out var afsArchive);
+                {
+                    loadedAFS = afsArchive;
+                }
+            }
+        }
+
+        private void buttonLoadFNT_Click(object sender, EventArgs e)
+        {
+            //FNT
         }
     }
 }
