@@ -11,6 +11,7 @@ namespace HeroesPowerPlant.LayoutEditor
     public partial class LayoutEditor : Form
     {
         private AFSLib.AfsArchive loadedAFS;
+        private FNT loadedFNT;
         public LayoutEditor()
         {
             InitializeComponent();
@@ -852,6 +853,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonLoadAFS_Click(object sender, EventArgs e) {
 
+            // TODO migrate this to project scope rather than layout
+
             using OpenFileDialog openFile = new OpenFileDialog();
             if (openFile.ShowDialog() == DialogResult.OK)
             {
@@ -865,7 +868,67 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonLoadFNT_Click(object sender, EventArgs e)
         {
-            //FNT.ParseFNTFile();
+            using OpenFileDialog openFile = new OpenFileDialog();
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+
+                loadedFNT = FNT.ParseFNTFile(openFile.FileName, ref data);
+            }
+        }
+
+        private void buttonPlayTriggerTalkingAudio_Click(object sender, EventArgs e)
+        {
+            if (loadedAFS == null)
+                return;
+            if (listBoxObjects.SelectedItems.Count == 1 && listBoxObjects.SelectedItem.GetType() == typeof(Object0051_TriggerTalking))
+            {
+                var a = (Object0051_TriggerTalking)listBoxObjects.SelectedItem;
+                var buildout = "";
+                buildout += a.AudioBranchID;
+                //buildout += a.AudioBranchType;
+                //buildout.
+                for (int i = 0; i < loadedFNT.entryTable.Count; i++)
+                {
+                    if (loadedFNT.entryTable[i].messageIdBranchSequence.ToString().StartsWith(buildout))
+                    {
+                        textBox_FNT_TriggerTalkingPreview.Text = "Dark:\r\n";
+                        textBox_FNT_TriggerTalkingPreview.Text += loadedFNT.entryTable[i].subtitle;
+                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nNormal:\r\n";
+                        textBox_FNT_TriggerTalkingPreview.Text += loadedFNT.entryTable[i + 1].subtitle;
+                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nHero:\r\n";
+                        textBox_FNT_TriggerTalkingPreview.Text += loadedFNT.entryTable[i + 2].subtitle;
+
+                        switch (a.AudioBranchType)
+                        {
+                            case AudioBranchType.Dark:
+                                previewAudio(loadedFNT.entryTable[i].audioId);
+                                break;
+                            case AudioBranchType.Hero:
+                                previewAudio(loadedFNT.entryTable[i + 2].audioId);
+                                break;
+                            default:
+                                previewAudio(loadedFNT.entryTable[i + 1].audioId);
+                                break;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void previewAudio(int audioId)
+        {
+            var decoder = new VGAudio.Containers.Adx.AdxReader();
+            var audio = decoder.Read(loadedAFS.Files[audioId].Data);
+            var writer = new VGAudio.Containers.Wave.WaveWriter();
+            MemoryStream stream = new MemoryStream();
+            writer.WriteToStream(audio, stream);
+
+            var player = new System.Media.SoundPlayer();
+            stream.Position = 0;
+            player.Stream = stream;
+            player.Play();
         }
     }
 }
