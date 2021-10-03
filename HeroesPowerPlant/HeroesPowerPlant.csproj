@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>NET472;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -364,8 +364,10 @@
     <ProjectReference Include="..\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
     <ProjectReference Include="..\Submodules\Heroes.SDK\Heroes.SDK.Library\Heroes.SDK.csproj" />
     <ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj" />
+    <ProjectReference Include="..\Submodules\ShadowFNT\ShadowFNT.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AFSLib" Version="1.0.0" />
     <PackageReference Include="AssimpNet" Version="4.1.0" />
     <PackageReference Include="csharp-prs" Version="2.1.3" />
     <PackageReference Include="HeroesONE_R" Version="1.0.6">
@@ -378,6 +380,7 @@
     <PackageReference Include="SharpDX.Desktop" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+    <PackageReference Include="VGAudio" Version="2.2.1" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
   </ItemGroup>

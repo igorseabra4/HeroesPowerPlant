@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using SharpDX;
+using ShadowFNT.Structures;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -864,7 +865,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonLoadFNT_Click(object sender, EventArgs e)
         {
-            //FNT
+            //FNT.ParseFNTFile();
         }
     }
 }
