@@ -696,6 +696,26 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateObjectAmountLabel();
         }
 
+        private void UpdateDisplayData_PositionRotation_Only()
+        {
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (displayDataDisabled)
+                    EnableDisplayData();
+
+                ProgramIsChangingStuff = true;
+
+                NumericPosX.Value = layoutSystem.GetPosX(listBoxObjects.SelectedIndex);
+                NumericPosY.Value = layoutSystem.GetPosY(listBoxObjects.SelectedIndex);
+                NumericPosZ.Value = layoutSystem.GetPosZ(listBoxObjects.SelectedIndex);
+                NumericRotX.Value = layoutSystem.GetRotX(listBoxObjects.SelectedIndex);
+                NumericRotY.Value = layoutSystem.GetRotY(listBoxObjects.SelectedIndex);
+                NumericRotZ.Value = layoutSystem.GetRotZ(listBoxObjects.SelectedIndex);
+
+                ProgramIsChangingStuff = false;
+            }
+        }
+
         private bool displayDataDisabled = true;
 
         private void DisableDisplayData()
@@ -884,7 +904,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         layoutSystem.GetSetObjectAt(i).Position.X += (distanceX * direction.X - distanceY * direction.Y) / 2;
                         layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
-                        UpdateDisplayData();
+                        UpdateDisplayData_PositionRotation_Only();
                     }
                 }
                 else if (gizmos[1].isSelected)
@@ -898,7 +918,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         layoutSystem.GetSetObjectAt(i).Position.Y += (distanceX * direction.X - distanceY * direction.Y) / 2;
                         layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
-                        UpdateDisplayData();
+                        UpdateDisplayData_PositionRotation_Only();
                     }
                 }
                 else if (gizmos[2].isSelected)
@@ -912,7 +932,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         layoutSystem.GetSetObjectAt(i).Position.Z += (distanceX * direction.X - distanceY * direction.Y) / 2;
                         layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
-                        UpdateDisplayData();
+                        UpdateDisplayData_PositionRotation_Only();
                     }
                 }
 
