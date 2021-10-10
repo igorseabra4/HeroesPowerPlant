@@ -1,4 +1,4 @@
 ﻿{
-  "version": "v0.8.10",
-  "versionName": "\n* New: Shadow camera editor. Replace netcore3.0 with netcore3.1"
+  "version": "v0.8.11",
+  "versionName": "\n* New: Experimental Shadow FNT/AFS Integration for TriggerTalking and HintBall\nFPS Limit option\nRender disable option"
 }
