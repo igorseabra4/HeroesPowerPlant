@@ -173,5 +173,10 @@ namespace HeroesPowerPlant.MainForm
         {
             Program.MainForm.TeleportPlayerToCamera();
         }
+
+        private void maxFps_numericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            Program.MainForm.SetMaxFPS();
+        }
     }
 }

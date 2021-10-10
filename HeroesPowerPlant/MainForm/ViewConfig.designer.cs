@@ -49,6 +49,8 @@
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.NumericKeyboardSens = new System.Windows.Forms.NumericUpDown();
             this.buttonTeleport = new System.Windows.Forms.Button();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.maxFps_numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraYaw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraPitch)).BeginInit();
@@ -68,6 +70,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericMouseSens)).BeginInit();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericKeyboardSens)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxFps_numericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -343,10 +347,45 @@
             this.buttonTeleport.UseVisualStyleBackColor = true;
             this.buttonTeleport.Click += new System.EventHandler(this.buttonTeleport_Click);
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.maxFps_numericUpDown);
+            resources.ApplyResources(this.groupBox9, "groupBox9");
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.TabStop = false;
+            // 
+            // maxFps_numericUpDown
+            // 
+            this.maxFps_numericUpDown.DecimalPlaces = 4;
+            this.maxFps_numericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            resources.ApplyResources(this.maxFps_numericUpDown, "maxFps_numericUpDown");
+            this.maxFps_numericUpDown.Maximum = new decimal(new int[] {
+            666666,
+            0,
+            0,
+            0});
+            this.maxFps_numericUpDown.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.maxFps_numericUpDown.Name = "maxFps_numericUpDown";
+            this.maxFps_numericUpDown.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.maxFps_numericUpDown.ValueChanged += new System.EventHandler(this.maxFps_numericUpDown_ValueChanged);
+            // 
             // ViewConfig
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.buttonTeleport);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
@@ -381,6 +420,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericMouseSens)).EndInit();
             this.groupBox8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumericKeyboardSens)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.maxFps_numericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -407,5 +448,7 @@
         private System.Windows.Forms.GroupBox groupBox8;
         public System.Windows.Forms.NumericUpDown NumericKeyboardSens;
         private System.Windows.Forms.Button buttonTeleport;
+        private System.Windows.Forms.GroupBox groupBox9;
+        public System.Windows.Forms.NumericUpDown maxFps_numericUpDown;
     }
 }

@@ -33,7 +33,7 @@ namespace HeroesPowerPlant.MainForm
         public MainForm()
         {
             StartPosition = FormStartPosition.CenterScreen;
-            
+
             InitializeComponent();
 
             renderer = new SharpRenderer(renderPanel) { dffRenderer = new DFFRenderer(this) };
@@ -85,7 +85,7 @@ namespace HeroesPowerPlant.MainForm
             {
                 var hppConfig = ProjectConfig.FromCurrentInstance(this);
                 ProjectConfig.Save(hppConfig, currentSavePath);
-            }  
+            }
             else
                 ToolStripFileSaveAs(null, null);
         }
@@ -128,7 +128,7 @@ namespace HeroesPowerPlant.MainForm
             renderer.Camera.Reset();
             currentSavePath = null;
         }
-        
+
         public void ApplyConfig(ProjectConfig.RenderOptions renderingOptions)
         {
             noCullingCToolStripMenuItem.Checked = renderingOptions.NoCulling;
@@ -348,7 +348,7 @@ namespace HeroesPowerPlant.MainForm
         {
             toolStripStatusLabel1.Text = Text;
         }
-                
+
         private void renderPanel_MouseClick(object sender, MouseEventArgs e)
         {
             ScreenClicked(e, false);
@@ -368,7 +368,7 @@ namespace HeroesPowerPlant.MainForm
                     renderPanel.ClientRectangle.Width,
                     renderPanel.ClientRectangle.Height), e.X, e.Y, isMouseDown,
                     PressedKeys.Contains(Keys.ControlKey),
-                    e.Button == MouseButtons.Left, 
+                    e.Button == MouseButtons.Left,
                     PressedKeys.Contains(Keys.ShiftKey) && e.Button == MouseButtons.Right);
         }
 
@@ -382,7 +382,8 @@ namespace HeroesPowerPlant.MainForm
             else if (leftClick && renderer.MouseModeObjects && renderer.ShowObjects != CheckState.Unchecked)
                 ScreenClickedSelectObject(ray, isMouseDown, isCtrlDown);
 
-            else if (leftClick && renderer.ShowCameras && !isMouseDown) {
+            else if (leftClick && renderer.ShowCameras && !isMouseDown)
+            {
                 CameraEditor.ScreenClicked(ray);
                 ShadowCameraEditor.ScreenClicked(ray);
             }
@@ -543,7 +544,7 @@ namespace HeroesPowerPlant.MainForm
 
             oldMouseX = e.X;
             oldMouseY = e.Y;
-            
+
             if (loopNotStarted)
             {
                 loopNotStarted = false;
@@ -560,7 +561,7 @@ namespace HeroesPowerPlant.MainForm
         {
             mouseMode = !mouseMode;
         }
-        
+
         private void ResetMouseCenter(object sender, EventArgs e)
         {
             MouseCenter = renderPanel.PointToScreen(new System.Drawing.Point(renderPanel.Width / 2, renderPanel.Height / 2));
@@ -624,7 +625,7 @@ namespace HeroesPowerPlant.MainForm
                     ConfigEditor.Show();
                     break;
                 case Keys.F3:
-                        LevelEditor.Show();
+                    LevelEditor.Show();
                     break;
                 case Keys.F4:
                     if (CollisionEditors.Count == 0)
@@ -638,7 +639,7 @@ namespace HeroesPowerPlant.MainForm
                         AddLayoutEditor(show: true);
                     else
                         foreach (var l in LayoutEditors)
-                        l.Show();
+                            l.Show();
                     break;
                 case Keys.F6:
                     TeleportPlayerToCamera();
@@ -767,7 +768,7 @@ namespace HeroesPowerPlant.MainForm
             objectsToolStripMenuItem.Checked = true;
             camerasToolStripMenuItem.Checked = false;
         }
-        
+
         private void camerasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             renderer.MouseModeObjects = false;
@@ -809,13 +810,13 @@ namespace HeroesPowerPlant.MainForm
         {
             ToggleRenderByChunk();
         }
-        
+
         public void ToggleRenderByChunk()
         {
             renderByChunkToolStripMenuItem.Checked = !renderByChunkToolStripMenuItem.Checked;
             BSPRenderer.renderByChunk = renderByChunkToolStripMenuItem.Checked;
         }
-        
+
         private void chunkBoxesBToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleChunkBoxes();
@@ -858,7 +859,7 @@ namespace HeroesPowerPlant.MainForm
         {
             if (showObjectsGToolStripMenuItem.CheckState == CheckState.Checked)
                 showObjectsGToolStripMenuItem.CheckState = CheckState.Unchecked;
-            
+
             else if (showObjectsGToolStripMenuItem.CheckState == CheckState.Indeterminate)
                 showObjectsGToolStripMenuItem.CheckState = CheckState.Checked;
 
@@ -878,7 +879,7 @@ namespace HeroesPowerPlant.MainForm
             camerasVToolStripMenuItem.Checked = !camerasVToolStripMenuItem.Checked;
             renderer.ShowCameras = camerasVToolStripMenuItem.Checked;
         }
-        
+
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
             ViewConfig.Show();
@@ -975,7 +976,7 @@ namespace HeroesPowerPlant.MainForm
             autoSaveProjectOnClosingToolStripMenuItem.Checked = value;
             HPPConfig.GetInstance().AutomaticallySaveConfig = value;
         }
-                
+
         private void addObjectONEToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog()
@@ -1100,9 +1101,44 @@ namespace HeroesPowerPlant.MainForm
                 MessageBox.Show("Unable to teleport player.");
         }
 
-        private void shadowCameraEditorToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void shadowCameraEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             //TODO: Fix disposed obj exception
             ShadowCameraEditor.Show();
+        }
+
+        private void disableRendering_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!disableRendering_ToolStripMenuItem.Checked) {
+                renderer.dontRender = true;
+                disableRendering_ToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                renderer.dontRender = false;
+                disableRendering_ToolStripMenuItem.Checked = false;
+            }
+        }
+
+        private void LimitFPS_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!LimitFPS_ToolStripMenuItem.Checked)
+                LimitFPS_ToolStripMenuItem.Checked = true;
+            else
+                LimitFPS_ToolStripMenuItem.Checked = false;
+            SetMaxFPS();
+        }
+
+        public void SetMaxFPS()
+        {
+            if (LimitFPS_ToolStripMenuItem.Checked)
+            {
+                renderer.SharpFps.FPSLimit = (float)ViewConfig.maxFps_numericUpDown.Value;
+            }
+            else
+            {
+                renderer.SharpFps.FPSLimit = float.MaxValue;
+            }
         }
     }
 }
