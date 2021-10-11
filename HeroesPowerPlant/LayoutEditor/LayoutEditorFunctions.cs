@@ -812,9 +812,12 @@ namespace HeroesPowerPlant.LayoutEditor
             switch (List) {
                 case 0x00:
                     switch (Type) {
-                        case 0x01: case 0x02: case 0x03: case 0x06: return new Object00_SpringShadow();
+                        case 0x01: return new Object0001_SpringShadow();
+                        case 0x02: return new Object0002_WideSpring();
+                        case 0x03: return new Object0003_DashPanel();
                         case 0x04: return new Object0004_DashRamp();
                         case 0x05: return new Object0005_Checkpoint();
+                        case 0x06: return new Object0006_DashRing();
                         case 0x07: return new Object0007_Case();
                         case 0x08: return new Object0008_Pulley();
                         case 0x09: return new Object0009_WoodBox();
@@ -886,7 +889,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xD7: return new Object07D7_DigitalBreakableTile();
                         case 0xD8: return new Object07D8_LaserWallBarrier();
                         case 0xDA: return new Object07DA_MatrixTerminalElecFan();
-                        case 0xDE: return new Object00_SpringShadow();
+                        case 0xDE: return new Object0001_SpringShadow();
                         case 0xDF: return new Object07DF_LightspeedFirewall();
                         case 0xE1: return new Object07E1_TriggerDigitalBreakableTile();
                         case 0xE2: return new Object07E2_ElecCube();
