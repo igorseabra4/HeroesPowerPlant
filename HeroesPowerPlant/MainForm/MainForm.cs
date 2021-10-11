@@ -1126,6 +1126,14 @@ namespace HeroesPowerPlant.MainForm
                 LimitFPS_ToolStripMenuItem.Checked = true;
             else
                 LimitFPS_ToolStripMenuItem.Checked = false;
+            HPPConfig.GetInstance().LimitFPS = LimitFPS_ToolStripMenuItem.Checked;
+            SetMaxFPS();
+        }
+
+        public void SetLimitFPSInitial(bool isEnabled, decimal fpsLimit)
+        {
+            LimitFPS_ToolStripMenuItem.Checked = isEnabled;
+            ViewConfig.maxFps_numericUpDown.Value = fpsLimit;
             SetMaxFPS();
         }
 
@@ -1134,6 +1142,7 @@ namespace HeroesPowerPlant.MainForm
             if (LimitFPS_ToolStripMenuItem.Checked)
             {
                 renderer.SharpFps.FPSLimit = (float)ViewConfig.maxFps_numericUpDown.Value;
+                HPPConfig.GetInstance().LimitFPSValue = ViewConfig.maxFps_numericUpDown.Value;
             }
             else
             {

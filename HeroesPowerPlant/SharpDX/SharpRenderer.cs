@@ -109,6 +109,10 @@ namespace HeroesPowerPlant
         public Vector4 normalColor;
         public Vector4 selectedColor;
         public Vector4 selectedObjectColor;
+        public Vector4 triggerColor;
+        public Vector4 triggerTalkingColor;
+
+
 
         public void ResetColors()
         {
@@ -119,14 +123,17 @@ namespace HeroesPowerPlant
             VisibilityFunctions.ResetSelectedChunkColor();
         }
 
-        public void DrawCubeTrigger(Matrix world, bool isSelected)
+        public void DrawCubeTrigger(Matrix world, bool isSelected, Color4? color = null)
         {
             cubeRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
                 cubeRenderData.Color = selectedColor;
+            else if (color != null)
+                cubeRenderData.Color = color ?? normalColor;
             else
                 cubeRenderData.Color = normalColor;
+
 
             Device.SetFillModeDefault();
             Device.SetCullModeNone();
@@ -143,12 +150,14 @@ namespace HeroesPowerPlant
 
         private DefaultRenderData cylinderRenderData;
 
-        public void DrawCylinderTrigger(Matrix world, bool isSelected)
+        public void DrawCylinderTrigger(Matrix world, bool isSelected, Color4? color = null)
         {
             cylinderRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
                 cylinderRenderData.Color = selectedColor;
+            else if (color != null)
+                cylinderRenderData.Color = color ?? normalColor;
             else
                 cylinderRenderData.Color = normalColor;
 

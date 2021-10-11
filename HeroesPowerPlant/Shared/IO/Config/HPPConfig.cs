@@ -18,7 +18,10 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public bool AutomaticallySaveConfig { get; set; } = true;
         public bool CheckForUpdatesOnStartup { get; set; } = true;
         public bool VSync { get; set; } = true;
-        
+        public bool LimitFPS { get; set; } = false;
+        public decimal LimitFPSValue { get; set; } = 60.0000m;
+
+
         private HPPConfig() { }
 
         static HPPConfig()
@@ -81,6 +84,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     mainForm.EnableVSync();
                 else
                     mainForm.DisableVSync(); // In case the program default ever changes.
+
+                mainForm.SetLimitFPSInitial(LimitFPS, LimitFPSValue);
 
                 mainForm.SetCheckForUpdatesOnStartup(CheckForUpdatesOnStartup);
                 mainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);

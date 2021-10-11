@@ -151,9 +151,9 @@ namespace HeroesPowerPlant.LayoutEditor {
             //    renderer.DrawCone(transformMatrix, isSelected);
             //else if
             if (Shape == TriggerShape.Cylinder)
-                renderer.DrawCylinderTrigger(transformMatrix, isSelected);
+                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0.5f, 0.5f, 0f, 0.5f));
             else if (Shape == TriggerShape.Cube)
-                renderer.DrawCubeTrigger(transformMatrix, isSelected);
+                renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(0.5f, 0.5f, 0f, 0.5f));
             else
                 DrawCube(renderer);
         }
