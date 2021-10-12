@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 
@@ -21,6 +22,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public bool LimitFPS { get; set; } = false;
         public decimal LimitFPSValue { get; set; } = 60.0000m;
 
+        public Size MainWindowSize { get; set; } = new Size(1490, 1006);
 
         private HPPConfig() { }
 

@@ -59,6 +59,8 @@ namespace HeroesPowerPlant.MainForm
         private void MainForm_Load(object sender, EventArgs e)
         {
             HPPConfig.GetInstance().Load(this);
+            Size = HPPConfig.GetInstance().MainWindowSize;
+            ResetMouseCenter(sender, e);
         }
 
         public string currentSavePath;
@@ -1079,6 +1081,7 @@ namespace HeroesPowerPlant.MainForm
                 {
                     renderer.dontRender = false;
                     SetAllTopMost(true);
+                    HPPConfig.GetInstance().MainWindowSize = Size;
                 }
             }
             catch
