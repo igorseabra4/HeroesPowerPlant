@@ -153,7 +153,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1002, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(572, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -306,7 +306,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 587);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1002, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(572, 22);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
@@ -392,7 +392,7 @@
             // ButtonFindNextLink
             // 
             this.ButtonFindNextLink.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ButtonFindNextLink.Location = new System.Drawing.Point(299, 195);
+            this.ButtonFindNextLink.Location = new System.Drawing.Point(281, 195);
             this.ButtonFindNextLink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ButtonFindNextLink.Name = "ButtonFindNextLink";
             this.ButtonFindNextLink.Size = new System.Drawing.Size(49, 21);
@@ -415,16 +415,16 @@
             // LabelRend
             // 
             this.LabelRend.AutoSize = true;
-            this.LabelRend.Location = new System.Drawing.Point(355, 198);
+            this.LabelRend.Location = new System.Drawing.Point(338, 199);
             this.LabelRend.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelRend.Name = "LabelRend";
-            this.LabelRend.Size = new System.Drawing.Size(95, 15);
+            this.LabelRend.Size = new System.Drawing.Size(92, 15);
             this.LabelRend.TabIndex = 69;
-            this.LabelRend.Text = "Render Distance:";
+            this.LabelRend.Text = "Render Distance";
             // 
             // NumericObjRend
             // 
-            this.NumericObjRend.Location = new System.Drawing.Point(355, 217);
+            this.NumericObjRend.Location = new System.Drawing.Point(338, 218);
             this.NumericObjRend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericObjRend.Maximum = new decimal(new int[] {
             255,
@@ -432,7 +432,7 @@
             0,
             0});
             this.NumericObjRend.Name = "NumericObjRend";
-            this.NumericObjRend.Size = new System.Drawing.Size(107, 23);
+            this.NumericObjRend.Size = new System.Drawing.Size(92, 23);
             this.NumericObjRend.TabIndex = 72;
             this.NumericObjRend.ValueChanged += new System.EventHandler(this.NumericObjRend_ValueChanged);
             // 
@@ -442,9 +442,9 @@
             this.LabelLinkId.Location = new System.Drawing.Point(240, 198);
             this.LabelLinkId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelLinkId.Name = "LabelLinkId";
-            this.LabelLinkId.Size = new System.Drawing.Size(46, 15);
+            this.LabelLinkId.Size = new System.Drawing.Size(43, 15);
             this.LabelLinkId.TabIndex = 68;
-            this.LabelLinkId.Text = "Link ID:";
+            this.LabelLinkId.Text = "Link ID";
             // 
             // NumericObjLink
             // 
@@ -456,7 +456,7 @@
             0,
             0});
             this.NumericObjLink.Name = "NumericObjLink";
-            this.NumericObjLink.Size = new System.Drawing.Size(107, 23);
+            this.NumericObjLink.Size = new System.Drawing.Size(90, 23);
             this.NumericObjLink.TabIndex = 71;
             this.NumericObjLink.ValueChanged += new System.EventHandler(this.NumericObjLink_ValueChanged);
             // 
@@ -466,9 +466,9 @@
             this.LabelObject.Location = new System.Drawing.Point(240, 31);
             this.LabelObject.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelObject.Name = "LabelObject";
-            this.LabelObject.Size = new System.Drawing.Size(45, 15);
+            this.LabelObject.Size = new System.Drawing.Size(42, 15);
             this.LabelObject.TabIndex = 67;
-            this.LabelObject.Text = "Object:";
+            this.LabelObject.Text = "Object";
             // 
             // GroupBox2
             // 
@@ -479,7 +479,7 @@
             this.GroupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.GroupBox2.Name = "GroupBox2";
             this.GroupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBox2.Size = new System.Drawing.Size(449, 54);
+            this.GroupBox2.Size = new System.Drawing.Size(338, 54);
             this.GroupBox2.TabIndex = 66;
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "Rotation (X, Y, Z)";
@@ -487,7 +487,7 @@
             // NumericRotZ
             // 
             this.NumericRotZ.DecimalPlaces = 4;
-            this.NumericRotZ.Location = new System.Drawing.Point(299, 22);
+            this.NumericRotZ.Location = new System.Drawing.Point(228, 22);
             this.NumericRotZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericRotZ.Maximum = new decimal(new int[] {
             65535,
@@ -500,14 +500,14 @@
             0,
             -2147483648});
             this.NumericRotZ.Name = "NumericRotZ";
-            this.NumericRotZ.Size = new System.Drawing.Size(139, 23);
+            this.NumericRotZ.Size = new System.Drawing.Size(105, 23);
             this.NumericRotZ.TabIndex = 29;
             this.NumericRotZ.ValueChanged += new System.EventHandler(this.NumericRot_ValueChanged);
             // 
             // NumericRotY
             // 
             this.NumericRotY.DecimalPlaces = 4;
-            this.NumericRotY.Location = new System.Drawing.Point(153, 22);
+            this.NumericRotY.Location = new System.Drawing.Point(117, 22);
             this.NumericRotY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericRotY.Maximum = new decimal(new int[] {
             65535,
@@ -520,7 +520,7 @@
             0,
             -2147483648});
             this.NumericRotY.Name = "NumericRotY";
-            this.NumericRotY.Size = new System.Drawing.Size(139, 23);
+            this.NumericRotY.Size = new System.Drawing.Size(105, 23);
             this.NumericRotY.TabIndex = 28;
             this.NumericRotY.ValueChanged += new System.EventHandler(this.NumericRot_ValueChanged);
             // 
@@ -540,7 +540,7 @@
             0,
             -2147483648});
             this.NumericRotX.Name = "NumericRotX";
-            this.NumericRotX.Size = new System.Drawing.Size(139, 23);
+            this.NumericRotX.Size = new System.Drawing.Size(105, 23);
             this.NumericRotX.TabIndex = 27;
             this.NumericRotX.ValueChanged += new System.EventHandler(this.NumericRot_ValueChanged);
             // 
@@ -549,7 +549,7 @@
             this.buttonViewHere.Location = new System.Drawing.Point(575, 46);
             this.buttonViewHere.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonViewHere.Name = "buttonViewHere";
-            this.buttonViewHere.Size = new System.Drawing.Size(96, 27);
+            this.buttonViewHere.Size = new System.Drawing.Size(98, 36);
             this.buttonViewHere.TabIndex = 74;
             this.buttonViewHere.TabStop = false;
             this.buttonViewHere.Text = "View Here";
@@ -711,10 +711,10 @@
             // 
             // buttonDrop
             // 
-            this.buttonDrop.Location = new System.Drawing.Point(690, 102);
+            this.buttonDrop.Location = new System.Drawing.Point(575, 131);
             this.buttonDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonDrop.Name = "buttonDrop";
-            this.buttonDrop.Size = new System.Drawing.Size(80, 23);
+            this.buttonDrop.Size = new System.Drawing.Size(98, 36);
             this.buttonDrop.TabIndex = 79;
             this.buttonDrop.TabStop = false;
             this.buttonDrop.Text = "Floor-Drop";
@@ -723,10 +723,10 @@
             // 
             // buttonCurrentViewDrop
             // 
-            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(690, 80);
+            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(575, 89);
             this.buttonCurrentViewDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
-            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(80, 23);
+            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(98, 36);
             this.buttonCurrentViewDrop.TabIndex = 80;
             this.buttonCurrentViewDrop.TabStop = false;
             this.buttonCurrentViewDrop.Text = "Cam-Drop";
@@ -744,14 +744,14 @@
             0,
             0});
             this.NumericPosX.Name = "NumericPosX";
-            this.NumericPosX.Size = new System.Drawing.Size(139, 23);
+            this.NumericPosX.Size = new System.Drawing.Size(105, 23);
             this.NumericPosX.TabIndex = 24;
             this.NumericPosX.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
             // 
             // NumericPosY
             // 
             this.NumericPosY.DecimalPlaces = 4;
-            this.NumericPosY.Location = new System.Drawing.Point(153, 22);
+            this.NumericPosY.Location = new System.Drawing.Point(117, 22);
             this.NumericPosY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericPosY.Maximum = new decimal(new int[] {
             0,
@@ -759,14 +759,14 @@
             0,
             0});
             this.NumericPosY.Name = "NumericPosY";
-            this.NumericPosY.Size = new System.Drawing.Size(139, 23);
+            this.NumericPosY.Size = new System.Drawing.Size(105, 23);
             this.NumericPosY.TabIndex = 25;
             this.NumericPosY.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
             // 
             // NumericPosZ
             // 
             this.NumericPosZ.DecimalPlaces = 4;
-            this.NumericPosZ.Location = new System.Drawing.Point(299, 22);
+            this.NumericPosZ.Location = new System.Drawing.Point(228, 22);
             this.NumericPosZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericPosZ.Maximum = new decimal(new int[] {
             0,
@@ -774,7 +774,7 @@
             0,
             0});
             this.NumericPosZ.Name = "NumericPosZ";
-            this.NumericPosZ.Size = new System.Drawing.Size(139, 23);
+            this.NumericPosZ.Size = new System.Drawing.Size(105, 23);
             this.NumericPosZ.TabIndex = 26;
             this.NumericPosZ.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
             // 
@@ -787,7 +787,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox3.Size = new System.Drawing.Size(449, 54);
+            this.groupBox3.Size = new System.Drawing.Size(338, 54);
             this.groupBox3.TabIndex = 65;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Position (X, Y, Z)";
@@ -970,10 +970,10 @@
             // 
             // buttonCopyMisc
             // 
-            this.buttonCopyMisc.Location = new System.Drawing.Point(469, 202);
+            this.buttonCopyMisc.Location = new System.Drawing.Point(502, 199);
             this.buttonCopyMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCopyMisc.Name = "buttonCopyMisc";
-            this.buttonCopyMisc.Size = new System.Drawing.Size(90, 23);
+            this.buttonCopyMisc.Size = new System.Drawing.Size(56, 41);
             this.buttonCopyMisc.TabIndex = 83;
             this.buttonCopyMisc.TabStop = false;
             this.buttonCopyMisc.Text = "Copy Misc.";
@@ -982,10 +982,10 @@
             // 
             // buttonPasteMisc
             // 
-            this.buttonPasteMisc.Location = new System.Drawing.Point(469, 224);
+            this.buttonPasteMisc.Location = new System.Drawing.Point(438, 199);
             this.buttonPasteMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonPasteMisc.Name = "buttonPasteMisc";
-            this.buttonPasteMisc.Size = new System.Drawing.Size(90, 23);
+            this.buttonPasteMisc.Size = new System.Drawing.Size(56, 41);
             this.buttonPasteMisc.TabIndex = 84;
             this.buttonPasteMisc.TabStop = false;
             this.buttonPasteMisc.Text = "Paste Misc.";
@@ -997,7 +997,7 @@
             this.checkBoxDrawObjs.AutoSize = true;
             this.checkBoxDrawObjs.Checked = true;
             this.checkBoxDrawObjs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDrawObjs.Location = new System.Drawing.Point(681, 31);
+            this.checkBoxDrawObjs.Location = new System.Drawing.Point(99, 5);
             this.checkBoxDrawObjs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkBoxDrawObjs.Name = "checkBoxDrawObjs";
             this.checkBoxDrawObjs.Size = new System.Drawing.Size(96, 19);
@@ -1127,14 +1127,14 @@
             this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox7.Size = new System.Drawing.Size(132, 141);
+            this.groupBox7.Size = new System.Drawing.Size(112, 125);
             this.groupBox7.TabIndex = 91;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Shadow AFS/FNT";
             // 
             // buttonPlayTriggerTalkingAudio
             // 
-            this.buttonPlayTriggerTalkingAudio.Location = new System.Drawing.Point(21, 89);
+            this.buttonPlayTriggerTalkingAudio.Location = new System.Drawing.Point(14, 88);
             this.buttonPlayTriggerTalkingAudio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonPlayTriggerTalkingAudio.Name = "buttonPlayTriggerTalkingAudio";
             this.buttonPlayTriggerTalkingAudio.Size = new System.Drawing.Size(80, 27);
@@ -1146,7 +1146,7 @@
             // 
             // buttonLoadFNT
             // 
-            this.buttonLoadFNT.Location = new System.Drawing.Point(21, 55);
+            this.buttonLoadFNT.Location = new System.Drawing.Point(14, 55);
             this.buttonLoadFNT.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonLoadFNT.Name = "buttonLoadFNT";
             this.buttonLoadFNT.Size = new System.Drawing.Size(80, 27);
@@ -1158,7 +1158,7 @@
             // 
             // buttonLoadAFS
             // 
-            this.buttonLoadAFS.Location = new System.Drawing.Point(21, 22);
+            this.buttonLoadAFS.Location = new System.Drawing.Point(14, 22);
             this.buttonLoadAFS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonLoadAFS.Name = "buttonLoadAFS";
             this.buttonLoadAFS.Size = new System.Drawing.Size(80, 27);
@@ -1170,18 +1170,18 @@
             // 
             // textBox_FNT_TriggerTalkingPreview
             // 
-            this.textBox_FNT_TriggerTalkingPreview.Location = new System.Drawing.Point(785, 350);
+            this.textBox_FNT_TriggerTalkingPreview.Location = new System.Drawing.Point(785, 333);
             this.textBox_FNT_TriggerTalkingPreview.Multiline = true;
             this.textBox_FNT_TriggerTalkingPreview.Name = "textBox_FNT_TriggerTalkingPreview";
             this.textBox_FNT_TriggerTalkingPreview.ReadOnly = true;
-            this.textBox_FNT_TriggerTalkingPreview.Size = new System.Drawing.Size(201, 227);
+            this.textBox_FNT_TriggerTalkingPreview.Size = new System.Drawing.Size(201, 244);
             this.textBox_FNT_TriggerTalkingPreview.TabIndex = 92;
             // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1002, 609);
+            this.ClientSize = new System.Drawing.Size(572, 609);
             this.Controls.Add(this.textBox_FNT_TriggerTalkingPreview);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox4);
@@ -1215,7 +1215,6 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximumSize = new System.Drawing.Size(1018, 648);
-            this.MinimumSize = new System.Drawing.Size(799, 648);
             this.Name = "LayoutEditor";
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
