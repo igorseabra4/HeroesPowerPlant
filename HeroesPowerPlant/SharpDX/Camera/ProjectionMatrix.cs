@@ -13,7 +13,7 @@ namespace HeroesPowerPlant
     public class ProjectionMatrix
     {
         private float _fieldOfView = MathUtil.PiOverFour;
-        private float _aspectRatio;
+        private Vector2 _aspectRatio;
         private float _nearPlane = 0.1F;
         private float _farPlane = 80000F;
 
@@ -23,14 +23,14 @@ namespace HeroesPowerPlant
         /// </summary>
         private Matrix _projectionMatrix;
         private bool _validProjectonMatrix = false;
-
+        
         public ProjectionMatrix()
         {
         }
 
-        public ProjectionMatrix(float aspectRatio, float farPlane, float fieldOfView)
+        public ProjectionMatrix(Vector2 aspectRatio, float farPlane, float fieldOfView)
         {
-            AspectRatio = aspectRatio;
+            AspectRatio = new Vector2(aspectRatio.X,aspectRatio.Y);
             FarPlane = farPlane;
             FieldOfView = fieldOfView;
         }
@@ -101,7 +101,7 @@ namespace HeroesPowerPlant
             if (_validProjectonMatrix)
                 return _projectionMatrix;
 
-            _projectionMatrix = Matrix.PerspectiveFovRH(_fieldOfView, _aspectRatio, _nearPlane, _farPlane);
+            _projectionMatrix = Matrix.PerspectiveFovRH(2 * (float)Math.Atan((float)Math.Tan(_fieldOfView / 2) / _aspectRatio.Y), _aspectRatio.X * _aspectRatio.Y, _nearPlane, _farPlane);
             _validProjectonMatrix = true;
 
             return _projectionMatrix;
