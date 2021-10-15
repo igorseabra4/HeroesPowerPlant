@@ -55,7 +55,7 @@ namespace HeroesPowerPlant
         /// <summary>
         /// Horizontal resolution divided by vertical resolution.
         /// </summary>
-        public float AspectRatio
+        public Vector2 AspectRatio
         {
             get => _aspectRatio;
             set
