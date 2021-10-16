@@ -17,16 +17,19 @@ namespace HeroesPowerPlant.LayoutEditor {
             set => Write(4, (int)value);
         }
 
+        [Description("Radius for Sphere shape")]
         public float Size_X {
             get => ReadFloat(8);
             set => Write(8, value);
         }
 
+        [Description("Unused for Sphere shape")]
         public float Size_Y {
             get => ReadFloat(12);
             set => Write(12, value);
         }
 
+        [Description("Unused for Sphere shape")]
         public float Size_Z {
             get => ReadFloat(16);
             set => Write(16, value);
@@ -58,16 +61,19 @@ namespace HeroesPowerPlant.LayoutEditor {
         {
             switch (Shape)
             {
-                //case TriggerShape.Cone:
-                //sphereBound = new BoundingSphere(Position, Radius);
-                //transformMatrix = Matrix.Scaling(Radius * 2);
-                //break;
+                case TriggerShape.Sphere:
+                    //var sphereBound = new BoundingSphere(Position, Size_X);
+                    transformMatrix = Matrix.Scaling(Size_X * 2);
+                        break;
                 case TriggerShape.Cube:
                     transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_Z * 2);
                     break;
+                case TriggerShape.Cone:
+                    transformMatrix = Matrix.Scaling(Size_X * 2);
+                    break;
                 case TriggerShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(Size_X, Size_Y * 2, Size_X);
-                    //transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
+                    transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_X * 2);
+                    transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
                     break;
                 //default temp until cone determined
                 default:
@@ -85,11 +91,14 @@ namespace HeroesPowerPlant.LayoutEditor {
 
             switch (Shape)
             {
-                //case TriggerShape.Cone:
-                //list.AddRange(SharpRenderer.sphereVertices);
-                //break;
+                case TriggerShape.Sphere:
+                    list.AddRange(SharpRenderer.sphereVertices);
+                    break;
                 case TriggerShape.Cube:
                     list.AddRange(SharpRenderer.cubeVertices);
+                    break;
+                case TriggerShape.Cone:
+                    list.AddRange(SharpRenderer.pyramidVertices);
                     break;
                 case TriggerShape.Cylinder:
                     list.AddRange(SharpRenderer.cylinderVertices);
@@ -107,13 +116,14 @@ namespace HeroesPowerPlant.LayoutEditor {
 
         public override void Draw(SharpRenderer renderer)
         {
-            //if (Shape == TriggerShape.Cone)
-            //    renderer.DrawCone(transformMatrix, isSelected);
-            //else if
-            if (Shape == TriggerShape.Cylinder)
-                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+            if (Shape == TriggerShape.Sphere)
+                renderer.DrawSphereTrigger(transformMatrix, isSelected);//, new Color4(0f, 1f, 0f, 0.5f));
             else if (Shape == TriggerShape.Cube)
                 renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+            else if (Shape == TriggerShape.Cone)
+                renderer.DrawConeTrigger(transformMatrix, isSelected);
+            else if (Shape == TriggerShape.Cylinder)
+                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
             else
                 DrawCube(renderer);
         }
@@ -122,6 +132,8 @@ namespace HeroesPowerPlant.LayoutEditor {
         {
             switch (Shape)
             {
+/*                case TriggerShape.Sphere:
+                    return r.Intersects(ref sphereBound, out distance);*/
                 //case TriggerShape.Cone:
                 //    return r.Intersects(ref sphereBound, out distance);
                 case TriggerShape.Cube:
@@ -148,8 +160,9 @@ namespace HeroesPowerPlant.LayoutEditor {
     }
 
     public enum TriggerShape {
-        Cylinder,
+        Sphere,
         Cube,
+        Cylinder,
         Cone
     }
 
