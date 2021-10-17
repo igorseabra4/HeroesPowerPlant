@@ -198,6 +198,32 @@ namespace HeroesPowerPlant
             Sphere.Draw(Device);
         }
 
+        private DefaultRenderData coneRenderData;
+
+        public void DrawConeTrigger(Matrix world, bool isSelected, Color4? color = null)
+        {
+            coneRenderData.worldViewProjection = world * viewProjection;
+
+            if (isSelected)
+                coneRenderData.Color = selectedColor;
+            else if (color != null)
+                coneRenderData.Color = color ?? normalColor;
+            else
+                coneRenderData.Color = normalColor;
+
+            Device.SetFillModeDefault();
+            Device.SetCullModeNone();
+            Device.SetBlendStateAlphaBlend();
+            Device.ApplyRasterState();
+            Device.UpdateAllStates();
+
+            Device.UpdateData(basicBuffer, coneRenderData);
+            Device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+            basicShader.Apply();
+
+            Pyramid.Draw(Device);
+        }
+
         public bool ShowStartPositions { get; set; } = true;
         public bool ShowSplines { get; set; } = true;
         public bool ShowChunkBoxes { get; set; } = false;
