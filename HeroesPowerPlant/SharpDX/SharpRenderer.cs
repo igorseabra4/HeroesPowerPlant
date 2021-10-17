@@ -30,7 +30,9 @@ namespace HeroesPowerPlant
             };
             Camera = new SharpCamera(SharpFps);
 
-            Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
+            Camera.ProjectionMatrix.AspectRatio = new Vector2(
+                (float)control.ClientSize.Width / control.ClientSize.Height < 1 ? 1 : (float)control.ClientSize.Width / control.ClientSize.Height,
+                (float)control.ClientSize.Width / control.ClientSize.Height < 1 ? (float)control.ClientSize.Width / control.ClientSize.Height : 1);
 
             SetSharpShader();
             LoadTexture();
@@ -111,8 +113,6 @@ namespace HeroesPowerPlant
         public Vector4 selectedObjectColor;
         public Vector4 triggerColor;
         public Vector4 triggerTalkingColor;
-
-
 
         public void ResetColors()
         {
@@ -288,7 +288,9 @@ namespace HeroesPowerPlant
                 if (Device.MustResize)
                 {
                     Device.Resize();
-                    Camera.ProjectionMatrix.AspectRatio = (float)Panel.Width / Panel.Height;
+                    Camera.ProjectionMatrix.AspectRatio = new Vector2(
+                        (float)Panel.Width / Panel.Height < 1 ? 1 : (float)Panel.Width / Panel.Height,
+                        (float)Panel.Width / Panel.Height < 1 ? (float)Panel.Width / Panel.Height : 1);
                 }
 
                 mainForm.KeyboardController();
