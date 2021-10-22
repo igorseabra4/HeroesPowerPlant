@@ -942,7 +942,8 @@ namespace HeroesPowerPlant.MainForm
             renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = true;
             renderer.Device.SetVSync(vSyncToolStripMenuItem.Checked);
-            renderer.dontRender = false;
+            if (!disableRendering_ToolStripMenuItem.Checked)
+                renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = true;
         }
@@ -952,7 +953,8 @@ namespace HeroesPowerPlant.MainForm
             renderer.dontRender = true;
             vSyncToolStripMenuItem.Checked = false;
             renderer.Device.SetVSync(vSyncToolStripMenuItem.Checked);
-            renderer.dontRender = false;
+            if (!disableRendering_ToolStripMenuItem.Checked)
+                renderer.dontRender = false;
 
             HPPConfig.GetInstance().VSync = false;
         }
@@ -1079,7 +1081,8 @@ namespace HeroesPowerPlant.MainForm
                 }
                 else
                 {
-                    renderer.dontRender = false;
+                    if (!disableRendering_ToolStripMenuItem.Checked)
+                        renderer.dontRender = false;
                     SetAllTopMost(true);
                     HPPConfig.GetInstance().MainWindowSize = Size;
                 }
@@ -1112,7 +1115,8 @@ namespace HeroesPowerPlant.MainForm
 
         private void disableRendering_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!disableRendering_ToolStripMenuItem.Checked) {
+            if (!disableRendering_ToolStripMenuItem.Checked)
+            {
                 renderer.dontRender = true;
                 disableRendering_ToolStripMenuItem.Checked = true;
             }
