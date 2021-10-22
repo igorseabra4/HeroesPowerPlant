@@ -68,7 +68,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (NumberOfRings < 2) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, -(LengthRadius * i / (NumberOfRings - 1))));
+                        positionsList.Add(new Vector3(0, 0, -(LengthRadius * i / (NumberOfRings))));
                     break;
                 case RingType.Circle:
                     if (NumberOfRings < 1) return;
@@ -81,7 +81,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                     
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, -(LengthRadius * i / (NumberOfRings - 1))));
+                        positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
                     break;
                     /*
                     for (int i = 0; i < NumberOfRings; i++)
