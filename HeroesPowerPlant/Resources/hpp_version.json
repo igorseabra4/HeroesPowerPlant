@@ -1,4 +1,4 @@
 ﻿{
-  "version": "v0.8.12",
-  "versionName": "\n* Experimental Shadow FNT/AFS Integration for TriggerTalking and HintBall\n* FPS Limit option\n* Render disable option\n* Program can now launch via Windows Search\n* Fix FPS drops when using gizmo to move an object while associated layout editor is open\n* More Shadow Object Models & Defintions"
+  "version": "v0.8.13",
+  "versionName": "\n* Experimental Shadow FNT/AFS Integration for TriggerTalking and HintBall\n* FPS Limit option\n* Render disable option\n* Program can now launch via Windows Search\n* Fix FPS drops when using gizmo to move an object while associated layout editor is open\n* More Shadow Object Models & Defintions\n*Accurate Renders for more Shadow Objects\n*Trigger Render toggle in Layout Editor for Shadow"
 }

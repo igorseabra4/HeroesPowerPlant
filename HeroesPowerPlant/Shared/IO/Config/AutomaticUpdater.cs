@@ -62,6 +62,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                                 "\\runtimes\\linux-x64\\native",
                                 "\\runtimes\\osx-x64",
                                 "\\runtimes\\osx-x64\\native",
+                                "\\runtimes\\win",
+                                "\\runtimes\\win\\native",
                                 "\\runtimes\\win-x64",
                                 "\\runtimes\\win-x64\\native",
                                 "\\runtimes\\win-x86",
