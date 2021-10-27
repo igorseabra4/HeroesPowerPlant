@@ -115,6 +115,7 @@
             this.buttonLoadFNT = new System.Windows.Forms.Button();
             this.buttonLoadAFS = new System.Windows.Forms.Button();
             this.textBox_FNT_TriggerTalkingPreview = new System.Windows.Forms.TextBox();
+            this.checkBoxDrawTriggerObjs = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -1177,11 +1178,25 @@
             this.textBox_FNT_TriggerTalkingPreview.Size = new System.Drawing.Size(201, 244);
             this.textBox_FNT_TriggerTalkingPreview.TabIndex = 92;
             // 
+            // checkBoxDrawTriggerObjs
+            // 
+            this.checkBoxDrawTriggerObjs.AutoSize = true;
+            this.checkBoxDrawTriggerObjs.Checked = true;
+            this.checkBoxDrawTriggerObjs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxDrawTriggerObjs.Location = new System.Drawing.Point(203, 5);
+            this.checkBoxDrawTriggerObjs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.checkBoxDrawTriggerObjs.Name = "checkBoxDrawTriggerObjs";
+            this.checkBoxDrawTriggerObjs.Size = new System.Drawing.Size(178, 19);
+            this.checkBoxDrawTriggerObjs.TabIndex = 93;
+            this.checkBoxDrawTriggerObjs.Text = "Draw Triggers (Shadow Only)";
+            this.checkBoxDrawTriggerObjs.UseVisualStyleBackColor = true;
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(572, 609);
+            this.Controls.Add(this.checkBoxDrawTriggerObjs);
             this.Controls.Add(this.textBox_FNT_TriggerTalkingPreview);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox4);
@@ -1346,5 +1361,6 @@
         internal System.Windows.Forms.Button buttonLoadFNT;
         internal System.Windows.Forms.Button buttonLoadAFS;
         private System.Windows.Forms.TextBox textBox_FNT_TriggerTalkingPreview;
+        private System.Windows.Forms.CheckBox checkBoxDrawTriggerObjs;
     }
 }

@@ -189,11 +189,17 @@ namespace HeroesPowerPlant.LayoutEditor
                 s.CreateTransformMatrix();
         }
 
-        public void RenderSetObjects(SharpRenderer renderer, bool drawEveryObject)
+        public void RenderSetObjects(SharpRenderer renderer, bool drawEveryObject, bool renderTriggers)
         {
             foreach (SetObject s in setObjects)
-                if (renderer.frustum.Intersects(ref s.boundingBox))
+                if (renderer.frustum.Intersects(ref s.boundingBox)) {
+                    if (!renderTriggers) {
+                        if (s.GetType() == typeof(Object0051_TriggerTalking) || s.GetType() == typeof(Object0050_Trigger))
+                            return;
+                    }
+                        
                     s.Draw(renderer, drawEveryObject);
+                }
         }
 
         public void UpdateSetParticleMatrices()
@@ -472,7 +478,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return GetSetObjectAt(index).UnkBytes;
         }
         
-        public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, out int index, out float smallerDistance)
+        public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, bool renderTriggers, out int index, out float smallerDistance)
         {
             index = -1;
             smallerDistance = 40000f;
@@ -481,6 +487,11 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(camPos)))
                     continue;
+                
+                if (!renderTriggers) {
+                    if (setObjects[i].GetType() == typeof(Object0051_TriggerTalking) || setObjects[i].GetType() == typeof(Object0050_Trigger))
+                        return;
+                }
 
                 if (setObjects[i].IntersectsWith(r, out float distance))
                     if (distance < smallerDistance)

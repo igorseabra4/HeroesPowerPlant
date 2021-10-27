@@ -607,7 +607,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (isMouseDown)
                     GizmoSelect(r);
                 else
-                    layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, out index, out distance);
+                    layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, checkBoxDrawTriggerObjs.Checked, out index, out distance);
             }
         }
 
@@ -800,7 +800,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (checkBoxDrawObjs.Checked)
             {
-                layoutSystem.RenderSetObjects(renderer, drawEveryObject);
+                layoutSystem.RenderSetObjects(renderer, drawEveryObject, checkBoxDrawTriggerObjs.Checked);
 
                 if (DrawGizmos)
                     foreach (Gizmo g in gizmos)
