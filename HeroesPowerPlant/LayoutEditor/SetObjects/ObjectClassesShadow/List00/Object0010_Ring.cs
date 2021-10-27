@@ -42,7 +42,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 default:
                     matrix = Matrix.RotationX(Rotation.X * shift) *
                     Matrix.RotationY(Rotation.Y * shift) *
-                    Matrix.RotationZ(Rotation.Z * shift);
+                    Matrix.RotationZ(0f);//Rotation.Z * shift);
                     break;
             }
                     /*   Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
@@ -78,11 +78,41 @@ namespace HeroesPowerPlant.LayoutEditor
                     break;
                 case RingType.Arch:
                     if (NumberOfRings < 2) return;
-
-                    
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
+                    {
+                        //Matrix Locator = Matrix.Translation(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
+                        Matrix Locator = Matrix.Translation(new Vector3(LengthRadius * i / NumberOfRings, 0, 0));
+                        if (i == 0)
+                            //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator));
+                            continue;
+                        positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+    * -Matrix.RotationY((Angle * i) / NumberOfRings)
+    //* -Matrix.RotationY((Angle) / (NumberOfRings * i))
+    ));
+                       /* if (i < NumberOfRings / 2)
+                        {
+                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                                //* Matrix.RotationY(Angle)
+                                * -Matrix.RotationY((Angle) / (NumberOfRings * i))
+                                ));
+                        }
+                        else if (i == NumberOfRings / 2)
+                        {
+                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                            * -Matrix.RotationY(Angle)
+                            ));
+                        }
+                        else
+                        {
+*//*                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                            * Matrix.RotationY(Angle / (NumberOfRings) * (i - NumberOfRings / 2))));*//*
+                        }*/
+                    }
                     break;
+
+/*                    for (int i = 0; i < NumberOfRings; i++)
+                        positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
+                    break;*/
                     /*
                     for (int i = 0; i < NumberOfRings; i++)
                     {
