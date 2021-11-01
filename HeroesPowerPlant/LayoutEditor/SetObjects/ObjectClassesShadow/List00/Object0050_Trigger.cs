@@ -75,10 +75,6 @@ namespace HeroesPowerPlant.LayoutEditor {
                     transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_X * 2);
                     transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
                     break;
-                //default temp until cone determined
-                default:
-                    transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_Z * 2);
-                    break;
             }
 
             transformMatrix *= DefaultTransformMatrix();
@@ -117,11 +113,11 @@ namespace HeroesPowerPlant.LayoutEditor {
         public override void Draw(SharpRenderer renderer)
         {
             if (Shape == TriggerShape.Sphere)
-                renderer.DrawSphereTrigger(transformMatrix, isSelected);//, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawSphereTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
             else if (Shape == TriggerShape.Cube)
                 renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
             else if (Shape == TriggerShape.Cone)
-                renderer.DrawConeTrigger(transformMatrix, isSelected);
+                renderer.DrawConeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
             else if (Shape == TriggerShape.Cylinder)
                 renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
             else

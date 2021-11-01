@@ -176,12 +176,14 @@ namespace HeroesPowerPlant
 
         private DefaultRenderData sphereRenderData;
 
-        public void DrawSphereTrigger(Matrix world, bool isSelected)
+        public void DrawSphereTrigger(Matrix world, bool isSelected, Color4? color = null)
         {
             sphereRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
                 sphereRenderData.Color = selectedColor;
+            else if (color != null)
+                sphereRenderData.Color = color ?? normalColor;
             else
                 sphereRenderData.Color = normalColor;
 
