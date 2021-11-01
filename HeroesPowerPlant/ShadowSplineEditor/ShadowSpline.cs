@@ -17,14 +17,16 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public byte Setting4 { get; set; }
         public int SettingInt { get; set; }
         public string Name { get; set; }
-        public byte[] UnknownSec5Bytes { get; set; }
+
+        // workaround to force Collection editor, should not be an array ideally
+        public ShadowSplineSec5Bytes[] UnknownSec5Bytes { get; set; }
 
         public ShadowSplineVertex[] Vertices { get; set; }
 
         public ShadowSpline()
         {
             Vertices = new ShadowSplineVertex[0];
-            UnknownSec5Bytes = new byte[0];
+            UnknownSec5Bytes = new ShadowSplineSec5Bytes[0];
             Name = "NewSpline";
         }
 
