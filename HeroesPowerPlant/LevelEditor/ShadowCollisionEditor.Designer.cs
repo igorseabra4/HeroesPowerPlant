@@ -40,29 +40,29 @@
             // labelTriangleAmount
             // 
             this.labelTriangleAmount.AutoSize = true;
-            this.labelTriangleAmount.Location = new System.Drawing.Point(16, 302);
+            this.labelTriangleAmount.Location = new System.Drawing.Point(14, 283);
             this.labelTriangleAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTriangleAmount.Name = "labelTriangleAmount";
-            this.labelTriangleAmount.Size = new System.Drawing.Size(71, 17);
+            this.labelTriangleAmount.Size = new System.Drawing.Size(56, 15);
             this.labelTriangleAmount.TabIndex = 75;
             this.labelTriangleAmount.Text = "Triangles:";
             // 
             // labelVertexAmount
             // 
             this.labelVertexAmount.AutoSize = true;
-            this.labelVertexAmount.Location = new System.Drawing.Point(16, 279);
+            this.labelVertexAmount.Location = new System.Drawing.Point(14, 262);
             this.labelVertexAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelVertexAmount.Name = "labelVertexAmount";
-            this.labelVertexAmount.Size = new System.Drawing.Size(63, 17);
+            this.labelVertexAmount.Size = new System.Drawing.Size(50, 15);
             this.labelVertexAmount.TabIndex = 74;
             this.labelVertexAmount.Text = "Vertices:";
             // 
             // buttonImport
             // 
-            this.buttonImport.Location = new System.Drawing.Point(16, 321);
-            this.buttonImport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonImport.Location = new System.Drawing.Point(14, 301);
+            this.buttonImport.Margin = new System.Windows.Forms.Padding(4);
             this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(125, 28);
+            this.buttonImport.Size = new System.Drawing.Size(109, 26);
             this.buttonImport.TabIndex = 70;
             this.buttonImport.Text = "Import";
             this.buttonImport.UseVisualStyleBackColor = true;
@@ -70,10 +70,10 @@
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(16, 357);
-            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRemove.Location = new System.Drawing.Point(14, 335);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(125, 28);
+            this.buttonRemove.Size = new System.Drawing.Size(109, 26);
             this.buttonRemove.TabIndex = 71;
             this.buttonRemove.Text = "Remove";
             this.buttonRemove.UseVisualStyleBackColor = true;
@@ -81,10 +81,10 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(149, 357);
-            this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClear.Location = new System.Drawing.Point(130, 335);
+            this.buttonClear.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(125, 28);
+            this.buttonClear.Size = new System.Drawing.Size(109, 26);
             this.buttonClear.TabIndex = 72;
             this.buttonClear.Text = "Clear";
             this.buttonClear.UseVisualStyleBackColor = true;
@@ -92,10 +92,10 @@
             // 
             // buttonExport
             // 
-            this.buttonExport.Location = new System.Drawing.Point(149, 321);
-            this.buttonExport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonExport.Location = new System.Drawing.Point(130, 301);
+            this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
             this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(125, 28);
+            this.buttonExport.Size = new System.Drawing.Size(109, 26);
             this.buttonExport.TabIndex = 73;
             this.buttonExport.Text = "Export";
             this.buttonExport.UseVisualStyleBackColor = true;
@@ -104,21 +104,22 @@
             // listBoxLevelModels
             // 
             this.listBoxLevelModels.FormattingEnabled = true;
-            this.listBoxLevelModels.ItemHeight = 16;
-            this.listBoxLevelModels.Location = new System.Drawing.Point(16, 15);
-            this.listBoxLevelModels.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBoxLevelModels.ItemHeight = 15;
+            this.listBoxLevelModels.Location = new System.Drawing.Point(14, 14);
+            this.listBoxLevelModels.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxLevelModels.Name = "listBoxLevelModels";
             this.listBoxLevelModels.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxLevelModels.Size = new System.Drawing.Size(257, 260);
+            this.listBoxLevelModels.Size = new System.Drawing.Size(225, 244);
             this.listBoxLevelModels.TabIndex = 69;
             this.listBoxLevelModels.SelectedIndexChanged += new System.EventHandler(this.listBoxLevelModels_SelectedIndexChanged);
+            this.listBoxLevelModels.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listBoxLevelModels_KeyDown);
             this.listBoxLevelModels.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxLevelModels_MouseDoubleClick);
             // 
             // ShadowCollisionEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(287, 399);
+            this.ClientSize = new System.Drawing.Size(251, 374);
             this.Controls.Add(this.labelTriangleAmount);
             this.Controls.Add(this.labelVertexAmount);
             this.Controls.Add(this.buttonImport);
@@ -127,7 +128,7 @@
             this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.listBoxLevelModels);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "ShadowCollisionEditor";
             this.ShowIcon = false;

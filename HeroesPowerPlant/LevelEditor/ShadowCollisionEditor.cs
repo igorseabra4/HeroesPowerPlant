@@ -185,5 +185,13 @@ namespace HeroesPowerPlant.LevelEditor
                 };
             }
         }
+
+        private void listBoxLevelModels_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+                buttonRemove_Click(sender, new EventArgs());
+            if (e.KeyCode == Keys.F2)
+                listBoxLevelModels_MouseDoubleClick(sender, null);
+        }
     }
 }
