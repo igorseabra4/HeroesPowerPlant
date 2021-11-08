@@ -353,6 +353,8 @@ namespace HeroesPowerPlant.LevelEditor
         {
             if (e.KeyCode == Keys.Delete)
                 buttonRemove_Click(sender, new EventArgs());
+            else if (e.KeyCode == Keys.F2)
+                listBoxLevelModelsDoubleClick(sender, new EventArgs());
         }
         
         private void listBoxLevelModels_SelectedIndexChanged(object sender, EventArgs e)
