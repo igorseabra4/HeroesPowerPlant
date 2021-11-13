@@ -104,6 +104,9 @@
     <Compile Update="LevelEditor\ChooseTarget.Designer.cs">
       <DependentUpon>ChooseTarget.cs</DependentUpon>
     </Compile>
+    <Compile Update="LevelEditor\ReassignMATFlag.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="LightEditor\LightMenu.cs">
       <SubType>Form</SubType>
     </Compile>

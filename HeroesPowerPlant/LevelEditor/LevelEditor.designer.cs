@@ -85,6 +85,9 @@
             this.importBLKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelLoadedBLK = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.btnReassignMATFlag = new System.Windows.Forms.Button();
+            this.textBox_import_extension = new System.Windows.Forms.TextBox();
+            this.label_import_extension = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericCurrentChunk)).BeginInit();
@@ -758,11 +761,43 @@
             this.progressBar1.Size = new System.Drawing.Size(517, 27);
             this.progressBar1.TabIndex = 23;
             // 
+            // btnReassignMATFlag
+            // 
+            this.btnReassignMATFlag.Location = new System.Drawing.Point(262, 367);
+            this.btnReassignMATFlag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnReassignMATFlag.Name = "btnReassignMATFlag";
+            this.btnReassignMATFlag.Size = new System.Drawing.Size(110, 27);
+            this.btnReassignMATFlag.TabIndex = 24;
+            this.btnReassignMATFlag.Text = "Reassign MATFlag";
+            this.btnReassignMATFlag.UseVisualStyleBackColor = true;
+            this.btnReassignMATFlag.Click += new System.EventHandler(this.btnReassignMATFlag_Click);
+            // 
+            // textBox_import_extension
+            // 
+            this.textBox_import_extension.Location = new System.Drawing.Point(406, 404);
+            this.textBox_import_extension.Name = "textBox_import_extension";
+            this.textBox_import_extension.Size = new System.Drawing.Size(100, 23);
+            this.textBox_import_extension.TabIndex = 25;
+            this.textBox_import_extension.Text = ".BSP";
+            this.textBox_import_extension.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label_import_extension
+            // 
+            this.label_import_extension.AutoSize = true;
+            this.label_import_extension.Location = new System.Drawing.Point(406, 386);
+            this.label_import_extension.Name = "label_import_extension";
+            this.label_import_extension.Size = new System.Drawing.Size(97, 15);
+            this.label_import_extension.TabIndex = 26;
+            this.label_import_extension.Text = "Import Extension";
+            // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(539, 517);
+            this.Controls.Add(this.label_import_extension);
+            this.Controls.Add(this.textBox_import_extension);
+            this.Controls.Add(this.btnReassignMATFlag);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.labelLoadedBLK);
             this.Controls.Add(this.labelLoadedONE);
@@ -859,5 +894,8 @@
         private System.Windows.Forms.Button buttonAutoBuild;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem disableFilesizeWarningToolStripMenuItem;
+        private System.Windows.Forms.Button btnReassignMATFlag;
+        private System.Windows.Forms.TextBox textBox_import_extension;
+        private System.Windows.Forms.Label label_import_extension;
     }
 }

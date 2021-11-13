@@ -208,7 +208,7 @@ namespace HeroesPowerPlant.LevelEditor
 
                 foreach (string i in openFile.FileNames)
                 {
-                    RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + ".BSP");
+                    RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + textBox_import_extension.Text);
                     file.SetChunkNumberAndName();
 
                     try
@@ -901,6 +901,23 @@ namespace HeroesPowerPlant.LevelEditor
         {
             disableFilesizeWarningToolStripMenuItem.Checked = !disableFilesizeWarningToolStripMenuItem.Checked;
             RenderWareModelFile.fileSizeCheck = !disableFilesizeWarningToolStripMenuItem.Checked;
+        }
+
+        private void btnReassignMATFlag_Click(object sender, EventArgs e)
+        {
+            string target;
+            string replacement;
+            (target, replacement) = ReassignMATFlags.GetMATSwap();
+            for (int i = 0; i < listBoxLevelModels.Items.Count; i++)
+            {
+                if (listBoxLevelModels.Items[i].ToString().Contains(target))
+                {
+                    var newName = listBoxLevelModels.Items[i].ToString().Replace(target, replacement);
+                    listBoxLevelModels.Items[i] = newName;
+                    bspRenderer.BSPList[i].fileName = newName;
+                    bspRenderer.BSPList[i].SetChunkNumberAndName();
+                }
+            }
         }
     }
 }
