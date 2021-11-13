@@ -212,7 +212,7 @@ namespace HeroesPowerPlant.SplineEditor
             {
                 writer.WriteLine("# Exported by Heroes Power Plant");
                 foreach (var v in SplineList[CurrentlySelectedObject].Points)
-                    writer.WriteLine($"v {v.Position.X} {v.Position.Y} {v.Position.Z}");
+                    writer.WriteLine($"v {v.Position.X} {v.Position.Y} {v.Position.Z} {v.Roll} {v.Pitch}");
                 string l = "l ";
                 for (int i = 0; i < SplineList[CurrentlySelectedObject].Points.Length; i++)
                     l += $"{i} ";

@@ -193,7 +193,7 @@
             // 
             // buttonExportOBJ
             // 
-            this.buttonExportOBJ.Enabled = false;
+            this.buttonExportOBJ.Enabled = true;
             this.buttonExportOBJ.Location = new System.Drawing.Point(12, 178);
             this.buttonExportOBJ.Name = "buttonExportOBJ";
             this.buttonExportOBJ.Size = new System.Drawing.Size(109, 23);
