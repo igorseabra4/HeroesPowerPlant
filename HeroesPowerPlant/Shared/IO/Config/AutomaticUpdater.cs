@@ -53,6 +53,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                         foreach (string s in new string[]
                         {
                                 "",
+                                "\\ref",
                                 "\\Resources",
                                 "\\Resources\\Lists",
                                 "\\Resources\\Models",
