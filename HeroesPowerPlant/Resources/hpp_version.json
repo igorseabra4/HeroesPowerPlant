@@ -1,4 +1,4 @@
 ﻿{
-  "version": "v0.8.14",
-  "versionName": "\n* Upgrade to .NET 6 (NOTE: HPP WILL FAIL TO LAUNCH IF YOU DO NOT INSTALL .NET 6 RUNTIME!!!!)\n* WIP Shadow Spline Editor fixes (Sec5Bytes editor fixed)\n* Level Editor QoL (Reassign MAT Button)\n* Heroes Spline Export Enabled"
+  "version": "v0.8.15",
+  "versionName": "\n* Revert back to .NETCORE 3.1\n* WIP Shadow Spline Editor fixes (Sec5Bytes editor fixed)\n* Level Editor QoL (Reassign MAT Button)\n* Heroes Spline Export Enabled"
 }
