@@ -195,7 +195,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (renderer.frustum.Intersects(ref s.boundingBox)) {
                     if (!renderTriggers) {
                         if (s.GetType() == typeof(Object0051_TriggerTalking) || s.GetType() == typeof(Object0050_Trigger))
-                            return;
+                            continue;
                     }
                         
                     s.Draw(renderer, drawEveryObject);
@@ -490,7 +490,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 
                 if (!renderTriggers) {
                     if (setObjects[i].GetType() == typeof(Object0051_TriggerTalking) || setObjects[i].GetType() == typeof(Object0050_Trigger))
-                        return;
+                        continue;
                 }
 
                 if (setObjects[i].IntersectsWith(r, out float distance))
