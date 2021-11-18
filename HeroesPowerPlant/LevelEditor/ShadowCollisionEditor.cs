@@ -3,10 +3,10 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using RenderWareFile;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_ShadowCollision;
+using Ookii.Dialogs.WinForms;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -45,7 +45,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog a = new OpenFileDialog()
+            VistaOpenFileDialog a = new VistaOpenFileDialog()
             {
                 Filter = "All supported types|*.obj;*.bsp|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
                 Multiselect = true
@@ -90,33 +90,30 @@ namespace HeroesPowerPlant.LevelEditor
 
             if (listBoxLevelModels.SelectedIndices.Count == 1)
             {
-                SaveFileDialog a = new SaveFileDialog()
+                VistaSaveFileDialog saveDialog = new VistaSaveFileDialog()
                 {
                     Filter = "OBJ Files|*.obj|BSP Files|*.bsp",
                     FileName = Path.ChangeExtension(listBoxLevelModels.GetItemText(listBoxLevelModels.SelectedItem), ".obj")
                 };
-                if (a.ShowDialog() == DialogResult.OK)
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (Path.GetExtension(a.FileName).ToLower() == ".obj")
-                        ConvertBSPtoOBJ(a.FileName, bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex], false);
-                    else if (Path.GetExtension(a.FileName).ToLower() == ".bsp")
-                        File.WriteAllBytes(a.FileName, bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
+                    if (Path.GetExtension(saveDialog.FileName).ToLower() == ".obj")
+                        ConvertBSPtoOBJ(saveDialog.FileName, bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex], false);
+                    else if (Path.GetExtension(saveDialog.FileName).ToLower() == ".bsp")
+                        File.WriteAllBytes(saveDialog.FileName, bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].GetAsByteArray());
                 }
             }
             else
             {
-                CommonOpenFileDialog a = new CommonOpenFileDialog()
-                {
-                    IsFolderPicker = true
-                };
-                if (a.ShowDialog() == CommonFileDialogResult.Ok)
+                VistaFolderBrowserDialog folderDialog = new VistaFolderBrowserDialog();
+                if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
                     if (listBoxLevelModels.SelectedIndices.Count > 1)
                         foreach (int i in listBoxLevelModels.SelectedIndices)
-                            ConvertBSPtoOBJ(Path.Combine(a.FileName, bspRenderer.ShadowColBSPList[i].fileName), bspRenderer.ShadowColBSPList[i], false);
+                            ConvertBSPtoOBJ(Path.Combine(folderDialog.SelectedPath, bspRenderer.ShadowColBSPList[i].fileName), bspRenderer.ShadowColBSPList[i], false);
                     else
                         foreach (RenderWareModelFile i in bspRenderer.ShadowColBSPList)
-                            ConvertBSPtoOBJ(Path.Combine(a.FileName, i.fileName), i, false);
+                            ConvertBSPtoOBJ(Path.Combine(folderDialog.SelectedPath, i.fileName), i, false);
                 }
             }
         }

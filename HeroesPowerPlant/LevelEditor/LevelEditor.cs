@@ -7,12 +7,12 @@ using SharpDX;
 using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using HeroesPowerPlant.ShadowSplineEditor;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
+using Ookii.Dialogs.WinForms;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -273,15 +273,10 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 else
                 {
-                    CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog()
+                    VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        IsFolderPicker = true
-                    };
-                    if (openONEfilePath != null)
-                        commonOpenFileDialog.DefaultFileName = Path.GetDirectoryName(openONEfilePath);
-                    if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-                    {
-                        fileName = commonOpenFileDialog.FileName;
+                        fileName = dialog.SelectedPath;
 
                         if (listBoxLevelModels.SelectedIndices.Count > 1)
                             foreach (int i in listBoxLevelModels.SelectedIndices)
@@ -448,14 +443,11 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void openToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog openFile = new CommonOpenFileDialog()
-            {
-                IsFolderPicker = true
-            };
+            VistaFolderBrowserDialog openFolder = new VistaFolderBrowserDialog();
 
-            if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
+            if (openFolder.ShowDialog() == DialogResult.OK)
             {
-                OpenONEShadowFolder(openFile.FileName, false);
+                OpenONEShadowFolder(openFolder.SelectedPath, false);
             }
         }
 
@@ -483,14 +475,10 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void saveAsToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog saveFile = new CommonOpenFileDialog()
-            {
-                DefaultDirectory = Path.GetDirectoryName(openONEfilePath),
-                IsFolderPicker = true
-            };
+            VistaFolderBrowserDialog saveFolder = new VistaFolderBrowserDialog();
 
-            if (saveFile.ShowDialog() == CommonFileDialogResult.Ok)
-                SaveShadowLevel(saveFile.FileName);
+            if (saveFolder.ShowDialog() == DialogResult.OK)
+                SaveShadowLevel(saveFolder.SelectedPath);
         }
 
         private void SaveShadowLevel(string levelPath)

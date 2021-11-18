@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using HeroesPowerPlant.Shared.IO.Config;
-using Microsoft.WindowsAPICodePack.Dialogs;
+using Ookii.Dialogs.WinForms;
 using SharpDX;
 using SharpDX.Direct3D11;
 
@@ -1000,7 +1000,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void addTXDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openTXD = new OpenFileDialog()
+            VistaOpenFileDialog openTXD = new VistaOpenFileDialog()
             {
                 Filter = "All supported filetypes|*.txd;*.one|TXD files|*.txd|ONE files|*.one",
                 Multiselect = true
@@ -1012,12 +1012,9 @@ namespace HeroesPowerPlant.MainForm
 
         private void addTextureFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog openFile = new CommonOpenFileDialog()
-            {
-                IsFolderPicker = true
-            };
-            if (openFile.ShowDialog() == CommonFileDialogResult.Ok)
-                TextureManager.LoadTexturesFromFolder(openFile.FileName, renderer, LevelEditor.bspRenderer);
+            VistaFolderBrowserDialog openFolder = new VistaFolderBrowserDialog();
+            if (openFolder.ShowDialog() == DialogResult.OK)
+                TextureManager.LoadTexturesFromFolder(openFolder.SelectedPath, renderer, LevelEditor.bspRenderer);
         }
 
         private void clearTXDsToolStripMenuItem_Click(object sender, EventArgs e)
