@@ -75,7 +75,7 @@ namespace HeroesPowerPlant.MainForm
         
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenBrowser("https://github.com/ShadowTheHedgehogHacking/HeroesPowerPlant");
+            OpenBrowser("https://github.com/igorseabra4/HeroesPowerPlant");
         }
 
         private void button2_Click(object sender, EventArgs e)
