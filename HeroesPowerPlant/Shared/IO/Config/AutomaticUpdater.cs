@@ -64,6 +64,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                                 "\\runtimes\\osx-x64",
                                 "\\runtimes\\osx-x64\\native",
                                 "\\runtimes\\win",
+                                "\\runtimes\\win\\lib",
+                                "\\runtimes\\win\\lib\\netcoreapp2.0",
                                 "\\runtimes\\win\\native",
                                 "\\runtimes\\win-x64",
                                 "\\runtimes\\win-x64\\native",

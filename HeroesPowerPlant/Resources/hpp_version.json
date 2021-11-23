@@ -1,4 +1,4 @@
 ﻿{
-  "version": "v0.8.16",
-  "versionName": "\n* Replace remaining .NETFramework dependencies\n* Bugfix for Render Triggers (Shadow) toggle"
+  "version": "v0.8.17",
+  "versionName": "\n* Updater Fix\n* Unhide Layout Size by Default"
 }
