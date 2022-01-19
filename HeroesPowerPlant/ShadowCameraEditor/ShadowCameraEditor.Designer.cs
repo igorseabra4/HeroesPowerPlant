@@ -331,7 +331,7 @@
             // ListBoxCameras
             // 
             this.ListBoxCameras.FormattingEnabled = true;
-            this.ListBoxCameras.Location = new System.Drawing.Point(8, 26);
+            this.ListBoxCameras.Location = new System.Drawing.Point(8, 27);
             this.ListBoxCameras.Name = "ListBoxCameras";
             this.ListBoxCameras.Size = new System.Drawing.Size(147, 394);
             this.ListBoxCameras.TabIndex = 17;
@@ -513,7 +513,7 @@
             // comboBox_cameraMode
             // 
             this.comboBox_cameraMode.FormattingEnabled = true;
-            this.comboBox_cameraMode.Location = new System.Drawing.Point(75, 19);
+            this.comboBox_cameraMode.Location = new System.Drawing.Point(75, 18);
             this.comboBox_cameraMode.Name = "comboBox_cameraMode";
             this.comboBox_cameraMode.Size = new System.Drawing.Size(118, 21);
             this.comboBox_cameraMode.TabIndex = 9;
@@ -521,7 +521,7 @@
             // 
             // numericUpDown_i1C
             // 
-            this.numericUpDown_i1C.Location = new System.Drawing.Point(527, 19);
+            this.numericUpDown_i1C.Location = new System.Drawing.Point(524, 19);
             this.numericUpDown_i1C.Name = "numericUpDown_i1C";
             this.numericUpDown_i1C.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown_i1C.TabIndex = 8;
@@ -529,7 +529,7 @@
             // 
             // numericUpDown_i0C
             // 
-            this.numericUpDown_i0C.Location = new System.Drawing.Point(259, 19);
+            this.numericUpDown_i0C.Location = new System.Drawing.Point(256, 19);
             this.numericUpDown_i0C.Name = "numericUpDown_i0C";
             this.numericUpDown_i0C.Size = new System.Drawing.Size(58, 20);
             this.numericUpDown_i0C.TabIndex = 7;
@@ -537,7 +537,7 @@
             // 
             // numericUpDown_LookBLinkId
             // 
-            this.numericUpDown_LookBLinkId.Location = new System.Drawing.Point(439, 20);
+            this.numericUpDown_LookBLinkId.Location = new System.Drawing.Point(436, 19);
             this.numericUpDown_LookBLinkId.Name = "numericUpDown_LookBLinkId";
             this.numericUpDown_LookBLinkId.Size = new System.Drawing.Size(82, 20);
             this.numericUpDown_LookBLinkId.TabIndex = 6;
@@ -545,7 +545,7 @@
             // 
             // numericUpDown_i14
             // 
-            this.numericUpDown_i14.Location = new System.Drawing.Point(385, 19);
+            this.numericUpDown_i14.Location = new System.Drawing.Point(382, 19);
             this.numericUpDown_i14.Name = "numericUpDown_i14";
             this.numericUpDown_i14.Size = new System.Drawing.Size(48, 20);
             this.numericUpDown_i14.TabIndex = 5;
@@ -553,7 +553,7 @@
             // 
             // numericUpDown_i10
             // 
-            this.numericUpDown_i10.Location = new System.Drawing.Point(323, 19);
+            this.numericUpDown_i10.Location = new System.Drawing.Point(320, 19);
             this.numericUpDown_i10.Name = "numericUpDown_i10";
             this.numericUpDown_i10.Size = new System.Drawing.Size(56, 20);
             this.numericUpDown_i10.TabIndex = 4;
@@ -561,7 +561,7 @@
             // 
             // numericUpDown_i08
             // 
-            this.numericUpDown_i08.Location = new System.Drawing.Point(202, 19);
+            this.numericUpDown_i08.Location = new System.Drawing.Point(199, 19);
             this.numericUpDown_i08.Name = "numericUpDown_i08";
             this.numericUpDown_i08.Size = new System.Drawing.Size(51, 20);
             this.numericUpDown_i08.TabIndex = 3;
@@ -636,7 +636,7 @@
             // numericUpDown_FOV_Height
             // 
             this.numericUpDown_FOV_Height.DecimalPlaces = 4;
-            this.numericUpDown_FOV_Height.Location = new System.Drawing.Point(103, 20);
+            this.numericUpDown_FOV_Height.Location = new System.Drawing.Point(103, 19);
             this.numericUpDown_FOV_Height.Name = "numericUpDown_FOV_Height";
             this.numericUpDown_FOV_Height.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_FOV_Height.TabIndex = 2;
@@ -645,7 +645,7 @@
             // numericUpDown_FOV_Width
             // 
             this.numericUpDown_FOV_Width.DecimalPlaces = 4;
-            this.numericUpDown_FOV_Width.Location = new System.Drawing.Point(198, 20);
+            this.numericUpDown_FOV_Width.Location = new System.Drawing.Point(200, 19);
             this.numericUpDown_FOV_Width.Name = "numericUpDown_FOV_Width";
             this.numericUpDown_FOV_Width.Size = new System.Drawing.Size(91, 20);
             this.numericUpDown_FOV_Width.TabIndex = 2;
