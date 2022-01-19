@@ -2,9 +2,8 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0004_DashRamp : SetObjectShadow
+    public class Object0006_DashRing : SetObjectShadow
     {
-
         public override void CreateTransformMatrix()
         {
             // function 800c9ed4 | RotationTemplateGen
@@ -14,6 +13,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 Matrix.RotationX(Rotation.X * shift) *
                 Matrix.RotationY(Rotation.Y * shift) *
                 Matrix.Translation(Position);
+            Matrix.Translation(Position);
             CreateBoundingBox();
         }
 
@@ -23,16 +23,10 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(0, value);
         }
 
-        public float Height
+        public float NoControlTime
         {
             get => ReadFloat(4);
             set => Write(4, value);
-        }
-
-        public float NoControlTime
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
         }
     }
 }

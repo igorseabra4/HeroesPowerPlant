@@ -10,3 +10,6 @@
 [submodule "Submodules/Heroes.SDK"]
 	path = Submodules/Heroes.SDK
 	url = https://github.com/Heroes-Hacking-Central/Heroes.SDK.git
+[submodule "Submodules/ShadowFNT"]
+	path = Submodules/ShadowFNT
+	url = https://github.com/ShadowTheHedgehogHacking/ShadowFNT.git

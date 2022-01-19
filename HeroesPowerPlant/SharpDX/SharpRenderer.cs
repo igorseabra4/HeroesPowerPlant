@@ -30,7 +30,9 @@ namespace HeroesPowerPlant
             };
             Camera = new SharpCamera(SharpFps);
 
-            Camera.ProjectionMatrix.AspectRatio = (float)control.ClientSize.Width / control.ClientSize.Height;
+            Camera.ProjectionMatrix.AspectRatio = new Vector2(
+                (float)control.ClientSize.Width / control.ClientSize.Height < 1 ? 1 : (float)control.ClientSize.Width / control.ClientSize.Height,
+                (float)control.ClientSize.Width / control.ClientSize.Height < 1 ? (float)control.ClientSize.Width / control.ClientSize.Height : 1);
 
             SetSharpShader();
             LoadTexture();
@@ -50,7 +52,7 @@ namespace HeroesPowerPlant
         
         public void SetSharpShader()
         {
-            basicShader = new SharpShader(Device, "Resources/SharpDX/Shader_Basic.hlsl",
+            basicShader = new SharpShader(Device, Application.StartupPath + "/Resources/SharpDX/Shader_Basic.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0)
@@ -58,7 +60,7 @@ namespace HeroesPowerPlant
 
             basicBuffer = basicShader.CreateBuffer<DefaultRenderData>();
 
-            defaultShader = new SharpShader(Device, "Resources/SharpDX/Shader_Default.hlsl",
+            defaultShader = new SharpShader(Device, Application.StartupPath + "/Resources/SharpDX/Shader_Default.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -68,7 +70,7 @@ namespace HeroesPowerPlant
 
             defaultBuffer = defaultShader.CreateBuffer<Matrix>();
 
-            tintedShader = new SharpShader(Device, "Resources/SharpDX/Shader_Tinted.hlsl",
+            tintedShader = new SharpShader(Device, Application.StartupPath + "/Resources/SharpDX/Shader_Tinted.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -78,7 +80,7 @@ namespace HeroesPowerPlant
 
             tintedBuffer = defaultShader.CreateBuffer<DefaultRenderData>();
 
-            collisionShader = new SharpShader(Device, "Resources/SharpDX/Shader_Collision.hlsl",
+            collisionShader = new SharpShader(Device, Application.StartupPath + "/Resources/SharpDX/Shader_Collision.hlsl",
                 new SharpShaderDescription() { VertexShaderFunction = "VS", PixelShaderFunction = "PS" },
                 new InputElement[] {
                         new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0),
@@ -98,10 +100,10 @@ namespace HeroesPowerPlant
             if (whiteDefault != null)
             {
                 if (whiteDefault.IsDisposed)
-                    whiteDefault = Device.LoadTextureFromFile("Resources\\WhiteDefault.png");
+                    whiteDefault = Device.LoadTextureFromFile(Application.StartupPath + "/Resources\\WhiteDefault.png");
             }
             else
-                whiteDefault = Device.LoadTextureFromFile("Resources\\WhiteDefault.png");
+                whiteDefault = Device.LoadTextureFromFile(Application.StartupPath + "/Resources\\WhiteDefault.png");
         }
 
         private DefaultRenderData cubeRenderData;
@@ -109,6 +111,8 @@ namespace HeroesPowerPlant
         public Vector4 normalColor;
         public Vector4 selectedColor;
         public Vector4 selectedObjectColor;
+        public Vector4 triggerColor;
+        public Vector4 triggerTalkingColor;
 
         public void ResetColors()
         {
@@ -119,14 +123,17 @@ namespace HeroesPowerPlant
             VisibilityFunctions.ResetSelectedChunkColor();
         }
 
-        public void DrawCubeTrigger(Matrix world, bool isSelected)
+        public void DrawCubeTrigger(Matrix world, bool isSelected, Color4? color = null)
         {
             cubeRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
                 cubeRenderData.Color = selectedColor;
+            else if (color != null)
+                cubeRenderData.Color = color ?? normalColor;
             else
                 cubeRenderData.Color = normalColor;
+
 
             Device.SetFillModeDefault();
             Device.SetCullModeNone();
@@ -143,12 +150,14 @@ namespace HeroesPowerPlant
 
         private DefaultRenderData cylinderRenderData;
 
-        public void DrawCylinderTrigger(Matrix world, bool isSelected)
+        public void DrawCylinderTrigger(Matrix world, bool isSelected, Color4? color = null)
         {
             cylinderRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
                 cylinderRenderData.Color = selectedColor;
+            else if (color != null)
+                cylinderRenderData.Color = color ?? normalColor;
             else
                 cylinderRenderData.Color = normalColor;
 
@@ -167,12 +176,14 @@ namespace HeroesPowerPlant
 
         private DefaultRenderData sphereRenderData;
 
-        public void DrawSphereTrigger(Matrix world, bool isSelected)
+        public void DrawSphereTrigger(Matrix world, bool isSelected, Color4? color = null)
         {
             sphereRenderData.worldViewProjection = world * viewProjection;
 
             if (isSelected)
                 sphereRenderData.Color = selectedColor;
+            else if (color != null)
+                sphereRenderData.Color = color ?? normalColor;
             else
                 sphereRenderData.Color = normalColor;
 
@@ -187,6 +198,32 @@ namespace HeroesPowerPlant
             basicShader.Apply();
 
             Sphere.Draw(Device);
+        }
+
+        private DefaultRenderData coneRenderData;
+
+        public void DrawConeTrigger(Matrix world, bool isSelected, Color4? color = null)
+        {
+            coneRenderData.worldViewProjection = world * viewProjection;
+
+            if (isSelected)
+                coneRenderData.Color = selectedColor;
+            else if (color != null)
+                coneRenderData.Color = color ?? normalColor;
+            else
+                coneRenderData.Color = normalColor;
+
+            Device.SetFillModeDefault();
+            Device.SetCullModeNone();
+            Device.SetBlendStateAlphaBlend();
+            Device.ApplyRasterState();
+            Device.UpdateAllStates();
+
+            Device.UpdateData(basicBuffer, coneRenderData);
+            Device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
+            basicShader.Apply();
+
+            Pyramid.Draw(Device);
         }
 
         public bool ShowStartPositions { get; set; } = true;
@@ -229,11 +266,10 @@ namespace HeroesPowerPlant
             for (int i = 0; i < 4; i++)// 3; i++)
             {
                 ModelConverterData objData;
-
-                if (i == 0) objData = ReadOBJFile("Resources/Models/Box.obj", true);
-                else if (i == 1) objData = ReadOBJFile("Resources/Models/Cylinder.obj", true);
-                else if (i == 2) objData = ReadOBJFile("Resources/Models/Pyramid.obj", true);
-                else objData = ReadOBJFile("Resources/Models/Sphere.obj", true);
+                if (i == 0) objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Box.obj", true);
+                else if (i == 1) objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Cylinder.obj", true);
+                else if (i == 2) objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Pyramid.obj", true);
+                else objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Sphere.obj", true);
 
                 List<Vertex> vertexList = new List<Vertex>();
                 foreach (LevelEditor.Vertex v in objData.VertexList)
@@ -280,7 +316,9 @@ namespace HeroesPowerPlant
                 if (Device.MustResize)
                 {
                     Device.Resize();
-                    Camera.ProjectionMatrix.AspectRatio = (float)Panel.Width / Panel.Height;
+                    Camera.ProjectionMatrix.AspectRatio = new Vector2(
+                        (float)Panel.Width / Panel.Height < 1 ? 1 : (float)Panel.Width / Panel.Height,
+                        (float)Panel.Width / Panel.Height < 1 ? (float)Panel.Width / Panel.Height : 1);
                 }
 
                 mainForm.KeyboardController();

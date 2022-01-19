@@ -812,9 +812,12 @@ namespace HeroesPowerPlant.LayoutEditor
             switch (List) {
                 case 0x00:
                     switch (Type) {
-                        case 0x01: case 0x02: case 0x03: case 0x06: return new Object00_SpringShadow();
+                        case 0x01: return new Object0001_SpringShadow();
+                        case 0x02: return new Object0002_WideSpring();
+                        case 0x03: return new Object0003_DashPanel();
                         case 0x04: return new Object0004_DashRamp();
                         case 0x05: return new Object0005_Checkpoint();
+                        case 0x06: return new Object0006_DashRing();
                         case 0x07: return new Object0007_Case();
                         case 0x08: return new Object0008_Pulley();
                         case 0x09: return new Object0009_WoodBox();
@@ -886,7 +889,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xD7: return new Object07D7_DigitalBreakableTile();
                         case 0xD8: return new Object07D8_LaserWallBarrier();
                         case 0xDA: return new Object07DA_MatrixTerminalElecFan();
-                        case 0xDE: return new Object00_SpringShadow();
+                        case 0xDE: return new Object0001_SpringShadow();
                         case 0xDF: return new Object07DF_LightspeedFirewall();
                         case 0xE1: return new Object07E1_TriggerDigitalBreakableTile();
                         case 0xE2: return new Object07E2_ElecCube();
@@ -902,7 +905,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x37: return new Object0837_CollapsingPillar();
                         case 0x38: return new Object0838_RuinsStoneGuardian();
                         case 0x39: return new Object106C_SkyRuinsJewel(); //RuinsJewel / PowerDeviceCage
-                        case 0x99: return new Object1451_CommandCollision(); //BlackTankCommandCollision
+                        case 0x99: return new Object0899_BlackTankCommandCollision();
                         case 0x9A: return new Object089A_BreakingRoad();
                         case 0x9C: return new Object089C_FallingRoad();
                         default: return new Object_ShadowDefault();
@@ -966,13 +969,13 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0xEF: return new Object13EF_SecurityLaser();
                         case 0xF0: return new Object13F0_SlideoutPlatform();
                         case 0xF1: return new Object1133_ProximityDoor(); //HeavyBaseDoor
-                        case 0xF2: return new Object1451_CommandCollision(); //EscapePodCommandCollision
+                        case 0xF2: return new Object0899_BlackTankCommandCollision(); //EscapePodCommandCollision
                         case 0xF3: return new Object13F3_EscapePodDownRail();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x14:
                     switch (Type) {
-                        case 0x51: return new Object1451_CommandCollision();
+                        case 0x51: return new Object1451_EggBalloonCommandCollision();
                         case 0xB4: return new Object14B5_GravityChangeZone(); //GravityChangeSwitch
                         case 0xB5: return new Object14B5_GravityChangeZone();
                         case 0xB6: return new Object14B6_GravityChangeCollision();

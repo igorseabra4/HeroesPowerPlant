@@ -13,9 +13,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
         public SetIdTableEditor()
         {
             InitializeComponent();
-            
-            heroesStageEntries = ReadStageListData("Resources\\Lists\\HeroesStageList.ini");
-            shadowStageEntries = ReadStageListData("Resources\\Lists\\ShadowStageList.ini");
+            heroesStageEntries = ReadStageListData(Application.StartupPath + "/Resources\\Lists\\HeroesStageList.ini");
+            shadowStageEntries = ReadStageListData(Application.StartupPath + "/Resources\\Lists\\ShadowStageList.ini");
 
             TopMost = true;
         }

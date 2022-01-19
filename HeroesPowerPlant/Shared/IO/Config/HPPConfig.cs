@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 
@@ -18,7 +19,11 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public bool AutomaticallySaveConfig { get; set; } = true;
         public bool CheckForUpdatesOnStartup { get; set; } = true;
         public bool VSync { get; set; } = true;
-        
+        public bool LimitFPS { get; set; } = false;
+        public decimal LimitFPSValue { get; set; } = 60.0000m;
+
+        public Size MainWindowSize { get; set; } = new Size(1490, 1006);
+
         private HPPConfig() { }
 
         static HPPConfig()
@@ -81,6 +86,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     mainForm.EnableVSync();
                 else
                     mainForm.DisableVSync(); // In case the program default ever changes.
+
+                mainForm.SetLimitFPSInitial(LimitFPS, LimitFPSValue);
 
                 mainForm.SetCheckForUpdatesOnStartup(CheckForUpdatesOnStartup);
                 mainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);

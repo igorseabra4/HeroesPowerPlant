@@ -137,13 +137,12 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                     {
                         byte byte0 = splineReader.ReadByte();
 
-                        if (byte0 >= 0x80)
-                        {
+                        if (byte0 >= 0x80) {
                             byte byte1 = splineReader.ReadByte();
-                            splineList[i].UnknownSec5Bytes = new byte[] { byte0, byte1 };
+                            splineList[i].UnknownSec5Bytes = new ShadowSplineSec5Bytes[1] { new ShadowSplineSec5Bytes { slot1 = byte0, slot2 = byte1, noSlot2 = false} };
                         }
                         else
-                            splineList[i].UnknownSec5Bytes = new byte[] { byte0 };
+                            splineList[i].UnknownSec5Bytes = new ShadowSplineSec5Bytes[1] { new ShadowSplineSec5Bytes { slot1 = byte0, noSlot2 = true } };
 
                         splineReader.ReadByte();
                     }
@@ -224,7 +223,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
             for (int i = 0; i < Splines.Count; i++)
             {
-                bytes.AddRange(Splines[i].UnknownSec5Bytes);
+                bytes.Add(Splines[i].UnknownSec5Bytes[0].slot1);
+                if (!Splines[i].UnknownSec5Bytes[0].noSlot2)
+                    bytes.Add(Splines[i].UnknownSec5Bytes[0].slot2);
                 bytes.Add(0x49);
             }
 

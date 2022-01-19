@@ -51,6 +51,7 @@ namespace HeroesPowerPlant.MainForm
             this.texturePatternEditorF9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lightEditorF10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sETIDTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shadowCameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTXDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTextureFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,10 +84,11 @@ namespace HeroesPowerPlant.MainForm
             this.autoLoadLastProjectOnLaunchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoSaveProjectOnClosingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraViewSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableRendering_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LimitFPS_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.shadowCameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -101,7 +103,8 @@ namespace HeroesPowerPlant.MainForm
             this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1263, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1474, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -254,6 +257,13 @@ namespace HeroesPowerPlant.MainForm
             this.sETIDTableEditorToolStripMenuItem.Text = "SET ID Table Editor";
             this.sETIDTableEditorToolStripMenuItem.Click += new System.EventHandler(this.sETIDTableEditorToolStripMenuItem_Click);
             // 
+            // shadowCameraEditorToolStripMenuItem
+            // 
+            this.shadowCameraEditorToolStripMenuItem.Name = "shadowCameraEditorToolStripMenuItem";
+            this.shadowCameraEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.shadowCameraEditorToolStripMenuItem.Text = "Shadow Camera Editor";
+            this.shadowCameraEditorToolStripMenuItem.Click += new System.EventHandler(this.shadowCameraEditorToolStripMenuItem_Click);
+            // 
             // resourceToolStripMenuItem
             // 
             this.resourceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -323,7 +333,9 @@ namespace HeroesPowerPlant.MainForm
             this.vSyncToolStripMenuItem,
             this.autoLoadLastProjectOnLaunchToolStripMenuItem,
             this.autoSaveProjectOnClosingToolStripMenuItem,
-            this.cameraViewSettingsToolStripMenuItem});
+            this.cameraViewSettingsToolStripMenuItem,
+            this.disableRendering_ToolStripMenuItem,
+            this.LimitFPS_ToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -520,14 +532,29 @@ namespace HeroesPowerPlant.MainForm
             this.cameraViewSettingsToolStripMenuItem.Text = "Camera/View Settings";
             this.cameraViewSettingsToolStripMenuItem.Click += new System.EventHandler(this.cameraViewSettingsToolStripMenuItem_Click);
             // 
+            // disableRendering_ToolStripMenuItem
+            // 
+            this.disableRendering_ToolStripMenuItem.Name = "disableRendering_ToolStripMenuItem";
+            this.disableRendering_ToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.disableRendering_ToolStripMenuItem.Text = "Disable Rendering";
+            this.disableRendering_ToolStripMenuItem.Click += new System.EventHandler(this.disableRendering_ToolStripMenuItem_Click);
+            // 
+            // LimitFPS_ToolStripMenuItem
+            // 
+            this.LimitFPS_ToolStripMenuItem.Name = "LimitFPS_ToolStripMenuItem";
+            this.LimitFPS_ToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.LimitFPS_ToolStripMenuItem.Text = "Limit FPS (Set In View Settings)";
+            this.LimitFPS_ToolStripMenuItem.Click += new System.EventHandler(this.LimitFPS_ToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 816);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 945);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1263, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1474, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -541,8 +568,9 @@ namespace HeroesPowerPlant.MainForm
             // 
             this.renderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.renderPanel.Location = new System.Drawing.Point(0, 24);
+            this.renderPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.renderPanel.Name = "renderPanel";
-            this.renderPanel.Size = new System.Drawing.Size(1263, 792);
+            this.renderPanel.Size = new System.Drawing.Size(1474, 921);
             this.renderPanel.TabIndex = 4;
             this.renderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseClick);
             this.renderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseDown);
@@ -552,24 +580,18 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
-            // shadowCameraEditorToolStripMenuItem
-            // 
-            this.shadowCameraEditorToolStripMenuItem.Name = "shadowCameraEditorToolStripMenuItem";
-            this.shadowCameraEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.shadowCameraEditorToolStripMenuItem.Text = "Shadow Camera Editor";
-            this.shadowCameraEditorToolStripMenuItem.Click += new System.EventHandler(this.shadowCameraEditorToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(1263, 838);
+            this.ClientSize = new System.Drawing.Size(1474, 967);
             this.Controls.Add(this.renderPanel);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "MainForm";
             this.Text = "Heroes Power Plant";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
@@ -646,6 +668,8 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem checkForUpdatesOnStartupToolStripMenuItem;
         private ToolStripMenuItem checkForUpdatesNowToolStripMenuItem;
         private ToolStripMenuItem shadowCameraEditorToolStripMenuItem;
+        private ToolStripMenuItem disableRendering_ToolStripMenuItem;
+        private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
     }
 }
 

@@ -82,50 +82,49 @@ namespace HeroesPowerPlant.RankEditor
             if (File.Exists(rankJsonPath))
             {
                 RankContainer container = JsonSerializable<RankContainer>.FromPath(rankJsonPath);
+                NumericSonicB.Value = container.normalMission.Sonic.B;
+                NumericSonicC.Value = container.normalMission.Sonic.C;
+                NumericSonicD.Value = container.normalMission.Sonic.D;
+                NumericSonicA.Value = container.normalMission.Sonic.A;
+                NumericDarkA.Value = container.normalMission.Dark.A;
+                NumericDarkB.Value = container.normalMission.Dark.B;
+                NumericDarkC.Value = container.normalMission.Dark.C;
+                NumericDarkD.Value = container.normalMission.Dark.D;
+                NumericRoseA.Value = container.normalMission.Rose.A;
+                NumericRoseB.Value = container.normalMission.Rose.B;
+                NumericRoseC.Value = container.normalMission.Rose.C;
+                NumericRoseD.Value = container.normalMission.Rose.D;
+                NumericChaotixA.Value = container.normalMission.Chaotix.A;
+                NumericChaotixB.Value = container.normalMission.Chaotix.B;
+                NumericChaotixC.Value = container.normalMission.Chaotix.C;
+                NumericChaotixD.Value = container.normalMission.Chaotix.D;
 
-                NumericSonicA.Value = container.normalMission.SonicA;
-                NumericSonicB.Value = container.normalMission.SonicB;
-                NumericSonicC.Value = container.normalMission.SonicC;
-                NumericSonicD.Value = container.normalMission.SonicD;
-                NumericDarkA.Value = container.normalMission.DarkA;
-                NumericDarkB.Value = container.normalMission.DarkB;
-                NumericDarkC.Value = container.normalMission.DarkC;
-                NumericDarkD.Value = container.normalMission.DarkD;
-                NumericRoseA.Value = container.normalMission.RoseA;
-                NumericRoseB.Value = container.normalMission.RoseB;
-                NumericRoseC.Value = container.normalMission.RoseC;
-                NumericRoseD.Value = container.normalMission.RoseD;
-                NumericChaotixA.Value = container.normalMission.ChaotixA;
-                NumericChaotixB.Value = container.normalMission.ChaotixB;
-                NumericChaotixC.Value = container.normalMission.ChaotixC;
-                NumericChaotixD.Value = container.normalMission.ChaotixD;
+                NumericSonicEA.Value = container.extraMissionScore.Sonic.A;
+                NumericSonicEB.Value = container.extraMissionScore.Sonic.B;
+                NumericSonicEC.Value = container.extraMissionScore.Sonic.C;
+                NumericSonicED.Value = container.extraMissionScore.Sonic.D;
+                NumericChaotixEA.Value = container.extraMissionScore.Chaotix.A;
+                NumericChaotixEB.Value = container.extraMissionScore.Chaotix.B;
+                NumericChaotixEC.Value = container.extraMissionScore.Chaotix.C;
+                NumericChaotixED.Value = container.extraMissionScore.Chaotix.D;
 
-                NumericSonicEA.Value = container.extraMissionScore.SonicA;
-                NumericSonicEB.Value = container.extraMissionScore.SonicB;
-                NumericSonicEC.Value = container.extraMissionScore.SonicC;
-                NumericSonicED.Value = container.extraMissionScore.SonicD;
-                NumericChaotixEA.Value = container.extraMissionScore.ChaotixA;
-                NumericChaotixEB.Value = container.extraMissionScore.ChaotixB;
-                NumericChaotixEC.Value = container.extraMissionScore.ChaotixC;
-                NumericChaotixED.Value = container.extraMissionScore.ChaotixD;
+                NumericDarkEAMin.Value = container.extraMissionTime.Dark.RankA.Min;
+                NumericDarkEBMin.Value = container.extraMissionTime.Dark.RankB.Min;
+                NumericDarkECMin.Value = container.extraMissionTime.Dark.RankC.Min;
+                NumericDarkEDMin.Value = container.extraMissionTime.Dark.RankD.Min;
+                NumericRoseEAMin.Value = container.extraMissionTime.Rose.RankA.Min;
+                NumericRoseEBMin.Value = container.extraMissionTime.Rose.RankB.Min;
+                NumericRoseECMin.Value = container.extraMissionTime.Rose.RankC.Min;
+                NumericRoseEDMin.Value = container.extraMissionTime.Rose.RankD.Min;
 
-                NumericDarkEAMin.Value = container.extraMissionTime.DarkAMin;
-                NumericDarkEBMin.Value = container.extraMissionTime.DarkBMin;
-                NumericDarkECMin.Value = container.extraMissionTime.DarkCMin;
-                NumericDarkEDMin.Value = container.extraMissionTime.DarkDMin;
-                NumericRoseEAMin.Value = container.extraMissionTime.RoseAMin;
-                NumericRoseEBMin.Value = container.extraMissionTime.RoseBMin;
-                NumericRoseECMin.Value = container.extraMissionTime.RoseCMin;
-                NumericRoseEDMin.Value = container.extraMissionTime.RoseDMin;
-
-                NumericDarkEASec.Value = container.extraMissionTime.DarkASec;
-                NumericDarkEBSec.Value = container.extraMissionTime.DarkBSec;
-                NumericDarkECSec.Value = container.extraMissionTime.DarkCSec;
-                NumericDarkEDSec.Value = container.extraMissionTime.DarkDSec;
-                NumericRoseEASec.Value = container.extraMissionTime.RoseASec;
-                NumericRoseEBSec.Value = container.extraMissionTime.RoseBSec;
-                NumericRoseECSec.Value = container.extraMissionTime.RoseCSec;
-                NumericRoseEDSec.Value = container.extraMissionTime.RoseDSec;
+                NumericDarkEASec.Value = container.extraMissionTime.Dark.RankA.Sec;
+                NumericDarkEBSec.Value = container.extraMissionTime.Dark.RankB.Sec;
+                NumericDarkECSec.Value = container.extraMissionTime.Dark.RankC.Sec;
+                NumericDarkEDSec.Value = container.extraMissionTime.Dark.RankD.Sec;
+                NumericRoseEASec.Value = container.extraMissionTime.Rose.RankA.Sec;
+                NumericRoseEBSec.Value = container.extraMissionTime.Rose.RankB.Sec;
+                NumericRoseECSec.Value = container.extraMissionTime.Rose.RankC.Sec;
+                NumericRoseEDSec.Value = container.extraMissionTime.Rose.RankD.Sec;
             }
         }
 
@@ -140,49 +139,27 @@ namespace HeroesPowerPlant.RankEditor
 
             container.stageID = Program.MainForm.ConfigEditor.currentID;
 
-            container.normalMission.SonicA = (ushort)NumericSonicA.Value;
-            container.normalMission.SonicB = (ushort)NumericSonicB.Value;
-            container.normalMission.SonicC = (ushort)NumericSonicC.Value;
-            container.normalMission.SonicD = (ushort)NumericSonicD.Value;
-            container.normalMission.DarkA = (ushort)NumericDarkA.Value;
-            container.normalMission.DarkB = (ushort)NumericDarkB.Value;
-            container.normalMission.DarkC = (ushort)NumericDarkC.Value;
-            container.normalMission.DarkD = (ushort)NumericDarkD.Value;
-            container.normalMission.RoseA = (ushort)NumericRoseA.Value;
-            container.normalMission.RoseB = (ushort)NumericRoseB.Value;
-            container.normalMission.RoseC = (ushort)NumericRoseC.Value;
-            container.normalMission.RoseD = (ushort)NumericRoseD.Value;
-            container.normalMission.ChaotixA = (ushort)NumericChaotixA.Value;
-            container.normalMission.ChaotixB = (ushort)NumericChaotixB.Value;
-            container.normalMission.ChaotixC = (ushort)NumericChaotixC.Value;
-            container.normalMission.ChaotixD = (ushort)NumericChaotixD.Value;
+            container.normalMission.SetAllTeamRankScores(
+                (ushort)NumericSonicA.Value, (ushort)NumericSonicB.Value, (ushort)NumericSonicC.Value, (ushort)NumericSonicD.Value,
+                (ushort)NumericDarkA.Value, (ushort)NumericDarkB.Value, (ushort)NumericDarkC.Value, (ushort)NumericDarkD.Value,
+                (ushort)NumericRoseA.Value, (ushort)NumericRoseB.Value, (ushort)NumericRoseC.Value, (ushort)NumericRoseD.Value,
+                (ushort)NumericChaotixA.Value, (ushort)NumericChaotixB.Value, (ushort)NumericChaotixC.Value, (ushort)NumericChaotixD.Value
+            );
 
-            container.extraMissionScore.SonicA = (ushort)NumericSonicEA.Value;
-            container.extraMissionScore.SonicB = (ushort)NumericSonicEB.Value;
-            container.extraMissionScore.SonicC = (ushort)NumericSonicEC.Value;
-            container.extraMissionScore.SonicD = (ushort)NumericSonicED.Value;
-            container.extraMissionScore.ChaotixA = (ushort)NumericChaotixEA.Value;
-            container.extraMissionScore.ChaotixB = (ushort)NumericChaotixEB.Value;
-            container.extraMissionScore.ChaotixC = (ushort)NumericChaotixEC.Value;
-            container.extraMissionScore.ChaotixD = (ushort)NumericChaotixED.Value;
+            container.extraMissionScore.SetTeamSonicRankScores((ushort)NumericSonicEA.Value, (ushort)NumericSonicEB.Value, (ushort)NumericSonicEC.Value, (ushort)NumericSonicED.Value);
+            container.extraMissionScore.SetTeamChaotixRankScores((ushort)NumericChaotixEA.Value, (ushort)NumericChaotixEB.Value, (ushort)NumericChaotixEC.Value, (ushort)NumericChaotixED.Value);
 
-            container.extraMissionTime.DarkAMin = (byte)NumericDarkEAMin.Value;
-            container.extraMissionTime.DarkBMin = (byte)NumericDarkEBMin.Value;
-            container.extraMissionTime.DarkCMin = (byte)NumericDarkECMin.Value;
-            container.extraMissionTime.DarkDMin = (byte)NumericDarkEDMin.Value;
-            container.extraMissionTime.RoseAMin = (byte)NumericRoseEAMin.Value;
-            container.extraMissionTime.RoseBMin = (byte)NumericRoseEBMin.Value;
-            container.extraMissionTime.RoseCMin = (byte)NumericRoseECMin.Value;
-            container.extraMissionTime.RoseDMin = (byte)NumericRoseEDMin.Value;
+            container.extraMissionTime.SetDarkRankTime((byte)NumericDarkEAMin.Value, (byte)NumericDarkEASec.Value,
+                (byte)NumericDarkEBMin.Value, (byte)NumericDarkEBSec.Value,
+                (byte)NumericDarkECMin.Value, (byte)NumericDarkECSec.Value,
+                (byte)NumericDarkEDMin.Value, (byte)NumericDarkEDSec.Value
+            );
 
-            container.extraMissionTime.DarkASec = (byte)NumericDarkEASec.Value;
-            container.extraMissionTime.DarkBSec = (byte)NumericDarkEBSec.Value;
-            container.extraMissionTime.DarkCSec = (byte)NumericDarkECSec.Value;
-            container.extraMissionTime.DarkDSec = (byte)NumericDarkEDSec.Value;
-            container.extraMissionTime.RoseASec = (byte)NumericRoseEASec.Value;
-            container.extraMissionTime.RoseBSec = (byte)NumericRoseEBSec.Value;
-            container.extraMissionTime.RoseCSec = (byte)NumericRoseECSec.Value;
-            container.extraMissionTime.RoseDSec = (byte)NumericRoseEDSec.Value;
+            container.extraMissionTime.SetRoseRankTime((byte)NumericRoseEAMin.Value, (byte)NumericRoseEASec.Value,
+                (byte)NumericRoseEBMin.Value, (byte)NumericRoseEBSec.Value,
+                (byte)NumericRoseECMin.Value, (byte)NumericRoseECSec.Value,
+                (byte)NumericRoseEDMin.Value, (byte)NumericRoseEDSec.Value
+            );
 
             JsonSerializable<RankContainer>.ToPath(container, rankJsonPath);
         }

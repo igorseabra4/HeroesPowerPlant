@@ -1,8 +1,22 @@
-﻿using System.ComponentModel;
+﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor {
     public class Object001A_Wind : SetObjectShadow {
         // Technically a copy of "Fan", with a unique model
+
+        public override void Draw(SharpRenderer renderer) {
+            base.Draw(renderer);
+            if (isSelected)
+                renderer.DrawCubeTrigger(CreateAffectedTransformMatrix(), isSelected, new Color4(1f, 0.75f, 0.79f, 0.5f));
+        }
+
+        private Matrix CreateAffectedTransformMatrix() {
+            Matrix affectedTransformMatrix = Matrix.Scaling(Radius * 2, BoxTypeAirHeight * 2, AirHeightANDBoxTypeRadius * 2);
+            affectedTransformMatrix *= Matrix.Translation(0f, BoxTypeAirHeight, 0f);
+            affectedTransformMatrix *= DefaultTransformMatrix();
+            return affectedTransformMatrix;
+        }
 
         public CommonDirectionType DirectionType { //0 or 1
             get => (CommonDirectionType)ReadInt(0);

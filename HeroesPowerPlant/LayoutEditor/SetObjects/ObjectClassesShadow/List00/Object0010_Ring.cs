@@ -11,15 +11,50 @@ namespace HeroesPowerPlant.LayoutEditor
         private List<Vector3> transformedPoints;
         private List<Triangle> transformedTriangles;
 
-        protected Matrix ShadowRingTransformMatrix(float yAddDeg = 0) =>
-            Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
-            Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
-            Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) *
-            Matrix.Translation(Position);
+        // New Info
+        /* Normal/Single:
+         * RotY is used for spin face, XZ unused
+         *  
+         */
+        private float shift = MathUtil.Pi / 180f;
 
+        protected Matrix ShadowRingTransformMatrix()
+        {
+            Matrix matrix = Matrix.Translation(Position);
+            switch (RingType)
+            {
+                //case RingType.Normal:
+                 //   break;
+                case RingType.Line:
+                    matrix = Matrix.RotationX(Rotation.X * shift) *
+                    Matrix.RotationY(Rotation.Y * shift) *
+                    Matrix.RotationZ(0f);
+                    break;
+                case RingType.Circle:
+                    // X seems off?
+                    matrix = Matrix.RotationX(Rotation.X * shift) *
+                    Matrix.RotationZ(Rotation.Z * shift) *
+                    Matrix.RotationY(Rotation.Y * shift);
+
+                    break;
+                //case RingType.Arch:
+               //     break;
+                default:
+                    matrix = Matrix.RotationX(Rotation.X * shift) *
+                    Matrix.RotationY(Rotation.Y * shift) *
+                    Matrix.RotationZ(0f);//Rotation.Z * shift);
+                    break;
+            }
+                    /*   Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
+                       Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
+                       Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) **/
+
+            matrix = matrix * Matrix.Translation(Position);
+            return matrix;
+        }
         public override void CreateTransformMatrix()
         {
-            transformMatrix = ShadowRingTransformMatrix(180f);
+            transformMatrix = ShadowRingTransformMatrix();
                 //DefaultTransformMatrix(180f);
 
             positionsList = new List<Vector3>(NumberOfRings);
@@ -33,21 +68,51 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (NumberOfRings < 2) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, LengthRadius * i / (NumberOfRings - 1)));
+                        positionsList.Add(new Vector3(0, 0, -(LengthRadius * i / (NumberOfRings))));
                     break;
                 case RingType.Circle:
                     if (NumberOfRings < 1) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LengthRadius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
+                        positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LengthRadius), -Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
                     break;
                 case RingType.Arch:
                     if (NumberOfRings < 2) return;
-
-                    
                     for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, LengthRadius * i / (NumberOfRings - 1)));
+                    {
+                        //Matrix Locator = Matrix.Translation(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
+                        Matrix Locator = Matrix.Translation(new Vector3(LengthRadius * i / NumberOfRings, 0, 0));
+                        if (i == 0)
+                            //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator));
+                            continue;
+                        positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+    * -Matrix.RotationY((Angle * i) / NumberOfRings)
+    //* -Matrix.RotationY((Angle) / (NumberOfRings * i))
+    ));
+                       /* if (i < NumberOfRings / 2)
+                        {
+                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                                //* Matrix.RotationY(Angle)
+                                * -Matrix.RotationY((Angle) / (NumberOfRings * i))
+                                ));
+                        }
+                        else if (i == NumberOfRings / 2)
+                        {
+                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                            * -Matrix.RotationY(Angle)
+                            ));
+                        }
+                        else
+                        {
+*//*                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
+                            * Matrix.RotationY(Angle / (NumberOfRings) * (i - NumberOfRings / 2))));*//*
+                        }*/
+                    }
                     break;
+
+/*                    for (int i = 0; i < NumberOfRings; i++)
+                        positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
+                    break;*/
                     /*
                     for (int i = 0; i < NumberOfRings; i++)
                     {

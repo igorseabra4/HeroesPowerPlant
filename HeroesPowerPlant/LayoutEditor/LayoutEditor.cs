@@ -4,11 +4,18 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using SharpDX;
+using ShadowFNT.Structures;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public partial class LayoutEditor : Form
     {
+        private AFSLib.AfsArchive loadedAFS;
+        private FNT loadedFNT;
+
+        private int darkAudioId = -1;
+        private int normalAudioId = -1;
+        private int heroAudioId = -1;
         public LayoutEditor()
         {
             InitializeComponent();
@@ -212,6 +219,123 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateGizmoPosition();
 
             ProgramIsChangingStuff = false;
+
+            if (loadedFNT.fileName != null)
+            {
+                LoadShadowSubtitlePreviews();
+            }
+        }
+
+        private void LoadShadowSubtitlePreviews()
+        {
+            if (listBoxObjects.SelectedItems.Count != 1)
+                return;
+
+            if (listBoxObjects.SelectedItem.GetType() == typeof(Object0051_TriggerTalking)
+                || (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall)))
+            {
+                string setObjAudioBranchID = "";
+                AudioBranchType setObjAudioBranchType = AudioBranchType.CurrentMissionPartner;
+
+                if (listBoxObjects.SelectedItem.GetType() == typeof(Object0051_TriggerTalking))
+                {
+                    var setObject = (Object0051_TriggerTalking)listBoxObjects.SelectedItem;
+                    setObjAudioBranchID = setObject.AudioBranchID.ToString();
+                    setObjAudioBranchType = setObject.AudioBranchType;
+                } else if (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall))
+                {
+                    var setObject = (Object0011_HintBall)listBoxObjects.SelectedItem;
+                    setObjAudioBranchID = setObject.AudioBranchID.ToString();
+                    setObjAudioBranchType = setObject.AudioBranchType;
+                }
+
+                // TODO: Probably cache results instead of searching every click
+
+                List<int> matchesIndex = new();
+
+                var targetSize = setObjAudioBranchID.Length;
+                for (int i = 0; i < loadedFNT.entryTable.Count; i++)
+                {
+                    var entry = loadedFNT.entryTable[i].messageIdBranchSequence.ToString();
+                    //size comparison is faster
+                    if (entry.Length != targetSize + 3)
+                        continue;
+                    if (entry.StartsWith(setObjAudioBranchID))
+                        matchesIndex.Add(i);
+                }
+
+                var darkText = "";
+                var normalText = "";
+                var heroText = "";
+                darkAudioId = -1;
+                normalAudioId = -1;
+                heroAudioId = -1;
+
+                foreach (int match in matchesIndex)
+                {
+                    var entry = loadedFNT.entryTable[match];
+                    var entrySubtitle = entry.messageIdBranchSequence.ToString();
+                    var branchType = entrySubtitle.Substring(entrySubtitle.Length - 3);
+                    if (branchType.StartsWith("0"))
+                    {
+                        darkText += entry.subtitle.Replace("\n", "\r\n");
+                        darkText += "\r\n";
+
+                        if (!branchType.EndsWith("0") && entry.audioId != -1)
+                            darkText += "[WARNING: Sequence has a follow up Audio file, and will not be previewed]\r\n";
+                        else
+                            darkAudioId = entry.audioId;
+                    }
+                    else if (branchType.StartsWith("1"))
+                    {
+                        normalText += entry.subtitle.Replace("\n", "\r\n");
+                        normalText += "\r\n";
+                        if (!branchType.EndsWith("0") && entry.audioId != -1)
+                            normalText += "[WARNING: Sequence has a follow up Audio file, and will not be previewed]\r\n";
+                        else
+                            normalAudioId = entry.audioId;
+                    }
+                    else if (branchType.StartsWith("2"))
+                    {
+                        heroText += entry.subtitle.Replace("\n", "\r\n");
+                        heroText += "\r\n";
+                        if (!branchType.EndsWith("0") && entry.audioId != -1)
+                            heroText += "[WARNING: Sequence has a follow up Audio file, and will not be previewed]\r\n";
+                        else
+                            heroAudioId = entry.audioId;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Report this if you encounter it.", "Impossible Bug Occurred");
+                    }
+                }
+                if (darkText == "")
+                    darkText = "|| No entry ||\r\n";
+                if (normalText == "")
+                    normalText = "|| No entry ||\r\n";
+                if (heroText == "")
+                    heroText = "|| No entry ||";
+                switch (setObjAudioBranchType)
+                {
+                    case AudioBranchType.Dark:
+                        textBox_FNT_TriggerTalkingPreview.Text = darkText;
+                        break;
+                    case AudioBranchType.Normal:
+                        textBox_FNT_TriggerTalkingPreview.Text = normalText;
+                        break;
+                    case AudioBranchType.Hero:
+                        textBox_FNT_TriggerTalkingPreview.Text = heroText;
+                        break;
+                    default:
+                        textBox_FNT_TriggerTalkingPreview.Text = "Dark:\r\n";
+                        textBox_FNT_TriggerTalkingPreview.Text += darkText.Replace("\0", "");
+                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nNormal:\r\n";
+                        textBox_FNT_TriggerTalkingPreview.Text += normalText.Replace("\0", "");
+                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nHero:\r\n";
+                        textBox_FNT_TriggerTalkingPreview.Text += heroText.Replace("\0", "");
+                        break;
+                }
+            }
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e)
@@ -483,7 +607,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (isMouseDown)
                     GizmoSelect(r);
                 else
-                    layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, out index, out distance);
+                    layoutSystem.ScreenClicked(renderer.Camera.GetPosition(), r, showAllObjects, checkBoxDrawTriggerObjs.Checked, out index, out distance);
             }
         }
 
@@ -572,6 +696,26 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateObjectAmountLabel();
         }
 
+        private void UpdateDisplayData_PositionRotation_Only()
+        {
+            if (listBoxObjects.SelectedIndices.Count == 1)
+            {
+                if (displayDataDisabled)
+                    EnableDisplayData();
+
+                ProgramIsChangingStuff = true;
+
+                NumericPosX.Value = layoutSystem.GetPosX(listBoxObjects.SelectedIndex);
+                NumericPosY.Value = layoutSystem.GetPosY(listBoxObjects.SelectedIndex);
+                NumericPosZ.Value = layoutSystem.GetPosZ(listBoxObjects.SelectedIndex);
+                NumericRotX.Value = layoutSystem.GetRotX(listBoxObjects.SelectedIndex);
+                NumericRotY.Value = layoutSystem.GetRotY(listBoxObjects.SelectedIndex);
+                NumericRotZ.Value = layoutSystem.GetRotZ(listBoxObjects.SelectedIndex);
+
+                ProgramIsChangingStuff = false;
+            }
+        }
+
         private bool displayDataDisabled = true;
 
         private void DisableDisplayData()
@@ -656,7 +800,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (checkBoxDrawObjs.Checked)
             {
-                layoutSystem.RenderSetObjects(renderer, drawEveryObject);
+                layoutSystem.RenderSetObjects(renderer, drawEveryObject, checkBoxDrawTriggerObjs.Checked);
 
                 if (DrawGizmos)
                     foreach (Gizmo g in gizmos)
@@ -760,7 +904,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         layoutSystem.GetSetObjectAt(i).Position.X += (distanceX * direction.X - distanceY * direction.Y) / 2;
                         layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
-                        UpdateDisplayData();
+                        UpdateDisplayData_PositionRotation_Only();
                     }
                 }
                 else if (gizmos[1].isSelected)
@@ -774,7 +918,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         layoutSystem.GetSetObjectAt(i).Position.Y += (distanceX * direction.X - distanceY * direction.Y) / 2;
                         layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
-                        UpdateDisplayData();
+                        UpdateDisplayData_PositionRotation_Only();
                     }
                 }
                 else if (gizmos[2].isSelected)
@@ -788,7 +932,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         layoutSystem.GetSetObjectAt(i).Position.Z += (distanceX * direction.X - distanceY * direction.Y) / 2;
                         layoutSystem.GetSetObjectAt(i).CreateTransformMatrix();
-                        UpdateDisplayData();
+                        UpdateDisplayData_PositionRotation_Only();
                     }
                 }
 
@@ -846,6 +990,140 @@ namespace HeroesPowerPlant.LayoutEditor
         private void PropertyGridMisc_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
+        }
+
+        private void buttonLoadAFS_Click(object sender, EventArgs e) {
+
+            // TODO migrate this to project scope rather than layout
+
+            using OpenFileDialog openFile = new OpenFileDialog
+            {
+                Filter = "AFS files (*.afs)|*.afs|All files (*.*)|*.*"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+                AFSLib.AfsArchive.TryFromFile(data, out var afsArchive);
+                {
+                    loadedAFS = afsArchive;
+                }
+            }
+        }
+
+        private void buttonLoadFNT_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog openFile = new OpenFileDialog
+            {
+                Filter = "FNT files (*.fnt)|*.fnt|All files (*.*)|*.*"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+
+                loadedFNT = FNT.ParseFNTFile(openFile.FileName, ref data);
+            }
+        }
+
+        private void buttonPlayTriggerTalkingAudio_Click(object sender, EventArgs e)
+        {
+            if (loadedAFS == null || loadedFNT.fileName == null)
+                return;
+            if (listBoxObjects.SelectedItems.Count != 1)
+                return;
+
+            // TODO: better type optimization? (make parent container "SupportedFNT"?)
+
+            AudioBranchType setObjAudioBranchType = AudioBranchType.CurrentMissionPartner;
+
+            if (listBoxObjects.SelectedItem.GetType() == typeof(Object0051_TriggerTalking))
+            {
+                var setObject = (Object0051_TriggerTalking)listBoxObjects.SelectedItem;
+                setObjAudioBranchType = setObject.AudioBranchType;
+            }
+            else if (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall))
+            {
+                var setObject = (Object0011_HintBall)listBoxObjects.SelectedItem;
+                setObjAudioBranchType = setObject.AudioBranchType;
+            }
+
+            switch (setObjAudioBranchType)
+            {
+                case AudioBranchType.Dark:
+                    previewAudio(darkAudioId);
+                    break;
+                case AudioBranchType.Normal:
+                    previewAudio(normalAudioId);
+                    break;
+                case AudioBranchType.Hero:
+                    previewAudio(heroAudioId);
+                    break;
+                default:
+                    //queue all
+                    previewAudio(darkAudioId, normalAudioId, heroAudioId);
+                    break;
+            }
+        }
+
+        private void previewAudio(int audioId)
+        {
+            if (audioId == -1)
+                return;
+            try {
+                LoadAdxToWav(audioId, out var stream);
+
+                var player = new System.Media.SoundPlayer();
+                stream.Position = 0;
+                player.Stream = stream;
+                player.Play();
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message, "An Exception Occurred While Trying to Play Audio");
+            }
+        }
+
+        private void previewAudio(int audioId1, int audioId2, int audioId3)
+        {
+            System.Threading.Tasks.Task.Run(() =>
+            {
+                try {
+                    var player = new System.Media.SoundPlayer();
+
+                    if (audioId1 != -1)
+                    {
+                        LoadAdxToWav(audioId1, out var stream);
+                        stream.Position = 0;
+                        player.Stream = stream;
+                        player.PlaySync();
+                    }
+                    if (audioId2 != -1)
+                    {
+                        LoadAdxToWav(audioId2, out var stream);
+                        stream.Position = 0;
+                        player.Stream = stream;
+                        player.PlaySync();
+
+                    }
+                    if (audioId3 != -1)
+                    {
+                        LoadAdxToWav(audioId3, out var stream);
+                        stream.Position = 0;
+                        player.Stream = stream;
+                        player.PlaySync();
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "An Exception Occurred While Trying to Play Audio");
+                }
+            });
+        }
+
+        private void LoadAdxToWav(int audioId, out MemoryStream waveStream) {
+            var decoder = new VGAudio.Containers.Adx.AdxReader();
+            var audio = decoder.Read(loadedAFS.Files[audioId].Data);
+            var writer = new VGAudio.Containers.Wave.WaveWriter();
+            waveStream = new();
+            writer.WriteToStream(audio, waveStream);
         }
     }
 }

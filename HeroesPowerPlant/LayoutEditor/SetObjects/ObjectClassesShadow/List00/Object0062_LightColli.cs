@@ -1,16 +1,46 @@
-﻿using System.ComponentModel;
+﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor {
     public class Object0062_LightColli : SetObjectShadow {
         //LightColli [LightColliMasterTask parent]
         //Enums:
         // SWITCH_ON, SWITCH_OFF
-        // CYLINDER
+        // CYLINDER, SPHERE (Box is implicit from Area(), Cylinder is unused but functional)
         // LightNo:PLAYER_0-3; OBJECT_0-3; ENEMY_0-3, KAGE, OTHER_0-2, DoNotUse
         // Light OFF, Light ON
         // Effect OFF, Effect ON
         // Params:
         // LightColli(LightFlag, LightNumber, EffectFlag, EffectNumber)
+
+        public override void CreateTransformMatrix() {
+            switch (RangeShape) {
+                case LightColli_RangeShape.Box:
+                    transformMatrix = Matrix.Scaling(RangeX * 2, RangeY * 2, RangeZ * 2);
+                    break;
+                case LightColli_RangeShape.Sphere:
+                    transformMatrix = Matrix.Scaling(RangeX * 2);
+                    break;
+                case LightColli_RangeShape.Cylinder:
+                    // LightColli Cylinder variant is X,Z,X, RotX(90)
+                    transformMatrix = Matrix.Scaling(RangeX * 2, RangeZ * 2, RangeX * 2);
+                    transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
+                    break;
+            }
+
+            transformMatrix *= DefaultTransformMatrix();
+            CreateBoundingBox();
+        }
+
+        public override void Draw(SharpRenderer renderer) {
+            if (RangeShape == LightColli_RangeShape.Box)
+                renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+            else if (RangeShape == LightColli_RangeShape.Sphere)
+                renderer.DrawSphereTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+            else if (RangeShape == LightColli_RangeShape.Cylinder)
+                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+        }
+
         public LightColli_SwitchMode SwitchMode {
             get => (LightColli_SwitchMode)ReadInt(0);
             set => Write(0, (int)value);
@@ -64,10 +94,9 @@ namespace HeroesPowerPlant.LayoutEditor {
     }
 
     public enum LightColli_RangeShape {
-        Cylinder,
-        Capsule,
         Box,
-        Sphere
+        Sphere,
+        Cylinder
     }
 
     public enum LightColli_LightNumber {
