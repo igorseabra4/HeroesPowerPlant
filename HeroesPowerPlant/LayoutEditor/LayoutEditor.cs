@@ -8,7 +8,7 @@ using ShadowFNT.Structures;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public partial class LayoutEditor : Form
+    public partial class LayoutEditor : TabPage
     {
         private AFSLib.AfsArchive loadedAFS;
         private FNT loadedFNT;
@@ -50,24 +50,19 @@ namespace HeroesPowerPlant.LayoutEditor
             gizmos[2] = new Gizmo(GizmoType.Z);
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
+/*        protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
             if (e.CloseReason == CloseReason.FormOwnerClosing) return;
 
             e.Cancel = true;
             Hide();
-        }
+        }*/
 
         private LayoutEditorSystem layoutSystem;
         private bool ProgramIsChangingStuff = false;
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            New();
-        }
-
-        public void New()
         {
             listBoxObjects.BeginUpdate();
             layoutSystem.NewHeroesLayout();
@@ -951,7 +946,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)
+/*        private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Modifiers == Keys.Shift && e.KeyCode == Keys.Tab)
             {
@@ -963,7 +958,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 this.SelectNextControl(ActiveControl, true, true, true, true);
                 e.Handled = e.SuppressKeyPress = true;
             }
-        }
+        }*/
 
         private void checkBoxAutoBytes_CheckedChanged(object sender, EventArgs e)
         {

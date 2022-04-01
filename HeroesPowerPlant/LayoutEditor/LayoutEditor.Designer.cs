@@ -1193,9 +1193,9 @@
             // 
             // LayoutEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1002, 609);
+/*            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;*/
+            this.ClientSize = new System.Drawing.Size(1002, 680);
             this.Controls.Add(this.checkBoxDrawTriggerObjs);
             this.Controls.Add(this.textBox_FNT_TriggerTalkingPreview);
             this.Controls.Add(this.groupBox7);
@@ -1227,15 +1227,15 @@
             this.Controls.Add(this.listBoxObjects);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            //this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximumSize = new System.Drawing.Size(1018, 648);
             this.Name = "LayoutEditor";
-            this.ShowIcon = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            //this.ShowIcon = false;
+            //this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Layout Editor";
-            this.TopMost = true;
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LayoutEditor_KeyDown);
+            //this.TopMost = true;
+            //this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LayoutEditor_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);

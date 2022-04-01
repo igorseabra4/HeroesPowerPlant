@@ -20,7 +20,7 @@
     <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
     <Company>Heroes Hacking Central</Company>
     <Product>Heroes Power Plant</Product>
-    <Copyright>Copyright © 2021 igorseabra4 + friends</Copyright>
+    <Copyright>Copyright © 2018-2022 igorseabra4 + friends</Copyright>
     <AssemblyVersion>1.6.0.0</AssemblyVersion>
     <FileVersion>1.6.0.0</FileVersion>
     <LangVersion>latest</LangVersion>
@@ -379,8 +379,8 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
-    <PackageReference Include="Reloaded.Memory" Version="4.1.3" />
-    <PackageReference Include="Reloaded.Memory.Buffers" Version="1.4.1" />
+    <PackageReference Include="Reloaded.Memory" Version="4.1.4" />
+    <PackageReference Include="Reloaded.Memory.Buffers" Version="1.4.2" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
