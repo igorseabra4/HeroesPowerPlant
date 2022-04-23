@@ -39,7 +39,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void LevelEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            TopMost = false;
         }
 
         private string openONEfilePath;

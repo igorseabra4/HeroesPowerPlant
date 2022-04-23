@@ -99,7 +99,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                         spline.Setting1 = splineReader.ReadByte();
                         spline.Setting2 = splineReader.ReadByte();
-                        spline.Setting3 = splineReader.ReadByte();
+                        spline.SplineType = splineReader.ReadByte();
                         spline.Setting4 = splineReader.ReadByte();
 
                         splineReader.BaseStream.Position += 0xC;
@@ -120,7 +120,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                                 Rotation = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()))
                             };
                             splineReader.BaseStream.Position += 0x4;
-                            vertex.Unknown = Switch(splineReader.ReadInt32());
+                            vertex.UnknownInt = Switch(splineReader.ReadInt32());
 
                             spline.Vertices[j] = vertex;
                         }
@@ -174,6 +174,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes.AddRange(BitConverter.GetBytes(12610).Reverse());
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
+
+            // add 0x10 offset (mismatch on stg0412, TODO: Research why it needs the extra 0x10 padding)
+/*            for (int i = 0; i < 10; i++)
+                bytes.Add(0);*/
 
             foreach (ShadowSpline s in Splines)
                 bytes.AddRange(BitConverter.GetBytes(0));

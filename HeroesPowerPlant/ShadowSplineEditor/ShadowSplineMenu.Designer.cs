@@ -155,7 +155,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             this.Name = "ShadowSplineMenu";
             this.ShowIcon = false;
             this.Text = "Shadow Spline Editor";
-            this.TopMost = true;
+            this.TopMost = false;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParticleEditor_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);

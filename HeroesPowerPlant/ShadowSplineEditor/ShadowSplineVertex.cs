@@ -38,6 +38,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             set => Rotation.Z = MathUtil.DegreesToRadians(value);
         }
 
-        public int Unknown { get; set; }
+        public int UnknownInt { get; set; }
+
+        public override string ToString()
+        {
+            return $"X:{PositionX} Y:{PositionY} Z:{PositionZ} UnknownInt:{UnknownInt}";
+        }
     }
 }

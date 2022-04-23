@@ -1054,7 +1054,7 @@ namespace HeroesPowerPlant.MainForm
             AboutBox.TopMost = value;
             ViewConfig.TopMost = value;
             ConfigEditor.TopMost = value;
-            LevelEditor.TopMost = value;
+            //LevelEditor.TopMost = value;
             foreach (var c in CollisionEditors)
                 c.TopMost = value;
             foreach (var l in LayoutEditors)
