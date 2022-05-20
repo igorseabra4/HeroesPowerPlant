@@ -89,6 +89,7 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
+            this.shadowDiffToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -173,7 +174,8 @@ namespace HeroesPowerPlant.MainForm
             this.texturePatternEditorF9ToolStripMenuItem,
             this.lightEditorF10ToolStripMenuItem,
             this.sETIDTableEditorToolStripMenuItem,
-            this.shadowCameraEditorToolStripMenuItem});
+            this.shadowCameraEditorToolStripMenuItem,
+            this.shadowDiffToolToolStripMenuItem});
             this.editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
             this.editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.editorsToolStripMenuItem.Text = "Editors";
@@ -580,6 +582,13 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
+            // shadowDiffToolToolStripMenuItem
+            // 
+            this.shadowDiffToolToolStripMenuItem.Name = "shadowDiffToolToolStripMenuItem";
+            this.shadowDiffToolToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.shadowDiffToolToolStripMenuItem.Text = "Shadow Diff Tool";
+            this.shadowDiffToolToolStripMenuItem.Click += new System.EventHandler(this.shadowDiffToolToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -670,6 +679,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem shadowCameraEditorToolStripMenuItem;
         private ToolStripMenuItem disableRendering_ToolStripMenuItem;
         private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
+        private ToolStripMenuItem shadowDiffToolToolStripMenuItem;
     }
 }
 
