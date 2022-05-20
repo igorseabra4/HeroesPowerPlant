@@ -8,7 +8,7 @@ using ShadowFNT.Structures;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public partial class LayoutEditor : TabPage
+    public partial class LayoutEditor : Form
     {
         private AFSLib.AfsArchive loadedAFS;
         private FNT loadedFNT;
@@ -50,19 +50,24 @@ namespace HeroesPowerPlant.LayoutEditor
             gizmos[2] = new Gizmo(GizmoType.Z);
         }
 
-/*        protected override void OnFormClosing(FormClosingEventArgs e)
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
             if (e.CloseReason == CloseReason.FormOwnerClosing) return;
 
             e.Cancel = true;
             Hide();
-        }*/
+        }
 
         private LayoutEditorSystem layoutSystem;
         private bool ProgramIsChangingStuff = false;
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            New();
+        }
+
+        public void New()
         {
             listBoxObjects.BeginUpdate();
             layoutSystem.NewHeroesLayout();
@@ -237,7 +242,8 @@ namespace HeroesPowerPlant.LayoutEditor
                     var setObject = (Object0051_TriggerTalking)listBoxObjects.SelectedItem;
                     setObjAudioBranchID = setObject.AudioBranchID.ToString();
                     setObjAudioBranchType = setObject.AudioBranchType;
-                } else if (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall))
+                }
+                else if (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall))
                 {
                     var setObject = (Object0011_HintBall)listBoxObjects.SelectedItem;
                     setObjAudioBranchID = setObject.AudioBranchID.ToString();
@@ -386,13 +392,13 @@ namespace HeroesPowerPlant.LayoutEditor
                 listBoxObjects_SelectedIndexChanged(null, null);
             }
         }
-        
+
         private void RemoveSetObjectAt(int index)
         {
             int Temp = listBoxObjects.SelectedIndices[0];
 
             listBoxObjects.ClearSelected();
-            
+
             layoutSystem.RemoveSetObject(index);
 
             try { listBoxObjects.SelectedIndex = Temp; }
@@ -775,7 +781,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Text = "Layout Editor - " + Path.GetFileName(layoutSystem.CurrentlyOpenFileName);
             mainForm.SetLayoutEditorStripItemName(this, Path.GetFileName(layoutSystem.CurrentlyOpenFileName));
         }
-        
+
         private void buttonCopyMisc_Click(object sender, EventArgs e)
         {
             if (listBoxObjects.SelectedIndices.Count == 1)
@@ -812,7 +818,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             layoutSystem.UpdateSetParticleMatrices();
         }
-        
+
         public (byte, byte)[] GetAllCurrentObjectEntries()
         {
             return layoutSystem.GetAllCurrentObjectEntries();
@@ -935,7 +941,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 UpdateGizmoPosition();
             }
         }
-        
+
         private void buttonCurrentViewDrop_Click(object sender, EventArgs e)
         {
             if (listBoxObjects.SelectedIndices.Count == 1)
@@ -946,7 +952,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-/*        private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)
+        private void LayoutEditor_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Modifiers == Keys.Shift && e.KeyCode == Keys.Tab)
             {
@@ -958,7 +964,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 this.SelectNextControl(ActiveControl, true, true, true, true);
                 e.Handled = e.SuppressKeyPress = true;
             }
-        }*/
+        }
 
         private void checkBoxAutoBytes_CheckedChanged(object sender, EventArgs e)
         {
@@ -970,7 +976,7 @@ namespace HeroesPowerPlant.LayoutEditor
             hasIntersected = false;
             smallestDistance = 0;
 
-            if (checkBoxDrawObjs.Checked)            
+            if (checkBoxDrawObjs.Checked)
                 layoutSystem.GetClickedModelPosition(ray, camPos, seeAllObjects, out hasIntersected, out smallestDistance);
         }
 
@@ -987,7 +993,8 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
         }
 
-        private void buttonLoadAFS_Click(object sender, EventArgs e) {
+        private void buttonLoadAFS_Click(object sender, EventArgs e)
+        {
 
             // TODO migrate this to project scope rather than layout
 
@@ -1063,14 +1070,17 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (audioId == -1)
                 return;
-            try {
+            try
+            {
                 LoadAdxToWav(audioId, out var stream);
 
                 var player = new System.Media.SoundPlayer();
                 stream.Position = 0;
                 player.Stream = stream;
                 player.Play();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message, "An Exception Occurred While Trying to Play Audio");
             }
         }
@@ -1079,7 +1089,8 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             System.Threading.Tasks.Task.Run(() =>
             {
-                try {
+                try
+                {
                     var player = new System.Media.SoundPlayer();
 
                     if (audioId1 != -1)
@@ -1113,7 +1124,8 @@ namespace HeroesPowerPlant.LayoutEditor
             });
         }
 
-        private void LoadAdxToWav(int audioId, out MemoryStream waveStream) {
+        private void LoadAdxToWav(int audioId, out MemoryStream waveStream)
+        {
             var decoder = new VGAudio.Containers.Adx.AdxReader();
             var audio = decoder.Read(loadedAFS.Files[audioId].Data);
             var writer = new VGAudio.Containers.Wave.WaveWriter();

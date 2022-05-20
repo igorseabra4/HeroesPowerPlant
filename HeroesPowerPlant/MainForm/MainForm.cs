@@ -264,24 +264,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void newLayoutEditorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AddLayoutEditorContainer(show: true);
-            //AddLayoutEditor(show: true);
-        }
-
-        public void AddLayoutEditorContainer(string filePath = null, bool show = false)
-        {
-            ToolStripMenuItem tempMenuItem = new ToolStripMenuItem("No file loaded");
-            tempMenuItem.Click += new EventHandler(LayoutEditorToolStripMenuItemClick);
-            layoutEditorToolStripMenuItem.DropDownItems.Add(tempMenuItem);
-
-            LayoutEditor.LayoutEditorContainer tempLayoutEditor = new LayoutEditor.LayoutEditorContainer();
-            tempLayoutEditor.Show();
-/*            LayoutEditorDict.Add(tempMenuItem, tempLayoutEditor);
-            if (show)
-                LayoutEditorDict[tempMenuItem].Show();
-
-            if (filePath != null)
-                tempLayoutEditor.OpenFile(filePath, this);*/
+            AddLayoutEditor(show: true);
         }
 
         public void AddLayoutEditor(string filePath = null, bool show = false)
@@ -322,7 +305,7 @@ namespace HeroesPowerPlant.MainForm
                 if (LayoutEditorDict[t].Equals(sender))
                 {
                     layoutEditorToolStripMenuItem.DropDownItems.Remove(t);
-                    //LayoutEditorDict[t].Close();
+                    LayoutEditorDict[t].Close();
                     LayoutEditorDict.Remove(t);
                     return;
                 }
@@ -1054,11 +1037,11 @@ namespace HeroesPowerPlant.MainForm
             AboutBox.TopMost = value;
             ViewConfig.TopMost = value;
             ConfigEditor.TopMost = value;
-            //LevelEditor.TopMost = value;
+            LevelEditor.TopMost = value;
             foreach (var c in CollisionEditors)
                 c.TopMost = value;
             foreach (var l in LayoutEditors)
-                //l.TopMost = value;
+                l.TopMost = value;
             ConfigEditor.SplineEditor.TopMost = value;
             CameraEditor.TopMost = value;
             ShadowCameraEditor.TopMost = value;
