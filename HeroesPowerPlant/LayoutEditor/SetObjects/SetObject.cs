@@ -239,5 +239,36 @@ namespace HeroesPowerPlant.LayoutEditor
             boundingSphere.Radius *= 0.9f;
             return boundingSphere;
         }
+
+        public bool Equals(SetObject setObject)
+        {
+            if (Position != setObject.Position)
+                return false;
+            if (Rotation != setObject.Rotation)
+                return false;
+            if (List != setObject.List)
+                return false;
+            if (Type != setObject.Type)
+                return false;
+            if (Link != setObject.Link)
+                return false;
+            if (Rend != setObject.Rend)
+                return false;
+            if (UnkBytes.Length != setObject.UnkBytes.Length)
+                return false;
+            for (int i = 0; i < UnkBytes.Length; i++)
+            {
+                if (!UnkBytes[i].Equals(setObject.UnkBytes[i]))
+                    return false;
+            }
+            if (MiscSettings.Length != setObject.MiscSettings.Length)
+                return false;
+            for (int i = 0; i < MiscSettings.Length; i++)
+            {
+                if (!MiscSettings[i].Equals(setObject.MiscSettings[i]))
+                    return false;
+            }
+            return true;
+        }
     }
 }

@@ -619,5 +619,17 @@ namespace HeroesPowerPlant.LayoutEditor
             return MemoryFunctions.Teleport(GetSetObjectAt(index).Position);
         }
         #endregion
+
+        public bool Equals(LayoutEditorSystem system)
+        {
+            if (setObjects.Count != system.setObjects.Count)
+                return false;
+            for (int i = 0; i < setObjects.Count; i++)
+            {
+                if (!setObjects[i].Equals(system.setObjects[i]))
+                    return false;
+            }
+            return true;
+        }
     }
 }
