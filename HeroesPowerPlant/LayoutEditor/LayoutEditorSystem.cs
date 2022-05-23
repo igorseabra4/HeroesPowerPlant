@@ -631,5 +631,68 @@ namespace HeroesPowerPlant.LayoutEditor
             }
             return true;
         }
+
+        public (LayoutEditorSystem, LayoutEditorSystem) Diff(LayoutEditorSystem system)
+        {
+            // phase out any easy matches
+            List<int> indexesToDelete = new List<int>();
+            for (int i = 0; i < system.setObjects.Count; i++)
+            {
+                try
+                {
+                    if (system.setObjects[i].Equals(setObjects[i]))
+                    {
+                        indexesToDelete.Add(i);
+                    } else
+                    {
+                        // stop at first difference, likely all n+1 will be different
+                        break;
+                    }
+                } catch (ArgumentOutOfRangeException)
+                {
+                    // list divergence
+                    break;
+                }
+            }
+            indexesToDelete.Sort();
+            indexesToDelete.Reverse();
+
+            foreach (int index in indexesToDelete)
+            {
+                system.setObjects.RemoveAt(index);
+                setObjects.RemoveAt(index);
+            }
+
+            List<int> indexes_I_ToDelete = new List<int>();
+            List<int> indexes_J_ToDelete = new List<int>();
+
+            // find if match exists at different indexes
+            for (int i = 0; i < system.setObjects.Count; i++)
+            {
+                for (int j = 0; j < setObjects.Count; j++)
+                {
+                    if (system.setObjects[i].Equals(setObjects[j]))
+                    {
+                        indexes_I_ToDelete.Add(i);
+                        indexes_J_ToDelete.Add(j);
+                    }
+                }
+            }
+
+            indexes_I_ToDelete.Sort();
+            indexes_I_ToDelete.Reverse();
+            indexes_J_ToDelete.Sort();
+            indexes_J_ToDelete.Reverse();
+
+            for (int i = 0; i < indexes_I_ToDelete.Count; i++)
+            {
+                system.setObjects.RemoveAt(indexes_I_ToDelete[i]);
+                setObjects.RemoveAt(indexes_J_ToDelete[i]);
+            }
+
+            // now leaves us with the before and after Diff results
+
+            return (this, system);
+        }
     }
 }

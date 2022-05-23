@@ -38,6 +38,22 @@ namespace HeroesPowerPlant.ShadowDiffTool
             {
                 folder1_name = openFolder.SelectedPath;
                 folder1 = Path.GetFileNameWithoutExtension(openFolder.SelectedPath);
+            } else
+            { 
+                return;
+            }
+
+            // Parse folder 2 for .cmn .nrm .hrd .ds1
+            VistaFolderBrowserDialog openFolder2 = new VistaFolderBrowserDialog();
+            var folder2 = "";
+            var folder2_name = "";
+            if (openFolder2.ShowDialog() == DialogResult.OK)
+            {
+                folder2_name = openFolder2.SelectedPath;
+                folder2 = Path.GetFileNameWithoutExtension(openFolder2.SelectedPath);
+            } else
+            {
+                return;
             }
 
             var layoutSystem1 = new LayoutEditorSystem
@@ -45,6 +61,38 @@ namespace HeroesPowerPlant.ShadowDiffTool
                 autoUnkBytes = false
             };
 
+            var layoutSystem2 = new LayoutEditorSystem
+            {
+                autoUnkBytes = false
+            };
+
+            // cmn
+            var layout1 = Path.Combine(folder1_name, folder1) + "_cmn.dat";
+            var layout2 = Path.Combine(folder2_name, folder2) + "_cmn.dat";
+            if (File.Exists(layout1) && File.Exists(layout2))
+            {
+                layoutSystem1.OpenLayoutFile(layout1);
+                layoutSystem2.OpenLayoutFile(layout2);
+
+                if (layoutSystem1.Equals(layoutSystem2))
+                {
+                    MessageBox.Show("Nothing to do, files are equal");
+                }
+                else
+                {
+                    MessageBox.Show("Files do not match");
+                    LayoutEditorSystem layoutSystemOriginalDiff;
+                    LayoutEditorSystem layoutSystemResultDiff;
+                    (layoutSystemOriginalDiff, layoutSystemResultDiff) = layoutSystem1.Diff(layoutSystem2);
+                    VistaSaveFileDialog saveDialog = new VistaSaveFileDialog();
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                        layoutSystemOriginalDiff.Save(saveDialog.FileName);
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                        layoutSystemResultDiff.Save(saveDialog.FileName);
+                    MessageBox.Show("Success");
+                }
+            }
+/*
             foreach (string s in new string[]
             {
                     //Path.Combine(folder1_name, folder1) + "_ds1.dat",
@@ -60,21 +108,8 @@ namespace HeroesPowerPlant.ShadowDiffTool
                 }
 
 
-            // Parse folder 2 for .cmn .nrm .hrd .ds1
 
-            VistaFolderBrowserDialog openFolder2 = new VistaFolderBrowserDialog();
-            var folder2 = "";
-            var folder2_name = "";
-            if (openFolder2.ShowDialog() == DialogResult.OK)
-            {
-                folder2_name = openFolder2.SelectedPath;
-                folder2 = Path.GetFileNameWithoutExtension(openFolder2.SelectedPath);
-            }
 
-            var layoutSystem2 = new LayoutEditorSystem
-            {
-                autoUnkBytes = false
-            };
 
             foreach (string s in new string[]
             {
@@ -96,7 +131,7 @@ namespace HeroesPowerPlant.ShadowDiffTool
             } else
             {
                 MessageBox.Show("Files do not match");
-            }
+            }*/
 
 
             // Object Order Check
