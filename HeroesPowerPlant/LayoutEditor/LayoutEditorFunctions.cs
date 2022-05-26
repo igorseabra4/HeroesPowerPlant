@@ -560,7 +560,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x3: return new Object_B1_1_Type();
                         case 0x4: return new Object0204_Kaos();
                         //case 0x5: return new Object0205_ScrollRing();
-                        //case 0x6: return new Object0206_ScrollBalloon();
+                        case 0x6: return new Object0206_ScrollBalloon();
                         case 0xA: return new Object020A_ColliQuake();
                         case 0xB: return new Object020B_EventActivator();
                         case 0xC: return new Object020C_TriggerKaos();
