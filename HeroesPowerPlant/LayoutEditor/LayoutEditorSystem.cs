@@ -632,39 +632,11 @@ namespace HeroesPowerPlant.LayoutEditor
             return true;
         }
 
-        public (LayoutEditorSystem, LayoutEditorSystem) Diff(LayoutEditorSystem system)
+        public (LayoutEditorSystem, LayoutEditorSystem, string) Diff(LayoutEditorSystem system)
         {
-            // phase out any easy matches
-            List<int> indexesToDelete = new List<int>();
-            for (int i = 0; i < system.setObjects.Count; i++)
-            {
-                try
-                {
-                    if (system.setObjects[i].Equals(setObjects[i]))
-                    {
-                        indexesToDelete.Add(i);
-                    } else
-                    {
-                        // stop at first difference, likely all n+1 will be different
-                        break;
-                    }
-                } catch (ArgumentOutOfRangeException)
-                {
-                    // list divergence
-                    break;
-                }
-            }
-            indexesToDelete.Sort();
-            indexesToDelete.Reverse();
-
-            foreach (int index in indexesToDelete)
-            {
-                system.setObjects.RemoveAt(index);
-                setObjects.RemoveAt(index);
-            }
-
             List<int> indexes_I_ToDelete = new List<int>();
             List<int> indexes_J_ToDelete = new List<int>();
+            string log = system.currentlyOpenFileName + " Differences \n\n--\n";
 
             // find if match exists at different indexes
             for (int i = 0; i < system.setObjects.Count; i++)
@@ -675,6 +647,30 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         indexes_I_ToDelete.Add(i);
                         indexes_J_ToDelete.Add(j);
+                        break;
+                    }
+                    if (j == setObjects.Count-1)
+                    {
+                        log += system.setObjects[i].ToString() + " at index " + i + '\n';
+                    }
+                }
+            }
+
+            log += "\n\n----\n\n" + currentlyOpenFileName + " Differences \n\n--\n";
+
+            // do the same but the other way around
+            // this is terribly inefficient but it will work; "good enough for a beta"
+            for (int i = 0; i < setObjects.Count; i++)
+            {
+                for (int j = 0; j < system.setObjects.Count; j++)
+                {
+                    if (setObjects[i].Equals(system.setObjects[j]))
+                    {
+                        break;
+                    }
+                    if (j == system.setObjects.Count - 1)
+                    {
+                        log += setObjects[i].ToString() + " at index " + i + '\n';
                     }
                 }
             }
@@ -692,7 +688,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             // now leaves us with the before and after Diff results
 
-            return (this, system);
+            return (this, system, log);
         }
     }
 }

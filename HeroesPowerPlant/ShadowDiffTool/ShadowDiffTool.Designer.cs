@@ -51,9 +51,9 @@
             this.LabelInstructions.Location = new System.Drawing.Point(23, 9);
             this.LabelInstructions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelInstructions.Name = "LabelInstructions";
-            this.LabelInstructions.Size = new System.Drawing.Size(243, 15);
+            this.LabelInstructions.Size = new System.Drawing.Size(228, 15);
             this.LabelInstructions.TabIndex = 69;
-            this.LabelInstructions.Text = "1. choose folder containing unmodified level";
+            this.LabelInstructions.Text = "1. choose file containing unmodified level";
             // 
             // label1
             // 
@@ -61,9 +61,9 @@
             this.label1.Location = new System.Drawing.Point(23, 24);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(198, 15);
+            this.label1.Size = new System.Drawing.Size(183, 15);
             this.label1.TabIndex = 70;
-            this.label1.Text = "2. choose folder containing changes";
+            this.label1.Text = "2. choose file containing changes";
             // 
             // label2
             // 
@@ -71,9 +71,9 @@
             this.label2.Location = new System.Drawing.Point(23, 39);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(238, 15);
+            this.label2.Size = new System.Drawing.Size(217, 15);
             this.label2.TabIndex = 71;
-            this.label2.Text = "3. choose output directory to save result log";
+            this.label2.Text = "3. choose output directory for diff result";
             // 
             // ShadowDiffTool
             // 
