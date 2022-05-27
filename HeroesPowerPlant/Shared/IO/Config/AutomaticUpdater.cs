@@ -11,11 +11,6 @@ namespace HeroesPowerPlant.Shared.IO.Config
     {
         public static bool UpdateHeroesPowerPlant(out bool hasChecked)
         {
-            // temp disabled for rc
-            hasChecked = true;
-            return true;
-            // temp disabled for rc end
-
             hasChecked = false;
 
             try
