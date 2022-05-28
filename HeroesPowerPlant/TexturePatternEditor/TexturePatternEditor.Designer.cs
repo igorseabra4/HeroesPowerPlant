@@ -48,6 +48,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.numericFrameCount = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.labelFrame = new System.Windows.Forms.Label();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.numericTextureNumber = new System.Windows.Forms.NumericUpDown();
@@ -56,7 +57,6 @@
             this.listBoxFrames = new System.Windows.Forms.ListBox();
             this.buttonAddFrame = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.labelFrame = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -77,7 +77,8 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(398, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(464, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,9 +123,10 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(6, 302);
+            this.buttonAdd.Location = new System.Drawing.Point(7, 348);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(41, 23);
+            this.buttonAdd.Size = new System.Drawing.Size(48, 27);
             this.buttonAdd.TabIndex = 2;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -132,9 +134,10 @@
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(53, 302);
+            this.buttonCopy.Location = new System.Drawing.Point(62, 348);
+            this.buttonCopy.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(43, 23);
+            this.buttonCopy.Size = new System.Drawing.Size(50, 27);
             this.buttonCopy.TabIndex = 3;
             this.buttonCopy.Text = "Copy";
             this.buttonCopy.UseVisualStyleBackColor = true;
@@ -142,9 +145,10 @@
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(102, 302);
+            this.buttonRemove.Location = new System.Drawing.Point(119, 348);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(64, 23);
+            this.buttonRemove.Size = new System.Drawing.Size(75, 27);
             this.buttonRemove.TabIndex = 4;
             this.buttonRemove.Text = "Remove";
             this.buttonRemove.UseVisualStyleBackColor = true;
@@ -154,9 +158,10 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 362);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 421);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(398, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(464, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -169,9 +174,11 @@
             // listBoxPatterns
             // 
             this.listBoxPatterns.FormattingEnabled = true;
-            this.listBoxPatterns.Location = new System.Drawing.Point(6, 19);
+            this.listBoxPatterns.ItemHeight = 15;
+            this.listBoxPatterns.Location = new System.Drawing.Point(7, 22);
+            this.listBoxPatterns.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.listBoxPatterns.Name = "listBoxPatterns";
-            this.listBoxPatterns.Size = new System.Drawing.Size(160, 277);
+            this.listBoxPatterns.Size = new System.Drawing.Size(186, 319);
             this.listBoxPatterns.TabIndex = 7;
             this.listBoxPatterns.SelectedIndexChanged += new System.EventHandler(this.listBoxPatterns_SelectedIndexChanged);
             // 
@@ -181,9 +188,11 @@
             this.groupBox1.Controls.Add(this.buttonAdd);
             this.groupBox1.Controls.Add(this.buttonCopy);
             this.groupBox1.Controls.Add(this.buttonRemove);
-            this.groupBox1.Location = new System.Drawing.Point(12, 27);
+            this.groupBox1.Location = new System.Drawing.Point(14, 31);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(173, 330);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox1.Size = new System.Drawing.Size(202, 381);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Texture Patterns";
@@ -191,54 +200,63 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.textBoxTextureName);
-            this.groupBox2.Location = new System.Drawing.Point(191, 27);
+            this.groupBox2.Location = new System.Drawing.Point(223, 31);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 46);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox2.Size = new System.Drawing.Size(233, 53);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Texture Name";
             // 
             // textBoxTextureName
             // 
-            this.textBoxTextureName.Location = new System.Drawing.Point(6, 19);
+            this.textBoxTextureName.Location = new System.Drawing.Point(7, 22);
+            this.textBoxTextureName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxTextureName.Name = "textBoxTextureName";
-            this.textBoxTextureName.Size = new System.Drawing.Size(188, 20);
+            this.textBoxTextureName.Size = new System.Drawing.Size(219, 23);
             this.textBoxTextureName.TabIndex = 10;
             this.textBoxTextureName.TextChanged += new System.EventHandler(this.textBoxTextureName_TextChanged);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.textBoxAnimationName);
-            this.groupBox3.Location = new System.Drawing.Point(191, 79);
+            this.groupBox3.Location = new System.Drawing.Point(223, 91);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 46);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox3.Size = new System.Drawing.Size(233, 53);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Animation Name";
             // 
             // textBoxAnimationName
             // 
-            this.textBoxAnimationName.Location = new System.Drawing.Point(6, 19);
+            this.textBoxAnimationName.Location = new System.Drawing.Point(7, 22);
+            this.textBoxAnimationName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxAnimationName.Name = "textBoxAnimationName";
-            this.textBoxAnimationName.Size = new System.Drawing.Size(188, 20);
+            this.textBoxAnimationName.Size = new System.Drawing.Size(219, 23);
             this.textBoxAnimationName.TabIndex = 10;
             this.textBoxAnimationName.TextChanged += new System.EventHandler(this.textBoxAnimationName_TextChanged);
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.numericFrameCount);
-            this.groupBox4.Location = new System.Drawing.Point(191, 131);
+            this.groupBox4.Location = new System.Drawing.Point(223, 151);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(200, 46);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox4.Size = new System.Drawing.Size(233, 53);
             this.groupBox4.TabIndex = 12;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Frame Count";
             // 
             // numericFrameCount
             // 
-            this.numericFrameCount.Location = new System.Drawing.Point(6, 19);
+            this.numericFrameCount.Location = new System.Drawing.Point(7, 22);
+            this.numericFrameCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericFrameCount.Name = "numericFrameCount";
-            this.numericFrameCount.Size = new System.Drawing.Size(188, 20);
+            this.numericFrameCount.Size = new System.Drawing.Size(219, 23);
             this.numericFrameCount.TabIndex = 13;
             this.numericFrameCount.ValueChanged += new System.EventHandler(this.numericFrameCount_ValueChanged);
             // 
@@ -251,18 +269,31 @@
             this.groupBox5.Controls.Add(this.listBoxFrames);
             this.groupBox5.Controls.Add(this.buttonAddFrame);
             this.groupBox5.Controls.Add(this.button3);
-            this.groupBox5.Location = new System.Drawing.Point(191, 183);
+            this.groupBox5.Location = new System.Drawing.Point(223, 211);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(200, 174);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox5.Size = new System.Drawing.Size(233, 201);
             this.groupBox5.TabIndex = 9;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Keyframes";
             // 
+            // labelFrame
+            // 
+            this.labelFrame.AutoSize = true;
+            this.labelFrame.Location = new System.Drawing.Point(120, 147);
+            this.labelFrame.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelFrame.Name = "labelFrame";
+            this.labelFrame.Size = new System.Drawing.Size(51, 15);
+            this.labelFrame.TabIndex = 17;
+            this.labelFrame.Text = "Stopped";
+            // 
             // buttonPlay
             // 
-            this.buttonPlay.Location = new System.Drawing.Point(103, 146);
+            this.buttonPlay.Location = new System.Drawing.Point(120, 168);
+            this.buttonPlay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(91, 23);
+            this.buttonPlay.Size = new System.Drawing.Size(106, 27);
             this.buttonPlay.TabIndex = 16;
             this.buttonPlay.Text = "Play";
             this.buttonPlay.UseVisualStyleBackColor = true;
@@ -271,53 +302,62 @@
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.numericTextureNumber);
-            this.groupBox7.Location = new System.Drawing.Point(103, 72);
+            this.groupBox7.Location = new System.Drawing.Point(120, 83);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(91, 47);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox7.Size = new System.Drawing.Size(106, 54);
             this.groupBox7.TabIndex = 15;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Texture Num";
             // 
             // numericTextureNumber
             // 
-            this.numericTextureNumber.Location = new System.Drawing.Point(6, 19);
+            this.numericTextureNumber.Location = new System.Drawing.Point(7, 22);
+            this.numericTextureNumber.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericTextureNumber.Name = "numericTextureNumber";
-            this.numericTextureNumber.Size = new System.Drawing.Size(79, 20);
+            this.numericTextureNumber.Size = new System.Drawing.Size(92, 23);
             this.numericTextureNumber.TabIndex = 14;
             this.numericTextureNumber.ValueChanged += new System.EventHandler(this.numericTextureNumber_ValueChanged);
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.numericFrameOffset);
-            this.groupBox6.Location = new System.Drawing.Point(103, 19);
+            this.groupBox6.Location = new System.Drawing.Point(120, 22);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(91, 47);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox6.Size = new System.Drawing.Size(106, 54);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Frame Offset";
             // 
             // numericFrameOffset
             // 
-            this.numericFrameOffset.Location = new System.Drawing.Point(6, 19);
+            this.numericFrameOffset.Location = new System.Drawing.Point(7, 22);
+            this.numericFrameOffset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericFrameOffset.Name = "numericFrameOffset";
-            this.numericFrameOffset.Size = new System.Drawing.Size(79, 20);
+            this.numericFrameOffset.Size = new System.Drawing.Size(92, 23);
             this.numericFrameOffset.TabIndex = 14;
             this.numericFrameOffset.ValueChanged += new System.EventHandler(this.numericFrameOffset_ValueChanged);
             // 
             // listBoxFrames
             // 
             this.listBoxFrames.FormattingEnabled = true;
-            this.listBoxFrames.Location = new System.Drawing.Point(6, 19);
+            this.listBoxFrames.ItemHeight = 15;
+            this.listBoxFrames.Location = new System.Drawing.Point(7, 22);
+            this.listBoxFrames.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.listBoxFrames.Name = "listBoxFrames";
-            this.listBoxFrames.Size = new System.Drawing.Size(91, 121);
+            this.listBoxFrames.Size = new System.Drawing.Size(106, 139);
             this.listBoxFrames.TabIndex = 7;
             this.listBoxFrames.SelectedIndexChanged += new System.EventHandler(this.listBoxFrames_SelectedIndexChanged);
             // 
             // buttonAddFrame
             // 
-            this.buttonAddFrame.Location = new System.Drawing.Point(6, 146);
+            this.buttonAddFrame.Location = new System.Drawing.Point(7, 168);
+            this.buttonAddFrame.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAddFrame.Name = "buttonAddFrame";
-            this.buttonAddFrame.Size = new System.Drawing.Size(36, 23);
+            this.buttonAddFrame.Size = new System.Drawing.Size(42, 27);
             this.buttonAddFrame.TabIndex = 2;
             this.buttonAddFrame.Text = "Add";
             this.buttonAddFrame.UseVisualStyleBackColor = true;
@@ -325,28 +365,20 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(42, 146);
+            this.button3.Location = new System.Drawing.Point(49, 168);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(55, 23);
+            this.button3.Size = new System.Drawing.Size(64, 27);
             this.button3.TabIndex = 4;
             this.button3.Text = "Remove";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.buttonRemoveFrame_Click);
             // 
-            // labelFrame
-            // 
-            this.labelFrame.AutoSize = true;
-            this.labelFrame.Location = new System.Drawing.Point(103, 127);
-            this.labelFrame.Name = "labelFrame";
-            this.labelFrame.Size = new System.Drawing.Size(47, 13);
-            this.labelFrame.TabIndex = 17;
-            this.labelFrame.Text = "Stopped";
-            // 
             // TexturePatternEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 384);
+            this.ClientSize = new System.Drawing.Size(464, 443);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -356,12 +388,13 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "TexturePatternEditor";
             this.ShowIcon = false;
             this.Text = "Texture Pattern Editor";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PatternEditor_FormClosing);
+            this.Load += new System.EventHandler(this.TexturePatternEditor_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);

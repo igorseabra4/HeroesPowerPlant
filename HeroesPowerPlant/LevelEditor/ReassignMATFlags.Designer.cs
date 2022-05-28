@@ -80,7 +80,6 @@ namespace HeroesPowerPlant.LevelEditor
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Reassign Material Flags";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

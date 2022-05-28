@@ -1195,7 +1195,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1002, 680);
+            this.ClientSize = new System.Drawing.Size(1002, 609);
             this.Controls.Add(this.checkBoxDrawTriggerObjs);
             this.Controls.Add(this.textBox_FNT_TriggerTalkingPreview);
             this.Controls.Add(this.groupBox7);
@@ -1234,7 +1234,7 @@
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Layout Editor";
-            this.TopMost = true;
+            this.Load += new System.EventHandler(this.LayoutEditor_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LayoutEditor_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

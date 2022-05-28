@@ -20,6 +20,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public bool CheckForUpdatesOnStartup { get; set; } = false;
         public bool VSync { get; set; } = true;
         public bool LimitFPS { get; set; } = true;
+        public bool LegacyWindowPriorityBehavior { get; set; } = false;
+
         public decimal LimitFPSValue { get; set; } = 60.0000m;
 
         public Size MainWindowSize { get; set; } = new Size(1490, 1006);

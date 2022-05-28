@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using SharpDX;
 using ShadowFNT.Structures;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -1131,6 +1132,14 @@ namespace HeroesPowerPlant.LayoutEditor
             var writer = new VGAudio.Containers.Wave.WaveWriter();
             waveStream = new();
             writer.WriteToStream(audio, waveStream);
+        }
+
+        private void LayoutEditor_Load(object sender, EventArgs e)
+        {
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
     }
 }

@@ -7,6 +7,7 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_ShadowCollision;
 using Ookii.Dialogs.WinForms;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -23,7 +24,10 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ShadowCollisionEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         public ShadowCollisionEditor(BSPRenderer bspRenderer)

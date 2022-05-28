@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using HeroesPowerPlant.LayoutEditor;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.ShadowDiffTool
 {
@@ -93,6 +94,14 @@ namespace HeroesPowerPlant.ShadowDiffTool
             {
                 MessageBox.Show("Files were not found");
             }
+        }
+
+        private void ShadowDiffTool_Load(object sender, EventArgs e)
+        {
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
     }
 }

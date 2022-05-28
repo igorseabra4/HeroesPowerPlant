@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using System;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LevelEditor
@@ -8,7 +9,10 @@ namespace HeroesPowerPlant.LevelEditor
         public ReassignMATFlags()
         {
             InitializeComponent();
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         public static (string,string) GetMATSwap()

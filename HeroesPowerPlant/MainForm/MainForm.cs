@@ -194,16 +194,19 @@ namespace HeroesPowerPlant.MainForm
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox.Show();
+            AboutBox.Focus();
         }
 
         private void modLoaderConfigEditorF2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConfigEditor.Show();
+            ConfigEditor.Focus();
         }
 
         private void levelEditorF3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LevelEditor.Show();
+            LevelEditor.Focus();
         }
 
         private void newCollisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -221,7 +224,10 @@ namespace HeroesPowerPlant.MainForm
 
             CollisionEditorDict.Add(tempMenuItem, tempColEditor);
             if (show)
+            {
                 CollisionEditorDict[tempMenuItem].Show();
+                CollisionEditorDict[tempMenuItem].Focus();
+            }
 
             if (filePath != null)
                 tempColEditor.OpenFile(filePath, this);
@@ -230,6 +236,7 @@ namespace HeroesPowerPlant.MainForm
         private void CollisionEditorToolStripMenuItemClick(object sender, EventArgs e)
         {
             CollisionEditorDict[sender as ToolStripDropDownItem].Show();
+            CollisionEditorDict[sender as ToolStripDropDownItem].Focus();
         }
 
         public void SetCollisionEditorStripItemName(CollisionEditor.CollisionEditor sender, string newName)
@@ -280,7 +287,10 @@ namespace HeroesPowerPlant.MainForm
 
             LayoutEditorDict.Add(tempMenuItem, tempLayoutEditor);
             if (show)
+            {
                 LayoutEditorDict[tempMenuItem].Show();
+                LayoutEditorDict[tempMenuItem].Focus();
+            }
 
             if (filePath != null)
                 tempLayoutEditor.OpenFile(filePath, this);
@@ -289,6 +299,7 @@ namespace HeroesPowerPlant.MainForm
         private void LayoutEditorToolStripMenuItemClick(object sender, EventArgs e)
         {
             LayoutEditorDict[sender as ToolStripDropDownItem].Show();
+            LayoutEditorDict[sender as ToolStripDropDownItem].Focus();
         }
 
         public void SetLayoutEditorStripItemName(LayoutEditor.LayoutEditor sender, string newName)
@@ -327,26 +338,32 @@ namespace HeroesPowerPlant.MainForm
         private void cameraEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CameraEditor.Show();
+            CameraEditor.Focus();
         }
 
         private void particleEditorF8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ParticleEditor.Show();
+            ParticleEditor.Focus();
+
         }
 
         private void texturePatternEditorF9ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TexturePatternEditor.Show();
+            TexturePatternEditor.Focus();
         }
 
         private void sETIDTableEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetIdTableEditor.Show();
+            SetIdTableEditor.Focus();
         }
 
         private void lightEditorF10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LightEditor.Show();
+            LightEditor.Focus();
         }
 
         public void SetToolStripStatusLabel(string Text)
@@ -625,41 +642,54 @@ namespace HeroesPowerPlant.MainForm
                     break;
                 case Keys.F1:
                     ViewConfig.Show();
+                    ViewConfig.Focus();
                     break;
                 case Keys.F2:
                     ConfigEditor.Show();
+                    ConfigEditor.Focus();
                     break;
                 case Keys.F3:
                     LevelEditor.Show();
+                    LevelEditor.Focus();
                     break;
                 case Keys.F4:
                     if (CollisionEditors.Count == 0)
                         AddCollisionEditor(show: true);
                     else
                         foreach (var c in CollisionEditors)
+                        {
                             c.Show();
+                            c.Focus();
+                        }
                     break;
                 case Keys.F5:
                     if (LayoutEditors.Count == 0)
                         AddLayoutEditor(show: true);
                     else
                         foreach (var l in LayoutEditors)
+                        {
                             l.Show();
+                            l.Focus();
+                        }
                     break;
                 case Keys.F6:
                     TeleportPlayerToCamera();
                     break;
                 case Keys.F7:
                     CameraEditor.Show();
+                    CameraEditor.Focus();
                     break;
                 case Keys.F8:
                     ParticleEditor.Show();
+                    ParticleEditor.Focus();
                     break;
                 case Keys.F9:
                     TexturePatternEditor.Show();
+                    TexturePatternEditor.Focus();
                     break;
                 case Keys.F10:
                     LightEditor.Show();
+                    LightEditor.Focus();
                     break;
             }
         }
@@ -888,6 +918,7 @@ namespace HeroesPowerPlant.MainForm
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
             ViewConfig.Show();
+            ViewConfig.Focus();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1037,6 +1068,9 @@ namespace HeroesPowerPlant.MainForm
 
         private void SetAllTopMost(bool value)
         {
+            if (!HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                value = false;
+
             AboutBox.TopMost = value;
             ViewConfig.TopMost = value;
             ConfigEditor.TopMost = value;
@@ -1052,6 +1086,7 @@ namespace HeroesPowerPlant.MainForm
             TexturePatternEditor.TopMost = value;
             SetIdTableEditor.TopMost = value;
             LightEditor.TopMost = value;
+            ShadowDiffTool.TopMost = value;
 
             allTopMost = value;
         }
@@ -1099,6 +1134,7 @@ namespace HeroesPowerPlant.MainForm
         private void cameraViewSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewConfig.Show();
+            ViewConfig.Focus();
         }
 
         public void TeleportPlayerToCamera()
@@ -1111,6 +1147,7 @@ namespace HeroesPowerPlant.MainForm
         {
             //TODO: Fix disposed obj exception
             ShadowCameraEditor.Show();
+            ShadowCameraEditor.Focus();
         }
 
         private void disableRendering_ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1160,6 +1197,17 @@ namespace HeroesPowerPlant.MainForm
         private void shadowDiffToolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShadowDiffTool.Show();
+            ShadowDiffTool.Focus();
+        }
+
+        private void LegacyWindowPriorityBehavior_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked)
+                LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked = true;
+            else
+                LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked = false;
+            HPPConfig.GetInstance().LegacyWindowPriorityBehavior = LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked;
+            SetAllTopMost(true); // invoke reset
         }
     }
 }

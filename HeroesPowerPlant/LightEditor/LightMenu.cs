@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using System;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LightEditor
@@ -169,6 +170,14 @@ namespace HeroesPowerPlant.LightEditor
 
             if (index >= 0 & index < LightEditor.Lights.Count)
                 LightEditor.Lights[index] = (Light)propertyGridLights.SelectedObject;
+        }
+
+        private void LightMenu_Load(object sender, EventArgs e)
+        {
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
     }
 }

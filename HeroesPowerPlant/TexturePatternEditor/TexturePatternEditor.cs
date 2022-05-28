@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using System;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.TexturePatternEditor
@@ -282,6 +283,14 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public void SendPlaying(uint counter)
         {
             labelFrame.Text = "Frame: " + counter.ToString();
+        }
+
+        private void TexturePatternEditor_Load(object sender, EventArgs e)
+        {
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
     }
 }

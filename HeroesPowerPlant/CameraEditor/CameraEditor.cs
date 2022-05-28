@@ -7,6 +7,7 @@ using static HeroesPowerPlant.CameraEditor.CameraEditorFunctions;
 using SharpDX;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.CameraEditor
 {
@@ -103,7 +104,10 @@ namespace HeroesPowerPlant.CameraEditor
         
         private void CameraEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

@@ -89,6 +89,7 @@
             this.Name = "ShadowDiffTool";
             this.ShowIcon = false;
             this.Text = "Shadow Diff Tool (Beta)";
+            this.Load += new System.EventHandler(this.ShadowDiffTool_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
