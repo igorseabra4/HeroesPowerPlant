@@ -196,7 +196,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 {
                     if (!renderTriggers)
                     {
-                        if (s.GetType() == typeof(Object0051_TriggerTalking) || s.GetType() == typeof(Object0050_Trigger))
+                        Type type = s.GetType();
+                        if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
                             continue;
                     }
 
@@ -492,7 +493,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 if (!renderTriggers)
                 {
-                    if (setObjects[i].GetType() == typeof(Object0051_TriggerTalking) || setObjects[i].GetType() == typeof(Object0050_Trigger))
+                    Type type = setObjects[i].GetType();
+                    if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
                         continue;
                 }
 
