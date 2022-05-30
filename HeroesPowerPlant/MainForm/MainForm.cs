@@ -195,18 +195,21 @@ namespace HeroesPowerPlant.MainForm
         {
             AboutBox.Show();
             AboutBox.Focus();
+            AboutBox.WindowState = FormWindowState.Normal;
         }
 
         private void modLoaderConfigEditorF2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConfigEditor.Show();
             ConfigEditor.Focus();
+            ConfigEditor.WindowState = FormWindowState.Normal;
         }
 
         private void levelEditorF3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LevelEditor.Show();
             LevelEditor.Focus();
+            LevelEditor.WindowState = FormWindowState.Normal;
         }
 
         private void newCollisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -227,6 +230,7 @@ namespace HeroesPowerPlant.MainForm
             {
                 CollisionEditorDict[tempMenuItem].Show();
                 CollisionEditorDict[tempMenuItem].Focus();
+                CollisionEditorDict[tempMenuItem].WindowState = FormWindowState.Normal;
             }
 
             if (filePath != null)
@@ -237,6 +241,7 @@ namespace HeroesPowerPlant.MainForm
         {
             CollisionEditorDict[sender as ToolStripDropDownItem].Show();
             CollisionEditorDict[sender as ToolStripDropDownItem].Focus();
+            CollisionEditorDict[sender as ToolStripDropDownItem].WindowState = FormWindowState.Normal;
         }
 
         public void SetCollisionEditorStripItemName(CollisionEditor.CollisionEditor sender, string newName)
@@ -290,6 +295,7 @@ namespace HeroesPowerPlant.MainForm
             {
                 LayoutEditorDict[tempMenuItem].Show();
                 LayoutEditorDict[tempMenuItem].Focus();
+                LayoutEditorDict[tempMenuItem].WindowState = FormWindowState.Normal;
             }
 
             if (filePath != null)
@@ -300,6 +306,7 @@ namespace HeroesPowerPlant.MainForm
         {
             LayoutEditorDict[sender as ToolStripDropDownItem].Show();
             LayoutEditorDict[sender as ToolStripDropDownItem].Focus();
+            LayoutEditorDict[sender as ToolStripDropDownItem].WindowState = FormWindowState.Normal;
         }
 
         public void SetLayoutEditorStripItemName(LayoutEditor.LayoutEditor sender, string newName)
@@ -339,31 +346,35 @@ namespace HeroesPowerPlant.MainForm
         {
             CameraEditor.Show();
             CameraEditor.Focus();
+            CameraEditor.WindowState = FormWindowState.Normal;
         }
 
         private void particleEditorF8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ParticleEditor.Show();
             ParticleEditor.Focus();
-
+            ParticleEditor.WindowState = FormWindowState.Normal;
         }
 
         private void texturePatternEditorF9ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TexturePatternEditor.Show();
             TexturePatternEditor.Focus();
+            TexturePatternEditor.WindowState = FormWindowState.Normal;
         }
 
         private void sETIDTableEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetIdTableEditor.Show();
             SetIdTableEditor.Focus();
+            SetIdTableEditor.WindowState = FormWindowState.Normal;
         }
 
         private void lightEditorF10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LightEditor.Show();
             LightEditor.Focus();
+            LightEditor.WindowState = FormWindowState.Normal;
         }
 
         public void SetToolStripStatusLabel(string Text)
@@ -643,14 +654,17 @@ namespace HeroesPowerPlant.MainForm
                 case Keys.F1:
                     ViewConfig.Show();
                     ViewConfig.Focus();
+                    ViewConfig.WindowState = FormWindowState.Normal;
                     break;
                 case Keys.F2:
                     ConfigEditor.Show();
                     ConfigEditor.Focus();
+                    ConfigEditor.WindowState = FormWindowState.Normal;
                     break;
                 case Keys.F3:
                     LevelEditor.Show();
                     LevelEditor.Focus();
+                    LevelEditor.WindowState = FormWindowState.Normal;
                     break;
                 case Keys.F4:
                     if (CollisionEditors.Count == 0)
@@ -660,6 +674,7 @@ namespace HeroesPowerPlant.MainForm
                         {
                             c.Show();
                             c.Focus();
+                            c.WindowState = FormWindowState.Normal;
                         }
                     break;
                 case Keys.F5:
@@ -670,6 +685,7 @@ namespace HeroesPowerPlant.MainForm
                         {
                             l.Show();
                             l.Focus();
+                            l.WindowState = FormWindowState.Normal;
                         }
                     break;
                 case Keys.F6:
@@ -678,18 +694,22 @@ namespace HeroesPowerPlant.MainForm
                 case Keys.F7:
                     CameraEditor.Show();
                     CameraEditor.Focus();
+                    CameraEditor.WindowState = FormWindowState.Normal;
                     break;
                 case Keys.F8:
                     ParticleEditor.Show();
                     ParticleEditor.Focus();
+                    ParticleEditor.WindowState = FormWindowState.Normal;
                     break;
                 case Keys.F9:
                     TexturePatternEditor.Show();
                     TexturePatternEditor.Focus();
+                    TexturePatternEditor.WindowState = FormWindowState.Normal;
                     break;
                 case Keys.F10:
                     LightEditor.Show();
                     LightEditor.Focus();
+                    LightEditor.WindowState = FormWindowState.Normal;
                     break;
             }
         }
@@ -919,6 +939,7 @@ namespace HeroesPowerPlant.MainForm
         {
             ViewConfig.Show();
             ViewConfig.Focus();
+            ViewConfig.WindowState = FormWindowState.Normal;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1135,6 +1156,7 @@ namespace HeroesPowerPlant.MainForm
         {
             ViewConfig.Show();
             ViewConfig.Focus();
+            ViewConfig.WindowState = FormWindowState.Normal;
         }
 
         public void TeleportPlayerToCamera()
@@ -1148,6 +1170,7 @@ namespace HeroesPowerPlant.MainForm
             //TODO: Fix disposed obj exception
             ShadowCameraEditor.Show();
             ShadowCameraEditor.Focus();
+            ShadowCameraEditor.WindowState = FormWindowState.Normal;
         }
 
         private void disableRendering_ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1198,6 +1221,7 @@ namespace HeroesPowerPlant.MainForm
         {
             ShadowDiffTool.Show();
             ShadowDiffTool.Focus();
+            ShadowDiffTool.WindowState = FormWindowState.Normal;
         }
 
         private void LegacyWindowPriorityBehavior_ToolStripMenuItem_Click(object sender, EventArgs e)
