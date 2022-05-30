@@ -236,19 +236,16 @@ namespace HeroesPowerPlant.LayoutEditor
                 || (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall)))
             {
                 string setObjAudioBranchID = "";
-                AudioBranchType setObjAudioBranchType = AudioBranchType.CurrentMissionPartner;
 
                 if (listBoxObjects.SelectedItem.GetType() == typeof(Object0051_TriggerTalking))
                 {
                     var setObject = (Object0051_TriggerTalking)listBoxObjects.SelectedItem;
                     setObjAudioBranchID = setObject.AudioBranchID.ToString();
-                    setObjAudioBranchType = setObject.AudioBranchType;
                 }
                 else if (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall))
                 {
                     var setObject = (Object0011_HintBall)listBoxObjects.SelectedItem;
                     setObjAudioBranchID = setObject.AudioBranchID.ToString();
-                    setObjAudioBranchType = setObject.AudioBranchType;
                 }
 
                 // TODO: Probably cache results instead of searching every click
@@ -317,26 +314,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     normalText = "|| No entry ||\r\n";
                 if (heroText == "")
                     heroText = "|| No entry ||";
-                switch (setObjAudioBranchType)
-                {
-                    case AudioBranchType.Dark:
-                        textBox_FNT_TriggerTalkingPreview.Text = darkText;
-                        break;
-                    case AudioBranchType.Normal:
-                        textBox_FNT_TriggerTalkingPreview.Text = normalText;
-                        break;
-                    case AudioBranchType.Hero:
-                        textBox_FNT_TriggerTalkingPreview.Text = heroText;
-                        break;
-                    default:
-                        textBox_FNT_TriggerTalkingPreview.Text = "Dark:\r\n";
-                        textBox_FNT_TriggerTalkingPreview.Text += darkText.Replace("\0", "");
-                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nNormal:\r\n";
-                        textBox_FNT_TriggerTalkingPreview.Text += normalText.Replace("\0", "");
-                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nHero:\r\n";
-                        textBox_FNT_TriggerTalkingPreview.Text += heroText.Replace("\0", "");
-                        break;
-                }
+                textBox_FNT_TriggerTalkingPreview.Text = "Dark:\r\n";
+                textBox_FNT_TriggerTalkingPreview.Text += darkText.Replace("\0", "");
+                textBox_FNT_TriggerTalkingPreview.Text += "\r\nNormal:\r\n";
+                textBox_FNT_TriggerTalkingPreview.Text += normalText.Replace("\0", "");
+                textBox_FNT_TriggerTalkingPreview.Text += "\r\nHero:\r\n";
+                textBox_FNT_TriggerTalkingPreview.Text += heroText.Replace("\0", "");
             }
         }
 
