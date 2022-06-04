@@ -68,11 +68,15 @@ namespace HeroesPowerPlant.LayoutEditor
             if (ModelNames != null && ModelNames.Length != 0 && modelNumber < ModelNames.Length)
             {
                 models = new RenderWareModelFile[ModelNames[modelNumber].Length];
-
+                bool checkState = false;
                 for (int i = 0; i < models.Length; i++)
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[modelNumber][i]))
+                    {
                         models[i] = Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[modelNumber][i]];
-                return;
+                        checkState = true;
+                    }
+                if (checkState)
+                    return;
             }
             models = null;
         }
