@@ -26,17 +26,17 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public ShadowCameraEditor() {
             InitializeComponent();
             comboBox_cameraMode.DataSource = Enum.GetValues(typeof(ShadowCameraMode));
+            comboBox_cameraTriggerShape.DataSource = Enum.GetValues(typeof(ShadowCameraTriggerShape));
 
             numericUpDown_cameraNumber.Maximum = Decimal.MaxValue;
-            numericUpDown_i08.Maximum = Decimal.MaxValue;
+            numericUpDown_CameraPersistFlag.Maximum = Decimal.MaxValue;
             numericUpDown_i0C.Maximum = Decimal.MaxValue;
             numericUpDown_i10.Maximum = Decimal.MaxValue;
             numericUpDown_i14.Maximum = Decimal.MaxValue;
             numericUpDown_LookBLinkId.Maximum = Decimal.MaxValue;
-            numericUpDown_i1C.Maximum = Decimal.MaxValue;
             numericUpDown_TriggerPosX.Maximum = Decimal.MaxValue;
-            numericUpDownTriggerPosY.Maximum = Decimal.MaxValue;
-            numericUpDownTriggerPosZ.Maximum = Decimal.MaxValue;
+            numericUpDown_TriggerPosY.Maximum = Decimal.MaxValue;
+            numericUpDown_TriggerPosZ.Maximum = Decimal.MaxValue;
             numericUpDown_TriggerRotX.Maximum = Decimal.MaxValue;
             numericUpDownTriggerRotY.Maximum = Decimal.MaxValue;
             numericUpDownTriggerRotZ.Maximum = Decimal.MaxValue;
@@ -83,15 +83,14 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_fD8.Maximum = Decimal.MaxValue;
 
             numericUpDown_cameraNumber.Minimum = Decimal.MinValue;
-            numericUpDown_i08.Minimum = Decimal.MinValue;
+            numericUpDown_CameraPersistFlag.Minimum = Decimal.MinValue;
             numericUpDown_i0C.Minimum = Decimal.MinValue;
             numericUpDown_i10.Minimum = Decimal.MinValue;
             numericUpDown_i14.Minimum = Decimal.MinValue;
             numericUpDown_LookBLinkId.Minimum = Decimal.MinValue;
-            numericUpDown_i1C.Minimum = Decimal.MinValue;
             numericUpDown_TriggerPosX.Minimum = Decimal.MinValue;
-            numericUpDownTriggerPosY.Minimum = Decimal.MinValue;
-            numericUpDownTriggerPosZ.Minimum = Decimal.MinValue;
+            numericUpDown_TriggerPosY.Minimum = Decimal.MinValue;
+            numericUpDown_TriggerPosZ.Minimum = Decimal.MinValue;
             numericUpDown_TriggerRotX.Minimum = Decimal.MinValue;
             numericUpDownTriggerRotY.Minimum = Decimal.MinValue;
             numericUpDownTriggerRotZ.Minimum = Decimal.MinValue;
@@ -230,15 +229,15 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
                     numericUpDown_cameraNumber.Value = current.CameraNumber;
                     comboBox_cameraMode.SelectedItem = current.CameraMode;
-                    numericUpDown_i08.Value = current.field_08;
+                    numericUpDown_CameraPersistFlag.Value = current.CameraPersistFlag;
                     numericUpDown_i0C.Value = current.field_0C;
                     numericUpDown_i10.Value = current.field_10;
                     numericUpDown_i14.Value = current.field_14;
                     numericUpDown_LookBLinkId.Value = current.LookBLinkId;
-                    numericUpDown_i1C.Value = current.field_1C;
+                    comboBox_cameraTriggerShape.SelectedItem = current.TriggerShape;
                     numericUpDown_TriggerPosX.Value = (decimal)current.TriggerPosition.X;
-                    numericUpDownTriggerPosY.Value = (decimal)current.TriggerPosition.Y;
-                    numericUpDownTriggerPosZ.Value = (decimal)current.TriggerPosition.Z;
+                    numericUpDown_TriggerPosY.Value = (decimal)current.TriggerPosition.Y;
+                    numericUpDown_TriggerPosZ.Value = (decimal)current.TriggerPosition.Z;
                     numericUpDown_TriggerRotX.Value = (decimal)(current.TriggerRotation.X * (180f / Math.PI));
                     numericUpDownTriggerRotY.Value = (decimal)(current.TriggerRotation.Y * (180f / Math.PI));
                     numericUpDownTriggerRotZ.Value = (decimal)(current.TriggerRotation.Z * (180f / Math.PI));
@@ -297,13 +296,13 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 ShadowCamera current = ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera;
                 current.CameraNumber = (int)numericUpDown_cameraNumber.Value;
                 current.CameraMode = (ShadowCameraMode)comboBox_cameraMode.SelectedItem;
-                current.field_08 = (int)numericUpDown_i08.Value;
+                current.CameraPersistFlag = (int)numericUpDown_CameraPersistFlag.Value;
                 current.field_0C = (int)numericUpDown_i0C.Value;
                 current.field_10 = (int)numericUpDown_i10.Value;
                 current.field_14 = (int)numericUpDown_i14.Value;
                 current.LookBLinkId = (int)numericUpDown_LookBLinkId.Value;
-                current.field_1C = (int)numericUpDown_i1C.Value;
-                current.TriggerPosition = new Vector3((float)numericUpDown_TriggerPosX.Value, (float)numericUpDownTriggerPosY.Value, (float)numericUpDownTriggerPosZ.Value);
+                current.TriggerShape = (ShadowCameraTriggerShape)comboBox_cameraTriggerShape.SelectedItem;
+                current.TriggerPosition = new Vector3((float)numericUpDown_TriggerPosX.Value, (float)numericUpDown_TriggerPosY.Value, (float)numericUpDown_TriggerPosZ.Value);
                 current.TriggerRotation = new Vector3((float)((float)numericUpDown_TriggerRotX.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotY.Value / (180f / Math.PI)), (float)((float)numericUpDownTriggerRotZ.Value / (180f / Math.PI)));
                 current.TriggerScale = new Vector3((float)numericUpDown_TriggerScaleX.Value, (float)numericUpDownTriggerScaleY.Value, (float)numericUpDownTriggerScaleZ.Value);
                 current.PointA_LookFrom_X = (float)numericUpDown_PointA_LookFrom_X.Value;
@@ -419,6 +418,81 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             cameras = cameras.OrderBy(c => c.CameraNumber).ToList();
             ListBoxCameras.Items.Clear();
             ListBoxCameras.Items.AddRange(cameras.ToArray());
+        }
+
+        private void ViewPosition(float positionX, float positionY, float positionZ)
+        {
+            ViewPosition(new Vector3(positionX, positionY, positionZ));
+        }
+
+        private void ViewPosition(Vector3 position)
+        {
+            Program.MainForm.renderer.Camera.SetPosition(position);
+        }
+
+        private void Button_View_LookFromPointA_Click(object sender, EventArgs e)
+        {
+            ViewPosition((float) numericUpDown_PointA_LookFrom_X.Value, (float) numericUpDown_PointA_LookFrom_Y.Value, (float) numericUpDown_PointA_LookFrom_Z.Value);
+        }
+
+        private void Button_Set_LookFromPointA_Click(object sender, EventArgs e)
+        {
+            Vector3 position = Program.MainForm.renderer.Camera.GetPosition();
+            numericUpDown_PointA_LookFrom_X.Value = (decimal)position.X;
+            numericUpDown_PointA_LookFrom_Y.Value = (decimal)position.Y;
+            numericUpDown_PointA_LookFrom_Z.Value = (decimal)position.Z;
+        }
+
+        private void Button_View_LookAtPointA_Click(object sender, EventArgs e)
+        {
+            ViewPosition((float)numericUpDown_PointA_LookAt_X.Value, (float)numericUpDown_PointA_LookAt_Y.Value, (float)numericUpDown_PointA_LookAt_Z.Value);
+        }
+
+        private void Button_Set_LookAtPointA_Click(object sender, EventArgs e)
+        {
+            Vector3 position = Program.MainForm.renderer.Camera.GetPosition();
+            numericUpDown_PointA_LookAt_X.Value = (decimal)position.X;
+            numericUpDown_PointA_LookAt_Y.Value = (decimal)position.Y;
+            numericUpDown_PointA_LookAt_Z.Value = (decimal)position.Z;
+        }
+
+        private void Button_View_LookFromPointB_Click(object sender, EventArgs e)
+        {
+            ViewPosition((float)numericUpDown_PointB_LookFrom_X.Value, (float)numericUpDown_PointB_LookFrom_Y.Value, (float)numericUpDown_PointB_LookFrom_Z.Value);
+        }
+
+        private void Button_Set_LookFromPointB_Click(object sender, EventArgs e)
+        {
+            Vector3 position = Program.MainForm.renderer.Camera.GetPosition();
+            numericUpDown_PointB_LookFrom_X.Value = (decimal)position.X;
+            numericUpDown_PointB_LookFrom_Y.Value = (decimal)position.Y;
+            numericUpDown_PointB_LookFrom_Z.Value = (decimal)position.Z;
+        }
+
+        private void Button_View_LookAtPointB_Click(object sender, EventArgs e)
+        {
+            ViewPosition((float)numericUpDown_PointB_LookAt_X.Value, (float)numericUpDown_PointB_LookAt_Y.Value, (float)numericUpDown_PointB_LookAt_Z.Value);
+        }
+
+        private void Button_Set_LookAtPointB_Click(object sender, EventArgs e)
+        {
+            Vector3 position = Program.MainForm.renderer.Camera.GetPosition();
+            numericUpDown_PointB_LookAt_X.Value = (decimal)position.X;
+            numericUpDown_PointB_LookAt_Y.Value = (decimal)position.Y;
+            numericUpDown_PointB_LookAt_Z.Value = (decimal)position.Z;
+        }
+
+        private void Button_View_Trigger_Position_Click(object sender, EventArgs e)
+        {
+            ViewPosition((float)numericUpDown_TriggerPosX.Value, (float)numericUpDown_TriggerPosY.Value, (float)numericUpDown_TriggerPosZ.Value);
+        }
+
+        private void Button_Set_TriggerPosition_Click(object sender, EventArgs e)
+        {
+            Vector3 position = Program.MainForm.renderer.Camera.GetPosition();
+            numericUpDown_TriggerPosX.Value = (decimal)position.X;
+            numericUpDown_TriggerPosY.Value = (decimal)position.Y;
+            numericUpDown_TriggerPosZ.Value = (decimal)position.Z;
         }
     }
 }

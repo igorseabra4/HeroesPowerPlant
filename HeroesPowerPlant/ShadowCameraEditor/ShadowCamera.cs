@@ -15,12 +15,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
     public class ShadowCamera {
         public int CameraNumber;
         public ShadowCameraMode CameraMode;
-        public int field_08;
+        public int CameraPersistFlag;
         public int field_0C;
         public int field_10;
         public int field_14;
         public int LookBLinkId;
-        public int field_1C;
+        public ShadowCameraTriggerShape TriggerShape;
         public Vector3 TriggerPosition; //0x20 - 0x2C
         public Vector3 TriggerRotation;
         public Vector3 TriggerScale; //0x38 - 0x40
@@ -65,7 +65,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         public ShadowCamera() { }
         public ShadowCamera(int CameraNumber, int CameraMode, int i_08, int i_0C, int i_10, int i_14,
-            int LookBLinkId, int i_1C, Vector3 triggerPos, Vector3 triggerRot, Vector3 triggerScale,
+            int LookBLinkId, int CameraTriggerShape, Vector3 triggerPos, Vector3 triggerRot, Vector3 triggerScale,
             float pointA_LookFrom_X, float pointA_LookFrom_Y, float pointA_LookFrom_Z, float pointA_LookAt_X, float pointA_LookAt_Y,
             float pointA_LookAt_Z, float cameraRot,
             float fovHeight, float fovWidth, float f_68, float f_6C, float f_70, float f_74,
@@ -78,12 +78,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             float f_D0, float f_D4, float f_D8) {
             this.CameraNumber = CameraNumber;
             this.CameraMode = (ShadowCameraMode)CameraMode;
-            field_08 = i_08;
+            CameraPersistFlag = i_08;
             field_0C = i_0C;
             field_10 = i_10;
             field_14 = i_14;
             this.LookBLinkId = LookBLinkId;
-            field_1C = i_1C;
+            TriggerShape = (ShadowCameraTriggerShape)CameraTriggerShape;
             TriggerPosition = triggerPos;
             TriggerRotation = triggerRot;
             TriggerScale = triggerScale;
@@ -130,12 +130,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public ShadowCamera(ShadowCamera camera) {
             CameraNumber = camera.CameraNumber;
             CameraMode = camera.CameraMode;
-            field_08 = camera.field_08;
+            CameraPersistFlag = camera.CameraPersistFlag;
             field_0C = camera.field_0C;
             field_10 = camera.field_10;
             field_14 = camera.field_14;
             LookBLinkId = camera.LookBLinkId;
-            field_1C = camera.field_1C;
+            TriggerShape = camera.TriggerShape;
             TriggerPosition = camera.TriggerPosition;
             TriggerRotation = camera.TriggerRotation;
             TriggerScale = camera.TriggerScale;
@@ -192,27 +192,62 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         public BoundingBox boundingBox;
 
         public override string ToString() {
-            return $"Cam {CameraNumber}, {CameraMode}, {field_08}, {field_0C}, {field_10}";
+            return $"{CameraNumber}, {CameraMode}, {CameraPersistFlag}, {field_0C}, {field_10}";
         }
 
         public void CreateBounding() {
             List<Vector3> vertices = new List<Vector3>();
 
-            //if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
-            foreach (var v in SharpRenderer.cubeVertices)
-               vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
-           // else if (TriggerShape == 4) // cyl
-             //   foreach (var v in SharpRenderer.cylinderVertices)
-               //     vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
-            //else
-            //    foreach (var v in SharpRenderer.sphereVertices)
-              //      vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+            switch (TriggerShape)
+            {
+                case ShadowCameraTriggerShape.Plane:
+                    foreach (var v in SharpRenderer.cubeVertices)
+                        vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+                    break;
+                case ShadowCameraTriggerShape.Box:
+                    foreach (var v in SharpRenderer.cubeVertices)
+                        vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+                    break;
+                case ShadowCameraTriggerShape.SphereCapsule:
+                    foreach (var v in SharpRenderer.sphereVertices)
+                        vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+                    break;
+                case ShadowCameraTriggerShape.Cylinder:
+                    foreach (var v in SharpRenderer.cylinderVertices)
+                        vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+                    break;
+                default:
+                    foreach (var v in SharpRenderer.cubeVertices)
+                        vertices.Add((Vector3)Vector3.Transform(v, triggerPosWorld));
+                    break;
+            }
 
             boundingBox = BoundingBox.FromPoints(vertices.ToArray());
         }
 
         public void CreateTransformMatrix() {
-            triggerPosWorld = Matrix.Scaling(TriggerScale * 2);
+            switch (TriggerShape)
+            {
+                case ShadowCameraTriggerShape.Plane:
+                    triggerPosWorld = Matrix.Scaling(TriggerScale.X * 2);
+                    break;
+                case ShadowCameraTriggerShape.Box:
+                    triggerPosWorld = Matrix.Scaling(TriggerScale * 2);
+                    break;
+                case ShadowCameraTriggerShape.SphereCapsule:
+                    triggerPosWorld = Matrix.Scaling(TriggerScale.X * 2, TriggerScale.Y * 2, TriggerScale.Y * 2);
+                    break;
+                case ShadowCameraTriggerShape.Cylinder:
+                    triggerPosWorld = Matrix.Scaling(TriggerScale.X * 2, TriggerScale.Y * 2, TriggerScale.X * 2);
+                    triggerPosWorld *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
+                    break;
+                case ShadowCameraTriggerShape.BrokenLeftover: // (Westopolis Cam7, broken leftover)
+                    triggerPosWorld = Matrix.Scaling(TriggerScale.X * 2);
+                    break;
+                default:
+                    triggerPosWorld = Matrix.Scaling(TriggerScale * 2);
+                    break;
+            }
 
             triggerPosWorld *=
                 Matrix.RotationX(TriggerRotation.X) *
@@ -230,12 +265,24 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         public void Draw(SharpRenderer renderer) {
             if (Vector3.Distance(renderer.Camera.GetPosition(), TriggerPosition) < 15000f)
-                //if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
-                renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
-                //else if (TriggerShape == 4) // cyl
-                  //  renderer.DrawCylinderTrigger(triggerPosWorld, isSelected);
-                //else // sphere
-                  //  renderer.DrawSphereTrigger(triggerPosWorld, isSelected);
+                switch (TriggerShape)
+                {
+                    case ShadowCameraTriggerShape.Plane:
+                        renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
+                        break;
+                    case ShadowCameraTriggerShape.Box:
+                        renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
+                        break;
+                    case ShadowCameraTriggerShape.SphereCapsule:
+                        renderer.DrawSphereTrigger(triggerPosWorld, isSelected);
+                        break;
+                    case ShadowCameraTriggerShape.Cylinder:
+                        renderer.DrawCylinderTrigger(triggerPosWorld, isSelected);
+                        break;
+                    default:
+                        renderer.DrawCubeTrigger(triggerPosWorld, isSelected);
+                        break;
+                }
 
             if (isSelected) {
                 DrawCube(renderer, pointLookAtAWorld, Color.Red.ToVector4());
@@ -267,19 +314,22 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         }
 
         public float? IntersectsWith(Ray ray) {
-            //if (TriggerShape == 1 || TriggerShape == 3) //plane, cube
-            //{
             if (ray.Intersects(ref boundingBox))
-                    return TriangleIntersection(ray, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices);
-            /*} else if (TriggerShape == 4) // cyl
-              {
-                if (ray.Intersects(ref boundingBox))
-                    return TriangleIntersection(ray, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices);
-            } else {
-                if (ray.Intersects(ref boundingBox))
-                    return TriangleIntersection(ray, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices);
-            }*/
+            {
 
+                switch (TriggerShape)
+                {
+                    case ShadowCameraTriggerShape.Plane:
+                    case ShadowCameraTriggerShape.Box:
+                        return TriangleIntersection(ray, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices);
+                    case ShadowCameraTriggerShape.SphereCapsule:
+                        return TriangleIntersection(ray, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices);
+                    case ShadowCameraTriggerShape.Cylinder:
+                        return TriangleIntersection(ray, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices);
+                    default:
+                        return TriangleIntersection(ray, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices);
+                }
+            }
             return null;
         }
 

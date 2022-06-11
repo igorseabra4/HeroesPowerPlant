@@ -54,17 +54,16 @@
             this.numericUpDownTriggerScaleY = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTriggerScaleZ = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.numericUpDownTriggerPosZ = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownTriggerPosY = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_TriggerPosZ = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_TriggerPosY = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_TriggerPosX = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox_cameraMode = new System.Windows.Forms.ComboBox();
-            this.numericUpDown_i1C = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i0C = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_LookBLinkId = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i14 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_i10 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_i08 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_CameraPersistFlag = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_cameraNumber = new System.Windows.Forms.NumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.numericUpDown_f68 = new System.Windows.Forms.NumericUpDown();
@@ -110,6 +109,17 @@
             this.numericUpDown_PointA_LookFrom_Z = new System.Windows.Forms.NumericUpDown();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.Button_View_LookFromPointA = new System.Windows.Forms.Button();
+            this.Button_Set_LookFromPointA = new System.Windows.Forms.Button();
+            this.Button_Set_LookFromPointB = new System.Windows.Forms.Button();
+            this.Button_View_LookFromPointB = new System.Windows.Forms.Button();
+            this.Button_Set_LookAtPointA = new System.Windows.Forms.Button();
+            this.Button_View_LookAtPointA = new System.Windows.Forms.Button();
+            this.Button_Set_LookAtPointB = new System.Windows.Forms.Button();
+            this.Button_View_LookAtPointB = new System.Windows.Forms.Button();
+            this.Button_Set_TriggerPosition = new System.Windows.Forms.Button();
+            this.Button_View_Trigger_Position = new System.Windows.Forms.Button();
+            this.comboBox_cameraTriggerShape = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -125,16 +135,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerScaleY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerScaleZ)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosZ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TriggerPosZ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TriggerPosY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TriggerPosX)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i1C)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i0C)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_LookBLinkId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i08)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraPersistFlag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cameraNumber)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f68)).BeginInit();
@@ -478,8 +487,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.numericUpDownTriggerPosZ);
-            this.groupBox2.Controls.Add(this.numericUpDownTriggerPosY);
+            this.groupBox2.Controls.Add(this.numericUpDown_TriggerPosZ);
+            this.groupBox2.Controls.Add(this.numericUpDown_TriggerPosY);
             this.groupBox2.Controls.Add(this.numericUpDown_TriggerPosX);
             this.groupBox2.Location = new System.Drawing.Point(188, 92);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -490,25 +499,25 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Trigger Position (X, Y, Z)";
             // 
-            // numericUpDownTriggerPosZ
+            // numericUpDown_TriggerPosZ
             // 
-            this.numericUpDownTriggerPosZ.DecimalPlaces = 4;
-            this.numericUpDownTriggerPosZ.Location = new System.Drawing.Point(233, 22);
-            this.numericUpDownTriggerPosZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUpDownTriggerPosZ.Name = "numericUpDownTriggerPosZ";
-            this.numericUpDownTriggerPosZ.Size = new System.Drawing.Size(106, 23);
-            this.numericUpDownTriggerPosZ.TabIndex = 2;
-            this.numericUpDownTriggerPosZ.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
+            this.numericUpDown_TriggerPosZ.DecimalPlaces = 4;
+            this.numericUpDown_TriggerPosZ.Location = new System.Drawing.Point(233, 22);
+            this.numericUpDown_TriggerPosZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericUpDown_TriggerPosZ.Name = "numericUpDown_TriggerPosZ";
+            this.numericUpDown_TriggerPosZ.Size = new System.Drawing.Size(106, 23);
+            this.numericUpDown_TriggerPosZ.TabIndex = 2;
+            this.numericUpDown_TriggerPosZ.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
-            // numericUpDownTriggerPosY
+            // numericUpDown_TriggerPosY
             // 
-            this.numericUpDownTriggerPosY.DecimalPlaces = 4;
-            this.numericUpDownTriggerPosY.Location = new System.Drawing.Point(120, 22);
-            this.numericUpDownTriggerPosY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUpDownTriggerPosY.Name = "numericUpDownTriggerPosY";
-            this.numericUpDownTriggerPosY.Size = new System.Drawing.Size(106, 23);
-            this.numericUpDownTriggerPosY.TabIndex = 2;
-            this.numericUpDownTriggerPosY.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
+            this.numericUpDown_TriggerPosY.DecimalPlaces = 4;
+            this.numericUpDown_TriggerPosY.Location = new System.Drawing.Point(120, 22);
+            this.numericUpDown_TriggerPosY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericUpDown_TriggerPosY.Name = "numericUpDown_TriggerPosY";
+            this.numericUpDown_TriggerPosY.Size = new System.Drawing.Size(106, 23);
+            this.numericUpDown_TriggerPosY.TabIndex = 2;
+            this.numericUpDown_TriggerPosY.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_TriggerPosX
             // 
@@ -522,13 +531,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox_cameraTriggerShape);
             this.groupBox1.Controls.Add(this.comboBox_cameraMode);
-            this.groupBox1.Controls.Add(this.numericUpDown_i1C);
             this.groupBox1.Controls.Add(this.numericUpDown_i0C);
             this.groupBox1.Controls.Add(this.numericUpDown_LookBLinkId);
             this.groupBox1.Controls.Add(this.numericUpDown_i14);
             this.groupBox1.Controls.Add(this.numericUpDown_i10);
-            this.groupBox1.Controls.Add(this.numericUpDown_i08);
+            this.groupBox1.Controls.Add(this.numericUpDown_CameraPersistFlag);
             this.groupBox1.Controls.Add(this.numericUpDown_cameraNumber);
             this.groupBox1.Location = new System.Drawing.Point(188, 30);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -537,7 +546,8 @@
             this.groupBox1.Size = new System.Drawing.Size(696, 55);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "CameraNumber, CameraMode, Int08, Int0C, Int10, Int14, LookB, LinkID, Int1C";
+            this.groupBox1.Text = "CameraNumber, CameraMode, CameraPersistFlag, Int0C, Int10, Int14, LookB, LinkID, " +
+    "TriggerShape";
             // 
             // comboBox_cameraMode
             // 
@@ -548,15 +558,6 @@
             this.comboBox_cameraMode.Size = new System.Drawing.Size(137, 23);
             this.comboBox_cameraMode.TabIndex = 9;
             this.comboBox_cameraMode.SelectedIndexChanged += new System.EventHandler(this.CameraData_ValueChanged);
-            // 
-            // numericUpDown_i1C
-            // 
-            this.numericUpDown_i1C.Location = new System.Drawing.Point(611, 22);
-            this.numericUpDown_i1C.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUpDown_i1C.Name = "numericUpDown_i1C";
-            this.numericUpDown_i1C.Size = new System.Drawing.Size(75, 23);
-            this.numericUpDown_i1C.TabIndex = 8;
-            this.numericUpDown_i1C.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_i0C
             // 
@@ -572,7 +573,7 @@
             this.numericUpDown_LookBLinkId.Location = new System.Drawing.Point(509, 22);
             this.numericUpDown_LookBLinkId.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericUpDown_LookBLinkId.Name = "numericUpDown_LookBLinkId";
-            this.numericUpDown_LookBLinkId.Size = new System.Drawing.Size(96, 23);
+            this.numericUpDown_LookBLinkId.Size = new System.Drawing.Size(81, 23);
             this.numericUpDown_LookBLinkId.TabIndex = 6;
             this.numericUpDown_LookBLinkId.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
@@ -594,14 +595,14 @@
             this.numericUpDown_i10.TabIndex = 4;
             this.numericUpDown_i10.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
-            // numericUpDown_i08
+            // numericUpDown_CameraPersistFlag
             // 
-            this.numericUpDown_i08.Location = new System.Drawing.Point(232, 22);
-            this.numericUpDown_i08.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUpDown_i08.Name = "numericUpDown_i08";
-            this.numericUpDown_i08.Size = new System.Drawing.Size(59, 23);
-            this.numericUpDown_i08.TabIndex = 3;
-            this.numericUpDown_i08.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
+            this.numericUpDown_CameraPersistFlag.Location = new System.Drawing.Point(232, 22);
+            this.numericUpDown_CameraPersistFlag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericUpDown_CameraPersistFlag.Name = "numericUpDown_CameraPersistFlag";
+            this.numericUpDown_CameraPersistFlag.Size = new System.Drawing.Size(59, 23);
+            this.numericUpDown_CameraPersistFlag.TabIndex = 3;
+            this.numericUpDown_CameraPersistFlag.ValueChanged += new System.EventHandler(this.CameraData_ValueChanged);
             // 
             // numericUpDown_cameraNumber
             // 
@@ -1096,11 +1097,152 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "PointB LookFrom Position (X, Y, Z)";
             // 
+            // Button_View_LookFromPointA
+            // 
+            this.Button_View_LookFromPointA.BackColor = System.Drawing.Color.LimeGreen;
+            this.Button_View_LookFromPointA.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Button_View_LookFromPointA.Location = new System.Drawing.Point(574, 572);
+            this.Button_View_LookFromPointA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_View_LookFromPointA.Name = "Button_View_LookFromPointA";
+            this.Button_View_LookFromPointA.Size = new System.Drawing.Size(66, 27);
+            this.Button_View_LookFromPointA.TabIndex = 29;
+            this.Button_View_LookFromPointA.Text = "View LF A";
+            this.Button_View_LookFromPointA.UseVisualStyleBackColor = false;
+            this.Button_View_LookFromPointA.Click += new System.EventHandler(this.Button_View_LookFromPointA_Click);
+            // 
+            // Button_Set_LookFromPointA
+            // 
+            this.Button_Set_LookFromPointA.BackColor = System.Drawing.Color.LimeGreen;
+            this.Button_Set_LookFromPointA.Location = new System.Drawing.Point(574, 601);
+            this.Button_Set_LookFromPointA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_Set_LookFromPointA.Name = "Button_Set_LookFromPointA";
+            this.Button_Set_LookFromPointA.Size = new System.Drawing.Size(66, 27);
+            this.Button_Set_LookFromPointA.TabIndex = 30;
+            this.Button_Set_LookFromPointA.Text = "Set LF A";
+            this.Button_Set_LookFromPointA.UseVisualStyleBackColor = false;
+            this.Button_Set_LookFromPointA.Click += new System.EventHandler(this.Button_Set_LookFromPointA_Click);
+            // 
+            // Button_Set_LookFromPointB
+            // 
+            this.Button_Set_LookFromPointB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.Button_Set_LookFromPointB.Location = new System.Drawing.Point(733, 601);
+            this.Button_Set_LookFromPointB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_Set_LookFromPointB.Name = "Button_Set_LookFromPointB";
+            this.Button_Set_LookFromPointB.Size = new System.Drawing.Size(66, 27);
+            this.Button_Set_LookFromPointB.TabIndex = 32;
+            this.Button_Set_LookFromPointB.Text = "Set LF B";
+            this.Button_Set_LookFromPointB.UseVisualStyleBackColor = false;
+            this.Button_Set_LookFromPointB.Click += new System.EventHandler(this.Button_Set_LookFromPointB_Click);
+            // 
+            // Button_View_LookFromPointB
+            // 
+            this.Button_View_LookFromPointB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.Button_View_LookFromPointB.Location = new System.Drawing.Point(733, 571);
+            this.Button_View_LookFromPointB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_View_LookFromPointB.Name = "Button_View_LookFromPointB";
+            this.Button_View_LookFromPointB.Size = new System.Drawing.Size(66, 27);
+            this.Button_View_LookFromPointB.TabIndex = 31;
+            this.Button_View_LookFromPointB.Text = "View LF B";
+            this.Button_View_LookFromPointB.UseVisualStyleBackColor = false;
+            this.Button_View_LookFromPointB.Click += new System.EventHandler(this.Button_View_LookFromPointB_Click);
+            // 
+            // Button_Set_LookAtPointA
+            // 
+            this.Button_Set_LookAtPointA.BackColor = System.Drawing.Color.Red;
+            this.Button_Set_LookAtPointA.Location = new System.Drawing.Point(648, 601);
+            this.Button_Set_LookAtPointA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_Set_LookAtPointA.Name = "Button_Set_LookAtPointA";
+            this.Button_Set_LookAtPointA.Size = new System.Drawing.Size(71, 27);
+            this.Button_Set_LookAtPointA.TabIndex = 34;
+            this.Button_Set_LookAtPointA.Text = "Set LA A";
+            this.Button_Set_LookAtPointA.UseVisualStyleBackColor = false;
+            this.Button_Set_LookAtPointA.Click += new System.EventHandler(this.Button_Set_LookAtPointA_Click);
+            // 
+            // Button_View_LookAtPointA
+            // 
+            this.Button_View_LookAtPointA.BackColor = System.Drawing.Color.Red;
+            this.Button_View_LookAtPointA.Location = new System.Drawing.Point(648, 572);
+            this.Button_View_LookAtPointA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_View_LookAtPointA.Name = "Button_View_LookAtPointA";
+            this.Button_View_LookAtPointA.Size = new System.Drawing.Size(71, 27);
+            this.Button_View_LookAtPointA.TabIndex = 33;
+            this.Button_View_LookAtPointA.Text = "View LA A";
+            this.Button_View_LookAtPointA.UseVisualStyleBackColor = false;
+            this.Button_View_LookAtPointA.Click += new System.EventHandler(this.Button_View_LookAtPointA_Click);
+            // 
+            // Button_Set_LookAtPointB
+            // 
+            this.Button_Set_LookAtPointB.BackColor = System.Drawing.Color.DodgerBlue;
+            this.Button_Set_LookAtPointB.Location = new System.Drawing.Point(807, 601);
+            this.Button_Set_LookAtPointB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_Set_LookAtPointB.Name = "Button_Set_LookAtPointB";
+            this.Button_Set_LookAtPointB.Size = new System.Drawing.Size(71, 27);
+            this.Button_Set_LookAtPointB.TabIndex = 36;
+            this.Button_Set_LookAtPointB.Text = "Set LA B";
+            this.Button_Set_LookAtPointB.UseVisualStyleBackColor = false;
+            this.Button_Set_LookAtPointB.Click += new System.EventHandler(this.Button_Set_LookAtPointB_Click);
+            // 
+            // Button_View_LookAtPointB
+            // 
+            this.Button_View_LookAtPointB.BackColor = System.Drawing.Color.DodgerBlue;
+            this.Button_View_LookAtPointB.Location = new System.Drawing.Point(807, 571);
+            this.Button_View_LookAtPointB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_View_LookAtPointB.Name = "Button_View_LookAtPointB";
+            this.Button_View_LookAtPointB.Size = new System.Drawing.Size(71, 27);
+            this.Button_View_LookAtPointB.TabIndex = 35;
+            this.Button_View_LookAtPointB.Text = "View LA B";
+            this.Button_View_LookAtPointB.UseVisualStyleBackColor = false;
+            this.Button_View_LookAtPointB.Click += new System.EventHandler(this.Button_View_LookAtPointB_Click);
+            // 
+            // Button_Set_TriggerPosition
+            // 
+            this.Button_Set_TriggerPosition.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Button_Set_TriggerPosition.Location = new System.Drawing.Point(460, 601);
+            this.Button_Set_TriggerPosition.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_Set_TriggerPosition.Name = "Button_Set_TriggerPosition";
+            this.Button_Set_TriggerPosition.Size = new System.Drawing.Size(95, 27);
+            this.Button_Set_TriggerPosition.TabIndex = 38;
+            this.Button_Set_TriggerPosition.Text = "Set Trigger Pos";
+            this.Button_Set_TriggerPosition.UseVisualStyleBackColor = false;
+            this.Button_Set_TriggerPosition.Click += new System.EventHandler(this.Button_Set_TriggerPosition_Click);
+            // 
+            // Button_View_Trigger_Position
+            // 
+            this.Button_View_Trigger_Position.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Button_View_Trigger_Position.Location = new System.Drawing.Point(460, 572);
+            this.Button_View_Trigger_Position.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Button_View_Trigger_Position.Name = "Button_View_Trigger_Position";
+            this.Button_View_Trigger_Position.Size = new System.Drawing.Size(95, 27);
+            this.Button_View_Trigger_Position.TabIndex = 37;
+            this.Button_View_Trigger_Position.Text = "View Trigger";
+            this.Button_View_Trigger_Position.UseVisualStyleBackColor = false;
+            this.Button_View_Trigger_Position.Click += new System.EventHandler(this.Button_View_Trigger_Position_Click);
+            // 
+            // comboBox_cameraTriggerShape
+            // 
+            this.comboBox_cameraTriggerShape.FormattingEnabled = true;
+            this.comboBox_cameraTriggerShape.Location = new System.Drawing.Point(598, 22);
+            this.comboBox_cameraTriggerShape.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.comboBox_cameraTriggerShape.Name = "comboBox_cameraTriggerShape";
+            this.comboBox_cameraTriggerShape.Size = new System.Drawing.Size(98, 23);
+            this.comboBox_cameraTriggerShape.TabIndex = 10;
+            this.comboBox_cameraTriggerShape.SelectedIndexChanged += new System.EventHandler(this.CameraData_ValueChanged);
+            // 
             // ShadowCameraEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 657);
+            this.Controls.Add(this.Button_Set_TriggerPosition);
+            this.Controls.Add(this.Button_View_Trigger_Position);
+            this.Controls.Add(this.Button_Set_LookAtPointB);
+            this.Controls.Add(this.Button_View_LookAtPointB);
+            this.Controls.Add(this.Button_Set_LookAtPointA);
+            this.Controls.Add(this.Button_View_LookAtPointA);
+            this.Controls.Add(this.Button_Set_LookFromPointB);
+            this.Controls.Add(this.Button_View_LookFromPointB);
+            this.Controls.Add(this.Button_Set_LookFromPointA);
+            this.Controls.Add(this.Button_View_LookFromPointA);
             this.Controls.Add(this.groupBox14);
             this.Controls.Add(this.groupBox13);
             this.Controls.Add(this.groupBox12);
@@ -1146,16 +1288,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerScaleY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerScaleZ)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosZ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTriggerPosY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TriggerPosZ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TriggerPosY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TriggerPosX)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i1C)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i0C)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_LookBLinkId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_i08)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_CameraPersistFlag)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cameraNumber)).EndInit();
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_f68)).EndInit();
@@ -1232,18 +1373,17 @@
         private System.Windows.Forms.NumericUpDown numericUpDownTriggerScaleY;
         private System.Windows.Forms.NumericUpDown numericUpDownTriggerScaleZ;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.NumericUpDown numericUpDownTriggerPosZ;
-        private System.Windows.Forms.NumericUpDown numericUpDownTriggerPosY;
+        private System.Windows.Forms.NumericUpDown numericUpDown_TriggerPosZ;
+        private System.Windows.Forms.NumericUpDown numericUpDown_TriggerPosY;
         private System.Windows.Forms.NumericUpDown numericUpDown_TriggerPosX;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.NumericUpDown numericUpDown_i14;
         private System.Windows.Forms.NumericUpDown numericUpDown_i10;
-        private System.Windows.Forms.NumericUpDown numericUpDown_i08;
+        private System.Windows.Forms.NumericUpDown numericUpDown_CameraPersistFlag;
         private System.Windows.Forms.NumericUpDown numericUpDown_cameraNumber;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusFile;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSep;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCameraCount;
-        private System.Windows.Forms.NumericUpDown numericUpDown_i1C;
         private System.Windows.Forms.NumericUpDown numericUpDown_i0C;
         private System.Windows.Forms.NumericUpDown numericUpDown_LookBLinkId;
         private System.Windows.Forms.NumericUpDown numericUpDown_PointA_LookAt_X;
@@ -1295,5 +1435,16 @@
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.ComboBox comboBox_cameraMode;
         private System.Windows.Forms.ToolStripMenuItem sortByCameraNumberToolStripMenuItem;
+        private System.Windows.Forms.Button Button_View_LookFromPointA;
+        private System.Windows.Forms.Button Button_Set_LookFromPointA;
+        private System.Windows.Forms.Button Button_Set_LookFromPointB;
+        private System.Windows.Forms.Button Button_View_LookFromPointB;
+        private System.Windows.Forms.Button Button_Set_LookAtPointA;
+        private System.Windows.Forms.Button Button_View_LookAtPointA;
+        private System.Windows.Forms.Button Button_Set_LookAtPointB;
+        private System.Windows.Forms.Button Button_View_LookAtPointB;
+        private System.Windows.Forms.Button Button_Set_TriggerPosition;
+        private System.Windows.Forms.Button Button_View_Trigger_Position;
+        private System.Windows.Forms.ComboBox comboBox_cameraTriggerShape;
     }
 }
