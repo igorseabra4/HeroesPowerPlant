@@ -1,4 +1,4 @@
 ﻿{
-  "version": "v0.10.0RC2",
-  "versionName": "Critical Render Bug Fixed: Objects with models defined but not loaded in will now render as cubes.\nCubes are now rendered at 4x size, like earlier versions of HPP.\n\nTopMost Behavior Changed\nShadow Camera Editor Updates\nShadow Spline Editor Updates\nShadow Diff Tool (Beta) Added for Layout Differences"
+  "version": "v0.10.0RC3",
+  "versionName": "Critical Render Bug Fixed: Objects with models defined but not loaded in will now render as cubes.\n\nTopMost Behavior Changed\nShadow Camera Editor Updates\nShadow Spline Editor Updates\nShadow Diff Tool (Beta) Added for Layout Differences"
 }
