@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SharpDX;
 using System;
-using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
