@@ -210,6 +210,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (listBoxObjects.SelectedIndices.Count == 1)
             {
                 UpdateDisplayData();
+                Focus();
             }
             else
             {
