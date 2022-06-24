@@ -36,8 +36,7 @@ namespace HeroesPowerPlant.LayoutEditor {
         }
 
         [Description("LinkIDTrigger's LinkID to Activate OR LinkID to watch in other types")]
-        //Disappear
-        public int Affect_LinkID { //5
+        public int Affect_LinkID {
             get => ReadInt(20);
             set => Write(20, value);
         }
@@ -62,9 +61,8 @@ namespace HeroesPowerPlant.LayoutEditor {
             switch (Shape)
             {
                 case TriggerShape.Sphere:
-                    //var sphereBound = new BoundingSphere(Position, Size_X);
                     transformMatrix = Matrix.Scaling(Size_X * 2);
-                        break;
+                    break;
                 case TriggerShape.Cube:
                     transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_Z * 2);
                     break;
@@ -142,10 +140,10 @@ namespace HeroesPowerPlant.LayoutEditor {
         {
             switch (Shape)
             {
-/*                case TriggerShape.Sphere:
-                    return r.Intersects(ref sphereBound, out distance);*/
-                //case TriggerShape.Cone:
-                //    return r.Intersects(ref sphereBound, out distance);
+                case TriggerShape.Sphere:
+                    return TriangleIntersection(r, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices, initialDistance, out distance);
+                case TriggerShape.Cone:
+                    return TriangleIntersection(r, SharpRenderer.pyramidTriangles, SharpRenderer.pyramidVertices, initialDistance, out distance);
                 case TriggerShape.Cube:
                     return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
                 case TriggerShape.Cylinder:

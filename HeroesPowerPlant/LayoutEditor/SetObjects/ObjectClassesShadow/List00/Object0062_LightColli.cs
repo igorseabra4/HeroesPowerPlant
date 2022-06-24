@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor {
@@ -29,6 +30,47 @@ namespace HeroesPowerPlant.LayoutEditor {
 
             transformMatrix *= DefaultTransformMatrix();
             CreateBoundingBox();
+        }
+
+        protected override void CreateBoundingBox()
+        {
+            List<Vector3> list = new List<Vector3>();
+
+            switch (RangeShape)
+            {
+                case LightColli_RangeShape.Box:
+                    list.AddRange(SharpRenderer.cubeVertices);
+                    break;
+                case LightColli_RangeShape.Sphere:
+                    list.AddRange(SharpRenderer.sphereVertices);
+                    break;
+                case LightColli_RangeShape.Cylinder:
+                    list.AddRange(SharpRenderer.cylinderVertices);
+                    break;
+                default:
+                    base.CreateBoundingBox();
+                    return;
+            }
+
+            for (int i = 0; i < list.Count; i++)
+                list[i] = (Vector3)Vector3.Transform(list[i], transformMatrix);
+
+            boundingBox = BoundingBox.FromPoints(list.ToArray());
+        }
+
+        public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
+        {
+            switch (RangeShape)
+            {
+                case LightColli_RangeShape.Box:
+                    return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
+                case LightColli_RangeShape.Sphere:
+                    return TriangleIntersection(r, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices, initialDistance, out distance);
+                case LightColli_RangeShape.Cylinder:
+                    return TriangleIntersection(r, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices, initialDistance, out distance);
+                default:
+                    return base.TriangleIntersection(r, initialDistance, out distance);
+            }
         }
 
         public override void Draw(SharpRenderer renderer) {

@@ -161,8 +161,10 @@ namespace HeroesPowerPlant.LayoutEditor {
         {
             switch (Shape)
             {
-                //case TriggerShape.Cone:
-                //    return r.Intersects(ref sphereBound, out distance);
+                case TriggerShape.Sphere:
+                    return TriangleIntersection(r, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices, initialDistance, out distance);
+                case TriggerShape.Cone:
+                    return TriangleIntersection(r, SharpRenderer.pyramidTriangles, SharpRenderer.pyramidVertices, initialDistance, out distance);
                 case TriggerShape.Cube:
                     return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
                 case TriggerShape.Cylinder:
