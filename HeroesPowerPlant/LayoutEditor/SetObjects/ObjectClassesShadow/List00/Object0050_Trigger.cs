@@ -112,14 +112,28 @@ namespace HeroesPowerPlant.LayoutEditor {
 
         public override void Draw(SharpRenderer renderer)
         {
+            var color = TriggerType switch
+            {
+                TriggerType.SolidCollision => new Color4(0.88f, 1f, 1f, 0.5f),
+                TriggerType.LinkIDTrigger => new Color4(0.98f, 0.86f, 0.05f, 0.5f),
+                TriggerType.HurtPlayer => new Color4(0.89f, 0.44f, 0.10f, 0.5f),
+                TriggerType.KillPlayer => new Color4(1f, 0f, 0f, 0.4f),
+                TriggerType.ChaosControlCancelOn => new Color4(0.37f, 0.37f, 1f, 0.5f),
+                TriggerType.ChaosControlCancelOff => new Color4(0.62f, 0.37f, 0.93f, 0.5f),
+                TriggerType.ChaosControlStop => new Color4(0.93f, 0f, 0.93f, 0.5f),
+                TriggerType.MaintainBehaviorSkydive => new Color4(0.37f, 0.37f, 0.37f, 0.5f),
+                TriggerType.LockControlsWhileInTrigger => new Color4(0.36f, 0.25f, 0.20f, 0.5f),
+                TriggerType.CompleteMission => new Color4(1f, 1f, 1f, 0.5f),
+                _ => new Color4(0f, 1f, 0f, 0.5f),
+            };
             if (Shape == TriggerShape.Sphere)
-                renderer.DrawSphereTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawSphereTrigger(transformMatrix, isSelected, color);
             else if (Shape == TriggerShape.Cube)
-                renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawCubeTrigger(transformMatrix, isSelected, color);
             else if (Shape == TriggerShape.Cone)
-                renderer.DrawConeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawConeTrigger(transformMatrix, isSelected, color);
             else if (Shape == TriggerShape.Cylinder)
-                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawCylinderTrigger(transformMatrix, isSelected, color);
             else
                 DrawCube(renderer);
         }

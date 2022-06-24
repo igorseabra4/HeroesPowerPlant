@@ -33,11 +33,11 @@ namespace HeroesPowerPlant.LayoutEditor {
 
         public override void Draw(SharpRenderer renderer) {
             if (RangeShape == LightColli_RangeShape.Box)
-                renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(1f, 1f, 1f, 0.5f));
             else if (RangeShape == LightColli_RangeShape.Sphere)
-                renderer.DrawSphereTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawSphereTrigger(transformMatrix, isSelected, new Color4(1f, 1f, 1f, 0.5f));
             else if (RangeShape == LightColli_RangeShape.Cylinder)
-                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(1f, 1f, 1f, 0.5f));
         }
 
         public LightColli_SwitchMode SwitchMode {
