@@ -61,7 +61,7 @@
   <data name="NumericCameraYaw.Location" type="System.Drawing.Point, System.Drawing">
     <value>147, 22</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="NumericCameraYaw.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
@@ -136,7 +136,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="NumericInterval.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -190,7 +190,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="NumericDrawD.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -244,7 +244,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="NumericCameraZ.Location" type="System.Drawing.Point, System.Drawing">
     <value>282, 22</value>
@@ -346,7 +346,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="NumericQuadHeight.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -400,7 +400,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="NumericFOV.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -454,7 +454,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="NumericMouseSens.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -508,7 +508,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="NumericKeyboardSens.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -562,7 +562,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox8.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="buttonTeleport.Location" type="System.Drawing.Point, System.Drawing">
     <value>299, 278</value>
@@ -589,7 +589,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonTeleport.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="maxFps_numericUpDown.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 22</value>
@@ -643,6 +643,37 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox9.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="buttonCopyPositionForNukkoro2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonCopyPositionForNukkoro2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 228</value>
+  </data>
+  <data name="buttonCopyPositionForNukkoro2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="buttonCopyPositionForNukkoro2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 44</value>
+  </data>
+  <data name="buttonCopyPositionForNukkoro2.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="buttonCopyPositionForNukkoro2.Text" xml:space="preserve">
+    <value>Copy Position for nukkoro2.inf</value>
+  </data>
+  <data name="&gt;&gt;buttonCopyPositionForNukkoro2.Name" xml:space="preserve">
+    <value>buttonCopyPositionForNukkoro2</value>
+  </data>
+  <data name="&gt;&gt;buttonCopyPositionForNukkoro2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonCopyPositionForNukkoro2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;buttonCopyPositionForNukkoro2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

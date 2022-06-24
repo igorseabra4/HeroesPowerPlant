@@ -181,5 +181,10 @@ namespace HeroesPowerPlant.MainForm
         {
             Program.MainForm.SetMaxFPS();
         }
+
+        private void buttonCopyPositionForNukkoro2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText("PLAYER : 0 " + ((int)Program.MainForm.renderer.Camera.ViewMatrix.Position.X).ToString() + " " + ((int)Program.MainForm.renderer.Camera.ViewMatrix.Position.Y).ToString() + " " + ((int)Program.MainForm.renderer.Camera.ViewMatrix.Position.Z).ToString() + " 0 0 0");
+        }
     }
 }
