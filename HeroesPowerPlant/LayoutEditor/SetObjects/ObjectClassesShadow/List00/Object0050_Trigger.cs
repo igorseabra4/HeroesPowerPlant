@@ -114,7 +114,7 @@ namespace HeroesPowerPlant.LayoutEditor {
         {
             var color = TriggerType switch
             {
-                TriggerType.SolidCollision => new Color4(0.88f, 1f, 1f, 0.5f),
+                TriggerType.SolidCollision => new Color4(0.5f, 0.5f, 0.8f, 0.5f),
                 TriggerType.LinkIDTrigger => new Color4(0.98f, 0.86f, 0.05f, 0.5f),
                 TriggerType.HurtPlayer => new Color4(0.89f, 0.44f, 0.10f, 0.5f),
                 TriggerType.KillPlayer => new Color4(1f, 0f, 0f, 0.4f),
