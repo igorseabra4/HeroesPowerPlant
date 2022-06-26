@@ -68,6 +68,11 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Backup\**" />
+    <EmbeddedResource Remove="Backup\**" />
+    <None Remove="Backup\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="CameraEditor\CameraEditor.cs">
       <SubType>Form</SubType>
     </Compile>
