@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using SharpDX;
 using ShadowFNT.Structures;
 using HeroesPowerPlant.Shared.IO.Config;
+using Shadow.Structures;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -13,6 +14,7 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private AFSLib.AfsArchive loadedAFS;
         private FNT loadedFNT;
+        private ShadowSoundBIN loadedShadowSoundBIN;
 
         private int darkAudioId = -1;
         private int normalAudioId = -1;
@@ -225,6 +227,56 @@ namespace HeroesPowerPlant.LayoutEditor
             if (loadedFNT.fileName != null)
             {
                 LoadShadowSubtitlePreviews();
+            }
+
+            if (loadedShadowSoundBIN.fileName != null)
+            {
+                LoadShadowSFXBinStrings();
+            }
+        }
+
+        private void LoadShadowSFXBinStrings()
+        {
+            if (listBoxObjects.SelectedItems.Count != 1)
+                return;
+
+            if (listBoxObjects.SelectedItem.GetType() == typeof(Object2598_SetSeOneShot)
+                || (listBoxObjects.SelectedItem.GetType() == typeof(Object2597_SetSeLoop)))
+            {
+                if (listBoxObjects.SelectedItem.GetType() == typeof(Object2598_SetSeOneShot))
+                {
+                    var setObject = (Object2598_SetSeOneShot)listBoxObjects.SelectedItem;
+                    var audioID = setObject.AudioID;
+                    // TODO: Probably cache results instead of searching every click
+                    var sfxStringIdList = "";
+                    for (int i = 0; i < loadedShadowSoundBIN.sfxTable.Count; i++)
+                    {
+                        var entrySfxId = loadedShadowSoundBIN.sfxTable[i].sfxId;
+                        if (entrySfxId == audioID)
+                        {
+                            setObject.sfxEntry = loadedShadowSoundBIN.sfxTable[i];
+                        }
+                        sfxStringIdList += loadedShadowSoundBIN.sfxTable[i].sfxId + " " + loadedShadowSoundBIN.sfxTable[i].sfxString.Replace('\0', ' ') + "\r\n";
+                    }
+                    textBox_FNT_TriggerTalkingPreview.Text = sfxStringIdList;
+                }
+                else if (listBoxObjects.SelectedItem.GetType() == typeof(Object2597_SetSeLoop))
+                {
+                    var setObject = (Object2597_SetSeLoop)listBoxObjects.SelectedItem;
+                    var audioID = setObject.AudioID;
+                    // TODO: Probably cache results instead of searching every click
+                    var sfxStringIdList = "";
+                    for (int i = 0; i < loadedShadowSoundBIN.sfxTable.Count; i++)
+                    {
+                        var entrySfxId = loadedShadowSoundBIN.sfxTable[i].sfxId;
+                        if (entrySfxId == audioID)
+                        {
+                            setObject.sfxEntry = loadedShadowSoundBIN.sfxTable[i];
+                        }
+                        sfxStringIdList += loadedShadowSoundBIN.sfxTable[i].sfxId + " " + loadedShadowSoundBIN.sfxTable[i].sfxString.Replace('\0', ' ') + "\r\n";
+                    }
+                    textBox_FNT_TriggerTalkingPreview.Text = sfxStringIdList;
+                }
             }
         }
 
@@ -1124,6 +1176,21 @@ namespace HeroesPowerPlant.LayoutEditor
                 TopMost = true;
             else
                 TopMost = false;
+        }
+
+        private void buttonLoadShadowSFXBIN_Click(object sender, EventArgs e)
+        {
+            // TODO migrate this to project scope rather than layout
+
+            using OpenFileDialog openFile = new OpenFileDialog
+            {
+                Filter = "SHADOW SFX BIN files (*.bin)|*.bin|All files (*.*)|*.*"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+                loadedShadowSoundBIN = ShadowSoundBIN.ParseShadowSoundBINFile(openFile.FileName, ref data);
+            }
         }
     }
 }
