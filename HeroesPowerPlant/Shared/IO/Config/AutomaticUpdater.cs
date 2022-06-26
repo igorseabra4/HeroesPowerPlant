@@ -15,7 +15,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
             try
             {
-                string versionInfoURL = "https://raw.githubusercontent.com/ShadowTheHedgehogHacking/HeroesPowerPlant/master/HeroesPowerPlant/Resources/hpp_version.json";
+                string versionInfoURL = "https://raw.githubusercontent.com/igorseabra4/HeroesPowerPlant/master/HeroesPowerPlant/Resources/hpp_version.json";
 
                 string updatedJson;
 
@@ -38,7 +38,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     if (d == DialogResult.Yes)
                     {
                         string updatedIPfileName = "HeroesPowerPlant_" + updatedVersion.version + ".zip";
-                        string updatedIPURL = "https://github.com/ShadowTheHedgehogHacking/HeroesPowerPlant/releases/download/" + updatedVersion.version + "/" + updatedIPfileName;
+                        string updatedIPURL = "https://github.com/igorseabra4/HeroesPowerPlant/releases/download/" + updatedVersion.version + "/" + updatedIPfileName;
                         
                         string updatedIPfilePath = Application.StartupPath + "\\Resources\\" + updatedIPfileName;
 

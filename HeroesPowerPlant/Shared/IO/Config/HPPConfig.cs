@@ -17,7 +17,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public string LastProjectPath { get; set; }
         public bool AutomaticallyLoadLastConfig { get; set; } = true;
         public bool AutomaticallySaveConfig { get; set; } = true;
-        public bool CheckForUpdatesOnStartup { get; set; } = false;
+        public bool CheckForUpdatesOnStartup { get; set; } = true;
         public bool VSync { get; set; } = true;
         public bool LimitFPS { get; set; } = true;
         public bool LegacyWindowPriorityBehavior { get; set; } = false;
