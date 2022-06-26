@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 
@@ -176,6 +177,14 @@ namespace HeroesPowerPlant.ParticleEditor
 
             foreach (var v in Program.MainForm.LayoutEditors)
                 v.UpdateSetParticleMatrices();
+        }
+
+        private void ParticleMenu_Load(object sender, EventArgs e)
+        {
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
     }
 }

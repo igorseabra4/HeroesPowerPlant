@@ -77,52 +77,30 @@ namespace HeroesPowerPlant.LayoutEditor
                         positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LengthRadius), -Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
                     break;
                 case RingType.Arch:
+                    // parabola is y^2 = 4ax
+                    // y^2 = 4(Angle)(LengthRadius)
                     if (NumberOfRings < 2) return;
                     for (int i = 0; i < NumberOfRings; i++)
                     {
+                        positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
+                        // ALMOST working but with 2nd off and rotation shift required (-37 Y off)
+                        ///positionsList.Add(new Vector3((float)Math.Sqrt((LengthRadius * i / (NumberOfRings)) * 4 * Angle), 0, (LengthRadius * i / (NumberOfRings))));
+                        //var calc = (LengthRadius / NumberOfRings) * i;
+                        ////var calc2 = LengthRadius * i / NumberOfRings;
+                        ////positionsList.Add(new Vector3((float)Math.Sqrt(calc2 * 4 * Angle), 0, calc2));
+
+                        //positionsList.Add(new Vector3((float)Math.Sqrt(4 * Angle * calc), 50, LengthRadius * i / NumberOfRings));
+
+                        //positionsList.Add(new Vector3((float)Math.Sqrt((4 * Angle * LengthRadius * i / NumberOfRings)), 0, (LengthRadius * i / NumberOfRings)));
+
                         //Matrix Locator = Matrix.Translation(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
-                        Matrix Locator = Matrix.Translation(new Vector3(LengthRadius * i / NumberOfRings, 0, 0));
-                        if (i == 0)
-                            //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator));
-                            continue;
-                        positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
-    * -Matrix.RotationY((Angle * i) / NumberOfRings)
-    //* -Matrix.RotationY((Angle) / (NumberOfRings * i))
-    ));
-                       /* if (i < NumberOfRings / 2)
-                        {
-                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
-                                //* Matrix.RotationY(Angle)
-                                * -Matrix.RotationY((Angle) / (NumberOfRings * i))
-                                ));
-                        }
-                        else if (i == NumberOfRings / 2)
-                        {
-                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
-                            * -Matrix.RotationY(Angle)
-                            ));
-                        }
-                        else
-                        {
-*//*                            positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
-                            * Matrix.RotationY(Angle / (NumberOfRings) * (i - NumberOfRings / 2))));*//*
-                        }*/
+                        //Matrix Locator = Matrix.Translation(new Vector3(LengthRadius * i / NumberOfRings, 0, 0));
+                        //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator * (4 * Angle * (LengthRadius / NumberOfRings))));
+                        //if (i == 0)
+                        //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator));
+                        //continue;
                     }
                     break;
-
-/*                    for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
-                    break;*/
-                    /*
-                    for (int i = 0; i < NumberOfRings; i++)
-                    {
-                        Matrix Locator = Matrix.Translation(new Vector3(LengthRadius, 0, 0));
-
-                        positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator
-                            * Matrix.RotationY(Angle / (NumberOfRings - 1) * i)
-                            * Matrix.Invert(Locator)));
-                    }
-                    break;*/
             }
 
             CreateBoundingBox();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -137,6 +138,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 listBoxSplines.SelectedIndex = index;
             }
             catch { }
+        }
+
+        private void ShadowSplineMenu_Load(object sender, EventArgs e)
+        {
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
     }
 }

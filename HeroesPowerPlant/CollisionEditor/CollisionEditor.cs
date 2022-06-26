@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
 
 namespace HeroesPowerPlant.CollisionEditor
@@ -16,7 +17,10 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private void CollisionEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

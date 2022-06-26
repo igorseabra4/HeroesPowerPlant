@@ -1,4 +1,5 @@
-﻿using SonicHeroes.Utils.StageInjector.Common.Utilities;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using SonicHeroes.Utils.StageInjector.Common.Utilities;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -16,7 +17,10 @@ namespace HeroesPowerPlant.RankEditor
 
         private void LayoutEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor {
     public class Object14B6_GravityChangeCollision : SetObjectShadow {
@@ -26,6 +27,14 @@ namespace HeroesPowerPlant.LayoutEditor {
             get => (GravityDirection)ReadInt(12);
             set => Write(12, (int)value);
         }
+
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = Matrix.Scaling(Size_X * 2, (Size_Y + Size_Z) * 2, Size_X * 2);
+            transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
+            transformMatrix *= DefaultTransformMatrix();
+            CreateBoundingBox();
+        }
     }
 
     public enum GravityDirection {
@@ -36,4 +45,5 @@ namespace HeroesPowerPlant.LayoutEditor {
         NegZ,
         PosZ
     }
+
 }

@@ -1,7 +1,7 @@
 ﻿using HeroesPowerPlant.LayoutEditor;
+using HeroesPowerPlant.Shared.IO.Config;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using static HeroesPowerPlant.SetIdTableEditor.SetIdTableFunctions;
@@ -16,7 +16,10 @@ namespace HeroesPowerPlant.SetIdTableEditor
             heroesStageEntries = ReadStageListData(Application.StartupPath + "/Resources\\Lists\\HeroesStageList.ini");
             shadowStageEntries = ReadStageListData(Application.StartupPath + "/Resources\\Lists\\ShadowStageList.ini");
 
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

@@ -36,8 +36,7 @@ namespace HeroesPowerPlant.LayoutEditor {
         }
 
         [Description("LinkIDTrigger's LinkID to Activate OR LinkID to watch in other types")]
-        //Disappear
-        public int Affect_LinkID { //5
+        public int Affect_LinkID {
             get => ReadInt(20);
             set => Write(20, value);
         }
@@ -62,9 +61,8 @@ namespace HeroesPowerPlant.LayoutEditor {
             switch (Shape)
             {
                 case TriggerShape.Sphere:
-                    //var sphereBound = new BoundingSphere(Position, Size_X);
                     transformMatrix = Matrix.Scaling(Size_X * 2);
-                        break;
+                    break;
                 case TriggerShape.Cube:
                     transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_Z * 2);
                     break;
@@ -72,7 +70,7 @@ namespace HeroesPowerPlant.LayoutEditor {
                     transformMatrix = Matrix.Scaling(Size_X * 2);
                     break;
                 case TriggerShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_X * 2);
+                    transformMatrix = Matrix.Scaling(Size_X * 2, (Size_Y + Size_Z) * 2, Size_X * 2);
                     transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
                     break;
             }
@@ -112,14 +110,28 @@ namespace HeroesPowerPlant.LayoutEditor {
 
         public override void Draw(SharpRenderer renderer)
         {
+            var color = TriggerType switch
+            {
+                TriggerType.SolidCollision => new Color4(0.5f, 0.5f, 0.8f, 0.5f),
+                TriggerType.LinkIDTrigger => new Color4(0.98f, 0.86f, 0.05f, 0.5f),
+                TriggerType.HurtPlayer => new Color4(0.89f, 0.44f, 0.10f, 0.5f),
+                TriggerType.KillPlayer => new Color4(1f, 0f, 0f, 0.4f),
+                TriggerType.ChaosControlCancelOn => new Color4(0.37f, 0.37f, 1f, 0.5f),
+                TriggerType.ChaosControlCancelOff => new Color4(0.62f, 0.37f, 0.93f, 0.5f),
+                TriggerType.ChaosControlStop => new Color4(0.93f, 0f, 0.93f, 0.5f),
+                TriggerType.MaintainBehaviorSkydive => new Color4(0.37f, 0.37f, 0.37f, 0.5f),
+                TriggerType.LockControlsWhileInTrigger => new Color4(0.36f, 0.25f, 0.20f, 0.5f),
+                TriggerType.CompleteMission => new Color4(1f, 1f, 1f, 0.5f),
+                _ => new Color4(0f, 1f, 0f, 0.5f),
+            };
             if (Shape == TriggerShape.Sphere)
-                renderer.DrawSphereTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawSphereTrigger(transformMatrix, isSelected, color);
             else if (Shape == TriggerShape.Cube)
-                renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawCubeTrigger(transformMatrix, isSelected, color);
             else if (Shape == TriggerShape.Cone)
-                renderer.DrawConeTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawConeTrigger(transformMatrix, isSelected, color);
             else if (Shape == TriggerShape.Cylinder)
-                renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(0f, 1f, 0f, 0.5f));
+                renderer.DrawCylinderTrigger(transformMatrix, isSelected, color);
             else
                 DrawCube(renderer);
         }
@@ -128,10 +140,10 @@ namespace HeroesPowerPlant.LayoutEditor {
         {
             switch (Shape)
             {
-/*                case TriggerShape.Sphere:
-                    return r.Intersects(ref sphereBound, out distance);*/
-                //case TriggerShape.Cone:
-                //    return r.Intersects(ref sphereBound, out distance);
+                case TriggerShape.Sphere:
+                    return TriangleIntersection(r, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices, initialDistance, out distance);
+                case TriggerShape.Cone:
+                    return TriangleIntersection(r, SharpRenderer.pyramidTriangles, SharpRenderer.pyramidVertices, initialDistance, out distance);
                 case TriggerShape.Cube:
                     return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
                 case TriggerShape.Cylinder:

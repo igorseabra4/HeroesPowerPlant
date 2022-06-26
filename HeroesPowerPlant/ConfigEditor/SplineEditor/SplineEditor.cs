@@ -1,4 +1,5 @@
 ﻿using Heroes.SDK.Definitions.Structures.Stage.Splines;
+using HeroesPowerPlant.Shared.IO.Config;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -21,9 +22,12 @@ namespace HeroesPowerPlant.SplineEditor
             InitializeComponent();
         }
 
-        private void CollisionEditor_Load(object sender, EventArgs e)
+        private void SplineEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         private SplineEditorFunctions splineEditorFunctions = new SplineEditorFunctions();

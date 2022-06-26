@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using SharpDX;
 using ShadowFNT.Structures;
+using HeroesPowerPlant.Shared.IO.Config;
+using Shadow.Structures;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -12,6 +14,7 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private AFSLib.AfsArchive loadedAFS;
         private FNT loadedFNT;
+        private ShadowSoundBIN loadedShadowSoundBIN;
 
         private int darkAudioId = -1;
         private int normalAudioId = -1;
@@ -209,6 +212,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (listBoxObjects.SelectedIndices.Count == 1)
             {
                 UpdateDisplayData();
+                Focus();
             }
             else
             {
@@ -224,6 +228,56 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 LoadShadowSubtitlePreviews();
             }
+
+            if (loadedShadowSoundBIN.fileName != null)
+            {
+                LoadShadowSFXBinStrings();
+            }
+        }
+
+        private void LoadShadowSFXBinStrings()
+        {
+            if (listBoxObjects.SelectedItems.Count != 1)
+                return;
+
+            if (listBoxObjects.SelectedItem.GetType() == typeof(Object2598_SetSeOneShot)
+                || (listBoxObjects.SelectedItem.GetType() == typeof(Object2597_SetSeLoop)))
+            {
+                if (listBoxObjects.SelectedItem.GetType() == typeof(Object2598_SetSeOneShot))
+                {
+                    var setObject = (Object2598_SetSeOneShot)listBoxObjects.SelectedItem;
+                    var audioID = setObject.AudioID;
+                    // TODO: Probably cache results instead of searching every click
+                    var sfxStringIdList = "";
+                    for (int i = 0; i < loadedShadowSoundBIN.sfxTable.Count; i++)
+                    {
+                        var entrySfxId = loadedShadowSoundBIN.sfxTable[i].sfxId;
+                        if (entrySfxId == audioID)
+                        {
+                            setObject.sfxEntry = loadedShadowSoundBIN.sfxTable[i];
+                        }
+                        sfxStringIdList += loadedShadowSoundBIN.sfxTable[i].sfxId + " " + loadedShadowSoundBIN.sfxTable[i].sfxString.Replace('\0', ' ') + "\r\n";
+                    }
+                    textBox_FNT_TriggerTalkingPreview.Text = sfxStringIdList;
+                }
+                else if (listBoxObjects.SelectedItem.GetType() == typeof(Object2597_SetSeLoop))
+                {
+                    var setObject = (Object2597_SetSeLoop)listBoxObjects.SelectedItem;
+                    var audioID = setObject.AudioID;
+                    // TODO: Probably cache results instead of searching every click
+                    var sfxStringIdList = "";
+                    for (int i = 0; i < loadedShadowSoundBIN.sfxTable.Count; i++)
+                    {
+                        var entrySfxId = loadedShadowSoundBIN.sfxTable[i].sfxId;
+                        if (entrySfxId == audioID)
+                        {
+                            setObject.sfxEntry = loadedShadowSoundBIN.sfxTable[i];
+                        }
+                        sfxStringIdList += loadedShadowSoundBIN.sfxTable[i].sfxId + " " + loadedShadowSoundBIN.sfxTable[i].sfxString.Replace('\0', ' ') + "\r\n";
+                    }
+                    textBox_FNT_TriggerTalkingPreview.Text = sfxStringIdList;
+                }
+            }
         }
 
         private void LoadShadowSubtitlePreviews()
@@ -235,18 +289,16 @@ namespace HeroesPowerPlant.LayoutEditor
                 || (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall)))
             {
                 string setObjAudioBranchID = "";
-                AudioBranchType setObjAudioBranchType = AudioBranchType.CurrentMissionPartner;
 
                 if (listBoxObjects.SelectedItem.GetType() == typeof(Object0051_TriggerTalking))
                 {
                     var setObject = (Object0051_TriggerTalking)listBoxObjects.SelectedItem;
                     setObjAudioBranchID = setObject.AudioBranchID.ToString();
-                    setObjAudioBranchType = setObject.AudioBranchType;
-                } else if (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall))
+                }
+                else if (listBoxObjects.SelectedItem.GetType() == typeof(Object0011_HintBall))
                 {
                     var setObject = (Object0011_HintBall)listBoxObjects.SelectedItem;
                     setObjAudioBranchID = setObject.AudioBranchID.ToString();
-                    setObjAudioBranchType = setObject.AudioBranchType;
                 }
 
                 // TODO: Probably cache results instead of searching every click
@@ -315,26 +367,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     normalText = "|| No entry ||\r\n";
                 if (heroText == "")
                     heroText = "|| No entry ||";
-                switch (setObjAudioBranchType)
-                {
-                    case AudioBranchType.Dark:
-                        textBox_FNT_TriggerTalkingPreview.Text = darkText;
-                        break;
-                    case AudioBranchType.Normal:
-                        textBox_FNT_TriggerTalkingPreview.Text = normalText;
-                        break;
-                    case AudioBranchType.Hero:
-                        textBox_FNT_TriggerTalkingPreview.Text = heroText;
-                        break;
-                    default:
-                        textBox_FNT_TriggerTalkingPreview.Text = "Dark:\r\n";
-                        textBox_FNT_TriggerTalkingPreview.Text += darkText.Replace("\0", "");
-                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nNormal:\r\n";
-                        textBox_FNT_TriggerTalkingPreview.Text += normalText.Replace("\0", "");
-                        textBox_FNT_TriggerTalkingPreview.Text += "\r\nHero:\r\n";
-                        textBox_FNT_TriggerTalkingPreview.Text += heroText.Replace("\0", "");
-                        break;
-                }
+                textBox_FNT_TriggerTalkingPreview.Text = "Dark:\r\n";
+                textBox_FNT_TriggerTalkingPreview.Text += darkText.Replace("\0", "");
+                textBox_FNT_TriggerTalkingPreview.Text += "\r\nNormal:\r\n";
+                textBox_FNT_TriggerTalkingPreview.Text += normalText.Replace("\0", "");
+                textBox_FNT_TriggerTalkingPreview.Text += "\r\nHero:\r\n";
+                textBox_FNT_TriggerTalkingPreview.Text += heroText.Replace("\0", "");
             }
         }
 
@@ -391,13 +429,13 @@ namespace HeroesPowerPlant.LayoutEditor
                 listBoxObjects_SelectedIndexChanged(null, null);
             }
         }
-        
+
         private void RemoveSetObjectAt(int index)
         {
             int Temp = listBoxObjects.SelectedIndices[0];
 
             listBoxObjects.ClearSelected();
-            
+
             layoutSystem.RemoveSetObject(index);
 
             try { listBoxObjects.SelectedIndex = Temp; }
@@ -780,7 +818,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Text = "Layout Editor - " + Path.GetFileName(layoutSystem.CurrentlyOpenFileName);
             mainForm.SetLayoutEditorStripItemName(this, Path.GetFileName(layoutSystem.CurrentlyOpenFileName));
         }
-        
+
         private void buttonCopyMisc_Click(object sender, EventArgs e)
         {
             if (listBoxObjects.SelectedIndices.Count == 1)
@@ -817,7 +855,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             layoutSystem.UpdateSetParticleMatrices();
         }
-        
+
         public (byte, byte)[] GetAllCurrentObjectEntries()
         {
             return layoutSystem.GetAllCurrentObjectEntries();
@@ -940,7 +978,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 UpdateGizmoPosition();
             }
         }
-        
+
         private void buttonCurrentViewDrop_Click(object sender, EventArgs e)
         {
             if (listBoxObjects.SelectedIndices.Count == 1)
@@ -975,7 +1013,7 @@ namespace HeroesPowerPlant.LayoutEditor
             hasIntersected = false;
             smallestDistance = 0;
 
-            if (checkBoxDrawObjs.Checked)            
+            if (checkBoxDrawObjs.Checked)
                 layoutSystem.GetClickedModelPosition(ray, camPos, seeAllObjects, out hasIntersected, out smallestDistance);
         }
 
@@ -992,7 +1030,8 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
         }
 
-        private void buttonLoadAFS_Click(object sender, EventArgs e) {
+        private void buttonLoadAFS_Click(object sender, EventArgs e)
+        {
 
             // TODO migrate this to project scope rather than layout
 
@@ -1068,14 +1107,17 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (audioId == -1)
                 return;
-            try {
+            try
+            {
                 LoadAdxToWav(audioId, out var stream);
 
                 var player = new System.Media.SoundPlayer();
                 stream.Position = 0;
                 player.Stream = stream;
                 player.Play();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message, "An Exception Occurred While Trying to Play Audio");
             }
         }
@@ -1084,7 +1126,8 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             System.Threading.Tasks.Task.Run(() =>
             {
-                try {
+                try
+                {
                     var player = new System.Media.SoundPlayer();
 
                     if (audioId1 != -1)
@@ -1118,12 +1161,36 @@ namespace HeroesPowerPlant.LayoutEditor
             });
         }
 
-        private void LoadAdxToWav(int audioId, out MemoryStream waveStream) {
+        private void LoadAdxToWav(int audioId, out MemoryStream waveStream)
+        {
             var decoder = new VGAudio.Containers.Adx.AdxReader();
             var audio = decoder.Read(loadedAFS.Files[audioId].Data);
             var writer = new VGAudio.Containers.Wave.WaveWriter();
             waveStream = new();
             writer.WriteToStream(audio, waveStream);
+        }
+
+        private void LayoutEditor_Load(object sender, EventArgs e)
+        {
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
+        }
+
+        private void buttonLoadShadowSFXBIN_Click(object sender, EventArgs e)
+        {
+            // TODO migrate this to project scope rather than layout
+
+            using OpenFileDialog openFile = new OpenFileDialog
+            {
+                Filter = "SHADOW SFX BIN files (*.bin)|*.bin|All files (*.*)|*.*"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+                loadedShadowSoundBIN = ShadowSoundBIN.ParseShadowSoundBINFile(openFile.FileName, ref data);
+            }
         }
     }
 }

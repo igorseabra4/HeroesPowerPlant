@@ -77,7 +77,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             foreach (SetObjectHeroes i in list)
             {
-                if (i.List == 0 & i.Type == 0) 
+                if (i.List == 0 & i.Type == 0)
                     continue;
 
                 layoutWriter.Write(Switch(i.Position.X));
@@ -89,7 +89,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 if (autoValues || i.UnkBytes.Length != 8)
                     i.UnkBytes = new byte[] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
-                
+
                 layoutWriter.Write(i.UnkBytes.Take(4).ToArray());
                 layoutWriter.Write(0);
                 layoutWriter.Write(i.UnkBytes.Skip(4).ToArray());
@@ -455,7 +455,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             return list;
         }
-        
+
         public static SetObjectHeroes CreateHeroesObject
             (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null, bool createMatrix = true)
         {
@@ -668,8 +668,16 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x8: return new Object0908_RainFruit();
                         case 0x9: return new Object000B_DashPanel();
                         case 0xB: return new Object090B_IvyJump();
-                        case 0xC: case 0x85: case 0x86: case 0x8B: case 0x8C: case 0x8D:
-                        case 0x91: case 0x92: case 0x93: case 0x95:
+                        case 0xC:
+                        case 0x85:
+                        case 0x86:
+                        case 0x8B:
+                        case 0x8C:
+                        case 0x8D:
+                        case 0x91:
+                        case 0x92:
+                        case 0x93:
+                        case 0x95:
                             return new Object_F1Scale();
                         case 0xD: return new Object_XYZScale(0);
                         case 0xE: return new Object090E_Alligator();
@@ -809,9 +817,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private static SetObjectShadow FindObjectClassShadow(byte List, byte Type)
         {
-            switch (List) {
+            switch (List)
+            {
                 case 0x00:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x01: return new Object0001_SpringShadow();
                         case 0x02: return new Object0002_WideSpring();
                         case 0x03: return new Object0003_DashPanel();
@@ -868,19 +878,22 @@ namespace HeroesPowerPlant.LayoutEditor
                         case 0x1F: default: return new Object_ShadowDefault(); // warp hole
                     }
                 case 0x01:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x2C: return new Object012C_EnvironmentalWeapon();
                         case 0x90: return new Object0190_Partner();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x03:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0xE9: return new Object03E9_FallingBuilding();
                         case 0xEA: return new Object03EA_GiantSkyLaser();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x07:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0xD1: return new Object07D1_Searchlight();
                         case 0xD2: return new Object07D2_ColorSwitch();
                         case 0xD3: return new Object07D3_RisingLaserBar();
@@ -898,7 +911,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x08:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x34: return new Object0834_Tornado();
                         case 0x35: return new Object0835_TornadoCollision();
                         case 0x36: return new Object0836_RollCircle();
@@ -911,7 +925,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x0B:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0xBB: return new Object0BBB_SmallLantern();
                         case 0xBC: return new Object0BBC_PopupDummyGhost();
                         case 0xBE: return new Object0BBE_Chao();
@@ -920,7 +935,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x0C:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x80: return new Object0C80_BounceBall();
                         case 0x81: return new Object0C81_CircusGong();
                         case 0x82: return new Object0C82_GameBalloonsGhosts();
@@ -931,14 +947,16 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x0F:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0xA1: return new Object0FA1_BAMiniBomb();
                         case 0xA2: return new Object0FA2_Helicopter();
                         case 0xA4: return new Object0FA4_BuildingChunk();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x10:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x04: return new Object1004_ArkCrackedWall();
                         case 0x05: return new Object1005_Researcher();
                         case 0x06: return new Object1006_HealUnitServer();
@@ -948,7 +966,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x11:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x30: return new Object1130_FenceWall();
                         case 0x31: return new Object1131_Vine();
                         case 0x32: return new Object1132_ElevatorPlatformColumn();
@@ -960,7 +979,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x13:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x8A: return new Object138B_MeteorsHolder(); //Meteor
                         case 0x8B: return new Object138B_MeteorsHolder();
                         case 0x8E: return new Object138E_ArkCannon();
@@ -974,7 +994,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x14:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x51: return new Object1451_EggBalloonCommandCollision();
                         case 0xB4: return new Object14B5_GravityChangeZone(); //GravityChangeSwitch
                         case 0xB5: return new Object14B5_GravityChangeZone();
@@ -984,7 +1005,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x17:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x70: return new Object1770_GUNCamera();
                         case 0x72: return new Object1772_ConcreteDoor();
                         case 0x73: return new Object1773_CrushingWalls();
@@ -993,20 +1015,23 @@ namespace HeroesPowerPlant.LayoutEditor
                         default: return new Object_ShadowDefault();
                     }
                 case 0x18:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x39: return new Object1839_RisingLava();
                         case 0x9E: return new Object189E_ARKDriftingPlat1();
                         case 0x9F: return new Object189F_ArkRollPlatform();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x19:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x01: return new Object1901_CometBarrier();
                         case 0x03: return new Object1903_BlackDoomHologram();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x25:
-                    switch (Type) {
+                    switch (Type)
+                    {
                         case 0x86: return new Object2586_Sample();
                         case 0x88: return new Object2588_Decoration1();
                         case 0x89: return new Object2589_Destructable1();
@@ -1102,7 +1127,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     else if (i.Type == 0x13) Type = 0x19; // Item balloon
                     else if (i.Type == 0x14) Type = 0x1B; // Goal ring
                     else if (i.Type == 0x15) Type = 0x05; // Switch
-                                                                      // else if (i.Type == 0x1D) Type = 0x67; // Key
+                                                          // else if (i.Type == 0x1D) Type = 0x67; // Key
                     else if (i.Type == 0x1F) Type = 0x80; // Teleport
                     else if (i.Type == 0x3A) Type = 0x24; // shadow box
                     else if (i.Type == 0x65) // Beetle

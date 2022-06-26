@@ -46,7 +46,7 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         private BindingList<SetObject> setObjects { get; set; } = new BindingList<SetObject>();
-        
+
         public int GetSetObjectAmount()
         {
             return setObjects.Count;
@@ -72,7 +72,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 return shadowObjectEntries.Values.ToArray();
             return heroesObjectEntries.Values.ToArray();
         }
-                
+
         public (byte, byte)[] GetAllCurrentObjectEntries()
         {
             HashSet<(byte, byte)> objectEntries = new HashSet<(byte, byte)>();
@@ -192,12 +192,15 @@ namespace HeroesPowerPlant.LayoutEditor
         public void RenderSetObjects(SharpRenderer renderer, bool drawEveryObject, bool renderTriggers)
         {
             foreach (SetObject s in setObjects)
-                if (renderer.frustum.Intersects(ref s.boundingBox)) {
-                    if (!renderTriggers) {
-                        if (s.GetType() == typeof(Object0051_TriggerTalking) || s.GetType() == typeof(Object0050_Trigger))
+                if (renderer.frustum.Intersects(ref s.boundingBox))
+                {
+                    if (!renderTriggers)
+                    {
+                        Type type = s.GetType();
+                        if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
                             continue;
                     }
-                        
+
                     s.Draw(renderer, drawEveryObject);
                 }
         }
@@ -270,7 +273,7 @@ namespace HeroesPowerPlant.LayoutEditor
             setObjects.Last().Position = Position;
             setObjects.Last().CreateTransformMatrix();
         }
-        
+
         public string SerializeSetObject(ListBox.SelectedIndexCollection selectedIndices)
         {
             List<SetObject> setObjs = new List<SetObject>();
@@ -289,21 +292,21 @@ namespace HeroesPowerPlant.LayoutEditor
             {
 #endif
             var list = JsonConvert.DeserializeObject<List<Object_ShadowDefault>>(text);
-                result = list.Count;
+            result = list.Count;
 
-                foreach (var src in list)
-                {
-                    SetObject dest;
+            foreach (var src in list)
+            {
+                SetObject dest;
 
-                    if (isShadow)
-                        dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
-                    else
-                        dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
-                    
-                    dest.MiscSettings = src.MiscSettings;
-                    dest.CreateTransformMatrix();
-                    setObjects.Add(dest);
-                }
+                if (isShadow)
+                    dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
+                else
+                    dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
+
+                dest.MiscSettings = src.MiscSettings;
+                dest.CreateTransformMatrix();
+                setObjects.Add(dest);
+            }
 #if RELEASE
             }
             catch
@@ -334,7 +337,7 @@ namespace HeroesPowerPlant.LayoutEditor
             byte rend = current.Rend;
             byte[] unkb = current.UnkBytes;
             bool isSelected = current.isSelected;
-            
+
             if (isShadow)
             {
                 var newObject = CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb, false);
@@ -344,7 +347,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
             else
                 setObjects[index] = CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
-            
+
             setObjects[index].isSelected = isSelected;
         }
 
@@ -367,7 +370,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 GetSetObjectAt(index).Rotation = new Vector3(DegreesToBAMS(x), DegreesToBAMS(y), DegreesToBAMS(z));
             GetSetObjectAt(index).CreateTransformMatrix();
         }
-        
+
         private void SetObjectRotationDefault(int index, Vector3 v)
         {
             GetSetObjectAt(index).Rotation = v;
@@ -387,7 +390,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public void SetUnkBytes(int index, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8)
         {
             GetSetObjectAt(index).UnkBytes = new byte[] { v1, v2, v3, v4, v5, v6, v7, v8 };
-        }        
+        }
 
         public void Drop(int index)
         {
@@ -420,9 +423,9 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-#endregion
+        #endregion
 
-#region GUI Return Methods
+        #region GUI Return Methods
 
         public decimal GetPosX(int index)
         {
@@ -477,7 +480,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             return GetSetObjectAt(index).UnkBytes;
         }
-        
+
         public void ScreenClicked(Vector3 camPos, Ray r, bool seeAllObjects, bool renderTriggers, out int index, out float smallerDistance)
         {
             index = -1;
@@ -487,9 +490,11 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(camPos)))
                     continue;
-                
-                if (!renderTriggers) {
-                    if (setObjects[i].GetType() == typeof(Object0051_TriggerTalking) || setObjects[i].GetType() == typeof(Object0050_Trigger))
+
+                if (!renderTriggers)
+                {
+                    Type type = setObjects[i].GetType();
+                    if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
                         continue;
                 }
 
@@ -529,9 +534,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
             return index;
         }
-#endregion
+        #endregion
 
-#region Sorting Methods
+        #region Sorting Methods
         public void SortObjectsByID()
         {
             List<SetObject> sorted = setObjects.OrderBy(f => f.Link).ToList();
@@ -547,9 +552,9 @@ namespace HeroesPowerPlant.LayoutEditor
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
         }
-#endregion
+        #endregion
 
-#region Memory Functions
+        #region Memory Functions
 
         public bool GetSpeedMemory(int index)
         {
@@ -615,6 +620,77 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             return MemoryFunctions.Teleport(GetSetObjectAt(index).Position);
         }
-#endregion
+        #endregion
+
+        public bool Equals(LayoutEditorSystem system)
+        {
+            if (setObjects.Count != system.setObjects.Count)
+                return false;
+            for (int i = 0; i < setObjects.Count; i++)
+            {
+                if (!setObjects[i].Equals(system.setObjects[i]))
+                    return false;
+            }
+            return true;
+        }
+
+        public (LayoutEditorSystem, LayoutEditorSystem, string) Diff(LayoutEditorSystem system)
+        {
+            List<int> indexes_I_ToDelete = new List<int>();
+            List<int> indexes_J_ToDelete = new List<int>();
+            string log = system.currentlyOpenFileName + " Differences \n\n--\n";
+
+            // find if match exists at different indexes
+            for (int i = 0; i < system.setObjects.Count; i++)
+            {
+                for (int j = 0; j < setObjects.Count; j++)
+                {
+                    if (system.setObjects[i].Equals(setObjects[j]))
+                    {
+                        indexes_I_ToDelete.Add(i);
+                        indexes_J_ToDelete.Add(j);
+                        break;
+                    }
+                    if (j == setObjects.Count-1)
+                    {
+                        log += system.setObjects[i].ToString() + " at index " + i + '\n';
+                    }
+                }
+            }
+
+            log += "\n\n----\n\n" + currentlyOpenFileName + " Differences \n\n--\n";
+
+            // do the same but the other way around
+            // this is terribly inefficient but it will work; "good enough for a beta"
+            for (int i = 0; i < setObjects.Count; i++)
+            {
+                for (int j = 0; j < system.setObjects.Count; j++)
+                {
+                    if (setObjects[i].Equals(system.setObjects[j]))
+                    {
+                        break;
+                    }
+                    if (j == system.setObjects.Count - 1)
+                    {
+                        log += setObjects[i].ToString() + " at index " + i + '\n';
+                    }
+                }
+            }
+
+            indexes_I_ToDelete.Sort();
+            indexes_I_ToDelete.Reverse();
+            indexes_J_ToDelete.Sort();
+            indexes_J_ToDelete.Reverse();
+
+            for (int i = 0; i < indexes_I_ToDelete.Count; i++)
+            {
+                system.setObjects.RemoveAt(indexes_I_ToDelete[i]);
+                setObjects.RemoveAt(indexes_J_ToDelete[i]);
+            }
+
+            // now leaves us with the before and after Diff results
+
+            return (this, system, log);
+        }
     }
 }

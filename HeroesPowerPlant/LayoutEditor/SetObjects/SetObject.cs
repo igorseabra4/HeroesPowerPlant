@@ -68,11 +68,15 @@ namespace HeroesPowerPlant.LayoutEditor
             if (ModelNames != null && ModelNames.Length != 0 && modelNumber < ModelNames.Length)
             {
                 models = new RenderWareModelFile[ModelNames[modelNumber].Length];
-
+                bool checkState = false;
                 for (int i = 0; i < models.Length; i++)
                     if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[modelNumber][i]))
+                    {
                         models[i] = Program.MainForm.renderer.dffRenderer.DFFModels[ModelNames[modelNumber][i]];
-                return;
+                        checkState = true;
+                    }
+                if (checkState)
+                    return;
             }
             models = null;
         }
@@ -94,8 +98,10 @@ namespace HeroesPowerPlant.LayoutEditor
                     }
 
             if (!found)
+            {
                 for (int i = 0; i < SharpRenderer.cubeVertices.Count; i++)
                     list.Add((Vector3)Vector3.Transform(SharpRenderer.cubeVertices[i], transformMatrix));
+            }
 
             boundingBox = BoundingBox.FromPoints(list.ToArray());
         }
@@ -238,6 +244,37 @@ namespace HeroesPowerPlant.LayoutEditor
             BoundingSphere boundingSphere = BoundingSphere.FromBox(boundingBox);
             boundingSphere.Radius *= 0.9f;
             return boundingSphere;
+        }
+
+        public bool Equals(SetObject setObject)
+        {
+            if (Position != setObject.Position)
+                return false;
+            if (Rotation != setObject.Rotation)
+                return false;
+            if (List != setObject.List)
+                return false;
+            if (Type != setObject.Type)
+                return false;
+            if (Link != setObject.Link)
+                return false;
+            if (Rend != setObject.Rend)
+                return false;
+            if (UnkBytes.Length != setObject.UnkBytes.Length)
+                return false;
+            for (int i = 0; i < UnkBytes.Length; i++)
+            {
+                if (!UnkBytes[i].Equals(setObject.UnkBytes[i]))
+                    return false;
+            }
+            if (MiscSettings.Length != setObject.MiscSettings.Length)
+                return false;
+            for (int i = 0; i < MiscSettings.Length; i++)
+            {
+                if (!MiscSettings[i].Equals(setObject.MiscSettings[i]))
+                    return false;
+            }
+            return true;
         }
     }
 }

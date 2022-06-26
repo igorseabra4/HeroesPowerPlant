@@ -51,6 +51,7 @@
             this.buttonTeleport = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.maxFps_numericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.buttonCopyPositionForNukkoro2 = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraYaw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericCameraPitch)).BeginInit();
@@ -381,10 +382,18 @@
             0});
             this.maxFps_numericUpDown.ValueChanged += new System.EventHandler(this.maxFps_numericUpDown_ValueChanged);
             // 
+            // buttonCopyPositionForNukkoro2
+            // 
+            resources.ApplyResources(this.buttonCopyPositionForNukkoro2, "buttonCopyPositionForNukkoro2");
+            this.buttonCopyPositionForNukkoro2.Name = "buttonCopyPositionForNukkoro2";
+            this.buttonCopyPositionForNukkoro2.UseVisualStyleBackColor = true;
+            this.buttonCopyPositionForNukkoro2.Click += new System.EventHandler(this.buttonCopyPositionForNukkoro2_Click);
+            // 
             // ViewConfig
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonCopyPositionForNukkoro2);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.buttonTeleport);
             this.Controls.Add(this.groupBox8);
@@ -450,5 +459,6 @@
         private System.Windows.Forms.Button buttonTeleport;
         private System.Windows.Forms.GroupBox groupBox9;
         public System.Windows.Forms.NumericUpDown maxFps_numericUpDown;
+        private System.Windows.Forms.Button buttonCopyPositionForNukkoro2;
     }
 }

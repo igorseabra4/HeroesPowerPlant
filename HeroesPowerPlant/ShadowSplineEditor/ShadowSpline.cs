@@ -13,7 +13,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
     {
         public byte Setting1 { get; set; }
         public byte Setting2 { get; set; }
-        public byte Setting3 { get; set; }
+        public byte SplineType { get; set; }
         public byte Setting4 { get; set; }
         public int SettingInt { get; set; }
         public string Name { get; set; }
@@ -41,10 +41,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 Setting1 = Setting1,
                 Setting2 = Setting2,
-                Setting3 = Setting3,
+                SplineType = SplineType,
                 Setting4 = Setting4,
                 SettingInt = SettingInt,
                 Name = Name,
+                UnknownSec5Bytes = JsonConvert.DeserializeObject<ShadowSplineSec5Bytes[]>(JsonConvert.SerializeObject(UnknownSec5Bytes)),
                 Vertices = JsonConvert.DeserializeObject<ShadowSplineVertex[]>(JsonConvert.SerializeObject(Vertices))
             };
         }
@@ -111,7 +112,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Y).Reverse());
                 vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Z).Reverse());
                 vertexBytes.AddRange(BitConverter.GetBytes(distance).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Unknown).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].UnknownInt).Reverse());
             }
 
             List<byte> bytes = new List<byte>(0x30 + 0x20 * Vertices.Length);
@@ -121,7 +122,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes.AddRange(BitConverter.GetBytes(startOffset + 0x30).Reverse());
             bytes.Add(Setting1);
             bytes.Add(Setting2);
-            bytes.Add(Setting3);
+            bytes.Add(SplineType);
             bytes.Add(Setting4);
             bytes.AddRange(BitConverter.GetBytes(Max.X).Reverse());
             bytes.AddRange(BitConverter.GetBytes(Max.Y).Reverse());

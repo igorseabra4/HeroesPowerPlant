@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SharpDX;
 using System;
-using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -33,9 +32,9 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         protected Matrix DefaultTransformMatrix(float yAddDeg = 0) =>
-            Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
-            Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
             Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) *
+            Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
+            Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
             Matrix.Translation(Position);
 
         public int ReadInt(int j) => BitConverter.ToInt32(MiscSettings, j);

@@ -19,7 +19,9 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public bool AutomaticallySaveConfig { get; set; } = true;
         public bool CheckForUpdatesOnStartup { get; set; } = true;
         public bool VSync { get; set; } = true;
-        public bool LimitFPS { get; set; } = false;
+        public bool LimitFPS { get; set; } = true;
+        public bool LegacyWindowPriorityBehavior { get; set; } = false;
+
         public decimal LimitFPSValue { get; set; } = 60.0000m;
 
         public Size MainWindowSize { get; set; } = new Size(1490, 1006);
@@ -50,7 +52,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
             if (!File.Exists(ConfigPath))
             {
                 Save();
-                System.Windows.Forms.MessageBox.Show("It appears this is your first time using Heroes Power Plant.\nIf you haven't yet, please check out the Heroes Power Plant wiki on GitHub, as it features a complete guide on using the program and creating custom stages for Sonic Heroes and Shadow the Hedgehog.");
+                System.Windows.Forms.MessageBox.Show("It appears this is your first time using Heroes Power Plant.\nIf you haven't yet, please check out the Heroes Power Plant wiki on GitHub, as it features a complete guide on using the program and creating custom stages for Sonic Heroes and Shadow the Hedgehog.", "Heroes Power Plant");
                 mainForm.AboutBox.Show();
             }
 

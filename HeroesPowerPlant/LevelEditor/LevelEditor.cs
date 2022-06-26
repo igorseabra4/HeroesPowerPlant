@@ -13,6 +13,7 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
 using Ookii.Dialogs.WinForms;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -39,7 +40,10 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void LevelEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         private string openONEfilePath;

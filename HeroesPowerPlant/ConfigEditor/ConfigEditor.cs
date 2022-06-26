@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using GenericStageInjectionCommon.Shared.Enums;
 using Heroes.SDK.Definitions.Enums;
+using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
 
 namespace HeroesPowerPlant.ConfigEditor
@@ -50,7 +51,10 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void LayoutEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

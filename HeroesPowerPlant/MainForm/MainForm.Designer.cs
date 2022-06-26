@@ -52,6 +52,7 @@ namespace HeroesPowerPlant.MainForm
             this.lightEditorF10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sETIDTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shadowCameraEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shadowDiffToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTXDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTextureFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +90,7 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
+            this.LegacyWindowPriorityBehavior_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -173,7 +175,8 @@ namespace HeroesPowerPlant.MainForm
             this.texturePatternEditorF9ToolStripMenuItem,
             this.lightEditorF10ToolStripMenuItem,
             this.sETIDTableEditorToolStripMenuItem,
-            this.shadowCameraEditorToolStripMenuItem});
+            this.shadowCameraEditorToolStripMenuItem,
+            this.shadowDiffToolToolStripMenuItem});
             this.editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
             this.editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.editorsToolStripMenuItem.Text = "Editors";
@@ -264,6 +267,13 @@ namespace HeroesPowerPlant.MainForm
             this.shadowCameraEditorToolStripMenuItem.Text = "Shadow Camera Editor";
             this.shadowCameraEditorToolStripMenuItem.Click += new System.EventHandler(this.shadowCameraEditorToolStripMenuItem_Click);
             // 
+            // shadowDiffToolToolStripMenuItem
+            // 
+            this.shadowDiffToolToolStripMenuItem.Name = "shadowDiffToolToolStripMenuItem";
+            this.shadowDiffToolToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.shadowDiffToolToolStripMenuItem.Text = "Shadow Diff Tool";
+            this.shadowDiffToolToolStripMenuItem.Click += new System.EventHandler(this.shadowDiffToolToolStripMenuItem_Click);
+            // 
             // resourceToolStripMenuItem
             // 
             this.resourceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -335,7 +345,8 @@ namespace HeroesPowerPlant.MainForm
             this.autoSaveProjectOnClosingToolStripMenuItem,
             this.cameraViewSettingsToolStripMenuItem,
             this.disableRendering_ToolStripMenuItem,
-            this.LimitFPS_ToolStripMenuItem});
+            this.LimitFPS_ToolStripMenuItem,
+            this.LegacyWindowPriorityBehavior_ToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -580,6 +591,13 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
+            // LegacyWindowPriorityBehavior_ToolStripMenuItem
+            // 
+            this.LegacyWindowPriorityBehavior_ToolStripMenuItem.Name = "LegacyWindowPriorityBehavior_ToolStripMenuItem";
+            this.LegacyWindowPriorityBehavior_ToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.LegacyWindowPriorityBehavior_ToolStripMenuItem.Text = "Legacy Window Priority Behavior";
+            this.LegacyWindowPriorityBehavior_ToolStripMenuItem.Click += new System.EventHandler(this.LegacyWindowPriorityBehavior_ToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -593,7 +611,7 @@ namespace HeroesPowerPlant.MainForm
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "MainForm";
-            this.Text = "Heroes Power Plant";
+            this.Text = "Heroes Power Plant v0.10.0";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -670,6 +688,8 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem shadowCameraEditorToolStripMenuItem;
         private ToolStripMenuItem disableRendering_ToolStripMenuItem;
         private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
+        private ToolStripMenuItem shadowDiffToolToolStripMenuItem;
+        private ToolStripMenuItem LegacyWindowPriorityBehavior_ToolStripMenuItem;
     }
 }
 

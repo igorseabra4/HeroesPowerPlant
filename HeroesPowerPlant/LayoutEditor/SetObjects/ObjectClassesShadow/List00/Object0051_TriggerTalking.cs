@@ -108,7 +108,7 @@ namespace HeroesPowerPlant.LayoutEditor {
                     transformMatrix = Matrix.Scaling(Size_X * 2);
                     break;
                 case TriggerShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_X * 2);
+                    transformMatrix = Matrix.Scaling(Size_X * 2, (Size_Y + Size_Z) * 2, Size_X * 2);
                     transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
                     break;
             }
@@ -161,8 +161,10 @@ namespace HeroesPowerPlant.LayoutEditor {
         {
             switch (Shape)
             {
-                //case TriggerShape.Cone:
-                //    return r.Intersects(ref sphereBound, out distance);
+                case TriggerShape.Sphere:
+                    return TriangleIntersection(r, SharpRenderer.sphereTriangles, SharpRenderer.sphereVertices, initialDistance, out distance);
+                case TriggerShape.Cone:
+                    return TriangleIntersection(r, SharpRenderer.pyramidTriangles, SharpRenderer.pyramidVertices, initialDistance, out distance);
                 case TriggerShape.Cube:
                     return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
                 case TriggerShape.Cylinder:

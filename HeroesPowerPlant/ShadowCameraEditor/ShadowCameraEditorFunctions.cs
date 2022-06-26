@@ -99,12 +99,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             {
                 CameraWriter.Write(i.CameraNumber);
                 CameraWriter.Write((int)i.CameraMode);
-                CameraWriter.Write(i.field_08);
+                CameraWriter.Write(i.CameraPersistFlag);
                 CameraWriter.Write(i.field_0C);
                 CameraWriter.Write(i.field_10);
                 CameraWriter.Write(i.field_14);
                 CameraWriter.Write(i.LookBLinkId);
-                CameraWriter.Write(i.field_1C);
+                CameraWriter.Write((int)i.TriggerShape);
                 CameraWriter.Write(i.TriggerPosition.X);
                 CameraWriter.Write(i.TriggerPosition.Y);
                 CameraWriter.Write(i.TriggerPosition.Z);

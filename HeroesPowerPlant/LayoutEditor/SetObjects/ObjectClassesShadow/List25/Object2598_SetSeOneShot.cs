@@ -1,9 +1,21 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
+﻿using Shadow.Structures;
+
+namespace HeroesPowerPlant.LayoutEditor {
     public class Object2598_SetSeOneShot : SetObjectShadow {
 
         public int AudioID { //28980, 29004
             get => ReadInt(0);
             set => Write(0, value);
+        }
+
+        public SFXEntry sfxEntry;
+
+        public string AudioID_String
+        {
+            get
+            {
+                return sfxEntry.sfxString;
+            }
         }
 
         public int RangeTypeMaybeRaw {

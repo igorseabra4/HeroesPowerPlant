@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Heroes.SDK.Definitions.Structures.Stage.Splines;
+using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.ConfigEditor
 {
@@ -52,7 +53,10 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void LayoutEditor_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

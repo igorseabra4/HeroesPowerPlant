@@ -1,4 +1,4 @@
 ﻿{
-  "version": "v0.9.0",
-  "versionName": "\n* Multi-Monitor Mouse Movement mode fix\n* Launch via non standard target fix\n* Viewport FPS Optimization when moving via Gadget\n* Viewport FPS Limit Option\n* Disable Render Option\n* ShadowFNT & AFS Integration for HintBall/TriggerTalking\n* HPP will now remember the main window size last used\n* Shadow ProximityDoor now draw detect range when clicked\n* Shadow Triggers now draw ranges, with an optional disable toggle\n* Shadow Spline Editor Sec5Bytes Editing Fixed\n* Many Shadow Objects now render models more accurately\n* Delete and Rename Hotkeys for Level Editor Geometry & Shadow Collision\n* Batch Rename for MAT flags in Level Editor\n* Shadow Camera Editor\n* Misc Heroes Object fixes by Muzzarino\n* .NET Framework HPP version Dropped\n\nNew Version Requires .NET 6"
+  "version": "v0.10.0",
+  "versionName": "!!! .NET 6 REQUIRED !!!\n!!! 64-bit OS Required !!!\n\nIf you cannot update due to these new requirements, disable:\nOptions -> Check For Updates on Startup"
 }

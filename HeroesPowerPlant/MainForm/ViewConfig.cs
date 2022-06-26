@@ -62,7 +62,10 @@ namespace HeroesPowerPlant.MainForm
 
         private void ViewConfig_Load(object sender, EventArgs e)
         {
-            TopMost = true;
+            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
+                TopMost = true;
+            else
+                TopMost = false;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -177,6 +180,11 @@ namespace HeroesPowerPlant.MainForm
         private void maxFps_numericUpDown_ValueChanged(object sender, EventArgs e)
         {
             Program.MainForm.SetMaxFPS();
+        }
+
+        private void buttonCopyPositionForNukkoro2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText("PLAYER : 0 " + ((int)Program.MainForm.renderer.Camera.ViewMatrix.Position.X).ToString() + " " + ((int)Program.MainForm.renderer.Camera.ViewMatrix.Position.Y).ToString() + " " + ((int)Program.MainForm.renderer.Camera.ViewMatrix.Position.Z).ToString() + " 0 0 0");
         }
     }
 }

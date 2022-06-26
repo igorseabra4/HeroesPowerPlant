@@ -1,4 +1,7 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
+﻿using Shadow.Structures;
+using System.Collections.Generic;
+
+namespace HeroesPowerPlant.LayoutEditor {
     public class Object2597_SetSeLoop : SetObjectShadow {
 
         public int AudioID {
@@ -7,9 +10,12 @@
             set => Write(0, value);
         }
 
-        public KnownAudioIDs KnownAudioIDs {
-            get => (KnownAudioIDs)ReadInt(0);
-            set => Write(0, (int)value);
+        public SFXEntry sfxEntry;
+
+        public string AudioID_String {
+            get {
+                return sfxEntry.sfxString;
+            }
         }
 
         public int RangeTypeMaybeRaw {
@@ -62,11 +68,6 @@
         Sphere,
         Box,
         Cylinder //potentially offset by Capsule if shared with SetSeOneShot
-    }
-
-    public enum KnownAudioIDs {
-        InsectsChirping=30016,
-        WaterFlowing=30026,
     }
 }
 

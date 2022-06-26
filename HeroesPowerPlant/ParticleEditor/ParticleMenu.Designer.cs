@@ -52,7 +52,8 @@ namespace HeroesPowerPlant.ParticleEditor
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(321, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(374, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -97,7 +98,8 @@ namespace HeroesPowerPlant.ParticleEditor
             // 
             // numericCurrentParticle
             // 
-            this.numericCurrentParticle.Location = new System.Drawing.Point(12, 27);
+            this.numericCurrentParticle.Location = new System.Drawing.Point(14, 31);
+            this.numericCurrentParticle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericCurrentParticle.Maximum = new decimal(new int[] {
             1,
             0,
@@ -109,7 +111,7 @@ namespace HeroesPowerPlant.ParticleEditor
             0,
             -2147483648});
             this.numericCurrentParticle.Name = "numericCurrentParticle";
-            this.numericCurrentParticle.Size = new System.Drawing.Size(96, 20);
+            this.numericCurrentParticle.Size = new System.Drawing.Size(112, 23);
             this.numericCurrentParticle.TabIndex = 1;
             this.numericCurrentParticle.Value = new decimal(new int[] {
             1,
@@ -120,9 +122,10 @@ namespace HeroesPowerPlant.ParticleEditor
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(114, 27);
+            this.buttonAdd.Location = new System.Drawing.Point(133, 31);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(64, 23);
+            this.buttonAdd.Size = new System.Drawing.Size(75, 27);
             this.buttonAdd.TabIndex = 2;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -130,9 +133,10 @@ namespace HeroesPowerPlant.ParticleEditor
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(184, 27);
+            this.buttonCopy.Location = new System.Drawing.Point(215, 31);
+            this.buttonCopy.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(54, 23);
+            this.buttonCopy.Size = new System.Drawing.Size(63, 27);
             this.buttonCopy.TabIndex = 3;
             this.buttonCopy.Text = "Copy";
             this.buttonCopy.UseVisualStyleBackColor = true;
@@ -140,9 +144,10 @@ namespace HeroesPowerPlant.ParticleEditor
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(244, 27);
+            this.buttonRemove.Location = new System.Drawing.Point(285, 31);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(64, 23);
+            this.buttonRemove.Size = new System.Drawing.Size(75, 27);
             this.buttonRemove.TabIndex = 4;
             this.buttonRemove.Text = "Remove";
             this.buttonRemove.UseVisualStyleBackColor = true;
@@ -154,10 +159,11 @@ namespace HeroesPowerPlant.ParticleEditor
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGridParticles.HelpVisible = false;
-            this.propertyGridParticles.Location = new System.Drawing.Point(12, 56);
+            this.propertyGridParticles.Location = new System.Drawing.Point(14, 65);
+            this.propertyGridParticles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.propertyGridParticles.Name = "propertyGridParticles";
             this.propertyGridParticles.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.propertyGridParticles.Size = new System.Drawing.Size(296, 461);
+            this.propertyGridParticles.Size = new System.Drawing.Size(345, 532);
             this.propertyGridParticles.TabIndex = 5;
             this.propertyGridParticles.ToolbarVisible = false;
             this.propertyGridParticles.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridParticles_PropertyValueChanged);
@@ -166,9 +172,10 @@ namespace HeroesPowerPlant.ParticleEditor
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 520);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 603);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(321, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(374, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -180,9 +187,9 @@ namespace HeroesPowerPlant.ParticleEditor
             // 
             // ParticleMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(321, 542);
+            this.ClientSize = new System.Drawing.Size(374, 625);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.propertyGridParticles);
             this.Controls.Add(this.buttonRemove);
@@ -191,12 +198,13 @@ namespace HeroesPowerPlant.ParticleEditor
             this.Controls.Add(this.numericCurrentParticle);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "ParticleMenu";
             this.ShowIcon = false;
             this.Text = "Particle Editor";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParticleEditor_FormClosing);
+            this.Load += new System.EventHandler(this.ParticleMenu_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericCurrentParticle)).EndInit();
