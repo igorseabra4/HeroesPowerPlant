@@ -23,7 +23,7 @@ namespace HeroesPowerPlant.LayoutEditor {
                     transformMatrix = Matrix.Scaling(RangeX * 2);
                     break;
                 case LightColli_RangeShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(RangeX * 2, (RangeY + RangeZ) * 2, RangeX * 2);
+                    transformMatrix = Matrix.Scaling(RangeX * 2, (RangeY + RangeZ), RangeX * 2);
                     transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
                     break;
             }

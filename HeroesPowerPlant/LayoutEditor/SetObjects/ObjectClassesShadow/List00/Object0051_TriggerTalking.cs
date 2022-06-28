@@ -108,7 +108,7 @@ namespace HeroesPowerPlant.LayoutEditor {
                     transformMatrix = Matrix.Scaling(Size_X * 2);
                     break;
                 case TriggerShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(Size_X * 2, (Size_Y + Size_Z) * 2, Size_X * 2);
+                    transformMatrix = Matrix.Scaling(Size_X * 2, Size_Y + Size_Z, Size_X * 2);
                     transformMatrix *= Matrix.RotationX(90 * (MathUtil.Pi / 180));
                     break;
             }
