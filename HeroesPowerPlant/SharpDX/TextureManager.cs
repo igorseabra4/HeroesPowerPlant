@@ -243,7 +243,13 @@ namespace HeroesPowerPlant
 
             File.WriteAllText("txdgen.ini", ini);
 
-            System.Diagnostics.Process txdgen = System.Diagnostics.Process.Start("txdgen.exe");
+            var processInfo = new System.Diagnostics.ProcessStartInfo("txdgen.exe")
+            {
+                CreateNoWindow = true,
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
+            };
+
+            System.Diagnostics.Process txdgen = System.Diagnostics.Process.Start(processInfo);
             txdgen.WaitForExit();
 
             Directory.SetCurrentDirectory(curr);
