@@ -20,7 +20,7 @@ namespace HeroesPowerPlant.MainForm
         public Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor> LayoutEditorDict;
         public CameraEditor.CameraEditor CameraEditor;
         public ShadowCameraEditor.ShadowCameraEditor ShadowCameraEditor;
-        public ShadowDiffTool.ShadowDiffTool ShadowDiffTool;
+        public ShadowLayoutDiffTool.ShadowLayoutDiffTool ShadowLayoutDiffTool;
         public ParticleEditor.ParticleMenu ParticleEditor;
         public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
         public LightEditor.LightMenu LightEditor;
@@ -49,7 +49,7 @@ namespace HeroesPowerPlant.MainForm
             LayoutEditorDict = new Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor>();
             CameraEditor = new CameraEditor.CameraEditor();
             ShadowCameraEditor = new ShadowCameraEditor.ShadowCameraEditor();
-            ShadowDiffTool = new ShadowDiffTool.ShadowDiffTool();
+            ShadowLayoutDiffTool = new ShadowLayoutDiffTool.ShadowLayoutDiffTool();
             ParticleEditor = new ParticleEditor.ParticleMenu();
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
             LightEditor = new LightEditor.LightMenu();
@@ -123,7 +123,7 @@ namespace HeroesPowerPlant.MainForm
             ClearLayoutEditors();
             CameraEditor.New();
             ShadowCameraEditor.New();
-            ShadowDiffTool.New();
+            ShadowLayoutDiffTool.New();
             ParticleEditor.New();
             TexturePatternEditor.New();
             SetIdTableEditor.New();
@@ -1107,7 +1107,7 @@ namespace HeroesPowerPlant.MainForm
             TexturePatternEditor.TopMost = value;
             SetIdTableEditor.TopMost = value;
             LightEditor.TopMost = value;
-            ShadowDiffTool.TopMost = value;
+            ShadowLayoutDiffTool.TopMost = value;
 
             allTopMost = value;
         }
@@ -1217,11 +1217,11 @@ namespace HeroesPowerPlant.MainForm
             }
         }
 
-        private void shadowDiffToolToolStripMenuItem_Click(object sender, EventArgs e)
+        private void shadowLayoutDiffToolToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShadowDiffTool.Show();
-            ShadowDiffTool.Focus();
-            ShadowDiffTool.WindowState = FormWindowState.Normal;
+            ShadowLayoutDiffTool.Show();
+            ShadowLayoutDiffTool.Focus();
+            ShadowLayoutDiffTool.WindowState = FormWindowState.Normal;
         }
 
         private void LegacyWindowPriorityBehavior_ToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1057,10 +1057,13 @@ namespace HeroesPowerPlant.LayoutEditor
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                var data = File.ReadAllBytes(openFile.FileName);
-
-                loadedFNT = FNT.ParseFNTFile(openFile.FileName, ref data);
+                SetLoadedFNT(openFile.FileName);
             }
+        }
+        private void SetLoadedFNT(string fileName)
+        {
+            var data = File.ReadAllBytes(fileName);
+            loadedFNT = FNT.ParseFNTFile(fileName, ref data);
         }
 
         private void buttonPlayTriggerTalkingAudio_Click(object sender, EventArgs e)
