@@ -888,7 +888,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     switch (Type)
                     {
                         case 0xE9: return new Object03E9_FallingBuilding();
-                        case 0xEA: return new Object03EA_GiantSkyLaser();
+                        case 0xEA: return new Object03EA_CityLaser();
                         default: return new Object_ShadowDefault();
                     }
                 case 0x07:
