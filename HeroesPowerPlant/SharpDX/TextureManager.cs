@@ -243,7 +243,7 @@ namespace HeroesPowerPlant
 
             File.WriteAllText("txdgen.ini", ini);
 
-            var processInfo = new System.Diagnostics.ProcessStartInfo("txdgen.exe")
+            var processInfo = new System.Diagnostics.ProcessStartInfo("txdgen64.exe")
             {
                 CreateNoWindow = true,
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
