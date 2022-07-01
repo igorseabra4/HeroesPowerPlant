@@ -9,7 +9,7 @@ namespace HeroesPowerPlant.LayoutEditor
         Y,
         Z,
     }
-    
+
     public class Gizmo
     {
         public GizmoType type;

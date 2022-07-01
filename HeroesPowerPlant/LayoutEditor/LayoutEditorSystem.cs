@@ -651,7 +651,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         indexes_J_ToDelete.Add(j);
                         break;
                     }
-                    if (j == setObjects.Count-1)
+                    if (j == setObjects.Count - 1)
                     {
                         log += system.setObjects[i].ToString() + " at index " + i + '\n';
                     }

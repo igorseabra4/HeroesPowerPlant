@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.SetIdTableEditor
@@ -87,7 +84,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
                     List = objList,
                     Name = "Unknown/Unused"
                 };
-            
+
             return temporaryEntry;
         }
 
@@ -100,7 +97,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             tableReader.ReadInt16();
             temporaryEntry.values0 = Switch(tableReader.ReadUInt32());
             temporaryEntry.values1 = Switch(tableReader.ReadUInt32());
-            
+
             if (objectEntries.ContainsKey((objList, objType)))
                 temporaryEntry.objectEntry = objectEntries[(objList, objType)];
             else
@@ -138,7 +135,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
                 tableWriter.Write(i.objectEntry.Type);
             }
         }
-        
+
         public static void WriteShadowTable(BinaryWriter tableWriter, List<TableEntry> tableEntries)
         {
             tableWriter.Write(0);

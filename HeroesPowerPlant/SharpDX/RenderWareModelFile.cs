@@ -1,16 +1,16 @@
-﻿using SharpDX;
+﻿using RenderWareFile;
+using RenderWareFile.Sections;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RenderWareFile;
-using RenderWareFile.Sections;
 
 namespace HeroesPowerPlant
 {
     public class RenderWareModelFile
     {
         public string fileName;
-        
+
         private const string DefaultTexture = "default";
         private byte[] rwSectionByteArray;
         private RWSection[] rwSectionArray;
@@ -22,7 +22,7 @@ namespace HeroesPowerPlant
         public bool isShadowCollision = false;
 
         public List<SharpMesh> meshList;
-        
+
         public uint vertexAmount;
         public uint triangleAmount;
 
@@ -129,7 +129,7 @@ namespace HeroesPowerPlant
                 {
                     for (int g = 0; g < c.geometryList.geometryList.Count; g++)
                     {
-                        AddGeometry(device, c.geometryList.geometryList[g], CreateMatrix(c.frameList, c.atomicList[g].atomicStruct.frameIndex));                        
+                        AddGeometry(device, c.geometryList.geometryList[g], CreateMatrix(c.frameList, c.atomicList[g].atomicStruct.frameIndex));
                     }
                 }
             }
@@ -193,7 +193,7 @@ namespace HeroesPowerPlant
                 AddNativeData(device, AtomicSector.atomicSectorExtension, MaterialList, Matrix.Identity);
                 return;
             }
-            
+
             List<VertexColoredTextured> vertexList = new List<VertexColoredTextured>();
 
             foreach (Vertex3 v in AtomicSector.atomicSectorStruct.vertexArray)
@@ -207,7 +207,7 @@ namespace HeroesPowerPlant
                 for (int i = 0; i < vertexList.Count; i++)
                 {
                     RenderWareFile.Color c = AtomicSector.atomicSectorStruct.colorArray[i];
-                    
+
                     VertexColoredTextured v = vertexList[i];
                     v.Color = new SharpDX.Color(c.R, c.G, c.B, c.A);
                     vertexList[i] = v;
@@ -226,7 +226,7 @@ namespace HeroesPowerPlant
             List<SharpSubSet> SubsetList = new List<SharpSubSet>();
             List<int> indexList = new List<int>();
             int previousIndexCount = 0;
-            
+
             for (int i = 0; i < MaterialList.Count; i++)
             {
                 for (int j = 0; j < AtomicSector.atomicSectorStruct.triangleArray.Length; j++) // each (Triangle t in AtomicSector.atomicStruct.triangleArray)
@@ -237,7 +237,7 @@ namespace HeroesPowerPlant
                         indexList.Add(t.vertex1);
                         indexList.Add(t.vertex2);
                         indexList.Add(t.vertex3);
-                        
+
                         if (isShadowCollision)
                         {
                             RenderWareFile.Color c = RenderWareFile.Color.FromString(MaterialList[i]);
@@ -274,7 +274,7 @@ namespace HeroesPowerPlant
             if (SubsetList.Count > 0)
                 meshList.Add(SharpMesh.Create(device, vertexList.ToArray(), indexList.ToArray(), SubsetList));
         }
-        
+
         private void AddGeometry(SharpDevice device, Geometry_000F g, Matrix transformMatrix)
         {
             List<string> materialList = new List<string>();
@@ -406,7 +406,7 @@ namespace HeroesPowerPlant
             List<Vertex3> normalList = new List<Vertex3>();
             List<RenderWareFile.Color> colorList = new List<RenderWareFile.Color>();
             List<Vertex2> textCoordList = new List<Vertex2>();
-            
+
             foreach (Declaration d in n.declarations)
             {
                 foreach (object o in d.entryList)
@@ -481,7 +481,7 @@ namespace HeroesPowerPlant
 
                     subSetList.Add(new SharpSubSet(previousAmount, vertexList.Count() - previousAmount,
                         TextureManager.GetTextureFromDictionary(MaterialStream[td.MaterialIndex]), MaterialStream[td.MaterialIndex]));
-                    
+
                     previousAmount = vertexList.Count();
                 }
             }

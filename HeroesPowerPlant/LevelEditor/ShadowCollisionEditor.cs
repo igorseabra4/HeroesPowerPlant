@@ -1,13 +1,13 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
+using RenderWareFile;
+using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.IO;
-using RenderWareFile;
-using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_ShadowCollision;
-using Ookii.Dialogs.WinForms;
-using HeroesPowerPlant.Shared.IO.Config;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -163,7 +163,7 @@ namespace HeroesPowerPlant.LevelEditor
             labelVertexAmount.Text = "Vertices: " + vertices.ToString();
             labelTriangleAmount.Text = "Triangles: " + triangles.ToString();
         }
-        
+
         public static string NewName;
         public static bool ChangeName;
 

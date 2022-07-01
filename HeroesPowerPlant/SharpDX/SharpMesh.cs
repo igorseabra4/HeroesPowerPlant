@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using SharpDX;
-using SharpDX.DXGI;
-using SharpDX.Direct3D11;
+﻿using SharpDX;
 using SharpDX.Direct3D;
-
+using SharpDX.Direct3D11;
+using SharpDX.DXGI;
+using System;
+using System.Collections.Generic;
 using Buffer11 = SharpDX.Direct3D11.Buffer;
 
 namespace HeroesPowerPlant
@@ -33,7 +32,7 @@ namespace HeroesPowerPlant
         /// Mesh Parts
         /// </summary>
         public List<SharpSubSet> SubSets { get; private set; }
-                
+
         /// <summary>
         /// Draw Mesh
         /// </summary>
@@ -67,7 +66,7 @@ namespace HeroesPowerPlant
                 primitiveTopology = topology,
             };
         }
-        
+
         /// <summary>
         /// Set all buffer and topology property to speed up rendering
         /// </summary>
@@ -77,7 +76,7 @@ namespace HeroesPowerPlant
             Device.DeviceContext.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(VertexBuffer, VertexSize, 0));
             Device.DeviceContext.InputAssembler.SetIndexBuffer(IndexBuffer, Format.R32_UInt, 0);
         }
-        
+
         /// <summary>
         /// Draw subset
         /// </summary>
@@ -98,7 +97,7 @@ namespace HeroesPowerPlant
             Device.DeviceContext.InputAssembler.SetIndexBuffer(IndexBuffer, Format.R32_UInt, 0);
             Device.DeviceContext.DrawIndexed(Math.Min(count, SubSets[0].IndexCount), 0, 0);
         }
-        
+
         /// <summary>
         /// Release resource
         /// </summary>

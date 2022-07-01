@@ -112,7 +112,7 @@ namespace HeroesPowerPlant.CameraEditor
         private Matrix camPosWorld;
 
         public BoundingBox boundingBox;
-        
+
         public override string ToString()
         {
             return $"Cam {CameraType}, {CameraSpeed}, {Integer3}, {ActivationType}, {TriggerShape}";

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using SharpDX;
+using System;
 using System.Threading;
 using System.Windows.Forms;
-using HeroesPowerPlant.Shared.IO.Config;
-using SharpDX;
 
 namespace HeroesPowerPlant.MainForm
 {
@@ -34,7 +33,7 @@ namespace HeroesPowerPlant.MainForm
         /// <param name="obj"></param>
         private void UpdateGUIValues(CancellationToken token)
         {
-            while (! token.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
                 if (_invalidCameraValues)
                 {
@@ -76,7 +75,7 @@ namespace HeroesPowerPlant.MainForm
             e.Cancel = true;
             Hide();
         }
-        
+
         private void NumericCamera_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsUpdatingValues)
@@ -87,7 +86,7 @@ namespace HeroesPowerPlant.MainForm
         {
             if (!ProgramIsUpdatingValues)
             {
-                Program.MainForm.renderer.Camera.ViewMatrix.Pitch = (float) NumericCameraPitch.Value;
+                Program.MainForm.renderer.Camera.ViewMatrix.Pitch = (float)NumericCameraPitch.Value;
                 Program.MainForm.renderer.Camera.ViewMatrix.Yaw = (float)NumericCameraYaw.Value;
             }
         }
@@ -141,7 +140,7 @@ namespace HeroesPowerPlant.MainForm
             {
                 _cancellationTokenSource.Cancel();
             }
-                
+
         }
 
         /*

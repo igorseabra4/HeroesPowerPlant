@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
+﻿using HeroesPowerPlant.Dependencies;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using HeroesPowerPlant.Dependencies;
 
 namespace HeroesPowerPlant
 {
@@ -159,9 +159,9 @@ namespace HeroesPowerPlant
             // Restart the stopwatch.
             _frameTimeWatch.Restart();
 
-            #if DEBUG
+#if DEBUG
             Debug.WriteLine($"Overslept: {StatOverslept:+000.00;-000.00} | SleepTime: {StatSleepTime:+000.00;-000.00} | FrameTime: {StatFrameTime:000.00} | RenderTime: {StatRenderTime:000.00} | FPS: {StatFPS:000.00}");
-            #endif
+#endif
         }
 
 

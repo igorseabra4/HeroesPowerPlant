@@ -41,7 +41,7 @@ namespace HeroesPowerPlant.LayoutEditor
             transformMatrix = DefaultTransformMatrix(MathUtil.Pi);
             CreateBoundingBox();
         }
-        
+
         public override void Draw(SharpRenderer renderer)
         {
             SetRendererStates(renderer);

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using HeroesONE_R.Structures;
+using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using SharpDX;
-using static HeroesPowerPlant.ReadWriteCommon;
-using HeroesONE_R.Structures;
-using System.Windows.Forms;
 using System.Linq;
+using System.Windows.Forms;
+using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.ShadowSplineEditor
 {
@@ -13,7 +13,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
     {
         public List<ShadowSpline> Splines;
         private static bool littleEndian;
-        
+
         public ShadowSplineEditor()
         {
             Splines = new List<ShadowSpline>();
@@ -38,7 +38,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             List<char> list = new List<char>();
 
-            while(binaryReader.PeekChar() != '\0')
+            while (binaryReader.PeekChar() != '\0')
                 list.Add(binaryReader.ReadChar());
 
             binaryReader.BaseStream.Position += 1;
@@ -72,7 +72,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                         DontSwitch = true;
 
                     List<ShadowSpline> splineList = new List<ShadowSpline>();
-                    
+
                     splineReader.BaseStream.Position = 0x4;
                     int sec5offset = Switch(splineReader.ReadInt32());
                     int sec5length = Switch(splineReader.ReadInt32());
@@ -137,9 +137,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                     {
                         byte byte0 = splineReader.ReadByte();
 
-                        if (byte0 >= 0x80) {
+                        if (byte0 >= 0x80)
+                        {
                             byte byte1 = splineReader.ReadByte();
-                            splineList[i].UnknownSec5Bytes = new ShadowSplineSec5Bytes[1] { new ShadowSplineSec5Bytes { slot1 = byte0, slot2 = byte1, noSlot2 = false} };
+                            splineList[i].UnknownSec5Bytes = new ShadowSplineSec5Bytes[1] { new ShadowSplineSec5Bytes { slot1 = byte0, slot2 = byte1, noSlot2 = false } };
                         }
                         else
                             splineList[i].UnknownSec5Bytes = new ShadowSplineSec5Bytes[1] { new ShadowSplineSec5Bytes { slot1 = byte0, noSlot2 = true } };
@@ -161,7 +162,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
             return new List<ShadowSpline>();
         }
-        
+
         public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix)
         {
             List<byte> bytes = new List<byte>();
@@ -176,8 +177,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes.AddRange(BitConverter.GetBytes(0));
 
             // add 0x10 offset (mismatch on stg0412, TODO: Research why it needs the extra 0x10 padding)
-/*            for (int i = 0; i < 10; i++)
-                bytes.Add(0);*/
+            /*            for (int i = 0; i < 10; i++)
+                            bytes.Add(0);*/
 
             foreach (ShadowSpline s in Splines)
                 bytes.AddRange(BitConverter.GetBytes(0));

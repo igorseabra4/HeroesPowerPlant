@@ -1,9 +1,9 @@
-﻿using Ookii.Dialogs.WinForms;
+﻿using HeroesPowerPlant.LayoutEditor;
+using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.IO;
 using System.Windows.Forms;
-using HeroesPowerPlant.LayoutEditor;
-using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.ShadowLayoutDiffTool
 {
@@ -25,7 +25,7 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
 
         public void New()
         {
-    
+
         }
 
         // TODO: Expand this feature to eventually check .cam, .one for spline changes, visibility changes, and geo/coli changes
@@ -36,7 +36,9 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 layout1 = openFile.FileName;
-            } else { 
+            }
+            else
+            {
                 return;
             }
 
@@ -44,7 +46,9 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 layout2 = openFile.FileName;
-            } else {
+            }
+            else
+            {
                 return;
             }
 
@@ -75,7 +79,7 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
                     LayoutEditorSystem layoutSystemResultDiff;
                     string log;
                     (layoutSystemOriginalDiff, layoutSystemResultDiff, log) = layoutSystem1.Diff(layoutSystem2);
-                    
+
                     VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
@@ -83,14 +87,16 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
                         layoutSystemResultDiff.Save(Path.Combine(dialog.SelectedPath, Path.GetFileNameWithoutExtension(layoutSystemResultDiff.CurrentlyOpenFileName) + "_2nd_file_diff.dat"));
 
                         File.WriteAllText(Path.Combine(dialog.SelectedPath, "diff_log.txt"), log);
-                    } else
+                    }
+                    else
                     {
                         MessageBox.Show("Cancelled, no files written");
                         return;
                     }
                     MessageBox.Show("Success");
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Files were not found");
             }

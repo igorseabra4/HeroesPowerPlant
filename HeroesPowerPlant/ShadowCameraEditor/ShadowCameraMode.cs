@@ -1,4 +1,5 @@
-﻿namespace HeroesPowerPlant.ShadowCameraEditor {
+﻿namespace HeroesPowerPlant.ShadowCameraEditor
+{
 
     /*
         0 = PJSCamera::CameraModeGeneral
@@ -17,19 +18,20 @@
         13 = PJSCamera::CameraModeFixLook2
         14 = PJSCamera::CameraModeFixLookChar (partner?)       
      */
-    public enum ShadowCameraMode {
-        General=0,
-        Free=1,
-        TestPlayer=2,
-        TestPlayerNoRot=3,
-        SetEditor=5,
-        SetCamEdit=6,
-        FixEye=7,
-        FixLook=8,
-        General_withCamDistCamHeight=10,
-        LookFront=11,
-        FixEye2=12,
-        FixLook2=13,
-        FixLookChar=14
+    public enum ShadowCameraMode
+    {
+        General = 0,
+        Free = 1,
+        TestPlayer = 2,
+        TestPlayerNoRot = 3,
+        SetEditor = 5,
+        SetCamEdit = 6,
+        FixEye = 7,
+        FixLook = 8,
+        General_withCamDistCamHeight = 10,
+        LookFront = 11,
+        FixEye2 = 12,
+        FixLook2 = 13,
+        FixLookChar = 14
     }
 }

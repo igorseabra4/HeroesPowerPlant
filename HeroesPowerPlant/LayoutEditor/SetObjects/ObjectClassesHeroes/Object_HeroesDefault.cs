@@ -12,7 +12,7 @@ namespace HeroesPowerPlant.LayoutEditor
             set
             {
                 var result = value.ToList();
-                
+
                 while (result.Count < 36)
                     result.Add(0);
                 while (result.Count > 36)
@@ -28,7 +28,7 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 var result = new List<short>(18);
                 for (int i = 0; i < MiscSettings.Length; i += 2)
-                    result.Add(BitConverter.ToInt16(new byte[] { MiscSettings[i + 1], MiscSettings[i]}, 0));
+                    result.Add(BitConverter.ToInt16(new byte[] { MiscSettings[i + 1], MiscSettings[i] }, 0));
 
                 return result.ToArray();
             }
@@ -55,7 +55,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 var result = new List<int>(9);
                 for (int i = 0; i < MiscSettings.Length; i += 4)
                     result.Add(BitConverter.ToInt32(new byte[] { MiscSettings[i + 3], MiscSettings[i + 2], MiscSettings[i + 1], MiscSettings[i] }, 0));
-                
+
                 return result.ToArray();
             }
             set
@@ -81,7 +81,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 var result = new List<float>(9);
                 for (int i = 0; i < MiscSettings.Length; i += 4)
                     result.Add(BitConverter.ToSingle(new byte[] { MiscSettings[i + 3], MiscSettings[i + 2], MiscSettings[i + 1], MiscSettings[i] }, 0));
-                
+
                 return result.ToArray();
             }
             set

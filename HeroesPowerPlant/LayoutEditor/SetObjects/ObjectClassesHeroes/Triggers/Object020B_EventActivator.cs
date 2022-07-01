@@ -44,7 +44,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
-        
+
         public float ScaleX
         {
             get => ReadFloat(4);

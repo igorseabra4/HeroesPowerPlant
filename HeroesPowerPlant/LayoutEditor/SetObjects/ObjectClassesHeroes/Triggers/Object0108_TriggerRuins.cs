@@ -58,7 +58,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public RuinType RuinType
         {
             get => (RuinType)ReadByte(16);
-            set => Write(16, (byte) value);
+            set => Write(16, (byte)value);
         }
     }
 }

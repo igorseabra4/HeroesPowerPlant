@@ -12,7 +12,7 @@ namespace HeroesPowerPlant.LayoutEditor
             UnkBytes = new byte[8];
             MiscSettings = new byte[0];
         }
-        
+
         public string DefaultMiscSettingCount { get; private set; }
 
         public override void SetObjectEntry(ObjectEntry objectEntry)

@@ -11,7 +11,7 @@ namespace HeroesPowerPlant
         /// Position
         /// </summary>
         public Vector3 Position;
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -37,7 +37,7 @@ namespace HeroesPowerPlant
         /// Position
         /// </summary>
         public Vector3 Position;
-        
+
         /// <summary>
         /// Texture coordinate
         /// </summary>
@@ -124,7 +124,7 @@ namespace HeroesPowerPlant
         /// Position
         /// </summary>
         public Vector4 Position;
-        
+
         /// <summary>
         /// Normal
         /// </summary>

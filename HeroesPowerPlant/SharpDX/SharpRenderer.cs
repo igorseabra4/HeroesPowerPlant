@@ -1,10 +1,10 @@
+using HeroesPowerPlant.LevelEditor;
 using SharpDX;
-using System.Windows.Forms;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using System.Collections.Generic;
-using HeroesPowerPlant.LevelEditor;
+using System.Windows.Forms;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant
@@ -46,10 +46,10 @@ namespace HeroesPowerPlant
 
         public SharpShader tintedShader;
         public SharpDX.Direct3D11.Buffer tintedBuffer;
-        
+
         public SharpShader collisionShader;
         public SharpDX.Direct3D11.Buffer collisionBuffer;
-        
+
         public void SetSharpShader()
         {
             basicShader = new SharpShader(Device, Application.StartupPath + "/Resources/SharpDX/Shader_Basic.hlsl",
@@ -90,7 +90,7 @@ namespace HeroesPowerPlant
 
             collisionBuffer = collisionShader.CreateBuffer<CollisionRenderData>();
         }
-        
+
         // Texture loader
         public const string DefaultTexture = "default";
         public static ShaderResourceView whiteDefault;
@@ -140,7 +140,7 @@ namespace HeroesPowerPlant
             Device.SetBlendStateAlphaBlend();
             Device.ApplyRasterState();
             Device.UpdateAllStates();
-            
+
             Device.UpdateData(basicBuffer, cubeRenderData);
             Device.DeviceContext.VertexShader.SetConstantBuffer(0, basicBuffer);
             basicShader.Apply();
@@ -234,7 +234,7 @@ namespace HeroesPowerPlant
         public CheckState ShowObjects { get; set; } = CheckState.Indeterminate;
         public bool ShowCameras { get; set; } = true;
         public bool MouseModeObjects { get; set; } = true;
-        
+
         public SharpMesh Cube { get; private set; }
         public SharpMesh Cylinder { get; private set; }
         public SharpMesh Pyramid { get; private set; }
@@ -352,7 +352,8 @@ namespace HeroesPowerPlant
                     foreach (var l in mainForm.LayoutEditorDict.Values)
                         l.RenderSetObjects(this, false);
 
-                if (ShowCameras) {
+                if (ShowCameras)
+                {
                     mainForm.CameraEditor.RenderCameras(this);
                     mainForm.ShadowCameraEditor.RenderCameras(this);
                 }
@@ -383,7 +384,7 @@ namespace HeroesPowerPlant
             foreach (var c in mainForm.CollisionEditors)
                 c.DisposeRenderStuff();
             mainForm.ConfigEditor.SplineEditor.DisposeSplines();
-            
+
             Cube.Dispose();
             Pyramid.Dispose();
             Cylinder.Dispose();

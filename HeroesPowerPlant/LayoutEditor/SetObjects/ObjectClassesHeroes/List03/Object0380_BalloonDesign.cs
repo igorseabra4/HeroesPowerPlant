@@ -19,7 +19,7 @@
             get => ReadFloat(12);
             set => Write(12, value);
         }
-        
+
         public float Scale
         {
             get => ReadFloat(16);

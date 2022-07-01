@@ -39,7 +39,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     {
                         string updatedIPfileName = "HeroesPowerPlant_" + updatedVersion.version + ".zip";
                         string updatedIPURL = "https://github.com/igorseabra4/HeroesPowerPlant/releases/download/" + updatedVersion.version + "/" + updatedIPfileName;
-                        
+
                         string updatedIPfilePath = Application.StartupPath + "\\Resources\\" + updatedIPfileName;
 
                         using (var webClient = new WebClient())

@@ -27,7 +27,7 @@ namespace HeroesPowerPlant.ConfigEditor
             get => position.Position.ToVector3().Y;
             set => position.Position.Y = value;
         }
-        
+
         public float PositionZ
         {
             get => position.Position.ToVector3().Z;

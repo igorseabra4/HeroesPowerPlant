@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             CreateBoundingBox();
         }
-        
+
         public float Scale
         {
             get => ReadFloat(4);

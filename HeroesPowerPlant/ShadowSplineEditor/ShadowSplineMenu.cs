@@ -22,7 +22,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             e.Cancel = true;
             Hide();
         }
-        
+
         public void Init()
         {
             if (SplineEditor != null)

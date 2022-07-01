@@ -14,7 +14,7 @@ namespace HeroesPowerPlant.ConfigEditor
         {
             entryRenderer = new EntryRenderer(position.Position.ToVector3(), position.Pitch, Color.White.ToVector3());
         }
-        
+
         public float PositionX
         {
             get => position.Position.ToVector3().X;

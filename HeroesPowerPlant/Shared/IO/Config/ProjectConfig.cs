@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using SharpDX;
 
 namespace HeroesPowerPlant.Shared.IO.Config
 {
@@ -61,7 +60,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
             public CheckState ShowObjects { get; set; }
             public bool ShowCameras { get; set; }
             public Vector4 BackgroundColor { get; set; }
-            public Vector4 SelectionColor  { get; set; }
+            public Vector4 SelectionColor { get; set; }
         }
 
         /*
@@ -137,7 +136,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     CameraPosition = mainForm.renderer.Camera.ViewMatrix.Position,
                     Pitch = mainForm.renderer.Camera.ViewMatrix.Pitch,
                     Speed = mainForm.renderer.Camera.Speed,
-                    Yaw   = mainForm.renderer.Camera.ViewMatrix.Yaw,
+                    Yaw = mainForm.renderer.Camera.ViewMatrix.Yaw,
                     FieldOfView = mainForm.renderer.Camera.ProjectionMatrix.FieldOfView,
                     DrawDistance = mainForm.renderer.Camera.ProjectionMatrix.FarPlane
                 },
@@ -218,7 +217,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 mainForm.ViewConfig.NumericQuadHeight.Value = (decimal)config.RenderingOptions.QuadtreeHeight;
             }
         }
-        
+
         /// <summary>
         /// Checks if a file exists, and if it does, executes the <see cref="executeIfPresentDelegate"/>
         /// </summary>
@@ -227,8 +226,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
             if (File.Exists(filePath))
                 executeIfPresentDelegate(filePath);
             else
-                if (! String.IsNullOrEmpty(filePath)) // Do not throw errors on paths that are simply not set.
-                    MessageBox.Show(messageBoxMessage, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!String.IsNullOrEmpty(filePath)) // Do not throw errors on paths that are simply not set.
+                MessageBox.Show(messageBoxMessage, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

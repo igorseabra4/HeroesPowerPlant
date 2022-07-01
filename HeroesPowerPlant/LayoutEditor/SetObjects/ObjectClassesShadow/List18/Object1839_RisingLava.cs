@@ -1,22 +1,28 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object1839_RisingLava : SetObjectShadow {
+﻿namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object1839_RisingLava : SetObjectShadow
+    {
         //SetMagma
-        public RisingLava_Model Model {
+        public RisingLava_Model Model
+        {
             get => (RisingLava_Model)ReadInt(0);
             set => Write(0, (int)value);
         }
-        public float RiseAmountMax {
+        public float RiseAmountMax
+        {
             get => ReadFloat(4);
             set => Write(4, value);
         }
 
-        public float RiseAmountPerSecond {
+        public float RiseAmountPerSecond
+        {
             get => ReadFloat(8);
             set => Write(8, value);
         }
     }
 
-    public enum RisingLava_Model {
+    public enum RisingLava_Model
+    {
         Model_1,
         Model_2,
         Model_3,

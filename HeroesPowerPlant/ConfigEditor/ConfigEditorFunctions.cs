@@ -1,10 +1,10 @@
-﻿using System;
+﻿using GenericStageInjectionCommon.Structs.Positions.Substructures;
+using Heroes.SDK.Definitions.Enums;
+using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using GenericStageInjectionCommon.Structs.Positions.Substructures;
-using Heroes.SDK.Definitions.Enums;
-using SharpDX;
 
 namespace HeroesPowerPlant.ConfigEditor
 {

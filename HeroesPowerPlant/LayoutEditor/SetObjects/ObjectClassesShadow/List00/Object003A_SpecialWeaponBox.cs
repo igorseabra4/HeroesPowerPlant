@@ -1,7 +1,9 @@
 ﻿using SharpDX;
 
-namespace HeroesPowerPlant.LayoutEditor {
-    public class Object003A_SpecialWeaponBox : SetObjectShadow {
+namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object003A_SpecialWeaponBox : SetObjectShadow
+    {
 
         public override void CreateTransformMatrix()
         {
@@ -15,7 +17,8 @@ namespace HeroesPowerPlant.LayoutEditor {
             CreateBoundingBox();
         }
 
-        public Weapon WeaponIfSpecialWeaponsNotUnlocked {
+        public Weapon WeaponIfSpecialWeaponsNotUnlocked
+        {
             get => (Weapon)ReadInt(0);
             set => Write(0, (int)value);
         }

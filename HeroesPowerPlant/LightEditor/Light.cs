@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using HeroesONE_R.Utilities;
+﻿using HeroesONE_R.Utilities;
 using HeroesPowerPlant.Shared.Utilities;
+using System;
+using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 
 namespace HeroesPowerPlant.LightEditor
 {
@@ -65,7 +65,7 @@ namespace HeroesPowerPlant.LightEditor
         public float Unknown_Blue { get; set; }
         private fixed byte member2C[4];
         private fixed byte member30[4];
-        
+
         public float Unknown_2C_Float
         {
             get => BitConverter.ToSingle(new byte[] { member2C[0], member2C[1], member2C[2], member2C[3] }, 0);

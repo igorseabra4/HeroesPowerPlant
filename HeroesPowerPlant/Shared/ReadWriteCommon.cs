@@ -30,7 +30,7 @@ namespace HeroesPowerPlant
             if (DontSwitch) return a;
             return BitConverter.ToUInt16(BitConverter.GetBytes(a).Reverse().ToArray(), 0);
         }
-        
+
         public static float Switch(float a)
         {
             if (DontSwitch) return a;
@@ -60,12 +60,12 @@ namespace HeroesPowerPlant
 
             return b;
         }
-        
+
         public static float BAMStoDegrees(float bams)
         {
             return bams * (180f / 32768f);
         }
-        
+
         public static float BAMStoRadians(float bams)
         {
             return (float)(bams * (Math.PI / 32768f));

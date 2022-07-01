@@ -1,11 +1,11 @@
 ﻿using GenericStageInjectionCommon.Structs.Positions.Substructures;
 using Heroes.SDK.Definitions.Enums;
+using Heroes.SDK.Definitions.Structures.Stage.Splines;
+using HeroesPowerPlant.Shared.IO.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Heroes.SDK.Definitions.Structures.Stage.Splines;
-using HeroesPowerPlant.Shared.IO.Config;
 
 namespace HeroesPowerPlant.ConfigEditor
 {

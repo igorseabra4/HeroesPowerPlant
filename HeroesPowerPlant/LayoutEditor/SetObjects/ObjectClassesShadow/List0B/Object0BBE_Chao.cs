@@ -1,6 +1,7 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0BBE_Chao : SetObjectShadow {
+    public class Object0BBE_Chao : SetObjectShadow
+    {
         //ChaoHolder
         public Chao ChaoType
         {

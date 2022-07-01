@@ -1,11 +1,11 @@
-﻿using System;
+﻿using HeroesPowerPlant.SplineEditor;
+using Newtonsoft.Json;
+using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using SharpDX;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using System.Linq;
-using HeroesPowerPlant.SplineEditor;
+using System.Text.RegularExpressions;
 
 namespace HeroesPowerPlant.ShadowSplineEditor
 {
@@ -82,7 +82,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public IEnumerable<byte> ToByteArray(int startOffset)
         {
             List<byte> vertexBytes = new List<byte>(0x20 * Vertices.Length);
-            
+
             float totalLength = 0;
             Vector3 Max = Vertices[0].Position;
             Vector3 Min = Vertices[0].Position;

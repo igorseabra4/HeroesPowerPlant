@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             CreateBoundingBox();
         }
-        
+
         public override void Draw(SharpRenderer renderer)
         {
             if (isSelected)

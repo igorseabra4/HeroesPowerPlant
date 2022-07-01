@@ -1,19 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
-using SharpDX;
-using HeroesONE_R.Structures;
+﻿using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
-using RenderWareFile;
 using HeroesPowerPlant.ShadowSplineEditor;
-using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
-using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
-using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
-using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
-using Ookii.Dialogs.WinForms;
 using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
+using RenderWareFile;
+using SharpDX;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
+using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -183,7 +183,7 @@ namespace HeroesPowerPlant.LevelEditor
         }
 
         private void InitBSPList()
-        { 
+        {
             if (openONEfilePath != null)
             {
                 labelLoadedONE.Text = "Loaded " + openONEfilePath;
@@ -194,7 +194,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
         }
-        
+
         private void buttonImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog()
@@ -335,7 +335,7 @@ namespace HeroesPowerPlant.LevelEditor
             bspRenderer.BSPList.Clear();
             listBoxLevelModels.Items.Clear();
         }
-        
+
         private void listBoxLevelModelsDoubleClick(object sender, EventArgs e)
         {
             if (listBoxLevelModels.SelectedIndices.Count == 1)
@@ -355,7 +355,7 @@ namespace HeroesPowerPlant.LevelEditor
             else if (e.KeyCode == Keys.F2)
                 listBoxLevelModelsDoubleClick(sender, new EventArgs());
         }
-        
+
         private void listBoxLevelModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             uint vertices = 0;
@@ -383,7 +383,7 @@ namespace HeroesPowerPlant.LevelEditor
             openToolStripMenuItem1.Enabled = true;
             saveToolStripMenuItem1.Enabled = true;
             saveAsToolStripMenuItem1.Enabled = true;
-            
+
             saveToolStripMenuItem2.Enabled = false;
             saveAsToolStripMenuItem2.Enabled = false;
 
@@ -468,7 +468,7 @@ namespace HeroesPowerPlant.LevelEditor
             if (!startup)
                 Program.MainForm.OpenShadowLayoutEditors(fileName, bspRenderer.currentShadowFolderNamePrefix);
         }
-        
+
         private void saveToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (openONEfilePath != null)
@@ -572,7 +572,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
             else
                 shadowDATONE = new Archive(CommonRWVersions.Shadow050);
-            
+
             bool bdtFound = false;
             bool splFound = false;
 
@@ -656,7 +656,7 @@ namespace HeroesPowerPlant.LevelEditor
             labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             labelLoadedBLK.Text = "No BLK loaded";
         }
-        
+
         private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog()
@@ -723,7 +723,7 @@ namespace HeroesPowerPlant.LevelEditor
                 labelLoadedBLK.Text = "Loaded " + visibilityFunctions.OpenVisibilityFile;
             }
         }
-        
+
         private void importBLKToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog()
@@ -752,14 +752,14 @@ namespace HeroesPowerPlant.LevelEditor
         }
 
         bool ProgramIsChangingStuff = false;
-        
+
         private void numericCurrentChunk_ValueChanged(object sender, EventArgs e)
         {
             ProgramIsChangingStuff = true;
 
             foreach (Chunk c in visibilityFunctions.ChunkList)
                 c.isSelected = false;
-            
+
             int i = (int)numericCurrentChunk.Value - 1;
 
             if (visibilityFunctions.ChunkList.Count > 0)
@@ -826,7 +826,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
         }
-        
+
         private void NumChunkNum_ValueChanged(object sender, EventArgs e)
         {
             if (!ProgramIsChangingStuff)
@@ -874,7 +874,8 @@ namespace HeroesPowerPlant.LevelEditor
                 VisibilityFunctions.AutoChunk(i, bspAndCol, out bool success, out Vector3 Min, out Vector3 Max);
 
                 if (success)
-                    visibilityFunctions.ChunkList.Add(new Chunk() {
+                    visibilityFunctions.ChunkList.Add(new Chunk()
+                    {
                         Max = Max + add,
                         Min = Min - add,
                         number = i

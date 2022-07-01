@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using SharpDX;
-using HeroesONE_R.Utilities;
 
 namespace HeroesPowerPlant.LightEditor
 {

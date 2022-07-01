@@ -1,13 +1,15 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using SharpDX;
+using System.Linq;
 using System.Windows.Forms;
 using static HeroesPowerPlant.ShadowCameraEditor.ShadowCameraEditorFunctions;
-using System.Linq;
 
-namespace HeroesPowerPlant.ShadowCameraEditor {
-    public partial class ShadowCameraEditor : Form {
+namespace HeroesPowerPlant.ShadowCameraEditor
+{
+    public partial class ShadowCameraEditor : Form
+    {
 
         public string CurrentCameraFile;
         public ShadowCameraFileHeader header;
@@ -15,7 +17,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
         int CurrentlySelectedCamera = -1;
         private bool hasRemoved = false;
 
-        protected override void OnFormClosing(FormClosingEventArgs e) {
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
             if (e.CloseReason == CloseReason.FormOwnerClosing) return;
 
@@ -23,7 +26,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             Hide();
         }
 
-        public ShadowCameraEditor() {
+        public ShadowCameraEditor()
+        {
             InitializeComponent();
             comboBox_cameraMode.DataSource = Enum.GetValues(typeof(ShadowCameraMode));
             comboBox_cameraTriggerShape.DataSource = Enum.GetValues(typeof(ShadowCameraTriggerShape));
@@ -136,7 +140,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             numericUpDown_fD4.Minimum = Decimal.MinValue;
             numericUpDown_fD8.Minimum = Decimal.MinValue;
         }
-        public void New() {
+        public void New()
+        {
             CurrentCameraFile = null;
             header = null;
             CurrentlySelectedCamera = -1;
@@ -156,17 +161,22 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
             renderer.normalColor = oldColor;
         }
-        private void openToolStripMenuItem_Click(object sender, EventArgs e) {
-            OpenFileDialog OpenCamera = new OpenFileDialog() {
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OpenCamera = new OpenFileDialog()
+            {
                 Filter = "DAT Files|*.dat"
             };
-            if (OpenCamera.ShowDialog() == DialogResult.OK) {
+            if (OpenCamera.ShowDialog() == DialogResult.OK)
+            {
                 OpenFile(OpenCamera.FileName);
             }
         }
 
-        public void OpenFile(string fileName) {
-            if (File.Exists(fileName)) {
+        public void OpenFile(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
                 CurrentCameraFile = fileName;
 
                 ListBoxCameras.Items.Clear();
@@ -183,10 +193,12 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentCameraFile != null) {
+            if (CurrentCameraFile != null)
+            {
                 header.numberOfCameras = ListBoxCameras.Items.Count;
                 SaveCameraFile(CurrentCameraFile, header, ListBoxCameras.Items.Cast<ShadowCamera>());
-            } else
+            }
+            else
                 saveAsToolStripMenuItem_Click(sender, e);
         }
 
@@ -204,7 +216,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             }
         }
 
-        private void UpdateLabelCameraCount() {
+        private void UpdateLabelCameraCount()
+        {
             toolStripStatusLabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
             if (CurrentlySelectedCamera == -1)
                 toolStripStatusLabelCameraCount.Text = ListBoxCameras.Items.Count.ToString() + " cameras";
@@ -212,17 +225,20 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                 toolStripStatusLabelCameraCount.Text = "Camera " + (CurrentlySelectedCamera + 1).ToString() + "/" + ListBoxCameras.Items.Count.ToString();
         }
 
-        private void ListBoxCameras_SelectedIndexChanged(object sender, EventArgs e) {
+        private void ListBoxCameras_SelectedIndexChanged(object sender, EventArgs e)
+        {
             ProgramIsChangingStuff = true;
 
             if (!hasRemoved & CurrentlySelectedCamera != -1)
-               (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
+                (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
             else if (hasRemoved) hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
 
-            if (CurrentlySelectedCamera != -1) {
-                try {
+            if (CurrentlySelectedCamera != -1)
+            {
+                try
+                {
                     ShadowCamera current = ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera;
 
                     current.isSelected = true;
@@ -282,7 +298,9 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                     numericUpDown_fD0.Value = (decimal)current.field_D0;
                     numericUpDown_fD4.Value = (decimal)current.field_D4;
                     numericUpDown_fD8.Value = (decimal)current.field_D8;
-                } catch {
+                }
+                catch
+                {
                     MessageBox.Show("Could not load this camera properly: one or more properties are unsupported.");
                 }
             }
@@ -291,8 +309,10 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             ProgramIsChangingStuff = false;
         }
 
-        private void CameraData_ValueChanged(object sender, EventArgs e) {
-            if (!ProgramIsChangingStuff & CurrentlySelectedCamera != -1) {
+        private void CameraData_ValueChanged(object sender, EventArgs e)
+        {
+            if (!ProgramIsChangingStuff & CurrentlySelectedCamera != -1)
+            {
                 ShadowCamera current = ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera;
                 current.CameraNumber = (int)numericUpDown_cameraNumber.Value;
                 current.CameraMode = (ShadowCameraMode)comboBox_cameraMode.SelectedItem;
@@ -348,11 +368,13 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             }
         }
 
-        public void ScreenClicked(Ray r) {
+        public void ScreenClicked(Ray r)
+        {
             int index = -1;
 
             float smallerDistance = 10000f;
-            for (int i = 0; i < ListBoxCameras.Items.Count; i++) {
+            for (int i = 0; i < ListBoxCameras.Items.Count; i++)
+            {
                 if (((ShadowCamera)ListBoxCameras.Items[i]).isSelected) continue;
 
                 float? distance = ((ShadowCamera)ListBoxCameras.Items[i]).IntersectsWith(r);
@@ -364,7 +386,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             ListBoxCameras.SelectedIndex = index;
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e) {
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
             ShadowCamera newCamera = new ShadowCamera() { TriggerPosition = Program.MainForm.renderer.Camera.GetPosition() };
             newCamera.CreateTransformMatrix();
             ListBoxCameras.Items.Add(newCamera);
@@ -372,7 +395,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             UpdateLabelCameraCount();
         }
 
-        private void buttonDuplicate_Click(object sender, EventArgs e) {
+        private void buttonDuplicate_Click(object sender, EventArgs e)
+        {
             ShadowCamera newCamera = new ShadowCamera((ShadowCamera)ListBoxCameras.Items[CurrentlySelectedCamera]);
             newCamera.CreateTransformMatrix();
             ListBoxCameras.Items.Add(newCamera);
@@ -380,7 +404,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             UpdateLabelCameraCount();
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e) {
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
             if (CurrentlySelectedCamera == -1)
                 return;
 
@@ -396,24 +421,28 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             UpdateLabelCameraCount();
         }
 
-        private void buttonClear_Click(object sender, EventArgs e) {
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
             hasRemoved = true;
             ListBoxCameras.Items.Clear();
             UpdateLabelCameraCount();
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             New();
         }
 
-        private void sortByDistanceToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void sortByDistanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             IEnumerable<ShadowCamera> cameras = ListBoxCameras.Items.Cast<ShadowCamera>();
             cameras = cameras.OrderBy(c => c.GetDistance()).ToList();
             ListBoxCameras.Items.Clear();
             ListBoxCameras.Items.AddRange(cameras.ToArray());
         }
 
-        private void sortByCameraNumberToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void sortByCameraNumberToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             IEnumerable<ShadowCamera> cameras = ListBoxCameras.Items.Cast<ShadowCamera>();
             cameras = cameras.OrderBy(c => c.CameraNumber).ToList();
             ListBoxCameras.Items.Clear();
@@ -432,7 +461,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         private void Button_View_LookFromPointA_Click(object sender, EventArgs e)
         {
-            ViewPosition((float) numericUpDown_PointA_LookFrom_X.Value, (float) numericUpDown_PointA_LookFrom_Y.Value, (float) numericUpDown_PointA_LookFrom_Z.Value);
+            ViewPosition((float)numericUpDown_PointA_LookFrom_X.Value, (float)numericUpDown_PointA_LookFrom_Y.Value, (float)numericUpDown_PointA_LookFrom_Z.Value);
         }
 
         private void Button_Set_LookFromPointA_Click(object sender, EventArgs e)

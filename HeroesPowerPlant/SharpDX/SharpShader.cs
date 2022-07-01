@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using SharpDX;
-using SharpDX.Direct3D11;
+﻿using SharpDX;
 using SharpDX.D3DCompiler;
-
+using SharpDX.Direct3D11;
+using System;
+using System.Linq;
 using Buffer = SharpDX.Direct3D11.Buffer;
 
 namespace HeroesPowerPlant

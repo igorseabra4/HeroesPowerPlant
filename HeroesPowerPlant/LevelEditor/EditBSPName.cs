@@ -20,7 +20,7 @@ namespace HeroesPowerPlant.LevelEditor
         {
             EditBSPName edit = new EditBSPName(oldName);
             edit.ShowDialog();
-                        
+
             if (edit.OKed)
             {
                 return edit.textBox1.Text;

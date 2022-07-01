@@ -1,6 +1,4 @@
-﻿using SharpDX;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public enum MovingRuinType : byte
     {

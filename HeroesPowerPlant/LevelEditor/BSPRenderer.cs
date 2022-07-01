@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using SharpDX;
-using HeroesONE_R.Structures;
+﻿using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
+using SharpDX;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace HeroesPowerPlant
 {
@@ -37,7 +37,7 @@ namespace HeroesPowerPlant
             {
                 if (!(new string[] { ".bsp", ".rg1", ".rx1" }.Contains(Path.GetExtension(file.Name).ToLower())))
                     continue;
-                
+
                 RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
                 TempBSPFile.SetChunkNumberAndName();
                 byte[] uncompressedData = file.DecompressThis();
@@ -45,7 +45,7 @@ namespace HeroesPowerPlant
                 BSPList.Add(TempBSPFile);
             }
         }
-        
+
         // Visibility functions
 
         private HashSet<int> VisibleChunks = new HashSet<int>();
@@ -67,9 +67,9 @@ namespace HeroesPowerPlant
         }
 
         public static bool renderByChunk = true;
-                
+
         // Rendering functions
-        
+
         public void RenderLevelModel(SharpRenderer renderer, List<LevelEditor.Chunk> chunkList)
         {
             if (renderByChunk)
@@ -183,7 +183,7 @@ namespace HeroesPowerPlant
         private void SetShadowBSPList(SharpRenderer renderer, List<Archive> OpenShadowONEFiles)
         {
             Dispose();
-            
+
             BSPList = new List<RenderWareModelFile>();
             ShadowColBSPList = new List<RenderWareModelFile>();
 
@@ -207,7 +207,7 @@ namespace HeroesPowerPlant
                                 break;
                             }
                             catch { TempBSPFile.ChunkNumber = -1; }
-                        
+
                         TempBSPFile.isShadowCollision = true;
                         try
                         {
@@ -247,7 +247,7 @@ namespace HeroesPowerPlant
             renderer.Device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
             renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
             renderer.defaultShader.Apply();
-                        
+
             for (int j = 0; j < ShadowColBSPList.Count; j++)
             {
                 if (renderByChunk & !VisibleChunks.Contains(ShadowColBSPList[j].ChunkNumber))
@@ -305,7 +305,7 @@ namespace HeroesPowerPlant
                         change = true;
                     }
                 }
-            
+
             if (change)
                 InitialPosition.Y -= smallerDistance;
 

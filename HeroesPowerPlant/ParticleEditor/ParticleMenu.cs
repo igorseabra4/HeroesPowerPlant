@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using HeroesPowerPlant.Shared.IO.Config;
+﻿using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
-using static HeroesPowerPlant.ReadWriteCommon;
+using System;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant.ParticleEditor
 {
@@ -78,7 +69,7 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void ParticleEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown)  return;
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
             if (e.CloseReason == CloseReason.FormOwnerClosing) return;
 
             e.Cancel = true;

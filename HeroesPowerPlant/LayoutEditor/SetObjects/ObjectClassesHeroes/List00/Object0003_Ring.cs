@@ -1,7 +1,7 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.LevelEditor;
+using SharpDX;
 using System;
 using System.Collections.Generic;
-using HeroesPowerPlant.LevelEditor;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -110,7 +110,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
             distance = initialDistance;
-            
+
             foreach (var t in transformedTriangles)
             {
                 Vector3 v1 = transformedPoints[t.vertex1];

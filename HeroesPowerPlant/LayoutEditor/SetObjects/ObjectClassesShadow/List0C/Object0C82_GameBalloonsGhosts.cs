@@ -1,60 +1,73 @@
 ﻿using System.ComponentModel;
 
-namespace HeroesPowerPlant.LayoutEditor {
-    public class Object0C82_GameBalloonsGhosts : SetObjectShadow {
+namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object0C82_GameBalloonsGhosts : SetObjectShadow
+    {
         //ShootingGame::BalloonGenerator(Id{Off/On},Height,Radius,MinSpeed,MaxSpeed,MaxNum,Rate)
-        public float Height {
+        public float Height
+        {
             get => ReadFloat(0);
             set => Write(0, value);
         }
-        public float Radius {
+        public float Radius
+        {
             get => ReadFloat(4);
             set => Write(4, value);
         }
-        public float MinSpeed {
+        public float MinSpeed
+        {
             get => ReadFloat(8);
             set => Write(8, value);
         }
-        public float MaxSpeed {
+        public float MaxSpeed
+        {
             get => ReadFloat(12);
             set => Write(12, value);
         }
 
-        public int NumberOfObjectsPerSpawn {
+        public int NumberOfObjectsPerSpawn
+        {
             get => ReadInt(16);
             set => Write(16, value);
         }
 
         [Description("If 0, balloons will not spawn (unless LinkID_GameNum set)")]
-        public int Id {
+        public int Id
+        {
             get => ReadInt(20);
             set => Write(20, value);
         }
 
         [Description("Seed picker based on known values the original layouts used")]
-        public BalloonGhostGenRandomizerSeeds BalloonRandomizerSeedPreSelect {
+        public BalloonGhostGenRandomizerSeeds BalloonRandomizerSeedPreSelect
+        {
             get => (BalloonGhostGenRandomizerSeeds)ReadInt(24);
             set => Write(24, (int)value);
         }
 
         [Description("Raw value from the above picker, any int is allowed")]
-        public int BalloonRandomizerSeed {
+        public int BalloonRandomizerSeed
+        {
             get => ReadInt(24);
             set => Write(24, value);
         }
 
-        public float SpawningRate {
+        public float SpawningRate
+        {
             get => ReadFloat(28);
             set => Write(28, value);
         }
 
-        public int LinkID_GameNum {
+        public int LinkID_GameNum
+        {
             get => ReadInt(32);
             set => Write(32, value);
         }
     }
 
-    public enum BalloonGhostGenRandomizerSeeds {
+    public enum BalloonGhostGenRandomizerSeeds
+    {
         Yellow_Ghosts = 2,
         Yellow_Ghosts2 = 3,
         Ghosts_Yellow1 = 5,

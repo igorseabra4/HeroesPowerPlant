@@ -78,7 +78,7 @@ namespace HeroesPowerPlant
             ReadProcessMemory(targetProcessHandle, addr, rtnBytes, 4, 0);
             return BitConverter.ToSingle(rtnBytes, 0);
         }
-        
+
         public UInt16 ReadUInt16(IntPtr addr)
         {
             byte[] _rtnBytes = new byte[2];
@@ -92,7 +92,7 @@ namespace HeroesPowerPlant
             ReadProcessMemory(targetProcessHandle, addr, _rtnBytes, 4, 0);
             return BitConverter.ToUInt32(_rtnBytes, 0);
         }
-        
+
         public byte ReadByte(IntPtr addr)
         {
             byte[] _rtnByte = new byte[1];

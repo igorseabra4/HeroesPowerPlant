@@ -1,6 +1,5 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
-using System;
 
 namespace HeroesPowerPlant
 {
@@ -93,7 +92,7 @@ namespace HeroesPowerPlant
 
             RaiseCameraChangedEvent();
         }
-        
+
         public void IncreaseCameraSpeed(float amount)
         {
             Speed += amount;

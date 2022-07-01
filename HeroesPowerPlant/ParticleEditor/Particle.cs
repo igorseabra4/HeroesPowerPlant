@@ -1,11 +1,4 @@
-﻿using SharpDX;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using HeroesONE_R.Utilities;
+﻿using HeroesONE_R.Utilities;
 using HeroesPowerPlant.Shared.Utilities;
 
 namespace HeroesPowerPlant.ParticleEditor
@@ -36,7 +29,7 @@ namespace HeroesPowerPlant.ParticleEditor
         public short Velocity { get; set; }
         public short Unknown8 { get; set; }
 
-        public short Always05 { get; set; } 
+        public short Always05 { get; set; }
         public short BlendMode { get; set; }
         public int Rotation { get; set; }
         public short RotateAnimationSpeed { get; set; }

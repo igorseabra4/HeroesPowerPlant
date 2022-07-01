@@ -1,13 +1,17 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object2592_DebugMissionClearCollision : SetObjectShadow {
+﻿namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object2592_DebugMissionClearCollision : SetObjectShadow
+    {
 
-        public DebugClearMissionType MissionType {
+        public DebugClearMissionType MissionType
+        {
             get => (DebugClearMissionType)ReadInt(0);
             set => Write(0, (int)value);
         }
     }
 
-    public enum DebugClearMissionType {
+    public enum DebugClearMissionType
+    {
         Dark,
         Normal,
         Hero,

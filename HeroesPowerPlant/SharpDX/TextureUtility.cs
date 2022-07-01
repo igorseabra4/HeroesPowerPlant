@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SharpDX;
+using SharpDX.DXGI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using SharpDX;
-using SharpDX.DXGI;
 
 namespace HeroesPowerPlant
 {
@@ -549,16 +549,16 @@ namespace HeroesPowerPlant
             int NumBytes = 0;
             int RowBytes = 0;
             int NumRows = 0;
-            
+
             for (int i = 0; i < mipMaps.Length; i++)
             {
                 GetSurfaceInfo(width, height, format, out NumBytes, out RowBytes, out NumRows);
 
                 GCHandle pinnedArray = GCHandle.Alloc(mipMaps[i].data, GCHandleType.Pinned);
                 IntPtr pointer = pinnedArray.AddrOfPinnedObject();
-                
+
                 rects.Add(new DataRectangle(pointer, RowBytes));
-                
+
                 width = width >> 1;
                 if (width == 0)
                     width = 1;
@@ -573,7 +573,7 @@ namespace HeroesPowerPlant
 
                 pinnedArray.Free();
             }
-            
+
             return rects.ToArray();
         }
 
@@ -882,7 +882,7 @@ namespace HeroesPowerPlant
 
             return InitTextureFromData(device, context, header, null, data, offset, 0, out isCubeMap);
         }
-        
+
         private static ShaderResourceView CreateTextureFromBitmap(Device device, string filename)
         {
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(filename);
@@ -900,7 +900,7 @@ namespace HeroesPowerPlant
                 SampleDescription = new SampleDescription(1, 0),
                 OptionFlags = ResourceOptionFlags.GenerateMipMaps
             };
-                        
+
             System.Drawing.Imaging.BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             DataRectangle[] dataRectangles = new DataRectangle[textureDesc.MipLevels];
 
@@ -919,17 +919,17 @@ namespace HeroesPowerPlant
 
                 }
             }
-            
+
             bitmap.UnlockBits(data);
-            
+
             ShaderResourceView resourceView = new ShaderResourceView(device, buffer);
 
             device.ImmediateContext.GenerateMips(resourceView);
-            
+
             buffer.Dispose();
 
             bitmap.Dispose();
-            
+
             return resourceView;
         }
 
@@ -992,7 +992,7 @@ namespace HeroesPowerPlant
 
             if (format == Format.Unknown)
                 throw new Exception(tnStruct.textureName);
-            
+
             MipMapEntry[] mipMaps;
 
             if ((tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL4) != 0 | (tnStruct.rasterFormatFlags & TextureRasterFormat.RASTER_PAL8) != 0)
@@ -1003,7 +1003,7 @@ namespace HeroesPowerPlant
             }
             else
                 mipMaps = tnStruct.mipMaps;
-            
+
             DataRectangle[] dataRectangles = FillInitData(mipMaps, tnStruct.width, tnStruct.height, tnStruct.bitDepth, tnStruct.mipMapCount, format);
             Texture2D buffer = null;
 
@@ -1029,7 +1029,7 @@ namespace HeroesPowerPlant
 
                 }
             }
-            
+
             ShaderResourceView resourceView = new ShaderResourceView(device.Device, buffer);
 
             buffer.Dispose();

@@ -1,13 +1,17 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object106C_SkyRuinsJewel : SetObjectShadow {
+﻿namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object106C_SkyRuinsJewel : SetObjectShadow
+    {
         //PowerDeviceNaked
-        public PowerDeviceNakedModel Model {
+        public PowerDeviceNakedModel Model
+        {
             get => (PowerDeviceNakedModel)ReadInt(0);
             set => Write(0, (int)value);
         }
     }
 
-    public enum PowerDeviceNakedModel {
+    public enum PowerDeviceNakedModel
+    {
         Out,
         In
     }

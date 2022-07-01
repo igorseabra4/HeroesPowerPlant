@@ -1,7 +1,7 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using HeroesPowerPlant.Shared.Utilities;
 
 namespace Shadow.Structures
 {

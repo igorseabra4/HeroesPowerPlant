@@ -1,12 +1,12 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using Shadow.Structures;
+using ShadowFNT.Structures;
+using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using SharpDX;
-using ShadowFNT.Structures;
-using HeroesPowerPlant.Shared.IO.Config;
-using Shadow.Structures;
 
 namespace HeroesPowerPlant.LayoutEditor
 {

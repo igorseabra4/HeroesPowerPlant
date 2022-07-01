@@ -7,7 +7,7 @@ namespace HeroesPowerPlant.LightEditor
     public partial class LightMenu : Form
     {
         private LightEditor LightEditor;
-        
+
         public LightMenu()
         {
             InitializeComponent();
@@ -16,7 +16,7 @@ namespace HeroesPowerPlant.LightEditor
         }
 
         public bool GetIsShadow() => LightEditor.isShadow;
-        
+
         public void UpdateValues()
         {
             if (string.IsNullOrEmpty(LightEditor.CurrentlyOpenLightFile))
@@ -44,10 +44,10 @@ namespace HeroesPowerPlant.LightEditor
         {
             return LightEditor.CurrentlyOpenLightFile;
         }
-        
+
         private void LightEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown)  return;
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
             if (e.CloseReason == CloseReason.FormOwnerClosing) return;
 
             e.Cancel = true;

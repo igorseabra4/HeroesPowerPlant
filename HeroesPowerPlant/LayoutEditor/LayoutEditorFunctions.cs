@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.LayoutEditor

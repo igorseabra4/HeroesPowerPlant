@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX;
+﻿using SharpDX;
+using System;
 
 namespace HeroesPowerPlant
 {
@@ -23,14 +19,14 @@ namespace HeroesPowerPlant
         /// </summary>
         private Matrix _projectionMatrix;
         private bool _validProjectonMatrix = false;
-        
+
         public ProjectionMatrix()
         {
         }
 
         public ProjectionMatrix(Vector2 aspectRatio, float farPlane, float fieldOfView)
         {
-            AspectRatio = new Vector2(aspectRatio.X,aspectRatio.Y);
+            AspectRatio = new Vector2(aspectRatio.X, aspectRatio.Y);
             FarPlane = farPlane;
             FieldOfView = fieldOfView;
         }

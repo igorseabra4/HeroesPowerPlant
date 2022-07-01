@@ -1,7 +1,7 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.LevelEditor;
+using SharpDX;
 using System;
 using System.Collections.Generic;
-using HeroesPowerPlant.LevelEditor;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -24,7 +24,7 @@ namespace HeroesPowerPlant.LayoutEditor
             switch (RingType)
             {
                 //case RingType.Normal:
-                 //   break;
+                //   break;
                 case RingType.Line:
                     matrix = Matrix.RotationX(Rotation.X * shift) *
                     Matrix.RotationY(Rotation.Y * shift) *
@@ -38,16 +38,16 @@ namespace HeroesPowerPlant.LayoutEditor
 
                     break;
                 //case RingType.Arch:
-               //     break;
+                //     break;
                 default:
                     matrix = Matrix.RotationX(Rotation.X * shift) *
                     Matrix.RotationY(Rotation.Y * shift) *
                     Matrix.RotationZ(0f);//Rotation.Z * shift);
                     break;
             }
-                    /*   Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
-                       Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
-                       Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) **/
+            /*   Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
+               Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
+               Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) **/
 
             matrix = matrix * Matrix.Translation(Position);
             return matrix;
@@ -55,7 +55,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void CreateTransformMatrix()
         {
             transformMatrix = ShadowRingTransformMatrix();
-                //DefaultTransformMatrix(180f);
+            //DefaultTransformMatrix(180f);
 
             positionsList = new List<Vector3>(NumberOfRings);
 
@@ -160,7 +160,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void Draw(SharpRenderer renderer)
         {
             int nameIndex = ModelMiscSetting == -1 ? 0 : MiscSettings[ModelMiscSetting] < ModelNames.Length ? MiscSettings[ModelMiscSetting] : 0;
-            
+
             if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[nameIndex][0]))
             {
                 if (isSelected)
@@ -221,7 +221,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get => ReadInt(4);
             set => Write(4, value);
-}
+        }
 
         public float LengthRadius
         {

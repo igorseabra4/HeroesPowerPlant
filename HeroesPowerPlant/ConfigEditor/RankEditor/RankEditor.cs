@@ -31,9 +31,9 @@ namespace HeroesPowerPlant.RankEditor
             e.Cancel = true;
             Hide();
         }
-        
+
         private string rankJsonPath => Path.Combine(Path.GetDirectoryName(Program.MainForm.ConfigEditor.GetOpenConfigFileName()), "RankReqs.json");
-        
+
         internal void RankEditorNewConfig()
         {
             NumericSonicA.Value = 0;

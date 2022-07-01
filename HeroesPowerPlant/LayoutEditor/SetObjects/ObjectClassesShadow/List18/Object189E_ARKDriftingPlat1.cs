@@ -1,6 +1,7 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object189E_ARKDriftingPlat1 : SetObjectShadow {
+    public class Object189E_ARKDriftingPlat1 : SetObjectShadow
+    {
         //FootingBreak(Type{Burst,Hover}, WaitSec, HoverLength point, HoverSec, MoveLengthX point, MoveLengthY point, MoveLengthZ point, MoveSec)
         public ARKDriftingPlatformType PlatformType
         {
@@ -14,12 +15,14 @@
             set => Write(0x4, value);
         }
 
-        public float HoverLength {
+        public float HoverLength
+        {
             get => ReadFloat(0x8);
             set => Write(0x8, value);
         }
 
-        public float HoverSec {
+        public float HoverSec
+        {
             get => ReadFloat(0xC);
             set => Write(0xC, value);
         }
@@ -48,7 +51,8 @@
         }
     }
 
-    public enum ARKDriftingPlatformType {
+    public enum ARKDriftingPlatformType
+    {
         Burst,
         Hover
     }

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using SharpDX;
-using System.IO;
-using Assimp;
-using System;
+﻿using Assimp;
 using RenderWareFile;
 using RenderWareFile.Sections;
+using SharpDX;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace HeroesPowerPlant.LevelEditor
@@ -94,7 +94,7 @@ namespace HeroesPowerPlant.LevelEditor
                 PostProcessSteps.FindInvalidData | PostProcessSteps.OptimizeGraph |
                 PostProcessSteps.OptimizeMeshes | PostProcessSteps.Triangulate |
                 PostProcessSteps.PreTransformVertices;
-            
+
             Scene scene = new AssimpContext().ImportFile(fileName, pps);
 
             int vertexCount = scene.Meshes.Sum(m => m.VertexCount);
@@ -107,7 +107,7 @@ namespace HeroesPowerPlant.LevelEditor
             List<RenderWareFile.Color> vColors = new List<RenderWareFile.Color>(vertexCount);
             List<Vertex2> textCoords = new List<Vertex2>(vertexCount);
             List<RenderWareFile.Triangle> triangles = new List<RenderWareFile.Triangle>(triangleCount);
-            
+
             int totalVertices = 0;
 
             foreach (var m in scene.Meshes)
@@ -170,7 +170,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             BinMesh[] binMeshes = new BinMesh[scene.MaterialCount];
-            
+
             Material_0007[] materials = new Material_0007[scene.MaterialCount];
 
             for (int i = 0; i < scene.MaterialCount; i++)
@@ -236,7 +236,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;
-            
+
             World_000B world = new World_000B()
             {
                 worldStruct = new WorldStruct_0001()
@@ -310,13 +310,15 @@ namespace HeroesPowerPlant.LevelEditor
                         var mat = w.materialList.materialList[i];
                         string objName = Path.GetFileNameWithoutExtension(fileName) + "_" + (mat.materialStruct.isTextured != 0 ? mat.texture.diffuseTextureName.stringString : "default");
 
-                        scene.Materials.Add(new Material() {
+                        scene.Materials.Add(new Material()
+                        {
                             ColorDiffuse = new Color4D(
                                 mat.materialStruct.color.R / 255f,
                                 mat.materialStruct.color.G / 255f,
                                 mat.materialStruct.color.B / 255f,
                                 mat.materialStruct.color.A / 255f),
-                            TextureDiffuse = mat.materialStruct.isTextured != 0 ? new TextureSlot() {
+                            TextureDiffuse = mat.materialStruct.isTextured != 0 ? new TextureSlot()
+                            {
                                 FilePath = mat.texture.diffuseTextureName.stringString + textureExtension,
                                 TextureType = TextureType.Diffuse
                             } : new TextureSlot(),
@@ -336,7 +338,7 @@ namespace HeroesPowerPlant.LevelEditor
                     }
                 }
             }
-            
+
             scene.RootNode = new Node() { Name = "root" };
 
             Node latest = scene.RootNode;
@@ -345,10 +347,10 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 latest.Children.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<Node>(
                     "{\"Name\":\"" + scene.Meshes[i].Name + "\", \"MeshIndices\": [" + i.ToString() + "]}"));
-                
+
                 //latest = latest.Children[0];
             }
-            
+
             new AssimpContext().ExportFile(scene, fileName, format.FormatId,
 
                 //PostProcessSteps.GenerateNormals |
@@ -520,7 +522,7 @@ namespace HeroesPowerPlant.LevelEditor
                         else
                         {
                             mesh.Faces.Add(new Face(new int[] {
-                                i - 2 + totalVertexIndices,       
+                                i - 2 + totalVertexIndices,
                                 i + totalVertexIndices,
                                 i - 1 + totalVertexIndices
                             }));

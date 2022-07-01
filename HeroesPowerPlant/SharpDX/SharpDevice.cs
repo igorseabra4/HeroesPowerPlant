@@ -1,11 +1,10 @@
-﻿using System;
-using SharpDX;
+﻿using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
-
-using Device11 = SharpDX.Direct3D11.Device;
+using System;
 using Buffer11 = SharpDX.Direct3D11.Buffer;
+using Device11 = SharpDX.Direct3D11.Device;
 
 namespace HeroesPowerPlant
 {
@@ -58,7 +57,7 @@ namespace HeroesPowerPlant
         /// View to Depth Buffer
         /// </summary>
         public DepthStencilView ZBufferView { get => _zbufferView; }
-        
+
         /// <summary>
         /// Init all object to start rendering
         /// </summary>
@@ -87,10 +86,10 @@ namespace HeroesPowerPlant
                 flag = DeviceCreationFlags.Debug;
 
             Device11.CreateWithSwapChain(useReference ? DriverType.Reference : DriverType.Hardware, flag, levels, desc, out _device, out _swapchain);
-            
+
             //get context to Device
             _deviceContext = Device.ImmediateContext;
-            
+
             //Ignore all windows events
             var factory = SwapChain.GetParent<Factory>();
             factory.MakeWindowAssociation(Control.Handle, WindowAssociationFlags.IgnoreAll);
@@ -102,11 +101,11 @@ namespace HeroesPowerPlant
             ApplyRasterState();
             SetDefaultDepthState();
             SetDefaultBlendState();
-            
+
             //Resize all items
             Resize();
         }
-        
+
         /// <summary>
         /// Create and Resize all items
         /// </summary>
@@ -116,7 +115,7 @@ namespace HeroesPowerPlant
             // Dispose all previous allocated resources
             Utilities.Dispose(ref _backbufferView);
             Utilities.Dispose(ref _zbufferView);
-            
+
             if (Control.Width == 0 || Control.Height == 0)
                 return;
 
@@ -129,7 +128,7 @@ namespace HeroesPowerPlant
             // Backbuffer
             _backbufferView = new RenderTargetView(Device, _backBufferTexture);
             _backBufferTexture.Dispose();
-            
+
             // Depth buffer
 
             // Create a descriptor for the depth/stencil buffer.
@@ -154,7 +153,7 @@ namespace HeroesPowerPlant
                     //Dimension = DepthStencilViewDimension.Texture2D
                     Dimension = DepthStencilViewDimension.Texture2DMultisampled
                 });
-            
+
             SetDefaultTargets();
 
             // End resize
@@ -269,7 +268,7 @@ namespace HeroesPowerPlant
         {
             currentFillMode = normalFillMode;
         }
-        
+
         public void SetFillModeSolid()
         {
             currentFillMode = FillMode.Solid;
@@ -316,7 +315,7 @@ namespace HeroesPowerPlant
             description.RenderTarget[0].SourceBlend = source;
             description.RenderTarget[0].DestinationBlend = destination;
             description.RenderTarget[0].IsBlendEnabled = true;
-            
+
             _blendState = new BlendState(Device, description);
         }
 
@@ -334,7 +333,7 @@ namespace HeroesPowerPlant
 
             _blendState = new BlendState(Device, description);
         }
-        
+
         public void SetBlendStateAdditive()
         {
             Utilities.Dispose(ref _blendState);
@@ -418,7 +417,7 @@ namespace HeroesPowerPlant
         {
             return Device11.GetSupportedFeatureLevel();
         }
-        
+
         private int VSync = 1;
 
         public void SetVSync(bool value)

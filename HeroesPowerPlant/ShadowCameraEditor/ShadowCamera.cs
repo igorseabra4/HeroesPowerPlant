@@ -1,18 +1,20 @@
 ﻿using SharpDX;
 using System.Collections.Generic;
 
-namespace HeroesPowerPlant.ShadowCameraEditor {
- /*     // HEADER : SIZE=0x18
-        0x0 = magic
-        0x4 = magic
-        0x8 = stageID int
-        0xC =
-        0x10 =
-        0x14 = NumberOfCameras int
+namespace HeroesPowerPlant.ShadowCameraEditor
+{
+    /*     // HEADER : SIZE=0x18
+           0x0 = magic
+           0x4 = magic
+           0x8 = stageID int
+           0xC =
+           0x10 =
+           0x14 = NumberOfCameras int
 
-        //CAMERA : SIZE=0xDC
- */
-    public class ShadowCamera {
+           //CAMERA : SIZE=0xDC
+    */
+    public class ShadowCamera
+    {
         public int CameraNumber;
         public ShadowCameraMode CameraMode;
         public int CameraPersistFlag;
@@ -70,12 +72,13 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             float pointA_LookAt_Z, float cameraRot,
             float fovHeight, float fovWidth, float f_68, float f_6C, float f_70, float f_74,
             float pointB_LookFrom_X, float pointB_LookFrom_Y, float pointB_LookFrom_Z, float pointB_LookAt_X,
-            float pointB_LookAt_Y, float pointB_LookAt_Z, float CameraDistanceFromPlayerLookA, 
+            float pointB_LookAt_Y, float pointB_LookAt_Z, float CameraDistanceFromPlayerLookA,
             float CameraHeightFromPlayerLookA, float CameraDistanceFromPlayerLookB,
-            float CameraHeightFromPlayerLookB, float f_A0, float f_A4, float f_A8, float f_AC, 
+            float CameraHeightFromPlayerLookB, float f_A0, float f_A4, float f_A8, float f_AC,
             float transitionTimeEnter, float transitionTimeExit, float f_B8, float f_BC, float f_C0,
             float f_C4, float f_C8, float f_CC,
-            float f_D0, float f_D4, float f_D8) {
+            float f_D0, float f_D4, float f_D8)
+        {
             this.CameraNumber = CameraNumber;
             this.CameraMode = (ShadowCameraMode)CameraMode;
             CameraPersistFlag = i_08;
@@ -127,7 +130,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             field_D8 = f_D8;
         }
 
-        public ShadowCamera(ShadowCamera camera) {
+        public ShadowCamera(ShadowCamera camera)
+        {
             CameraNumber = camera.CameraNumber;
             CameraMode = camera.CameraMode;
             CameraPersistFlag = camera.CameraPersistFlag;
@@ -191,11 +195,13 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
 
         public BoundingBox boundingBox;
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return $"{CameraNumber}, {CameraMode}, {CameraPersistFlag}, {field_0C}, {field_10}";
         }
 
-        public void CreateBounding() {
+        public void CreateBounding()
+        {
             List<Vector3> vertices = new List<Vector3>();
 
             switch (TriggerShape)
@@ -225,7 +231,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             boundingBox = BoundingBox.FromPoints(vertices.ToArray());
         }
 
-        public void CreateTransformMatrix() {
+        public void CreateTransformMatrix()
+        {
             switch (TriggerShape)
             {
                 case ShadowCameraTriggerShape.Plane:
@@ -263,7 +270,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             CreateBounding();
         }
 
-        public void Draw(SharpRenderer renderer) {
+        public void Draw(SharpRenderer renderer)
+        {
             if (Vector3.Distance(renderer.Camera.GetPosition(), TriggerPosition) < 15000f)
                 switch (TriggerShape)
                 {
@@ -284,7 +292,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
                         break;
                 }
 
-            if (isSelected) {
+            if (isSelected)
+            {
                 DrawCube(renderer, pointLookAtAWorld, Color.Red.ToVector4());
                 DrawCube(renderer, pointLookAtBWorld, Color.Blue.ToVector4());
                 DrawCube(renderer, pointLookFromAWorld, Color.Green.ToVector4());
@@ -292,7 +301,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             }
         }
 
-        public void DrawCube(SharpRenderer renderer, Matrix transformMatrix, Vector4 color) {
+        public void DrawCube(SharpRenderer renderer, Matrix transformMatrix, Vector4 color)
+        {
             renderData.worldViewProjection = transformMatrix * renderer.viewProjection;
             renderData.Color = color;
 
@@ -309,11 +319,13 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             renderer.Cube.Draw(renderer.Device);
         }
 
-        public float GetDistance() {
+        public float GetDistance()
+        {
             return TriggerPosition.Length();
         }
 
-        public float? IntersectsWith(Ray ray) {
+        public float? IntersectsWith(Ray ray)
+        {
             if (ray.Intersects(ref boundingBox))
             {
 
@@ -333,16 +345,19 @@ namespace HeroesPowerPlant.ShadowCameraEditor {
             return null;
         }
 
-        public float? TriangleIntersection(Ray r, List<LevelEditor.Triangle> triangles, List<Vector3> vertices) {
+        public float? TriangleIntersection(Ray r, List<LevelEditor.Triangle> triangles, List<Vector3> vertices)
+        {
             bool hasIntersected = false;
             float smallestDistance = 10000f;
 
-            foreach (var t in triangles) {
+            foreach (var t in triangles)
+            {
                 Vector3 v1 = (Vector3)Vector3.Transform(vertices[t.vertex1], triggerPosWorld);
                 Vector3 v2 = (Vector3)Vector3.Transform(vertices[t.vertex2], triggerPosWorld);
                 Vector3 v3 = (Vector3)Vector3.Transform(vertices[t.vertex3], triggerPosWorld);
 
-                if (r.Intersects(ref v1, ref v2, ref v3, out float distance)) {
+                if (r.Intersects(ref v1, ref v2, ref v3, out float distance))
+                {
                     hasIntersected = true;
 
                     if (distance < smallestDistance)

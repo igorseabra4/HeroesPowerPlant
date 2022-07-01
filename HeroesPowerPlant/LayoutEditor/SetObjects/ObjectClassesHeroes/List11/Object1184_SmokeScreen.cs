@@ -3,7 +3,7 @@
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1184_SmokeScreen : SetObjectHeroes
-    {        
+    {
         public override void CreateTransformMatrix()
         {
             transformMatrix = IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity *

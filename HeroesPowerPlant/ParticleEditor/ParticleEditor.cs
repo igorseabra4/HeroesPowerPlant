@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SharpDX;
+using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using SharpDX;
-using HeroesONE_R.Utilities;
 
 namespace HeroesPowerPlant.ParticleEditor
 {
@@ -60,7 +58,7 @@ namespace HeroesPowerPlant.ParticleEditor
                 Particles.Add(Particle.FromBytes(ref particleBytes, currentOffset));
             }
         }
-        
+
         public void Save(string fileName)
         {
             currentlyOpenParticleFile = fileName;
@@ -72,7 +70,7 @@ namespace HeroesPowerPlant.ParticleEditor
 
             File.WriteAllBytes(fileName, finalFile.ToArray());
         }
-        
+
         public Vector3 GetBoxForSetParticle(int index)
         {
             if (index >= 0 & index < Particles.Count)

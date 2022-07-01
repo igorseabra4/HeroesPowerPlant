@@ -34,7 +34,7 @@ namespace HeroesPowerPlant.SplineEditor
         private bool ProgramIsChangingStuff = false;
 
         private void listBoxSplines_SelectedIndexChanged(object sender, EventArgs e)
-        {           
+        {
             SelectedSplineChanged();
         }
 

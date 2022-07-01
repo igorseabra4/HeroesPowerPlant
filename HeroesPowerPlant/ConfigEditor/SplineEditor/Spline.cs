@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Heroes.SDK.Definitions.Structures.Stage.Splines;
+using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using Heroes.SDK.Definitions.Structures.Stage.Splines;
-using SharpDX;
 
 namespace HeroesPowerPlant.SplineEditor
 {

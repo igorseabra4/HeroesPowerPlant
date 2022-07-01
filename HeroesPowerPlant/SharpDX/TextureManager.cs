@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using SharpDX.Direct3D11;
-using HeroesONE_R.Structures;
+﻿using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using RenderWareFile;
 using RenderWareFile.Sections;
+using SharpDX.Direct3D11;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant
@@ -17,7 +17,7 @@ namespace HeroesPowerPlant
 
         public static HashSet<string> OpenTXDfiles { get; private set; } = new HashSet<string>();
         public static HashSet<string> OpenTextureFolders { get; private set; } = new HashSet<string>();
-        
+
         public static bool HasTexture(string textureName)
         {
             return Textures.ContainsKey(textureName);
@@ -31,7 +31,7 @@ namespace HeroesPowerPlant
         }
 
         public static void LoadTexturesFromTXD(string filePath, SharpRenderer renderer, BSPRenderer bspRenderer)
-        { 
+        {
             if (!Path.GetFileName(filePath).Equals("temp.txd"))
                 OpenTXDfiles.Add(filePath);
 
@@ -86,7 +86,7 @@ namespace HeroesPowerPlant
             else
                 Textures.Add(tnStruct.textureName, renderer.Device.LoadTextureFromRenderWareNative(tnStruct));
         }
-        
+
         public static void LoadTexturesFromFolder(string folderName, SharpRenderer renderer, BSPRenderer bspRenderer)
         {
             OpenTextureFolders.Add(folderName);
@@ -186,7 +186,7 @@ namespace HeroesPowerPlant
         private static string tempPcTxdsDir => txdGenFolder + "Temp\\txds_pc\\";
         private static string pathToGcTXD => tempGcTxdsDir + "temp.txd";
         private static string pathToPcTXD => tempPcTxdsDir + "temp.txd";
-        
+
         public static void SetupTextureDisplay(byte[] txdFile, SharpRenderer renderer, BSPRenderer bspRenderer)
         {
             if (!Directory.Exists(tempGcTxdsDir))

@@ -125,7 +125,7 @@ namespace HeroesPowerPlant.LayoutEditor
             get => (TriggerSEShape)ReadByte(11);
             set => Write(11, (byte)value);
         }
-        
+
         public short Time
         {
             get => ReadShort(12);

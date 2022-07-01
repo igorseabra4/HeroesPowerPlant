@@ -1,9 +1,12 @@
 ﻿using Shadow.Structures;
 
-namespace HeroesPowerPlant.LayoutEditor {
-    public class Object2598_SetSeOneShot : SetObjectShadow {
+namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object2598_SetSeOneShot : SetObjectShadow
+    {
 
-        public int AudioID { //28980, 29004
+        public int AudioID
+        { //28980, 29004
             get => ReadInt(0);
             set => Write(0, value);
         }
@@ -18,48 +21,57 @@ namespace HeroesPowerPlant.LayoutEditor {
             }
         }
 
-        public int RangeTypeMaybeRaw {
+        public int RangeTypeMaybeRaw
+        {
             get => ReadInt(4);
             set => Write(4, value);
         }
 
-        public SetSeOneShotRange RangeTypeMaybe {
+        public SetSeOneShotRange RangeTypeMaybe
+        {
             get => (SetSeOneShotRange)ReadInt(4);
             set => Write(4, (int)value);
         }
 
-        public int TypeMaybeRaw {
+        public int TypeMaybeRaw
+        {
             get => ReadInt(8);
             set => Write(8, value);
         }
 
-        public SetSeOneShotType TypeMaybe {
+        public SetSeOneShotType TypeMaybe
+        {
             get => (SetSeOneShotType)ReadInt(8);
             set => Write(8, (int)value);
         }
 
-        public float HalfLengthX {
+        public float HalfLengthX
+        {
             get => ReadFloat(12);
             set => Write(12, value);
         }
 
-        public float HalfLengthY {
+        public float HalfLengthY
+        {
             get => ReadFloat(16);
             set => Write(16, value);
         }
 
-        public float HalfLengthZ {
+        public float HalfLengthZ
+        {
             get => ReadFloat(20);
             set => Write(20, value);
         }
     }
 
-    public enum SetSeOneShotType {
+    public enum SetSeOneShotType
+    {
         OnlyOnce,
         CallAgain
     }
 
-    public enum SetSeOneShotRange {
+    public enum SetSeOneShotRange
+    {
         Sphere,
         Box,
         Capsule,

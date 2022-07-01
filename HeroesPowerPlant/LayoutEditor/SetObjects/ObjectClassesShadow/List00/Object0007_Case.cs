@@ -27,7 +27,8 @@
         }
     }
 
-    public enum LockedCaseType {
+    public enum LockedCaseType
+    {
         BlackArms,
         GUN
     }

@@ -1,12 +1,12 @@
+using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
+using SharpDX;
+using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using HeroesPowerPlant.Shared.IO.Config;
-using Ookii.Dialogs.WinForms;
-using SharpDX;
-using SharpDX.Direct3D11;
 
 namespace HeroesPowerPlant.MainForm
 {

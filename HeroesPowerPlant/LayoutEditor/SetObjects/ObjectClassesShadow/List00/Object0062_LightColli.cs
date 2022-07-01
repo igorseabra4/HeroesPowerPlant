@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace HeroesPowerPlant.LayoutEditor {
-    public class Object0062_LightColli : SetObjectShadow {
+namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object0062_LightColli : SetObjectShadow
+    {
         //LightColli [LightColliMasterTask parent]
         //Enums:
         // SWITCH_ON, SWITCH_OFF
@@ -14,8 +16,10 @@ namespace HeroesPowerPlant.LayoutEditor {
         // Params:
         // LightColli(LightFlag, LightNumber, EffectFlag, EffectNumber)
 
-        public override void CreateTransformMatrix() {
-            switch (RangeShape) {
+        public override void CreateTransformMatrix()
+        {
+            switch (RangeShape)
+            {
                 case LightColli_RangeShape.Box:
                     transformMatrix = Matrix.Scaling(RangeX * 2, RangeY * 2, RangeZ * 2);
                     break;
@@ -73,7 +77,8 @@ namespace HeroesPowerPlant.LayoutEditor {
             }
         }
 
-        public override void Draw(SharpRenderer renderer) {
+        public override void Draw(SharpRenderer renderer)
+        {
             if (RangeShape == LightColli_RangeShape.Box)
                 renderer.DrawCubeTrigger(transformMatrix, isSelected, new Color4(1f, 1f, 1f, 0.5f));
             else if (RangeShape == LightColli_RangeShape.Sphere)
@@ -82,65 +87,77 @@ namespace HeroesPowerPlant.LayoutEditor {
                 renderer.DrawCylinderTrigger(transformMatrix, isSelected, new Color4(1f, 1f, 1f, 0.5f));
         }
 
-        public LightColli_SwitchMode SwitchMode {
+        public LightColli_SwitchMode SwitchMode
+        {
             get => (LightColli_SwitchMode)ReadInt(0);
             set => Write(0, (int)value);
         }
 
-        public LightColli_RangeShape RangeShape {
+        public LightColli_RangeShape RangeShape
+        {
             get => (LightColli_RangeShape)ReadInt(4);
             set => Write(4, (int)value);
         }
-        public CommonNoYes LightingIsEnabled {
+        public CommonNoYes LightingIsEnabled
+        {
             get => (CommonNoYes)ReadInt(8);
             set => Write(8, (int)value);
         }
 
         [Description("Presets from the light.bin in the stage folder")]
-        public LightColli_LightNumber LightNumber {
+        public LightColli_LightNumber LightNumber
+        {
             get => (LightColli_LightNumber)ReadInt(12);
             set => Write(12, (int)value);
         }
 
-        public CommonNoYes EffectIsEmitting {
+        public CommonNoYes EffectIsEmitting
+        {
             get => (CommonNoYes)ReadInt(16);
             set => Write(16, (int)value);
         }
 
-        public int EffectNumber {
+        public int EffectNumber
+        {
             get => ReadInt(20);
             set => Write(20, value);
         }
 
-        public float RangeX {
+        public float RangeX
+        {
             get => ReadFloat(24);
             set => Write(24, value);
         }
 
-        public float RangeY {
+        public float RangeY
+        {
             get => ReadFloat(28);
             set => Write(28, value);
         }
 
-        public float RangeZ {
+        public float RangeZ
+        {
             get => ReadFloat(32);
             set => Write(32, value);
         }
     }
 
-    public enum LightColli_SwitchMode {
+    public enum LightColli_SwitchMode
+    {
         WhileInRadius,
         ToggleOn,
         ToggleOff
     }
 
-    public enum LightColli_RangeShape {
+    public enum LightColli_RangeShape
+    {
         Box,
         Sphere,
         Cylinder
     }
 
-    public enum LightColli_LightNumber {
+    public enum LightColli_LightNumber
+    {
         // LightNo:PLAYER_0-3; OBJECT_0-3; ENEMY_0-3, KAGE, OTHER_0-2, DoNotUse
         Player_0,
         Player_1,

@@ -1,7 +1,10 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object089C_FallingRoad : SetObjectShadow {
+﻿namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object089C_FallingRoad : SetObjectShadow
+    {
         //FallRoad
-        public float Height {
+        public float Height
+        {
             get => ReadFloat(0);
             set => Write(0, value);
         }

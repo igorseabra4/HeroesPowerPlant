@@ -17,12 +17,12 @@ namespace HeroesPowerPlant
         /// Diffuse map
         /// </summary>
         public ShaderResourceView DiffuseMap { get; set; }
-        
+
         /// <summary>
         /// Diffuse Color (RGBA)
         /// </summary>
         public Vector4 DiffuseColor { get; set; }
-        
+
         /// <summary>
         /// Index Start inside IndexBuffer
         /// </summary>

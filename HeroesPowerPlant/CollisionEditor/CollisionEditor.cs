@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using SharpDX;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using HeroesPowerPlant.Shared.IO.Config;
-using SharpDX;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
@@ -52,7 +52,7 @@ namespace HeroesPowerPlant.CollisionEditor
                     initFile(Program.MainForm);
                 }
         }
-        
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog OpenCLFile = new OpenFileDialog()
@@ -82,7 +82,7 @@ namespace HeroesPowerPlant.CollisionEditor
             collisionSystem.Close();
             Program.MainForm.CloseCollisionEditor(this);
         }
-        
+
         private void buttonImport_Click(object sender, EventArgs e)
         {
             if (collisionSystem.HasOpenedFile())
@@ -137,7 +137,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 numericDepthLevel.Value = collisionSystem.DepthLevel;
 
             exportOBJToolStripMenuItem.Enabled = true;
-            
+
             progressBarColEditor.Value = 0;
         }
 

@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using GenericStageInjectionCommon.Shared.Enums;
-using Heroes.SDK.Definitions.Enums;
+﻿using Heroes.SDK.Definitions.Enums;
 using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
+using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant.ConfigEditor
 {
@@ -13,7 +12,7 @@ namespace HeroesPowerPlant.ConfigEditor
         public ConfigEditor()
         {
             InitializeComponent();
-            
+
             NumericStartX.Minimum = decimal.MinValue;
             NumericStartY.Minimum = decimal.MinValue;
             NumericStartZ.Minimum = decimal.MinValue;
@@ -38,7 +37,7 @@ namespace HeroesPowerPlant.ConfigEditor
             NumericBragZ.Maximum = decimal.MaxValue;
 
             ProgramIsChangingStuff = false;
-            
+
             foreach (Stage i in Enum.GetValues(typeof(Stage)))
                 ComboLevelConfig.Items.Add(i);
 
@@ -65,7 +64,7 @@ namespace HeroesPowerPlant.ConfigEditor
             e.Cancel = true;
             Hide();
         }
-        
+
         bool ProgramIsChangingStuff = false;
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -131,7 +130,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             ProgramIsChangingStuff = false;
         }
-        
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(OpenConfigFileName) && Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
@@ -155,18 +154,18 @@ namespace HeroesPowerPlant.ConfigEditor
 
                 if (Path.GetExtension(OpenConfigFileName).ToLower().Equals(".json"))
                     SaveFileJson(OpenConfigFileName);
-                else 
+                else
                     throw new Exception("Error: Unknown file type.");
             }
         }
-        
+
         public void ComboBoxTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ComboBoxTeam.SelectedIndex == -1)
                 return;
 
             ProgramIsChangingStuff = true;
-            
+
             NumericStartX.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionX;
             NumericStartY.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionY;
             NumericStartZ.Value = (decimal)StartPositions[ComboBoxTeam.SelectedIndex].PositionZ;
@@ -178,7 +177,7 @@ namespace HeroesPowerPlant.ConfigEditor
             NumericEndY.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionY;
             NumericEndZ.Value = (decimal)EndPositions[ComboBoxTeam.SelectedIndex].PositionZ;
             NumericEndRot.Value = (decimal)ReadWriteCommon.BAMStoDegrees(EndPositions[ComboBoxTeam.SelectedIndex].Pitch);
-            
+
             NumericBragX.Value = (decimal)BragPositions[ComboBoxTeam.SelectedIndex].PositionX;
             NumericBragY.Value = (decimal)BragPositions[ComboBoxTeam.SelectedIndex].PositionY;
             NumericBragZ.Value = (decimal)BragPositions[ComboBoxTeam.SelectedIndex].PositionZ;
@@ -186,7 +185,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             ProgramIsChangingStuff = false;
         }
-        
+
         private void ComboLevelConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ProgramIsChangingStuff)
@@ -209,7 +208,7 @@ namespace HeroesPowerPlant.ConfigEditor
             StartPositions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericStartRot.Value);
             StartPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
         }
-        
+
         private void ComboStartMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ProgramIsChangingStuff)

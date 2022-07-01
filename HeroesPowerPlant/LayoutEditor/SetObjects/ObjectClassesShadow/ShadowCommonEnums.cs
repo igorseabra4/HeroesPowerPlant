@@ -1,43 +1,51 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
+﻿namespace HeroesPowerPlant.LayoutEditor
+{
 
-    public enum CommonNoYes {
+    public enum CommonNoYes
+    {
         No,
         Yes
     }
 
-    public enum CommonYesNo {
+    public enum CommonYesNo
+    {
         Yes,
         No
     }
 
-    public enum CommonWaitActMoveType {
+    public enum CommonWaitActMoveType
+    {
         Stand,
         Linear,
         Triangle,
         Random
     }
 
-    public enum CommonActionType {
+    public enum CommonActionType
+    {
         None,
         Attack,
         Hide
     }
 
-    public enum EnergyCoreType {
-        NotValidInObject=-1,
-        Hero=0,
-        Dark=1
+    public enum EnergyCoreType
+    {
+        NotValidInObject = -1,
+        Hero = 0,
+        Dark = 1
     }
 
-    public enum BoxType {
+    public enum BoxType
+    {
         GUN,
         BlackArms,
         Eggman
     }
 
-    public enum BoxItem {
-        NotValidInObject=-1,
-        Nothing=0,
+    public enum BoxItem
+    {
+        NotValidInObject = -1,
+        Nothing = 0,
         ItemCapsule,
         Weapon,
         DropNumOfRings,
@@ -46,7 +54,8 @@
         ShadowSpecialWeapons,
     }
 
-    public enum CommonDirectionType {
+    public enum CommonDirectionType
+    {
         UpperWay,
         SideWay
     }

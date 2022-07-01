@@ -41,7 +41,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get => ReadFloat(8);
             set => Write(8, value);
-}
+        }
 
         public float AreaZ
         {

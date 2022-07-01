@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using HeroesPowerPlant.ConfigEditor;
-using HeroesPowerPlant.MainForm;
 
 namespace HeroesPowerPlant
 {

@@ -1,7 +1,7 @@
-﻿using System.Drawing;
+﻿using Newtonsoft.Json;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace HeroesPowerPlant.Shared.IO.Config
 {
@@ -32,7 +32,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         {
             ConfigPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\HPPConfig.json";
         }
-        
+
         /// <summary>
         /// Gets the current instance of the Power Plant config.
         /// </summary>

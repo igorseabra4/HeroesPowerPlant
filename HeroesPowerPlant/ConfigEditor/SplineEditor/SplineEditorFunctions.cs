@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Heroes.SDK.Definitions.Structures.Stage.Splines;
+using Heroes.SDK.Parsers;
+using SonicHeroes.Utils.StageInjector.Common;
+using SonicHeroes.Utils.StageInjector.Common.Utilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Heroes.SDK.Definitions.Structures.Stage.Splines;
-using Heroes.SDK.Parsers;
-using SonicHeroes.Utils.StageInjector.Common;
-using SonicHeroes.Utils.StageInjector.Common.Utilities;
 
 namespace HeroesPowerPlant.SplineEditor
 {
@@ -46,12 +46,12 @@ namespace HeroesPowerPlant.SplineEditor
                 SplineList.RemoveAt(CurrentlySelectedObject);
             }
         }
-        
+
         public int GetSplineCount()
         {
             return SplineList.Count;
         }
-        
+
         public Spline GetSelected()
         {
             return SplineList[CurrentlySelectedObject];
@@ -71,7 +71,7 @@ namespace HeroesPowerPlant.SplineEditor
             if (CurrentlySelectedObject != -1 & CurrentlySelectedObject < SplineList.Count)
                 SplineList[CurrentlySelectedObject].Type = (SplineType)type;
         }
-        
+
         public void SplineEditorNewConfig()
         {
             DisposeSplines();
@@ -87,7 +87,7 @@ namespace HeroesPowerPlant.SplineEditor
 
         public void ViewHere(int pointIndex)
         {
-            if (pointIndex < 0 || pointIndex >= SplineList[CurrentlySelectedObject].Points.Length) 
+            if (pointIndex < 0 || pointIndex >= SplineList[CurrentlySelectedObject].Points.Length)
                 pointIndex = 0;
 
             if (CurrentlySelectedObject != -1 & CurrentlySelectedObject < SplineList.Count)
@@ -113,8 +113,8 @@ namespace HeroesPowerPlant.SplineEditor
         public void AutoPitchSpline(int index)
         {
             if (index != -1 && index < SplineList.Count)
-            for (int x = 0; x < SplineList[index].Points.Length - 1; x++)
-                SplineList[index].Points[x].Pitch = (ushort)SplineList[index].Points[x].GetPitch(SplineList[index].Points[x + 1]);
+                for (int x = 0; x < SplineList[index].Points.Length - 1; x++)
+                    SplineList[index].Points[x].Pitch = (ushort)SplineList[index].Points[x].GetPitch(SplineList[index].Points[x + 1]);
         }
 
         public void AutoPitchAll()
@@ -133,7 +133,7 @@ namespace HeroesPowerPlant.SplineEditor
         {
             DisposeSplines();
             SplineList = new List<Spline>();
-            
+
             if (File.Exists(splineJsonPath))
                 LoadSplinesFromJson(renderer);
             else if (Directory.Exists(splineFolder))
@@ -183,18 +183,18 @@ namespace HeroesPowerPlant.SplineEditor
                 Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType.Ball => SplineType.Ball,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
             };
-        
+
 
         private SplineVertex[] ToSplineVertexArray(SplineVertex[] vertices)
         {
             for (int x = 0; x < vertices.Length - 1; x++)
                 vertices[x].DistanceToNextVertex = vertices[x].GetDistance(vertices[x + 1]);
-            
+
             return vertices;
         }
 
         public void SaveJson()
-        {            
+        {
             var splines = SplineList.Select(x => new ManagedSpline(ToSplineType(x.Type), ToSplineVertexArray(x.Points))).ToArray();
             var splineFile = new SplineFile(splines);
             JsonSerializable<SplineFile>.ToPath(splineFile, splineJsonPath);

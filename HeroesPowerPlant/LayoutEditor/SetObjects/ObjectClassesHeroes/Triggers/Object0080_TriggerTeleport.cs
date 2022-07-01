@@ -16,7 +16,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(XDestination, YDestination, ZDestination);
         }
-        
+
         public override void Draw(SharpRenderer renderer)
         {
             renderer.DrawSphereTrigger(transformMatrix, isSelected);
@@ -29,7 +29,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             return r.Intersects(ref sphereBound, out distance);
         }
-        
+
         public float Radius
         {
             get => ReadFloat(4);

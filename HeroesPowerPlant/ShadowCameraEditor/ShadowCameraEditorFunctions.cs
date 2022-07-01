@@ -74,7 +74,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                     );
 
                     //if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
-                     //   continue;
+                    //   continue;
 
                     TempCam.CreateTransformMatrix();
 

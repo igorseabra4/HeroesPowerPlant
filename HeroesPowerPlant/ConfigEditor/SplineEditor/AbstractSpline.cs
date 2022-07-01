@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SharpDX;
+﻿using SharpDX;
+using System.Collections.Generic;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.SplineEditor
@@ -10,7 +10,7 @@ namespace HeroesPowerPlant.SplineEditor
 
         protected SharpMesh splineMesh;
         protected DefaultRenderData renderData = new DefaultRenderData();
-        
+
         protected void CreateMesh(SharpRenderer renderer, Vector3[] vertices)
         {
             if (splineMesh != null)

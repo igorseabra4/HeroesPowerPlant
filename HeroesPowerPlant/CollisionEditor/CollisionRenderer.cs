@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SharpDX;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.CollisionEditor
@@ -39,7 +39,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
             quadTreeMesh.Draw(renderer.Device);
         }
-        
+
         private SharpMesh collisionMesh;
         private CollisionRenderData sceneInformation;
 
@@ -75,11 +75,11 @@ namespace HeroesPowerPlant.CollisionEditor
             if (quadTreeMesh != null)
                 quadTreeMesh.Dispose();
         }
-        
+
         public CLFile LoadCLFile(string FileName, SharpDevice device, ProgressBar bar)
         {
             CLFile data = new CLFile(0);
-            
+
             BinaryReader CLReader = new BinaryReader(new FileStream(FileName, FileMode.Open));
 
             CLReader.BaseStream.Position = 0;
@@ -119,7 +119,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 CLVertexList.Add(new CollisionVertex(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle())));
                 bar.PerformStep();
             }
-            
+
             for (int i = 0; i < data.numTriangles; i++)
             {
                 CLReader.BaseStream.Position = data.pointTriangle + i * 0x20;
@@ -147,7 +147,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 if (TempColor.B == 0) TempColor.B = 255;
                 else
                     TempColor.B = (byte)(256 - (Math.Log(TempColor.B, 2) + 1) * 32);
-                
+
                 CLVertexList[CLTriangleList[i].Vertices[0]].Color = TempColor;
                 CLVertexList[CLTriangleList[i].Vertices[1]].Color = TempColor;
                 CLVertexList[CLTriangleList[i].Vertices[2]].Color = TempColor;
@@ -240,7 +240,7 @@ namespace HeroesPowerPlant.CollisionEditor
                 data.CLQuadNodeList[Child + Offset].NodeSquare.Y += data.CLQuadNodeList[Child + Offset].NodeSquare.Height;
             }
         }
-        
+
         public void DetermineQuadtreeRenderStuff(ref CLFile data, SharpDevice device, ProgressBar bar)
         {
             List<Vertex> QuadNodeVertexList = new List<Vertex>();

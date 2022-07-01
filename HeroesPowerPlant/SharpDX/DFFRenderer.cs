@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using RenderWareFile;
-using HeroesPowerPlant.LayoutEditor;
-using System.Windows.Forms;
-using HeroesONE_R.Structures;
+﻿using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
+using HeroesPowerPlant.LayoutEditor;
+using RenderWareFile;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant
 {
@@ -16,7 +16,7 @@ namespace HeroesPowerPlant
         public HashSet<string> filePaths = new HashSet<string>();
         public HashSet<string> ObjectDFFNames = new HashSet<string>();
         public Dictionary<string, RenderWareModelFile> DFFModels = new Dictionary<string, RenderWareModelFile>();
-        
+
         public DFFRenderer(MainForm.MainForm mainForm)
         {
             this.mainForm = mainForm;
@@ -51,7 +51,7 @@ namespace HeroesPowerPlant
 
                 AddDFFFiles(s);
             }
-            
+
             foreach (var v in mainForm.LayoutEditors)
                 v.UpdateAllMatrices();
 
@@ -104,9 +104,9 @@ namespace HeroesPowerPlant
                 }
                 catch (Exception ex)
                 {
-                    #if DEBUG
+#if DEBUG
                     MessageBox.Show("Unable to load textures from TXD: " + ex.Message);
-                    #endif
+#endif
                 }
             }
         }

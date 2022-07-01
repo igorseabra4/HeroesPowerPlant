@@ -39,7 +39,7 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     if (effects == null)
                         continue;
-                    
+
                     foreach (effect ef in effects.effect)
                     {
                         string[] TempEffect = new string[2];
@@ -190,14 +190,14 @@ namespace HeroesPowerPlant.LevelEditor
                                                     {
                                                         tl.TextureName = Path.GetFileNameWithoutExtension((string)ImageList[k].Item);
                                                         //if (!MaterialStream.Contains(tl.TextureName))
-                                                            //MaterialStream.Add(tl.TextureName);
-                                                        
+                                                        //MaterialStream.Add(tl.TextureName);
+
                                                     }
                                                 }
-                                                
+
                                             }
                                         }
-                                        
+
                                     }
                                 }
 
@@ -248,7 +248,7 @@ namespace HeroesPowerPlant.LevelEditor
             int TotalVertices = 0;
             int TotalUVs = 0;
             int TotalColors = 0;
-            
+
             foreach (ModelConverterDataCollada i in DAEObjectList)
             {
                 foreach (Vector3 j in i.PositionVertexList)

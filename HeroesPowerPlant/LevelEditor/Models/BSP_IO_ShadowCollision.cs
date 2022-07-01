@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RenderWareFile;
+using RenderWareFile.Sections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RenderWareFile;
-using RenderWareFile.Sections;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -182,7 +182,7 @@ namespace HeroesPowerPlant.LevelEditor
                         cFlagList[i] = new Color(0x01, 0x00, 0x02, 0x00);
                     }
             }
-            
+
             List<Color> cFlags = new List<Color>();
             foreach (Triangle t in data.TriangleList)
                 cFlags.Add(cFlagList[t.MaterialIndex]);

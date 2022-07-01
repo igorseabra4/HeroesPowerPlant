@@ -1,13 +1,13 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.IO.Config;
+using Newtonsoft.Json;
+using SharpDX;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static HeroesPowerPlant.MemoryFunctions;
 using static HeroesPowerPlant.CameraEditor.CameraEditorFunctions;
-using SharpDX;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using HeroesPowerPlant.Shared.IO.Config;
+using static HeroesPowerPlant.MemoryFunctions;
 
 namespace HeroesPowerPlant.CameraEditor
 {
@@ -101,7 +101,7 @@ namespace HeroesPowerPlant.CameraEditor
             numericUpDown38.Minimum = Decimal.MinValue;
             numericUpDown39.Minimum = Decimal.MinValue;
         }
-        
+
         private void CameraEditor_Load(object sender, EventArgs e)
         {
             if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
@@ -122,7 +122,7 @@ namespace HeroesPowerPlant.CameraEditor
         public string CurrentCameraFile;
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
-                
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             New();
@@ -198,7 +198,7 @@ namespace HeroesPowerPlant.CameraEditor
             else if (hasRemoved) hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
-            
+
             if (CurrentlySelectedCamera != -1)
             {
                 try
@@ -322,7 +322,7 @@ namespace HeroesPowerPlant.CameraEditor
             int Save = CurrentlySelectedCamera;
             hasRemoved = true;
             ListBoxCameras.Items.RemoveAt(CurrentlySelectedCamera);
-            
+
             if (Save < ListBoxCameras.Items.Count)
                 ListBoxCameras.SelectedIndex = Save;
             else
@@ -351,7 +351,7 @@ namespace HeroesPowerPlant.CameraEditor
             if (!Teleport((float)numericUpDownColPosX.Value, (float)numericUpDownColPosY.Value, (float)numericUpDownColPosZ.Value))
                 MessageBox.Show("Error writing data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        
+
         private void buttonCopyLeaderPos_Click(object sender, EventArgs e)
         {
             if (TryAttach())
@@ -365,7 +365,7 @@ namespace HeroesPowerPlant.CameraEditor
                 Clipboard.SetText(JsonConvert.SerializeObject(GetCameraPosition()));
             else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        
+
         private void buttonComeHere_Click(object sender, EventArgs e)
         {
             Program.MainForm.renderer.Camera.ViewMatrix.Position = new Vector3((float)numericUpDownCamPosX.Value, (float)numericUpDownCamPosY.Value, (float)numericUpDownCamPosZ.Value);

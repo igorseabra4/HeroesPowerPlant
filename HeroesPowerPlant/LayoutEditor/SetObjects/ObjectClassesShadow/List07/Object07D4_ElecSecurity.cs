@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor {
-    public class Object07D4_ElecSecurity : SetObjectShadow {
+﻿namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object07D4_ElecSecurity : SetObjectShadow
+    {
 
-        public ElecSecurityType ElecSecurityType {
+        public ElecSecurityType ElecSecurityType
+        {
             get => (ElecSecurityType)ReadInt(0);
             set => Write(0, (int)value);
         }
 
-        public float DetectionRange {
+        public float DetectionRange
+        {
             get => ReadFloat(4);
             set => Write(4, value);
         }
     }
-    public enum ElecSecurityType {
+    public enum ElecSecurityType
+    {
         STRONG,
         MEDIUM,
         WEAK,

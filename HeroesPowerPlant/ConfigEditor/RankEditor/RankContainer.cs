@@ -1,10 +1,5 @@
-﻿using Heroes.SDK.Definitions.Structures.Stage.Rank;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Heroes.SDK.Definitions.Enums;
+﻿using Heroes.SDK.Definitions.Enums;
+using Heroes.SDK.Definitions.Structures.Stage.Rank;
 
 namespace HeroesPowerPlant.RankEditor
 {

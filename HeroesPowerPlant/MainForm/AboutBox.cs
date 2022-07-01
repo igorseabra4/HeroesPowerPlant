@@ -32,7 +32,7 @@ namespace HeroesPowerPlant.MainForm
         }
 
         #region Acessório de Atributos do Assembly
-                
+
         public string AssemblyProduct
         {
             get
@@ -72,7 +72,7 @@ namespace HeroesPowerPlant.MainForm
             }
         }
         #endregion
-        
+
         private void button1_Click(object sender, EventArgs e)
         {
             OpenBrowser("https://github.com/igorseabra4/HeroesPowerPlant");

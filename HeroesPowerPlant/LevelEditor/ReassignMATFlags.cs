@@ -15,7 +15,7 @@ namespace HeroesPowerPlant.LevelEditor
                 TopMost = false;
         }
 
-        public static (string,string) GetMATSwap()
+        public static (string, string) GetMATSwap()
         {
             ReassignMATFlags form = new ReassignMATFlags();
             form.ShowDialog();

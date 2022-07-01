@@ -36,7 +36,7 @@
         public SoundType Sound
         {
             get => (SoundType)ReadByte(7);
-            set => Write(7, (byte) value);
+            set => Write(7, (byte)value);
         }
     }
 }

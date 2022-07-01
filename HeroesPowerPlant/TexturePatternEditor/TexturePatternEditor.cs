@@ -15,7 +15,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
             patternSystem = new PatternSystem();
         }
-        
+
         private void PatternEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown) return;
@@ -24,7 +24,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             e.Cancel = true;
             Hide();
         }
-        
+
         private bool programIsChangingStuff = false;
 
         private PatternSystem patternSystem;
@@ -78,7 +78,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public void OpenFile(string fileName)
         {
             patternSystem = new PatternSystem(fileName);
-            
+
             listBoxPatterns.Items.Clear();
             foreach (string p in patternSystem.GetPatternEntries())
                 listBoxPatterns.Items.Add(p);
@@ -129,12 +129,12 @@ namespace HeroesPowerPlant.TexturePatternEditor
             textBoxTextureName.Text = selected.TextureName;
             textBoxAnimationName.Text = selected.AnimationName;
             numericFrameCount.Value = selected.FrameCount;
-            
+
             listBoxFrames.Items.Clear();
 
             foreach (Frame f in selected.frames)
                 listBoxFrames.Items.Add(f.ToString());
-            
+
             programIsChangingStuff = false;
         }
 
@@ -178,7 +178,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         private void listBoxFrames_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (programIsChangingStuff | listBoxPatterns.SelectedItem == null | listBoxFrames.SelectedItem == null) return;
-            
+
             if (listBoxFrames.SelectedItem != null)
             {
                 programIsChangingStuff = true;

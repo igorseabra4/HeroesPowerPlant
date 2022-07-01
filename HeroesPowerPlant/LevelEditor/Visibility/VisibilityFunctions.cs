@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using SharpDX;
+﻿using HeroesONE_R.Structures;
 using RenderWareFile;
 using RenderWareFile.Sections;
-using HeroesONE_R.Structures;
-using HeroesONE_R.Structures.Subsctructures;
+using SharpDX;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -105,7 +104,7 @@ namespace HeroesPowerPlant.LevelEditor
                 BLKFileReader.ReadInt32();
             }
             BLKFileReader.Close();
-            
+
             return list;
         }
 
@@ -166,7 +165,7 @@ namespace HeroesPowerPlant.LevelEditor
         {
             Min = Max = Vector3.Zero;
             success = false;
-            
+
             foreach (RenderWareModelFile b in bspAndCol)
             {
                 if (b.ChunkNumber == number)
