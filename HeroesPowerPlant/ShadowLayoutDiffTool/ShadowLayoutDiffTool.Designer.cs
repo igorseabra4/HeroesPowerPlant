@@ -88,7 +88,7 @@
             this.MaximumSize = new System.Drawing.Size(300, 140);
             this.Name = "ShadowLayoutDiffTool";
             this.ShowIcon = false;
-            this.Text = "Shadow Layout Diff Tool (Beta)";
+            this.Text = "Shadow Layout Diff Tool";
             this.Load += new System.EventHandler(this.ShadowLayoutDiffTool_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -721,6 +721,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void MainForm_Deactivate(object sender, EventArgs e)
         {
+            mouseMode = false;
             PressedKeys.Clear();
         }
 
@@ -1114,38 +1115,24 @@ namespace HeroesPowerPlant.MainForm
 
         bool allTopMost = true;
 
-        private void MainForm_LostFocus(object sender, EventArgs e)
-        {
-            if (allTopMost)
-                SetAllTopMost(false);
-        }
-
-        private void MainForm_GotFocus(object sender, EventArgs e)
-        {
-            if (!allTopMost)
-                SetAllTopMost(true);
-        }
-
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            try
+            if (WindowState == FormWindowState.Minimized)
             {
-                if (WindowState == FormWindowState.Minimized)
+                if (renderer != null)
                 {
                     renderer.dontRender = true;
                     SetAllTopMost(false);
                 }
-                else
-                {
-                    if (!disableRendering_ToolStripMenuItem.Checked)
-                        renderer.dontRender = false;
-                    SetAllTopMost(true);
-                    HPPConfig.GetInstance().MainWindowSize = Size;
-                }
             }
-            catch
+            else
             {
-                // Ignored; Renderer might not be initialized.
+                if (!disableRendering_ToolStripMenuItem.Checked && renderer != null)
+                {
+                    renderer.dontRender = false;
+                    SetAllTopMost(true);
+                }
+                HPPConfig.GetInstance().MainWindowSize = Size;
             }
         }
 
