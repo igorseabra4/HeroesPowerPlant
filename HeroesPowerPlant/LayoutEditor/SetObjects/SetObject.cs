@@ -98,6 +98,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             if (!found)
             {
+                transformMatrix = Matrix.Scaling(4) * Matrix.Translation(Position);
                 for (int i = 0; i < SharpRenderer.cubeVertices.Count; i++)
                     list.Add((Vector3)Vector3.Transform(SharpRenderer.cubeVertices[i], transformMatrix));
             }
