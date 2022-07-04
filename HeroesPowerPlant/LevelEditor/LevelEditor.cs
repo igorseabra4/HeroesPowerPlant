@@ -385,12 +385,12 @@ namespace HeroesPowerPlant.LevelEditor
             saveToolStripMenuItem1.Enabled = true;
             saveAsToolStripMenuItem1.Enabled = true;
 
-            saveToolStripMenuItem2.Enabled = false;
-            saveAsToolStripMenuItem2.Enabled = false;
+            ShadowLevelMenuItemSave.Enabled = false;
+            ShadowLevelMenuItemSaveAs.Enabled = false;
 
-            collisionEditorToolStripMenuItem.Enabled = false;
-            splineEditorToolStripMenuItem.Enabled = false;
-            importBLKToolStripMenuItem.Enabled = false;
+            ShadowLevelMenuItemCollisionEditor.Enabled = false;
+            ShadowLevelMenuItemSplineEditor.Enabled = false;
+            ShadowLevelMenuItemImportBLK.Enabled = false;
 
             shadowCollisionEditor.Hide();
             shadowSplineEditor.Hide();
@@ -410,12 +410,12 @@ namespace HeroesPowerPlant.LevelEditor
             saveToolStripMenuItem1.Enabled = false;
             saveAsToolStripMenuItem1.Enabled = false;
 
-            saveToolStripMenuItem2.Enabled = true;
-            saveAsToolStripMenuItem2.Enabled = true;
+            ShadowLevelMenuItemSave.Enabled = true;
+            ShadowLevelMenuItemSaveAs.Enabled = true;
 
-            collisionEditorToolStripMenuItem.Enabled = true;
-            splineEditorToolStripMenuItem.Enabled = true;
-            importBLKToolStripMenuItem.Enabled = true;
+            ShadowLevelMenuItemCollisionEditor.Enabled = true;
+            ShadowLevelMenuItemSplineEditor.Enabled = true;
+            ShadowLevelMenuItemImportBLK.Enabled = true;
             buttonImport.Enabled = true;
 
             isShadowMode = true;
@@ -440,13 +440,13 @@ namespace HeroesPowerPlant.LevelEditor
         public ShadowCollisionEditor shadowCollisionEditor;
         public ShadowSplineMenu shadowSplineEditor;
 
-        private void newToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void ShadowLevelMenuItemNew_Click(object sender, EventArgs e)
         {
             SetShadowMode();
             ResetEveryting();
         }
 
-        private async void openToolStripMenuItem2_Click(object sender, EventArgs e)
+        private async void ShadowLevelMenuItemOpen_Click(object sender, EventArgs e)
         {
             VistaFolderBrowserDialog openFolder = new VistaFolderBrowserDialog();
 
@@ -472,15 +472,15 @@ namespace HeroesPowerPlant.LevelEditor
                 Program.MainForm.OpenShadowLayoutEditors(fileName, bspRenderer.currentShadowFolderNamePrefix);
         }
 
-        private void saveToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void ShadowLevelMenuItemSave_Click(object sender, EventArgs e)
         {
             if (openONEfilePath != null)
                 SaveShadowLevel(openONEfilePath);
             else
-                saveAsToolStripMenuItem2_Click(sender, e);
+                ShadowLevelMenuItemSaveAs_Click(sender, e);
         }
 
-        private void saveAsToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void ShadowLevelMenuItemSaveAs_Click(object sender, EventArgs e)
         {
             VistaFolderBrowserDialog saveFolder = new VistaFolderBrowserDialog();
 
@@ -607,12 +607,12 @@ namespace HeroesPowerPlant.LevelEditor
             File.WriteAllBytes(datOneFileName, shadowDATONE.BuildShadowONEArchive(true).ToArray());
         }
 
-        private void collisionEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShadowLevelMenuItemCollisionEditor_Click(object sender, EventArgs e)
         {
             shadowCollisionEditor.Show();
         }
 
-        private void splineEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShadowLevelMenuItemSplineEditor_Click(object sender, EventArgs e)
         {
             shadowSplineEditor.Show();
         }
@@ -899,7 +899,7 @@ namespace HeroesPowerPlant.LevelEditor
             RenderWareModelFile.fileSizeCheck = !disableFilesizeWarningToolStripMenuItem.Checked;
         }
 
-        private void btnReassignMATFlag_Click(object sender, EventArgs e)
+        private void ButtonReassignMATFlag_Click(object sender, EventArgs e)
         {
             string target;
             string replacement;

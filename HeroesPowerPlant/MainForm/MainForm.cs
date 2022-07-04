@@ -516,18 +516,21 @@ namespace HeroesPowerPlant.MainForm
 
         public void OpenShadowLayoutEditors(string fileName, string fileNamePrefix)
         {
-            if (LayoutEditors.Count == 0)
+            if (LayoutEditors.Count != 0)
             {
-                foreach (string s in new string[]
-                {
-                    Path.Combine(fileName, fileNamePrefix) + "_ds1.dat",
-                    Path.Combine(fileName, fileNamePrefix) + "_cmn.dat",
-                    Path.Combine(fileName, fileNamePrefix) + "_nrm.dat",
-                    Path.Combine(fileName, fileNamePrefix) + "_hrd.dat"
-                })
-                    if (File.Exists(s))
-                        AddLayoutEditor(s, false);
+                var result = MessageBox.Show("Close currently open Layout Editors?\nWARNING: Unsaved data will be lost", "Layout Editor Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                    Program.MainForm.ClearLayoutEditors();
             }
+            foreach (string s in new string[]
+            {
+                Path.Combine(fileName, fileNamePrefix) + "_ds1.dat",
+                Path.Combine(fileName, fileNamePrefix) + "_cmn.dat",
+                Path.Combine(fileName, fileNamePrefix) + "_nrm.dat",
+                Path.Combine(fileName, fileNamePrefix) + "_hrd.dat"
+            })
+                if (File.Exists(s))
+                    AddLayoutEditor(s, false);
         }
 
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)
