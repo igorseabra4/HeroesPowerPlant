@@ -111,6 +111,12 @@ namespace HeroesPowerPlant
             }
         }
 
+        // TODO IMPLEMENT ME
+        public void ClearSpecificObjectONEFile(string objectOneToClear)
+        {
+            // Remove specified string from all related hashes / dispose the RW loaded model properly
+        }
+
         public void ClearObjectONEFiles()
         {
             Dispose();

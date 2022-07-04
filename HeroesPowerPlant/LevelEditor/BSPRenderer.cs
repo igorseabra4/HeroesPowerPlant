@@ -216,6 +216,17 @@ namespace HeroesPowerPlant
                             }
                         } else
                         {
+                            // TODO: remove any other GDT previously loaded
+
+/*                            foreach (string s in Program.MainForm.dffsToLoad)
+                            {
+                                if (s.EndsWith("_gdt.one"))
+                                {
+
+                                }
+                            }*/
+                            // don't bother re-loading shared models, since they already should be loaded in (enemies/cmn/characters etc)
+                            Program.MainForm.dffsToLoad.Clear();
                             Program.MainForm.dffsToLoad.Add(fileName);
                         }
                     }

@@ -134,6 +134,7 @@ namespace HeroesPowerPlant.MainForm
             TextureManager.ClearTextures(renderer, LevelEditor.bspRenderer);
             renderer.Camera.Reset();
             currentSavePath = null;
+            dffsToLoad.Clear();
         }
 
         public void ApplyConfig(ProjectConfig.RenderOptions renderingOptions)
