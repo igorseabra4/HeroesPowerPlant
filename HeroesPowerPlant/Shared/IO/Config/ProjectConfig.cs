@@ -173,7 +173,10 @@ namespace HeroesPowerPlant.Shared.IO.Config
             if (config.IsShadow)
             {
                 if (Directory.Exists(config.LevelEditorPath))
+                {
                     mainForm.LevelEditor.OpenONEShadowFolder(config.LevelEditorPath, true);
+                    await Task.Run(() => Program.MainForm.AutoLoadFNTAndAFS(Path.GetFileName(config.LevelEditorPath)));
+                }
                 else if (!string.IsNullOrEmpty(config.LevelEditorPath))
                     MessageBox.Show($"Level Editor error: file not found: {config.LevelEditorPath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

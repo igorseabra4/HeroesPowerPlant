@@ -456,7 +456,6 @@ namespace HeroesPowerPlant.LevelEditor
             }
             await Task.Run(() => Program.MainForm.renderer.dffRenderer.AddDFFFiles(Program.MainForm.dffsToLoad));
             await Task.Run(() => Program.MainForm.AutoLoadFNTAndAFS(Path.GetFileName(openFolder.SelectedPath)));
-
         }
 
         public void OpenONEShadowFolder(string fileName, bool startup)
