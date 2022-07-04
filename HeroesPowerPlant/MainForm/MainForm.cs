@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.MainForm
@@ -1037,7 +1038,7 @@ namespace HeroesPowerPlant.MainForm
             HPPConfig.GetInstance().AutomaticallySaveConfig = value;
         }
 
-        private void addObjectONEToolStripMenuItem1_Click(object sender, EventArgs e)
+        private async void addObjectONEToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog()
             {
@@ -1046,7 +1047,7 @@ namespace HeroesPowerPlant.MainForm
             };
 
             if (openFile.ShowDialog() == DialogResult.OK)
-                renderer.dffRenderer.AddDFFFiles(openFile.FileNames);
+                await Task.Run(() => renderer.dffRenderer.AddDFFFiles(openFile.FileNames));
         }
 
         private void clearObjectONEsToolStripMenuItem1_Click(object sender, EventArgs e)

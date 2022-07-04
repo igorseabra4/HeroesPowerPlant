@@ -3,6 +3,7 @@ using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.Shared.IO.Config
@@ -163,7 +164,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         /// <summary>
         /// Loads the appropriate paths stored in the <see cref="ProjectConfig"/> instance into each of the editors.
         /// </summary>
-        public static void ApplyInstance(MainForm.MainForm mainForm, ProjectConfig config)
+        public static async void ApplyInstance(MainForm.MainForm mainForm, ProjectConfig config)
         {
             mainForm.ClearConfig();
 
@@ -209,7 +210,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
             mainForm.renderer.dffRenderer.ClearObjectONEFiles();
             if (config.DFFONEPaths != null)
-                mainForm.renderer.dffRenderer.AddDFFFiles(config.DFFONEPaths);
+                await Task.Run(() => mainForm.renderer.dffRenderer.AddDFFFiles(config.DFFONEPaths));
 
             if (config.RenderingOptions != null)
             {
