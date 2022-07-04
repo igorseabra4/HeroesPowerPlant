@@ -1240,11 +1240,7 @@ namespace HeroesPowerPlant.MainForm
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                var data = File.ReadAllBytes(openFile.FileName);
-                AFSLib.AfsArchive.TryFromFile(data, out var afsArchive);
-                {
-                    loadedAFS = afsArchive;
-                }
+                LoadAFS(openFile.FileName);
             }
         }
 
@@ -1256,31 +1252,44 @@ namespace HeroesPowerPlant.MainForm
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                var data = File.ReadAllBytes(openFile.FileName);
-                loadedFNT = FNT.ParseFNTFile(openFile.FileName, ref data);
+                LoadFNT(openFile.FileName);
             }
         }
 
         public void AutoLoadFNTAndAFS(string shadowStage)
-        { try
+        {
+            if (loadedAFS == null)
             {
-                if (loadedAFS == null)
+                LoadAFS(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
+            }
+            var fntFileName = currentShadowLevelRoot + "/fonts/" + shadowStage + "/" + shadowStage + "_EN.fnt";
+            LoadFNT(fntFileName);
+        }
+
+        private void LoadAFS(string fileName)
+        {
+            try
+            {
+                var afsData = File.ReadAllBytes(fileName);
+                AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
                 {
-                    var afsData = File.ReadAllBytes(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
-                    AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
-                    {
-                        loadedAFS = afsArchive;
-                    }
+                    loadedAFS = afsArchive;
                 }
-            } catch (IOException e)
+            }
+            catch (IOException e)
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        private void LoadFNT(string fileName)
+        {
             try
             {
-                var fntData = File.ReadAllBytes(currentShadowLevelRoot + "/fonts/" + shadowStage + "/" + shadowStage + "_EN.fnt");
-                loadedFNT = FNT.ParseFNTFile("", ref fntData);
-            } catch (IOException e)
+                var fntData = File.ReadAllBytes(fileName);
+                loadedFNT = FNT.ParseFNTFile(fileName, ref fntData);
+            }
+            catch (IOException e)
             {
                 MessageBox.Show(e.Message);
             }
