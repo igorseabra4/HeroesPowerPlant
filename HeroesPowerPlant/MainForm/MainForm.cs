@@ -1057,6 +1057,8 @@ namespace HeroesPowerPlant.MainForm
         private void clearObjectONEsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             renderer.dffRenderer.ClearObjectONEFiles();
+            foreach (var v in LayoutEditors)
+                v.UpdateAllMatrices();
         }
 
         private void addTXDToolStripMenuItem_Click(object sender, EventArgs e)
