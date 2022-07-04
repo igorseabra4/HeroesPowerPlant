@@ -135,7 +135,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (FileMagic != "sky2")
             {
                 System.Windows.Forms.MessageBox.Show("This is not a valid Shadow the Hedgehog layout file.");
-                return null;
+                throw new InvalidDataException("This is not a valid Shadow the Hedgehog layout file.");
             }
 
             int AmountOfObjects = LayoutFileReader.ReadInt32();
@@ -1054,15 +1054,21 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             List<SetObjectHeroes> list = new List<SetObjectHeroes>();
 
-            foreach (SetObjectShadow i in GetShadowLayout(fileName))
+            try
             {
-                SetObjectHeroes TempObject = SetObjectShadowToHeroes(i);
-
-                if (TempObject != null)
+                foreach (SetObjectShadow i in GetShadowLayout(fileName))
                 {
-                    TempObject.CreateTransformMatrix();
-                    list.Add(TempObject);
+                    SetObjectHeroes TempObject = SetObjectShadowToHeroes(i);
+
+                    if (TempObject != null)
+                    {
+                        TempObject.CreateTransformMatrix();
+                        list.Add(TempObject);
+                    }
                 }
+            } catch (InvalidDataException)
+            {
+                // cancel gracefully
             }
 
             return list;

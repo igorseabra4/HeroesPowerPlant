@@ -113,7 +113,12 @@ namespace HeroesPowerPlant.LayoutEditor
             else if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".dat")
             {
                 isShadow = true;
-                GetShadowLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
+                try
+                {
+                    GetShadowLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
+                } catch (InvalidDataException) {
+                    // handle gracefully
+                }
             }
             else throw new InvalidDataException("Unknown file type");
         }
@@ -147,7 +152,13 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             if (isShadow)
             {
-                GetShadowLayout(fileName).ForEach(setObjects.Add);
+                try
+                {
+                    GetShadowLayout(fileName).ForEach(setObjects.Add);
+                } catch (InvalidDataException)
+                {
+                    // cancel gracefully
+                }
             }
             else
             {
