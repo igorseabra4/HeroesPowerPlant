@@ -42,6 +42,7 @@
   <PropertyGroup>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Authors>Heroes Hacking Central</Authors>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
