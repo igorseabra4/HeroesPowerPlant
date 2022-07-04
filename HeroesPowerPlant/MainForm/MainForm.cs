@@ -1,5 +1,6 @@
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
+using ShadowFNT.Structures;
 using SharpDX;
 using SharpDX.Direct3D11;
 using System;
@@ -29,9 +30,12 @@ namespace HeroesPowerPlant.MainForm
 
         public SharpRenderer renderer;
         public List<string> dffsToLoad = new List<string>();
+        public string currentShadowLevelRoot = "";
 
         public List<CollisionEditor.CollisionEditor> CollisionEditors => CollisionEditorDict.Values.ToList();
         public List<LayoutEditor.LayoutEditor> LayoutEditors => LayoutEditorDict.Values.ToList();
+        public AFSLib.AfsArchive loadedAFS;
+        public FNT loadedFNT;
 
         public MainForm()
         {
@@ -1226,6 +1230,49 @@ namespace HeroesPowerPlant.MainForm
                 LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked = false;
             HPPConfig.GetInstance().LegacyWindowPriorityBehavior = LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked;
             SetAllTopMost(true); // invoke reset
+        }
+
+        private void resourceToolStripMenuItemAddReplaceAFS_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog openFile = new OpenFileDialog
+            {
+                Filter = "AFS files (*.afs)|*.afs|All files (*.*)|*.*"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+                AFSLib.AfsArchive.TryFromFile(data, out var afsArchive);
+                {
+                    loadedAFS = afsArchive;
+                }
+            }
+        }
+
+        private void resourceToolStripMenuItemAddReplaceFNT_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog openFile = new OpenFileDialog
+            {
+                Filter = "FNT files (*.fnt)|*.fnt|All files (*.*)|*.*"
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                var data = File.ReadAllBytes(openFile.FileName);
+                loadedFNT = FNT.ParseFNTFile(openFile.FileName, ref data);
+            }
+        }
+
+        public void AutoLoadFNTAndAFS(string shadowStage)
+        {
+            if (loadedAFS == null)
+            {
+                var afsData = File.ReadAllBytes(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
+                AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
+                {
+                    loadedAFS = afsArchive;
+                }
+            }
+            var fntData = File.ReadAllBytes(currentShadowLevelRoot + "/fonts/" + shadowStage + "/" + shadowStage + "_EN.fnt");
+            loadedFNT = FNT.ParseFNTFile("", ref fntData);
         }
     }
 }

@@ -100,10 +100,7 @@
             this.buttonCopyMisc = new System.Windows.Forms.Button();
             this.buttonPasteMisc = new System.Windows.Forms.Button();
             this.checkBoxDrawObjs = new System.Windows.Forms.CheckBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.buttonPlayTriggerTalkingAudio = new System.Windows.Forms.Button();
-            this.buttonLoadFNT = new System.Windows.Forms.Button();
-            this.buttonLoadAFS = new System.Windows.Forms.Button();
+            this.buttonPlayLinkedAudio = new System.Windows.Forms.Button();
             this.TextBox_PreviewView = new System.Windows.Forms.TextBox();
             this.checkBoxDrawTriggerObjs = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -132,7 +129,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).BeginInit();
-            this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -539,7 +535,7 @@
             // 
             // buttonViewHere
             // 
-            this.buttonViewHere.Location = new System.Drawing.Point(575, 46);
+            this.buttonViewHere.Location = new System.Drawing.Point(575, 37);
             this.buttonViewHere.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonViewHere.Name = "buttonViewHere";
             this.buttonViewHere.Size = new System.Drawing.Size(98, 36);
@@ -690,7 +686,7 @@
             // 
             // buttonDrop
             // 
-            this.buttonDrop.Location = new System.Drawing.Point(575, 131);
+            this.buttonDrop.Location = new System.Drawing.Point(575, 117);
             this.buttonDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonDrop.Name = "buttonDrop";
             this.buttonDrop.Size = new System.Drawing.Size(98, 36);
@@ -702,7 +698,7 @@
             // 
             // buttonCurrentViewDrop
             // 
-            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(575, 89);
+            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(575, 77);
             this.buttonCurrentViewDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
             this.buttonCurrentViewDrop.Size = new System.Drawing.Size(98, 36);
@@ -984,59 +980,21 @@
             this.checkBoxDrawObjs.Text = "Draw Objects";
             this.checkBoxDrawObjs.UseVisualStyleBackColor = true;
             // 
-            // groupBox7
+            // buttonPlayLinkedAudio
             // 
-            this.groupBox7.Controls.Add(this.buttonPlayTriggerTalkingAudio);
-            this.groupBox7.Controls.Add(this.buttonLoadFNT);
-            this.groupBox7.Controls.Add(this.buttonLoadAFS);
-            this.groupBox7.Location = new System.Drawing.Point(678, 31);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox7.Size = new System.Drawing.Size(114, 103);
-            this.groupBox7.TabIndex = 91;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Shadow AFS/FNT";
-            // 
-            // buttonPlayTriggerTalkingAudio
-            // 
-            this.buttonPlayTriggerTalkingAudio.Location = new System.Drawing.Point(14, 69);
-            this.buttonPlayTriggerTalkingAudio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonPlayTriggerTalkingAudio.Name = "buttonPlayTriggerTalkingAudio";
-            this.buttonPlayTriggerTalkingAudio.Size = new System.Drawing.Size(80, 27);
-            this.buttonPlayTriggerTalkingAudio.TabIndex = 2;
-            this.buttonPlayTriggerTalkingAudio.TabStop = false;
-            this.buttonPlayTriggerTalkingAudio.Text = "Preview";
-            this.buttonPlayTriggerTalkingAudio.UseVisualStyleBackColor = true;
-            this.buttonPlayTriggerTalkingAudio.Click += new System.EventHandler(this.buttonPlayTriggerTalkingAudio_Click);
-            // 
-            // buttonLoadFNT
-            // 
-            this.buttonLoadFNT.Location = new System.Drawing.Point(14, 43);
-            this.buttonLoadFNT.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonLoadFNT.Name = "buttonLoadFNT";
-            this.buttonLoadFNT.Size = new System.Drawing.Size(80, 27);
-            this.buttonLoadFNT.TabIndex = 1;
-            this.buttonLoadFNT.TabStop = false;
-            this.buttonLoadFNT.Text = "FNT";
-            this.buttonLoadFNT.UseVisualStyleBackColor = true;
-            this.buttonLoadFNT.Click += new System.EventHandler(this.buttonLoadFNT_Click);
-            // 
-            // buttonLoadAFS
-            // 
-            this.buttonLoadAFS.Location = new System.Drawing.Point(14, 17);
-            this.buttonLoadAFS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonLoadAFS.Name = "buttonLoadAFS";
-            this.buttonLoadAFS.Size = new System.Drawing.Size(80, 27);
-            this.buttonLoadAFS.TabIndex = 0;
-            this.buttonLoadAFS.TabStop = false;
-            this.buttonLoadAFS.Text = "AFS";
-            this.buttonLoadAFS.UseVisualStyleBackColor = true;
-            this.buttonLoadAFS.Click += new System.EventHandler(this.buttonLoadAFS_Click);
+            this.buttonPlayLinkedAudio.Location = new System.Drawing.Point(575, 402);
+            this.buttonPlayLinkedAudio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.buttonPlayLinkedAudio.Name = "buttonPlayLinkedAudio";
+            this.buttonPlayLinkedAudio.Size = new System.Drawing.Size(201, 27);
+            this.buttonPlayLinkedAudio.TabIndex = 2;
+            this.buttonPlayLinkedAudio.TabStop = false;
+            this.buttonPlayLinkedAudio.Text = "Play Linked Audio (AFS)";
+            this.buttonPlayLinkedAudio.UseVisualStyleBackColor = true;
+            this.buttonPlayLinkedAudio.Click += new System.EventHandler(this.buttonPlayTriggerTalkingAudio_Click);
             // 
             // TextBox_PreviewView
             // 
-            this.TextBox_PreviewView.Location = new System.Drawing.Point(573, 192);
+            this.TextBox_PreviewView.Location = new System.Drawing.Point(575, 157);
             this.TextBox_PreviewView.Multiline = true;
             this.TextBox_PreviewView.Name = "TextBox_PreviewView";
             this.TextBox_PreviewView.ReadOnly = true;
@@ -1059,7 +1017,7 @@
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.buttonLoadShadowSFXBIN);
-            this.groupBox8.Location = new System.Drawing.Point(678, 135);
+            this.groupBox8.Location = new System.Drawing.Point(678, 101);
             this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -1085,11 +1043,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 601);
+            this.Controls.Add(this.buttonPlayLinkedAudio);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.checkBoxDrawTriggerObjs);
             this.Controls.Add(this.TextBox_PreviewView);
             this.Controls.Add(this.GroupBoxSonicHeroesStuff);
-            this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.checkBoxDrawObjs);
             this.Controls.Add(this.buttonPasteMisc);
             this.Controls.Add(this.buttonCopyMisc);
@@ -1152,7 +1110,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).EndInit();
-            this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1233,8 +1190,7 @@
         private System.Windows.Forms.Button buttonPasteMisc;
         private System.Windows.Forms.ToolStripMenuItem importSALayoutFileToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxDrawObjs;
-        internal System.Windows.Forms.GroupBox groupBox7;
-        internal System.Windows.Forms.Button buttonPlayTriggerTalkingAudio;
+        internal System.Windows.Forms.Button buttonPlayLinkedAudio;
         internal System.Windows.Forms.Button buttonLoadFNT;
         internal System.Windows.Forms.Button buttonLoadAFS;
         private System.Windows.Forms.TextBox TextBox_PreviewView;

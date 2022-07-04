@@ -1,6 +1,5 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
 using Shadow.Structures;
-using ShadowFNT.Structures;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -12,8 +11,6 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public partial class LayoutEditor : Form
     {
-        private AFSLib.AfsArchive loadedAFS;
-        private FNT loadedFNT;
         private ShadowSoundBIN loadedShadowSoundBIN;
 
         private int darkAudioId = -1;
@@ -30,6 +27,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             layoutSystem.BindControl(listBoxObjects);
             TextBox_PreviewView.Hide();
+            buttonPlayLinkedAudio.Hide();
             GroupBoxSonicHeroesStuff.Hide();
 
 #if !DEBUG
@@ -224,7 +222,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             ProgramIsChangingStuff = false;
 
-            if (loadedFNT.fileName != null)
+            if (Program.MainForm.loadedFNT.fileName != null)
             {
                 LoadShadowSubtitlePreviews();
             }
@@ -306,9 +304,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 List<int> matchesIndex = new();
 
                 var targetSize = setObjAudioBranchID.Length;
-                for (int i = 0; i < loadedFNT.entryTable.Count; i++)
+                for (int i = 0; i < Program.MainForm.loadedFNT.entryTable.Count; i++)
                 {
-                    var entry = loadedFNT.entryTable[i].messageIdBranchSequence.ToString();
+                    var entry = Program.MainForm.loadedFNT.entryTable[i].messageIdBranchSequence.ToString();
                     //size comparison is faster
                     if (entry.Length != targetSize + 3)
                         continue;
@@ -325,7 +323,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 foreach (int match in matchesIndex)
                 {
-                    var entry = loadedFNT.entryTable[match];
+                    var entry = Program.MainForm.loadedFNT.entryTable[match];
                     var entrySubtitle = entry.messageIdBranchSequence.ToString();
                     var branchType = entrySubtitle.Substring(entrySubtitle.Length - 3);
                     if (branchType.StartsWith("0"))
@@ -333,8 +331,11 @@ namespace HeroesPowerPlant.LayoutEditor
                         darkText += entry.subtitle.Replace("\n", "\r\n");
                         darkText += "\r\n";
 
-                        if (!branchType.EndsWith("0") && entry.audioId != -1)
-                            darkText += "[WARNING: Sequence has a follow up Audio file, and will not be previewed]\r\n";
+                        if (!branchType.EndsWith("0"))
+                        {
+                            if (entry.audioId != -1)
+                                darkText += "[WARNING: Sequence has a follow up Audio file, and will not be previewed]\r\n";
+                        }
                         else
                             darkAudioId = entry.audioId;
                     }
@@ -621,10 +622,12 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 TextBox_PreviewView.Show();
                 GroupBoxSonicHeroesStuff.Hide();
+                buttonPlayLinkedAudio.Show();
             } else
             {
                 TextBox_PreviewView.Hide();
                 GroupBoxSonicHeroesStuff.Show();
+                buttonPlayLinkedAudio.Hide();
             }
         }
 
@@ -1039,45 +1042,9 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
         }
 
-        private void buttonLoadAFS_Click(object sender, EventArgs e)
-        {
-
-            // TODO migrate this to project scope rather than layout
-
-            using OpenFileDialog openFile = new OpenFileDialog
-            {
-                Filter = "AFS files (*.afs)|*.afs|All files (*.*)|*.*"
-            };
-            if (openFile.ShowDialog() == DialogResult.OK)
-            {
-                var data = File.ReadAllBytes(openFile.FileName);
-                AFSLib.AfsArchive.TryFromFile(data, out var afsArchive);
-                {
-                    loadedAFS = afsArchive;
-                }
-            }
-        }
-
-        private void buttonLoadFNT_Click(object sender, EventArgs e)
-        {
-            using OpenFileDialog openFile = new OpenFileDialog
-            {
-                Filter = "FNT files (*.fnt)|*.fnt|All files (*.*)|*.*"
-            };
-            if (openFile.ShowDialog() == DialogResult.OK)
-            {
-                SetLoadedFNT(openFile.FileName);
-            }
-        }
-        private void SetLoadedFNT(string fileName)
-        {
-            var data = File.ReadAllBytes(fileName);
-            loadedFNT = FNT.ParseFNTFile(fileName, ref data);
-        }
-
         private void buttonPlayTriggerTalkingAudio_Click(object sender, EventArgs e)
         {
-            if (loadedAFS == null || loadedFNT.fileName == null)
+            if (Program.MainForm.loadedAFS == null || Program.MainForm.loadedFNT.fileName == null)
                 return;
             if (listBoxObjects.SelectedItems.Count != 1)
                 return;
@@ -1176,7 +1143,7 @@ namespace HeroesPowerPlant.LayoutEditor
         private void LoadAdxToWav(int audioId, out MemoryStream waveStream)
         {
             var decoder = new VGAudio.Containers.Adx.AdxReader();
-            var audio = decoder.Read(loadedAFS.Files[audioId].Data);
+            var audio = decoder.Read(Program.MainForm.loadedAFS.Files[audioId].Data);
             var writer = new VGAudio.Containers.Wave.WaveWriter();
             waveStream = new();
             writer.WriteToStream(audio, waveStream);

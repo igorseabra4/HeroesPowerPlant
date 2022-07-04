@@ -91,6 +91,8 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
+            this.resourceToolStripMenuItemAddReplaceAFS = new System.Windows.Forms.ToolStripMenuItem();
+            this.resourceToolStripMenuItemAddReplaceFNT = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -281,7 +283,9 @@ namespace HeroesPowerPlant.MainForm
             this.addTextureFolderToolStripMenuItem,
             this.clearTXDsToolStripMenuItem,
             this.addObjectONEToolStripMenuItem1,
-            this.clearObjectONEsToolStripMenuItem1});
+            this.clearObjectONEsToolStripMenuItem1,
+            this.resourceToolStripMenuItemAddReplaceAFS,
+            this.resourceToolStripMenuItemAddReplaceFNT});
             this.resourceToolStripMenuItem.Name = "resourceToolStripMenuItem";
             this.resourceToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.resourceToolStripMenuItem.Text = "Resources";
@@ -289,35 +293,35 @@ namespace HeroesPowerPlant.MainForm
             // addTXDToolStripMenuItem
             // 
             this.addTXDToolStripMenuItem.Name = "addTXDToolStripMenuItem";
-            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addTXDToolStripMenuItem.Text = "Add TXD(s)";
             this.addTXDToolStripMenuItem.Click += new System.EventHandler(this.addTXDToolStripMenuItem_Click);
             // 
             // addTextureFolderToolStripMenuItem
             // 
             this.addTextureFolderToolStripMenuItem.Name = "addTextureFolderToolStripMenuItem";
-            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addTextureFolderToolStripMenuItem.Text = "Add Texture Folder";
             this.addTextureFolderToolStripMenuItem.Click += new System.EventHandler(this.addTextureFolderToolStripMenuItem_Click);
             // 
             // clearTXDsToolStripMenuItem
             // 
             this.clearTXDsToolStripMenuItem.Name = "clearTXDsToolStripMenuItem";
-            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearTXDsToolStripMenuItem.Text = "Clear Textures";
             this.clearTXDsToolStripMenuItem.Click += new System.EventHandler(this.clearTXDsToolStripMenuItem_Click);
             // 
             // addObjectONEToolStripMenuItem1
             // 
             this.addObjectONEToolStripMenuItem1.Name = "addObjectONEToolStripMenuItem1";
-            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
+            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.addObjectONEToolStripMenuItem1.Text = "Add Object ONE";
             this.addObjectONEToolStripMenuItem1.Click += new System.EventHandler(this.addObjectONEToolStripMenuItem1_Click);
             // 
             // clearObjectONEsToolStripMenuItem1
             // 
             this.clearObjectONEsToolStripMenuItem1.Name = "clearObjectONEsToolStripMenuItem1";
-            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
+            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.clearObjectONEsToolStripMenuItem1.Text = "Clear Object ONEs";
             this.clearObjectONEsToolStripMenuItem1.Click += new System.EventHandler(this.clearObjectONEsToolStripMenuItem1_Click);
             // 
@@ -598,6 +602,20 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
+            // resourceToolStripMenuItemAddReplaceAFS
+            // 
+            this.resourceToolStripMenuItemAddReplaceAFS.Name = "resourceToolStripMenuItemAddReplaceAFS";
+            this.resourceToolStripMenuItemAddReplaceAFS.Size = new System.Drawing.Size(180, 22);
+            this.resourceToolStripMenuItemAddReplaceAFS.Text = "Add/Replace AFS";
+            this.resourceToolStripMenuItemAddReplaceAFS.Click += new System.EventHandler(this.resourceToolStripMenuItemAddReplaceAFS_Click);
+            // 
+            // resourceToolStripMenuItemAddReplaceFNT
+            // 
+            this.resourceToolStripMenuItemAddReplaceFNT.Name = "resourceToolStripMenuItemAddReplaceFNT";
+            this.resourceToolStripMenuItemAddReplaceFNT.Size = new System.Drawing.Size(180, 22);
+            this.resourceToolStripMenuItemAddReplaceFNT.Text = "Add/Replace FNT";
+            this.resourceToolStripMenuItemAddReplaceFNT.Click += new System.EventHandler(this.resourceToolStripMenuItemAddReplaceFNT_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -690,6 +708,8 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
         private ToolStripMenuItem shadowLayoutDiffToolToolStripMenuItem;
         private ToolStripMenuItem LegacyWindowPriorityBehavior_ToolStripMenuItem;
+        private ToolStripMenuItem resourceToolStripMenuItemAddReplaceAFS;
+        private ToolStripMenuItem resourceToolStripMenuItemAddReplaceFNT;
     }
 }
 

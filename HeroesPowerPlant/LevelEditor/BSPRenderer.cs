@@ -144,6 +144,8 @@ namespace HeroesPowerPlant
         {
             List<Archive> ShadowONEFiles = new List<Archive>();
             currentShadowFolderNamePrefix = Path.GetFileNameWithoutExtension(Folder);
+            var shadowRoot = Directory.GetParent(Folder);
+            Program.MainForm.currentShadowLevelRoot = shadowRoot.FullName;
 
             foreach (string fileName in Directory.GetFiles(Folder))
             {
@@ -170,7 +172,6 @@ namespace HeroesPowerPlant
                         if (Program.MainForm.dffsToLoad.Count == 0)
                         {
                             Program.MainForm.dffsToLoad.Add(fileName);
-                            var shadowRoot = Directory.GetParent(Folder);
 
                             // TODO: move defaultShadowObjectsToLoad somewhere optimally and let user customize this
                             List<string> defaultShadowObjectsToLoad = new List<string> {
@@ -212,7 +213,7 @@ namespace HeroesPowerPlant
                             };
                             foreach (string s in defaultShadowObjectsToLoad)
                             {
-                                Program.MainForm.dffsToLoad.Add(shadowRoot + "/" + s);
+                                Program.MainForm.dffsToLoad.Add(shadowRoot.FullName + "/" + s);
                             }
                         } else
                         {
