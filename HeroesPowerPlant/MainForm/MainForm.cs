@@ -1262,17 +1262,28 @@ namespace HeroesPowerPlant.MainForm
         }
 
         public void AutoLoadFNTAndAFS(string shadowStage)
-        {
-            if (loadedAFS == null)
+        { try
             {
-                var afsData = File.ReadAllBytes(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
-                AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
+                if (loadedAFS == null)
                 {
-                    loadedAFS = afsArchive;
+                    var afsData = File.ReadAllBytes(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
+                    AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
+                    {
+                        loadedAFS = afsArchive;
+                    }
                 }
+            } catch (IOException e)
+            {
+                MessageBox.Show(e.Message);
             }
-            var fntData = File.ReadAllBytes(currentShadowLevelRoot + "/fonts/" + shadowStage + "/" + shadowStage + "_EN.fnt");
-            loadedFNT = FNT.ParseFNTFile("", ref fntData);
+            try
+            {
+                var fntData = File.ReadAllBytes(currentShadowLevelRoot + "/fonts/" + shadowStage + "/" + shadowStage + "_EN.fnt");
+                loadedFNT = FNT.ParseFNTFile("", ref fntData);
+            } catch (IOException e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }
