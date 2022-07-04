@@ -167,8 +167,57 @@ namespace HeroesPowerPlant
                     }
                     else if (fileName.Contains("gdt"))
                     {
-                        Program.MainForm.dffsToLoad.Add(fileName);
-                        //Program.MainForm.renderer.dffRenderer.AddDFFFiles(new string[] { fileName });
+                        if (Program.MainForm.dffsToLoad.Count == 0)
+                        {
+                            Program.MainForm.dffsToLoad.Add(fileName);
+                            var shadowRoot = Directory.GetParent(Folder);
+
+                            // TODO: move defaultShadowObjectsToLoad somewhere optimally and let user customize this
+                            List<string> defaultShadowObjectsToLoad = new List<string> {
+                                "character/amy.one",
+                                "character/bee.one",
+                                "character/doomseye.one",
+                                "character/eggmonitor.one",
+                                "character/espio.one",
+                                "character/knuckles.one",
+                                "character/maria.one",
+                                "character/omega.one",
+                                "character/rouge.one",
+                                "character/sonic.one",
+                                "character/tails.one",
+                                "character/vector.one",
+                                "common/CommonEffect.one",
+                                "common/vehicleResource.one",
+                                "common/WeaponResource.one",
+                                "enemy/BKChaosData.one",
+                                "enemy/BkGiantData.one",
+                                "enemy/BkLarvaData.one",
+                                "enemy/BkNinjaData.one",
+                                "enemy/BkSoldierData.one",
+                                "enemy/BkWingLargeData.one",
+                                "enemy/BkWingSmallData.one",
+                                "enemy/BkWormData.one",
+                                "enemy/EggPawnData.one",
+                                //skip EggPierrot variants for now
+                                "enemy/EggPierrotData_pierro.one",
+                                "enemy/EggShadowAndroidData.one",
+                                "enemy/GunBeetleData.one",
+                                "enemy/GunBigfootData.one",
+                                "enemy/GunRobotData.one",
+                                //skip GUN Soldier variants for now
+                                "enemy/GunSoldierData_citii.one",
+/*                                "enemy/boss",
+                                "enemy/boss",*/
+                                "stg_cmn_gdt.one",
+                            };
+                            foreach (string s in defaultShadowObjectsToLoad)
+                            {
+                                Program.MainForm.dffsToLoad.Add(shadowRoot + "/" + s);
+                            }
+                        } else
+                        {
+                            Program.MainForm.dffsToLoad.Add(fileName);
+                        }
                     }
                     else if (fileName.Contains("tex"))
                     {
