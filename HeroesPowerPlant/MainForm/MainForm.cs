@@ -618,12 +618,6 @@ namespace HeroesPowerPlant.MainForm
                 case Keys.Z:
                     MouseModeToggle();
                     break;
-                case Keys.Q:
-                    renderer.Camera.IncreaseCameraSpeed(-0.1F);
-                    break;
-                case Keys.E:
-                    renderer.Camera.IncreaseCameraSpeed(0.1F);
-                    break;
                 case Keys.C:
                     ToggleCulling();
                     break;
@@ -733,6 +727,11 @@ namespace HeroesPowerPlant.MainForm
 
         public void KeyboardController()
         {
+            if (PressedKeys.Contains(Keys.Q))
+                    renderer.Camera.IncreaseCameraSpeed(-0.1F);
+            if (PressedKeys.Contains(Keys.E))
+                    renderer.Camera.IncreaseCameraSpeed(0.1F);
+
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
                 renderer.Camera.AddYaw(-renderer.Camera.KeyboardSensitivity);
             else if (PressedKeys.Contains(Keys.A))
