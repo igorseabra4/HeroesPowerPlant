@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
@@ -445,7 +446,7 @@ namespace HeroesPowerPlant.LevelEditor
             ResetEveryting();
         }
 
-        private void openToolStripMenuItem2_Click(object sender, EventArgs e)
+        private async void openToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             VistaFolderBrowserDialog openFolder = new VistaFolderBrowserDialog();
 
@@ -453,6 +454,8 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 OpenONEShadowFolder(openFolder.SelectedPath, false);
             }
+            await Task.Run(() => Program.MainForm.renderer.dffRenderer.AddDFFFiles(Program.MainForm.dffsToLoad));
+
         }
 
         public void OpenONEShadowFolder(string fileName, bool startup)

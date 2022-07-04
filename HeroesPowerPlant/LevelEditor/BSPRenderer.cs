@@ -167,7 +167,8 @@ namespace HeroesPowerPlant
                     }
                     else if (fileName.Contains("gdt"))
                     {
-                        Program.MainForm.renderer.dffRenderer.AddDFFFiles(new string[] { fileName });
+                        Program.MainForm.dffsToLoad.Add(fileName);
+                        //Program.MainForm.renderer.dffRenderer.AddDFFFiles(new string[] { fileName });
                     }
                     else if (fileName.Contains("tex"))
                     {

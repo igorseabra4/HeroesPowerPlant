@@ -28,6 +28,7 @@ namespace HeroesPowerPlant.MainForm
         public SetIdTableEditor.SetIdTableEditor SetIdTableEditor;
 
         public SharpRenderer renderer;
+        public List<string> dffsToLoad = new List<string>();
 
         public List<CollisionEditor.CollisionEditor> CollisionEditors => CollisionEditorDict.Values.ToList();
         public List<LayoutEditor.LayoutEditor> LayoutEditors => LayoutEditorDict.Values.ToList();
