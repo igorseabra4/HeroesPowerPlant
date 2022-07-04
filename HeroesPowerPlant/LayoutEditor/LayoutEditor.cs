@@ -29,6 +29,8 @@ namespace HeroesPowerPlant.LayoutEditor
             };
 
             layoutSystem.BindControl(listBoxObjects);
+            TextBox_PreviewView.Hide();
+            GroupBoxSonicHeroesStuff.Hide();
 
 #if !DEBUG
             importSALayoutFileToolStripMenuItem.Visible = false;
@@ -67,23 +69,21 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            New();
-        }
-
-        public void New()
-        {
             listBoxObjects.BeginUpdate();
             layoutSystem.NewHeroesLayout();
+            UpdateHiddenUI(false);
             listBoxObjects.EndUpdate();
 
             UpdateObjectComboBox();
             UpdateFileLabel(Program.MainForm);
         }
 
+
         private void shadowLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listBoxObjects.BeginUpdate();
             layoutSystem.NewShadowLayout();
+            UpdateHiddenUI(true);
             listBoxObjects.EndUpdate();
 
             UpdateObjectComboBox();
@@ -258,7 +258,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         }
                         sfxStringIdList += loadedShadowSoundBIN.sfxTable[i].sfxId + " " + loadedShadowSoundBIN.sfxTable[i].sfxString.Replace('\0', ' ') + "\r\n";
                     }
-                    textBox_FNT_TriggerTalkingPreview.Text = sfxStringIdList;
+                    TextBox_PreviewView.Text = sfxStringIdList;
                 }
                 else if (listBoxObjects.SelectedItem.GetType() == typeof(Object2597_SetSeLoop))
                 {
@@ -275,7 +275,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         }
                         sfxStringIdList += loadedShadowSoundBIN.sfxTable[i].sfxId + " " + loadedShadowSoundBIN.sfxTable[i].sfxString.Replace('\0', ' ') + "\r\n";
                     }
-                    textBox_FNT_TriggerTalkingPreview.Text = sfxStringIdList;
+                    TextBox_PreviewView.Text = sfxStringIdList;
                 }
             }
         }
@@ -367,12 +367,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     normalText = "|| No entry ||\r\n";
                 if (heroText == "")
                     heroText = "|| No entry ||";
-                textBox_FNT_TriggerTalkingPreview.Text = "Dark:\r\n";
-                textBox_FNT_TriggerTalkingPreview.Text += darkText.Replace("\0", "");
-                textBox_FNT_TriggerTalkingPreview.Text += "\r\nNormal:\r\n";
-                textBox_FNT_TriggerTalkingPreview.Text += normalText.Replace("\0", "");
-                textBox_FNT_TriggerTalkingPreview.Text += "\r\nHero:\r\n";
-                textBox_FNT_TriggerTalkingPreview.Text += heroText.Replace("\0", "");
+                TextBox_PreviewView.Text = "Dark:\r\n";
+                TextBox_PreviewView.Text += darkText.Replace("\0", "");
+                TextBox_PreviewView.Text += "\r\nNormal:\r\n";
+                TextBox_PreviewView.Text += normalText.Replace("\0", "");
+                TextBox_PreviewView.Text += "\r\nHero:\r\n";
+                TextBox_PreviewView.Text += heroText.Replace("\0", "");
             }
         }
 
@@ -600,11 +600,6 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        private void buttonForceReload_Click(object sender, EventArgs e)
-        {
-
-        }
-
         public string GetOpenFileName()
         {
             return layoutSystem.CurrentlyOpenFileName;
@@ -615,8 +610,22 @@ namespace HeroesPowerPlant.LayoutEditor
             layoutSystem.SelectedIndexChanged(new int[] { -1 });
             ProgramIsChangingStuff = true;
             layoutSystem.OpenLayoutFile(fileName);
+            UpdateHiddenUI(layoutSystem.IsShadow);
             UpdateObjectComboBox();
             UpdateFileLabel(mainForm);
+        }
+
+        private void UpdateHiddenUI(bool IsShadow)
+        {
+            if (IsShadow)
+            {
+                TextBox_PreviewView.Show();
+                GroupBoxSonicHeroesStuff.Hide();
+            } else
+            {
+                TextBox_PreviewView.Hide();
+                GroupBoxSonicHeroesStuff.Show();
+            }
         }
 
         private void SaveAs()
@@ -765,7 +774,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 GroupBox2.Enabled = false;
                 NumericObjLink.Enabled = false;
                 NumericObjRend.Enabled = false;
-                GroupBoxGameStuff.Enabled = false;
+                GroupBoxSonicHeroesStuff.Enabled = false;
                 PropertyGridMisc.Enabled = false;
                 buttonViewHere.Enabled = false;
                 buttonDrop.Enabled = false;
@@ -785,7 +794,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 GroupBox2.Enabled = true;
                 NumericObjLink.Enabled = true;
                 NumericObjRend.Enabled = true;
-                GroupBoxGameStuff.Enabled = true;
+                GroupBoxSonicHeroesStuff.Enabled = true;
                 PropertyGridMisc.Enabled = true;
                 buttonViewHere.Enabled = true;
                 buttonDrop.Enabled = true;
