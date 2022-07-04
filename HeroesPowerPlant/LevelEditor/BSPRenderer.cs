@@ -147,6 +147,17 @@ namespace HeroesPowerPlant
             var shadowRoot = Directory.GetParent(Folder);
             Program.MainForm.currentShadowLevelRoot = shadowRoot.FullName;
 
+            bool firstTimeLoad = false;
+            if (Program.MainForm.dffsToLoad.Count == 0)
+            {
+                firstTimeLoad = true;
+            } else
+            {
+                // TODO: Extract current GDT for removal
+                // don't bother re-loading shared models, since they already should be loaded in (enemies/cmn/characters etc)
+                Program.MainForm.dffsToLoad.Clear();
+            }
+
             foreach (string fileName in Directory.GetFiles(Folder))
             {
                 if (Path.GetExtension(fileName).ToLower() == ".one")
@@ -169,12 +180,27 @@ namespace HeroesPowerPlant
                     }
                     else if (fileName.Contains("gdt"))
                     {
-                        if (Program.MainForm.dffsToLoad.Count == 0)
+                        // TODO: remove any other GDT previously loaded
+/*                      foreach (string s in Program.MainForm.dffsToLoad)
                         {
-                            Program.MainForm.dffsToLoad.Add(fileName);
+                            if (s.EndsWith("_gdt.one"))
+                            {
 
-                            // TODO: move defaultShadowObjectsToLoad somewhere optimally and let user customize this
-                            List<string> defaultShadowObjectsToLoad = new List<string> {
+                            }
+                        }*/
+                        Program.MainForm.dffsToLoad.Add(fileName);
+                    }
+                    else if (fileName.Contains("tex"))
+                    {
+                        TextureManager.LoadTexturesFromTXD(fileName, renderer, this);
+                    }
+            }
+
+            // perform autoload
+            if (firstTimeLoad)
+            {
+                // TODO: move defaultShadowObjectsToLoad somewhere optimally and let user customize this
+                List<string> defaultShadowObjectsToLoad = new List<string> {
                                 "character/amy.one",
                                 "character/bee.one",
                                 "character/doomseye.one",
@@ -207,35 +233,23 @@ namespace HeroesPowerPlant
                                 "enemy/GunRobotData.one",
                                 //skip GUN Soldier variants for now
                                 "enemy/GunSoldierData_citii.one",
-/*                                "enemy/boss",
-                                "enemy/boss",*/
+                                "enemy/boss/BlackBull0210One.one",
+                                "enemy/boss/BlackBull0412One.one",
+                                "enemy/boss/BlackDoomOne.one",
+                                "enemy/boss/DevilDoomOne.one",
+                                "enemy/boss/diablon.one",
+                                "enemy/boss/EggLastMechData.one",
+                                "enemy/boss/EggMecaOne.one",
+                                "enemy/boss/HeavyDog0410One.one",
+                                "enemy/boss/HeavyDog0510One.one",
                                 "stg_cmn_gdt.one",
                             };
-                            foreach (string s in defaultShadowObjectsToLoad)
-                            {
-                                Program.MainForm.dffsToLoad.Add(shadowRoot.FullName + "/" + s);
-                            }
-                        } else
-                        {
-                            // TODO: remove any other GDT previously loaded
-
-/*                            foreach (string s in Program.MainForm.dffsToLoad)
-                            {
-                                if (s.EndsWith("_gdt.one"))
-                                {
-
-                                }
-                            }*/
-                            // don't bother re-loading shared models, since they already should be loaded in (enemies/cmn/characters etc)
-                            Program.MainForm.dffsToLoad.Clear();
-                            Program.MainForm.dffsToLoad.Add(fileName);
-                        }
-                    }
-                    else if (fileName.Contains("tex"))
-                    {
-                        TextureManager.LoadTexturesFromTXD(fileName, renderer, this);
-                    }
+                foreach (string s in defaultShadowObjectsToLoad)
+                {
+                    Program.MainForm.dffsToLoad.Add(shadowRoot.FullName + "/" + s);
+                }
             }
+            // end autoload
 
             SetShadowBSPList(renderer, ShadowONEFiles);
         }
