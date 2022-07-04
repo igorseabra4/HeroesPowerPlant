@@ -117,7 +117,11 @@ namespace HeroesPowerPlant.MainForm
         {
             if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
                 "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
                 ClearConfig();
+                GC.Collect();
+            }
+
         }
 
         public void ClearConfig()
@@ -1063,6 +1067,7 @@ namespace HeroesPowerPlant.MainForm
             renderer.dffRenderer.ClearObjectONEFiles();
             foreach (var v in LayoutEditors)
                 v.UpdateAllMatrices();
+            GC.Collect();
         }
 
         private void addTXDToolStripMenuItem_Click(object sender, EventArgs e)
