@@ -1045,7 +1045,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonPlayTriggerTalkingAudio_Click(object sender, EventArgs e)
         {
-            if (Program.MainForm.loadedAFS == null || Program.MainForm.loadedFNT.fileName == null)
+            if (Program.MainForm.locationAFS == null || Program.MainForm.loadedFNT.fileName == null)
                 return;
             if (listBoxObjects.SelectedItems.Count != 1)
                 return;
@@ -1144,10 +1144,20 @@ namespace HeroesPowerPlant.LayoutEditor
         private void LoadAdxToWav(int audioId, out MemoryStream waveStream)
         {
             var decoder = new VGAudio.Containers.Adx.AdxReader();
-            var audio = decoder.Read(Program.MainForm.loadedAFS.Files[audioId].Data);
-            var writer = new VGAudio.Containers.Wave.WaveWriter();
-            waveStream = new();
-            writer.WriteToStream(audio, waveStream);
+            try
+            {
+                var afsData = File.ReadAllBytes(Program.MainForm.locationAFS);
+                AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
+                var audio = decoder.Read(afsArchive.Files[audioId].Data);
+                var writer = new VGAudio.Containers.Wave.WaveWriter();
+                waveStream = new();
+                writer.WriteToStream(audio, waveStream);
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show(e.Message);
+                waveStream = null;
+            }
         }
 
         private void LayoutEditor_Load(object sender, EventArgs e)

@@ -34,7 +34,7 @@ namespace HeroesPowerPlant.MainForm
 
         public List<CollisionEditor.CollisionEditor> CollisionEditors => CollisionEditorDict.Values.ToList();
         public List<LayoutEditor.LayoutEditor> LayoutEditors => LayoutEditorDict.Values.ToList();
-        public AFSLib.AfsArchive loadedAFS;
+        public string locationAFS;
         public FNT loadedFNT;
 
         public MainForm()
@@ -119,7 +119,6 @@ namespace HeroesPowerPlant.MainForm
                 "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 ClearConfig();
-                GC.Collect();
             }
 
         }
@@ -1067,7 +1066,6 @@ namespace HeroesPowerPlant.MainForm
             renderer.dffRenderer.ClearObjectONEFiles();
             foreach (var v in LayoutEditors)
                 v.UpdateAllMatrices();
-            GC.Collect();
         }
 
         private void addTXDToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1245,8 +1243,7 @@ namespace HeroesPowerPlant.MainForm
             };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                LoadAFS(openFile.FileName);
-                GC.Collect();
+                SetAFSlocation(openFile.FileName);
             }
         }
 
@@ -1264,28 +1261,14 @@ namespace HeroesPowerPlant.MainForm
 
         public void AutoLoadFNTAndAFS(string shadowStage)
         {
-            if (loadedAFS == null)
-            {
-                LoadAFS(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
-            }
+            SetAFSlocation(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
             var fntFileName = currentShadowLevelRoot + "/fonts/" + shadowStage + "/" + shadowStage + "_EN.fnt";
             LoadFNT(fntFileName);
         }
 
-        private void LoadAFS(string fileName)
+        private void SetAFSlocation(string fileName)
         {
-            try
-            {
-                var afsData = File.ReadAllBytes(fileName);
-                AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
-                {
-                    loadedAFS = afsArchive;
-                }
-            }
-            catch (IOException e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            locationAFS = fileName;
         }
 
         private void LoadFNT(string fileName)
