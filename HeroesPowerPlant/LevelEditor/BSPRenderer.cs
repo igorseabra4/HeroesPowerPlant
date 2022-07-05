@@ -153,7 +153,13 @@ namespace HeroesPowerPlant
                 firstTimeLoad = true;
             } else
             {
-                // TODO: Extract current GDT for removal
+                // Remove other GDTs
+                foreach (string s in Program.MainForm.dffsToLoad)
+                {
+                    if (s.EndsWith("_gdt.one") && !s.EndsWith("stg_cmn_gdt.one")) {
+                        renderer.dffRenderer.ClearSpecificObjectONEFile(s);
+                    }
+                }
                 // don't bother re-loading shared models, since they already should be loaded in (enemies/cmn/characters etc)
                 Program.MainForm.dffsToLoad.Clear();
             }
@@ -180,14 +186,6 @@ namespace HeroesPowerPlant
                     }
                     else if (fileName.Contains("gdt"))
                     {
-                        // TODO: remove any other GDT previously loaded
-/*                      foreach (string s in Program.MainForm.dffsToLoad)
-                        {
-                            if (s.EndsWith("_gdt.one"))
-                            {
-
-                            }
-                        }*/
                         Program.MainForm.dffsToLoad.Add(fileName);
                     }
                     else if (fileName.Contains("tex"))

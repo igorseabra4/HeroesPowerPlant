@@ -111,10 +111,25 @@ namespace HeroesPowerPlant
             }
         }
 
-        // TODO IMPLEMENT ME
-        public void ClearSpecificObjectONEFile(string objectOneToClear)
+        public void ClearSpecificObjectONEFile(string objectOneFileNameToClear)
         {
-            // Remove specified string from all related hashes / dispose the RW loaded model properly
+            byte[] dataBytes = File.ReadAllBytes(objectOneFileNameToClear);
+            foreach (var j in Archive.FromONEFile(ref dataBytes).Files)
+            {
+                if (ObjectDFFNames.Contains(j.Name))
+                {
+                    DFFModels.TryGetValue(j.Name, out RenderWareModelFile d);
+
+                    if (DFFModels.ContainsKey(j.Name))
+                    {
+                        foreach (SharpMesh mesh in DFFModels[j.Name].meshList)
+                            mesh.Dispose();
+                        DFFModels.Remove(j.Name);
+                        ObjectDFFNames.Remove(j.Name);
+                    }
+                }
+            }
+            filePaths.Remove(objectOneFileNameToClear);
         }
 
         public void ClearObjectONEFiles()
