@@ -75,7 +75,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void ToolstripFileOpen(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             { Filter = "Power Plant Config File|*.json" };
 
             if (openFile.ShowDialog() == DialogResult.OK)
@@ -102,7 +102,7 @@ namespace HeroesPowerPlant.MainForm
 
         private void ToolStripFileSaveAs(object sender, EventArgs e)
         {
-            SaveFileDialog openFile = new SaveFileDialog()
+            VistaSaveFileDialog openFile = new VistaSaveFileDialog()
             { Filter = "Power Plant Config File|*.json" };
 
             if (openFile.ShowDialog() == DialogResult.OK)
@@ -1052,7 +1052,7 @@ namespace HeroesPowerPlant.MainForm
 
         private async void addObjectONEToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "ONE Files|*.one",
                 Multiselect = true
@@ -1237,9 +1237,9 @@ namespace HeroesPowerPlant.MainForm
             SetAllTopMost(true); // invoke reset
         }
 
-        private void resourceToolStripMenuItemAddReplaceAFS_Click(object sender, EventArgs e)
+        private void ResourceToolStripMenuItemSetAFS_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFile = new OpenFileDialog
+            using VistaOpenFileDialog openFile = new VistaOpenFileDialog
             {
                 Filter = "AFS files (*.afs)|*.afs|All files (*.*)|*.*"
             };
@@ -1249,9 +1249,9 @@ namespace HeroesPowerPlant.MainForm
             }
         }
 
-        private void resourceToolStripMenuItemAddReplaceFNT_Click(object sender, EventArgs e)
+        private void ResourceToolStripMenuItemSetFNT_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFile = new OpenFileDialog
+            using VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "FNT files (*.fnt)|*.fnt|All files (*.*)|*.*"
             };

@@ -1,5 +1,6 @@
 ﻿using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -40,7 +41,7 @@ namespace HeroesPowerPlant.SplineEditor
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openSpline = new OpenFileDialog()
+            VistaOpenFileDialog openSpline = new VistaOpenFileDialog()
             {
                 Multiselect = true,
                 Filter = ".obj files|*.obj"
@@ -168,7 +169,7 @@ namespace HeroesPowerPlant.SplineEditor
         {
             if (listBoxSplines.SelectedIndex >= 0 && listBoxSplines.SelectedIndex < splineEditorFunctions.GetSplineCount())
             {
-                using SaveFileDialog saveFile = new SaveFileDialog() { Filter = "*.obj|OBJ files|*.*|All Files" };
+                using VistaSaveFileDialog saveFile = new VistaSaveFileDialog() { Filter = "*.obj|OBJ files|*.*|All Files" };
                 if (saveFile.ShowDialog() == DialogResult.OK)
                     splineEditorFunctions.ExportOBJ(saveFile.FileName);
             }

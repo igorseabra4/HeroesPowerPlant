@@ -64,7 +64,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "ONE files|*.ONE"
             };
@@ -117,7 +117,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog()
             {
                 Filter = "ONE files|*.one",
                 FileName = openONEfilePath,
@@ -198,7 +198,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = GetImportFilter(), // "All supported types|*.dae;*.obj;*.bsp|DAE Files|*.dae|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
                 Multiselect = true
@@ -264,7 +264,7 @@ namespace HeroesPowerPlant.LevelEditor
 
                 if (listBoxLevelModels.SelectedIndices.Count == 1)
                 {
-                    SaveFileDialog a = new SaveFileDialog()
+                    VistaSaveFileDialog a = new VistaSaveFileDialog()
                     {
                         Filter = format == null ? "RenderWare BSP|*.bsp" : format.Description + "|*." + format.FileExtension,
                         FileName = listBoxLevelModels.GetItemText(listBoxLevelModels.SelectedItem) + (format == null ? "" : "." + format.FileExtension)
@@ -662,7 +662,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN files|*.bin"
             };
@@ -710,7 +710,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog()
             {
                 Filter = "BIN files|*.bin",
                 FileName = Path.GetFileName(visibilityFunctions.OpenVisibilityFile),
@@ -729,7 +729,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void importBLKToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "All supported files|*.bin;*.bdt|BIN files|*.bin|BDT files|*.bdt"
             };

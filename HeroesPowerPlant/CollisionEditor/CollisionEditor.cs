@@ -1,4 +1,5 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using SharpDX;
 using System;
 using System.Diagnostics;
@@ -36,11 +37,11 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OpenOBJFile = new OpenFileDialog
+            VistaOpenFileDialog OpenOBJFile = new VistaOpenFileDialog
             {
                 Filter = "OBJ Files|*.obj|All Files|*.*"
             };
-            SaveFileDialog SaveCLFile = new SaveFileDialog
+            VistaSaveFileDialog SaveCLFile = new VistaSaveFileDialog
             {
                 Filter = "CL Files|*.cl"
             };
@@ -55,7 +56,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OpenCLFile = new OpenFileDialog()
+            VistaOpenFileDialog OpenCLFile = new VistaOpenFileDialog()
             {
                 Filter = "CL Files|*.cl"
             };
@@ -67,7 +68,7 @@ namespace HeroesPowerPlant.CollisionEditor
 
         private void exportOBJToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog SaveOBJFile = new SaveFileDialog
+            VistaSaveFileDialog SaveOBJFile = new VistaSaveFileDialog
             {
                 Filter = "OBJ Files|*.obj|All Files|*.*"
             };
@@ -87,7 +88,7 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             if (collisionSystem.HasOpenedFile())
             {
-                OpenFileDialog OpenOBJFile = new OpenFileDialog();
+                VistaOpenFileDialog OpenOBJFile = new VistaOpenFileDialog();
                 OpenOBJFile.Filter = "OBJ Files|*.obj|All Files|*.*";
                 if (OpenOBJFile.ShowDialog() == DialogResult.OK)
                 {

@@ -1,5 +1,6 @@
 ﻿using HeroesPowerPlant.LayoutEditor;
 using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         private void heroesSetidtblbinToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog()
+            VistaOpenFileDialog openFileDialog = new VistaOpenFileDialog()
             {
                 Filter = ".bin files|*.bin",
                 FileName = "setidtbl.bin"
@@ -62,7 +63,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         private void shadowSetidbinToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog()
+            VistaOpenFileDialog openFileDialog = new VistaOpenFileDialog()
             {
                 Filter = ".bin files|*.bin",
                 FileName = "setid.bin"
@@ -157,7 +158,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog
             {
                 Filter = ".bin files|*.bin",
                 FileName = currentFileName

@@ -2,6 +2,7 @@
 using Heroes.SDK.Definitions.Enums;
 using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,7 +71,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void buttonOpenExe_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFile = new OpenFileDialog();
+            using VistaOpenFileDialog openFile = new VistaOpenFileDialog();
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 exe = File.ReadAllBytes(openFile.FileName);

@@ -59,8 +59,8 @@ namespace HeroesPowerPlant.MainForm
             this.clearTXDsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addObjectONEToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.clearObjectONEsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.resourceToolStripMenuItemAddReplaceAFS = new System.Windows.Forms.ToolStripMenuItem();
-            this.resourceToolStripMenuItemAddReplaceFNT = new System.Windows.Forms.ToolStripMenuItem();
+            this.ResourceToolStripMenuItemSetAFS = new System.Windows.Forms.ToolStripMenuItem();
+            this.ResourceToolStripMenuItemSetFNT = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noCullingCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wireframeFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -284,8 +284,8 @@ namespace HeroesPowerPlant.MainForm
             this.clearTXDsToolStripMenuItem,
             this.addObjectONEToolStripMenuItem1,
             this.clearObjectONEsToolStripMenuItem1,
-            this.resourceToolStripMenuItemAddReplaceAFS,
-            this.resourceToolStripMenuItemAddReplaceFNT});
+            this.ResourceToolStripMenuItemSetAFS,
+            this.ResourceToolStripMenuItemSetFNT});
             this.resourceToolStripMenuItem.Name = "resourceToolStripMenuItem";
             this.resourceToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.resourceToolStripMenuItem.Text = "Resources";
@@ -325,19 +325,19 @@ namespace HeroesPowerPlant.MainForm
             this.clearObjectONEsToolStripMenuItem1.Text = "Clear Object ONEs";
             this.clearObjectONEsToolStripMenuItem1.Click += new System.EventHandler(this.clearObjectONEsToolStripMenuItem1_Click);
             // 
-            // resourceToolStripMenuItemAddReplaceAFS
+            // ResourceToolStripMenuItemSetAFS
             // 
-            this.resourceToolStripMenuItemAddReplaceAFS.Name = "resourceToolStripMenuItemAddReplaceAFS";
-            this.resourceToolStripMenuItemAddReplaceAFS.Size = new System.Drawing.Size(180, 22);
-            this.resourceToolStripMenuItemAddReplaceAFS.Text = "Add/Replace AFS";
-            this.resourceToolStripMenuItemAddReplaceAFS.Click += new System.EventHandler(this.resourceToolStripMenuItemAddReplaceAFS_Click);
+            this.ResourceToolStripMenuItemSetAFS.Name = "ResourceToolStripMenuItemSetAFS";
+            this.ResourceToolStripMenuItemSetAFS.Size = new System.Drawing.Size(180, 22);
+            this.ResourceToolStripMenuItemSetAFS.Text = "Set AFS";
+            this.ResourceToolStripMenuItemSetAFS.Click += new System.EventHandler(this.ResourceToolStripMenuItemSetAFS_Click);
             // 
-            // resourceToolStripMenuItemAddReplaceFNT
+            // ResourceToolStripMenuItemSetFNT
             // 
-            this.resourceToolStripMenuItemAddReplaceFNT.Name = "resourceToolStripMenuItemAddReplaceFNT";
-            this.resourceToolStripMenuItemAddReplaceFNT.Size = new System.Drawing.Size(180, 22);
-            this.resourceToolStripMenuItemAddReplaceFNT.Text = "Add/Replace FNT";
-            this.resourceToolStripMenuItemAddReplaceFNT.Click += new System.EventHandler(this.resourceToolStripMenuItemAddReplaceFNT_Click);
+            this.ResourceToolStripMenuItemSetFNT.Name = "ResourceToolStripMenuItemSetFNT";
+            this.ResourceToolStripMenuItemSetFNT.Size = new System.Drawing.Size(180, 22);
+            this.ResourceToolStripMenuItemSetFNT.Text = "Set FNT";
+            this.ResourceToolStripMenuItemSetFNT.Click += new System.EventHandler(this.ResourceToolStripMenuItemSetFNT_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -708,8 +708,8 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
         private ToolStripMenuItem shadowLayoutDiffToolToolStripMenuItem;
         private ToolStripMenuItem LegacyWindowPriorityBehavior_ToolStripMenuItem;
-        private ToolStripMenuItem resourceToolStripMenuItemAddReplaceAFS;
-        private ToolStripMenuItem resourceToolStripMenuItemAddReplaceFNT;
+        private ToolStripMenuItem ResourceToolStripMenuItemSetAFS;
+        private ToolStripMenuItem ResourceToolStripMenuItemSetFNT;
     }
 }
 

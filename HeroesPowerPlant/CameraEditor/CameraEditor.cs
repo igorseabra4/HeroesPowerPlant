@@ -1,5 +1,6 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
 using Newtonsoft.Json;
+using Ookii.Dialogs.WinForms;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -139,7 +140,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OpenCamera = new OpenFileDialog()
+            VistaOpenFileDialog OpenCamera = new VistaOpenFileDialog()
             {
                 Filter = "BIN Files|*.bin"
             };
@@ -175,7 +176,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog SaveCamera = new SaveFileDialog()
+            VistaSaveFileDialog SaveCamera = new VistaSaveFileDialog()
             {
                 Filter = "Binary Files|*.bin",
                 FileName = CurrentCameraFile
@@ -504,7 +505,7 @@ namespace HeroesPowerPlant.CameraEditor
 
         private void importSACameraFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFile = new OpenFileDialog();
+            using VistaOpenFileDialog openFile = new VistaOpenFileDialog();
             if (openFile.ShowDialog() == DialogResult.OK)
                 foreach (var c in Other.OtherFunctions.ConvertSACamToHeroes(openFile.FileName))
                     ListBoxCameras.Items.Add(c);

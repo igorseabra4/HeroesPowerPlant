@@ -1,4 +1,5 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Windows.Forms;
 
@@ -43,7 +44,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "TXC Files|*.txc"
             };
@@ -62,7 +63,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFile = new SaveFileDialog()
+            VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
                 Filter = "TXC Files|*.txc",
                 FileName = patternSystem.CurrentlyOpenTXC

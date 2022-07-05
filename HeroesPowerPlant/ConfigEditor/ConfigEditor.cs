@@ -1,5 +1,6 @@
 ﻿using Heroes.SDK.Definitions.Enums;
 using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using SharpDX;
 using System;
 using System.IO;
@@ -97,7 +98,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OpenConfigFile = new OpenFileDialog
+            VistaOpenFileDialog OpenConfigFile = new VistaOpenFileDialog
             {
                 Filter = "JSON files (Reloaded Stage Injection)|*.json|.CC files (Legacy Heroes Mod Loader Stage Injection)|*.cc"
             };
@@ -141,7 +142,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog SaveConfigFile = new SaveFileDialog
+            VistaSaveFileDialog SaveConfigFile = new VistaSaveFileDialog
             {
                 Filter = "JSON files (Reloaded/New Stage Injection)|*.json",
                 FileName = OpenConfigFileName

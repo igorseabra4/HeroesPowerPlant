@@ -1,4 +1,5 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -55,7 +56,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         private void buttonImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openSpline = new OpenFileDialog()
+            VistaOpenFileDialog openSpline = new VistaOpenFileDialog()
             {
                 Multiselect = true,
                 Filter = ".obj files|*.obj"
@@ -80,7 +81,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveSpline = new SaveFileDialog()
+            VistaSaveFileDialog saveSpline = new VistaSaveFileDialog()
             {
                 Filter = ".obj files|*.obj",
                 FileName = SplineEditor.GetSplineAt(listBoxSplines.SelectedIndex) + ".obj"

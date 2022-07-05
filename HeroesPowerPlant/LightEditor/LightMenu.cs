@@ -1,4 +1,5 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Windows.Forms;
 
@@ -67,7 +68,7 @@ namespace HeroesPowerPlant.LightEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN Files|*.bin"
             };
@@ -79,7 +80,7 @@ namespace HeroesPowerPlant.LightEditor
 
         private void openShadowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN Files|*.bin"
             };
@@ -99,7 +100,7 @@ namespace HeroesPowerPlant.LightEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFile = new SaveFileDialog()
+            VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
                 Filter = "BIN Files|*.bin",
                 FileName = LightEditor.CurrentlyOpenLightFile
@@ -114,7 +115,7 @@ namespace HeroesPowerPlant.LightEditor
 
         private void saveAsShadowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFile = new SaveFileDialog()
+            VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
                 Filter = "BIN Files|*.bin",
                 FileName = LightEditor.CurrentlyOpenLightFile

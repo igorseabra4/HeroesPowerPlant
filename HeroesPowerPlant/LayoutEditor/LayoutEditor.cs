@@ -1,4 +1,5 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
+using Ookii.Dialogs.WinForms;
 using Shadow.Structures;
 using SharpDX;
 using System;
@@ -90,7 +91,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog
             {
                 Filter = "All supported types|*.bin; *.dat|BIN Files|*.bin|DAT Files|*.dat"
             };
@@ -135,7 +136,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void exportINIToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog()
             {
                 Filter = ".ini files|*.ini",
                 FileName = Path.ChangeExtension(layoutSystem.CurrentlyOpenFileName, ".ini")
@@ -148,7 +149,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void importINIToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog()
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = ".ini files|*.ini"
             };
@@ -162,7 +163,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void importLayoutFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog
             {
                 Multiselect = true,
 #if DEBUG
@@ -182,7 +183,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void importOBJToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog
+            VistaOpenFileDialog openFile = new VistaOpenFileDialog
             {
                 Filter = ".obj files|*.obj"
             };
@@ -633,7 +634,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void SaveAs()
         {
-            SaveFileDialog saveFile = new SaveFileDialog
+            VistaSaveFileDialog saveFile = new VistaSaveFileDialog
             {
                 Filter = layoutSystem.IsShadow ? "DAT Files|*.dat" : "BIN Files|*.bin",
                 FileName = layoutSystem.CurrentlyOpenFileName
@@ -1031,7 +1032,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void importSALayoutFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using OpenFileDialog openFile = new OpenFileDialog() { Multiselect = true };
+            using VistaOpenFileDialog openFile = new VistaOpenFileDialog() { Multiselect = true };
             if (openFile.ShowDialog() == DialogResult.OK)
                 foreach (var s in openFile.FileNames)
                     layoutSystem.ImportSALayout(s);
@@ -1161,7 +1162,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             // TODO migrate this to project scope rather than layout
 
-            using OpenFileDialog openFile = new OpenFileDialog
+            using VistaOpenFileDialog openFile = new VistaOpenFileDialog
             {
                 Filter = "SHADOW SFX BIN files (*.bin)|*.bin|All files (*.*)|*.*"
             };

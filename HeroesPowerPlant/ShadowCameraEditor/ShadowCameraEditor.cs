@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using Ookii.Dialogs.WinForms;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -163,7 +164,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
         }
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OpenCamera = new OpenFileDialog()
+            VistaOpenFileDialog OpenCamera = new VistaOpenFileDialog()
             {
                 Filter = "DAT Files|*.dat"
             };
@@ -204,7 +205,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog SaveCamera = new SaveFileDialog()
+            VistaSaveFileDialog SaveCamera = new VistaSaveFileDialog()
             {
                 Filter = "DAT Files|*.dat",
             };
