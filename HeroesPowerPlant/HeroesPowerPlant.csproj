@@ -371,7 +371,7 @@
     <ProjectReference Include="..\Submodules\ShadowFNT\ShadowFNT\ShadowFNT.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AFSLib" Version="1.0.0" />
+    <PackageReference Include="AFSLib" Version="1.1.0" />
     <PackageReference Include="AssimpNet" Version="4.1.0" />
     <PackageReference Include="csharp-prs" Version="2.1.3" />
     <PackageReference Include="DSoft.SharpDX.Desktop" Version="4.2.1" />
@@ -380,7 +380,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
-    <PackageReference Include="Reloaded.Memory" Version="6.1.3" />
+    <PackageReference Include="Reloaded.Memory" Version="7.0.0" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />

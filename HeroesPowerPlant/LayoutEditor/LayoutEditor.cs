@@ -1146,9 +1146,10 @@ namespace HeroesPowerPlant.LayoutEditor
             var decoder = new VGAudio.Containers.Adx.AdxReader();
             try
             {
-                var afsData = File.ReadAllBytes(Program.MainForm.locationAFS);
-                AFSLib.AfsArchive.TryFromFile(afsData, out var afsArchive);
-                var audio = decoder.Read(afsArchive.Files[audioId].Data);
+                FileStream fs = File.OpenRead(Program.MainForm.locationAFS);
+                var afsData = AFSLib.AfsArchive.SeekToAndLoadDataFromIndex(fs, audioId);
+                fs.Dispose();
+                var audio = decoder.Read(afsData);
                 var writer = new VGAudio.Containers.Wave.WaveWriter();
                 waveStream = new();
                 writer.WriteToStream(audio, waveStream);
