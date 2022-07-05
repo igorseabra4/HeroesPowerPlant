@@ -223,15 +223,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             ProgramIsChangingStuff = false;
 
-            if (Program.MainForm.loadedFNT.fileName != null)
-            {
-                LoadShadowSubtitlePreviews();
-            }
-
-            if (loadedShadowSoundBIN.fileName != null)
-            {
-                LoadShadowSFXBinStrings();
-            }
+            TextAndAudioPreviewUpdate();
         }
 
         private void LoadShadowSFXBinStrings()
@@ -375,6 +367,13 @@ namespace HeroesPowerPlant.LayoutEditor
                 TextBox_PreviewView.Text += normalText.Replace("\0", "");
                 TextBox_PreviewView.Text += "\r\nHero:\r\n";
                 TextBox_PreviewView.Text += heroText.Replace("\0", "");
+            }
+            else
+            {
+                darkAudioId = -1;
+                normalAudioId = -1;
+                heroAudioId = -1;
+                TextBox_PreviewView.Text = "";
             }
         }
 
@@ -1041,6 +1040,7 @@ namespace HeroesPowerPlant.LayoutEditor
         private void PropertyGridMisc_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
+            TextAndAudioPreviewUpdate();
         }
 
         private void buttonPlayTriggerTalkingAudio_Click(object sender, EventArgs e)
@@ -1181,6 +1181,19 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 var data = File.ReadAllBytes(openFile.FileName);
                 loadedShadowSoundBIN = ShadowSoundBIN.ParseShadowSoundBINFile(openFile.FileName, ref data);
+            }
+        }
+
+        private void TextAndAudioPreviewUpdate()
+        {
+            if (Program.MainForm.loadedFNT.fileName != null)
+            {
+                LoadShadowSubtitlePreviews();
+            }
+
+            if (loadedShadowSoundBIN.fileName != null)
+            {
+                LoadShadowSFXBinStrings();
             }
         }
     }
