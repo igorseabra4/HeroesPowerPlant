@@ -1246,6 +1246,7 @@ namespace HeroesPowerPlant.MainForm
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 LoadAFS(openFile.FileName);
+                GC.Collect();
             }
         }
 
