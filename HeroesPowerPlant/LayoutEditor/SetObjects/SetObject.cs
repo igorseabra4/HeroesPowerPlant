@@ -184,10 +184,12 @@ namespace HeroesPowerPlant.LayoutEditor
             if (ModelNames == null || ModelNames.Length == 0 || modelNumber >= ModelNames.Length)
                 return true;
 
+            bool hasModelData = false;
             foreach (string s in ModelNames[modelNumber])
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(s))
                 {
+                    hasModelData = true;
                     foreach (RenderWareFile.Triangle t in Program.MainForm.renderer.dffRenderer.DFFModels[s].triangleList)
                     {
                         Vector3 v1 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex1], transformMatrix);
@@ -205,9 +207,9 @@ namespace HeroesPowerPlant.LayoutEditor
                             return true;
                     }
                 }
-                else
-                    return true;
             }
+            if (!hasModelData)
+                return true;
             return false;
         }
 
