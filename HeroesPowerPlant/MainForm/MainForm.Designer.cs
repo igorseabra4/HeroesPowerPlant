@@ -629,7 +629,7 @@ namespace HeroesPowerPlant.MainForm
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "MainForm";
-            this.Text = "Heroes Power Plant v0.11.1";
+            this.Text = "Heroes Power Plant 2022.07.19";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
