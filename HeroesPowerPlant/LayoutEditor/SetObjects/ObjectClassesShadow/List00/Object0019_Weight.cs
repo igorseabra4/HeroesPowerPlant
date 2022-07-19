@@ -1,4 +1,6 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using SharpDX;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0019_Weight : SetObjectShadow
     {
@@ -62,6 +64,13 @@
         {
             get => ReadFloat(32);
             set => Write(32, value);
+        }
+
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ);
+            transformMatrix *= DefaultTransformMatrix();
+            CreateBoundingBox();
         }
     }
 
