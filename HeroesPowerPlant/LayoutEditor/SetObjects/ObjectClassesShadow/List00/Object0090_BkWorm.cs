@@ -1,4 +1,6 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using SharpDX;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0090_BkWorm : SetObjectShadow
     {
@@ -63,6 +65,17 @@
         { //9
             get => ReadFloat(36);
             set => Write(36, value);
+        }
+
+        public override void CreateTransformMatrix()
+        {
+            var shift = MathUtil.Pi / 180f;
+            transformMatrix =
+                Matrix.RotationZ(Rotation.Z * shift) *
+                Matrix.RotationX((Rotation.X + 90f) * shift) *
+                Matrix.RotationY(Rotation.Y * shift) *
+                Matrix.Translation(Position.X, Position.Y, Position.Z);
+            CreateBoundingBox();
         }
     }
 
