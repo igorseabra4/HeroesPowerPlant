@@ -5,6 +5,8 @@ using SharpDX;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Heroes.SDK.Definitions.Structures.Stage.Spawn;
+
 
 namespace HeroesPowerPlant.ConfigEditor
 {
@@ -206,7 +208,7 @@ namespace HeroesPowerPlant.ConfigEditor
             StartPositions[ComboBoxTeam.SelectedIndex].PositionX = (float)NumericStartX.Value;
             StartPositions[ComboBoxTeam.SelectedIndex].PositionY = (float)NumericStartY.Value;
             StartPositions[ComboBoxTeam.SelectedIndex].PositionZ = (float)NumericStartZ.Value;
-            StartPositions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericStartRot.Value);
+            StartPositions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)ReadWriteCommon.DegreesToBAMS((float)NumericStartRot.Value);
             StartPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
         }
 
@@ -217,7 +219,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ComboBoxTeam.SelectedItem == null)
                 return;
 
-            StartPositions[ComboBoxTeam.SelectedIndex].Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)ComboStartMode.SelectedIndex;
+            StartPositions[ComboBoxTeam.SelectedIndex].Mode = (StartPositionMode)ComboStartMode.SelectedIndex;
         }
 
         private void NumericStartHold_ValueChanged(object sender, EventArgs e)
@@ -240,7 +242,7 @@ namespace HeroesPowerPlant.ConfigEditor
             EndPositions[ComboBoxTeam.SelectedIndex].PositionX = (float)NumericEndX.Value;
             EndPositions[ComboBoxTeam.SelectedIndex].PositionY = (float)NumericEndY.Value;
             EndPositions[ComboBoxTeam.SelectedIndex].PositionZ = (float)NumericEndZ.Value;
-            EndPositions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericEndRot.Value);
+            EndPositions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)ReadWriteCommon.DegreesToBAMS((float)NumericEndRot.Value);
             EndPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
         }
 
@@ -254,14 +256,14 @@ namespace HeroesPowerPlant.ConfigEditor
             BragPositions[ComboBoxTeam.SelectedIndex].PositionX = (float)NumericBragX.Value;
             BragPositions[ComboBoxTeam.SelectedIndex].PositionY = (float)NumericBragY.Value;
             BragPositions[ComboBoxTeam.SelectedIndex].PositionZ = (float)NumericBragZ.Value;
-            BragPositions[ComboBoxTeam.SelectedIndex].Pitch = ReadWriteCommon.DegreesToBAMS((float)NumericBragRot.Value);
+            BragPositions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)ReadWriteCommon.DegreesToBAMS((float)NumericBragRot.Value);
             BragPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
         }
 
         private void buttonViewHere_Click(object sender, EventArgs e)
         {
             if (ComboBoxTeam.SelectedIndex != -1)
-                Program.MainForm.renderer.Camera.SetPosition(StartPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3() - 200 * Program.MainForm.renderer.Camera.GetForward());
+                Program.MainForm.renderer.Camera.SetPosition(StartPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToSharpDXVector3() - 200 * Program.MainForm.renderer.Camera.GetForward());
         }
 
         private void buttonCurrentViewDrop_Click(object sender, EventArgs e)
@@ -281,7 +283,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ComboBoxTeam.SelectedItem == null)
                 return;
 
-            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(StartPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
+            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(StartPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToSharpDXVector3());
 
             NumericStartX.Value = (decimal)Position.X;
             NumericStartY.Value = (decimal)Position.Y;
@@ -291,7 +293,7 @@ namespace HeroesPowerPlant.ConfigEditor
         private void buttonViewHereEnding_Click(object sender, EventArgs e)
         {
             if (ComboBoxTeam.SelectedIndex != -1)
-                Program.MainForm.renderer.Camera.SetPosition(EndPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3() - 200 * Program.MainForm.renderer.Camera.GetForward());
+                Program.MainForm.renderer.Camera.SetPosition(EndPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToSharpDXVector3() - 200 * Program.MainForm.renderer.Camera.GetForward());
         }
 
         private void buttonCurrentViewDropEnding_Click(object sender, EventArgs e)
@@ -311,7 +313,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ComboBoxTeam.SelectedItem == null)
                 return;
 
-            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(EndPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
+            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(EndPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToSharpDXVector3());
 
             NumericEndX.Value = (decimal)Position.X;
             NumericEndY.Value = (decimal)Position.Y;
@@ -321,7 +323,7 @@ namespace HeroesPowerPlant.ConfigEditor
         private void buttonViewHereBrag_Click(object sender, EventArgs e)
         {
             if (ComboBoxTeam.SelectedIndex != -1)
-                Program.MainForm.renderer.Camera.SetPosition(BragPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3() - 200 * Program.MainForm.renderer.Camera.GetForward());
+                Program.MainForm.renderer.Camera.SetPosition(BragPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToSharpDXVector3() - 200 * Program.MainForm.renderer.Camera.GetForward());
         }
 
         private void buttonCurrentViewDropBrag_Click(object sender, EventArgs e)
@@ -341,7 +343,7 @@ namespace HeroesPowerPlant.ConfigEditor
             if (ComboBoxTeam.SelectedItem == null)
                 return;
 
-            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(BragPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToVector3());
+            Vector3 Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(BragPositions[ComboBoxTeam.SelectedIndex].Position.Position.ToSharpDXVector3());
 
             NumericBragX.Value = (decimal)Position.X;
             NumericBragY.Value = (decimal)Position.Y;

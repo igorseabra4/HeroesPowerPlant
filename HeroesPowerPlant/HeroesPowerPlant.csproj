@@ -364,7 +364,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GenericStageInjectionCommon\GenericStageInjectionCommon\GenericStageInjectionCommon.csproj" />
     <ProjectReference Include="..\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
     <ProjectReference Include="..\Submodules\Heroes.SDK\Heroes.SDK.Library\Heroes.SDK.csproj" />
     <ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj" />

@@ -1,4 +1,5 @@
-﻿using GenericStageInjectionCommon.Structs.Positions.Substructures;
+﻿//using GenericStageInjectionCommon.Structs.Positions.Substructures;
+using Heroes.SDK.Definitions.Structures.Stage.Spawn;
 using Heroes.SDK.Definitions.Enums;
 using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using HeroesPowerPlant.Shared.IO.Config;
@@ -102,7 +103,7 @@ namespace HeroesPowerPlant.ConfigEditor
         private int ReadInt(int offset) => BitConverter.ToInt32(exe, offset);
         private float ReadFloat(int offset) => BitConverter.ToSingle(exe, offset);
         private short ReadWord(int offset) => BitConverter.ToInt16(exe, offset);
-
+        private ushort ReadUWord(int offset) => BitConverter.ToUInt16(exe, offset);
         private int startPosStart => 0x3C2FC8;
         private int endPosStart => 0x3C45B8;
         private int bragPosStart => 0x3C6380;
@@ -131,13 +132,15 @@ namespace HeroesPowerPlant.ConfigEditor
                     {
                         pos[i] = new PositionStart()
                         {
-                            Position = new GenericStageInjectionCommon.Structs.Vector(
-                                ReadFloat(startPosOffset),
-                                ReadFloat(startPosOffset + 4),
-                                ReadFloat(startPosOffset + 8)),
-                            Pitch = ReadWord(startPosOffset + 0xC),
+                            Position = new Heroes.SDK.Utilities.Math.Structs.Vector3
+                            {
+                                X = ReadFloat(startPosOffset),
+                                Y = ReadFloat(startPosOffset + 4),
+                                Z = ReadFloat(startPosOffset + 8)
+                            },
+                            Pitch = ReadUWord(startPosOffset + 0xC),
                             HoldTime = ReadWord(startPosOffset + 0x18),
-                            Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)exe[startPosOffset + 0x14]
+                            Mode = (StartPositionMode)exe[startPosOffset + 0x14]
                         };
                         startPosOffset += 0x1C;
                     }
@@ -164,11 +167,13 @@ namespace HeroesPowerPlant.ConfigEditor
                     {
                         pos[i] = new PositionEnd()
                         {
-                            Position = new GenericStageInjectionCommon.Structs.Vector(
-                                ReadFloat(offset),
-                                ReadFloat(offset + 4),
-                                ReadFloat(offset + 8)),
-                            Pitch = ReadWord(offset + 0xC)
+                            Position = new Heroes.SDK.Utilities.Math.Structs.Vector3
+                            {
+                                X = ReadFloat(offset),
+                                Y = ReadFloat(offset + 4),
+                                Z = ReadFloat(offset + 8)
+                            },
+                            Pitch = ReadUWord(offset + 0xC)
                         };
                         offset += 0x14;
                     }
@@ -201,8 +206,8 @@ namespace HeroesPowerPlant.ConfigEditor
                 for (int i = 0; i < vertexNum; i++)
                     vertices.Add(new SplineVertex(ReadFloat(firstVertexOffset + 20 * i + 8), ReadFloat(firstVertexOffset + 20 * i + 12), ReadFloat(firstVertexOffset + 20 * i + 16))
                     {
-                        Pitch = (ushort)ReadWord(firstVertexOffset + 20 * i),
-                        Roll = (ushort)ReadWord(firstVertexOffset + 20 * i + 2),
+                        Pitch = ReadUWord(firstVertexOffset + 20 * i),
+                        Roll = ReadUWord(firstVertexOffset + 20 * i + 2),
                     });
 
                 Program.MainForm.ConfigEditor.SplineEditor.AddFromExe(vertices, splineType);

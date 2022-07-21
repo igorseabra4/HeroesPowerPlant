@@ -1,5 +1,5 @@
-﻿using GenericStageInjectionCommon.Structs.Positions.Substructures;
-using Heroes.SDK.Definitions.Enums;
+﻿using Heroes.SDK.Definitions.Enums;
+using Heroes.SDK.Definitions.Structures.Stage.Spawn;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -114,7 +114,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         else if (ConfigFile[x].Contains("POSITIONY")) { SonicStartPosition.PositionY = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("POSITIONZ")) { SonicStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { SonicStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { SonicStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { SonicStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { SonicStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
@@ -140,7 +140,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         else if (ConfigFile[x].Contains("POSITIONY")) { DarkStartPosition.PositionY = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("POSITIONZ")) { DarkStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { DarkStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { DarkStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { DarkStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { DarkStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
@@ -166,7 +166,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         else if (ConfigFile[x].Contains("POSITIONY")) { RoseStartPosition.PositionY = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("POSITIONZ")) { RoseStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { RoseStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { RoseStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { RoseStartPosition.Mode = (StartPositionMode) Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { RoseStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
@@ -192,7 +192,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixStartPosition.PositionY = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ChaotixStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { ChaotixStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { ChaotixStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { ChaotixStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
@@ -218,7 +218,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         else if (ConfigFile[x].Contains("POSITIONY")) { ForeditStartPosition.PositionY = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
                         else if (ConfigFile[x].Contains("PITCH")) { ForeditStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { ForeditStartPosition.Mode = (GenericStageInjectionCommon.Structs.Enums.StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE")) { ForeditStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
                         else if (ConfigFile[x].Contains("RUNNING")) { ForeditStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
@@ -277,7 +277,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void ReadJSONConfig(string fileName)
         {
-            GenericStageInjectionCommon.Shared.Config c = GenericStageInjectionCommon.Shared.Config.ParseConfig(fileName);
+            Heroes.SDK.Parsers.Custom.StageConfig c = Heroes.SDK.Parsers.Custom.StageConfig.FromPath(fileName);
 
             StartPositions.Clear();
             EndPositions.Clear();
@@ -297,7 +297,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         PositionZ = s.Position.Z,
                         HoldTime = s.HoldTime,
                         Mode = s.Mode,
-                        Pitch = pitch
+                        Pitch = (ushort)pitch
                     });
                 }
 
@@ -318,7 +318,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         PositionX = s.Position.X,
                         PositionY = s.Position.Y,
                         PositionZ = s.Position.Z,
-                        Pitch = pitch
+                        Pitch = (ushort)pitch
                     });
                 }
 
@@ -339,7 +339,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         PositionX = s.Position.X,
                         PositionY = s.Position.Y,
                         PositionZ = s.Position.Z,
-                        Pitch = pitch
+                        Pitch = (ushort)pitch
                     });
                 }
 
@@ -366,31 +366,31 @@ namespace HeroesPowerPlant.ConfigEditor
             BragPositions[3].NewColor(Color.DarkGreen.ToVector3());
             BragPositions[4].NewColor(Color.DarkOrange.ToVector3());
 
-            currentID = (Stage)c.StageId;
+            currentID = c.StageId;
             ComboLevelConfig.SelectedItem = currentID;
         }
 
         private void SaveFileJson(string FileName)
         {
-            GenericStageInjectionCommon.Shared.Config c = new GenericStageInjectionCommon.Shared.Config
+            Heroes.SDK.Parsers.Custom.StageConfig c = new()
             {
-                StartPositions = new List<PositionStart>(),
-                EndPositions = new List<PositionEnd>(),
-                BragPositions = new List<PositionEnd>()
+                StartPositions = new PositionStart[StartPositions.Count],
+                EndPositions = new PositionEnd[EndPositions.Count],
+                BragPositions = new PositionEnd[BragPositions.Count]
             };
 
-            foreach (StartPositionEntry s in StartPositions)
-                c.StartPositions.Add(s.Position);
+            for (int i = 0; i < StartPositions.Count; i++)
+                c.StartPositions[i] = StartPositions[i].Position;
 
-            foreach (EndPositionEntry s in EndPositions)
-                c.EndPositions.Add(s.Position);
+            for (int i = 0; i < EndPositions.Count; i++)
+                c.EndPositions[i] = EndPositions[i].Position;
 
-            foreach (EndPositionEntry s in BragPositions)
-                c.BragPositions.Add(s.Position);
+            for (int i = 0; i < BragPositions.Count; i++)
+                c.BragPositions[i] = BragPositions[i].Position;
 
-            c.StageId = (GenericStageInjectionCommon.Shared.Enums.StageID)currentID;
+            c.StageId = currentID;
 
-            GenericStageInjectionCommon.Shared.Config.WriteConfigEntries(FileName, c);
+            Heroes.SDK.Parsers.Custom.StageConfig.ToPath(c, FileName);
             EnableSplineEditor();
             EnableRankEditor();
         }

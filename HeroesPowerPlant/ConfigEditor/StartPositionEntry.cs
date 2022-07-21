@@ -1,5 +1,4 @@
-﻿using GenericStageInjectionCommon.Structs.Enums;
-using GenericStageInjectionCommon.Structs.Positions.Substructures;
+﻿using Heroes.SDK.Definitions.Structures.Stage.Spawn;
 using SharpDX;
 
 namespace HeroesPowerPlant.ConfigEditor
@@ -13,28 +12,28 @@ namespace HeroesPowerPlant.ConfigEditor
 
         public StartPositionEntry()
         {
-            entryRenderer = new EntryRenderer(position.Position.ToVector3(), position.Pitch, Color.White.ToVector3());
+            entryRenderer = new EntryRenderer(position.Position.ToSharpDXVector3(), position.Pitch, Color.White.ToVector3());
         }
 
         public float PositionX
         {
-            get => position.Position.ToVector3().X;
-            set => position.Position.X = value;
+            get => position.Position.ToSharpDXVector3().X;
+            set => position.Position = new Heroes.SDK.Utilities.Math.Structs.Vector3 { X = value, Y = position.Position.Y, Z = position.Position.Z };
         }
 
         public float PositionY
         {
-            get => position.Position.ToVector3().Y;
-            set => position.Position.Y = value;
+            get => position.Position.ToSharpDXVector3().Y;
+            set => position.Position = new Heroes.SDK.Utilities.Math.Structs.Vector3 { X = position.Position.X, Y = value, Z = position.Position.Z };
         }
 
         public float PositionZ
         {
-            get => position.Position.ToVector3().Z;
-            set => position.Position.Z = value;
+            get => position.Position.ToSharpDXVector3().Z;
+            set => position.Position = new Heroes.SDK.Utilities.Math.Structs.Vector3 { X = position.Position.X, Y = position.Position.Y, Z = value };
         }
 
-        public int Pitch
+        public ushort Pitch
         {
             get => position.Pitch;
             set => position.Pitch = value;
@@ -54,12 +53,12 @@ namespace HeroesPowerPlant.ConfigEditor
 
         public void NewColor(Vector3 v)
         {
-            entryRenderer = new EntryRenderer(position.Position.ToVector3(), position.Pitch, v);
+            entryRenderer = new EntryRenderer(position.Position.ToSharpDXVector3(), position.Pitch, v);
         }
 
         public void CreateTransformMatrix()
         {
-            entryRenderer.NewMatrix(position.Position.ToVector3(), position.Pitch);
+            entryRenderer.NewMatrix(position.Position.ToSharpDXVector3(), position.Pitch);
         }
 
         public void Render(SharpRenderer renderer)
