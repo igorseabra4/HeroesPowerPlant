@@ -1,4 +1,4 @@
 ﻿{
-  "version": "2022.07.19",
-  "versionName": "!!! .NET 6 REQUIRED !!!\n!!! 64-bit OS Required !!!\n\nIf you cannot update due to these new requirements, disable:\nOptions -> Check For Updates on Startup\n\nThe Shadow Autoload & Async DFFs Update"
+  "version": "2022.07.20",
+  "versionName": "!!! .NET 6 REQUIRED !!!\n!!! 64-bit OS Required !!!\n\nIf you cannot update due to these new requirements, disable:\nOptions -> Check For Updates on Startup"
 }
