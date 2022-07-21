@@ -114,27 +114,31 @@
             "Team Rose",
             "Team Chaotix",
             "Team Foredit"});
-            this.ComboBoxTeam.Location = new System.Drawing.Point(12, 40);
+            this.ComboBoxTeam.Location = new System.Drawing.Point(14, 46);
+            this.ComboBoxTeam.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ComboBoxTeam.Name = "ComboBoxTeam";
-            this.ComboBoxTeam.Size = new System.Drawing.Size(173, 21);
+            this.ComboBoxTeam.Size = new System.Drawing.Size(201, 23);
             this.ComboBoxTeam.TabIndex = 44;
             this.ComboBoxTeam.SelectedIndexChanged += new System.EventHandler(this.ComboBoxTeam_SelectedIndexChanged);
             // 
             // LabelObject
             // 
             this.LabelObject.AutoSize = true;
-            this.LabelObject.Location = new System.Drawing.Point(12, 24);
+            this.LabelObject.Location = new System.Drawing.Point(14, 28);
+            this.LabelObject.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelObject.Name = "LabelObject";
-            this.LabelObject.Size = new System.Drawing.Size(37, 13);
+            this.LabelObject.Size = new System.Drawing.Size(38, 15);
             this.LabelObject.TabIndex = 40;
             this.LabelObject.Text = "Team:";
             // 
             // GroupBox2
             // 
             this.GroupBox2.Controls.Add(this.NumericStartRot);
-            this.GroupBox2.Location = new System.Drawing.Point(6, 72);
+            this.GroupBox2.Location = new System.Drawing.Point(7, 83);
+            this.GroupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.GroupBox2.Name = "GroupBox2";
-            this.GroupBox2.Size = new System.Drawing.Size(134, 47);
+            this.GroupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.GroupBox2.Size = new System.Drawing.Size(156, 54);
             this.GroupBox2.TabIndex = 39;
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "Rotation";
@@ -142,14 +146,20 @@
             // NumericStartRot
             // 
             this.NumericStartRot.DecimalPlaces = 4;
-            this.NumericStartRot.Location = new System.Drawing.Point(6, 19);
+            this.NumericStartRot.Location = new System.Drawing.Point(7, 22);
+            this.NumericStartRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericStartRot.Maximum = new decimal(new int[] {
-            360,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericStartRot.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericStartRot.Name = "NumericStartRot";
-            this.NumericStartRot.Size = new System.Drawing.Size(119, 20);
+            this.NumericStartRot.Size = new System.Drawing.Size(139, 23);
             this.NumericStartRot.TabIndex = 28;
             this.NumericStartRot.ValueChanged += new System.EventHandler(this.NumericStart_ValueChanged);
             // 
@@ -158,9 +168,11 @@
             this.groupBox3.Controls.Add(this.NumericStartZ);
             this.groupBox3.Controls.Add(this.NumericStartY);
             this.groupBox3.Controls.Add(this.NumericStartX);
-            this.groupBox3.Location = new System.Drawing.Point(6, 19);
+            this.groupBox3.Location = new System.Drawing.Point(7, 22);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(385, 47);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox3.Size = new System.Drawing.Size(449, 54);
             this.groupBox3.TabIndex = 38;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Position (X, Y, Z)";
@@ -168,42 +180,60 @@
             // NumericStartZ
             // 
             this.NumericStartZ.DecimalPlaces = 4;
-            this.NumericStartZ.Location = new System.Drawing.Point(256, 19);
+            this.NumericStartZ.Location = new System.Drawing.Point(299, 22);
+            this.NumericStartZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericStartZ.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericStartZ.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericStartZ.Name = "NumericStartZ";
-            this.NumericStartZ.Size = new System.Drawing.Size(119, 20);
+            this.NumericStartZ.Size = new System.Drawing.Size(139, 23);
             this.NumericStartZ.TabIndex = 26;
             this.NumericStartZ.ValueChanged += new System.EventHandler(this.NumericStart_ValueChanged);
             // 
             // NumericStartY
             // 
             this.NumericStartY.DecimalPlaces = 4;
-            this.NumericStartY.Location = new System.Drawing.Point(131, 19);
+            this.NumericStartY.Location = new System.Drawing.Point(153, 22);
+            this.NumericStartY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericStartY.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericStartY.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericStartY.Name = "NumericStartY";
-            this.NumericStartY.Size = new System.Drawing.Size(119, 20);
+            this.NumericStartY.Size = new System.Drawing.Size(139, 23);
             this.NumericStartY.TabIndex = 25;
             this.NumericStartY.ValueChanged += new System.EventHandler(this.NumericStart_ValueChanged);
             // 
             // NumericStartX
             // 
             this.NumericStartX.DecimalPlaces = 4;
-            this.NumericStartX.Location = new System.Drawing.Point(6, 19);
+            this.NumericStartX.Location = new System.Drawing.Point(7, 22);
+            this.NumericStartX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericStartX.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericStartX.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericStartX.Name = "NumericStartX";
-            this.NumericStartX.Size = new System.Drawing.Size(119, 20);
+            this.NumericStartX.Size = new System.Drawing.Size(139, 23);
             this.NumericStartX.TabIndex = 24;
             this.NumericStartX.ValueChanged += new System.EventHandler(this.NumericStart_ValueChanged);
             // 
@@ -211,9 +241,10 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LabelFileLoaded});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 457);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 531);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(520, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(607, 22);
             this.statusStrip1.TabIndex = 56;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -232,7 +263,8 @@
             this.eXEExtractorToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(520, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(607, 24);
             this.menuStrip1.TabIndex = 59;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -303,9 +335,11 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.NumericStartHold);
-            this.groupBox1.Location = new System.Drawing.Point(257, 72);
+            this.groupBox1.Location = new System.Drawing.Point(300, 83);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(134, 47);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox1.Size = new System.Drawing.Size(156, 54);
             this.groupBox1.TabIndex = 40;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hold Time";
@@ -313,7 +347,8 @@
             // NumericStartHold
             // 
             this.NumericStartHold.DecimalPlaces = 4;
-            this.NumericStartHold.Location = new System.Drawing.Point(6, 19);
+            this.NumericStartHold.Location = new System.Drawing.Point(7, 22);
+            this.NumericStartHold.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericStartHold.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -325,16 +360,18 @@
             0,
             -2147483648});
             this.NumericStartHold.Name = "NumericStartHold";
-            this.NumericStartHold.Size = new System.Drawing.Size(119, 20);
+            this.NumericStartHold.Size = new System.Drawing.Size(139, 23);
             this.NumericStartHold.TabIndex = 28;
             this.NumericStartHold.ValueChanged += new System.EventHandler(this.NumericStartHold_ValueChanged);
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.ComboStartMode);
-            this.groupBox4.Location = new System.Drawing.Point(146, 72);
+            this.groupBox4.Location = new System.Drawing.Point(170, 83);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(105, 47);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox4.Size = new System.Drawing.Size(122, 54);
             this.groupBox4.TabIndex = 41;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Mode";
@@ -346,9 +383,10 @@
             "Normal",
             "Running",
             "Rail"});
-            this.ComboStartMode.Location = new System.Drawing.Point(6, 18);
+            this.ComboStartMode.Location = new System.Drawing.Point(7, 21);
+            this.ComboStartMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ComboStartMode.Name = "ComboStartMode";
-            this.ComboStartMode.Size = new System.Drawing.Size(93, 21);
+            this.ComboStartMode.Size = new System.Drawing.Size(108, 23);
             this.ComboStartMode.TabIndex = 62;
             this.ComboStartMode.SelectedIndexChanged += new System.EventHandler(this.ComboStartMode_SelectedIndexChanged);
             // 
@@ -357,9 +395,11 @@
             this.groupBox5.Controls.Add(this.NumericEndZ);
             this.groupBox5.Controls.Add(this.NumericEndY);
             this.groupBox5.Controls.Add(this.NumericEndX);
-            this.groupBox5.Location = new System.Drawing.Point(6, 18);
+            this.groupBox5.Location = new System.Drawing.Point(7, 21);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(385, 47);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox5.Size = new System.Drawing.Size(449, 54);
             this.groupBox5.TabIndex = 38;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Position (X, Y, Z)";
@@ -367,51 +407,71 @@
             // NumericEndZ
             // 
             this.NumericEndZ.DecimalPlaces = 4;
-            this.NumericEndZ.Location = new System.Drawing.Point(256, 19);
+            this.NumericEndZ.Location = new System.Drawing.Point(299, 22);
+            this.NumericEndZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericEndZ.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericEndZ.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericEndZ.Name = "NumericEndZ";
-            this.NumericEndZ.Size = new System.Drawing.Size(119, 20);
+            this.NumericEndZ.Size = new System.Drawing.Size(139, 23);
             this.NumericEndZ.TabIndex = 26;
             this.NumericEndZ.ValueChanged += new System.EventHandler(this.NumericEnd_ValueChanged);
             // 
             // NumericEndY
             // 
             this.NumericEndY.DecimalPlaces = 4;
-            this.NumericEndY.Location = new System.Drawing.Point(131, 19);
+            this.NumericEndY.Location = new System.Drawing.Point(153, 22);
+            this.NumericEndY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericEndY.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericEndY.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericEndY.Name = "NumericEndY";
-            this.NumericEndY.Size = new System.Drawing.Size(119, 20);
+            this.NumericEndY.Size = new System.Drawing.Size(139, 23);
             this.NumericEndY.TabIndex = 25;
             this.NumericEndY.ValueChanged += new System.EventHandler(this.NumericEnd_ValueChanged);
             // 
             // NumericEndX
             // 
             this.NumericEndX.DecimalPlaces = 4;
-            this.NumericEndX.Location = new System.Drawing.Point(6, 19);
+            this.NumericEndX.Location = new System.Drawing.Point(7, 22);
+            this.NumericEndX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericEndX.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericEndX.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericEndX.Name = "NumericEndX";
-            this.NumericEndX.Size = new System.Drawing.Size(119, 20);
+            this.NumericEndX.Size = new System.Drawing.Size(139, 23);
             this.NumericEndX.TabIndex = 24;
             this.NumericEndX.ValueChanged += new System.EventHandler(this.NumericEnd_ValueChanged);
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.NumericEndRot);
-            this.groupBox6.Location = new System.Drawing.Point(6, 71);
+            this.groupBox6.Location = new System.Drawing.Point(7, 82);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(134, 47);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox6.Size = new System.Drawing.Size(156, 54);
             this.groupBox6.TabIndex = 39;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Rotation";
@@ -419,14 +479,20 @@
             // NumericEndRot
             // 
             this.NumericEndRot.DecimalPlaces = 4;
-            this.NumericEndRot.Location = new System.Drawing.Point(6, 19);
+            this.NumericEndRot.Location = new System.Drawing.Point(7, 22);
+            this.NumericEndRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericEndRot.Maximum = new decimal(new int[] {
-            360,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericEndRot.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericEndRot.Name = "NumericEndRot";
-            this.NumericEndRot.Size = new System.Drawing.Size(119, 20);
+            this.NumericEndRot.Size = new System.Drawing.Size(139, 23);
             this.NumericEndRot.TabIndex = 28;
             this.NumericEndRot.ValueChanged += new System.EventHandler(this.NumericEnd_ValueChanged);
             // 
@@ -439,18 +505,21 @@
             this.groupBoxStart.Controls.Add(this.buttonViewHere);
             this.groupBoxStart.Controls.Add(this.groupBox4);
             this.groupBoxStart.Controls.Add(this.groupBox1);
-            this.groupBoxStart.Location = new System.Drawing.Point(12, 67);
+            this.groupBoxStart.Location = new System.Drawing.Point(14, 77);
+            this.groupBoxStart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxStart.Name = "groupBoxStart";
-            this.groupBoxStart.Size = new System.Drawing.Size(503, 125);
+            this.groupBoxStart.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBoxStart.Size = new System.Drawing.Size(587, 144);
             this.groupBoxStart.TabIndex = 63;
             this.groupBoxStart.TabStop = false;
             this.groupBoxStart.Text = "Start Position";
             // 
             // buttonCurrentViewDrop
             // 
-            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(397, 48);
+            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(463, 55);
+            this.buttonCurrentViewDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
-            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(99, 23);
+            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(115, 27);
             this.buttonCurrentViewDrop.TabIndex = 83;
             this.buttonCurrentViewDrop.TabStop = false;
             this.buttonCurrentViewDrop.Text = "C-Drop";
@@ -459,9 +528,10 @@
             // 
             // buttonDrop
             // 
-            this.buttonDrop.Location = new System.Drawing.Point(397, 77);
+            this.buttonDrop.Location = new System.Drawing.Point(463, 89);
+            this.buttonDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonDrop.Name = "buttonDrop";
-            this.buttonDrop.Size = new System.Drawing.Size(99, 23);
+            this.buttonDrop.Size = new System.Drawing.Size(115, 27);
             this.buttonDrop.TabIndex = 82;
             this.buttonDrop.TabStop = false;
             this.buttonDrop.Text = "Drop";
@@ -470,9 +540,10 @@
             // 
             // buttonViewHere
             // 
-            this.buttonViewHere.Location = new System.Drawing.Point(397, 19);
+            this.buttonViewHere.Location = new System.Drawing.Point(463, 22);
+            this.buttonViewHere.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonViewHere.Name = "buttonViewHere";
-            this.buttonViewHere.Size = new System.Drawing.Size(99, 23);
+            this.buttonViewHere.Size = new System.Drawing.Size(115, 27);
             this.buttonViewHere.TabIndex = 81;
             this.buttonViewHere.TabStop = false;
             this.buttonViewHere.Text = "View Here";
@@ -486,18 +557,21 @@
             this.groupBoxEnd.Controls.Add(this.groupBox6);
             this.groupBoxEnd.Controls.Add(this.buttonViewHereEnding);
             this.groupBoxEnd.Controls.Add(this.buttonDropEnding);
-            this.groupBoxEnd.Location = new System.Drawing.Point(12, 198);
+            this.groupBoxEnd.Location = new System.Drawing.Point(14, 228);
+            this.groupBoxEnd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxEnd.Name = "groupBoxEnd";
-            this.groupBoxEnd.Size = new System.Drawing.Size(503, 125);
+            this.groupBoxEnd.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBoxEnd.Size = new System.Drawing.Size(587, 144);
             this.groupBoxEnd.TabIndex = 64;
             this.groupBoxEnd.TabStop = false;
             this.groupBoxEnd.Text = "Ending Position";
             // 
             // buttonCurrentViewDropEnding
             // 
-            this.buttonCurrentViewDropEnding.Location = new System.Drawing.Point(397, 48);
+            this.buttonCurrentViewDropEnding.Location = new System.Drawing.Point(463, 55);
+            this.buttonCurrentViewDropEnding.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCurrentViewDropEnding.Name = "buttonCurrentViewDropEnding";
-            this.buttonCurrentViewDropEnding.Size = new System.Drawing.Size(99, 23);
+            this.buttonCurrentViewDropEnding.Size = new System.Drawing.Size(115, 27);
             this.buttonCurrentViewDropEnding.TabIndex = 86;
             this.buttonCurrentViewDropEnding.TabStop = false;
             this.buttonCurrentViewDropEnding.Text = "C-Drop";
@@ -506,9 +580,10 @@
             // 
             // buttonViewHereEnding
             // 
-            this.buttonViewHereEnding.Location = new System.Drawing.Point(397, 19);
+            this.buttonViewHereEnding.Location = new System.Drawing.Point(463, 22);
+            this.buttonViewHereEnding.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonViewHereEnding.Name = "buttonViewHereEnding";
-            this.buttonViewHereEnding.Size = new System.Drawing.Size(99, 23);
+            this.buttonViewHereEnding.Size = new System.Drawing.Size(115, 27);
             this.buttonViewHereEnding.TabIndex = 84;
             this.buttonViewHereEnding.TabStop = false;
             this.buttonViewHereEnding.Text = "View Here";
@@ -517,9 +592,10 @@
             // 
             // buttonDropEnding
             // 
-            this.buttonDropEnding.Location = new System.Drawing.Point(397, 77);
+            this.buttonDropEnding.Location = new System.Drawing.Point(463, 89);
+            this.buttonDropEnding.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonDropEnding.Name = "buttonDropEnding";
-            this.buttonDropEnding.Size = new System.Drawing.Size(99, 23);
+            this.buttonDropEnding.Size = new System.Drawing.Size(115, 27);
             this.buttonDropEnding.TabIndex = 85;
             this.buttonDropEnding.TabStop = false;
             this.buttonDropEnding.Text = "Drop";
@@ -533,18 +609,21 @@
             this.groupBoxBrag.Controls.Add(this.buttonViewHereBrag);
             this.groupBoxBrag.Controls.Add(this.buttonDropBrag);
             this.groupBoxBrag.Controls.Add(this.groupBox11);
-            this.groupBoxBrag.Location = new System.Drawing.Point(12, 329);
+            this.groupBoxBrag.Location = new System.Drawing.Point(14, 380);
+            this.groupBoxBrag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxBrag.Name = "groupBoxBrag";
-            this.groupBoxBrag.Size = new System.Drawing.Size(503, 125);
+            this.groupBoxBrag.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBoxBrag.Size = new System.Drawing.Size(587, 144);
             this.groupBoxBrag.TabIndex = 64;
             this.groupBoxBrag.TabStop = false;
             this.groupBoxBrag.Text = "Bragging Position";
             // 
             // buttonCurrentViewDropBrag
             // 
-            this.buttonCurrentViewDropBrag.Location = new System.Drawing.Point(397, 48);
+            this.buttonCurrentViewDropBrag.Location = new System.Drawing.Point(463, 55);
+            this.buttonCurrentViewDropBrag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCurrentViewDropBrag.Name = "buttonCurrentViewDropBrag";
-            this.buttonCurrentViewDropBrag.Size = new System.Drawing.Size(99, 23);
+            this.buttonCurrentViewDropBrag.Size = new System.Drawing.Size(115, 27);
             this.buttonCurrentViewDropBrag.TabIndex = 89;
             this.buttonCurrentViewDropBrag.TabStop = false;
             this.buttonCurrentViewDropBrag.Text = "C-Drop";
@@ -556,9 +635,11 @@
             this.groupBox10.Controls.Add(this.NumericBragZ);
             this.groupBox10.Controls.Add(this.NumericBragY);
             this.groupBox10.Controls.Add(this.NumericBragX);
-            this.groupBox10.Location = new System.Drawing.Point(6, 19);
+            this.groupBox10.Location = new System.Drawing.Point(7, 22);
+            this.groupBox10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(385, 47);
+            this.groupBox10.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox10.Size = new System.Drawing.Size(449, 54);
             this.groupBox10.TabIndex = 38;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Position (X, Y, Z)";
@@ -566,50 +647,69 @@
             // NumericBragZ
             // 
             this.NumericBragZ.DecimalPlaces = 4;
-            this.NumericBragZ.Location = new System.Drawing.Point(256, 19);
+            this.NumericBragZ.Location = new System.Drawing.Point(299, 22);
+            this.NumericBragZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericBragZ.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericBragZ.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericBragZ.Name = "NumericBragZ";
-            this.NumericBragZ.Size = new System.Drawing.Size(119, 20);
+            this.NumericBragZ.Size = new System.Drawing.Size(139, 23);
             this.NumericBragZ.TabIndex = 26;
             this.NumericBragZ.ValueChanged += new System.EventHandler(this.NumericBrag_ValueChanged);
             // 
             // NumericBragY
             // 
             this.NumericBragY.DecimalPlaces = 4;
-            this.NumericBragY.Location = new System.Drawing.Point(131, 19);
+            this.NumericBragY.Location = new System.Drawing.Point(153, 22);
+            this.NumericBragY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericBragY.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericBragY.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericBragY.Name = "NumericBragY";
-            this.NumericBragY.Size = new System.Drawing.Size(119, 20);
+            this.NumericBragY.Size = new System.Drawing.Size(139, 23);
             this.NumericBragY.TabIndex = 25;
             this.NumericBragY.ValueChanged += new System.EventHandler(this.NumericBrag_ValueChanged);
             // 
             // NumericBragX
             // 
             this.NumericBragX.DecimalPlaces = 4;
-            this.NumericBragX.Location = new System.Drawing.Point(6, 19);
+            this.NumericBragX.Location = new System.Drawing.Point(7, 22);
+            this.NumericBragX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericBragX.Maximum = new decimal(new int[] {
-            0,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericBragX.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericBragX.Name = "NumericBragX";
-            this.NumericBragX.Size = new System.Drawing.Size(119, 20);
+            this.NumericBragX.Size = new System.Drawing.Size(139, 23);
             this.NumericBragX.TabIndex = 24;
             this.NumericBragX.ValueChanged += new System.EventHandler(this.NumericBrag_ValueChanged);
             // 
             // buttonViewHereBrag
             // 
-            this.buttonViewHereBrag.Location = new System.Drawing.Point(397, 19);
+            this.buttonViewHereBrag.Location = new System.Drawing.Point(463, 22);
+            this.buttonViewHereBrag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonViewHereBrag.Name = "buttonViewHereBrag";
-            this.buttonViewHereBrag.Size = new System.Drawing.Size(99, 23);
+            this.buttonViewHereBrag.Size = new System.Drawing.Size(115, 27);
             this.buttonViewHereBrag.TabIndex = 87;
             this.buttonViewHereBrag.TabStop = false;
             this.buttonViewHereBrag.Text = "View Here";
@@ -618,9 +718,10 @@
             // 
             // buttonDropBrag
             // 
-            this.buttonDropBrag.Location = new System.Drawing.Point(397, 77);
+            this.buttonDropBrag.Location = new System.Drawing.Point(463, 89);
+            this.buttonDropBrag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonDropBrag.Name = "buttonDropBrag";
-            this.buttonDropBrag.Size = new System.Drawing.Size(99, 23);
+            this.buttonDropBrag.Size = new System.Drawing.Size(115, 27);
             this.buttonDropBrag.TabIndex = 88;
             this.buttonDropBrag.TabStop = false;
             this.buttonDropBrag.Text = "Drop";
@@ -630,9 +731,11 @@
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.NumericBragRot);
-            this.groupBox11.Location = new System.Drawing.Point(6, 72);
+            this.groupBox11.Location = new System.Drawing.Point(7, 83);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(134, 47);
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox11.Size = new System.Drawing.Size(156, 54);
             this.groupBox11.TabIndex = 39;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Rotation";
@@ -640,40 +743,48 @@
             // NumericBragRot
             // 
             this.NumericBragRot.DecimalPlaces = 4;
-            this.NumericBragRot.Location = new System.Drawing.Point(6, 19);
+            this.NumericBragRot.Location = new System.Drawing.Point(7, 22);
+            this.NumericBragRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NumericBragRot.Maximum = new decimal(new int[] {
-            360,
-            0,
+            1410065407,
+            2,
             0,
             0});
+            this.NumericBragRot.Minimum = new decimal(new int[] {
+            1410065407,
+            2,
+            0,
+            -2147483648});
             this.NumericBragRot.Name = "NumericBragRot";
-            this.NumericBragRot.Size = new System.Drawing.Size(119, 20);
+            this.NumericBragRot.Size = new System.Drawing.Size(139, 23);
             this.NumericBragRot.TabIndex = 28;
             this.NumericBragRot.ValueChanged += new System.EventHandler(this.NumericBrag_ValueChanged);
             // 
             // ComboLevelConfig
             // 
             this.ComboLevelConfig.FormattingEnabled = true;
-            this.ComboLevelConfig.Location = new System.Drawing.Point(191, 40);
+            this.ComboLevelConfig.Location = new System.Drawing.Point(223, 46);
+            this.ComboLevelConfig.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ComboLevelConfig.Name = "ComboLevelConfig";
-            this.ComboLevelConfig.Size = new System.Drawing.Size(317, 21);
+            this.ComboLevelConfig.Size = new System.Drawing.Size(369, 23);
             this.ComboLevelConfig.TabIndex = 65;
             this.ComboLevelConfig.SelectedIndexChanged += new System.EventHandler(this.ComboLevelConfig_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(188, 24);
+            this.label1.Location = new System.Drawing.Point(219, 28);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.Size = new System.Drawing.Size(62, 15);
             this.label1.TabIndex = 40;
             this.label1.Text = "Level Flag:";
             // 
             // ConfigEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 479);
+            this.ClientSize = new System.Drawing.Size(607, 553);
             this.Controls.Add(this.ComboLevelConfig);
             this.Controls.Add(this.groupBoxBrag);
             this.Controls.Add(this.groupBoxEnd);
@@ -685,6 +796,7 @@
             this.Controls.Add(this.LabelObject);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "ConfigEditor";
             this.ShowIcon = false;
