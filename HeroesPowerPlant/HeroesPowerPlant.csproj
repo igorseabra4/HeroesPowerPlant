@@ -364,9 +364,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
     <ProjectReference Include="..\Submodules\Heroes.SDK\Heroes.SDK.Library\Heroes.SDK.csproj" />
     <ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj" />
+    <ProjectReference Include="..\Submodules\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
     <ProjectReference Include="..\Submodules\ShadowFNT\ShadowFNT\ShadowFNT.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -379,7 +379,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
-    <PackageReference Include="Reloaded.Memory" Version="7.0.0" />
+    <PackageReference Include="Reloaded.Memory" Version="7.1.0" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
