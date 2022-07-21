@@ -1,9 +1,6 @@
 [submodule "RenderWareFile"]
 	path = RenderWareFile
 	url = https://github.com/igorseabra4/RenderWareFile
-[submodule "GenericStageInjectionCommon"]
-	path = GenericStageInjectionCommon
-	url = https://github.com/igorseabra4/GenericStageInjectionCommon
 [submodule "Submodules/HeroesPowerPlant.RemoteControl.ReloadedII"]
 	path = Submodules/HeroesPowerPlant.RemoteControl.ReloadedII
 	url = https://github.com/Sewer56/HeroesPowerPlant.RemoteControl.ReloadedII.git
