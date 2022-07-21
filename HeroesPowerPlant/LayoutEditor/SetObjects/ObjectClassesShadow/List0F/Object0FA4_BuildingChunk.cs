@@ -1,4 +1,6 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using SharpDX;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0FA4_BuildingChunk : SetObjectShadow
     {
@@ -22,6 +24,13 @@
         {
             get => ReadFloat(12);
             set => Write(12, value);
+        }
+
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ);
+            transformMatrix *= DefaultTransformMatrix();
+            CreateBoundingBox();
         }
     }
 }

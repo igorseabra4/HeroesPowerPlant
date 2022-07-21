@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -47,6 +48,13 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get => (CommonNoYes)ReadInt(24);
             set => Write(24, (int)value);
+        }
+
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = Matrix.Scaling(Scale_X, Scale_Y, Scale_Z);
+            transformMatrix *= DefaultTransformMatrix();
+            CreateBoundingBox();
         }
     }
 
