@@ -1,5 +1,5 @@
 [submodule "RenderWareFile"]
-	path = Submodules/RenderWareFile
+	path = RenderWareFile
 	url = https://github.com/igorseabra4/RenderWareFile
 [submodule "Submodules/HeroesPowerPlant.RemoteControl.ReloadedII"]
 	path = Submodules/HeroesPowerPlant.RemoteControl.ReloadedII
