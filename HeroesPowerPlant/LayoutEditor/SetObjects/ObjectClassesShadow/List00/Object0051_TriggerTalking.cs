@@ -38,9 +38,9 @@ namespace HeroesPowerPlant.LayoutEditor
             set => Write(16, value);
         }
 
-        public AudioBranchType AudioBranchType
+        public EAudioBranchType AudioBranchType
         {
-            get => (AudioBranchType)ReadInt(20);
+            get => (EAudioBranchType)ReadInt(20);
             set => Write(20, (int)value);
         }
 
@@ -194,7 +194,7 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
     }
-    public enum AudioBranchType
+    public enum EAudioBranchType
     {
         CurrentMissionPartner = -1,
         Dark = 0,

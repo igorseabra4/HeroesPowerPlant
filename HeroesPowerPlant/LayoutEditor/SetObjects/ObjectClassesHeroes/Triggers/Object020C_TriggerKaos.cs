@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -23,28 +24,27 @@ namespace HeroesPowerPlant.LayoutEditor
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        public float Scale
+        public float Scale { get; set; }
+        public byte KaosType { get; set; }
+        public byte Param2 { get; set; }
+        public float Param3 { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Scale = reader.ReadSingle();
+            KaosType = reader.ReadByte();
+            Param2 = reader.ReadByte();
+            reader.BaseStream.Position += 2;
+            Param3 = reader.ReadSingle();
         }
 
-        public byte KaosType
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(8);
-            set => Write(8, value);
-        }
-
-        public byte Param2
-        {
-            get => ReadByte(9);
-            set => Write(9, value);
-        }
-
-        public float Param3
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(Scale);
+            writer.Write(KaosType);
+            writer.Write(Param2);
+            writer.Pad(2);
+            writer.Write(Param3);
         }
     }
 }

@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0401_EnergyColumn : SetObjectHeroes
     {
-        public byte EnergyColumnType
+        public byte EnergyColumnType { get; set; }
+        public float Length { get; set; }
+        public float Speed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            EnergyColumnType = reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            Length = reader.ReadSingle();
+            Speed = reader.ReadSingle();
         }
 
-        public float Length
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(EnergyColumnType);
+            writer.Pad(2);
+            writer.Write(Length);
+            writer.Write(Speed);
         }
     }
 }

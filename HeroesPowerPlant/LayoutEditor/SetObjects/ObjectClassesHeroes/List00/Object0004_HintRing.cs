@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0004_HintRing : SetObjectHeroes
     {
-        public short LineToPlay
+        public short LineToPlay { get; set; }
+        public bool DeleteByLinkOff { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadShort(4);
-            set => Write(4, value);
+            LineToPlay = reader.ReadInt16();
+            DeleteByLinkOff = reader.ReadByteBool();
         }
 
-        public bool DeleteByLinkOff
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(6) != 0;
-            set => Write(6, value ? (byte)1 : (byte)0);
+            writer.Write(LineToPlay);
+            writer.Write((byte)(DeleteByLinkOff ? 1 : 0));
         }
     }
 }

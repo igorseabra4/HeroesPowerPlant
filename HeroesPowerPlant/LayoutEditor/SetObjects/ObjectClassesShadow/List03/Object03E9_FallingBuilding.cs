@@ -1,21 +1,29 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object03E9_FallingBuilding : SetObjectShadow
     {
         //FallingBuildingHolder obj
 
-        public FallingBuildingType StructureType
+        public enum EObjectType
         {
-            get => (FallingBuildingType)ReadInt(0);
-            set => Write(0, (int)value);
+            Bridge15Angle = 0,
+            Bridge45Angle = 1,
+            Building = 2,
         }
-    }
 
-    public enum FallingBuildingType
-    {
-        Bridge15Angle = 0,
-        Bridge45Angle = 1,
-        Building = 2,
+        public EObjectType ObjectType { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            ObjectType = (EObjectType)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)ObjectType);
+        }
     }
 }
 

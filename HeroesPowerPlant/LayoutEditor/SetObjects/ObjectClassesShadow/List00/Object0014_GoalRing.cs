@@ -1,23 +1,31 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0014_GoalRing : SetObjectShadow
     {
-        public EmeraldColor EmeraldType
+        public enum EEmeraldColor
         {
-            get => (EmeraldColor)ReadInt(0);
-            set => Write(0, (int)value);
+            Blue = 0,
+            Green = 1,
+            Purple = 2,
+            Red = 3,
+            Aqua = 4,
+            Yellow = 5,
+            White = 6,
+            None = 7
         }
-    }
 
-    public enum EmeraldColor
-    {
-        Blue = 0,
-        Green = 1,
-        Purple = 2,
-        Red = 3,
-        Aqua = 4,
-        Yellow = 5,
-        White = 6,
-        None = 7
+        public EEmeraldColor EmeraldColor { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            EmeraldColor = (EEmeraldColor)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)EmeraldColor);
+        }
     }
 }

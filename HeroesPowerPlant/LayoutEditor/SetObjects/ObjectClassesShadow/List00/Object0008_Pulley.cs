@@ -1,10 +1,10 @@
 ﻿using SharpDX;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0008_Pulley : SetObjectShadow
     {
-
         // Real name UpDownReel / UD_REEL::length,angle,power
 
         public override void CreateTransformMatrix()
@@ -20,27 +20,25 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public float StartingLength
+        public float StartingLength { get; set; }
+        public float EndingLength { get; set; }
+        public float LetGoAngle { get; set; }
+        public float LetGoLaunchForce { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
-        public float EndingLength
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            StartingLength = reader.ReadSingle();
+            EndingLength = reader.ReadSingle();
+            LetGoAngle = reader.ReadSingle();
+            LetGoLaunchForce = reader.ReadSingle();
         }
 
-        public float LetGoAngle
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float LetGoLaunchForce
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(StartingLength);
+            writer.Write(EndingLength);
+            writer.Write(LetGoAngle);
+            writer.Write(LetGoLaunchForce);
         }
     }
 }

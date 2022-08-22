@@ -1,46 +1,42 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object15C0_EggBishop : SetObjectHeroes
     {
-        public enum TypeEnum : byte
+        public enum EEnemyType : byte
         {
             Bishop = 0,
             Magician = 1
         }
-        public TypeEnum BishopType
+
+        public EEnemyType EnemyType { get; set; }
+        public float MoveRange { get; set; }
+        public float ScopeRange { get; set; }
+        public float ScopeOffset { get; set; }
+        public int AttackInterval { get; set; }
+        public float MoveSpeed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (TypeEnum)ReadByte(4);
-            set => Write(4, (byte)value);
+            EnemyType = (EEnemyType)reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            MoveRange = reader.ReadSingle();
+            ScopeRange = reader.ReadSingle();
+            ScopeOffset = reader.ReadSingle();
+            AttackInterval = reader.ReadInt32();
+            MoveSpeed = reader.ReadSingle();
         }
 
-        public float MoveRange
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScopeRange
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float ScopeOffset
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public int AttackInterval
-        {
-            get => ReadInt(20);
-            set => Write(20, value);
-        }
-
-        public float MoveSpeed
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
+            writer.Write((byte)EnemyType);
+            writer.Pad(3);
+            writer.Write(MoveRange);
+            writer.Write(ScopeRange);
+            writer.Write(ScopeOffset);
+            writer.Write(AttackInterval);
+            writer.Write(MoveSpeed);
         }
     }
 }

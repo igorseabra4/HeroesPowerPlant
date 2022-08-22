@@ -1,3 +1,4 @@
+using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -7,22 +8,20 @@ namespace HeroesPowerPlant.LayoutEditor
         private Matrix destinationMatrix;
         private float switchBallScale = 1.5F;
         private float switchBallPosition = 10;
+        private const string BallName = "S11_ON_SWITCH_BALL.DFF";
+        private const string GlowName = "S11_K_SWITCH_BALL.DFF";
 
         public override void CreateTransformMatrix()
         {
             base.CreateTransformMatrix();
 
             destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(DestinationX, DestinationY, DestinationZ);
-            transformMatrix = Matrix.Scaling(switchBallScale) * Matrix.RotationX(MathUtil.DegreesToRadians(IsUpsideDown ? 180 : 0)) * DefaultTransformMatrix();
+            transformMatrix = Matrix.Scaling(switchBallScale) * Matrix.RotationX(IsUpsideDown ? MathUtil.Pi : 0) * DefaultTransformMatrix();
         }
 
         public override void Draw(SharpRenderer renderer)
         {
-
             base.Draw(renderer);
-
-            string BallName = "S11_ON_SWITCH_BALL.DFF";
-            string GlowName = "S11_K_SWITCH_BALL.DFF";
 
             if (isSelected)
                 renderer.DrawSphereTrigger(destinationMatrix, isSelected);
@@ -45,7 +44,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.Device.UpdateAllStates();
                     renderer.dffRenderer.DFFModels[GlowName].Render(renderer.Device);
                 }
-
                 else
                 {
                     renderer.Device.SetBlendStateAdditive();
@@ -67,34 +65,28 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public float DestinationX
+        public float DestinationX { get; set; }
+        public float DestinationY { get; set; }
+        public float DestinationZ { get; set; }
+        public bool IsInactive { get; set; }
+        public bool IsUpsideDown { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            DestinationX = reader.ReadSingle();
+            DestinationY = reader.ReadSingle();
+            DestinationZ = reader.ReadSingle();
+            IsInactive = reader.ReadByteBool();
+            IsUpsideDown = reader.ReadByteBool();
         }
 
-        public float DestinationY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float DestinationZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public bool IsInactive
-        {
-            get => ReadByte(16) != 0;
-            set => Write(16, (byte)(value ? 1 : 0));
-        }
-
-        public bool IsUpsideDown
-        {
-            get => ReadByte(17) != 0;
-            set => Write(17, (byte)(value ? 1 : 0));
+            writer.Write(DestinationX);
+            writer.Write(DestinationY);
+            writer.Write(DestinationZ);
+            writer.Write((byte)(IsInactive ? 1 : 0));
+            writer.Write((byte)(IsUpsideDown ? 1 : 0));
         }
     }
 }

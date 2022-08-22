@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0282_KameWave : SetObjectHeroes
     {
-        public byte KameWaveType
+        public byte KameWaveType { get; set; }
+        public float Speed { get; set; }
+        public float Scale { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            KameWaveType = reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            Speed = reader.ReadSingle();
+            Scale = reader.ReadSingle();
         }
 
-        public float Speed
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(KameWaveType);
+            writer.Pad(3);
+            writer.Write(Speed);
+            writer.Write(Scale);
         }
     }
 }

@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0018_ItemBox : SetObjectHeroes
     {
-        public Item Item
+        public EHeroesItem Item { get; set; }
+        public bool HomingOff { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (Item)ReadByte(4);
-            set => Write(4, (byte)value);
+            Item = (EHeroesItem)reader.ReadByte();
+            HomingOff = reader.ReadByteBool();
         }
 
-        public bool HomingOff
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(5) != 0;
-            set => Write(5, (byte)(value ? 1 : 0));
+            writer.Write((byte)Item);
+            writer.Write((byte)(HomingOff ? 1 : 0));
         }
     }
 }

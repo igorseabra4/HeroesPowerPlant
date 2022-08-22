@@ -1,18 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum CrumbleStonePillarType : byte
-    {
-        Left = 0,
-        Right = 1,
-        Center = 2
-    }
 
     public class Object0200_CrumbleStonePillar : SetObjectHeroes
     {
-        public CrumbleStonePillarType RuinType
+        public enum EPillarType : byte
         {
-            get => (CrumbleStonePillarType)ReadByte(4);
-            set => Write(4, (byte)value);
+            Left = 0,
+            Right = 1,
+            Center = 2
+        }
+
+        public EPillarType PillarType { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
+        {
+            PillarType = (EPillarType)reader.ReadByte();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write((byte)PillarType);
         }
     }
 }

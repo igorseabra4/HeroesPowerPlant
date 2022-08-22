@@ -1,38 +1,41 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum FlowerType : byte
-    {
-        Item = 0,
-        Scaffold = 1,
-        Warp = 2
-    }
-
     public class Object0032_WarpFlower : SetObjectHeroes
     {
+        public enum EFlowerType : byte
+        {
+            Item = 0,
+            Scaffold = 1,
+            Warp = 2
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(Scale + 1f) * DefaultTransformMatrix();
             CreateBoundingBox();
         }
 
-        public FlowerType FlowerType
+        public EFlowerType FlowerType { get; set; }
+        public float Scale { get; set; }
+        public float RisingHeight { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (FlowerType)ReadByte(4);
-            set => Write(4, (byte)value);
+            FlowerType = (EFlowerType)reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            Scale = reader.ReadSingle();
+            RisingHeight = reader.ReadSingle();
         }
 
-        public float Scale
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float RisingHeight
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write((byte)FlowerType);
+            writer.Pad(3);
+            writer.Write(Scale);
+            writer.Write(RisingHeight);
         }
     }
 }

@@ -1,16 +1,25 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum CrashMode : short
-    {
-        CrashOut = 0,
-        CrashThrough = 1
-    }
     public class Object00_Box : SetObjectHeroes
     {
-        public CrashMode CrashMode
+        public enum ECrashMode : short
         {
-            get => (CrashMode)ReadShort(4);
-            set => Write(4, (short)value);
+            CrashOut = 0,
+            CrashThrough = 1
+        }
+
+        public ECrashMode CrashMode { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
+        {
+            CrashMode = (ECrashMode)reader.ReadInt16();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write((short)CrashMode);
         }
     }
 }

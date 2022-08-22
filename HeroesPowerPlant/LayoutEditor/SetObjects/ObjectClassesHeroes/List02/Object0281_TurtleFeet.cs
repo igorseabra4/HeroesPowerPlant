@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0281_TurtleFeet : SetObjectHeroes
     {
-        public float Scale
+        public float Scale { get; set; }
+        public float Speed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Scale = reader.ReadSingle();
+            Speed = reader.ReadSingle();
         }
 
-        public float Speed
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            writer.Write(Scale);
+            writer.Write(Speed);
         }
     }
 }

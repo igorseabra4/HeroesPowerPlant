@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1302_HorizCannon : SetObjectHeroes
     {
-        public short ShootTime
+        public short ShootTime { get; set; }
+        public float ShootRange { get; set; }
+        public byte IgnoreCollision { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadShort(4);
-            set => Write(4, (float)value);
+            ShootTime = reader.ReadInt16();
+            reader.BaseStream.Position += 2;
+            ShootRange = reader.ReadSingle();
+            IgnoreCollision = reader.ReadByte();
         }
 
-        public float ShootRange
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public byte IgnoreCollision
-        {
-            get => ReadByte(12);
-            set => Write(12, value);
+            writer.Write(ShootTime);
+            writer.Pad(2);
+            writer.Write(ShootRange);
+            writer.Write(IgnoreCollision);
         }
     }
 }

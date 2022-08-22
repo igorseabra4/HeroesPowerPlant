@@ -1,4 +1,5 @@
 ﻿using HeroesONE_R.Structures;
+using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,12 @@ namespace HeroesPowerPlant.ShadowSplineEditor
     public class ShadowSplineEditor
     {
         public List<ShadowSpline> Splines;
-        private static bool littleEndian;
+        private static Endianness endianness;
 
         public ShadowSplineEditor()
         {
             Splines = new List<ShadowSpline>();
-            littleEndian = false;
+            endianness = Endianness.Big;
         }
 
         public ShadowSplineEditor(string fileName)
@@ -52,13 +53,13 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 byte[] fileContents = File.ReadAllBytes(fileName);
                 Archive shadowDATONE = Archive.FromONEFile(ref fileContents);
-                BinaryReader splineReader = null;
+                EndianBinaryReader splineReader = null;
 
                 foreach (var file in shadowDATONE.Files)
                 {
                     if (file.Name == "PATH.PTP")
                     {
-                        splineReader = new BinaryReader(new MemoryStream(file.DecompressThis()));
+                        splineReader = new EndianBinaryReader(new MemoryStream(file.DecompressThis()), endianness);
                         break;
                     }
                 }
@@ -68,24 +69,21 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                 try
                 {
-                    if (littleEndian)
-                        DontSwitch = true;
-
                     List<ShadowSpline> splineList = new List<ShadowSpline>();
 
                     splineReader.BaseStream.Position = 0x4;
-                    int sec5offset = Switch(splineReader.ReadInt32());
-                    int sec5length = Switch(splineReader.ReadInt32());
+                    int sec5offset = splineReader.ReadInt32();
+                    int sec5length = splineReader.ReadInt32();
 
                     splineReader.BaseStream.Position = 0x20;
                     List<int> offsetList = new List<int>();
 
-                    int a = Switch(splineReader.ReadInt32());
+                    int a = splineReader.ReadInt32();
 
                     while (a != 0)
                     {
                         offsetList.Add(a + 0x20);
-                        a = Switch(splineReader.ReadInt32());
+                        a = splineReader.ReadInt32();
                     }
 
                     foreach (int i in offsetList)
@@ -93,7 +91,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                         splineReader.BaseStream.Position = i;
 
                         ShadowSpline spline = new ShadowSpline();
-                        int amountOfPoints = Switch(splineReader.ReadInt32());
+                        int amountOfPoints = splineReader.ReadInt32();
 
                         splineReader.BaseStream.Position += 8;
 
@@ -104,11 +102,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                         splineReader.BaseStream.Position += 0xC;
 
-                        spline.SettingInt = Switch(splineReader.ReadInt32());
+                        spline.SettingInt = splineReader.ReadInt32();
 
                         splineReader.BaseStream.Position += 0xC;
 
-                        int nameOffset = Switch(splineReader.ReadInt32());
+                        int nameOffset = splineReader.ReadInt32();
 
                         spline.Vertices = new ShadowSplineVertex[amountOfPoints];
 
@@ -116,11 +114,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                         {
                             ShadowSplineVertex vertex = new ShadowSplineVertex
                             {
-                                Position = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle())),
-                                Rotation = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()))
+                                Position = new Vector3(splineReader.ReadSingle(), splineReader.ReadSingle(), splineReader.ReadSingle()),
+                                Rotation = new Vector3(splineReader.ReadSingle(), splineReader.ReadSingle(), splineReader.ReadSingle())
                             };
                             splineReader.BaseStream.Position += 0x4;
-                            vertex.UnknownInt = Switch(splineReader.ReadInt32());
+                            vertex.UnknownInt = splineReader.ReadInt32();
 
                             spline.Vertices[j] = vertex;
                         }
@@ -150,12 +148,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                     splineReader.Close();
 
-                    DontSwitch = false;
                     return splineList;
                 }
                 catch
                 {
-                    littleEndian = true;
+                    endianness = Endianness.Little;
                     return ReadShadowSplineFile(fileName);
                 }
             }

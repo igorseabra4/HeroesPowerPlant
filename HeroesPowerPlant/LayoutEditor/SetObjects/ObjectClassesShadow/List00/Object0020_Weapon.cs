@@ -1,15 +1,23 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0020_Weapon : SetObjectShadow
     {
-        public Weapon WeaponType
+        public EWeapon Weapon { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (Weapon)ReadInt(0);
-            set => Write(0, (int)value);
+            Weapon = (EWeapon)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)Weapon);
         }
     }
 
-    public enum Weapon
+    public enum EWeapon
     {
         NotValidInObject = -1,
         None = 0x00,

@@ -1,29 +1,28 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0305_BigBridge : SetObjectHeroes
     {
-        public float ColScaleX
+        public float ColScaleX { get; set; }
+        public float ColScaleY { get; set; }
+        public float ColScaleZ { get; set; }
+        public float AnimSpeed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            ColScaleX = reader.ReadSingle();
+            ColScaleY = reader.ReadSingle();
+            ColScaleZ = reader.ReadSingle();
+            AnimSpeed = reader.ReadSingle();
         }
 
-        public float ColScaleY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ColScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float AnimSpeed
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
+            writer.Write(ColScaleX);
+            writer.Write(ColScaleY);
+            writer.Write(ColScaleZ);
+            writer.Write(AnimSpeed);
         }
     }
 }

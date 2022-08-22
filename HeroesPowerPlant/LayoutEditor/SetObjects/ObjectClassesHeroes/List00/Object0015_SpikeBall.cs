@@ -1,37 +1,38 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum SpikeBallType
-    {
-        SingleBall = 0,
-        DoubleBall = 1
-    }
-
     public class Object0015_SpikeBall : SetObjectHeroes
     {
+        public enum ESpikeBallType : int
+        {
+            SingleBall = 0,
+            DoubleBall = 1
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(Scale + 1f) * DefaultTransformMatrix();
             CreateBoundingBox();
         }
 
-        public SpikeBallType SpikeBallType
+        public ESpikeBallType SpikeBallType { get; set; }
+        public float RotateSpeed { get; set; }
+        public float Scale { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (SpikeBallType)ReadInt(4);
-            set => Write(4, (int)value);
+            SpikeBallType = (ESpikeBallType)reader.ReadInt32();
+            RotateSpeed = reader.ReadSingle();
+            Scale = reader.ReadSingle();
         }
 
-        public float RotateSpeed
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write((int)SpikeBallType);
+            writer.Write(RotateSpeed);
+            writer.Write(Scale);
         }
     }
 }

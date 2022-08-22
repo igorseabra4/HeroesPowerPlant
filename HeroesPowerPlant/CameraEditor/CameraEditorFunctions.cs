@@ -1,7 +1,7 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.Collections.Generic;
 using System.IO;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.CameraEditor
 {
@@ -9,50 +9,48 @@ namespace HeroesPowerPlant.CameraEditor
     {
         public static List<CameraHeroes> ImportCameraFile(string fileName)
         {
-            List<CameraHeroes> list = new List<CameraHeroes>();
-
-            using (BinaryReader camReader = new BinaryReader(new FileStream(fileName, FileMode.Open)))
+            var list = new List<CameraHeroes>();
+            using (var camReader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big))
             {
                 camReader.BaseStream.Position = 0;
-
                 while (camReader.BaseStream.Position != camReader.BaseStream.Length)
                 {
-                    CameraHeroes TempCam = new CameraHeroes(
-                        cameraType: Switch(camReader.ReadInt32()),
-                        cameraSpeed: Switch(camReader.ReadInt32()),
-                        integer3: Switch(camReader.ReadInt32()),
-                        activationType: Switch(camReader.ReadInt32()),
-                        triggerShape: Switch(camReader.ReadInt32()),
-                        triggerPosition: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        triggerRotX: Switch(camReader.ReadInt32()),
-                        triggerRotY: Switch(camReader.ReadInt32()),
-                        triggerRotZ: Switch(camReader.ReadInt32()),
-                        triggerScale: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        camPos: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        camRotX: Switch(camReader.ReadInt32()),
-                        camRotY: Switch(camReader.ReadInt32()),
-                        camRotZ: Switch(camReader.ReadInt32()),
-                        pointA: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        pointB: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        pointC: new Vector3(Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle()), Switch(camReader.ReadSingle())),
-                        integer30: Switch(camReader.ReadInt32()),
-                        integer31: Switch(camReader.ReadInt32()),
-                        floatX32: Switch(camReader.ReadSingle()),
-                        floatY33: Switch(camReader.ReadSingle()),
-                        floatX34: Switch(camReader.ReadSingle()),
-                        floatY35: Switch(camReader.ReadSingle()),
-                        integer36: Switch(camReader.ReadInt32()),
-                        integer37: Switch(camReader.ReadInt32()),
-                        integer38: Switch(camReader.ReadInt32()),
-                        integer39: Switch(camReader.ReadInt32())
+                    var cam = new CameraHeroes(
+                        cameraType: camReader.ReadInt32(),
+                        cameraSpeed: camReader.ReadInt32(),
+                        integer3: camReader.ReadInt32(),
+                        activationType: camReader.ReadInt32(),
+                        triggerShape: camReader.ReadInt32(),
+                        triggerPosition: new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        triggerRotX: camReader.ReadInt32(),
+                        triggerRotY: camReader.ReadInt32(),
+                        triggerRotZ: camReader.ReadInt32(),
+                        triggerScale: new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        camPos: new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        camRotX: camReader.ReadInt32(),
+                        camRotY: camReader.ReadInt32(),
+                        camRotZ: camReader.ReadInt32(),
+                        pointA: new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        pointB: new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        pointC: new Vector3(camReader.ReadSingle(), camReader.ReadSingle(), camReader.ReadSingle()),
+                        integer30: camReader.ReadInt32(),
+                        integer31: camReader.ReadInt32(),
+                        floatX32: camReader.ReadSingle(),
+                        floatY33: camReader.ReadSingle(),
+                        floatX34: camReader.ReadSingle(),
+                        floatY35: camReader.ReadSingle(),
+                        integer36: camReader.ReadInt32(),
+                        integer37: camReader.ReadInt32(),
+                        integer38: camReader.ReadInt32(),
+                        integer39: camReader.ReadInt32()
                     );
 
-                    if (TempCam.CameraType == 0 & TempCam.CameraSpeed == 0 & TempCam.Integer3 == 0 & TempCam.ActivationType == 0 & TempCam.TriggerShape == 0)
+                    if (cam.CameraType == 0 & cam.CameraSpeed == 0 & cam.Integer3 == 0 & cam.ActivationType == 0 & cam.TriggerShape == 0)
                         continue;
 
-                    TempCam.CreateTransformMatrix();
+                    cam.CreateTransformMatrix();
 
-                    list.Add(TempCam);
+                    list.Add(cam);
                 }
             }
             return list;
@@ -60,55 +58,52 @@ namespace HeroesPowerPlant.CameraEditor
 
         public static void SaveCameraFile(string fileName, IEnumerable<CameraHeroes> list)
         {
-            BinaryWriter CameraWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
+            using (var writer = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big))
+                foreach (CameraHeroes i in list)
+                {
+                    if (i.CameraType == 0 & i.CameraSpeed == 0 & i.Integer3 == 0 & i.ActivationType == 0 & i.TriggerShape == 0)
+                        continue;
 
-            foreach (CameraHeroes i in list)
-            {
-                if (i.CameraType == 0 & i.CameraSpeed == 0 & i.Integer3 == 0 & i.ActivationType == 0 & i.TriggerShape == 0)
-                    continue;
-
-                CameraWriter.Write(Switch(i.CameraType));
-                CameraWriter.Write(Switch(i.CameraSpeed));
-                CameraWriter.Write(Switch(i.Integer3));
-                CameraWriter.Write(Switch(i.ActivationType));
-                CameraWriter.Write(Switch(i.TriggerShape));
-                CameraWriter.Write(Switch(i.TriggerPosition.X));
-                CameraWriter.Write(Switch(i.TriggerPosition.Y));
-                CameraWriter.Write(Switch(i.TriggerPosition.Z));
-                CameraWriter.Write(Switch(i.TriggerRotX));
-                CameraWriter.Write(Switch(i.TriggerRotY));
-                CameraWriter.Write(Switch(i.TriggerRotZ));
-                CameraWriter.Write(Switch(i.TriggerScale.X));
-                CameraWriter.Write(Switch(i.TriggerScale.Y));
-                CameraWriter.Write(Switch(i.TriggerScale.Z));
-                CameraWriter.Write(Switch(i.CamPos.X));
-                CameraWriter.Write(Switch(i.CamPos.Y));
-                CameraWriter.Write(Switch(i.CamPos.Z));
-                CameraWriter.Write(Switch(i.CamRotX));
-                CameraWriter.Write(Switch(i.CamRotY));
-                CameraWriter.Write(Switch(i.CamRotZ));
-                CameraWriter.Write(Switch(i.PointA.X));
-                CameraWriter.Write(Switch(i.PointA.Y));
-                CameraWriter.Write(Switch(i.PointA.Z));
-                CameraWriter.Write(Switch(i.PointB.X));
-                CameraWriter.Write(Switch(i.PointB.Y));
-                CameraWriter.Write(Switch(i.PointB.Z));
-                CameraWriter.Write(Switch(i.PointC.X));
-                CameraWriter.Write(Switch(i.PointC.Y));
-                CameraWriter.Write(Switch(i.PointC.Z));
-                CameraWriter.Write(Switch(i.Integer30));
-                CameraWriter.Write(Switch(i.Integer31));
-                CameraWriter.Write(Switch(i.FloatX32));
-                CameraWriter.Write(Switch(i.FloatY33));
-                CameraWriter.Write(Switch(i.FloatX34));
-                CameraWriter.Write(Switch(i.FloatY35));
-                CameraWriter.Write(Switch(i.Integer36));
-                CameraWriter.Write(Switch(i.Integer37));
-                CameraWriter.Write(Switch(i.Integer38));
-                CameraWriter.Write(Switch(i.Integer39));
-            }
-
-            CameraWriter.Close();
+                    writer.Write(i.CameraType);
+                    writer.Write(i.CameraSpeed);
+                    writer.Write(i.Integer3);
+                    writer.Write(i.ActivationType);
+                    writer.Write(i.TriggerShape);
+                    writer.Write(i.TriggerPosition.X);
+                    writer.Write(i.TriggerPosition.Y);
+                    writer.Write(i.TriggerPosition.Z);
+                    writer.Write(i.TriggerRotX);
+                    writer.Write(i.TriggerRotY);
+                    writer.Write(i.TriggerRotZ);
+                    writer.Write(i.TriggerScale.X);
+                    writer.Write(i.TriggerScale.Y);
+                    writer.Write(i.TriggerScale.Z);
+                    writer.Write(i.CamPos.X);
+                    writer.Write(i.CamPos.Y);
+                    writer.Write(i.CamPos.Z);
+                    writer.Write(i.CamRotX);
+                    writer.Write(i.CamRotY);
+                    writer.Write(i.CamRotZ);
+                    writer.Write(i.PointA.X);
+                    writer.Write(i.PointA.Y);
+                    writer.Write(i.PointA.Z);
+                    writer.Write(i.PointB.X);
+                    writer.Write(i.PointB.Y);
+                    writer.Write(i.PointB.Z);
+                    writer.Write(i.PointC.X);
+                    writer.Write(i.PointC.Y);
+                    writer.Write(i.PointC.Z);
+                    writer.Write(i.Integer30);
+                    writer.Write(i.Integer31);
+                    writer.Write(i.FloatX32);
+                    writer.Write(i.FloatY33);
+                    writer.Write(i.FloatX34);
+                    writer.Write(i.FloatY35);
+                    writer.Write(i.Integer36);
+                    writer.Write(i.Integer37);
+                    writer.Write(i.Integer38);
+                    writer.Write(i.Integer39);
+                }
         }
     }
 }

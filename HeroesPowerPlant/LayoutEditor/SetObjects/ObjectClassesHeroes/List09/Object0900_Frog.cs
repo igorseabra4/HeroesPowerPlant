@@ -1,59 +1,43 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0900_Frog : SetObjectHeroes
     {
-        public float JumpDirX
+        public float JumpDirX { get; set; }
+        public float JumpDirY { get; set; }
+        public float JumpDirZ { get; set; }
+        public float Radius { get; set; }
+        public float Scale { get; set; }
+        public float JumpCycle { get; set; }
+        public short StopTimeSec { get; set; }
+        public short LeaveTimeSec { get; set; }
+        public bool IsBlack { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            JumpDirX = reader.ReadSingle();
+            JumpDirY = reader.ReadSingle();
+            JumpDirZ = reader.ReadSingle();
+            Radius = reader.ReadSingle();
+            Scale = reader.ReadSingle();
+            JumpCycle = reader.ReadSingle();
+            StopTimeSec = reader.ReadInt16();
+            LeaveTimeSec = reader.ReadInt16();
+            IsBlack = reader.ReadByteBool();
         }
 
-        public float JumpDirY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float JumpDirZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Radius
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float JumpCycle
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-
-        public short StopTimeSec
-        {
-            get => ReadShort(28);
-            set => Write(28, value);
-        }
-
-        public short LeaveTimeSec
-        {
-            get => ReadShort(30);
-            set => Write(30, value);
-        }
-
-        public byte FrogType
-        {
-            get => ReadByte(32);
-            set => Write(32, value);
+            writer.Write(JumpDirX);
+            writer.Write(JumpDirY);
+            writer.Write(JumpDirZ);
+            writer.Write(Radius);
+            writer.Write(Scale);
+            writer.Write(JumpCycle);
+            writer.Write(StopTimeSec);
+            writer.Write(LeaveTimeSec);
+            writer.Write((byte)(IsBlack ? 1 : 0));
         }
     }
 }

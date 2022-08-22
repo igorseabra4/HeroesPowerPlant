@@ -1,22 +1,26 @@
 ﻿using System.ComponentModel;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object012C_EnvironmentalWeapon : SetObjectShadow
     {
-
         [Description("Slot was to allow for multiple EW models, never used.")]
-        public int ModelIterUnused
-        {
-            get => ReadInt(0);
-            set => Write(0, value);
-        }
+        public int ModelIterUnused { get; set; }
 
         [Description("Weapon to drop on destroy.")]
-        public EnvironmentalWeaponDropType WeaponDropType
+        public EnvironmentalWeaponDropType WeaponDropType { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (EnvironmentalWeaponDropType)ReadInt(4);
-            set => Write(4, (int)value);
+            ModelIterUnused = reader.ReadInt32();
+            WeaponDropType = (EnvironmentalWeaponDropType)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write(ModelIterUnused);
+            writer.Write((int)WeaponDropType);
         }
     }
 

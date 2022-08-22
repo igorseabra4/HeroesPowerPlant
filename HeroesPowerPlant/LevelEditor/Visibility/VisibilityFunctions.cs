@@ -1,4 +1,5 @@
 ﻿using HeroesONE_R.Structures;
+using HeroesPowerPlant.Shared.Utilities;
 using RenderWareFile;
 using RenderWareFile.Sections;
 using SharpDX;
@@ -41,33 +42,22 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static List<Chunk> LoadHeroesVisibilityFile(string fileName)
         {
-            List<Chunk> list = new List<Chunk>();
-
-            BinaryReader BLKFileReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
-
-            BLKFileReader.BaseStream.Position = 0;
-
-            for (int i = 0; i < (BLKFileReader.BaseStream.Length / 0x1C); i++)
+            var list = new List<Chunk>();
+            using (var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big))
             {
-                byte[] BCArray = BLKFileReader.ReadBytes(0x1C);
-                Chunk TempChunk = new Chunk
+                while (reader.BaseStream.Position < reader.BaseStream.Length)
                 {
-                    number = BitConverter.ToInt32(new byte[] { BCArray[3], BCArray[2], BCArray[1], BCArray[0] }, 0)
-                };
+                    var chunk = new Chunk(reader.ReadInt32(),
+                        new Vector3(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32()),
+                        new Vector3(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32()));
 
-                if (TempChunk.number == -1) continue;
+                    if (chunk.number == -1)
+                        continue;
 
-                TempChunk.Min.X = BitConverter.ToInt32(new byte[] { BCArray[7], BCArray[6], BCArray[5], BCArray[4] }, 0);
-                TempChunk.Min.Y = BitConverter.ToInt32(new byte[] { BCArray[11], BCArray[10], BCArray[9], BCArray[8] }, 0);
-                TempChunk.Min.Z = BitConverter.ToInt32(new byte[] { BCArray[15], BCArray[14], BCArray[13], BCArray[12] }, 0);
-                TempChunk.Max.X = BitConverter.ToInt32(new byte[] { BCArray[19], BCArray[18], BCArray[17], BCArray[16] }, 0);
-                TempChunk.Max.Y = BitConverter.ToInt32(new byte[] { BCArray[23], BCArray[22], BCArray[21], BCArray[20] }, 0);
-                TempChunk.Max.Z = BitConverter.ToInt32(new byte[] { BCArray[27], BCArray[26], BCArray[25], BCArray[24] }, 0);
-                TempChunk.CalculateModel();
-
-                list.Add(TempChunk);
+                    chunk.CalculateModel();
+                    list.Add(chunk);
+                }
             }
-            BLKFileReader.Close();
 
             return list;
         }
@@ -83,82 +73,66 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static List<Chunk> LoadShadowVisibilityFile(Stream bdtFile)
         {
-            List<Chunk> list = new List<Chunk>();
-
-            BinaryReader BLKFileReader = new BinaryReader(bdtFile);
-
-            BLKFileReader.BaseStream.Position = 0x40;
-
-            int numberOfChunks = BLKFileReader.ReadInt32();
-            for (int j = 0; j < numberOfChunks; j++)
+            var list = new List<Chunk>();
+            using (var reader = new BinaryReader(bdtFile))
             {
-                Chunk TempChunk = new Chunk
+                reader.BaseStream.Position = 0x40;
+                int count = reader.ReadInt32();
+                for (int j = 0; j < count; j++)
                 {
-                    number = BLKFileReader.ReadInt32(),
-                    Min = new Vector3(BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle()),
-                    Max = new Vector3(BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle(), BLKFileReader.ReadSingle()),
-                };
-                TempChunk.CalculateModel();
-
-                list.Add(TempChunk);
-                BLKFileReader.ReadInt32();
+                    var chunk = new Chunk(reader.ReadInt32(),
+                        new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()),
+                        new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()));
+                    chunk.CalculateModel();
+                    list.Add(chunk);
+                    reader.ReadInt32();
+                }
             }
-            BLKFileReader.Close();
 
             return list;
         }
 
         public static void SaveHeroesVisibilityFile(IEnumerable<Chunk> chunkList, string fileName)
         {
-            BinaryWriter BLKFileWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
-
+            using var writer = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
             foreach (Chunk i in chunkList)
             {
                 if (i.number == -1)
                     continue;
-                BLKFileWriter.Write(BitConverter.GetBytes(i.number)[3]);
-                BLKFileWriter.Write(BitConverter.GetBytes(i.number)[2]);
-                BLKFileWriter.Write(BitConverter.GetBytes(i.number)[1]);
-                BLKFileWriter.Write(BitConverter.GetBytes(i.number)[0]);
+                writer.Write(i.number);
 
-                BLKFileWriter.Write(BitConverter.GetBytes((int)i.Min.X).Reverse().ToArray());
-                BLKFileWriter.Write(BitConverter.GetBytes((int)i.Min.Y).Reverse().ToArray());
-                BLKFileWriter.Write(BitConverter.GetBytes((int)i.Min.Z).Reverse().ToArray());
-                BLKFileWriter.Write(BitConverter.GetBytes((int)i.Max.X).Reverse().ToArray());
-                BLKFileWriter.Write(BitConverter.GetBytes((int)i.Max.Y).Reverse().ToArray());
-                BLKFileWriter.Write(BitConverter.GetBytes((int)i.Max.Z).Reverse().ToArray());
+                writer.Write(i.Min.X);
+                writer.Write(i.Min.Y);
+                writer.Write(i.Min.Z);
+                writer.Write(i.Max.X);
+                writer.Write(i.Max.Y);
+                writer.Write(i.Max.Z);
             }
-
-            BLKFileWriter.Close();
         }
 
         public static byte[] ShadowVisibilityFileToArray(IEnumerable<Chunk> chunkList, string levelName)
         {
-            BinaryWriter BLKFileWriter = new BinaryWriter(new MemoryStream());
+            using var writer = new BinaryWriter(new MemoryStream());
 
             foreach (char c in levelName)
-                BLKFileWriter.Write((byte)c);
+                writer.Write((byte)c);
 
-            BLKFileWriter.BaseStream.Position = 0x40;
+            writer.BaseStream.Position = 0x40;
 
-            BLKFileWriter.Write(chunkList.Count());
+            writer.Write(chunkList.Count());
             foreach (Chunk i in chunkList)
             {
-                BLKFileWriter.Write(i.number);
-                BLKFileWriter.Write(i.Min.X);
-                BLKFileWriter.Write(i.Min.Y);
-                BLKFileWriter.Write(i.Min.Z);
-                BLKFileWriter.Write(i.Max.X);
-                BLKFileWriter.Write(i.Max.Y);
-                BLKFileWriter.Write(i.Max.Z);
-                BLKFileWriter.Write(80);
+                writer.Write(i.number);
+                writer.Write(i.Min.X);
+                writer.Write(i.Min.Y);
+                writer.Write(i.Min.Z);
+                writer.Write(i.Max.X);
+                writer.Write(i.Max.Y);
+                writer.Write(i.Max.Z);
+                writer.Write(80);
             }
 
-            byte[] bytes = (BLKFileWriter.BaseStream as MemoryStream).ToArray();
-
-            BLKFileWriter.Close();
-
-            return bytes;
+            return (writer.BaseStream as MemoryStream).ToArray();
         }
 
         public static void AutoChunk(int number, List<RenderWareModelFile> bspAndCol, out bool success, out Vector3 Min, out Vector3 Max)

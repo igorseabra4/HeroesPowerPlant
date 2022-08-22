@@ -4,7 +4,6 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0019_Weight : SetObjectShadow
     {
-
         public WeightMoveType MoveType
         {
             get => (WeightMoveType)ReadInt(0);

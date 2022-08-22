@@ -1,45 +1,39 @@
-﻿using System.ComponentModel;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum Direction : byte
-    {
-        Up = 0,
-        Down = 1,
-    }
-
     public class Object0031_Case : SetObjectHeroes
     {
-
-        public float ScaleX
+        public enum EDirection : byte
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Up = 0,
+            Down = 1,
         }
 
-        public float ScaleY
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
+        public float ScaleZ { get; set; }
         [Description("Doesn't use actual Link ID. Use this one.")]
-        public byte LinkID
+        public byte LinkID { get; set; }
+        public EDirection Direction { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(16);
-            set => Write(16, value);
+            ScaleX = reader.ReadSingle();
+            ScaleY = reader.ReadSingle();
+            ScaleZ = reader.ReadSingle();
+            LinkID = reader.ReadByte();
+            Direction = (EDirection)reader.ReadByte();
         }
 
-        public Direction Direction
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => (Direction)ReadByte(17);
-            set => Write(17, (byte)value);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
+            writer.Write(ScaleZ);
+            writer.Write(LinkID);
+            writer.Write((byte)Direction);
         }
     }
 }

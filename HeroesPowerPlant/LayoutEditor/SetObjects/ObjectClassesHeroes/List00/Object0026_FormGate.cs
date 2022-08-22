@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0026_FormGate : SetObjectHeroes
     {
-        public Formation Formation
+        public EFormation Formation { get; set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (Formation)ReadByte(4);
-            set => Write(4, (byte)value);
+            Formation = (EFormation)reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            Width = reader.ReadSingle();
+            Height = reader.ReadSingle();
         }
 
-        public float Width
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Height
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write((byte)Formation);
+            writer.Pad(3);
+            writer.Write(Width);
+            writer.Write(Height);
         }
     }
 }

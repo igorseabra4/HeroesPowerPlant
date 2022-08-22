@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object000E_Rocket : SetObjectShadow
     {
-        public float TravelAngle
+        public float TravelAngle { get; set; }
+        public float TravelDistance { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadFloat(0);
-            set => Write(0, value);
+            TravelAngle = reader.ReadSingle();
+            TravelDistance = reader.ReadSingle();
         }
 
-        public float TravelDistance
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            writer.Write(TravelAngle);
+            writer.Write(TravelDistance);
         }
     }
 }

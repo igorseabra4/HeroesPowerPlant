@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using System.ComponentModel;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -18,44 +19,44 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public BoxType BoxType
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (BoxType)ReadInt(0);
-            set => Write(0, (int)value);
+            BoxType = (EBoxType)reader.ReadInt32();
+            BoxItem = (EBoxItem)reader.ReadInt32();
+            ItemTypeModifier = reader.ReadInt32();
         }
 
-        public BoxItem ItemType
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => (BoxItem)ReadInt(4);
-            set => Write(4, (int)value);
+            writer.Write((int)BoxType);
+            writer.Write((int)BoxItem);
+            writer.Write(ItemTypeModifier);
         }
 
+        public EBoxType BoxType { get; set; }
+        public EBoxItem BoxItem { get; set; }
         [Description("Use this if ItemType is any other type")]
-        public int ItemTypeModifier
-        {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
+        public int ItemTypeModifier { get; set; }
 
         [Description("Use this if ItemType is ItemCapsule")]
-        public ItemShadow ModifierCapsule
+        public EShadowItem ModifierCapsule
         {
-            get => (ItemShadow)ReadInt(8);
-            set => Write(8, (int)value);
+            get => (EShadowItem)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
 
         [Description("Use this if ItemType is Weapon")]
-        public Weapon ModifierWeapon
+        public EWeapon ModifierWeapon
         {
-            get => (Weapon)ReadInt(8);
-            set => Write(8, (int)value);
+            get => (EWeapon)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
 
         [Description("Use this if ItemType is EnergyCore")]
-        public EnergyCoreType ModifierEnergyCore
+        public EEnergyCoreType ModifierEnergyCore
         {
-            get => (EnergyCoreType)ReadInt(8);
-            set => Write(8, (int)value);
+            get => (EEnergyCoreType)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
     }
 }

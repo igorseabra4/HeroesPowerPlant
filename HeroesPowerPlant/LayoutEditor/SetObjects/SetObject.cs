@@ -1,8 +1,11 @@
 ﻿using HeroesPowerPlant.LevelEditor;
 using Newtonsoft.Json;
 using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -16,18 +19,20 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Rend;
         public byte[] UnkBytes;
 
-        public byte[] MiscSettings;
-
         [JsonIgnore]
         public bool isSelected;
 
         [JsonIgnore]
         private ObjectEntry objectEntry;
-        [Browsable(false)]
+        [JsonIgnore, Browsable(false)]
         public string GetName => objectEntry.GetName();
-        protected int ModelMiscSetting => objectEntry.ModelMiscSetting;
+        [JsonIgnore]
+        protected string ModelMiscSetting => objectEntry.ModelMiscSetting;
+        [JsonIgnore]
         protected string[][] ModelNames => objectEntry.ModelNames;
         public bool HasMiscSettings;
+
+        public abstract byte[] GetMiscSettings();
 
         public override string ToString()
         {
@@ -37,7 +42,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public virtual void SetObjectEntry(ObjectEntry objectEntry)
         {
             this.objectEntry = objectEntry;
-            this.HasMiscSettings = objectEntry.HasMiscSettings;
+            HasMiscSettings = objectEntry.HasMiscSettings;
         }
 
         public bool DontDraw(Vector3 camPos)
@@ -59,10 +64,23 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public abstract void CreateTransformMatrix();
 
+        protected virtual int GetModelNumber()
+        {
+            if (!string.IsNullOrEmpty(ModelMiscSetting))
+                try
+                {
+                    return Convert.ToInt32(GetType().GetProperty(ModelMiscSetting).GetValue(this));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"There was an error obtaining the model for {ToString()}: {e.Message}\nThis is a mistake and either an error in your Heroes/Shadow ObjectList.ini or HPP itself.");
+                }
+            return 0;
+        }
+
         protected void SetDFFModels()
         {
-            int modelNumber = (ModelMiscSetting != -1 && ModelMiscSetting < MiscSettings.Length) ?
-               MiscSettings[ModelMiscSetting] : 0;
+            int modelNumber = GetModelNumber();
 
             if (ModelNames != null && ModelNames.Length != 0 && modelNumber < ModelNames.Length)
             {
@@ -179,22 +197,20 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             distance = initialDistance;
 
-            int modelNumber = ModelMiscSetting == -1 ? 0 : MiscSettings[ModelMiscSetting];
-
-            if (ModelNames == null || ModelNames.Length == 0 || modelNumber >= ModelNames.Length)
+            if (models == null || models.Length == 0)
                 return true;
 
             bool hasModelData = false;
-            foreach (string s in ModelNames[modelNumber])
+            foreach (var m in models)
             {
-                if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(s))
+                if (m != null)
                 {
                     hasModelData = true;
-                    foreach (RenderWareFile.Triangle t in Program.MainForm.renderer.dffRenderer.DFFModels[s].triangleList)
+                    foreach (RenderWareFile.Triangle t in m.triangleList)
                     {
-                        Vector3 v1 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex1], transformMatrix);
-                        Vector3 v2 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex2], transformMatrix);
-                        Vector3 v3 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex3], transformMatrix);
+                        Vector3 v1 = (Vector3)Vector3.Transform(m.vertexListG[t.vertex1], transformMatrix);
+                        Vector3 v2 = (Vector3)Vector3.Transform(m.vertexListG[t.vertex2], transformMatrix);
+                        Vector3 v3 = (Vector3)Vector3.Transform(m.vertexListG[t.vertex3], transformMatrix);
 
                         bool hasIntersected = false;
                         if (r.Intersects(ref v1, ref v2, ref v3, out float latestDistance))
@@ -269,14 +285,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (!UnkBytes[i].Equals(setObject.UnkBytes[i]))
                     return false;
             }
-            if (MiscSettings.Length != setObject.MiscSettings.Length)
-                return false;
-            for (int i = 0; i < MiscSettings.Length; i++)
-            {
-                if (!MiscSettings[i].Equals(setObject.MiscSettings[i]))
-                    return false;
-            }
-            return true;
+            return Enumerable.SequenceEqual(GetMiscSettings(), setObject.GetMiscSettings());
         }
     }
 }

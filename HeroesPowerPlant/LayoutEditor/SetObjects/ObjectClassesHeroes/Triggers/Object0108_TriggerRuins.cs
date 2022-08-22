@@ -1,16 +1,17 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum RuinType : byte
-    {
-        SeasideHillRuin = 0,
-        OceanPalaceRuins = 1
-    }
-
     public class Object0108_TriggerRuins : SetObjectHeroes
     {
+        public enum ERuinType : byte
+        {
+            SeasideHill = 0,
+            OceanPalace = 1
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) * DefaultTransformMatrix();
@@ -37,28 +38,25 @@ namespace HeroesPowerPlant.LayoutEditor
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
-        public float ScaleX
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
+        public float ScaleZ { get; set; }
+        public ERuinType RuinType { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            ScaleX = reader.ReadSingle();
+            ScaleY = reader.ReadSingle();
+            ScaleZ = reader.ReadSingle();
+            RuinType = (ERuinType)reader.ReadByte();
         }
 
-        public float ScaleY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public RuinType RuinType
-        {
-            get => (RuinType)ReadByte(16);
-            set => Write(16, (byte)value);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
+            writer.Write(ScaleZ);
+            writer.Write((byte)RuinType);
         }
     }
 }

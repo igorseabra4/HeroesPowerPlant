@@ -1,59 +1,43 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0306_AirCar : SetObjectHeroes
     {
-        public byte FarType
+        public byte FarType { get; set; }
+        public byte BlockType { get; set; }
+        public byte CrossWize { get; set; }
+        public byte LengthWize { get; set; }
+        public short Time { get; set; }
+        public short TimeRnd { get; set; }
+        public float Length { get; set; }
+        public float Speed { get; set; }
+        public float SpeedRnd { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            FarType = reader.ReadByte();
+            BlockType = reader.ReadByte();
+            CrossWize = reader.ReadByte();
+            LengthWize = reader.ReadByte();
+            Time = reader.ReadInt16();
+            TimeRnd = reader.ReadInt16();
+            Length = reader.ReadSingle();
+            Speed = reader.ReadSingle();
+            SpeedRnd = reader.ReadSingle();
         }
 
-        public byte BlockType
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(5);
-            set => Write(5, value);
-        }
-
-        public byte CrossWize
-        {
-            get => ReadByte(6);
-            set => Write(6, value);
-        }
-
-        public byte LengthWize
-        {
-            get => ReadByte(7);
-            set => Write(7, value);
-        }
-
-        public short Time
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
-        }
-
-        public short TimeRnd
-        {
-            get => ReadShort(10);
-            set => Write(10, value);
-        }
-
-        public float Length
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float SpeedRnd
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
+            writer.Write(FarType);
+            writer.Write(BlockType);
+            writer.Write(CrossWize);
+            writer.Write(LengthWize);
+            writer.Write(Time);
+            writer.Write(TimeRnd);
+            writer.Write(Length);
+            writer.Write(Speed);
+            writer.Write(SpeedRnd);
         }
     }
 }

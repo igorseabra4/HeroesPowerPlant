@@ -1,35 +1,35 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
-{
-    public enum CurtainType
-    {
-        Light = 0,
-        Dark = 1,
-    }
+﻿using HeroesPowerPlant.Shared.Utilities;
 
+namespace HeroesPowerPlant.LayoutEditor
+{
     public class Object1188_Curtain : SetObjectHeroes
     {
-        public CurtainType CurtainType
+        public enum ECurtainType : byte
         {
-            get => (CurtainType)ReadByte(4);
-            set => Write(4, (byte)value);
+            Light = 0,
+            Dark = 1,
         }
 
-        public byte Pole
+        public ECurtainType CurtainType { get; set; }
+        public byte Pole { get; set; }
+        public bool IsUpsideDown { get; set; }
+        public float Scale { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(5);
-            set => Write(5, value);
+            CurtainType = (ECurtainType)reader.ReadByte();
+            Pole = reader.ReadByte();
+            IsUpsideDown = reader.ReadByteBool();
+            reader.ReadByte();
+            Scale = reader.ReadSingle();
         }
 
-        public bool IsUpsideDown
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(6) != 0;
-            set => Write(6, (byte)(value ? 1 : 0));
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            writer.Write((byte)CurtainType);
+            writer.Write(Pole);
+            writer.Write((byte)(IsUpsideDown ? 1 : 0));
+            writer.Write(Scale);
         }
     }
 }

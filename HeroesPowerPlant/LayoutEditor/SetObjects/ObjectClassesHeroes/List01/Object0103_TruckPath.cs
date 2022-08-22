@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0103_TruckPath : SetObjectHeroes
     {
-        public byte TruckPathType
+        public byte ObjectType { get; set; }
+        public byte PathNum { get; set; }
+        public float MinSpeed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            ObjectType = reader.ReadByte();
+            PathNum = reader.ReadByte();
+            reader.BaseStream.Position += 2;
+            MinSpeed = reader.ReadSingle();
         }
 
-        public byte PathNum
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(5);
-            set => Write(5, value);
-        }
-
-        public float MinSpeed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            writer.Write(ObjectType);
+            writer.Write(PathNum);
+            writer.Pad(2);
+            writer.Write(MinSpeed);
         }
     }
 }

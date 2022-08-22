@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1102_CastleWall : SetObjectHeroes
     {
-        public int ModelNumber
+        public int ObjectType { get; set; }
+        public bool IsUpsideDown { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            ObjectType = reader.ReadInt32();
+            IsUpsideDown = reader.ReadInt32Bool();
         }
 
-        public bool IsUpsideDown
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadInt(8) != 0;
-            set => Write(8, value ? 1 : 0);
+            writer.Write(ObjectType);
+            writer.Write((byte)(IsUpsideDown ? 1 : 0));
         }
     }
 }

@@ -1,29 +1,30 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0380_BalloonDesign : SetObjectHeroes
     {
-        public byte BalloonType
+        public byte BalloonType { get; set; }
+        public int SpdRad { get; set; }
+        public float Radius { get; set; }
+        public float Scale { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            BalloonType = reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            SpdRad = reader.ReadInt32();
+            Radius = reader.ReadSingle();
+            Scale = reader.ReadSingle();
         }
 
-        public int SpdRad
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
-
-        public float Radius
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
+            writer.Write(BalloonType);
+            writer.Pad(3);
+            writer.Write(SpdRad);
+            writer.Write(Radius);
+            writer.Write(Scale);
         }
     }
 }

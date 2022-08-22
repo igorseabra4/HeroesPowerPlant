@@ -1,11 +1,19 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1303_MovingCannon : SetObjectHeroes
     {
-        public float MaxHeight
+        public float MaxHeight { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            MaxHeight = reader.ReadSingle();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write(MaxHeight);
         }
     }
 }

@@ -1,17 +1,25 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
-{
-    public enum SwitchMode : byte
-    {
-        Push = 0,
-        Pull = 1
-    }
+﻿using HeroesPowerPlant.Shared.Utilities;
 
+namespace HeroesPowerPlant.LayoutEditor
+{
     public class Object0006_SwitchPP : SetObjectHeroes
     {
-        public SwitchMode SwitchMode
+        public enum EMode : byte
         {
-            get => (SwitchMode)ReadByte(4);
-            set => Write(4, (byte)value);
+            Push = 0,
+            Pull = 1
+        }
+
+        public EMode SwitchMode { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
+        {
+            SwitchMode = (EMode)reader.ReadByte();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write((byte)SwitchMode);
         }
     }
 }

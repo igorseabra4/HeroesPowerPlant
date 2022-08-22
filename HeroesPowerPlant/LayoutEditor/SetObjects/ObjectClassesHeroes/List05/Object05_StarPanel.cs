@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object05_StarPanel : SetObjectHeroes
     {
-        public float Power
+        public float Power { get; set; }
+        public int Color { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Power = reader.ReadSingle();
+            Color = reader.ReadInt32();
         }
 
-        public int Color
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadInt(8);
-            set => Write(8, value);
+            writer.Write(Power);
+            writer.Write(Color);
         }
     }
 }

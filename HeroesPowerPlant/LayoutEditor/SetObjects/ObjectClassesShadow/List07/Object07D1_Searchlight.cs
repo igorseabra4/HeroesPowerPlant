@@ -1,29 +1,29 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object07D1_Searchlight : SetObjectShadow
     {
         // ElecSearchLight(ENEMY_ID, RotateRange, RotateSpeed, LightLength)
-        public int SpotOnLinkID
-        { //0 = No or 1 = Yes
-            get => ReadInt(0);
-            set => Write(0, value);
+        public CommonNoYes SpotOnLinkID { get; set; }
+        public float RotateRange { get; set; }
+        public float RotateSpeed { get; set; }
+        public float LightLength { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            SpotOnLinkID = (CommonNoYes)reader.ReadInt32();
+            RotateRange = reader.ReadSingle();
+            RotateSpeed = reader.ReadSingle();
+            LightLength = reader.ReadSingle();
         }
 
-        public float RotateRange
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float RotateSpeed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-        public float LightLength
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write((int)SpotOnLinkID);
+            writer.Write(RotateRange);
+            writer.Write(RotateSpeed);
+            writer.Write(LightLength);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -31,28 +32,25 @@ namespace HeroesPowerPlant.LayoutEditor
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
-        public float AreaX
+        public float AreaX { get; set; }
+        public float AreaY { get; set; }
+        public float AreaZ { get; set; }
+        public int Number { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            AreaX = reader.ReadSingle();
+            AreaY = reader.ReadSingle();
+            AreaZ = reader.ReadSingle();
+            Number = reader.ReadInt32();
         }
 
-        public float AreaY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float AreaZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public int Number
-        {
-            get => ReadInt(16);
-            set => Write(16, value);
+            writer.Write(AreaX);
+            writer.Write(AreaY);
+            writer.Write(AreaZ);
+            writer.Write(Number);
         }
     }
 }

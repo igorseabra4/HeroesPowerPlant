@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object099A_Wanibreak : SetObjectHeroes
     {
-        public byte ObjectType
+        public byte ObjectType { get; set; }
+        public byte Kazari { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            ObjectType = reader.ReadByte();
+            Kazari = reader.ReadByte();
         }
 
-        public byte Kazari
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(5);
-            set => Write(5, value);
+            writer.Write(ObjectType);
+            writer.Write(Kazari);
         }
     }
 }

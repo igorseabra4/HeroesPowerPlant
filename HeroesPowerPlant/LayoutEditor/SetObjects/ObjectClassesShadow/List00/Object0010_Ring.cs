@@ -2,6 +2,7 @@
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -25,12 +26,12 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 //case RingType.Normal:
                 //   break;
-                case RingType.Line:
+                case ERingType.Line:
                     matrix = Matrix.RotationX(Rotation.X * shift) *
                     Matrix.RotationY(Rotation.Y * shift) *
                     Matrix.RotationZ(0f);
                     break;
-                case RingType.Circle:
+                case ERingType.Circle:
                     // X seems off?
                     matrix = Matrix.RotationX(Rotation.X * shift) *
                     Matrix.RotationZ(Rotation.Z * shift) *
@@ -61,22 +62,22 @@ namespace HeroesPowerPlant.LayoutEditor
 
             switch (RingType)
             {
-                case RingType.Normal:
+                case ERingType.Normal:
                     positionsList.Add(Vector3.Zero);
                     break;
-                case RingType.Line:
+                case ERingType.Line:
                     if (NumberOfRings < 2) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
                         positionsList.Add(new Vector3(0, 0, -(LengthRadius * i / (NumberOfRings))));
                     break;
-                case RingType.Circle:
+                case ERingType.Circle:
                     if (NumberOfRings < 1) return;
 
                     for (int i = 0; i < NumberOfRings; i++)
                         positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LengthRadius), -Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
                     break;
-                case RingType.Arch:
+                case ERingType.Arch:
                     // parabola is y^2 = 4ax
                     // y^2 = 4(Angle)(LengthRadius)
                     if (NumberOfRings < 2) return;
@@ -159,7 +160,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer)
         {
-            int nameIndex = ModelMiscSetting == -1 ? 0 : MiscSettings[ModelMiscSetting] < ModelNames.Length ? MiscSettings[ModelMiscSetting] : 0;
+            var modelNumber = GetModelNumber();
+            int nameIndex = modelNumber < ModelNames.Length ? modelNumber : 0;
 
             if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[nameIndex][0]))
             {
@@ -211,34 +213,28 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public RingType RingType
+        public ERingType RingType { get; set; }
+        public int NumberOfRings { get; set; }
+        public float LengthRadius { get; set; }
+        public float Angle { get; set; }
+        public bool Ghost { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (RingType)ReadInt(0);
-            set => Write(0, (int)value);
+            RingType = (ERingType)reader.ReadInt32();
+            NumberOfRings = reader.ReadInt32();
+            LengthRadius = reader.ReadSingle();
+            Angle = reader.ReadSingle();
+            Ghost = reader.ReadInt32() != 0;
         }
 
-        public int NumberOfRings
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadInt(4);
-            set => Write(4, value);
-        }
-
-        public float LengthRadius
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Angle
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public bool Ghost
-        {
-            get => (ReadInt(16) != 0);
-            set => Write(16, value ? 1 : 0);
+            writer.Write((int)RingType);
+            writer.Write(NumberOfRings);
+            writer.Write(LengthRadius);
+            writer.Write(Angle);
+            writer.Write(Ghost ? 1 : 0);
         }
     }
 }

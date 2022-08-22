@@ -1,18 +1,26 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
-{
-    public enum OpenAngle
-    {
-        Angle90 = 0,
-        Angle180 = 1,
-        Angle83dot5 = 2
-    }
+﻿using HeroesPowerPlant.Shared.Utilities;
 
+namespace HeroesPowerPlant.LayoutEditor
+{
     public class Object1108_MansionDoor : SetObjectHeroes
     {
-        public OpenAngle OpenAngle
+        public enum EOpenAngle : int
         {
-            get => (OpenAngle)ReadInt(4);
-            set => Write(4, (int)value);
+            Angle90 = 0,
+            Angle180 = 1,
+            Angle83dot5 = 2
+        }
+
+        public EOpenAngle OpenAngle { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
+        {
+            OpenAngle = (EOpenAngle)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write((int)OpenAngle);
         }
     }
 }

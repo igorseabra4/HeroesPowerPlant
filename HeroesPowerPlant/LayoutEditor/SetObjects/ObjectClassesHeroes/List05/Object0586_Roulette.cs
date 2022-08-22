@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0586_Roulette : SetObjectHeroes
     {
-        public float Scale
+        public float Scale { get; set; }
+        public int Speed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Scale = reader.ReadSingle();
+            Speed = reader.ReadInt32();
         }
 
-        public int Speed
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadInt(8);
-            set => Write(8, value);
+            writer.Write(Scale);
+            writer.Write(Speed);
         }
     }
 }

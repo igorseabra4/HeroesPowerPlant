@@ -1,35 +1,31 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020A_ColliQuake : SetObjectHeroes
     {
-        public float ScaleX
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
+        public float ScaleZ { get; set; }
+        public float Strength { get; set; }
+        public int Time { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            ScaleX = reader.ReadSingle();
+            ScaleY = reader.ReadSingle();
+            ScaleZ = reader.ReadSingle();
+            Strength = reader.ReadSingle();
+            Time = reader.ReadInt32();
         }
 
-        public float ScaleY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Strength
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public int Time
-        {
-            get => ReadInt(20);
-            set => Write(20, value);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
+            writer.Write(ScaleZ);
+            writer.Write(Strength);
+            writer.Write(Time);
         }
     }
 }

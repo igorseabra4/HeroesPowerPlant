@@ -3,7 +3,7 @@ using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0180_FlowerPatch : SetObjectHeroes
+    public class Object0584_GiantDice : SetObjectHeroes
     {
         public override void CreateTransformMatrix()
         {
@@ -12,21 +12,25 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public byte ObjectType { get; set; }
+        public int ObjectType { get; set; }
+        public int Speed { get; set; }
         public float Scale { get; set; }
+        public int Block { get; set; }
 
         public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            ObjectType = reader.ReadByte();
-            reader.BaseStream.Position += 3;
+            ObjectType = reader.ReadInt32();
+            Speed = reader.ReadInt32();
             Scale = reader.ReadSingle();
+            Block = reader.ReadInt32();
         }
 
         public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
             writer.Write(ObjectType);
-            writer.Pad(3);
+            writer.Write(Speed);
             writer.Write(Scale);
+            writer.Write(Block);
         }
     }
 }

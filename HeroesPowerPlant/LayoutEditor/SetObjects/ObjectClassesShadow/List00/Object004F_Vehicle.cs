@@ -1,15 +1,23 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object004F_Vehicle : SetObjectShadow
     {
-        public Vehicle VehicleType
+        public EVehicle Vehicle { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (Vehicle)ReadInt(0);
-            set => Write(0, (int)value);
+            Vehicle = (EVehicle)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)Vehicle);
         }
     }
 
-    public enum Vehicle
+    public enum EVehicle
     {
         None = 0x00,
         Jeep = 0x01,

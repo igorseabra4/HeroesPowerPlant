@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -11,13 +12,13 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        private const string flagModelName = "S01_PN_HATA0.DFF";
+
         public override void Draw(SharpRenderer renderer)
         {
             base.Draw(renderer);
 
-            string flagModelName = "S01_PN_HATA0.DFF";
-
-            if (FlagType < 8 && renderer.dffRenderer.DFFModels.ContainsKey(flagModelName))
+            if (ObjectType < 8 && renderer.dffRenderer.DFFModels.ContainsKey(flagModelName))
             {
                 SetRendererStates(renderer);
 
@@ -36,22 +37,24 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         [Description("Types range from 0 to 15. 8 to 15 are the same as 0 to 7 but without the flag itself.")]
-        public byte FlagType
+        public byte ObjectType { get; set; }
+        public float FlagAngle { get; set; }
+        public float Scale { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            ObjectType = reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            FlagAngle = reader.ReadSingle();
+            Scale = reader.ReadSingle();
         }
 
-        public float FlagAngle
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadWriteCommon.BAMStoDegrees(ReadShort(10));
-            set => Write(10, (short)ReadWriteCommon.DegreesToBAMS(value));
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(ObjectType);
+            writer.Pad(3);
+            writer.Write(FlagAngle);
+            writer.Write(Scale);
         }
     }
 }

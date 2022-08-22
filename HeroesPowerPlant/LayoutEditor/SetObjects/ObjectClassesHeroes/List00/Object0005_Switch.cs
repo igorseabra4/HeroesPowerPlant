@@ -1,42 +1,42 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
-{
-    public enum SwitchType : byte
-    {
-        Alternate = 0,
-        Touch = 1,
-        Once = 2,
-        Interlock = 3
-    }
+﻿using HeroesPowerPlant.Shared.Utilities;
 
+namespace HeroesPowerPlant.LayoutEditor
+{
     public class Object0005_Switch : SetObjectHeroes
     {
-        public SwitchType SwitchType
+        public enum ESwitchType : byte
         {
-            get => (SwitchType)ReadByte(4);
-            set => Write(4, (byte)value);
+            Alternate = 0,
+            Touch = 1,
+            Once = 2,
+            Interlock = 3
         }
 
-        public bool Hidden
-        {
-            get => ReadByte(5) != 0;
-            set => Write(5, value ? (byte)1 : (byte)0);
-        }
-
-        public byte LinkIDforHidden
-        {
-            get => ReadByte(6);
-            set => Write(6, value);
-        }
-
-        public enum SoundType : byte
+        public enum ESound : byte
         {
             Pi = 0,
             Pipori = 1
         }
-        public SoundType Sound
+
+        public ESwitchType SwitchType { get; set; }
+        public bool Hidden { get; set; }
+        public byte LinkIDforHidden { get; set; }
+        public ESound Sound { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (SoundType)ReadByte(7);
-            set => Write(7, (byte)value);
+            SwitchType = (ESwitchType)reader.ReadByte();
+            Hidden = reader.ReadByteBool();
+            LinkIDforHidden = reader.ReadByte();
+            Sound = (ESound)reader.ReadByte();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write((byte)SwitchType);
+            writer.Write((byte)(Hidden ? 1 : 0));
+            writer.Write(LinkIDforHidden);
+            writer.Write((byte)Sound);
         }
     }
 }

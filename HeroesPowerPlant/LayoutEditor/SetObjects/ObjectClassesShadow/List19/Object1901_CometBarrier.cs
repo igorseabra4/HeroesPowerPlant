@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -7,10 +8,16 @@ namespace HeroesPowerPlant.LayoutEditor
         //BAShield
 
         [Description("Requires a Comet Barrier Switch object with same Link ID\nOtherwise no barrier is displayed")]
-        public BAShield_BarrierType BarrierType
+        public BAShield_BarrierType BarrierType { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (BAShield_BarrierType)ReadInt(0);
-            set => Write(0, (int)value);
+            BarrierType = (BAShield_BarrierType)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)BarrierType);
         }
     }
 

@@ -1,32 +1,33 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum TriggerHurtShape : int
-    {
-        Sphere = 0,
-        Cube = 1,
-        Cylinder = 2
-    }
-
     public class Object0064_TriggerHurt : SetObjectHeroes
     {
+        public enum EShape : int
+        {
+            Sphere = 0,
+            Cube = 1,
+            Cylinder = 2
+        }
+
         private BoundingSphere sphereBound;
 
         public override void CreateTransformMatrix()
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerHurtShape.Sphere:
+                case EShape.Sphere:
                     sphereBound = new BoundingSphere(Position, Radius);
                     transformMatrix = Matrix.Scaling(Radius * 2);
                     break;
-                case TriggerHurtShape.Cube:
+                case EShape.Cube:
                     transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
                     break;
-                case TriggerHurtShape.Cylinder:
+                case EShape.Cylinder:
                     transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
                     break;
             }
@@ -39,15 +40,15 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             List<Vector3> list = new List<Vector3>();
 
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerHurtShape.Sphere:
+                case EShape.Sphere:
                     list.AddRange(SharpRenderer.sphereVertices);
                     break;
-                case TriggerHurtShape.Cube:
+                case EShape.Cube:
                     list.AddRange(SharpRenderer.cubeVertices);
                     break;
-                case TriggerHurtShape.Cylinder:
+                case EShape.Cylinder:
                     list.AddRange(SharpRenderer.cylinderVertices);
                     break;
                 default:
@@ -63,15 +64,15 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer)
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerHurtShape.Sphere:
+                case EShape.Sphere:
                     renderer.DrawSphereTrigger(transformMatrix, isSelected);
                     break;
-                case TriggerHurtShape.Cube:
+                case EShape.Cube:
                     renderer.DrawCubeTrigger(transformMatrix, isSelected);
                     break;
-                case TriggerHurtShape.Cylinder:
+                case EShape.Cylinder:
                     renderer.DrawCylinderTrigger(transformMatrix, isSelected);
                     break;
                 default:
@@ -82,54 +83,54 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            return TriggerShape switch
+            return Shape switch
             {
-                TriggerHurtShape.Sphere => r.Intersects(ref sphereBound, out distance),
-                TriggerHurtShape.Cube => TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance),
-                TriggerHurtShape.Cylinder => TriangleIntersection(r, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices, initialDistance, out distance),
+                EShape.Sphere => r.Intersects(ref sphereBound, out distance),
+                EShape.Cube => TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance),
+                EShape.Cylinder => TriangleIntersection(r, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices, initialDistance, out distance),
                 _ => base.TriangleIntersection(r, initialDistance, out distance),
             };
         }
 
-        public TriggerHurtShape TriggerShape
-        {
-            get => (TriggerHurtShape)ReadInt(4);
-            set => Write(4, (int)value);
-        }
+        public EShape Shape { get; set; }
 
         [Description("Used only for Sphere and Cylinder")]
         public float Radius
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            get => ScaleX;
+            set => ScaleX = value;
         }
 
         [Description("Used only for Cylinder")]
         public float Height
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            get => ScaleY;
+            set => ScaleY = value;
         }
 
         [Description("Used only for Cube")]
-        public float ScaleX
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        public float ScaleX { get; set; }
 
         [Description("Used only for Cube")]
-        public float ScaleY
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        public float ScaleY { get; set; }
 
         [Description("Used only for Cube")]
-        public float ScaleZ
+        public float ScaleZ { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(16);
-            set => Write(16, value);
+            Shape = (EShape)reader.ReadInt32();
+            ScaleX = reader.ReadSingle();
+            ScaleY = reader.ReadSingle();
+            ScaleZ = reader.ReadSingle();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write((int)Shape);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
+            writer.Write(ScaleZ);
         }
     }
 }

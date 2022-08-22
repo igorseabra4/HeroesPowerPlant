@@ -1,77 +1,58 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0010_Cannon : SetObjectHeroes
     {
-        public short SpeedElevation
+        public short SpeedElevation { get; set; }
+        public short SpeedAzimuth { get; set; }
+        public short SpeedNoControlTime { get; set; }
+        public short SpeedPower { get; set; }
+
+        public short FlyElevation { get; set; }
+        public short FlyAzimuth { get; set; }
+        public short FlyNoControlTime { get; set; }
+        public short FlyPower { get; set; }
+
+        public short PowerElevation { get; set; }
+        public short PowerAzimuth { get; set; }
+        public short PowerNoControlTime { get; set; }
+        public short PowerPower { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadShort(4);
-            set => Write(4, value);
+            SpeedElevation = reader.ReadInt16();
+            SpeedAzimuth = reader.ReadInt16();
+            SpeedNoControlTime = reader.ReadInt16();
+            SpeedPower = reader.ReadInt16();
+
+            FlyElevation = reader.ReadInt16();
+            FlyAzimuth = reader.ReadInt16();
+            FlyNoControlTime = reader.ReadInt16();
+            FlyPower = reader.ReadInt16();
+
+            PowerElevation = reader.ReadInt16();
+            PowerAzimuth = reader.ReadInt16();
+            PowerNoControlTime = reader.ReadInt16();
+            PowerPower = reader.ReadInt16();
         }
 
-        public short SpeedAzimuth
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
+            writer.Write(SpeedElevation);
+            writer.Write(SpeedAzimuth);
+            writer.Write(SpeedNoControlTime);
+            writer.Write(SpeedPower);
 
-        public short SpeedNoControlTime
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
-        }
+            writer.Write(FlyElevation);
+            writer.Write(FlyAzimuth);
+            writer.Write(FlyNoControlTime);
+            writer.Write(FlyPower);
 
-        public short SpeedPower
-        {
-            get => ReadShort(10);
-            set => Write(10, value);
-        }
-
-        public short FlyElevation
-        {
-            get => ReadShort(12);
-            set => Write(12, value);
-        }
-
-        public short FlyAzimuth
-        {
-            get => ReadShort(14);
-            set => Write(14, value);
-        }
-
-        public short FlyNoControlTime
-        {
-            get => ReadShort(16);
-            set => Write(16, value);
-        }
-
-        public short FlyPower
-        {
-            get => ReadShort(18);
-            set => Write(18, value);
-        }
-
-        public short PowerElevation
-        {
-            get => ReadShort(20);
-            set => Write(20, value);
-        }
-
-        public short PowerAzimuth
-        {
-            get => ReadShort(22);
-            set => Write(22, value);
-        }
-
-        public short PowerNoControlTime
-        {
-            get => ReadShort(24);
-            set => Write(24, value);
-        }
-
-        public short PowerPower
-        {
-            get => ReadShort(26);
-            set => Write(26, value);
+            writer.Write(PowerElevation);
+            writer.Write(PowerAzimuth);
+            writer.Write(PowerNoControlTime);
+            writer.Write(PowerPower);
         }
     }
 }

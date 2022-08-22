@@ -1,31 +1,31 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object090E_Alligator : SetObjectHeroes
     {
-        public float StartPosX
+        public float StartPosX { get; set; }
+        public float StartPosY { get; set; }
+        public float StartPosZ { get; set; }
+        public float StartRange { get; set; }
+        public float SpeedRate { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            StartPosX = reader.ReadSingle();
+            StartPosY = reader.ReadSingle();
+            StartPosZ = reader.ReadSingle();
+            StartRange = reader.ReadSingle();
+            SpeedRate = reader.ReadSingle();
         }
-        public float StartPosY
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-        public float StartPosZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-        public float StartRange
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-        public float SpeedRate
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
+            writer.Write(StartPosX);
+            writer.Write(StartPosY);
+            writer.Write(StartPosZ);
+            writer.Write(StartRange);
+            writer.Write(SpeedRate);
         }
     }
 }

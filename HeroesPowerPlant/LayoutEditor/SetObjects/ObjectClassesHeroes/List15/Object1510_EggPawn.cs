@@ -1,16 +1,11 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1510_EggPawn : SetObjectHeroes
     {
-        public override void CreateTransformMatrix()
-        {
-            transformMatrix = DefaultTransformMatrix(MathUtil.Pi);
-            CreateBoundingBox();
-        }
-
-        public enum StartModeEnum : byte
+        public enum EStartMode : byte
         {
             Asleep = 0,
             Wandering = 1,
@@ -20,13 +15,8 @@ namespace HeroesPowerPlant.LayoutEditor
             Falco = 5,
             Searching = 6
         }
-        public StartModeEnum StartMode
-        {
-            get => (StartModeEnum)ReadByte(4);
-            set => Write(4, (byte)value);
-        }
 
-        public enum MassTypeEnum : byte
+        public enum EEnemyType : byte
         {
             NormalFree = 0,
             NormalStand = 1,
@@ -37,13 +27,8 @@ namespace HeroesPowerPlant.LayoutEditor
             Casino2Free = 6,
             Casino2Stand = 7
         }
-        public MassTypeEnum ColorMass
-        {
-            get => (MassTypeEnum)ReadByte(5);
-            set => Write(5, (byte)value);
-        }
 
-        public enum WeaponTypeEnum : byte
+        public enum EWeapon : byte
         {
             None = 0,
             Lance = 1,
@@ -53,72 +38,61 @@ namespace HeroesPowerPlant.LayoutEditor
             MGun150 = 5,
             MGun180 = 6
         }
-        public WeaponTypeEnum WeaponType
-        {
-            get => (WeaponTypeEnum)ReadByte(6);
-            set => Write(6, (byte)value);
-        }
 
-        public enum ShieldTypeEnum : byte
+        public enum EShield : byte
         {
             None = 0,
             Concrete = 1,
             Plain = 2,
             Spike = 3
         }
-        public ShieldTypeEnum ShieldType
+
+        public override void CreateTransformMatrix()
         {
-            get => (ShieldTypeEnum)ReadByte(7);
-            set => Write(7, (byte)value);
+            transformMatrix = DefaultTransformMatrix(MathUtil.Pi);
+            CreateBoundingBox();
         }
 
-        public short ScopeRange
+        public EStartMode StartMode { get; set; }
+        public EEnemyType EnemyType { get; set; }
+        public EWeapon Weapon { get; set; }
+        public EShield Shield { get; set; }
+        public short ScopeRange { get; set; }
+        public short ScopeOffset { get; set; }
+        public float MovingRange { get; set; }
+        public float FallWarpHeight { get; set; }
+        public float FalcoNumber { get; set; }
+        public float ShotSpeed { get; set; }
+        public int ShotInterval { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            //W2
-            get => ReadShort(8);
-            set => Write(8, value);
+            StartMode = (EStartMode)reader.ReadByte();
+            EnemyType = (EEnemyType)reader.ReadByte();
+            Weapon = (EWeapon)reader.ReadByte();
+            Shield = (EShield)reader.ReadByte();
+            ScopeRange = reader.ReadInt16();
+            ScopeOffset = reader.ReadInt16();
+            MovingRange = reader.ReadSingle();
+            FallWarpHeight = reader.ReadSingle();
+            FalcoNumber = reader.ReadSingle();
+            ShotSpeed = reader.ReadSingle();
+            ShotInterval = reader.ReadInt32();
         }
 
-        public short ScopeOffset
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            //W2
-            get => ReadShort(10);
-            set => Write(10, value);
-        }
-
-        public float MovingRange
-        {
-            //F3
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float FallWarpHeight
-        {
-            //F4
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float FalcoNumberFloat
-        {
-            //F5
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float ShotSpeed
-        {
-            //F6
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-
-        public int ShotInterval
-        {
-            //L7
-            get => ReadInt(28);
-            set => Write(28, value);
+            writer.Write((byte)StartMode);
+            writer.Write((byte)EnemyType);
+            writer.Write((byte)Weapon);
+            writer.Write((byte)Shield);
+            writer.Write(ScopeRange);
+            writer.Write(ScopeOffset);
+            writer.Write(MovingRange);
+            writer.Write(FallWarpHeight);
+            writer.Write(FalcoNumber);
+            writer.Write(ShotSpeed);
+            writer.Write(ShotInterval);
         }
     }
 }

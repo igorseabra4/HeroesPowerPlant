@@ -1,11 +1,19 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0025_FormSign : SetObjectHeroes
     {
-        public Formation Formation
+        public EFormation Formation { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (Formation)ReadByte(4);
-            set => Write(4, (byte)value);
+            Formation = (EFormation)reader.ReadByte();
+        }
+
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        {
+            writer.Write((byte)Formation);
         }
     }
 }

@@ -1,68 +1,60 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1590_RhinoLiner : SetObjectHeroes
     {
-        public enum TypeEnum : byte
+        public enum EEnemyType : byte
         {
             Standard = 0,
             Attack = 1
         }
-        public TypeEnum RhinoType
-        {
-            get => (TypeEnum)ReadByte(4);
-            set => Write(4, (byte)value);
-        }
 
-        public enum PathEnum : byte
+        public enum EPathType : byte
         {
             Standard = 0,
             Loop = 1
         }
-        public PathEnum PathMode
-        {
-            get => (PathEnum)ReadByte(5);
-            set => Write(5, (byte)value);
-        }
 
-        public enum IronballEnum : byte
+        public enum EIronBallType : byte
         {
             Homing = 0,
             NotHoming = 1
         }
-        public IronballEnum IronBallMode
+
+        public EEnemyType EnemyType { get; set; }
+        public EPathType PathType { get; set; }
+        public EIronBallType IronBallType { get; set; }
+        public float WeaponSpeed { get; set; }
+        public int AttackInterval { get; set; }
+        public float MoveSpeedMin { get; set; }
+        public float MoveSpeed { get; set; }
+        public float MoveSpeedMax { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (IronballEnum)ReadByte(6);
-            set { byte a = (byte)value; Write(6, a); }
+            EnemyType = (EEnemyType)reader.ReadByte();
+            PathType = (EPathType)reader.ReadByte();
+            IronBallType = (EIronBallType)reader.ReadByte();
+            reader.BaseStream.Position += 1;
+            WeaponSpeed = reader.ReadSingle();
+            AttackInterval = reader.ReadInt32();
+            MoveSpeedMin = reader.ReadSingle();
+            MoveSpeed = reader.ReadSingle();
+            MoveSpeedMax = reader.ReadSingle();
         }
 
-        public float WeaponSpeed
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public int AttackInterval
-        {
-            get => ReadInt(12);
-            set => Write(12, value);
-        }
-
-        public float MoveSpeedMin
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float MoveSpeed
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float MoveSpeedMax
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
+            writer.Write((byte)EnemyType);
+            writer.Write((byte)PathType);
+            writer.Write((byte)IronBallType);
+            writer.Write((byte)0);
+            writer.Write(WeaponSpeed);
+            writer.Write(AttackInterval);
+            writer.Write(MoveSpeedMin);
+            writer.Write(MoveSpeed);
+            writer.Write(MoveSpeedMax);
         }
     }
 }

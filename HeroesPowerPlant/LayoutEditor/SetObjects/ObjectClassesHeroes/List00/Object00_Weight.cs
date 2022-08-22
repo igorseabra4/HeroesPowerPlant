@@ -1,75 +1,60 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum WeightType
-    {
-        Repeat = 0,
-        Shadow = 1,
-        Laser = 2,
-        RepeatSwitch = 3,
-        ShadowSwitch = 4,
-        LaserSwitch = 5
-    }
-
     public class Object00_Weight : SetObjectHeroes
     {
+        public enum EWeightType : byte
+        {
+            Repeat = 0,
+            Shadow = 1,
+            Laser = 2,
+            RepeatSwitch = 3,
+            ShadowSwitch = 4,
+            LaserSwitch = 5
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) * DefaultTransformMatrix();
-
             CreateBoundingBox();
         }
 
-        public WeightType WeightType
-        {
-            get => (WeightType)ReadByte(4);
-            set => Write(4, (byte)value);
-        }
-
-        public byte LinkID
-        {
-            get => ReadByte(5);
-            set => Write(5, value);
-        }
-
-        public short Height
-        {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
-
-        public float ScaleX
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleY
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
+        public EWeightType WeightType { get; set; }
+        public byte LinkID { get;set; }
+        public short Height { get; set; }
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
+        public float ScaleZ { get; set; }
         [Description("In frames")]
-        public short UpWaitTime
+        public short UpWaitTime { get; set; }
+        [Description("In frames")]
+        public short DownWaitTime { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadShort(16);
-            set => Write(16, value);
+            WeightType = (EWeightType)reader.ReadByte();
+            LinkID = reader.ReadByte();
+            Height = reader.ReadInt16();
+            ScaleX = reader.ReadSingle();
+            ScaleZ = reader.ReadSingle();
+            UpWaitTime = reader.ReadInt16();
+            DownWaitTime = reader.ReadInt16();
+            ScaleY = reader.ReadSingle();
         }
 
-        [Description("In frames")]
-        public short DownWaitTime
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadShort(18);
-            set => Write(18, value);
+            writer.Write((byte)WeightType);
+            writer.Write(LinkID);
+            writer.Write(Height);
+            writer.Write(ScaleX);
+            writer.Write(ScaleZ);
+            writer.Write(UpWaitTime);
+            writer.Write(DownWaitTime);
+            writer.Write(ScaleY);
         }
     }
 }

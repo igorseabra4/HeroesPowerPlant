@@ -1,12 +1,20 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0C81_CircusGong : SetObjectShadow
     {
         //Gong(speed)
-        public float Speed
+        public float Speed { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadFloat(0);
-            set => Write(0, value);
+            Speed = reader.ReadSingle();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write(Speed);
         }
     }
 }

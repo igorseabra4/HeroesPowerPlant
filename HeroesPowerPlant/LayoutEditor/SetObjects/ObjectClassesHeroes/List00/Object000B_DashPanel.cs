@@ -1,21 +1,25 @@
-﻿using System.ComponentModel;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object000B_DashPanel : SetObjectHeroes
     {
         [Description("Defaults to 5.0")]
-        public float Speed
+        public float Speed { get; set; }
+        [Description("In frames")]
+        public short NoControlTime { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Speed = reader.ReadSingle();
+            NoControlTime = reader.ReadInt16();
         }
 
-        [Description("In frames")]
-        public short NoControlTime
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadShort(8);
-            set => Write(8, value);
+            writer.Write(Speed);
+            writer.Write(NoControlTime);
         }
     }
 }

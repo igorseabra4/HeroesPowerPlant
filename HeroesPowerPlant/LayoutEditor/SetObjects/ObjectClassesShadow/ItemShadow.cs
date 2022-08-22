@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum ItemShadow
+    public enum EShadowItem
     {
         NotValidInObject = -1,
         Rings5 = 0,

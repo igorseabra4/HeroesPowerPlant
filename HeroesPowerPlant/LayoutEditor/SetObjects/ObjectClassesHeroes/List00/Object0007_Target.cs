@@ -1,23 +1,25 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0007_Target : SetObjectHeroes
     {
-        public Item Item
+        public EHeroesItem Item { get; set; }
+        public byte AppearMode { get; set; }
+        public byte LinkID { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (Item)ReadByte(4);
-            set => Write(4, (byte)value);
+            Item = (EHeroesItem)reader.ReadByte();
+            AppearMode = reader.ReadByte();
+            LinkID = reader.ReadByte();
         }
 
-        public byte AppearMode
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(5);
-            set => Write(5, value);
-        }
-
-        public byte LinkID
-        {
-            get => ReadByte(6);
-            set => Write(6, value);
+            writer.Write((byte)Item);
+            writer.Write(AppearMode);
+            writer.Write(LinkID);
         }
     }
 }

@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0189_WaterfallSmall : SetObjectHeroes
     {
-        public byte ModelType
+        public byte ObjectType { get; set; }
+        public float Scale { get; set; }
+        public float Speed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            ObjectType = reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            Scale = reader.ReadSingle();
+            Speed = reader.ReadSingle();
         }
 
-        public float Scale
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(ObjectType);
+            writer.Pad(3);
+            writer.Write(Scale);
+            writer.Write(Speed);
         }
     }
 }

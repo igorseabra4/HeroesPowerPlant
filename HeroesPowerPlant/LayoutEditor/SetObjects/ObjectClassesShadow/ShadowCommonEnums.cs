@@ -28,21 +28,21 @@
         Hide
     }
 
-    public enum EnergyCoreType
+    public enum EEnergyCoreType
     {
         NotValidInObject = -1,
         Hero = 0,
         Dark = 1
     }
 
-    public enum BoxType
+    public enum EBoxType
     {
         GUN,
         BlackArms,
         Eggman
     }
 
-    public enum BoxItem
+    public enum EBoxItem
     {
         NotValidInObject = -1,
         Nothing = 0,

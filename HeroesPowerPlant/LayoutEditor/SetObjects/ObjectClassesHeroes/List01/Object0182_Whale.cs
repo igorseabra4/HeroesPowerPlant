@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -11,8 +12,6 @@ namespace HeroesPowerPlant.LayoutEditor
             base.CreateTransformMatrix();
 
             triggerMatrix = Matrix.Scaling(TriggerSize) * Matrix.Translation(TriggerX, TriggerY, TriggerZ);
-
-            CreateBoundingBox();
         }
 
         public override void Draw(SharpRenderer renderer)
@@ -23,46 +22,36 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.DrawSphereTrigger(triggerMatrix, true);
         }
 
-        public byte WhaleType
+        public byte WhaleType { get; set; }
+        public short TriggerSize { get; set; }
+        public float WhaleScale { get; set; }
+        public float ArchRadius { get; set; }
+        public float TriggerX { get; set; }
+        public float TriggerY { get; set; }
+        public float TriggerZ { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            WhaleType = reader.ReadByte();
+            reader.BaseStream.Position += 1;
+            TriggerSize = reader.ReadInt16();
+            WhaleScale = reader.ReadSingle();
+            ArchRadius = reader.ReadSingle();
+            TriggerX = reader.ReadSingle();
+            TriggerY = reader.ReadSingle();
+            TriggerZ = reader.ReadSingle();
         }
 
-        public short TriggerSize
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
-
-        public float WhaleScale
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ArchRadius
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float TriggerX
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float TriggerY
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float TriggerZ
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
+            writer.Write(WhaleType);
+            writer.Write((byte)0);
+            writer.Write(TriggerSize);
+            writer.Write(WhaleScale);
+            writer.Write(ArchRadius);
+            writer.Write(TriggerX);
+            writer.Write(TriggerY);
+            writer.Write(TriggerZ);
         }
     }
 }

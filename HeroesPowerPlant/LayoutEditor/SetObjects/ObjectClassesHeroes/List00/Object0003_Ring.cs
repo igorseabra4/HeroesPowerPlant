@@ -1,4 +1,5 @@
 ﻿using HeroesPowerPlant.LevelEditor;
+using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -19,24 +20,24 @@ namespace HeroesPowerPlant.LayoutEditor
 
             switch (RingType) // single ring
             {
-                case RingType.Normal:
+                case ERingType.Normal:
                     positionsList.Add(Matrix.Identity);
                     break;
 
-                case RingType.Line: // line of rings
+                case ERingType.Line: // line of rings
                     if (NumberOfRings < 2) return;
                     for (int i = 0; i < NumberOfRings; i++)
                         positionsList.Add(Matrix.Translation(0, 0, TotalLength * i / (NumberOfRings - 1)));
                     break;
 
-                case RingType.Circle: // circle
+                case ERingType.Circle: // circle
                     if (NumberOfRings < 1) return;
                     for (int i = 0; i < NumberOfRings; i++)
                         //positionsList.Add(Matrix.Translation((Vector3)Vector3.Transform(new Vector3(0, 0, -Radius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings))));
                         positionsList.Add(Matrix.Translation(0, 0, -Radius) * Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings));
                     break;
 
-                case RingType.Arch: // arch
+                case ERingType.Arch: // arch
                     if (NumberOfRings < 2) return;
                     float angle = TotalLength / Radius;
                     for (int i = 0; i < NumberOfRings; i++)
@@ -176,28 +177,25 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public RingType RingType
+        public ERingType RingType { get; set; }
+        public short NumberOfRings { get; set; }
+        public float TotalLength { get; set; }
+        public float Radius { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (RingType)ReadShort(4);
-            set => Write(4, (short)value);
+            RingType = (ERingType)reader.ReadInt16();
+            NumberOfRings = reader.ReadInt16();
+            TotalLength = reader.ReadSingle();
+            Radius = reader.ReadSingle();
         }
 
-        public short NumberOfRings
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
-
-        public float TotalLength
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Radius
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write((short)RingType);
+            writer.Write(NumberOfRings);
+            writer.Write(TotalLength);
+            writer.Write(Radius);
         }
     }
 }

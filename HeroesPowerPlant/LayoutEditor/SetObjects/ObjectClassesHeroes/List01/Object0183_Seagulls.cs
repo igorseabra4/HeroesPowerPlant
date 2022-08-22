@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0183_Seagulls : SetObjectHeroes
     {
-        public byte Number
+        public byte Number { get; set; }
+        public float Radius { get; set; }
+        public float Speed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            Number = reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            Radius = reader.ReadSingle();
+            Speed = reader.ReadSingle();
         }
 
-        public float Radius
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(Number);
+            writer.Pad(3);
+            writer.Write(Radius);
+            writer.Write(Speed);
         }
     }
 }

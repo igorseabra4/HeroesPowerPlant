@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -367,105 +368,103 @@ namespace HeroesPowerPlant.CollisionEditor
             return NodeTriangleList.ToArray();
         }
 
-        public bool CreateCLFile(string FileName, ref CLFile data, ProgressBar bar)
+        public bool CreateCLFile(string fileName, ref CLFile data, ProgressBar bar)
         {
             //Finally, let's write the file
-            BinaryWriter FileWriter = new BinaryWriter(new MemoryStream(
+            using var writer = new EndianBinaryWriter(new MemoryStream(
                 0x20 * data.CLQuadNodeList.Count() +
                 0x20 * data.CLTriangleArray.Count() +
-                0xC * data.CLVertexArray.Count() + 0x28));
+                0xC * data.CLVertexArray.Count() + 0x28), Endianness.Big);
 
-            FileWriter.BaseStream.Position = 0x28;
+            writer.BaseStream.Position = 0x28;
             for (ushort i = 0; i < data.CLQuadNodeList.Count; i++)
             {
                 if ((data.CLQuadNodeList[i].Depth == data.MaxDepth) & (data.CLQuadNodeList[i].NodeTriangleAmount > 0))
                 {
-                    data.CLQuadNodeList[i].TriListOffset = (uint)FileWriter.BaseStream.Position;
-                    foreach (UInt16 j in data.CLQuadNodeList[i].NodeTriangleArray)
-                    {
-                        FileWriter.Write(Switch(j));
-                    }
+                    data.CLQuadNodeList[i].TriListOffset = (uint)writer.BaseStream.Position;
+                    foreach (var j in data.CLQuadNodeList[i].NodeTriangleArray)
+                        writer.Write(j);
                 }
                 bar.PerformStep();
             }
 
-            if (FileWriter.BaseStream.Position % 4 == 2)
-                FileWriter.Write((ushort)0);
+            if (writer.BaseStream.Position % 4 == 2)
+                writer.Write((ushort)0);
 
-            data.pointQuadtree = (uint)FileWriter.BaseStream.Position;
+            data.pointQuadtree = (uint)writer.BaseStream.Position;
 
             foreach (QuadNode i in data.CLQuadNodeList)
             {
-                FileWriter.Write(Switch(i.Index));
-                FileWriter.Write(Switch(i.Parent));
-                FileWriter.Write(Switch(i.Child));
-                FileWriter.Write((ushort)0);
-                FileWriter.Write((ushort)0);
-                FileWriter.Write((ushort)0);
-                FileWriter.Write((ushort)0);
-                FileWriter.Write(Switch(i.NodeTriangleAmount));
-                FileWriter.Write(Switch(i.TriListOffset));
-                FileWriter.Write(Switch(i.PosValueX));
-                FileWriter.Write(Switch(i.PosValueZ));
-                FileWriter.Write(i.Depth);
-                FileWriter.Write((byte)0);
-                FileWriter.Write((ushort)0);
-                FileWriter.Write(0);
+                writer.Write(i.Index);
+                writer.Write(i.Parent);
+                writer.Write(i.Child);
+                writer.Write((ushort)0);
+                writer.Write((ushort)0);
+                writer.Write((ushort)0);
+                writer.Write((ushort)0);
+                writer.Write(i.NodeTriangleAmount);
+                writer.Write(i.TriListOffset);
+                writer.Write(i.PosValueX);
+                writer.Write(i.PosValueZ);
+                writer.Write(i.Depth);
+                writer.Write((byte)0);
+                writer.Write((ushort)0);
+                writer.Write(0);
 
                 bar.PerformStep();
             }
 
-            data.pointTriangle = (uint)FileWriter.BaseStream.Position;
+            data.pointTriangle = (uint)writer.BaseStream.Position;
 
-            foreach (Triangle i in data.CLTriangleArray)
+            foreach (var i in data.CLTriangleArray)
             {
-                FileWriter.Write(Switch(i.Vertices[0]));
-                FileWriter.Write(Switch(i.Vertices[1]));
-                FileWriter.Write(Switch(i.Vertices[2]));
-                FileWriter.Write((ushort)0xFFFF);
-                FileWriter.Write((ushort)0xFFFF);
-                FileWriter.Write((ushort)0xFFFF);
-                FileWriter.Write(Switch(i.Normals.X));
-                FileWriter.Write(Switch(i.Normals.Y));
-                FileWriter.Write(Switch(i.Normals.Z));
-                FileWriter.Write(i.ColFlags[0]);
-                FileWriter.Write(i.ColFlags[1]);
-                FileWriter.Write(i.ColFlags[2]);
-                FileWriter.Write(i.ColFlags[3]);
-                FileWriter.Write(Switch(i.MeshNum));
-                FileWriter.Write((ushort)0);
+                writer.Write(i.Vertices[0]);
+                writer.Write(i.Vertices[1]);
+                writer.Write(i.Vertices[2]);
+                writer.Write((ushort)0xFFFF);
+                writer.Write((ushort)0xFFFF);
+                writer.Write((ushort)0xFFFF);
+                writer.Write(i.Normals.X);
+                writer.Write(i.Normals.Y);
+                writer.Write(i.Normals.Z);
+                writer.Write(i.ColFlags[0]);
+                writer.Write(i.ColFlags[1]);
+                writer.Write(i.ColFlags[2]);
+                writer.Write(i.ColFlags[3]);
+                writer.Write(i.MeshNum);
+                writer.Write((ushort)0);
 
                 bar.PerformStep();
             }
 
-            data.pointVertex = (uint)FileWriter.BaseStream.Position;
+            data.pointVertex = (uint)writer.BaseStream.Position;
 
-            foreach (VertexColoredNormalized i in data.CLVertexArray)
+            foreach (var i in data.CLVertexArray)
             {
-                FileWriter.Write(Switch(i.Position.X));
-                FileWriter.Write(Switch(i.Position.Y));
-                FileWriter.Write(Switch(i.Position.Z));
+                writer.Write(i.Position.X);
+                writer.Write(i.Position.Y);
+                writer.Write(i.Position.Z);
 
                 bar.PerformStep();
             }
 
-            data.numBytes = (uint)FileWriter.BaseStream.Position;
-            FileWriter.BaseStream.Position = 0;
+            data.numBytes = (uint)writer.BaseStream.Position;
+            writer.BaseStream.Position = 0;
 
-            FileWriter.Write(Switch(data.numBytes));
-            FileWriter.Write(Switch(data.pointQuadtree));
-            FileWriter.Write(Switch(data.pointTriangle));
-            FileWriter.Write(Switch(data.pointVertex));
-            FileWriter.Write(Switch(data.quadCenterX));
-            FileWriter.Write(Switch(data.quadCenterY));
-            FileWriter.Write(Switch(data.quadCenterZ));
-            FileWriter.Write(Switch(data.quadLength));
-            FileWriter.Write(Switch(data.basePower));
-            FileWriter.Write(Switch(data.numTriangles));
-            FileWriter.Write(Switch(data.numVertices));
-            FileWriter.Write(Switch(data.numQuadnodes));
+            writer.Write(data.numBytes);
+            writer.Write(data.pointQuadtree);
+            writer.Write(data.pointTriangle);
+            writer.Write(data.pointVertex);
+            writer.Write(data.quadCenterX);
+            writer.Write(data.quadCenterY);
+            writer.Write(data.quadCenterZ);
+            writer.Write(data.quadLength);
+            writer.Write(data.basePower);
+            writer.Write(data.numTriangles);
+            writer.Write(data.numVertices);
+            writer.Write(data.numQuadnodes);
 
-            File.WriteAllBytes(FileName, ((MemoryStream)FileWriter.BaseStream).ToArray());
+            File.WriteAllBytes(fileName, ((MemoryStream)writer.BaseStream).ToArray());
             return true;
         }
 

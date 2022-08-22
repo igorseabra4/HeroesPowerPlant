@@ -1,63 +1,43 @@
-﻿using System.ComponentModel;
+﻿using HeroesPowerPlant.Shared.Utilities;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object090B_IvyJump : SetObjectHeroes
     {
-        public float Target1X
+        public float Target1X { get; set; }
+        public float Target1Y { get; set; }
+        public float Target1Z { get; set; }
+        public float Target2X { get; set; }
+        public float Target2Y { get; set; }
+        public float Target2Z { get; set; }
+        public short KazariType { get; set; }
+        public short Dammy { get; set; }
+        public short NoControlTime { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Target1X = reader.ReadSingle();
+            Target1Y = reader.ReadSingle();
+            Target1Z = reader.ReadSingle();
+            Target2X = reader.ReadSingle();
+            Target2Y = reader.ReadSingle();
+            Target2Z = reader.ReadSingle();
+            KazariType = reader.ReadInt16();
+            Dammy = reader.ReadInt16();
+            NoControlTime = reader.ReadInt16();
         }
 
-        public float Target1Y
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Target1Z
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Target2X
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float Target2Y
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float Target2Z
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-
-        [DisplayName("KazariType(?)")]
-        public short KazariType
-        {
-            get => ReadByte(28);
-            set => Write(28, value);
-        }
-
-        [DisplayName("Dammy(?)")]
-        public short Dammy
-        {
-            get => ReadByte(29);
-            set => Write(29, value);
-        }
-
-        public short NoControlTime
-        {
-            get => ReadShort(30);
-            set => Write(30, value);
+            writer.Write(Target1X);
+            writer.Write(Target1Y);
+            writer.Write(Target1Z);
+            writer.Write(Target2X);
+            writer.Write(Target2Y);
+            writer.Write(Target2Z);
+            writer.Write(KazariType);
+            writer.Write(Dammy);
+            writer.Write(NoControlTime);
         }
     }
 }

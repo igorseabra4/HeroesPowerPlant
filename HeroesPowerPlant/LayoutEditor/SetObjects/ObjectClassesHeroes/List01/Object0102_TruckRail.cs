@@ -1,29 +1,30 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0102_TruckRail : SetObjectHeroes
     {
-        public byte TruckRailType
+        public byte ObjectType { get; set; }
+        public byte StopTime { get; set; }
+        public float Length { get; set; }
+        public float Speed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            ObjectType = reader.ReadByte();
+            StopTime = reader.ReadByte();
+            reader.BaseStream.Position += 2;
+            Length = reader.ReadSingle();
+            Speed = reader.ReadSingle();
         }
 
-        public byte StopTime
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(5);
-            set => Write(4, value);
-        }
-
-        public float Length
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(ObjectType);
+            writer.Write(StopTime);
+            writer.Pad(2);
+            writer.Write(Length);
+            writer.Write(Speed);
         }
     }
 }

@@ -1,23 +1,25 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0184_LargeBird : SetObjectHeroes
     {
-        public float Radius
+        public float Radius { get; set; }
+        public float Speed { get; set; }
+        public float Scale { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Radius = reader.ReadSingle();
+            Speed = reader.ReadSingle();
+            Scale = reader.ReadSingle();
         }
 
-        public float Speed
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write(Radius);
+            writer.Write(Speed);
+            writer.Write(Scale);
         }
     }
 }

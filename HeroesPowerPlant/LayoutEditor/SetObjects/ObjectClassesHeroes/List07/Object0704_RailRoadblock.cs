@@ -1,17 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0704_RailRoadblock : SetObjectHeroes
     {
-        public float Range
+        public float Range { get; set; }
+        public int Speed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Range = reader.ReadSingle();
+            Speed = reader.ReadInt32();
         }
 
-        public int Speed
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadInt(8);
-            set => Write(8, value);
+            writer.Write(Range);
+            writer.Write(Speed);
         }
     }
 }

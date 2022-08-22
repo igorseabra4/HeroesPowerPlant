@@ -784,9 +784,9 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonAddChunkClick(object sender, EventArgs e)
         {
-            Chunk NewChunk = new Chunk();
-            NewChunk.CalculateModel();
-            visibilityFunctions.ChunkList.Add(NewChunk);
+            var chunk = new Chunk(0, Vector3.Zero, Vector3.Zero);
+            chunk.CalculateModel();
+            visibilityFunctions.ChunkList.Add(chunk);
             numericCurrentChunk.Minimum = 1;
             numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
             numericCurrentChunk.Value = visibilityFunctions.ChunkList.Count();
@@ -870,19 +870,14 @@ namespace HeroesPowerPlant.LevelEditor
                 if (rwmf.ChunkNumber != -1)
                     numbers.Add(rwmf.ChunkNumber);
 
-            Vector3 add = new Vector3((int)numericUpDownAdd.Value);
+            var add = new Vector3((int)numericUpDownAdd.Value);
 
             foreach (int i in numbers)
             {
                 VisibilityFunctions.AutoChunk(i, bspAndCol, out bool success, out Vector3 Min, out Vector3 Max);
 
                 if (success)
-                    visibilityFunctions.ChunkList.Add(new Chunk()
-                    {
-                        Max = Max + add,
-                        Min = Min - add,
-                        number = i
-                    });
+                    visibilityFunctions.ChunkList.Add(new Chunk(i, Min - add, Max + add));
             }
 
             visibilityFunctions.ChunkList = visibilityFunctions.ChunkList.OrderBy(c => c.number).ToList();

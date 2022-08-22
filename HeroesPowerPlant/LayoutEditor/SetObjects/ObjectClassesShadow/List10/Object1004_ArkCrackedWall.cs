@@ -1,22 +1,29 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1004_ArkCrackedWall : SetObjectShadow
     {
+        public enum EWallType
+        {
+            Out,
+            In
+        }
+
         //BombingWall(Type{Out,In},Range point)
-        public BombingWallType WallSide
+        public EWallType WallType { get; set; }
+        public float Range { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (BombingWallType)ReadInt(0);
-            set => Write(0, (int)value);
+            WallType = (EWallType)reader.ReadInt32();
+            Range = reader.ReadSingle();
         }
-        public float Range
+
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            writer.Write((int)WallType);
+            writer.Write(Range);
         }
-    }
-    public enum BombingWallType
-    {
-        Out,
-        In
     }
 }

@@ -11,6 +11,13 @@ namespace HeroesPowerPlant.LevelEditor
         public Vector3 Min;
         public Vector3 Max;
 
+        public Chunk(int number, Vector3 min, Vector3 max)
+        {
+            this.number = number;
+            Min = min;
+            Max = max;
+        }
+
         public bool isSelected;
 
         Matrix chunkTransform;

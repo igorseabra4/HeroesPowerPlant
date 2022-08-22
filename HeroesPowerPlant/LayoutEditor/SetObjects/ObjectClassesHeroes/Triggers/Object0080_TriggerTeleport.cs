@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -14,7 +15,7 @@ namespace HeroesPowerPlant.LayoutEditor
             sphereBound = new BoundingSphere(Position, Radius * 2);
             boundingBox = BoundingBox.FromSphere(sphereBound);
 
-            destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(XDestination, YDestination, ZDestination);
+            destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(DestinationX, DestinationY, DestinationZ);
         }
 
         public override void Draw(SharpRenderer renderer)
@@ -30,28 +31,25 @@ namespace HeroesPowerPlant.LayoutEditor
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        public float Radius
+        public float Radius { get; set; }
+        public float DestinationX { get; set; }
+        public float DestinationY { get; set; }
+        public float DestinationZ { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Radius = reader.ReadSingle();
+            DestinationX = reader.ReadSingle();
+            DestinationY = reader.ReadSingle();
+            DestinationZ = reader.ReadSingle();
         }
 
-        public float XDestination
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float YDestination
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float ZDestination
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
+            writer.Write(Radius);
+            writer.Write(DestinationX);
+            writer.Write(DestinationY);
+            writer.Write(DestinationZ);
         }
     }
 }

@@ -1,29 +1,28 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0903_RainMush : SetObjectHeroes
     {
-        public float Range
+        public float Range { get; set; }
+        public float Power { get; set; }
+        public byte NoControlTime { get; set; }
+        public byte ObjectType { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Range = reader.ReadSingle();
+            Power = reader.ReadSingle();
+            NoControlTime = reader.ReadByte();
+            ObjectType = reader.ReadByte();
         }
 
-        public float Power
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public byte NoControlTime
-        {
-            get => ReadByte(12);
-            set => Write(12, value);
-        }
-
-        public byte Model
-        {
-            get => ReadByte(13);
-            set => Write(13, value);
+            writer.Write(Range);
+            writer.Write(Power);
+            writer.Write(NoControlTime);
+            writer.Write(ObjectType);
         }
     }
 }

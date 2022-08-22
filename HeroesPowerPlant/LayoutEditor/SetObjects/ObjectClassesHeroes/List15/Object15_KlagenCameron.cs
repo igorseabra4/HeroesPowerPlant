@@ -1,75 +1,61 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object15_KlagenCameron : SetObjectHeroes
     {
+        public enum EEnemyType : byte
+        {
+            Normal = 0,
+            Golden = 1
+        }
+
+        public enum EAppear : byte
+        {
+            Idle = 0,
+            Walking = 1,
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = DefaultTransformMatrix(MathUtil.Pi);
             CreateBoundingBox();
         }
 
-        public enum TypeEnum : byte
+        public EEnemyType EnemyType { get; set; }
+        public EAppear Appear { get; set; }
+        public float MoveRange { get; set; }
+        public float ScopeRange { get; set; }
+        public float ScopeOffset { get; set; }
+        public short Unknown { get; set; }
+        public short AttackInterval { get; set; }
+        public float AttackSpeed { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            Normal = 0,
-            Golden = 1
-        }
-        public TypeEnum EnemyType
-        {
-            get => (TypeEnum)ReadByte(4);
-            set => Write(4, (byte)value);
+            EnemyType = (EEnemyType)reader.ReadByte();
+            Appear = (EAppear)reader.ReadByte();
+            reader.BaseStream.Position += 2;
+            MoveRange = reader.ReadSingle();
+            ScopeRange = reader.ReadSingle();
+            ScopeOffset = reader.ReadSingle();
+            Unknown = reader.ReadInt16();
+            AttackInterval = reader.ReadInt16();
+            AttackSpeed = reader.ReadSingle();
         }
 
-        public enum AppearEnum : byte
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            Idle = 0,
-            Walking = 1,
-        }
-        public AppearEnum Appear
-        {
-            get => (AppearEnum)ReadByte(5);
-            set => Write(5, (byte)value);
-        }
-
-        public float MoveRange
-        {
-            //F2
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScopeRange
-        {
-            //F3
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float ScopeOffset
-        {
-            //F4
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public short Unknown
-        {
-            get => ReadShort(20);
-            set => Write(20, value);
-        }
-
-        public short AttackInterval
-        {
-            get => ReadShort(22);
-            set => Write(22, value);
-        }
-
-        public float AttackSpeed
-        {
-            //F6
-            get => ReadFloat(24);
-            set => Write(24, value);
+            writer.Write((byte)EnemyType);
+            writer.Write((byte)Appear);
+            writer.Pad(2);
+            writer.Write(MoveRange);
+            writer.Write(ScopeRange);
+            writer.Write(ScopeOffset);
+            writer.Write(Unknown);
+            writer.Write(AttackInterval);
+            writer.Write(AttackSpeed);
         }
     }
 }

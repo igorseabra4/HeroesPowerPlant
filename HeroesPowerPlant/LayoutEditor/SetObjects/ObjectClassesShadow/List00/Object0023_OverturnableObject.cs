@@ -1,16 +1,22 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0023_OverturnableObject : SetObjectShadow
     {
-        public int ModelIfMultiple
+        public int ModelIfMultiple { get; set; }
+        public int UnusedInt { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadInt(0);
-            set => Write(0, value);
+            ModelIfMultiple = reader.ReadInt32();
+            UnusedInt = reader.ReadInt32();
         }
-        public int UnusedInt
+
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            writer.Write(ModelIfMultiple);
+            writer.Write(UnusedInt);
         }
     }
 }

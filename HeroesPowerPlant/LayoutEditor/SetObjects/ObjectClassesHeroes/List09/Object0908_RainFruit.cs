@@ -1,35 +1,31 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0908_RainFruit : SetObjectHeroes
     {
-        public float Range
+        public float Range { get; set; }
+        public float Power { get; set; }
+        public short NoControlTime { get; set; }
+        public short FruitType { get; set; }
+        public short DeleteTimeSec { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Range = reader.ReadSingle();
+            Power = reader.ReadSingle();
+            NoControlTime = reader.ReadInt16();
+            FruitType = reader.ReadInt16();
+            DeleteTimeSec = reader.ReadInt16();
         }
 
-        public float Power
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public short NoControlTime
-        {
-            get => ReadShort(12);
-            set => Write(12, value);
-        }
-
-        public short FruitType
-        {
-            get => ReadShort(14);
-            set => Write(14, value);
-        }
-
-        public short DeleteTimeSec
-        {
-            get => ReadShort(16);
-            set => Write(16, value);
+            writer.Write(Range);
+            writer.Write(Power);
+            writer.Write(NoControlTime);
+            writer.Write(FruitType);
+            writer.Write(DeleteTimeSec);
         }
     }
 }

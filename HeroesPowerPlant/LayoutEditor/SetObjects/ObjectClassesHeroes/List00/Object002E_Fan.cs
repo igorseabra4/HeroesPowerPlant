@@ -1,61 +1,50 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
-{
-    public enum FanMode : byte
-    {
-        Normal = 0,
-        Switchable = 1,
-        Normal2 = 2,
-        Switchable2 = 3
-    }
+﻿using HeroesPowerPlant.Shared.Utilities;
 
+namespace HeroesPowerPlant.LayoutEditor
+{
     public class Object002E_Fan : SetObjectHeroes
     {
-        public float Scale
+        public enum EFanMode : byte
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Normal = 0,
+            Switchable = 1,
+            Normal2 = 2,
+            Switchable2 = 3
         }
 
-        public float HeightTriangleDive
+        public float Scale { get; set; }
+        public float HeightTriangleDive { get; set; }
+        public float HeightDefault { get; set; }
+        public float Power { get; set; }
+        public EFanMode Mode { get; set; }
+        public byte LinkID { get; set; }
+        public float WindScale { get; set; }
+        public bool IsInvisible { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            Scale = reader.ReadSingle();
+            HeightTriangleDive = reader.ReadSingle();
+            HeightDefault = reader.ReadSingle();
+            Power = reader.ReadSingle();
+            Mode = (EFanMode)reader.ReadByte();
+            LinkID = reader.ReadByte();
+            reader.BaseStream.Position += 2;
+            WindScale = reader.ReadSingle();
+            IsInvisible = reader.ReadByteBool();
         }
 
-        public float HeightDefault
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Power
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public FanMode Mode
-        {
-            get => (FanMode)ReadByte(20);
-            set => Write(20, (byte)value);
-        }
-
-        public byte LinkID
-        {
-            get => ReadByte(21);
-            set => Write(21, value);
-        }
-
-        public float WindScale
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-
-        public bool IsInvisible
-        {
-            get => ReadByte(28) != 0;
-            set => Write(28, (byte)(value ? 1 : 0));
+            writer.Write(Scale);
+            writer.Write(HeightTriangleDive);
+            writer.Write(HeightDefault);
+            writer.Write(Power);
+            writer.Write((byte)Mode);
+            writer.Write(LinkID);
+            writer.Pad(2);
+            writer.Write(WindScale);
+            writer.Write((byte)(IsInvisible ? 1 : 0));
         }
     }
 }

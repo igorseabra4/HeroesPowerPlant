@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,58 +45,42 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         [Description("Number, if taken from the ptcl file, is offset by 50 (so 50 here is entry 0 in the ptcl).")]
-        public byte Number
+        public byte Number { get; set; }
+        public float SpeedX { get; set; }
+        public float SpeedY { get; set; }
+        public float SpeedZ { get; set; }
+        public float UnknownFloat { get; set; }
+        public int UnknownInteger { get; set; }
+        public byte UnknownByte1 { get; set; }
+        public byte UnknownByte2 { get; set; }
+        public byte UnknownByte3 { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            Number = reader.ReadByte();
+            reader.BaseStream.Position += 3;
+            SpeedX = reader.ReadSingle();
+            SpeedY = reader.ReadSingle();
+            SpeedZ = reader.ReadSingle();
+            UnknownFloat = reader.ReadSingle();
+            UnknownInteger = reader.ReadInt32();
+            UnknownByte1 = reader.ReadByte();
+            UnknownByte2 = reader.ReadByte();
+            UnknownByte3 = reader.ReadByte();
         }
 
-        public float SpeedX
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float SpeedY
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float SpeedZ
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float UnknownFloat
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public int UnknownInteger
-        {
-            get => ReadInt(24);
-            set => Write(24, value);
-        }
-
-        public byte UnknownByte1
-        {
-            get => ReadByte(28);
-            set => Write(28, value);
-        }
-
-        public byte UnknownByte2
-        {
-            get => ReadByte(29);
-            set => Write(29, value);
-        }
-
-        public byte UnknownByte3
-        {
-            get => ReadByte(30);
-            set => Write(30, value);
+            writer.Write(Number);
+            writer.Pad(3);
+            writer.Write(SpeedX);
+            writer.Write(SpeedY);
+            writer.Write(SpeedZ);
+            writer.Write(UnknownFloat);
+            writer.Write(UnknownInteger);
+            writer.Write(UnknownByte1);
+            writer.Write(UnknownByte2);
+            writer.Write(UnknownByte3);
         }
     }
 }

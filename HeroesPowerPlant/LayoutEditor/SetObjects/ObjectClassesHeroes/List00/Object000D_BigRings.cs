@@ -1,49 +1,47 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum RainbowType : short
-    {
-        Speed = 0,
-        FlyA = 1,
-        FlyB = 2,
-        PowerS = 3,
-        PowerL = 4
-    }
-
     public class Object000D_BigRings : SetObjectHeroes
     {
+        public enum EType : short
+        {
+            Speed = 0,
+            FlyA = 1,
+            FlyB = 2,
+            PowerS = 3,
+            PowerL = 4
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = DefaultTransformMatrix(MathUtil.Pi);
             CreateBoundingBox();
         }
 
-        public RainbowType RainbowType
-        {
-            get => (RainbowType)ReadShort(4);
-            set => Write(4, (short)value);
-        }
-
+        public EType RingsType { get; set; }
         [Description("In frames")]
-        public short AdditionalControlTime
-        {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
-
+        public short AdditionalControlTime { get; set; }
         [Description("Defaults to 5.0")]
-        public float Speed
+        public float Speed { get; set; }
+        public float Offset { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            RingsType = (EType)reader.ReadInt16();
+            AdditionalControlTime = reader.ReadInt16();
+            Speed = reader.ReadSingle();
+            Offset = reader.ReadSingle();
         }
 
-        public float Offset
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            writer.Write((short)RingsType);
+            writer.Write(AdditionalControlTime);
+            writer.Write(Speed);
+            writer.Write(Offset);
         }
     }
 }

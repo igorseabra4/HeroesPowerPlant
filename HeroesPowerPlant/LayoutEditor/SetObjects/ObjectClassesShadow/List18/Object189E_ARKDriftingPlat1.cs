@@ -1,59 +1,47 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object189E_ARKDriftingPlat1 : SetObjectShadow
     {
+        public enum EType
+        {
+            Burst,
+            Hover
+        }
+
         //FootingBreak(Type{Burst,Hover}, WaitSec, HoverLength point, HoverSec, MoveLengthX point, MoveLengthY point, MoveLengthZ point, MoveSec)
-        public ARKDriftingPlatformType PlatformType
+        public EType PlatformType { get; set; }
+        public float ExplosionDelay { get; set; }
+        public float HoverLength { get; set; }
+        public float HoverSec { get; set; }
+        public float TranslationX { get; set; }
+        public float TranslationY { get; set; }
+        public float TranslationZ { get; set; }
+        public float TravelTime { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (ARKDriftingPlatformType)ReadInt(0x0);
-            set => Write(0x0, (int)value);
+            PlatformType = (EType)reader.ReadInt32();
+            ExplosionDelay = reader.ReadSingle();
+            HoverLength = reader.ReadSingle();
+            HoverSec = reader.ReadSingle();
+            TranslationX = reader.ReadSingle();
+            TranslationY = reader.ReadSingle();
+            TranslationZ = reader.ReadSingle();
+            TravelTime = reader.ReadSingle();
         }
 
-        public float ExplosionDelay
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(0x4);
-            set => Write(0x4, value);
+            writer.Write((int)PlatformType);
+            writer.Write(ExplosionDelay);
+            writer.Write(HoverLength);
+            writer.Write(HoverSec);
+            writer.Write(TranslationX);
+            writer.Write(TranslationY);
+            writer.Write(TranslationZ);
+            writer.Write(TravelTime);
         }
-
-        public float HoverLength
-        {
-            get => ReadFloat(0x8);
-            set => Write(0x8, value);
-        }
-
-        public float HoverSec
-        {
-            get => ReadFloat(0xC);
-            set => Write(0xC, value);
-        }
-
-        public float TranslationX
-        {
-            get => ReadFloat(0x10);
-            set => Write(0x10, value);
-        }
-
-        public float TranslationY
-        {
-            get => ReadFloat(0x14);
-            set => Write(0x14, value);
-        }
-
-        public float TranslationZ
-        {
-            get => ReadFloat(0x18);
-            set => Write(0x18, value);
-        }
-        public float TravelTime
-        {
-            get => ReadFloat(0x1C);
-            set => Write(0x1C, value);
-        }
-    }
-
-    public enum ARKDriftingPlatformType
-    {
-        Burst,
-        Hover
     }
 }

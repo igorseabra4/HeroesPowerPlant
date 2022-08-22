@@ -1,22 +1,30 @@
-﻿using System.Linq;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0913_RainCollision : SetObjectHeroes
     {
-        public float Scale
+        public float Scale { get; set; }
+        [Description("16 entries")]
+        public byte[] RainIDs { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Scale = reader.ReadSingle();
+            RainIDs = reader.ReadBytes(16);
         }
 
-        public byte[] RainIDs
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => MiscSettings.Skip(8).Take(16).ToArray();
-            set
+            writer.Write(Scale);
+            var count = 0;
+            foreach (var i in RainIDs)
             {
-                for (int i = 0; i < 16; i++)
-                    MiscSettings[i + 8] = value[i];
+                writer.Write(i);
+                count++;
+                if (count == 16)
+                    break;
             }
         }
     }

@@ -1052,7 +1052,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             // TODO: better type optimization? (make parent container "SupportedFNT"?)
 
-            AudioBranchType setObjAudioBranchType = AudioBranchType.CurrentMissionPartner;
+            EAudioBranchType setObjAudioBranchType = EAudioBranchType.CurrentMissionPartner;
 
             if (listBoxObjects.SelectedItem.GetType() == typeof(Object0051_TriggerTalking))
             {
@@ -1067,13 +1067,13 @@ namespace HeroesPowerPlant.LayoutEditor
 
             switch (setObjAudioBranchType)
             {
-                case AudioBranchType.Dark:
+                case EAudioBranchType.Dark:
                     previewAudio(darkAudioId);
                     break;
-                case AudioBranchType.Normal:
+                case EAudioBranchType.Normal:
                     previewAudio(normalAudioId);
                     break;
-                case AudioBranchType.Hero:
+                case EAudioBranchType.Hero:
                     previewAudio(heroAudioId);
                     break;
                 default:

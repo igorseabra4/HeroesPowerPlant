@@ -1,54 +1,44 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0013_Balloon : SetObjectShadow
     {
-        public BalloonType BalloonType
+        public enum EBalloonType
         {
-            get => (BalloonType)ReadInt(0);
-            set => Write(0, (int)value);
+            TranslationOnceAndDisappear,
+            TranslationLoop,
+            Orbit
         }
 
-        public ItemShadow ItemType
+        public EBalloonType BalloonType { get; set; }
+        public EShadowItem ItemType { get; set; }
+        public float SpeedDampAmount { get; set; }
+        public float OrbitDistance { get; set; }
+        public float TranslationX { get; set; }
+        public float TranslationY { get; set; }
+        public float TranslationZ { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (ItemShadow)ReadInt(4);
-            set => Write(4, (int)value);
+            BalloonType = (EBalloonType)reader.ReadInt32();
+            ItemType = (EShadowItem)reader.ReadInt32();
+            SpeedDampAmount = reader.ReadSingle();
+            OrbitDistance = reader.ReadSingle();
+            TranslationX = reader.ReadSingle();
+            TranslationY = reader.ReadSingle();
+            TranslationZ = reader.ReadSingle();
         }
 
-        public float SpeedDampAmount
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            writer.Write((int)BalloonType);
+            writer.Write((int)ItemType);
+            writer.Write(SpeedDampAmount);
+            writer.Write(OrbitDistance);
+            writer.Write(TranslationX);
+            writer.Write(TranslationY);
+            writer.Write(TranslationZ);
         }
-
-        public float OrbitDistance
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float TranslationX
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float TranslationY
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float TranslationZ
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-    }
-
-    public enum BalloonType
-    {
-        TranslationOnceAndDisappear,
-        TranslationLoop,
-        Orbit
     }
 }

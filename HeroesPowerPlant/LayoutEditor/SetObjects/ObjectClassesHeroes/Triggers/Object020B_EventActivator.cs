@@ -1,24 +1,25 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum EventActivatorType : byte
-    {
-        NotInUse = 0,
-        NotInUse2 = 1,
-        Elevator0402 = 2,
-        EnergyUp0412 = 3,
-        Shutter0410 = 4,
-        BallGLSOn0480 = 5,
-        BallGLSOff0480 = 6,
-        SenkanMov = 7,
-        Hakai1320 = 8,
-        FallAshiba1400 = 9
-    }
-
     public class Object020B_EventActivator : SetObjectHeroes
     {
+        public enum EEventType : byte
+        {
+            NotInUse = 0,
+            NotInUse2 = 1,
+            Elevator0402 = 2,
+            EnergyUp0412 = 3,
+            Shutter0410 = 4,
+            BallGLSOn0480 = 5,
+            BallGLSOff0480 = 6,
+            SenkanMov = 7,
+            Hakai1320 = 8,
+            FallAshiba1400 = 9
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) * DefaultTransformMatrix();
@@ -45,34 +46,28 @@ namespace HeroesPowerPlant.LayoutEditor
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
-        public float ScaleX
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
+        public float ScaleZ { get; set; }
+        public EEventType EventType { get; set; }
+        public bool OnlyLeader { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            ScaleX = reader.ReadSingle();
+            ScaleY = reader.ReadSingle();
+            ScaleZ = reader.ReadSingle();
+            EventType = (EEventType) reader.ReadByte();
+            OnlyLeader = reader.ReadByteBool();
         }
 
-        public float ScaleY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public EventActivatorType EventActivatorType
-        {
-            get => (EventActivatorType)ReadByte(16);
-            set => Write(16, (byte)value);
-        }
-
-        public bool OnlyLeader
-        {
-            get => ReadByte(17) != 0;
-            set => Write(17, value ? (byte)1 : (byte)0);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
+            writer.Write(ScaleX);
+            writer.Write((byte)EventType);
+            writer.Write((byte)(OnlyLeader ? 1 : 0));
         }
     }
 }

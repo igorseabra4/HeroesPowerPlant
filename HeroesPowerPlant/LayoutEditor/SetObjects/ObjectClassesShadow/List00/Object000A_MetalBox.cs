@@ -18,21 +18,21 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public BoxType BoxType
+        public EBoxType BoxType
         {
-            get => (BoxType)ReadInt(0);
+            get => (EBoxType)ReadInt(0);
             set => Write(0, (int)value);
         }
 
         public string Warning => "If you see \"NotValidInObject\" or -1, Do not edit field.";
 
-        public BoxItem ItemType
+        public EBoxItem ItemType
         {
             get
             {
                 if (MiscSettings.Length > 4)
-                    return (BoxItem)ReadInt(4);
-                return (BoxItem)(-1);
+                    return (EBoxItem)ReadInt(4);
+                return (EBoxItem)(-1);
             }
             set
             {
@@ -60,13 +60,13 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         [Description("Use this if ItemType is ItemCapsule")]
-        public ItemShadow ModifierCapsule
+        public EShadowItem ModifierCapsule
         {
             get
             {
                 if (MiscSettings.Length > 8)
-                    return (ItemShadow)ReadInt(8);
-                return (ItemShadow)(-1);
+                    return (EShadowItem)ReadInt(8);
+                return (EShadowItem)(-1);
             }
             set
             {
@@ -77,13 +77,13 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         [Description("Use this if ItemType is Weapon")]
-        public Weapon ModifierWeapon
+        public EWeapon ModifierWeapon
         {
             get
             {
                 if (MiscSettings.Length > 8)
-                    return (Weapon)ReadInt(8);
-                return (Weapon)(-1);
+                    return (EWeapon)ReadInt(8);
+                return (EWeapon)(-1);
             }
             set
             {
@@ -94,13 +94,13 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         [Description("Use this if ItemType is EnergyCore")]
-        public EnergyCoreType ModifierEnergyCore
+        public EEnergyCoreType ModifierEnergyCore
         {
             get
             {
                 if (MiscSettings.Length > 8)
-                    return (EnergyCoreType)ReadInt(8);
-                return (EnergyCoreType)(-1);
+                    return (EEnergyCoreType)ReadInt(8);
+                return (EEnergyCoreType)(-1);
             }
             set
             {

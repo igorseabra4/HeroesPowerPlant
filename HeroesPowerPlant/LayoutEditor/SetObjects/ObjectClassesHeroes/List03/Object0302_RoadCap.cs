@@ -1,23 +1,27 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0302_RoadCap : SetObjectHeroes
     {
-        public byte RoadCapType
+        public byte ObjectType { get; set; }
+        public short ScaleX { get; set; }
+        public short ScaleY { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadByte(4);
-            set => Write(4, value);
+            ObjectType = reader.ReadByte();
+            reader.BaseStream.Position += 1;
+            ScaleX = reader.ReadInt16();
+            ScaleY = reader.ReadInt16();
         }
 
-        public short ScaleX
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
-
-        public short ScaleY
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
+            writer.Write(ObjectType);
+            writer.Write((byte)0);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
         }
     }
 }

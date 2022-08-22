@@ -1,41 +1,34 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0999_Powder : SetObjectHeroes
     {
-        public float Scale
+        public float Scale { get; set; }
+        public int ObjectType { get; set; }
+        public int Number { get; set; }
+        public int Time { get; set; }
+        public float RangeR { get; set; }
+        public float RangeY { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Scale = reader.ReadSingle();
+            ObjectType = reader.ReadInt32();
+            Number = reader.ReadInt32();
+            Time = reader.ReadInt32();
+            RangeR = reader.ReadSingle();
+            RangeY = reader.ReadSingle();
         }
 
-        public int ObjectType
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
-
-        public int Number
-        {
-            get => ReadInt(12);
-            set => Write(12, value);
-        }
-
-        public int Time
-        {
-            get => ReadInt(16);
-            set => Write(16, value);
-        }
-
-        public float RangeR
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float RangeY
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
+            writer.Write(Scale);
+            writer.Write(ObjectType);
+            writer.Write(Number);
+            writer.Write(Time);
+            writer.Write(RangeR);
+            writer.Write(RangeY);
         }
     }
 }

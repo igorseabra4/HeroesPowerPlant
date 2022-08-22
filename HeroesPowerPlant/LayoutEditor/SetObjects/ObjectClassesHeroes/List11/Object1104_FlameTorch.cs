@@ -1,16 +1,24 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum StartMode
-    {
-        Lit = 0,
-        LitOnRange = 1,
-        Unlit = 2
-    }
-
     public class Object1104_FlameTorch : SetObjectHeroes
     {
+        public enum EStartMode : int
+        {
+            Lit = 0,
+            LitOnRange = 1,
+            Unlit = 2
+        }
+
+        public enum EBaseType : byte
+        {
+            None = 0,
+            Floor = 1,
+            Air = 2
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = (IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity) *
@@ -28,9 +36,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer)
         {
-            if (BaseType == BaseTypeEnum.None)
+            if (BaseType == EBaseType.None)
                 DrawCube(renderer);
-            else if (BaseType == BaseTypeEnum.Floor)
+            else if (BaseType == EBaseType.Floor)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
                     Draw(renderer, FloorBase);
@@ -45,7 +53,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         Draw(renderer, FloorRed);
                 }
             }
-            else if (BaseType == BaseTypeEnum.Air)
+            else if (BaseType == EBaseType.Air)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
                     Draw(renderer, AirBase);
@@ -68,58 +76,37 @@ namespace HeroesPowerPlant.LayoutEditor
             renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
         }
 
-        public bool IsBlue
+        public bool IsBlue { get; set; }
+        public EStartMode StartMode { get; set; }
+        public float Range { get; set; }
+        public float Scale { get; set; }
+        public bool IsUpsideDown { get; set; }
+        public EBaseType BaseType { get; set; }
+        public bool HasSE { get; set; }
+        public bool HasCollision { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadInt(4) != 0;
-            set => Write(4, value ? 1 : 0);
+            IsBlue = reader.ReadInt32Bool();
+            StartMode = (EStartMode)reader.ReadInt32();
+            Range = reader.ReadSingle();
+            Scale = reader.ReadSingle();
+            IsUpsideDown = reader.ReadByteBool();
+            BaseType = (EBaseType)reader.ReadByte();
+            HasSE = reader.ReadByteBool();
+            HasCollision = reader.ReadByteBool();
         }
 
-        public StartMode StartMode
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => (StartMode)ReadInt(8);
-            set => Write(8, (int)value);
-        }
-
-        public float Range
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public bool IsUpsideDown
-        {
-            get => ReadByte(20) != 0;
-            set => Write(20, (byte)(value ? 1 : 0));
-        }
-
-        public enum BaseTypeEnum
-        {
-            None = 0,
-            Floor = 1,
-            Air = 2
-        }
-        public BaseTypeEnum BaseType
-        {
-            get => (BaseTypeEnum)ReadByte(21);
-            set => Write(21, (byte)value);
-        }
-
-        public bool HasSE
-        {
-            get => ReadByte(22) != 0;
-            set => Write(22, (byte)(value ? 1 : 0));
-        }
-
-        public bool HasCollision
-        {
-            get => ReadByte(23) != 0;
-            set => Write(23, (byte)(value ? 1 : 0));
+            writer.Write(IsBlue);
+            writer.Write((int)StartMode);
+            writer.Write(Range);
+            writer.Write(Scale);
+            writer.Write((byte)(IsUpsideDown ? 1 : 0));
+            writer.Write((byte)BaseType);
+            writer.Write((byte)(HasSE ? 1 : 0));
+            writer.Write((byte)(HasCollision ? 1 : 0));
         }
     }
 }

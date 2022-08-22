@@ -1,11 +1,19 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0012_ItemCapsule : SetObjectShadow
     {
-        public ItemShadow Item
+        public EShadowItem Item { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (ItemShadow)ReadInt(0);
-            set => Write(0, (int)value);
+            Item = (EShadowItem)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)Item);
         }
     }
 }

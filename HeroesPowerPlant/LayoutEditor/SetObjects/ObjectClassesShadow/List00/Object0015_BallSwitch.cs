@@ -1,22 +1,30 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using static HeroesPowerPlant.LayoutEditor.Object0014_GoalRing;
+using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0015_BallSwitch : SetObjectShadow
     {
-        // Switch
-
-        public BallSwitchActivateType ActivateType
+        public enum EActivateType
         {
-            get => (BallSwitchActivateType)ReadInt(0);
-            set => Write(0, (int)value);
+            OnOff = 0,
+            OnTouch = 1,
+            OnAlways = 2,
+            Decoration = 3
+        }
+
+        public EActivateType ActivateType { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            ActivateType = (EActivateType)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)ActivateType);
         }
     }
 
-    public enum BallSwitchActivateType
-    {
-        OnOff = 0,
-        OnTouch = 1,
-        OnAlways = 2,
-        Decoration = 3
-    }
 }
 

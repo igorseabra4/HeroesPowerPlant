@@ -1,35 +1,31 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0502_Flipper : SetObjectHeroes
     {
-        public float Trance
+        public float Trance { get; set; }
+        public byte FlipperType { get; set; }
+        public byte KeyFlip { get; set; }
+        public byte Power { get; set; }
+        public byte Player { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Trance = reader.ReadSingle();
+            FlipperType = reader.ReadByte();
+            KeyFlip = reader.ReadByte();
+            Power = reader.ReadByte();
+            Player = reader.ReadByte();
         }
 
-        public byte FlipperType
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(8);
-            set => Write(8, value);
-        }
-
-        public byte KeyFlip
-        {
-            get => ReadByte(9);
-            set => Write(9, value);
-        }
-
-        public byte Power
-        {
-            get => ReadByte(10);
-            set => Write(10, value);
-        }
-
-        public byte Player
-        {
-            get => ReadByte(11);
-            set => Write(11, value);
+            writer.Write(Trance);
+            writer.Write(FlipperType);
+            writer.Write(KeyFlip);
+            writer.Write(Power);
+            writer.Write(Player);
         }
     }
 }

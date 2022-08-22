@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -7,16 +8,19 @@ namespace HeroesPowerPlant.LayoutEditor
         //BDHologram
 
         [Description("Distance (straight line) from player to object\nWhen met, the hologram disappears.")]
-        public float DetectDistance
+        public float DetectDistance { get; set; }
+        public int VoiceID { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadFloat(0);
-            set => Write(0, value);
+            DetectDistance = reader.ReadSingle();
+            VoiceID = reader.ReadInt32();
         }
 
-        public int VoiceID
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            writer.Write(DetectDistance);
+            writer.Write(VoiceID);
         }
     }
 }

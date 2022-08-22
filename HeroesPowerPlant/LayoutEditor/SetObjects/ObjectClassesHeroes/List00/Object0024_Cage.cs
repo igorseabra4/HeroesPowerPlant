@@ -1,37 +1,36 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
-{
-    public enum CageType : byte
-    {
-        PFixed = 0,
-        PFlying = 1,
-        UFixed = 2,
-        UFlying = 3
-    }
+﻿using HeroesPowerPlant.Shared.Utilities;
 
+namespace HeroesPowerPlant.LayoutEditor
+{
     public class Object0024_Cage : SetObjectHeroes
     {
-        public CageType CageType
+        public enum ECageType : byte
         {
-            get => (CageType)ReadInt(4);
-            set => Write(4, (int)value);
+            PFixed = 0,
+            PFlying = 1,
+            UFixed = 2,
+            UFlying = 3
         }
 
-        public float MoveCycleSec
+        public ECageType CageType { get; set; }
+        public float MoveCycleSec { get; set; }
+        public float MoveRangeH { get; set; }
+        public float MoveRangeV { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            CageType = (ECageType)reader.ReadInt32();
+            MoveCycleSec = reader.ReadSingle();
+            MoveRangeH = reader.ReadSingle();
+            MoveRangeV = reader.ReadSingle();
         }
 
-        public float MoveRangeH
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float MoveRangeV
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
+            writer.Write((int)CageType);
+            writer.Write(MoveCycleSec);
+            writer.Write(MoveRangeH);
+            writer.Write(MoveRangeV);
         }
     }
 }

@@ -1,47 +1,40 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
-{
-    public enum DiceType : short
-    {
-        UpDown = 0,
-        Horizontal = 1
-    }
+﻿using HeroesPowerPlant.Shared.Utilities;
 
+namespace HeroesPowerPlant.LayoutEditor
+{
     public class Object050A_Dice : SetObjectHeroes
     {
-        public float Speed
+        public enum EDiceType : short
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            UpDown = 0,
+            Horizontal = 1
         }
 
-        public float Height
+        public float Speed { get; set; }
+        public float Height { get; set; }
+        public float Radius { get; set; }
+        public short StopTime { get; set; }
+        public EDiceType DiceType { get; set; }
+        public short OffsetTime { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            Speed = reader.ReadSingle();
+            Height = reader.ReadSingle();
+            Radius = reader.ReadSingle();
+            StopTime = reader.ReadInt16();
+            DiceType = (EDiceType)reader.ReadInt16();
+            OffsetTime = reader.ReadInt16();
         }
 
-        public float Radius
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public short StopTime
-        {
-            get => ReadShort(16);
-            set => Write(16, value);
-        }
-
-        public DiceType DiceType
-        {
-            get => (DiceType)ReadShort(18);
-            set => Write(18, (short)value);
-        }
-
-        public short OffsetTime
-        {
-            get => ReadShort(20);
-            set => Write(20, value);
+            writer.Write(Speed);
+            writer.Write(Height);
+            writer.Write(Radius);
+            writer.Write(StopTime);
+            writer.Write((short)DiceType);
+            writer.Write(OffsetTime);
         }
     }
 }

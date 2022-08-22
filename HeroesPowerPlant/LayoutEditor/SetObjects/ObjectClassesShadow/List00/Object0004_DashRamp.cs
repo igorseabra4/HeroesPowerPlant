@@ -1,10 +1,10 @@
 ﻿using SharpDX;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0004_DashRamp : SetObjectShadow
     {
-
         public override void CreateTransformMatrix()
         {
             // function 800c9ed4 | RotationTemplateGen
@@ -17,22 +17,22 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public float Strength
+        public float Strength { get; set; }
+        public float Height { get; set; }
+        public float NoControlTime { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadFloat(0);
-            set => Write(0, value);
+            Strength = reader.ReadSingle();
+            Height = reader.ReadSingle();
+            NoControlTime = reader.ReadSingle();
         }
 
-        public float Height
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float NoControlTime
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            writer.Write(Strength);
+            writer.Write(Height);
+            writer.Write(NoControlTime);
         }
     }
 }

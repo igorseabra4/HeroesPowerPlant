@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum Item : byte
+    public enum EHeroesItem : byte
     {
         None = 0,
         Rings5 = 1,
@@ -15,5 +15,18 @@
         LevelUpFly = 10,
         LevelUpPower = 11,
         RefillFlightGauge = 12
+    }
+
+    public enum EFormation : byte
+    {
+        Speed = 0,
+        Fly = 1,
+        Power = 2
+    }
+
+    public enum EAppear : byte
+    {
+        Idle = 0,
+        Fall = 1,
     }
 }

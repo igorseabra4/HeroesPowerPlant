@@ -1,42 +1,34 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0016_TargetSwitch : SetObjectShadow
     {
+        public float Move_X { get; set; }
+        public float Move_Y { get; set; }
+        public float Move_Z { get; set; }
+        public float MoveSpeed { get; set; }
+        public float MoveWait { get; set; }
+        public int NumberOfHits { get; set; }
 
-        public float Move_X
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadFloat(0);
-            set => Write(0, value);
+            Move_X = reader.ReadSingle();
+            Move_Y = reader.ReadSingle();
+            Move_Z = reader.ReadSingle();
+            MoveSpeed = reader.ReadSingle();
+            MoveWait = reader.ReadSingle();
+            NumberOfHits = reader.ReadInt32();
         }
 
-        public float Move_Y
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float Move_Z
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float MoveSpeed
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float MoveWait
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public int NumberOfHits
-        {
-            get => ReadInt(20);
-            set => Write(20, value);
+            writer.Write(Move_X);
+            writer.Write(Move_Y);
+            writer.Write(Move_Z);
+            writer.Write(MoveSpeed);
+            writer.Write(MoveWait);
+            writer.Write(NumberOfHits);
         }
     }
 }

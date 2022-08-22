@@ -1,16 +1,17 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum GhostType
-    {
-        NoMove = 0,
-        Line = 1,
-        Circle = 2
-    }
-
     public class Object1105_Ghost : SetObjectHeroes
     {
+        public enum EGhostType : int
+        {
+            NoMove = 0,
+            Line = 1,
+            Circle = 2
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(Scale + 1f) * DefaultTransformMatrix();
@@ -18,34 +19,28 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public GhostType GhostType
+        public EGhostType GhostType { get; set; }
+        public float Range { get; set; }
+        public float MovingArea { get; set; }
+        public float Speed { get; set; }
+        public float Scale { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (GhostType)ReadInt(4);
-            set => Write(4, (int)value);
+            GhostType = (EGhostType)reader.ReadInt32();
+            Range = reader.ReadSingle();
+            MovingArea = reader.ReadSingle();
+            Speed = reader.ReadSingle();
+            Scale = reader.ReadSingle();
         }
 
-        public float Range
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float MovingArea
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
+            writer.Write((int)GhostType);
+            writer.Write(Range);
+            writer.Write(MovingArea);
+            writer.Write(Speed);
+            writer.Write(Scale);
         }
     }
 }

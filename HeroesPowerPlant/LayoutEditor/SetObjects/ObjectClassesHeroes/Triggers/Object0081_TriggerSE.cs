@@ -1,21 +1,38 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0081_TriggerSE : SetObjectHeroes
     {
+        public enum SE_CALL : byte
+        {
+            SE_CALL = 0,
+            SE_CALL_VP = 1,
+            SE_LOOP = 2,
+            SE_LOOP_VP = 3,
+            SE_SCLOOP = 4,
+            SE_LOOP_VP_ = 5
+        }
+
+        public enum EShape : byte
+        {
+            Sphere = 0,
+            Cube = 1,
+        }
+
         private BoundingSphere sphereBound;
 
         public override void CreateTransformMatrix()
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerSEShape.Sphere:
+                case EShape.Sphere:
                     sphereBound = new BoundingSphere(Position, Radius);
                     transformMatrix = Matrix.Scaling(Radius * 2);
                     break;
-                case TriggerSEShape.Cube:
+                case EShape.Cube:
                     transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
                     break;
                 default:
@@ -32,12 +49,12 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             List<Vector3> list = new List<Vector3>();
 
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerSEShape.Sphere:
+                case EShape.Sphere:
                     list.AddRange(SharpRenderer.sphereVertices);
                     break;
-                case TriggerSEShape.Cube:
+                case EShape.Cube:
                     list.AddRange(SharpRenderer.cubeVertices);
                     break;
                 default:
@@ -53,12 +70,12 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer)
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerSEShape.Sphere:
+                case EShape.Sphere:
                     renderer.DrawSphereTrigger(transformMatrix, isSelected);
                     break;
-                case TriggerSEShape.Cube:
+                case EShape.Cube:
                     renderer.DrawCubeTrigger(transformMatrix, isSelected);
                     break;
                 default:
@@ -69,91 +86,54 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerSEShape.Sphere:
+                case EShape.Sphere:
                     return r.Intersects(ref sphereBound, out distance);
-                case TriggerSEShape.Cube:
+                case EShape.Cube:
                     return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
                 default:
                     return base.TriangleIntersection(r, initialDistance, out distance);
             }
         }
 
-        public int SE_ID
+        public int SE_ID { get; set; }
+        public SE_CALL CallType { get; set; }
+        public bool Doppler { get; set; }
+        public byte Volume { get; set; }
+        public EShape Shape { get; set; }
+        public short Time { get; set; }
+        public short Radius { get; set; }
+        public short ScaleX { get; set; }
+        public short ScaleY { get; set; }
+        public short ScaleZ { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            SE_ID = reader.ReadInt32();
+            CallType = (SE_CALL)reader.ReadByte();
+            Doppler = reader.ReadByteBool();
+            Volume = reader.ReadByte();
+            Shape = (EShape)reader.ReadByte();
+            Time = reader.ReadInt16();
+            Radius = reader.ReadInt16();
+            ScaleX = reader.ReadInt16();
+            ScaleY = reader.ReadInt16();
+            ScaleZ = reader.ReadInt16();
         }
 
-        public enum SE_CALL : byte
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            SE_CALL = 0,
-            SE_CALL_VP = 1,
-            SE_LOOP = 2,
-            SE_LOOP_VP = 3,
-            SE_SCLOOP = 4,
-            SE_LOOP_VP_ = 5
-        }
-
-        public SE_CALL CallType
-        {
-            get => (SE_CALL)ReadByte(8);
-            set => Write(8, (byte)value);
-        }
-
-        public bool Doppler
-        {
-            get => ReadByte(9) != 0;
-            set => Write(9, value ? 1 : 0);
-        }
-
-        public byte Volume
-        {
-            get => ReadByte(10);
-            set => Write(10, value);
-        }
-
-        public enum TriggerSEShape : byte
-        {
-            Sphere = 0,
-            Cube = 1,
-        }
-
-        public TriggerSEShape TriggerShape
-        {
-            get => (TriggerSEShape)ReadByte(11);
-            set => Write(11, (byte)value);
-        }
-
-        public short Time
-        {
-            get => ReadShort(12);
-            set => Write(12, value);
-        }
-
-        public short Radius
-        {
-            get => ReadShort(14);
-            set => Write(14, value);
-        }
-
-        public short ScaleX
-        {
-            get => ReadShort(14);
-            set => Write(14, value);
-        }
-
-        public short ScaleY
-        {
-            get => ReadShort(16);
-            set => Write(16, value);
-        }
-
-        public short ScaleZ
-        {
-            get => ReadShort(18);
-            set => Write(18, value);
+            writer.Write(SE_ID);
+            writer.Write((byte)CallType);
+            writer.Write((byte)(Doppler ? 1 : 0));
+            writer.Write(Volume);
+            writer.Write((byte)Shape);
+            writer.Write(Time);
+            writer.Write(Radius);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
+            writer.Write(ScaleZ);
         }
     }
 }

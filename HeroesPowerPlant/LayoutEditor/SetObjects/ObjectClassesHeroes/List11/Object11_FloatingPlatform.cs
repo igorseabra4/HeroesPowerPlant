@@ -1,70 +1,53 @@
-﻿using System.ComponentModel;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum PlatformType
-    {
-        Fixed = 0,
-        Moving = 1,
-        Alternate = 2,
-        Disappear = 3
-    }
-
     public class Object11_FloatingPlatform : SetObjectHeroes
     {
+        public enum EPlatformType : byte
+        {
+            Fixed = 0,
+            Moving = 1,
+            Alternate = 2,
+            Disappear = 3
+        }
+
         [Description("Disappear mode is unused. Delay can be negative to make the platform faster.")]
-        public PlatformType PlatformType
+        public EPlatformType PlatformType { get; set; }
+        public bool AlternateModel { get; set; }
+        public short UnknownAlternateRange0 { get; set; }
+        public short UnknownAlternateRange1 { get; set; }
+        public short XOffset { get; set; }
+        public short YOffset { get; set; }
+        public short ZOffset { get; set; }
+        public short TimeCycleFrame { get; set; }
+        public byte DisappearLinkID { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => (PlatformType)ReadByte(4);
-            set => Write(4, (byte)value);
+            PlatformType = (EPlatformType)reader.ReadByte();
+            AlternateModel = reader.ReadByteBool();
+            UnknownAlternateRange0 = reader.ReadInt16();
+            UnknownAlternateRange1 = reader.ReadInt16();
+            XOffset = reader.ReadInt16();
+            YOffset = reader.ReadInt16();
+            ZOffset = reader.ReadInt16();
+            TimeCycleFrame = reader.ReadInt16();
+            DisappearLinkID = reader.ReadByte();
         }
 
-        public bool AlternateModel
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(5) != 0;
-            set => Write(5, (byte)(value ? 1 : 0));
-        }
-
-        public short UnknownAlternateRange0
-        {
-            get => ReadShort(6);
-            set => Write(8, value);
-        }
-
-        public short UnknownAlternateRange1
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
-        }
-
-        public short XOffset
-        {
-            get => ReadShort(10);
-            set => Write(10, value);
-        }
-
-        public short YOffset
-        {
-            get => ReadShort(12);
-            set => Write(12, value);
-        }
-
-        public short ZOffset
-        {
-            get => ReadShort(14);
-            set => Write(14, value);
-        }
-
-        public short TimeCycleFrame
-        {
-            get => ReadShort(16);
-            set => Write(16, value);
-        }
-
-        public byte DisappearLinkID
-        {
-            get => ReadByte(18);
-            set => Write(18, value);
+            writer.Write((byte)PlatformType);
+            writer.Write((byte)(AlternateModel ? 1 : 0));
+            writer.Write(UnknownAlternateRange0);
+            writer.Write(UnknownAlternateRange1);
+            writer.Write(XOffset);
+            writer.Write(YOffset);
+            writer.Write(ZOffset);
+            writer.Write(TimeCycleFrame);
+            writer.Write(DisappearLinkID);
         }
     }
 }

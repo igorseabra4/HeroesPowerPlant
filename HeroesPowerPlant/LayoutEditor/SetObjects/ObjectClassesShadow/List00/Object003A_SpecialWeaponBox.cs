@@ -1,10 +1,11 @@
-﻿using SharpDX;
+﻿using Collada141;
+using SharpDX;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object003A_SpecialWeaponBox : SetObjectShadow
     {
-
         public override void CreateTransformMatrix()
         {
             // function 800c9ed4 | RotationTemplateGen
@@ -17,10 +18,20 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public Weapon WeaponIfSpecialWeaponsNotUnlocked
+        public EWeapon WeaponIfSpecialWeaponsNotUnlocked
         {
-            get => (Weapon)ReadInt(0);
+            get => (EWeapon)ReadInt(0);
             set => Write(0, (int)value);
+        }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            WeaponIfSpecialWeaponsNotUnlocked = (EWeapon)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)WeaponIfSpecialWeaponsNotUnlocked);
         }
     }
 }

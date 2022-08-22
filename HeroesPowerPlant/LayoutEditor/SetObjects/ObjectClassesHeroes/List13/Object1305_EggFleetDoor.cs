@@ -1,5 +1,5 @@
-﻿using SharpDX;
-using System;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -11,7 +11,9 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             base.CreateTransformMatrix();
 
-            triggerMatrix = Matrix.Scaling(TriggerXSize, TriggerYSize, TriggerZSize) * Matrix.Translation(TriggerX, TriggerY, TriggerZ);
+            triggerMatrix = Matrix.Scaling(TriggerSizeX, TriggerSizeY, TriggerSizeZ) *
+                Matrix.RotationY(TriggerRotY) *
+                Matrix.Translation(TriggerX, TriggerY, TriggerZ);
 
             CreateBoundingBox();
         }
@@ -24,46 +26,36 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.DrawCubeTrigger(triggerMatrix, true);
         }
 
-        public float TriggerX
+        public float TriggerX { get; set; }
+        public float TriggerY { get; set; }
+        public float TriggerZ { get; set; }
+        public short TriggerSizeX { get; set; }
+        public short TriggerSizeY { get; set; }
+        public short TriggerSizeZ { get; set; }
+        public short TriggerRotY { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            TriggerSizeX = reader.ReadInt16();
+            TriggerSizeY = reader.ReadInt16();
+            TriggerSizeZ = reader.ReadInt16();
+            reader.BaseStream.Position += 2;
+            TriggerX = reader.ReadSingle();
+            TriggerY = reader.ReadSingle();
+            TriggerZ = reader.ReadSingle();
+            TriggerRotY = reader.ReadInt16();
         }
 
-        public float TriggerY
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float TriggerZ
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public Int16 TriggerXSize
-        {
-            get => ReadShort(4);
-            set => Write(4, value);
-        }
-
-        public Int16 TriggerYSize
-        {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
-
-        public Int16 TriggerZSize
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
-        }
-
-        public Int16 TriggerRotY
-        {
-            get => ReadShort(24);
-            set => Write(24, value);
+            writer.Write(TriggerSizeX);
+            writer.Write(TriggerSizeY);
+            writer.Write(TriggerSizeZ);
+            writer.Pad(2);
+            writer.Write(TriggerX);
+            writer.Write(TriggerY);
+            writer.Write(TriggerZ);
+            writer.Write(TriggerRotY);
         }
     }
 }

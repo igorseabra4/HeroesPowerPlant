@@ -1,30 +1,31 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0BBE_Chao : SetObjectShadow
     {
-        //ChaoHolder
-        public Chao ChaoType
+        public enum EChao
         {
-            get => (Chao)ReadInt(0);
-            set => Write(0, (int)value);
+            Normal = 0x00, //CHAO
+            Cheese = 0x01 //CHEEZ
         }
 
-        public float MoveRadius
+        public EChao Chao { get; set; }
+        public float MoveRadius { get; set; }
+        public float MoveSpeed { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Chao = (EChao)reader.ReadInt32();
+            MoveRadius = reader.ReadSingle();
+            MoveSpeed = reader.ReadSingle();
         }
 
-        public float MoveSpeed
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            writer.Write((int)Chao);
+            writer.Write(MoveRadius);
+            writer.Write(MoveSpeed);
         }
-    }
-
-    public enum Chao
-    {
-        Normal = 0x00, //CHAO
-        Cheese = 0x01 //CHEEZ
     }
 }

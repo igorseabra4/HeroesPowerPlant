@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using Newtonsoft.Json;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -295,36 +296,46 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public int PasteSetObject(string text = null)
         {
-            if (text == null)
-                text = Clipboard.GetText();
+            text ??= Clipboard.GetText();
             int result = 0;
-#if RELEASE
+            var pasted = new List<SetObject>();
             try
             {
-#endif
-            var list = JsonConvert.DeserializeObject<List<Object_ShadowDefault>>(text);
-            result = list.Count;
-
-            foreach (var src in list)
-            {
-                SetObject dest;
-
                 if (isShadow)
-                    dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
+                {
+                    var list = JsonConvert.DeserializeObject<List<SetObjectShadow>>(text);
+                    foreach (var src in list)
+                    {
+                        var dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
+                        var misc = src.GetMiscSettings();
+                        using var reader = new EndianBinaryReader(new MemoryStream(misc), Endianness.Big);
+                        dest.ReadMiscSettings(reader, misc.Length);
+                        dest.CreateTransformMatrix();
+                        pasted.Add(dest);
+                        result++;
+                    }
+                }
                 else
-                    dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
-
-                dest.MiscSettings = src.MiscSettings;
-                dest.CreateTransformMatrix();
-                setObjects.Add(dest);
-            }
-#if RELEASE
+                {
+                    var list = JsonConvert.DeserializeObject<List<SetObjectHeroes>>(text);
+                    foreach (var src in list)
+                    {
+                        var dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
+                        using var reader = new EndianBinaryReader(new MemoryStream(src.GetMiscSettings()), Endianness.Big);
+                        dest.ReadMiscSettings(reader);
+                        dest.CreateTransformMatrix();
+                        pasted.Add(dest);
+                        result++;
+                    }
+                }
+                foreach (var obj in pasted)
+                    setObjects.Add(obj);
             }
             catch
             {
-                MessageBox.Show($"Error pasting object from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
+                MessageBox.Show($"Error pasting objects from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
+                result = 0;
             }
-#endif
             return result;
         }
 
@@ -417,16 +428,23 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void CopyMisc(int index)
         {
-            Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index).MiscSettings));
+            Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index).GetMiscSettings()));
         }
 
         public void PasteMisc(int index)
         {
             try
             {
+                var obj = GetSetObjectAt(index);
                 byte[] misc = JsonConvert.DeserializeObject<byte[]>(Clipboard.GetText());
-                GetSetObjectAt(index).MiscSettings = misc;
-                GetSetObjectAt(index).CreateTransformMatrix();
+                using var reader = new EndianBinaryReader(new MemoryStream(misc), Endianness.Big);
+
+                if (obj is SetObjectHeroes objHeroes)
+                    objHeroes.ReadMiscSettings(reader);
+                else if (obj is SetObjectShadow objShadow)
+                    objShadow.ReadMiscSettings(reader, misc.Length);
+                
+                obj.CreateTransformMatrix();
             }
             catch (Exception ex)
             {

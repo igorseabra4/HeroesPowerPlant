@@ -1,23 +1,25 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object_16_00_01 : SetObjectHeroes
     {
-        public float Radius
+        public float Radius { get; set; }
+        public int Refresh { get; set; }
+        public int Disable { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Radius = reader.ReadSingle();
+            Refresh = reader.ReadInt32();
+            Disable = reader.ReadInt32();
         }
 
-        public int Refresh
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
-
-        public int Disable
-        {
-            get => ReadInt(12);
-            set => Write(12, value);
+            writer.Write(Radius);
+            writer.Write(Refresh);
+            writer.Write(Disable);
         }
     }
 }

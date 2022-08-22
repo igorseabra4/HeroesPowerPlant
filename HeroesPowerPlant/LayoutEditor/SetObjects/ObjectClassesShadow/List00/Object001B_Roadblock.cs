@@ -1,19 +1,26 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object001B_Roadblock : SetObjectShadow
     {
-        //BreakObj
-        public RoadblockType RoadblockType
+        public enum ERoadblockType
         {
-            get => (RoadblockType)ReadInt(0);
-            set => Write(0, (int)value);
+            GUN,
+            BlackArms
         }
-    }
 
-    public enum RoadblockType
-    {
-        GUN,
-        BlackArms
+        public ERoadblockType RoadblockType { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            RoadblockType = (ERoadblockType)reader.ReadInt32();
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)RoadblockType);
+        }
     }
 }
 

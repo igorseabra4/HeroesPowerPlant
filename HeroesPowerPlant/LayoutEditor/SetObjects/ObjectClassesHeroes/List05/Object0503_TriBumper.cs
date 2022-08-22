@@ -1,29 +1,28 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using HeroesPowerPlant.Shared.Utilities;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0503_TriBumper : SetObjectHeroes
     {
-        public float Power
+        public float Power { get; set; }
+        public byte AngType { get; set; }
+        public byte Color { get; set; }
+        public byte Number { get; set; }
+
+        public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Power = reader.ReadSingle();
+            AngType = reader.ReadByte();
+            Color = reader.ReadByte();
+            Number = reader.ReadByte();
         }
 
-        public byte AngType
+        public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            get => ReadByte(8);
-            set => Write(8, value);
-        }
-
-        public byte Color
-        {
-            get => ReadByte(9);
-            set => Write(9, value);
-        }
-
-        public byte Number
-        {
-            get => ReadByte(10);
-            set => Write(10, value);
+            writer.Write(Power);
+            writer.Write(AngType);
+            writer.Write(Color);
+            writer.Write(Number);
         }
     }
 }
