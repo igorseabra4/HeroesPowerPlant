@@ -93,9 +93,6 @@
     <Compile Update="ConfigEditor\ConfigEditor.designer.cs">
       <DependentUpon>ConfigEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="ConfigEditor\ConfigEditorFunctions.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="ConfigEditor\EXEExtractor.cs">
       <SubType>Form</SubType>
     </Compile>

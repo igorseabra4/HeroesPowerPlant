@@ -80,6 +80,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             UpdateObjectComboBox();
             UpdateFileLabel(Program.MainForm);
+            UnsavedChanges = true;
         }
 
 
@@ -92,6 +93,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             UpdateObjectComboBox();
             UpdateFileLabel(Program.MainForm);
+            UnsavedChanges = true;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -438,6 +440,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 ProgramIsChangingStuff = false;
                 listBoxObjects_SelectedIndexChanged(null, null);
+                UnsavedChanges = true;
             }
         }
 
@@ -1043,6 +1046,7 @@ namespace HeroesPowerPlant.LayoutEditor
         private void PropertyGridMisc_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).CreateTransformMatrix();
+            UnsavedChanges = true;
             TextAndAudioPreviewUpdate();
         }
 
@@ -1263,6 +1267,12 @@ namespace HeroesPowerPlant.LayoutEditor
             if (ComboBoxObject.Items.Count > 0)
                 UpdateObjectComboBox();
             UpdateList();
+        }
+
+        public bool UnsavedChanges
+        {
+            get => layoutSystem.UnsavedChanges;
+            set => layoutSystem.UnsavedChanges = value;
         }
     }
 }

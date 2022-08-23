@@ -1,4 +1,17 @@
+using HeroesPowerPlant.CameraEditor;
+using HeroesPowerPlant.CollisionEditor;
+using HeroesPowerPlant.ConfigEditor;
+using HeroesPowerPlant.LayoutEditor;
+using HeroesPowerPlant.LevelEditor;
+using HeroesPowerPlant.LightEditor;
+using HeroesPowerPlant.MainForm;
+using HeroesPowerPlant.ParticleEditor;
+using HeroesPowerPlant.SetIdTableEditor;
+using HeroesPowerPlant.ShadowCameraEditor;
+using HeroesPowerPlant.ShadowLayoutDiffTool;
+using HeroesPowerPlant;
 using HeroesPowerPlant.Shared.IO.Config;
+using HeroesPowerPlant.TexturePatternEditor;
 using Ookii.Dialogs.WinForms;
 using ShadowFNT.Structures;
 using SharpDX;
@@ -120,7 +133,6 @@ namespace HeroesPowerPlant.MainForm
             {
                 ClearConfig();
             }
-
         }
 
         public void ClearConfig()
@@ -957,6 +969,21 @@ namespace HeroesPowerPlant.MainForm
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (HasUnsavedChanges())
+            {
+                var result = MessageBox.Show("You have unsaved changes. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    throw new NotImplementedException();
+                    // SaveUnsavedChanges();
+                }
+            }
+
             HPPConfig.GetInstance().Save();
             if (HPPConfig.GetInstance().AutomaticallySaveConfig)
                 if (currentSavePath != null)
@@ -964,6 +991,7 @@ namespace HeroesPowerPlant.MainForm
                     var hppConfig = ProjectConfig.FromCurrentInstance(this);
                     ProjectConfig.Save(hppConfig, currentSavePath);
                 }
+
 
             //Environment.Exit(0); // Ensure background threads close too!
         }
@@ -1284,10 +1312,95 @@ namespace HeroesPowerPlant.MainForm
             }
         }
 
-        internal void UpdateLayoutEditorMenus()
+        public void UpdateLayoutEditorMenus()
         {
             foreach (var le in LayoutEditorDict.Values)
                 le.UpdateMenus();
+        }
+
+        private bool HasUnsavedChanges() =>
+            ConfigEditor.UnsavedChanges ||
+            LevelEditor.UnsavedChanges ||
+            LayoutEditors.Any(c => c.UnsavedChanges);
+
+        //public CameraEditor.CameraEditor CameraEditor;
+        //public ShadowCameraEditor.ShadowCameraEditor ShadowCameraEditor;
+        //public ShadowLayoutDiffTool.ShadowLayoutDiffTool ShadowLayoutDiffTool;
+        //public ParticleEditor.ParticleMenu ParticleEditor;
+        //public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
+        //public LightEditor.LightMenu LightEditor;
+        //public SetIdTableEditor.SetIdTableEditor SetIdTableEditor;
+
+        private void openHeroesLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
+                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                return;
+            
+            var openFile = new VistaOpenFileDialog()
+            {
+                Filter = "ONE files|*.ONE",
+                Title = "Choose the level's ONE file..."
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                ClearConfig();
+
+                LevelEditor.OpenONEHeroesFile(openFile.FileName, renderer);
+
+                var dvdroot = Path.GetDirectoryName(openFile.FileName);
+                var filenamePrefix = LevelEditor.bspRenderer.currentFileNamePrefix;
+
+                string probObjOne = dvdroot + "\\" + filenamePrefix + "obj.one";
+                if (File.Exists(probObjOne) && !renderer.dffRenderer.filePaths.Contains(probObjOne))
+                    renderer.dffRenderer.AddDFFFiles(new string[] { probObjOne });
+
+                string probComObjOne = dvdroot + "\\comobj.one";
+                if (File.Exists(probComObjOne) && !renderer.dffRenderer.filePaths.Contains(probComObjOne))
+                    renderer.dffRenderer.AddDFFFiles(new string[] { probComObjOne });
+
+                string probComObjTxd = dvdroot + "\\textures\\obj_common.txd";
+                if (File.Exists(probComObjTxd) && !TextureManager.OpenTXDfiles.Contains(probComObjTxd))
+                    TextureManager.LoadTexturesFromTXD(probComObjTxd, renderer, LevelEditor.bspRenderer);
+
+                foreach (var s in new string[] {
+                    dvdroot + "\\" + filenamePrefix + "_DB.bin",
+                    dvdroot + "\\" + filenamePrefix + "_PB.bin",
+                    dvdroot + "\\" + filenamePrefix + "_P1.bin",
+                    dvdroot + "\\" + filenamePrefix + "_P2.bin",
+                    dvdroot + "\\" + filenamePrefix + "_P3.bin",
+                    dvdroot + "\\" + filenamePrefix + "_P4.bin",
+                    dvdroot + "\\" + filenamePrefix + "_P5.bin",
+                })
+                    if (File.Exists(s) && !LayoutEditors.Any(l => l.GetOpenFileName().Equals(s)))
+                        AddLayoutEditor(s);
+
+                foreach (var s in new string[] {
+                    dvdroot + "\\collisions\\" + filenamePrefix + ".cl",
+                    dvdroot + "\\collisions\\" + filenamePrefix + "_wt.cl",
+                    dvdroot + "\\collisions\\" + filenamePrefix + "_xx.cl",
+                })
+                    if (File.Exists(s) && !CollisionEditors.Any(l => l.GetOpenFileName().Equals(s)))
+                        AddCollisionEditor(s);
+
+                CameraEditor.OpenFile(dvdroot + "\\" + filenamePrefix + "_cam.bin");
+
+                var ptcl = dvdroot + "\\" + filenamePrefix + "_ptcl.bin";
+                if (File.Exists(ptcl))
+                    ParticleEditor.OpenFile(ptcl);
+
+                var txc = dvdroot + "\\" + filenamePrefix + ".txc";
+                if (File.Exists(txc))
+                    TexturePatternEditor.OpenFile(txc);
+
+                var light = dvdroot + "\\" + filenamePrefix + "_light.bin";
+                if (File.Exists(light))
+                    LightEditor.OpenFile(light, false);
+
+                var setidtbl = dvdroot + "\\setidtbl.bin";
+                if (File.Exists(setidtbl))
+                    SetIdTableEditor.OpenExternal(setidtbl, false);
+            }
         }
     }
 }

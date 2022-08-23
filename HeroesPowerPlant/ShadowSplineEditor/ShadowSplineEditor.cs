@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.ShadowSplineEditor
 {
@@ -290,6 +289,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             Splines.Add(new ShadowSpline());
             Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+            UnsavedChanges = true;
         }
 
         public void Add(string[] fileNames)
@@ -302,6 +302,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             Splines.Add(ShadowSpline.FromFile(objFile));
             Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+            UnsavedChanges = true;
         }
 
         public bool Copy(int index)
@@ -310,6 +311,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 Splines.Add(Splines[index].GetCopy());
                 Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+                UnsavedChanges = true;
                 return true;
             }
 
@@ -322,6 +324,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 Splines[index].Dispose();
                 Splines.RemoveAt(index);
+                UnsavedChanges = true;
                 return true;
             }
 
@@ -366,7 +369,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public void PropertyValueChanged()
         {
             if (selectedSpline > -1 && selectedSpline < Splines.Count)
+            {
                 Splines[selectedSpline].SetRenderStuff(Program.MainForm.renderer);
+                UnsavedChanges = true;
+            }
         }
 
         public void Export(string fileName)
@@ -392,5 +398,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 streamWriter.Close();
             }
         }
+
+        public bool UnsavedChanges = false;
     }
 }

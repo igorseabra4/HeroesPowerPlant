@@ -191,5 +191,7 @@ namespace HeroesPowerPlant.SplineEditor
         {
             splineEditorFunctions.DisposeSplines();
         }
+
+        public bool UnsavedChanges => splineEditorFunctions.UnsavedChanges;
     }
 }

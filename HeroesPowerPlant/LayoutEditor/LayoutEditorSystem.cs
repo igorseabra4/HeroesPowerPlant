@@ -27,6 +27,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool autoUnkBytes;
 
+        public bool UnsavedChanges = false;
+
         public static void SetupLayoutEditorSystem()
         {
             heroesObjectEntries = ReadObjectListData(Application.StartupPath + "/Resources/Lists/HeroesObjectList.ini");
@@ -125,6 +127,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
             }
             else throw new InvalidDataException("Unknown file type");
+            UnsavedChanges = false;
         }
 
         public void Save(string fileName)
@@ -139,6 +142,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 SaveShadowLayout(setObjects.Cast<SetObjectShadow>(), CurrentlyOpenFileName, autoUnkBytes);
             else
                 SaveHeroesLayout(setObjects.Cast<SetObjectHeroes>(), CurrentlyOpenFileName, autoUnkBytes);
+            UnsavedChanges = false;
         }
 
         public void SaveINI(string fileName)
@@ -150,6 +154,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             foreach (var v in GetHeroesLayoutFromINI(fileName))
                 setObjects.Add(v);
+            UnsavedChanges = true;
         }
 
         public void ImportLayoutFile(string fileName)
@@ -176,17 +181,20 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
                 else throw new InvalidDataException("Unknown file type");
             }
+            UnsavedChanges = true;
         }
 
         public void ImportOBJ(string fileName)
         {
             GetObjectsFromObjFile(fileName, 0, 3).ForEach(setObjects.Add);
+            UnsavedChanges = true;
         }
 
         public void ImportSALayout(string fileName)
         {
             foreach (var c in Other.OtherFunctions.ConvertSASetToHeroes(fileName))
                 setObjects.Add(c);
+            UnsavedChanges = true;
         }
 
         #endregion
@@ -271,6 +279,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 setObjects.Add(CreateHeroesObject(0, 0, Position, Vector3.Zero, 0, 10, unkBytes));
             }
+            UnsavedChanges = true;
         }
 
         public void DuplicateSetObjectAt(int index, Vector3 Position)
@@ -334,6 +343,7 @@ namespace HeroesPowerPlant.LayoutEditor
             //    MessageBox.Show($"Error pasting objects from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
             //    result = 0;
             //}
+            UnsavedChanges = true;
             return result;
         }
 
@@ -345,6 +355,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public void ClearList()
         {
             setObjects.Clear();
+            UnsavedChanges = true;
         }
 
         public void ChangeObjectType(int index, ObjectEntry newEntry)
@@ -363,6 +374,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
 
             setObjects[index].isSelected = isSelected;
+
+            UnsavedChanges = true;
         }
 
         public void SetObjectPosition(int index, float x, float y, float z)
@@ -374,6 +387,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             GetSetObjectAt(index).Position = v;
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void SetObjectRotation(int index, float x, float y, float z)
@@ -383,39 +397,46 @@ namespace HeroesPowerPlant.LayoutEditor
             else
                 GetSetObjectAt(index).Rotation = new Vector3(DegreesToBAMS(x), DegreesToBAMS(y), DegreesToBAMS(z));
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         private void SetObjectRotationDefault(int index, Vector3 v)
         {
             GetSetObjectAt(index).Rotation = v;
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void SetObjectLink(int index, byte value)
         {
             GetSetObjectAt(index).Link = value;
+            UnsavedChanges = true;
         }
 
         public void SetObjectRend(int index, byte value)
         {
             GetSetObjectAt(index).Rend = value;
+            UnsavedChanges = true;
         }
 
         public void SetUnkBytes(int index, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8)
         {
             GetSetObjectAt(index).UnkBytes = new byte[] { v1, v2, v3, v4, v5, v6, v7, v8 };
+            UnsavedChanges = true;
         }
 
         public void Drop(int index)
         {
             GetSetObjectAt(index).Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(GetSetObjectAt(index).Position);
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void DropToCurrentView(int index)
         {
             GetSetObjectAt(index).Position = Program.MainForm.renderer.Camera.GetPosition() + 200 * Program.MainForm.renderer.Camera.GetForward();
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void CopyMisc(int index)
@@ -437,6 +458,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     objShadow.ReadMiscSettings(reader, misc.Length);
                 
                 obj.CreateTransformMatrix();
+                UnsavedChanges = true;
             }
             catch (Exception ex)
             {
@@ -561,6 +583,7 @@ namespace HeroesPowerPlant.LayoutEditor
             sorted = sorted.OrderBy(f => f.List).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
+            UnsavedChanges = true;
         }
 
         public void SortObjectsByDistance()
@@ -568,6 +591,7 @@ namespace HeroesPowerPlant.LayoutEditor
             List<SetObject> sorted = setObjects.OrderBy(f => f.GetDistanceFrom()).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
+            UnsavedChanges = true;
         }
 
         public void SortObjectsAlphabetical()
@@ -575,6 +599,7 @@ namespace HeroesPowerPlant.LayoutEditor
             List<SetObject> sorted = setObjects.OrderBy(f => f.GetName).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
+            UnsavedChanges = true;
         }
         #endregion
 

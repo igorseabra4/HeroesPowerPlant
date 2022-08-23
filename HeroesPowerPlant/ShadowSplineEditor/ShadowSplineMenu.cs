@@ -143,10 +143,17 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         private void ShadowSplineMenu_Load(object sender, EventArgs e)
         {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
+            TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
+        }
+
+        public bool UnsavedChanges
+        {
+            get => SplineEditor != null && SplineEditor.UnsavedChanges;
+            set
+            {
+                if (SplineEditor != null)
+                    SplineEditor.UnsavedChanges = value;
+            }
         }
     }
 }

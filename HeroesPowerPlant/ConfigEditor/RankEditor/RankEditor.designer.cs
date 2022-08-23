@@ -759,7 +759,7 @@
             this.Name = "RankEditor";
             this.ShowIcon = false;
             this.Text = "Rank Editor";
-            this.Load += new System.EventHandler(this.LayoutEditor_Load);
+            this.Load += new System.EventHandler(this.RankEditor_Load);
             this.GroupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumericSonicD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericSonicC)).EndInit();
