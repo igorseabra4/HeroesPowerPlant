@@ -99,7 +99,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
-            writer.Write(IsBlue);
+            writer.Write(IsBlue ? 1 : 0);
             writer.Write((int)StartMode);
             writer.Write(Range);
             writer.Write(Scale);

@@ -19,7 +19,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public override void WriteMiscSettings(EndianBinaryWriter writer)
         {
             writer.Write(EnergyColumnType);
-            writer.Pad(2);
+            writer.Pad(3);
             writer.Write(Length);
             writer.Write(Speed);
         }

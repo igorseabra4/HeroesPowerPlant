@@ -8,6 +8,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte AngType { get; set; }
         public byte Color { get; set; }
         public byte Number { get; set; }
+        public byte Unknown { get; set; }
 
         public override void ReadMiscSettings(EndianBinaryReader reader)
         {
@@ -15,6 +16,7 @@ namespace HeroesPowerPlant.LayoutEditor
             AngType = reader.ReadByte();
             Color = reader.ReadByte();
             Number = reader.ReadByte();
+            Unknown = reader.ReadByte();
         }
 
         public override void WriteMiscSettings(EndianBinaryWriter writer)
@@ -23,6 +25,7 @@ namespace HeroesPowerPlant.LayoutEditor
             writer.Write(AngType);
             writer.Write(Color);
             writer.Write(Number);
+            writer.Write(Unknown);
         }
     }
 }

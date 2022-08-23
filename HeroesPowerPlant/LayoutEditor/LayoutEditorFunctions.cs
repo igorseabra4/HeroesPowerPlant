@@ -2,6 +2,7 @@
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -13,9 +14,12 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private const int HeroesObjectCount = 2048;
 
-        public static List<SetObjectHeroes> GetHeroesLayout(string fileName)
+        public static List<SetObjectHeroes> GetHeroesLayout(string fileName, out string result)
         {
+            result = "";
+            int count = 0;
             var list = new List<SetObjectHeroes>(HeroesObjectCount);
+
             using (var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big))
                 for (int i = 0; i < HeroesObjectCount; i++)
                 {
@@ -40,6 +44,8 @@ namespace HeroesPowerPlant.LayoutEditor
                     if (List == 0 & Type == 0)
                         continue;
 
+                    count++;
+
                     var obj = CreateHeroesObject(List, Type, pos, rot, Link, Rend, unkBytes1.Concat(unkBytes2).ToArray(), false);
 
                     int miscSettingsPos = reader.ReadInt32();
@@ -49,37 +55,19 @@ namespace HeroesPowerPlant.LayoutEditor
                     else
                     {
                         reader.BaseStream.Position = 0x18000 + (0x24 * miscSettingsPos) + 4;
-                        var miscSettingsForTest = reader.ReadBytes(32);
-                        reader.BaseStream.Position = 0x18000 + (0x24 * miscSettingsPos) + 4;
                         obj.ReadMiscSettings(reader);
-                        CheckMiscSettingsBuilder(miscSettingsForTest, obj);
+# if DEBUG
+                        reader.BaseStream.Position = 0x18000 + (0x24 * miscSettingsPos) + 4;
+                        var miscSettingsForTest = reader.ReadBytes(32);
+                        result += CheckMiscSettingsBuilder(miscSettingsForTest, obj, count);
+#endif
                     }
 
                     obj.CreateTransformMatrix();
 
                     list.Add(obj);
                 }
-
             return list;
-        }
-
-        private static void CheckMiscSettingsBuilder(byte[] miscSettingsForTest, SetObjectHeroes obj)
-        {
-            var writer = new EndianBinaryWriter(new MemoryStream(), Endianness.Big);
-            obj.WriteMiscSettings(writer);
-            while (writer.BaseStream.Length < 32)
-                writer.Write((byte)0);
-            var newMiscSettings = ((MemoryStream)writer.BaseStream).ToArray();
-
-            var og = "";
-            foreach (var i in miscSettingsForTest)
-                og += i.ToString("X2") + " ";
-            var ne = "";
-            foreach (var i in newMiscSettings)
-                ne += i.ToString("X2") + " ";
-
-            if (!Enumerable.SequenceEqual(miscSettingsForTest, newMiscSettings))
-                System.Windows.Forms.MessageBox.Show("Failed to build misc. settings for: " + obj.ToString() + "\nog:\n" + og + "\nne:\n" + ne);
         }
 
         public static void SaveHeroesLayout(IEnumerable<SetObjectHeroes> list, string outputFile, bool autoValues)
@@ -147,8 +135,9 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public static List<SetObjectShadow> GetShadowLayout(string fileName)
+        public static List<SetObjectShadow> GetShadowLayout(string fileName, out string result)
         {
+            result = "";
             using var reader = new BinaryReader(new FileStream(fileName, FileMode.Open));
 
             var magic = new string(reader.ReadChars(4));
@@ -187,6 +176,11 @@ namespace HeroesPowerPlant.LayoutEditor
             for (int i = 0; i < count; i++)
             {
                 list[i].ReadMiscSettings(reader, miscCountList[i]);
+#if DEBUG
+                reader.BaseStream.Position -= miscCountList[i];
+                var miscSettingsForTest = reader.ReadBytes(miscCountList[i]);
+                result += CheckMiscSettingsBuilder(miscSettingsForTest, list[i], i+1);
+#endif
                 list[i].CreateTransformMatrix();
             }
 
@@ -331,8 +325,7 @@ namespace HeroesPowerPlant.LayoutEditor
                             var byteasstring = new string(new char[] { newMiscString[j], newMiscString[j + 1] });
                             miscSettings.Add(Convert.ToByte(byteasstring, 16));
                         }
-                        using var reader = new EndianBinaryReader(new MemoryStream(miscSettings.ToArray()), Endianness.Big);
-                        temp.ReadMiscSettings(reader);
+                        temp.SetMiscSettings(miscSettings.ToArray());
                     }
                     else
                     {
@@ -467,11 +460,41 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
+        private static string CheckMiscSettingsBuilder(byte[] miscSettingsForTest, SetObject obj, int index)
+        {
+            byte[] newMiscSettings = null;
+            if (obj is SetObjectHeroes objHeroes)
+            {
+                using var writer = new EndianBinaryWriter(new MemoryStream(), Endianness.Big);
+                objHeroes.WriteMiscSettings(writer);
+                while (writer.BaseStream.Length < 32)
+                    writer.Write((byte)0);
+                newMiscSettings = ((MemoryStream)writer.BaseStream).ToArray();
+            }
+            else if (obj is SetObjectShadow objShadow)
+            {
+                using var writer = new BinaryWriter(new MemoryStream());
+                objShadow.WriteMiscSettings(writer);
+                newMiscSettings = ((MemoryStream)writer.BaseStream).ToArray();
+            }
+
+            var og = "";
+            foreach (var i in miscSettingsForTest)
+                og += i.ToString("X2") + " ";
+            var ne = "";
+            foreach (var i in newMiscSettings)
+                ne += i.ToString("X2") + " ";
+
+            if (!Enumerable.SequenceEqual(miscSettingsForTest, newMiscSettings))
+                return $"{obj} [{index}]\norig: {og}\nnews: {ne}\n";
+            return "";
+        }
+
         public static SetObjectHeroes CreateHeroesObject
             (byte List, byte Type, Vector3 Position, Vector3 Rotation, byte Link, byte Rend, byte[] UnkBytes = null, bool createMatrix = true)
         {
             var objEntry = LayoutEditorSystem.heroesObjectEntry(List, Type);
-            SetObjectHeroes heroesObj = objEntry.HasMiscSettings ? FindObjectClassHeroes(List, Type) : new Object_HeroesEmpty();
+            SetObjectHeroes heroesObj = objEntry.HasMiscSettings ? FindObjectClassHeroes(List, Type) : new SetObjectHeroes();
             heroesObj.Position = Position;
             heroesObj.Rotation = Rotation;
             heroesObj.List = List;
@@ -493,7 +516,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 0 => Type switch
                 {
                     0 => new Object0000_Nothing(),
-                    0x1B or 0x28 or 0x67 => new Object_HeroesEmpty(),
+                    0x1B or 0x28 or 0x67 => new SetObjectHeroes(),
                     0x1 => new Object0001_Spring(),
                     0x2 => new Object0002_TripleSpring(),
                     0x3 => new Object0003_Ring(),
@@ -541,7 +564,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 {
                     0x2 => new Object0102_TruckRail(),
                     0x3 => new Object0103_TruckPath(),
-                    0x4 => new Object_HeroesEmpty(),
+                    0x4 => new SetObjectHeroes(),
                     0x5 => new Object0105_MovingRuin(),
                     0x8 => new Object0108_TriggerRuins(),
                     0xA => new Object_B1_1_Type(),
@@ -581,7 +604,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 {
                     0 => new Object0300_AcceleratorRoad(),
                     0x2 => new Object0302_RoadCap(),
-                    0x3 or 0x4 => new Object_HeroesEmpty(),
+                    0x3 or 0x4 => new SetObjectHeroes(),
                     0x5 => new Object0305_BigBridge(),
                     0x6 => new Object0306_AirCar(),
                     0x7 or 0x81 or 0x82 => new Object_XYZScale(0),
@@ -593,7 +616,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 },
                 4 => Type switch
                 {
-                    0x80 or 0x81 => new Object_HeroesEmpty(),
+                    0x80 or 0x81 => new SetObjectHeroes(),
                     0x1 => new Object0401_EnergyColumn(),
                     0x3 or 0x8 or 0x10 => new Object_B1_1_Type(),
                     0x82 or 0x84 => new Object04_CraneWallLight(),
@@ -614,12 +637,12 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x84 => new Object0584_GiantDice(),
                     0x86 => new Object0586_Roulette(),
                     0x87 => new Object0587_GiantCasinoChip(),
-                    0x88 => new Object_HeroesEmpty(),
+                    0x88 => new SetObjectHeroes(),
                     _ => new Object_HeroesDefault(),
                 },
                 7 => Type switch
                 {
-                    0x00 or 0x01 or 0x0A or 0x1B or 0x42 or 0x82 or 0x83 or 0x85 or 0x86 or 0x88 or 0x89 or 0x8A or 0x8B or 0x8C or 0x8D or 0x8E or 0x8F or 0x90 or 0x91 or 0x92 or 0x93 or 0x98 => new Object_HeroesEmpty(),
+                    0x00 or 0x01 or 0x0A or 0x1B or 0x42 or 0x82 or 0x83 or 0x85 or 0x86 or 0x88 or 0x89 or 0x8A or 0x8B or 0x8C or 0x8D or 0x8E or 0x8F or 0x90 or 0x91 or 0x92 or 0x93 or 0x98 => new SetObjectHeroes(),
                     0x03 or 0x80 => new Object_F1Speed(),
                     0x04 => new Object0704_RailRoadblock(),
                     0x05 => new Object0705_Capsule(),
@@ -642,10 +665,11 @@ namespace HeroesPowerPlant.LayoutEditor
                 9 => Type switch
                 {
                     0x0 => new Object0900_Frog(),
-                    0x2 or 0x5 or 0x7 => new Object_F1Range(),
+                    0x2 => new Object0902_RainLeaf(),
+                    0x5 or 0x7 => new Object_F1Range(),
                     0x3 => new Object0903_RainMush(),
                     0x4 => new Object0904_RainIvy(),
-                    0x6 or 0x10 or 0x11 or 0x12 or 0x98 => new Object_HeroesEmpty(),
+                    0x6 or 0x10 or 0x11 or 0x12 or 0x98 => new SetObjectHeroes(),
                     0x8 => new Object0908_RainFruit(),
                     0x9 => new Object000B_DashPanel(),
                     0xB => new Object090B_IvyJump(),
@@ -673,8 +697,8 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x5 => new Object1105_Ghost(),
                     0x7 or 0x82 or 0x89 => new Object_L1Type(),
                     0x8 => new Object1108_MansionDoor(),
-                    0x9 => new Object_HeroesEmpty(),
-                    0xA => new Object_HeroesEmpty(),
+                    0x9 => new SetObjectHeroes(),
+                    0xA => new SetObjectHeroes(),
                     0xB => new Object_F1Range(),
                     0xC => new Object110C_TriggerMusic(),
                     0x80 => new Object_IntTypeFloatScale(),
@@ -693,7 +717,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x5 => new Object1305_EggFleetDoor(),
                     0x8 or 0x80 => new Object_F1Speed(),
                     0x20 => new Object_B1_1_Type(),
-                    0x07 or 0x81 or 0x82 or 0x83 or 0x85 or 0x86 or 0x87 or 0x88 or 0x89 or 0x8A or 0x8B or 0x8C or 0x8D or 0x8E or 0x8F or 0x90 or 0x91 or 0x92 or 0x93 or 0x94 => new Object_HeroesEmpty(),
+                    0x07 or 0x81 or 0x82 or 0x83 or 0x85 or 0x86 or 0x87 or 0x88 or 0x89 or 0x8A or 0x8B or 0x8C or 0x8D or 0x8E or 0x8F or 0x90 or 0x91 or 0x92 or 0x93 or 0x94 => new SetObjectHeroes(),
                     _ => new Object_HeroesDefault(),
                 },
                 0x14 => Type switch
@@ -731,6 +755,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 0x33 => Type switch
                 {
                     0x0 => new Object_S1_1_Type(),
+                    0x80 => new Object_F1Speed(),
                     _ => new Object_HeroesDefault(),
                 },
                 _ => new Object_HeroesDefault(),
@@ -975,11 +1000,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public static List<SetObjectHeroes> GetHeroesLayoutFromShadow(string fileName)
         {
-            List<SetObjectHeroes> list = new List<SetObjectHeroes>();
+            var list = new List<SetObjectHeroes>();
 
             try
             {
-                foreach (SetObjectShadow i in GetShadowLayout(fileName))
+                foreach (SetObjectShadow i in GetShadowLayout(fileName, out _))
                 {
                     SetObjectHeroes TempObject = SetObjectShadowToHeroes(i);
 

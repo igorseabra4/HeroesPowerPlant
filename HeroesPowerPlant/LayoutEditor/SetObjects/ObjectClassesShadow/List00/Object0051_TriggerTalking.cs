@@ -6,6 +6,7 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0051_TriggerTalking : SetObjectShadow
     {
+        public override bool IsTrigger() => true;
         //AKA SetHintCollision
 
         public TriggerShape Shape

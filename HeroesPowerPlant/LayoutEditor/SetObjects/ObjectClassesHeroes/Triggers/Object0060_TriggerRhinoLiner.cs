@@ -6,6 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0060_TriggerRhinoLiner : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum EType : byte
         {
             Start = 0,

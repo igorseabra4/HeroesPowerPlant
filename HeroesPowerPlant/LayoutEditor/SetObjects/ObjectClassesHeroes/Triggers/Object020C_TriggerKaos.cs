@@ -5,6 +5,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020C_TriggerKaos : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         private BoundingSphere sphereBound;
 
         public override void CreateTransformMatrix()

@@ -1,68 +1,57 @@
 ﻿using SharpDX;
+using System;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0019_Weight : SetObjectShadow
     {
-        public WeightMoveType MoveType
+        public enum EMoveType
         {
-            get => (WeightMoveType)ReadInt(0);
-            set => Write(0, (int)value);
+            UpDown,
+            WaitForPlayer,
+            NeverMove
         }
 
-        public float Height
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float WaitTimeTop
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float WaitTimeBottom
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float WaitTimeIfShot
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        //UNKNOWN 5 ALWAYS 0
-        public int u5_int
-        { //1 = never rise again
-            get => ReadInt(20);
-            set => Write(20, value);
-        }
-
+        public EMoveType MoveType { get; set; }
+        public float Height { get; set; }
+        public float WaitTimeTop { get; set; }
+        public float WaitTimeBottom { get; set; }
+        public float WaitTimeIfShot { get; set; }
+        public int u5_int { get; set; } // 1 = never rise again
         public float u5_float
         {
-            get => ReadFloat(20);
-            set => Write(20, value);
+            get => BitConverter.ToSingle(BitConverter.GetBytes(u5_int), 0);
+            set => u5_int = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
+        }
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
+        public float ScaleZ { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            MoveType = (EMoveType)reader.ReadInt32();
+            Height = reader.ReadSingle();
+            WaitTimeTop = reader.ReadSingle();
+            WaitTimeBottom = reader.ReadSingle();
+            WaitTimeIfShot = reader.ReadSingle();
+            u5_int = reader.ReadInt32();
+            ScaleX = reader.ReadSingle();
+            ScaleY = reader.ReadSingle();
+            ScaleZ = reader.ReadSingle();
         }
 
-        public float ScaleX
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-
-        public float ScaleY
-        {
-            get => ReadFloat(28);
-            set => Write(28, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(32);
-            set => Write(32, value);
+            writer.Write((int)MoveType);
+            writer.Write(Height);
+            writer.Write(WaitTimeTop);
+            writer.Write(WaitTimeBottom);
+            writer.Write(WaitTimeIfShot);
+            writer.Write(u5_int);
+            writer.Write(ScaleX);
+            writer.Write(ScaleY);
+            writer.Write(ScaleZ);
         }
 
         public override void CreateTransformMatrix()
@@ -71,13 +60,6 @@ namespace HeroesPowerPlant.LayoutEditor
             transformMatrix *= DefaultTransformMatrix();
             CreateBoundingBox();
         }
-    }
-
-    public enum WeightMoveType
-    {
-        UpDown,
-        WaitForPlayer,
-        NeverMove
     }
 }
 

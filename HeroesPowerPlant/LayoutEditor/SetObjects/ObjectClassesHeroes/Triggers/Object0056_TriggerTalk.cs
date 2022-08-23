@@ -7,6 +7,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0056_TriggerTalk : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum ETriggerType : short
         {
             Event = 0,

@@ -29,6 +29,7 @@ namespace HeroesPowerPlant.LayoutEditor
             writer.Write((byte)CurtainType);
             writer.Write(Pole);
             writer.Write((byte)(IsUpsideDown ? 1 : 0));
+            writer.Write((byte)0);
             writer.Write(Scale);
         }
     }

@@ -1,13 +1,11 @@
 ﻿using HeroesPowerPlant.Shared.Utilities;
 using Newtonsoft.Json;
 using SharpDX;
-using System;
 using System.IO;
-using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public abstract class SetObjectHeroes : SetObject
+    public class SetObjectHeroes : SetObject
     {
         [JsonConstructor]
         public SetObjectHeroes()
@@ -15,9 +13,15 @@ namespace HeroesPowerPlant.LayoutEditor
             UnkBytes = new byte[8];
         }
 
-        public abstract void ReadMiscSettings(EndianBinaryReader reader);
+        public virtual void ReadMiscSettings(EndianBinaryReader reader) { }
 
-        public abstract void WriteMiscSettings(EndianBinaryWriter writer);
+        public override void SetMiscSettings(byte[] miscSettings)
+        {
+            using var reader = new EndianBinaryReader(new MemoryStream(miscSettings), Endianness.Big);
+            ReadMiscSettings(reader);
+        }
+
+        public virtual void WriteMiscSettings(EndianBinaryWriter writer) { }
 
         public override byte[] GetMiscSettings()
         {

@@ -8,6 +8,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object01FF_SetParticle : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public override void CreateTransformMatrix()
         {
             Vector3 box = Program.MainForm.ParticleEditor.GetBoxForSetParticle(Number - 50);

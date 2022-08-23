@@ -5,6 +5,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0080_TriggerTeleport : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         private BoundingSphere sphereBound;
         private Matrix destinationMatrix;
 

@@ -7,6 +7,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0059_TriggerLight : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum ENumber : byte
         {
             Player0 = 0,

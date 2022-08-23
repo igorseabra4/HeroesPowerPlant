@@ -7,6 +7,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object110C_TriggerMusic : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum EShape : int
         {
             Sphere = 0,

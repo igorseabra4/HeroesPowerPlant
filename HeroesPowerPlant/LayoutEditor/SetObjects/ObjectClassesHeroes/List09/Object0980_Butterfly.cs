@@ -6,6 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0980_Butterfly : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(AreaX, AreaY, AreaZ) * DefaultTransformMatrix();

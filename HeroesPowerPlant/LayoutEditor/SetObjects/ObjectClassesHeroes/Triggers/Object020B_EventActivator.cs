@@ -6,6 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020B_EventActivator : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum EEventType : byte
         {
             NotInUse = 0,
@@ -65,7 +67,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             writer.Write(ScaleX);
             writer.Write(ScaleY);
-            writer.Write(ScaleX);
+            writer.Write(ScaleZ);
             writer.Write((byte)EventType);
             writer.Write((byte)(OnlyLeader ? 1 : 0));
         }

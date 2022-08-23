@@ -6,6 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0108_TriggerRuins : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum ERuinType : byte
         {
             SeasideHill = 0,

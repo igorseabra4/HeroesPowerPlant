@@ -514,10 +514,10 @@ namespace HeroesPowerPlant.MainForm
                 }
         }
 
-        public void UnselectEveryoneExceptMe(LayoutEditor.LayoutEditor editor)
+        public void UnselectEveryoneExceptMe(int hashCode)
         {
             foreach (var l in LayoutEditors)
-                if (l != editor)
+                if (!l.GetHashCode().Equals(hashCode))
                     l.SetSelectedIndex(-1, false);
         }
 
@@ -1282,6 +1282,12 @@ namespace HeroesPowerPlant.MainForm
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        internal void UpdateLayoutEditorMenus()
+        {
+            foreach (var le in LayoutEditorDict.Values)
+                le.UpdateMenus();
         }
     }
 }

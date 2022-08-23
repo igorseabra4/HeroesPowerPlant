@@ -4,6 +4,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0066_TriggerBobJump : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public float Width { get; set; }
         public float Height { get; set; }
         public float RunDistance { get; set; }

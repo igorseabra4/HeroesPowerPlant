@@ -6,6 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0062_LightColli : SetObjectShadow
     {
+        public override bool IsTrigger() => true;
+
         //LightColli [LightColliMasterTask parent]
         //Enums:
         // SWITCH_ON, SWITCH_OFF

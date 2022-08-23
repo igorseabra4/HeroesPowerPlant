@@ -7,6 +7,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0064_TriggerHurt : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum EShape : int
         {
             Sphere = 0,

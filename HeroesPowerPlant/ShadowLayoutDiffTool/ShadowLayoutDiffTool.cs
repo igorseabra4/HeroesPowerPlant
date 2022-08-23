@@ -64,8 +64,8 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
 
             if (File.Exists(layout1) && File.Exists(layout2))
             {
-                layoutSystem1.OpenLayoutFile(layout1);
-                layoutSystem2.OpenLayoutFile(layout2);
+                layoutSystem1.OpenLayoutFile(layout1, out _);
+                layoutSystem2.OpenLayoutFile(layout2, out _);
 
                 if (layoutSystem1.Equals(layoutSystem2))
                 {

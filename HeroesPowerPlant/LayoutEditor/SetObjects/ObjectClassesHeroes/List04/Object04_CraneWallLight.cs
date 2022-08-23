@@ -4,11 +4,11 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object04_CraneWallLight : SetObjectHeroes
     {
-        public short RotSpeed { get; set; }
+        public int RotSpeed { get; set; }
 
         public override void ReadMiscSettings(EndianBinaryReader reader)
         {
-            RotSpeed = reader.ReadInt16();
+            RotSpeed = reader.ReadInt32();
         }
 
         public override void WriteMiscSettings(EndianBinaryWriter writer)

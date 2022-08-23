@@ -1,9 +1,11 @@
 ﻿using HeroesPowerPlant.LevelEditor;
+using HeroesPowerPlant.Shared.Utilities;
 using Newtonsoft.Json;
 using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -31,6 +33,10 @@ namespace HeroesPowerPlant.LayoutEditor
         [JsonIgnore]
         protected string[][] ModelNames => objectEntry.ModelNames;
         public bool HasMiscSettings;
+
+        public virtual bool IsTrigger() => false;
+
+        public abstract void SetMiscSettings(byte[] miscSettings);
 
         public abstract byte[] GetMiscSettings();
 

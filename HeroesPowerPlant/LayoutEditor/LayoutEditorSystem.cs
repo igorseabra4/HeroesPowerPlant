@@ -101,22 +101,25 @@ namespace HeroesPowerPlant.LayoutEditor
 
         #region Import/Export Methods
 
-        public void OpenLayoutFile(string fileName)
+        public void OpenLayoutFile(string fileName, out string result)
         {
+            result = "";
             currentlyOpenFileName = fileName;
             setObjects.Clear();
 
             if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".bin")
             {
                 isShadow = false;
-                GetHeroesLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
+                var l = GetHeroesLayout(CurrentlyOpenFileName, out result);
+                l.ForEach(setObjects.Add);
+
             }
             else if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".dat")
             {
                 isShadow = true;
                 try
                 {
-                    GetShadowLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
+                    GetShadowLayout(CurrentlyOpenFileName, out result).ForEach(setObjects.Add);
                 } catch (InvalidDataException) {
                     // handle gracefully
                 }
@@ -155,7 +158,7 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 try
                 {
-                    GetShadowLayout(fileName).ForEach(setObjects.Add);
+                    GetShadowLayout(fileName, out _).ForEach(setObjects.Add);
                 } catch (InvalidDataException)
                 {
                     // cancel gracefully
@@ -165,7 +168,7 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (Path.GetExtension(fileName).ToLower() == ".bin")
                 {
-                    GetHeroesLayout(fileName).ForEach(setObjects.Add);
+                    GetHeroesLayout(fileName, out _).ForEach(setObjects.Add);
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".dat")
                 {
@@ -206,13 +209,8 @@ namespace HeroesPowerPlant.LayoutEditor
             foreach (SetObject s in setObjects)
                 if (renderer.frustum.Intersects(ref s.boundingBox))
                 {
-                    if (!renderTriggers)
-                    {
-                        Type type = s.GetType();
-                        if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
-                            continue;
-                    }
-
+                    if (!renderTriggers && s.IsTrigger())
+                        continue;
                     s.Draw(renderer, drawEveryObject);
                 }
         }
@@ -226,10 +224,6 @@ namespace HeroesPowerPlant.LayoutEditor
         #endregion
 
         #region Object Editing Methods
-
-        public void SelectedIndexChanged(int[] index)
-        {
-        }
 
         public void SelectedIndexChanged(ListBox.SelectedIndexCollection selectedIndices)
         {
@@ -288,9 +282,12 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public string SerializeSetObject(ListBox.SelectedIndexCollection selectedIndices)
         {
-            List<SetObject> setObjs = new List<SetObject>();
+            var setObjs = new List<(SetObject, byte[])>();
             foreach (int i in selectedIndices)
-                setObjs.Add(GetSetObjectAt(i));
+            {
+                var obj = GetSetObjectAt(i);
+                setObjs.Add((obj, obj.GetMiscSettings()));
+            }
             return JsonConvert.SerializeObject(setObjs);
         }
 
@@ -299,17 +296,17 @@ namespace HeroesPowerPlant.LayoutEditor
             text ??= Clipboard.GetText();
             int result = 0;
             var pasted = new List<SetObject>();
-            try
+            //try
             {
                 if (isShadow)
                 {
-                    var list = JsonConvert.DeserializeObject<List<SetObjectShadow>>(text);
+                    var list = JsonConvert.DeserializeObject<List<(SetObjectShadow, byte[])>>(text);
                     foreach (var src in list)
                     {
-                        var dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
-                        var misc = src.GetMiscSettings();
-                        using var reader = new EndianBinaryReader(new MemoryStream(misc), Endianness.Big);
-                        dest.ReadMiscSettings(reader, misc.Length);
+                        var setObj = src.Item1;
+                        var miscSettings = src.Item2;
+                        var dest = CreateShadowObject(setObj.List, setObj.Type, setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
+                        dest.SetMiscSettings(miscSettings);
                         dest.CreateTransformMatrix();
                         pasted.Add(dest);
                         result++;
@@ -317,12 +314,13 @@ namespace HeroesPowerPlant.LayoutEditor
                 }
                 else
                 {
-                    var list = JsonConvert.DeserializeObject<List<SetObjectHeroes>>(text);
+                    var list = JsonConvert.DeserializeObject<List<(SetObjectHeroes, byte[])>>(text);
                     foreach (var src in list)
                     {
-                        var dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
-                        using var reader = new EndianBinaryReader(new MemoryStream(src.GetMiscSettings()), Endianness.Big);
-                        dest.ReadMiscSettings(reader);
+                        var setObj = src.Item1;
+                        var miscSettings = src.Item2;
+                        var dest = CreateHeroesObject(setObj.List, setObj.Type, setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
+                        dest.SetMiscSettings(miscSettings);
                         dest.CreateTransformMatrix();
                         pasted.Add(dest);
                         result++;
@@ -331,11 +329,11 @@ namespace HeroesPowerPlant.LayoutEditor
                 foreach (var obj in pasted)
                     setObjects.Add(obj);
             }
-            catch
-            {
-                MessageBox.Show($"Error pasting objects from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
-                result = 0;
-            }
+            //catch
+            //{
+            //    MessageBox.Show($"Error pasting objects from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
+            //    result = 0;
+            //}
             return result;
         }
 
@@ -360,15 +358,9 @@ namespace HeroesPowerPlant.LayoutEditor
             byte[] unkb = current.UnkBytes;
             bool isSelected = current.isSelected;
 
-            if (isShadow)
-            {
-                var newObject = CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb, false);
-                int dmsc = shadowObjectEntries[(newEntry.List, newEntry.Type)].MiscSettingCount;
-                newObject.MiscSettings = new byte[dmsc == -1 ? 0 : dmsc];
-                setObjects[index] = newObject;
-            }
-            else
-                setObjects[index] = CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
+            setObjects[index] = isShadow ?
+                CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb) :
+                CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
 
             setObjects[index].isSelected = isSelected;
         }
@@ -520,12 +512,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(camPos)))
                     continue;
 
-                if (!renderTriggers)
-                {
-                    Type type = setObjects[i].GetType();
-                    if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
-                        continue;
-                }
+                if (!renderTriggers && setObjects[i].IsTrigger())
+                    continue;
 
                 if (setObjects[i].IntersectsWith(r, out float distance))
                     if (distance < smallerDistance)
@@ -578,6 +566,13 @@ namespace HeroesPowerPlant.LayoutEditor
         public void SortObjectsByDistance()
         {
             List<SetObject> sorted = setObjects.OrderBy(f => f.GetDistanceFrom()).ToList();
+            setObjects.Clear();
+            sorted.ForEach(setObjects.Add);
+        }
+
+        public void SortObjectsAlphabetical()
+        {
+            List<SetObject> sorted = setObjects.OrderBy(f => f.GetName).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
         }

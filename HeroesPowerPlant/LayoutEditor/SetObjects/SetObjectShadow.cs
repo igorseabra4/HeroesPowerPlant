@@ -6,13 +6,19 @@ using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public abstract class SetObjectShadow : SetObject
+    public class SetObjectShadow : SetObject
     {
         public byte[] MiscSettings;
 
         public virtual void ReadMiscSettings(BinaryReader reader, int count)
         {
             MiscSettings = reader.ReadBytes(count);
+        }
+
+        public override void SetMiscSettings(byte[] miscSettings)
+        {
+            using var reader = new BinaryReader(new MemoryStream(miscSettings));
+            ReadMiscSettings(reader, miscSettings.Length);
         }
 
         public virtual void WriteMiscSettings(BinaryWriter writer)
@@ -22,7 +28,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override byte[] GetMiscSettings()
         {
-            using var writer = new EndianBinaryWriter(new MemoryStream(), Endianness.Big);
+            using var writer = new BinaryWriter(new MemoryStream());
             WriteMiscSettings(writer);
             return ((MemoryStream)writer.BaseStream).ToArray();
         }

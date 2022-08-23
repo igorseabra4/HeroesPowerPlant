@@ -6,6 +6,7 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0050_Trigger : SetObjectShadow
     {
+        public override bool IsTrigger() => true;
 
         //SetCollision
 

@@ -3,6 +3,7 @@ using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -181,6 +182,8 @@ namespace HeroesPowerPlant.LayoutEditor
         public short NumberOfRings { get; set; }
         public float TotalLength { get; set; }
         public float Radius { get; set; }
+        [Description("Usually 0")]
+        public float Unknown { get; set; }
 
         public override void ReadMiscSettings(EndianBinaryReader reader)
         {
@@ -188,6 +191,8 @@ namespace HeroesPowerPlant.LayoutEditor
             NumberOfRings = reader.ReadInt16();
             TotalLength = reader.ReadSingle();
             Radius = reader.ReadSingle();
+            reader.BaseStream.Position += 8;
+            Unknown = reader.ReadSingle();
         }
 
         public override void WriteMiscSettings(EndianBinaryWriter writer)
@@ -196,6 +201,8 @@ namespace HeroesPowerPlant.LayoutEditor
             writer.Write(NumberOfRings);
             writer.Write(TotalLength);
             writer.Write(Radius);
+            writer.Pad(8);
+            writer.Write(Unknown);
         }
     }
 }

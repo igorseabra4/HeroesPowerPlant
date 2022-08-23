@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -33,7 +34,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
 #if !DEBUG
             importSALayoutFileToolStripMenuItem.Visible = false;
+            openFolderToolStripMenuItem.Visible = false;
 #endif
+
             NumericPosX.Maximum = decimal.MaxValue;
             NumericPosX.Minimum = decimal.MinValue;
             NumericPosY.Maximum = decimal.MaxValue;
@@ -52,6 +55,8 @@ namespace HeroesPowerPlant.LayoutEditor
             gizmos[0] = new Gizmo(GizmoType.X);
             gizmos[1] = new Gizmo(GizmoType.Y);
             gizmos[2] = new Gizmo(GizmoType.Z);
+
+            SetObjectFormatToolStripItems();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -96,10 +101,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 Filter = "All supported types|*.bin; *.dat|BIN Files|*.bin|DAT Files|*.dat"
             };
 
-            listBoxObjects.BeginUpdate();
             if (openFile.ShowDialog() == DialogResult.OK)
                 OpenFile(openFile.FileName, Program.MainForm);
-            listBoxObjects.EndUpdate();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -131,6 +134,13 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             listBoxObjects.BeginUpdate();
             layoutSystem.SortObjectsByDistance();
+            listBoxObjects.EndUpdate();
+        }
+
+        private void alphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listBoxObjects.BeginUpdate();
+            layoutSystem.SortObjectsAlphabetical();
             listBoxObjects.EndUpdate();
         }
 
@@ -206,7 +216,7 @@ namespace HeroesPowerPlant.LayoutEditor
             ProgramIsChangingStuff = true;
 
             layoutSystem.SelectedIndexChanged(listBoxObjects.SelectedIndices);
-            Program.MainForm.UnselectEveryoneExceptMe(this);
+            Program.MainForm.UnselectEveryoneExceptMe(GetHashCode());
 
             if (listBoxObjects.SelectedIndices.Count == 1)
             {
@@ -608,9 +618,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void OpenFile(string fileName, MainForm.MainForm mainForm)
         {
-            layoutSystem.SelectedIndexChanged(new int[] { -1 });
             ProgramIsChangingStuff = true;
-            layoutSystem.OpenLayoutFile(fileName);
+            listBoxObjects.BeginUpdate();
+            layoutSystem.OpenLayoutFile(fileName, out _);
+            listBoxObjects.EndUpdate();
             UpdateHiddenUI(layoutSystem.IsShadow);
             UpdateObjectComboBox();
             UpdateFileLabel(mainForm);
@@ -685,6 +696,13 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateList();
         }
 
+        private void SetObjectFormatToolStripItems()
+        {
+            objectToolStripMenuItem.Checked = !ObjectEntry.AlternateFormat;
+            object0000ToolStripMenuItem.Checked = ObjectEntry.AlternateFormat;
+            useDebugNamesToolStripMenuItem.Checked = ObjectEntry.UseDebugNames;
+        }
+
         private void UpdateList()
         {
             typeof(ListBox).InvokeMember("RefreshItems",
@@ -692,19 +710,6 @@ namespace HeroesPowerPlant.LayoutEditor
               null, listBoxObjects, new object[] { });
 
             UpdateObjectAmountLabel();
-        }
-
-        public static void BindField(Control control, string propertyName, object dataSource, string dataMember)
-        {
-            Binding bd;
-
-            for (int index = control.DataBindings.Count - 1; (index == 0); index--)
-            {
-                bd = control.DataBindings[index];
-                if (bd.PropertyName == propertyName)
-                    control.DataBindings.Remove(bd);
-            }
-            control.DataBindings.Add(propertyName, dataSource, dataMember);
         }
 
         private void UpdateDisplayData()
@@ -810,14 +815,12 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void UpdateObjectAmountLabel()
         {
-            if (listBoxObjects.Items.Count == 0)
-                objectAmountLabel.Text = "0 objects";
+            if (listBoxObjects.SelectedIndices.Count == 0)
+                objectAmountLabel.Text = layoutSystem.GetSetObjectAmount().ToString() + " objects";
+            else if (listBoxObjects.SelectedIndices.Count == 1)
+                objectAmountLabel.Text = $"Selected object {listBoxObjects.SelectedIndex + 1} of {layoutSystem.GetSetObjectAmount()}";
             else
-            {
-                objectAmountLabel.Text = listBoxObjects.SelectedIndex == -1 ?
-                    layoutSystem.GetSetObjectAmount().ToString() + " objects" :
-                    $"{listBoxObjects.SelectedIndex + 1}/{layoutSystem.GetSetObjectAmount()} objects";
-            }
+                objectAmountLabel.Text = $"Selected {listBoxObjects.SelectedIndices.Count} of {layoutSystem.GetSetObjectAmount()} objects";
         }
 
         private void UpdateFileLabel(MainForm.MainForm mainForm)
@@ -1195,6 +1198,71 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 LoadShadowSFXBinStrings();
             }
+        }
+
+        private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var openFolder = new VistaFolderBrowserDialog();
+            if (openFolder.ShowDialog() == DialogResult.OK)
+            {
+                listBoxObjects.DataSource = new System.ComponentModel.BindingList<SetObject>();
+                string result = "";
+                foreach (var f in Directory.GetFiles(openFolder.SelectedPath))
+                    if (Path.GetExtension(f).ToLower().Equals(".bin"))
+                    {
+                        try
+                        {
+                            layoutSystem.OpenLayoutFile(f, out string fileResult);
+                            if (!string.IsNullOrEmpty(fileResult))
+                            {
+                                result += Path.GetFileNameWithoutExtension(f) + ":\n" + fileResult + "\n";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error opening file {Path.GetFileNameWithoutExtension(f)}: {ex.Message}");
+                        }
+                    }
+                if (!string.IsNullOrEmpty(result))
+                {
+                    MessageBox.Show(result);
+                    File.WriteAllText("layout_result_dump.txt", result);
+                }
+                else MessageBox.Show("All objects misc settings written successfully.");
+                layoutSystem.BindControl(listBoxObjects);
+            }
+        }
+
+        private void objectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ObjectEntry.AlternateFormat)
+            {
+                ObjectEntry.AlternateFormat = false;
+                Program.MainForm.UpdateLayoutEditorMenus();
+            }
+        }
+
+        private void object0000ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!ObjectEntry.AlternateFormat)
+            {
+                ObjectEntry.AlternateFormat = true;
+                Program.MainForm.UpdateLayoutEditorMenus();
+            }
+        }
+
+        private void useDebugNamesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ObjectEntry.UseDebugNames = !ObjectEntry.UseDebugNames;
+            Program.MainForm.UpdateLayoutEditorMenus();
+        }
+
+        public void UpdateMenus()
+        {
+            SetObjectFormatToolStripItems();
+            if (ComboBoxObject.Items.Count > 0)
+                UpdateObjectComboBox();
+            UpdateList();
         }
     }
 }

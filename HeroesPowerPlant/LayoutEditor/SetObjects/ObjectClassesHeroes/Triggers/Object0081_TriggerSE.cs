@@ -6,6 +6,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0081_TriggerSE : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public enum SE_CALL : byte
         {
             SE_CALL = 0,
