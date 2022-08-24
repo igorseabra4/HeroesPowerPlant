@@ -103,7 +103,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         #region Import/Export Methods
 
-        public void OpenLayoutFile(string fileName, out string result)
+        public void OpenLayoutFile(string fileName, out string result, ref Dictionary<(byte, byte, string), HashSet<byte[]>> miscSettingsDict)
         {
             result = "";
             currentlyOpenFileName = fileName;
@@ -112,7 +112,7 @@ namespace HeroesPowerPlant.LayoutEditor
             if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".bin")
             {
                 isShadow = false;
-                var l = GetHeroesLayout(CurrentlyOpenFileName, out result);
+                var l = GetHeroesLayout(CurrentlyOpenFileName, out result, ref miscSettingsDict);
                 l.ForEach(setObjects.Add);
 
             }
@@ -122,11 +122,14 @@ namespace HeroesPowerPlant.LayoutEditor
                 try
                 {
                     GetShadowLayout(CurrentlyOpenFileName, out result).ForEach(setObjects.Add);
-                } catch (InvalidDataException) {
+                }
+                catch (InvalidDataException)
+                {
                     // handle gracefully
                 }
             }
-            else throw new InvalidDataException("Unknown file type");
+            else
+                throw new InvalidDataException("Unknown file type");
             UnsavedChanges = false;
         }
 
@@ -164,7 +167,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 try
                 {
                     GetShadowLayout(fileName, out _).ForEach(setObjects.Add);
-                } catch (InvalidDataException)
+                }
+                catch (InvalidDataException)
                 {
                     // cancel gracefully
                 }
@@ -173,13 +177,15 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (Path.GetExtension(fileName).ToLower() == ".bin")
                 {
-                    GetHeroesLayout(fileName, out _).ForEach(setObjects.Add);
+                    var f = new Dictionary<(byte, byte, string), HashSet<byte[]>>();
+                    GetHeroesLayout(fileName, out _, ref f).ForEach(setObjects.Add);
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".dat")
                 {
                     GetHeroesLayoutFromShadow(fileName).ForEach(setObjects.Add);
                 }
-                else throw new InvalidDataException("Unknown file type");
+                else
+                    throw new InvalidDataException("Unknown file type");
             }
             UnsavedChanges = true;
         }
@@ -251,10 +257,14 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (!string.IsNullOrEmpty(currentlyOpenFileName))
                 {
-                    if (currentlyOpenFileName.ToLower().Contains("cmn")) currentNum = 0x10;
-                    else if (currentlyOpenFileName.ToLower().Contains("nrm")) currentNum = 0x20;
-                    else if (currentlyOpenFileName.ToLower().Contains("hrd")) currentNum = 0x40;
-                    else if (currentlyOpenFileName.ToLower().Contains("ds1")) currentNum = 0x80;
+                    if (currentlyOpenFileName.ToLower().Contains("cmn"))
+                        currentNum = 0x10;
+                    else if (currentlyOpenFileName.ToLower().Contains("nrm"))
+                        currentNum = 0x20;
+                    else if (currentlyOpenFileName.ToLower().Contains("hrd"))
+                        currentNum = 0x40;
+                    else if (currentlyOpenFileName.ToLower().Contains("ds1"))
+                        currentNum = 0x80;
                 }
 
                 var unkBytes = new List<byte>() { 1, currentNum };
@@ -268,11 +278,16 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (!string.IsNullOrEmpty(currentlyOpenFileName))
                 {
-                    if (currentlyOpenFileName.Contains("P1")) currentNum = 0x20;
-                    else if (currentlyOpenFileName.Contains("P2")) currentNum = 0x40;
-                    else if (currentlyOpenFileName.Contains("P3")) currentNum = 0x60;
-                    else if (currentlyOpenFileName.Contains("P4")) currentNum = 0x80;
-                    else if (currentlyOpenFileName.Contains("P5")) currentNum = 0xA0;
+                    if (currentlyOpenFileName.Contains("P1"))
+                        currentNum = 0x20;
+                    else if (currentlyOpenFileName.Contains("P2"))
+                        currentNum = 0x40;
+                    else if (currentlyOpenFileName.Contains("P3"))
+                        currentNum = 0x60;
+                    else if (currentlyOpenFileName.Contains("P4"))
+                        currentNum = 0x80;
+                    else if (currentlyOpenFileName.Contains("P5"))
+                        currentNum = 0xA0;
                 }
 
                 var unkBytes = new byte[8] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
@@ -456,7 +471,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     objHeroes.ReadMiscSettings(reader);
                 else if (obj is SetObjectShadow objShadow)
                     objShadow.ReadMiscSettings(reader, misc.Length);
-                
+
                 obj.CreateTransformMatrix();
                 UnsavedChanges = true;
             }
@@ -740,6 +755,28 @@ namespace HeroesPowerPlant.LayoutEditor
             // now leaves us with the before and after Diff results
 
             return (this, system, log);
+        }
+
+        public static Dictionary<(byte, byte), string> ObjectsForModels = new Dictionary<(byte, byte), string>
+        {
+            { (0x15, 0x00), "en_searcher.one" },
+            { (0x15, 0x10), "en_pawn.one" },
+            { (0x15, 0x20), "en_capture.one" },
+            { (0x15, 0x30), "en_flyer.one" },
+            { (0x15, 0x40), "en_wall.one" },
+            { (0x15, 0x70), "en_turtle.one" },
+            { (0x15, 0x90), "en_rinoliner.one" },
+            { (0x15, 0xC0), "en_magician.one" },
+            { (0x15, 0xD0), "en_e2000.one" },
+        };
+
+        public List<string> GetObjectsForModels()
+        {
+            var result = new HashSet<string>();
+            foreach (var s in setObjects)
+                if (ObjectsForModels.ContainsKey((s.List, s.Type)))
+                    result.Add(ObjectsForModels[(s.List, s.Type)]);
+            return result.ToList();
         }
     }
 }

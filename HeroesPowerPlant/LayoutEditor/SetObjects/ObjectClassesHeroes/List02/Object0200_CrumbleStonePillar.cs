@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
 
     public class Object0200_CrumbleStonePillar : SetObjectHeroes
@@ -12,16 +10,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Center = 2
         }
 
+        [MiscSetting]
         public EPillarType PillarType { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            PillarType = (EPillarType)reader.ReadByte();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)PillarType);
-        }
     }
 }

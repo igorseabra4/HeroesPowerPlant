@@ -2,10 +2,10 @@
 using SharpDX;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -14,7 +14,7 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         private const int HeroesObjectCount = 2048;
 
-        public static List<SetObjectHeroes> GetHeroesLayout(string fileName, out string result)
+        public static List<SetObjectHeroes> GetHeroesLayout(string fileName, out string result, ref Dictionary<(byte, byte, string), HashSet<byte[]>> miscSettingsDict)
         {
             result = "";
             int count = 0;
@@ -60,6 +60,13 @@ namespace HeroesPowerPlant.LayoutEditor
                         reader.BaseStream.Position = 0x18000 + (0x24 * miscSettingsPos) + 4;
                         var miscSettingsForTest = reader.ReadBytes(32);
                         result += CheckMiscSettingsBuilder(miscSettingsForTest, obj, count);
+
+                        if (LayoutEditorSystem.ObjectsForModels.ContainsKey((List, Type)))
+                        {
+                            if (!miscSettingsDict.ContainsKey((List, Type, Path.GetFileNameWithoutExtension(fileName))))
+                                miscSettingsDict.Add((List, Type, Path.GetFileNameWithoutExtension(fileName)), new HashSet<byte[]>());
+                            miscSettingsDict[(List, Type, Path.GetFileNameWithoutExtension(fileName))].Add(miscSettingsForTest);
+                        }
 #endif
                     }
 
@@ -75,12 +82,18 @@ namespace HeroesPowerPlant.LayoutEditor
             using var writer = new EndianBinaryWriter(new FileStream(outputFile, FileMode.Create), Endianness.Big);
             byte currentNum;
 
-            if (outputFile.Contains("P1")) currentNum = 0x20;
-            else if (outputFile.Contains("P2")) currentNum = 0x40;
-            else if (outputFile.Contains("P3")) currentNum = 0x60;
-            else if (outputFile.Contains("P4")) currentNum = 0x80;
-            else if (outputFile.Contains("P5")) currentNum = 0xA0;
-            else currentNum = 0;
+            if (outputFile.Contains("P1"))
+                currentNum = 0x20;
+            else if (outputFile.Contains("P2"))
+                currentNum = 0x40;
+            else if (outputFile.Contains("P3"))
+                currentNum = 0x60;
+            else if (outputFile.Contains("P4"))
+                currentNum = 0x80;
+            else if (outputFile.Contains("P5"))
+                currentNum = 0xA0;
+            else
+                currentNum = 0;
 
             int i = 0;
             short j = 1;
@@ -123,7 +136,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     writer.Write((byte)1);
                     writer.Write((byte)0);
                     writer.Write(sBytes);
-                    
+
                     obj.WriteMiscSettings(writer);
 
                     j++;
@@ -149,7 +162,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             int count = reader.ReadInt32();
             var list = new List<SetObjectShadow>(count);
-            var miscCountList = new List<int>(count);
+            var miscCountList = new int[count];
             var totalMiscLength = reader.ReadUInt32();
 
             for (int i = 0; i < count; i++)
@@ -167,7 +180,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 byte List = reader.ReadByte();
                 byte Link = reader.ReadByte();
                 byte Rend = reader.ReadByte();
-                miscCountList.Add(reader.ReadInt32());
+                miscCountList[i] = reader.ReadInt32();
 
                 list.Add(CreateShadowObject(List, Type, pos, rot, Link, Rend, UnkBytes, false));
             }
@@ -175,13 +188,20 @@ namespace HeroesPowerPlant.LayoutEditor
             reader.BaseStream.Position = 12 + count * 0x2C;
             for (int i = 0; i < count; i++)
             {
+                if (miscCountList[i] == 0)
+                    continue;
+
+                var pos = reader.BaseStream.Position;
                 list[i].ReadMiscSettings(reader, miscCountList[i]);
 #if DEBUG
-                reader.BaseStream.Position -= miscCountList[i];
+                if (reader.BaseStream.Position != pos + miscCountList[i])
+                    MessageBox.Show($"Error reading misc settings for object {i + 1} ({list[i]}) Expected {miscCountList[i]} read {reader.BaseStream.Position - pos}");
+                reader.BaseStream.Position = pos;
                 var miscSettingsForTest = reader.ReadBytes(miscCountList[i]);
-                result += CheckMiscSettingsBuilder(miscSettingsForTest, list[i], i+1);
+                result += CheckMiscSettingsBuilder(miscSettingsForTest, list[i], i + 1);
 #endif
                 list[i].CreateTransformMatrix();
+                reader.BaseStream.Position = pos + miscCountList[i];
             }
 
             return list;
@@ -372,7 +392,8 @@ namespace HeroesPowerPlant.LayoutEditor
                     var m = new List<char>();
                     for (int j = 0; j < miscSettings.Length; j++)
                     {
-                        if (j % 4 == 0) m.Add(' ');
+                        if (j % 4 == 0)
+                            m.Add(' ');
                         m.AddRange(string.Format("{0, 2:X2}", miscSettings[j]).ToCharArray());
                     }
                     iniWriter.WriteLine("misc" + new string(m.ToArray()));
@@ -585,7 +606,6 @@ namespace HeroesPowerPlant.LayoutEditor
                 2 => Type switch
                 {
                     0x0 => new Object0200_CrumbleStonePillar(),
-                    //case 0x1: return new Object_();
                     0x2 => new Object_F1Scale(),
                     0x3 => new Object_B1_1_Type(),
                     0x4 => new Object0204_Kaos(),
@@ -722,6 +742,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 },
                 0x14 => Type switch
                 {
+                    0x0 => new Object1400_FallingPlatform(),
+                    0x2 => new Object1402_Laser(),
+                    0x3 => new Object1403_TriggerLaser(),
                     _ => new Object_HeroesDefault(),
                 },
                 0x15 => Type switch
@@ -838,7 +861,8 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x91 => new Object0091_BkLarva(),
                     0x92 => new Object0092_BkChaos(),
                     0x93 => new Object0093_BkNinja(),
-                    _ => new Object_ShadowDefault(),// warp hole
+                    0x00 or 0x0D or 0x1C or 0x1D or 0x1E or 0x1F or 0x21 or 0x22 or 0x38 or 0xB5 or 0xB6 or 0xB7 or 0xB8 or 0xB9 or 0xBA or 0xBB or 0xBC or 0xBD or 0xBE => new SetObjectShadow(),
+                    _ => new Object_ShadowDefault(),
                 },
                 0x01 => Type switch
                 {
@@ -849,6 +873,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 0x03 => Type switch
                 {
                     0xE9 => new Object03E9_FallingBuilding(),
+                    0xE8 => new SetObjectShadow(),
                     0xEA => new Object03EA_CityLaser(),
                     _ => new Object_ShadowDefault(),
                 },
@@ -862,6 +887,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     0xD7 => new Object07D7_DigitalBreakableTile(),
                     0xD8 => new Object07D8_LaserWallBarrier(),
                     0xDA => new Object07DA_MatrixTerminalElecFan(),
+                    0xDB or 0xDC or 0xDD or 0xE0 or 0xE3 or 0xE4 or 0xE7 or 0xEA => new SetObjectShadow(),
                     0xDE => new Object0001_SpringShadow(),
                     0xDF => new Object07DF_LightspeedFirewall(),
                     0xE1 => new Object07E1_TriggerDigitalBreakableTile(),
@@ -878,6 +904,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x37 => new Object0837_CollapsingPillar(),
                     0x38 => new Object0838_RuinsStoneGuardian(),
                     0x39 => new Object106C_SkyRuinsJewel(),//RuinsJewel / PowerDeviceCage
+                    0x4A or 0x9B => new SetObjectShadow(),
                     0x99 => new Object0899_BlackTankCommandCollision(),
                     0x9A => new Object089A_BreakingRoad(),
                     0x9C => new Object089C_FallingRoad(),
@@ -888,6 +915,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     0xBB => new Object0BBB_SmallLantern(),
                     0xBC => new Object0BBC_PopupDummyGhost(),
                     0xBE => new Object0BBE_Chao(),
+                    0xBD or 0xC9 => new SetObjectShadow(),
                     0xC7 => new Object0BC7_CastleMonster(),
                     0xC8 => new Object0BC8_CastleMonsterControl(),
                     _ => new Object_ShadowDefault(),
@@ -898,6 +926,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x81 => new Object0C81_CircusGong(),
                     0x82 => new Object0C82_GameBalloonsGhosts(),
                     0x83 => new Object0C83_CircusGameTarget(),
+                    0x85 => new SetObjectShadow(),
                     0x87 => new Object005A_Pole(),//CircusPole
                     0x88 => new Object0C88_Zipline(),
                     0x89 => new Object1133_ProximityDoor(),//TentCurtain
@@ -905,6 +934,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 },
                 0x0F => Type switch
                 {
+                    0xA0 => new SetObjectShadow(),
                     0xA1 => new Object0FA1_BAMiniBomb(),
                     0xA2 => new Object0FA2_Helicopter(),
                     0xA4 => new Object0FA4_BuildingChunk(),
@@ -934,6 +964,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 },
                 0x13 => Type switch
                 {
+                    0x88 or 0x89 or 0x8D => new SetObjectShadow(),
                     0x8A => new Object138B_MeteorsHolder(),//Meteor
                     0x8B => new Object138B_MeteorsHolder(),
                     0x8E => new Object138E_ArkCannon(),
@@ -949,6 +980,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 0x14 => Type switch
                 {
                     0x51 => new Object1451_EggBalloonCommandCollision(),
+                    0x53 or 0xB7 => new SetObjectShadow(),
                     0xB4 => new Object14B5_GravityChangeZone(),//GravityChangeSwitch
                     0xB5 => new Object14B5_GravityChangeZone(),
                     0xB6 => new Object14B6_GravityChangeCollision(),
@@ -959,6 +991,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 0x17 => Type switch
                 {
                     0x70 => new Object1770_GUNCamera(),
+                    0x71 => new SetObjectShadow(),
                     0x72 => new Object1772_ConcreteDoor(),
                     0x73 => new Object1773_CrushingWalls(),
                     0xD4 => new Object11D4_BAGunShip(),
@@ -967,6 +1000,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 },
                 0x18 => Type switch
                 {
+                    0x38 => new SetObjectShadow(),
                     0x39 => new Object1839_RisingLava(),
                     0x9E => new Object189E_ARKDriftingPlat1(),
                     0x9F => new Object189F_ArkRollPlatform(),
@@ -974,8 +1008,14 @@ namespace HeroesPowerPlant.LayoutEditor
                 },
                 0x19 => Type switch
                 {
+                    0x00 or 0x02 => new SetObjectShadow(),
                     0x01 => new Object1901_CometBarrier(),
                     0x03 => new Object1903_BlackDoomHologram(),
+                    _ => new Object_ShadowDefault(),
+                },
+                0x1B => Type switch
+                {
+                    0x58 => new SetObjectShadow(),
                     _ => new Object_ShadowDefault(),
                 },
                 0x25 => Type switch
@@ -990,6 +1030,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x93 => new Object2593_SetGenerator(),
                     0x94 => new Object2594_Fan(),
                     0x95 => new Object2595_MissionClearCollision(),
+                    0x96 => new SetObjectShadow(),
                     0x97 => new Object2597_SetSeLoop(),
                     0x98 => new Object2598_SetSeOneShot(),
                     _ => new Object_ShadowDefault(),
@@ -1014,7 +1055,8 @@ namespace HeroesPowerPlant.LayoutEditor
                         list.Add(TempObject);
                     }
                 }
-            } catch (InvalidDataException)
+            }
+            catch (InvalidDataException)
             {
                 // cancel gracefully
             }
@@ -1033,19 +1075,32 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 case 0:
                     List = 0;
-                    if (i.Type == 0x00) Type = 0x03; // Ring
-                    else if (i.Type == 0x01) Type = 0x01; // Spring
-                    else if (i.Type == 0x02) Type = 0x02; // 3Spring
-                    else if (i.Type == 0x03) Type = 0x0B; // Dash panel
-                    else if (i.Type == 0x04) Type = 0x0F; // Dash ramp
-                    else if (i.Type == 0x05) Type = 0x0E; // Checkpoint
-                    else if (i.Type == 0x06) Type = 0x0C; // Dash Ring
-                    else if (i.Type == 0x07) Type = 0x31; // Case
-                    else if (i.Type == 0x08) Type = 0x1D; // Pulley
-                    else if (i.Type == 0x09) Type = 0x20; // Gun Wood box
-                    else if (i.Type == 0x0A) Type = 0x21; // Metal box
-                    else if (i.Type == 0x0B) Type = 0x22; // Unbreakable box
-                    else if (i.Type == 0x0C) Type = 0x20; // Normal Wood box
+                    if (i.Type == 0x00)
+                        Type = 0x03; // Ring
+                    else if (i.Type == 0x01)
+                        Type = 0x01; // Spring
+                    else if (i.Type == 0x02)
+                        Type = 0x02; // 3Spring
+                    else if (i.Type == 0x03)
+                        Type = 0x0B; // Dash panel
+                    else if (i.Type == 0x04)
+                        Type = 0x0F; // Dash ramp
+                    else if (i.Type == 0x05)
+                        Type = 0x0E; // Checkpoint
+                    else if (i.Type == 0x06)
+                        Type = 0x0C; // Dash Ring
+                    else if (i.Type == 0x07)
+                        Type = 0x31; // Case
+                    else if (i.Type == 0x08)
+                        Type = 0x1D; // Pulley
+                    else if (i.Type == 0x09)
+                        Type = 0x20; // Gun Wood box
+                    else if (i.Type == 0x0A)
+                        Type = 0x21; // Metal box
+                    else if (i.Type == 0x0B)
+                        Type = 0x22; // Unbreakable box
+                    else if (i.Type == 0x0C)
+                        Type = 0x20; // Normal Wood box
                     else if (i.Type == 0x0F) // Moving platform
                     {
                         // List = 0x13;
@@ -1057,33 +1112,40 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         Type = 0x03;
 
-                        MiscSettings[5] = i.MiscSettings[0];
-                        MiscSettings[4] = i.MiscSettings[1];
+                        //MiscSettings[5] = i.MiscSettings[0];
+                        //MiscSettings[4] = i.MiscSettings[1];
 
-                        MiscSettings[7] = i.MiscSettings[4];
-                        MiscSettings[6] = i.MiscSettings[5];
+                        //MiscSettings[7] = i.MiscSettings[4];
+                        //MiscSettings[6] = i.MiscSettings[5];
 
-                        MiscSettings[11] = i.MiscSettings[8];
-                        MiscSettings[10] = i.MiscSettings[9];
-                        MiscSettings[9] = i.MiscSettings[10];
-                        MiscSettings[8] = i.MiscSettings[11];
+                        //MiscSettings[11] = i.MiscSettings[8];
+                        //MiscSettings[10] = i.MiscSettings[9];
+                        //MiscSettings[9] = i.MiscSettings[10];
+                        //MiscSettings[8] = i.MiscSettings[11];
 
-                        MiscSettings[15] = i.MiscSettings[12];
-                        MiscSettings[14] = i.MiscSettings[13];
-                        MiscSettings[13] = i.MiscSettings[14];
-                        MiscSettings[12] = i.MiscSettings[15];
+                        //MiscSettings[15] = i.MiscSettings[12];
+                        //MiscSettings[14] = i.MiscSettings[13];
+                        //MiscSettings[13] = i.MiscSettings[14];
+                        //MiscSettings[12] = i.MiscSettings[15];
 
-                        if (i.MiscSettings[0] == 1)
-                            i.Rotation = new Vector3(i.Rotation.X, i.Rotation.Y + 180, i.Rotation.Z);
+                        //if (i.MiscSettings[0] == 1)
+                        //    i.Rotation = new Vector3(i.Rotation.X, i.Rotation.Y + 180, i.Rotation.Z);
                     }
-                    else if (i.Type == 0x11) Type = 0x04; // Hint
-                    else if (i.Type == 0x12) Type = 0x18; // Item balloon
-                    else if (i.Type == 0x13) Type = 0x19; // Item balloon
-                    else if (i.Type == 0x14) Type = 0x1B; // Goal ring
-                    else if (i.Type == 0x15) Type = 0x05; // Switch
-                                                          // else if (i.Type == 0x1D) Type = 0x67; // Key
-                    else if (i.Type == 0x1F) Type = 0x80; // Teleport
-                    else if (i.Type == 0x3A) Type = 0x24; // shadow box
+                    else if (i.Type == 0x11)
+                        Type = 0x04; // Hint
+                    else if (i.Type == 0x12)
+                        Type = 0x18; // Item balloon
+                    else if (i.Type == 0x13)
+                        Type = 0x19; // Item balloon
+                    else if (i.Type == 0x14)
+                        Type = 0x1B; // Goal ring
+                    else if (i.Type == 0x15)
+                        Type = 0x05; // Switch
+                                     // else if (i.Type == 0x1D) Type = 0x67; // Key
+                    else if (i.Type == 0x1F)
+                        Type = 0x80; // Teleport
+                    else if (i.Type == 0x3A)
+                        Type = 0x24; // shadow box
                     else if (i.Type == 0x65) // Beetle
                     {
                         List = 0x15;
@@ -1116,52 +1178,52 @@ namespace HeroesPowerPlant.LayoutEditor
                     }
                     else if (i.Type == 0xD5) // Digital big block
                     {
-                        float scale = BitConverter.ToSingle(i.MiscSettings, 4);
-                        if (BitConverter.ToSingle(i.MiscSettings, 8) < scale)
-                            scale = BitConverter.ToSingle(i.MiscSettings, 8);
-                        if (BitConverter.ToSingle(i.MiscSettings, 12) < scale)
-                            scale = BitConverter.ToSingle(i.MiscSettings, 12);
+                        //float scale = BitConverter.ToSingle(i.MiscSettings, 4);
+                        //if (BitConverter.ToSingle(i.MiscSettings, 8) < scale)
+                        //    scale = BitConverter.ToSingle(i.MiscSettings, 8);
+                        //if (BitConverter.ToSingle(i.MiscSettings, 12) < scale)
+                        //    scale = BitConverter.ToSingle(i.MiscSettings, 12);
 
-                        if (i.MiscSettings[0] < 9)
-                        {
-                            List = 0x01;
-                            Type = 0x80; // Flower
+                        //if (i.MiscSettings[0] < 9)
+                        //{
+                        //    List = 0x01;
+                        //    Type = 0x80; // Flower
 
-                            MiscSettings[4] = i.MiscSettings[0];
+                        //    MiscSettings[4] = i.MiscSettings[0];
 
-                            MiscSettings[8] = BitConverter.GetBytes(scale)[3];
-                            MiscSettings[9] = BitConverter.GetBytes(scale)[2];
-                            MiscSettings[10] = BitConverter.GetBytes(scale)[1];
-                            MiscSettings[11] = BitConverter.GetBytes(scale)[0];
-                        }
-                        else
-                        {
-                            List = 0x01;
-                            Type = 0x88; // stone
+                        //    MiscSettings[8] = BitConverter.GetBytes(scale)[3];
+                        //    MiscSettings[9] = BitConverter.GetBytes(scale)[2];
+                        //    MiscSettings[10] = BitConverter.GetBytes(scale)[1];
+                        //    MiscSettings[11] = BitConverter.GetBytes(scale)[0];
+                        //}
+                        //else
+                        //{
+                        //    List = 0x01;
+                        //    Type = 0x88; // stone
 
-                            MiscSettings[4] = BitConverter.GetBytes(scale)[3];
-                            MiscSettings[5] = BitConverter.GetBytes(scale)[2];
-                            MiscSettings[6] = BitConverter.GetBytes(scale)[1];
-                            MiscSettings[7] = BitConverter.GetBytes(scale)[0];
-                        }
+                        //    MiscSettings[4] = BitConverter.GetBytes(scale)[3];
+                        //    MiscSettings[5] = BitConverter.GetBytes(scale)[2];
+                        //    MiscSettings[6] = BitConverter.GetBytes(scale)[1];
+                        //    MiscSettings[7] = BitConverter.GetBytes(scale)[0];
+                        //}
                     }
                     else if (i.Type == 0xD7) // Digital panel
                     {
                         List = 0x05;
                         Type = 0x05; // Casino panel
 
-                        if (i.MiscSettings[0] == 1)
-                        {
-                            if (i.MiscSettings[0] == 1)
-                                i.Rotation = new Vector3(i.Rotation.X - 90, i.Rotation.Y, i.Rotation.Z);
-                        }
-                        else
-                        {
-                            MiscSettings[4] = BitConverter.GetBytes(5f)[3];
-                            MiscSettings[5] = BitConverter.GetBytes(5f)[2];
-                            MiscSettings[6] = BitConverter.GetBytes(5f)[1];
-                            MiscSettings[7] = BitConverter.GetBytes(5f)[0];
-                        }
+                        //if (i.MiscSettings[0] == 1)
+                        //{
+                        //    if (i.MiscSettings[0] == 1)
+                        //        i.Rotation = new Vector3(i.Rotation.X - 90, i.Rotation.Y, i.Rotation.Z);
+                        //}
+                        //else
+                        //{
+                        //    MiscSettings[4] = BitConverter.GetBytes(5f)[3];
+                        //    MiscSettings[5] = BitConverter.GetBytes(5f)[2];
+                        //    MiscSettings[6] = BitConverter.GetBytes(5f)[1];
+                        //    MiscSettings[7] = BitConverter.GetBytes(5f)[0];
+                        //}
                     }
                     else if (i.Type == 0xDB) // Digital core
                     {
@@ -1267,8 +1329,10 @@ namespace HeroesPowerPlant.LayoutEditor
                     break;
             }
 
-            if (MatchNotFound) return null;
-            else return CreateHeroesObject(List, Type, i.Position,
+            if (MatchNotFound)
+                return null;
+            else
+                return CreateHeroesObject(List, Type, i.Position,
                 new Vector3(DegreesToBAMS(i.Rotation.X), DegreesToBAMS(i.Rotation.Y), DegreesToBAMS(i.Rotation.Z)), 0, (byte)(2 * i.Rend));
         }
     }

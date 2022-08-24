@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -20,26 +19,14 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public float StartingLength { get; set; }
+        [MiscSetting]
         public float EndingLength { get; set; }
+        [MiscSetting]
         public float LetGoAngle { get; set; }
+        [MiscSetting]
         public float LetGoLaunchForce { get; set; }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            StartingLength = reader.ReadSingle();
-            EndingLength = reader.ReadSingle();
-            LetGoAngle = reader.ReadSingle();
-            LetGoLaunchForce = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write(StartingLength);
-            writer.Write(EndingLength);
-            writer.Write(LetGoAngle);
-            writer.Write(LetGoLaunchForce);
-        }
     }
 }
 

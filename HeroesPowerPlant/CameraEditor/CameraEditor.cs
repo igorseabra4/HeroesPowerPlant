@@ -113,8 +113,10 @@ namespace HeroesPowerPlant.CameraEditor
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -196,7 +198,8 @@ namespace HeroesPowerPlant.CameraEditor
 
             if (!hasRemoved & CurrentlySelectedCamera != -1)
                 (ListBoxCameras.Items[CurrentlySelectedCamera] as CameraHeroes).isSelected = false;
-            else if (hasRemoved) hasRemoved = false;
+            else if (hasRemoved)
+                hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
 
@@ -357,14 +360,16 @@ namespace HeroesPowerPlant.CameraEditor
         {
             if (TryAttach())
                 Clipboard.SetText(JsonConvert.SerializeObject(GetPlayer0Position()));
-            else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonGetCamera_Click(object sender, EventArgs e)
         {
             if (TryAttach())
                 Clipboard.SetText(JsonConvert.SerializeObject(GetCameraPosition()));
-            else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonComeHere_Click(object sender, EventArgs e)
@@ -407,7 +412,8 @@ namespace HeroesPowerPlant.CameraEditor
             float smallerDistance = 10000f;
             for (int i = 0; i < ListBoxCameras.Items.Count; i++)
             {
-                if (((CameraHeroes)ListBoxCameras.Items[i]).isSelected) continue;
+                if (((CameraHeroes)ListBoxCameras.Items[i]).isSelected)
+                    continue;
 
                 float? distance = ((CameraHeroes)ListBoxCameras.Items[i]).IntersectsWith(r);
                 if (distance != null)

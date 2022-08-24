@@ -1,11 +1,8 @@
-﻿using System.IO;
-using static HeroesPowerPlant.LayoutEditor.Object1839_RisingLava;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1839_RisingLava : SetObjectShadow
     {
-        public enum EModel
+        public enum EModel : int
         {
             Model_1,
             Model_2,
@@ -19,22 +16,11 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         //SetMagma
+        [MiscSetting]
         public EModel Model { get; set; }
+        [MiscSetting]
         public float RiseAmountMax { get; set; }
+        [MiscSetting]
         public float RiseAmountPerSecond { get; set; }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            Model = (EModel)reader.ReadInt32();
-            RiseAmountMax = reader.ReadSingle();
-            RiseAmountPerSecond = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write((int)Model);
-            writer.Write(RiseAmountMax);
-            writer.Write(RiseAmountPerSecond);
-        }
     }
 }

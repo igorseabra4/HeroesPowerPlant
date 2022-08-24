@@ -1,19 +1,8 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object_L1Type : SetObjectHeroes
     {
+        [MiscSetting]
         public int ObjectType { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            ObjectType = reader.ReadInt32();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(ObjectType);
-        }
     }
 }

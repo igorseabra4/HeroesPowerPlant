@@ -20,8 +20,10 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -232,7 +234,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
             if (!hasRemoved & CurrentlySelectedCamera != -1)
                 (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
-            else if (hasRemoved) hasRemoved = false;
+            else if (hasRemoved)
+                hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
 
@@ -376,7 +379,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             float smallerDistance = 10000f;
             for (int i = 0; i < ListBoxCameras.Items.Count; i++)
             {
-                if (((ShadowCamera)ListBoxCameras.Items[i]).isSelected) continue;
+                if (((ShadowCamera)ListBoxCameras.Items[i]).isSelected)
+                    continue;
 
                 float? distance = ((ShadowCamera)ListBoxCameras.Items[i]).IntersectsWith(r);
                 if (distance != null)

@@ -367,7 +367,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
             if (hasIntersected)
                 return smallestDistance;
-            else return null;
+            else
+                return null;
         }
     }
 }

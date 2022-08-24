@@ -1,5 +1,4 @@
 ﻿using HeroesPowerPlant.LevelEditor;
-using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,17 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0003_Ring : SetObjectHeroes
     {
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Short)]
+        public ERingType RingType { get; set; }
+        [MiscSetting]
+        public short NumberOfRings { get; set; }
+        [MiscSetting]
+        public float TotalLength { get; set; }
+        [MiscSetting(padAfter: 8)]
+        public float Radius { get; set; }
+        [MiscSetting, Description("Usually 0")]
+        public float Unknown { get; set; }
+
         private List<Matrix> positionsList;
         private List<Vector3> transformedPoints;
         private List<Triangle> transformedTriangles;
@@ -26,20 +36,23 @@ namespace HeroesPowerPlant.LayoutEditor
                     break;
 
                 case ERingType.Line: // line of rings
-                    if (NumberOfRings < 2) return;
+                    if (NumberOfRings < 2)
+                        return;
                     for (int i = 0; i < NumberOfRings; i++)
                         positionsList.Add(Matrix.Translation(0, 0, TotalLength * i / (NumberOfRings - 1)));
                     break;
 
                 case ERingType.Circle: // circle
-                    if (NumberOfRings < 1) return;
+                    if (NumberOfRings < 1)
+                        return;
                     for (int i = 0; i < NumberOfRings; i++)
                         //positionsList.Add(Matrix.Translation((Vector3)Vector3.Transform(new Vector3(0, 0, -Radius), Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings))));
                         positionsList.Add(Matrix.Translation(0, 0, -Radius) * Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings));
                     break;
 
                 case ERingType.Arch: // arch
-                    if (NumberOfRings < 2) return;
+                    if (NumberOfRings < 2)
+                        return;
                     float angle = TotalLength / Radius;
                     for (int i = 0; i < NumberOfRings; i++)
                     {
@@ -176,33 +189,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.Cube.Draw(renderer.Device);
                 }
             }
-        }
-
-        public ERingType RingType { get; set; }
-        public short NumberOfRings { get; set; }
-        public float TotalLength { get; set; }
-        public float Radius { get; set; }
-        [Description("Usually 0")]
-        public float Unknown { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            RingType = (ERingType)reader.ReadInt16();
-            NumberOfRings = reader.ReadInt16();
-            TotalLength = reader.ReadSingle();
-            Radius = reader.ReadSingle();
-            reader.BaseStream.Position += 8;
-            Unknown = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((short)RingType);
-            writer.Write(NumberOfRings);
-            writer.Write(TotalLength);
-            writer.Write(Radius);
-            writer.Pad(8);
-            writer.Write(Unknown);
         }
     }
 }

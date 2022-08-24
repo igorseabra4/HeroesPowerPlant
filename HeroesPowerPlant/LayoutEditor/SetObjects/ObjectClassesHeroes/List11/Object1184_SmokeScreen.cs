@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -13,22 +12,11 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public int ObjectType { get; set; }
+        [MiscSetting]
         public float Speed { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool IsUpsideDown { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            ObjectType = reader.ReadInt32();
-            Speed = reader.ReadSingle();
-            IsUpsideDown = reader.ReadByteBool();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(ObjectType);
-            writer.Write(Speed);
-            writer.Write((byte)(IsUpsideDown ? 1 :0));
-        }
     }
 }

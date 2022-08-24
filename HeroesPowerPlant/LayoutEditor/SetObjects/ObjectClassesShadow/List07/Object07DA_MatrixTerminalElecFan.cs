@@ -2,21 +2,11 @@
 {
     public class Object07DA_MatrixTerminalElecFan : SetObjectShadow
     {
-        //ElecFan(height, radius, power)
-        public float Height
-        {
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
-        public float Radius
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-        public float Power
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public float Height { get; set; }
+        [MiscSetting]
+        public float Radius { get; set; }
+        [MiscSetting]
+        public float Power { get; set; }
     }
 }

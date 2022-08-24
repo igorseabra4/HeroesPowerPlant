@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0005_Switch : SetObjectHeroes
     {
@@ -18,25 +16,13 @@ namespace HeroesPowerPlant.LayoutEditor
             Pipori = 1
         }
 
+        [MiscSetting]
         public ESwitchType SwitchType { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool Hidden { get; set; }
+        [MiscSetting]
         public byte LinkIDforHidden { get; set; }
+        [MiscSetting]
         public ESound Sound { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            SwitchType = (ESwitchType)reader.ReadByte();
-            Hidden = reader.ReadByteBool();
-            LinkIDforHidden = reader.ReadByte();
-            Sound = (ESound)reader.ReadByte();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)SwitchType);
-            writer.Write((byte)(Hidden ? 1 : 0));
-            writer.Write(LinkIDforHidden);
-            writer.Write((byte)Sound);
-        }
     }
 }

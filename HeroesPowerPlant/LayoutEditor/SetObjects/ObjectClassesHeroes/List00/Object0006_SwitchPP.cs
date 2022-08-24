@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0006_SwitchPP : SetObjectHeroes
     {
@@ -10,16 +8,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Pull = 1
         }
 
+        [MiscSetting]
         public EMode SwitchMode { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            SwitchMode = (EMode)reader.ReadByte();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)SwitchMode);
-        }
     }
 }

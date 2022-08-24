@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1108_MansionDoor : SetObjectHeroes
     {
@@ -11,16 +9,7 @@ namespace HeroesPowerPlant.LayoutEditor
             Angle83dot5 = 2
         }
 
+        [MiscSetting]
         public EOpenAngle OpenAngle { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            OpenAngle = (EOpenAngle)reader.ReadInt32();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((int)OpenAngle);
-        }
     }
 }

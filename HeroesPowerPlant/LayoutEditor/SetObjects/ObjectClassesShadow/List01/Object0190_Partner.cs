@@ -1,10 +1,8 @@
-﻿using System.IO;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0190_Partner : SetObjectShadow
     {
-        public enum EPartner
+        public enum EPartner : int
         {
             None = 0x00,
             Sonic = 0x01,
@@ -21,19 +19,9 @@ namespace HeroesPowerPlant.LayoutEditor
             DoomsEye = 0x0C
         }
 
+        [MiscSetting]
         public EPartner Partner { get; set; }
+        [MiscSetting]
         public float DetectRange { get; set; }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            Partner = (EPartner)reader.ReadInt32();
-            DetectRange = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write((int)Partner);
-            writer.Write(DetectRange);
-        }
     }
 }

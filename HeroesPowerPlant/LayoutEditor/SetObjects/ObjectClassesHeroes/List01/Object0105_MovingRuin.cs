@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0105_MovingRuin : SetObjectHeroes
     {
@@ -11,24 +9,11 @@ namespace HeroesPowerPlant.LayoutEditor
             Special = 2
         }
 
+        [MiscSetting]
         public ERuinType RuinType { get; set; }
+        [MiscSetting]
         public float StartY { get; set; }
+        [MiscSetting]
         public float Speed { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            RuinType = (ERuinType)reader.ReadByte();
-            reader.BaseStream.Position += 3;
-            StartY = reader.ReadSingle();
-            Speed = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)RuinType);
-            writer.Pad(3);
-            writer.Write(StartY);
-            writer.Write(Speed);
-        }
     }
 }

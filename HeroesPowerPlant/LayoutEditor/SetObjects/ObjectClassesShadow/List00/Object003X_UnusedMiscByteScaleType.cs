@@ -11,22 +11,13 @@ namespace HeroesPowerPlant.LayoutEditor
         // Still documenting this as some objects have misc bytes, even if unused
         // In the future a Gecko code might re-enable the object to read these.
 
-        [Description("These fields are unused. A gecko code may make them usable.")]
-        public float ScaleX
-        {
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
-        public float ScaleY
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-        public float ScaleZ
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting, Description("These fields are unused. A gecko code may make them usable.")]
+        public float ScaleX { get; set; }
+        [MiscSetting]
+        public float ScaleY { get; set; }
+        [MiscSetting]
+        public float ScaleZ { get; set; }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ);

@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -27,28 +26,15 @@ namespace HeroesPowerPlant.LayoutEditor
             base.Draw(renderer);
         }
 
+        [MiscSetting]
         public int CelestialType { get; set; }
+        [MiscSetting]
         public float SpeedX { get; set; }
+        [MiscSetting]
         public float SpeedY { get; set; }
+        [MiscSetting]
         public float SpeedZ { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            CelestialType = reader.ReadInt32();
-            SpeedX = reader.ReadSingle();
-            SpeedY = reader.ReadSingle();
-            SpeedZ = reader.ReadSingle();
-            Scale = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(CelestialType);
-            writer.Write(SpeedX);
-            writer.Write(SpeedY);
-            writer.Write(SpeedZ);
-            writer.Write(Scale);
-        }
     }
 }

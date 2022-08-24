@@ -25,7 +25,8 @@ namespace HeroesPowerPlant.SplineEditor
 
         public void Render(SharpRenderer renderer)
         {
-            if (splineMesh == null) return;
+            if (splineMesh == null)
+                return;
 
             renderData.Color = isSelected ? new Vector4(0.3f, 0.9f, 0.5f, 1f) : new Vector4(0.8f, 0.8f, 0f, 1f);
 

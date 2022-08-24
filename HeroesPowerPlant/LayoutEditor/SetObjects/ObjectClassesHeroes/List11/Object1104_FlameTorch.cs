@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -76,37 +75,21 @@ namespace HeroesPowerPlant.LayoutEditor
             renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
         }
 
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Int)]
         public bool IsBlue { get; set; }
+        [MiscSetting]
         public EStartMode StartMode { get; set; }
+        [MiscSetting]
         public float Range { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool IsUpsideDown { get; set; }
+        [MiscSetting]
         public EBaseType BaseType { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool HasSE { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool HasCollision { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            IsBlue = reader.ReadInt32Bool();
-            StartMode = (EStartMode)reader.ReadInt32();
-            Range = reader.ReadSingle();
-            Scale = reader.ReadSingle();
-            IsUpsideDown = reader.ReadByteBool();
-            BaseType = (EBaseType)reader.ReadByte();
-            HasSE = reader.ReadByteBool();
-            HasCollision = reader.ReadByteBool();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(IsBlue ? 1 : 0);
-            writer.Write((int)StartMode);
-            writer.Write(Range);
-            writer.Write(Scale);
-            writer.Write((byte)(IsUpsideDown ? 1 : 0));
-            writer.Write((byte)BaseType);
-            writer.Write((byte)(HasSE ? 1 : 0));
-            writer.Write((byte)(HasCollision ? 1 : 0));
-        }
     }
 }

@@ -4,10 +4,15 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0011_HintBall : SetObjectShadow
     {
+        [MiscSetting]
         public int AudioBranchID { get; set; }
+        [MiscSetting]
         public EAudioBranchType AudioBranchType { get; set; }
+        [MiscSetting]
         public float Float_02 { get; set; }
+        [MiscSetting]
         public float Float_03 { get; set; }
+        [MiscSetting]
         public int Int_04 { get; set; }
 
         public override void ReadMiscSettings(BinaryReader reader, int count)

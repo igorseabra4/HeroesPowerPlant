@@ -69,35 +69,40 @@ namespace HeroesPowerPlant.Shared.Utilities
         {
             if (endianness == Endianness.Little)
                 base.Write(f);
-            else WriteReverse(BitConverter.GetBytes(f));
+            else
+                WriteReverse(BitConverter.GetBytes(f));
         }
 
         public override void Write(int f)
         {
             if (endianness == Endianness.Little)
                 base.Write(f);
-            else WriteReverse(BitConverter.GetBytes(f));
+            else
+                WriteReverse(BitConverter.GetBytes(f));
         }
 
         public override void Write(short f)
         {
             if (endianness == Endianness.Little)
                 base.Write(f);
-            else WriteReverse(BitConverter.GetBytes(f));
+            else
+                WriteReverse(BitConverter.GetBytes(f));
         }
 
         public override void Write(uint f)
         {
             if (endianness == Endianness.Little)
                 base.Write(f);
-            else WriteReverse(BitConverter.GetBytes(f));
+            else
+                WriteReverse(BitConverter.GetBytes(f));
         }
 
         public override void Write(ushort f)
         {
             if (endianness == Endianness.Little)
                 base.Write(f);
-            else WriteReverse(BitConverter.GetBytes(f));
+            else
+                WriteReverse(BitConverter.GetBytes(f));
         }
 
         public void Pad(int count)

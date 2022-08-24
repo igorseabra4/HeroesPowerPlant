@@ -1,13 +1,15 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
+using Newtonsoft.Json;
 using Ookii.Dialogs.WinForms;
 using Shadow.Structures;
 using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -61,8 +63,10 @@ namespace HeroesPowerPlant.LayoutEditor
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -452,7 +456,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
             layoutSystem.RemoveSetObject(index);
 
-            try { listBoxObjects.SelectedIndex = Temp; }
+            try
+            { listBoxObjects.SelectedIndex = Temp; }
             catch { listBoxObjects.SelectedIndex = Temp - 1; }
         }
 
@@ -619,15 +624,17 @@ namespace HeroesPowerPlant.LayoutEditor
             return layoutSystem.CurrentlyOpenFileName;
         }
 
-        public void OpenFile(string fileName, MainForm.MainForm mainForm)
+        public void OpenFile(string fileName, MainForm.MainForm mainForm, bool visibleObjects = true)
         {
             ProgramIsChangingStuff = true;
             listBoxObjects.BeginUpdate();
-            layoutSystem.OpenLayoutFile(fileName, out _);
+            var f = new Dictionary<(byte, byte, string), HashSet<byte[]>>();
+            layoutSystem.OpenLayoutFile(fileName, out _, ref f);
             listBoxObjects.EndUpdate();
             UpdateHiddenUI(layoutSystem.IsShadow);
             UpdateObjectComboBox();
             UpdateFileLabel(mainForm);
+            checkBoxDrawObjs.Checked = visibleObjects;
         }
 
         private void UpdateHiddenUI(bool IsShadow)
@@ -637,7 +644,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 TextBox_PreviewView.Show();
                 GroupBoxSonicHeroesStuff.Hide();
                 buttonPlayLinkedAudio.Show();
-            } else
+            }
+            else
             {
                 TextBox_PreviewView.Hide();
                 GroupBoxSonicHeroesStuff.Show();
@@ -717,6 +725,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void UpdateDisplayData()
         {
+            buttonGetTemplate.Enabled = false;
+
             if (listBoxObjects.SelectedIndices.Count == 1)
             {
                 if (displayDataDisabled)
@@ -748,6 +758,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 numericUnkB8.Value = layoutSystem.GetUnkBytes(listBoxObjects.SelectedIndex)[7];
 
                 PropertyGridMisc.SelectedObject = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex);
+
+                buttonGetTemplate.Enabled = templates.ContainsKey((layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).List, layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Type));
+
                 ProgramIsChangingStuff = false;
             }
 
@@ -1211,12 +1224,13 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 listBoxObjects.DataSource = new System.ComponentModel.BindingList<SetObject>();
                 string result = "";
+                var miscSettingsDict = new Dictionary<(byte, byte, string), HashSet<byte[]>>();
                 foreach (var f in Directory.GetFiles(openFolder.SelectedPath))
-                    if (Path.GetExtension(f).ToLower().Equals(".bin"))
+                    if (Path.GetExtension(f).ToLower().Equals(".bin") || Path.GetExtension(f).ToLower().Equals(".dat"))
                     {
                         try
                         {
-                            layoutSystem.OpenLayoutFile(f, out string fileResult);
+                            layoutSystem.OpenLayoutFile(f, out string fileResult, ref miscSettingsDict);
                             if (!string.IsNullOrEmpty(fileResult))
                             {
                                 result += Path.GetFileNameWithoutExtension(f) + ":\n" + fileResult + "\n";
@@ -1229,10 +1243,25 @@ namespace HeroesPowerPlant.LayoutEditor
                     }
                 if (!string.IsNullOrEmpty(result))
                 {
-                    MessageBox.Show(result);
+                    MessageBox.Show("Errors dumped");
                     File.WriteAllText("layout_result_dump.txt", result);
                 }
-                else MessageBox.Show("All objects misc settings written successfully.");
+                else
+                    MessageBox.Show("All objects misc settings written successfully.");
+                var result2 = new HashSet<string>();
+                foreach (var v in miscSettingsDict)
+                {
+                    foreach (var b in v.Value)
+                    {
+                        var vv = "";
+                        for (int i = 0; i < b.Length; i++)
+                            vv += b[i].ToString("X2");
+                        result2.Add($"{v.Key.Item3}:{v.Key.Item1:X2}:{v.Key.Item2:X2}:{vv}");
+                    }
+                }
+                File.WriteAllLines("templates.txt", result2.OrderBy(f => f).ToArray());
+                MessageBox.Show("Templates dumped");
+
                 layoutSystem.BindControl(listBoxObjects);
             }
         }
@@ -1269,10 +1298,74 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateList();
         }
 
+        public List<string> GetObjectsForModels() => layoutSystem.GetObjectsForModels();
+
         public bool UnsavedChanges
         {
             get => layoutSystem.UnsavedChanges;
             set => layoutSystem.UnsavedChanges = value;
+        }
+
+        public bool RenderObjects => checkBoxDrawObjs.Checked;
+
+        private Dictionary<(byte, byte), List<Template>> templates = new Dictionary<(byte, byte), List<Template>>();
+
+        private void loadTemplatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            templates.Clear();
+            var tLines = File.ReadAllLines("templates.txt");
+            foreach (var line in tLines.OrderBy(l => Convert.ToInt32(l.Split(":")[0].Split('_')[0].Trim('s', 't', 'g'))))
+            {
+                var split = line.Split(":");
+                var list = Convert.ToByte(split[1], 16);
+                var type = Convert.ToByte(split[2], 16);
+
+                var temp = LayoutEditorFunctions.CreateHeroesObject(list, type, new Vector3(), new Vector3(), 0, 0, null, false);
+
+                var miscList = new List<byte>();
+                for (int i = 0; i < split[3].Length; i += 2)
+                {
+                    var b = split[3][i..(i + 2)];
+                    miscList.Add(Convert.ToByte(b, 16));
+                }
+                temp.SetMiscSettings(miscList.ToArray());
+                var items1 = new List<string>();
+                var items2 = new List<string>();
+                foreach (var (property, _) in temp.MiscProperties)
+                {
+                    items1.Add($"{property.Name}: {property.GetValue(temp)}");
+                    items2.Add($"{property.GetValue(temp)}");
+                }
+                var t = new Template()
+                {
+                    Name = string.Join(", ", items2),
+                    Text = string.Join("\n", items1),
+                    MiscSettings = miscList.ToArray()
+                };
+                t.SetLevel(split[0].Split('_')[0]);
+                t.SetTeam(split[0].Split('_')[1]);
+
+                if (!templates.ContainsKey((list, type)))
+                    templates[(list, type)] = new List<Template>();
+                templates[(list, type)].Add(t);
+            }
+
+            foreach (var (key, value) in templates)
+                templates[key] = value.OrderBy(t => t.Stage).ToList();
+
+            buttonGetTemplate.Enabled = templates.ContainsKey((layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).List, layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Type));
+        }
+
+        private void buttonGetTemplate_Click(object sender, EventArgs e)
+        {
+            var setObj = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex);
+            PickTemplate.GetTarget(templates[(setObj.List, setObj.Type)], out bool success, out Template template);
+            if (success && template != null)
+            {
+                var selObject = layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex);
+                selObject.SetMiscSettings(template.MiscSettings);
+                PropertyGridMisc.Refresh();
+            }
         }
     }
 }

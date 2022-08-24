@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object002E_Fan : SetObjectHeroes
     {
@@ -12,39 +10,21 @@ namespace HeroesPowerPlant.LayoutEditor
             Switchable2 = 3
         }
 
+        [MiscSetting]
         public float Scale { get; set; }
+        [MiscSetting]
         public float HeightTriangleDive { get; set; }
+        [MiscSetting]
         public float HeightDefault { get; set; }
+        [MiscSetting]
         public float Power { get; set; }
+        [MiscSetting]
         public EFanMode Mode { get; set; }
+        [MiscSetting]
         public byte LinkID { get; set; }
+        [MiscSetting]
         public float WindScale { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool IsInvisible { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Scale = reader.ReadSingle();
-            HeightTriangleDive = reader.ReadSingle();
-            HeightDefault = reader.ReadSingle();
-            Power = reader.ReadSingle();
-            Mode = (EFanMode)reader.ReadByte();
-            LinkID = reader.ReadByte();
-            reader.BaseStream.Position += 2;
-            WindScale = reader.ReadSingle();
-            IsInvisible = reader.ReadByteBool();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Scale);
-            writer.Write(HeightTriangleDive);
-            writer.Write(HeightDefault);
-            writer.Write(Power);
-            writer.Write((byte)Mode);
-            writer.Write(LinkID);
-            writer.Pad(2);
-            writer.Write(WindScale);
-            writer.Write((byte)(IsInvisible ? 1 : 0));
-        }
     }
 }

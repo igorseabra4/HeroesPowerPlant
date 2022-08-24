@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object15C0_EggBishop : SetObjectHeroes
     {
@@ -10,33 +8,17 @@ namespace HeroesPowerPlant.LayoutEditor
             Magician = 1
         }
 
+        [MiscSetting]
         public EEnemyType EnemyType { get; set; }
+        [MiscSetting]
         public float MoveRange { get; set; }
+        [MiscSetting]
         public float ScopeRange { get; set; }
+        [MiscSetting]
         public float ScopeOffset { get; set; }
+        [MiscSetting]
         public int AttackInterval { get; set; }
+        [MiscSetting]
         public float MoveSpeed { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            EnemyType = (EEnemyType)reader.ReadByte();
-            reader.BaseStream.Position += 3;
-            MoveRange = reader.ReadSingle();
-            ScopeRange = reader.ReadSingle();
-            ScopeOffset = reader.ReadSingle();
-            AttackInterval = reader.ReadInt32();
-            MoveSpeed = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)EnemyType);
-            writer.Pad(3);
-            writer.Write(MoveRange);
-            writer.Write(ScopeRange);
-            writer.Write(ScopeOffset);
-            writer.Write(AttackInterval);
-            writer.Write(MoveSpeed);
-        }
     }
 }

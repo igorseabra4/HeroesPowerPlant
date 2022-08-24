@@ -1,75 +1,73 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0FA2_Helicopter : SetObjectShadow
     {
+        public enum EMoveType : int
+        {
+            Straight,
+            Circle
+        }
+
+        public enum ECircleMoveMode : int
+        {
+            MoveParam0,
+            MoveParam1,
+            MoveParam2
+        }
+
         //Helicopter(Type{Straight,Circle}, MoveLengthX, CircleRadius, MoveLengthY, MoveSpd(point/sec),
         //MoveLengthZ, InitPos (deg), MoveSec, Not Used, PauseSec, MoveType, MoveParam0, MoveParam1, MoveParam2)
-        public HelicopterMoveType MoveType
-        {
-            get => (HelicopterMoveType)ReadInt(0);
-            set => Write(0, (int)value);
-        }
+
+        [MiscSetting(0)]
+        public EMoveType MoveType { get; set; }
+
         public string Note => "These fields are shared but change purpose depending on MoveType.";
+
         public string MTStraight => "Use these if MoveType=Straight";
-        public float MoveLengthX
+
+        [MiscSetting(1)]
+        public float MoveLengthX { get; set; }
+        [MiscSetting(2)]
+        public float MoveLengthY { get; set; }
+        [MiscSetting(3)]
+        public float MoveLengthZ { get; set; }
+        [MiscSetting(4)]
+        public float MoveSec { get; set; }
+
+        public float WaitSec //PauseSec
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            get => BitConverter.ToSingle(BitConverter.GetBytes(Int20), 0);
+            set => Int20 = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
         }
-        public float MoveLengthY
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-        public float MoveLengthZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-        public float MoveSec
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-        public float WaitSec
-        { //PauseSec
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
+
+        [MiscSetting(5)]
+        public int Int20 { get; set; }
+
         public string MTCircle => "Use these if MoveType=Circle";
 
         public float CircleRadius
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            get => MoveLengthX;
+            set => MoveLengthX = value;
         }
         public float MoveSpd
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            get => MoveLengthY;
+            set => MoveLengthY = value;
         }
         public float InitPos
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            get => MoveLengthZ;
+            set => MoveLengthZ = value;
         }
-        //16 is unused for circle type
-        public HelicopterCircleMoveMode CircleMoveMode
-        { //MoveType
-            get => (HelicopterCircleMoveMode)ReadInt(20);
-            set => Write(20, (int)value);
-        }
-    }
-    public enum HelicopterMoveType
-    {
-        Straight,
-        Circle
-    }
+        // 16 is unused for circle type
 
-    public enum HelicopterCircleMoveMode
-    {
-        MoveParam0,
-        MoveParam1,
-        MoveParam2
+        public ECircleMoveMode CircleMoveMode // MoveType
+        {
+            get => (ECircleMoveMode)Int20;
+            set => Int20 = (int)value;
+        }
     }
 }

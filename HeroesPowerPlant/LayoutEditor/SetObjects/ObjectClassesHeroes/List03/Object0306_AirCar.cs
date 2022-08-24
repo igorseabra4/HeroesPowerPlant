@@ -1,43 +1,24 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0306_AirCar : SetObjectHeroes
     {
+        [MiscSetting]
         public byte FarType { get; set; }
+        [MiscSetting]
         public byte BlockType { get; set; }
+        [MiscSetting]
         public byte CrossWize { get; set; }
+        [MiscSetting]
         public byte LengthWize { get; set; }
+        [MiscSetting]
         public short Time { get; set; }
+        [MiscSetting]
         public short TimeRnd { get; set; }
+        [MiscSetting]
         public float Length { get; set; }
+        [MiscSetting]
         public float Speed { get; set; }
+        [MiscSetting]
         public float SpeedRnd { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            FarType = reader.ReadByte();
-            BlockType = reader.ReadByte();
-            CrossWize = reader.ReadByte();
-            LengthWize = reader.ReadByte();
-            Time = reader.ReadInt16();
-            TimeRnd = reader.ReadInt16();
-            Length = reader.ReadSingle();
-            Speed = reader.ReadSingle();
-            SpeedRnd = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(FarType);
-            writer.Write(BlockType);
-            writer.Write(CrossWize);
-            writer.Write(LengthWize);
-            writer.Write(Time);
-            writer.Write(TimeRnd);
-            writer.Write(Length);
-            writer.Write(Speed);
-            writer.Write(SpeedRnd);
-        }
     }
 }

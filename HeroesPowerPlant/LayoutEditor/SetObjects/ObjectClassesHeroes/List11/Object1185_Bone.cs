@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1185_Bone : SetObjectHeroes
     {
@@ -11,16 +9,7 @@ namespace HeroesPowerPlant.LayoutEditor
             FromBelow = 2
         }
 
+        [MiscSetting]
         public EBoneType BoneType { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            BoneType = (EBoneType)reader.ReadInt32();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((int)BoneType);
-        }
     }
 }

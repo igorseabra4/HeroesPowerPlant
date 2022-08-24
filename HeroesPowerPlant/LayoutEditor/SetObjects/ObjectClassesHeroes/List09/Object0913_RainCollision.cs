@@ -1,31 +1,40 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using System.ComponentModel;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0913_RainCollision : SetObjectHeroes
     {
+        [MiscSetting]
         public float Scale { get; set; }
-        [Description("16 entries")]
-        public byte[] RainIDs { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Scale = reader.ReadSingle();
-            RainIDs = reader.ReadBytes(16);
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Scale);
-            var count = 0;
-            foreach (var i in RainIDs)
-            {
-                writer.Write(i);
-                count++;
-                if (count == 16)
-                    break;
-            }
-        }
+        [MiscSetting]
+        public byte RainID_1 { get; set; }
+        [MiscSetting]
+        public byte RainID_2 { get; set; }
+        [MiscSetting]
+        public byte RainID_3 { get; set; }
+        [MiscSetting]
+        public byte RainID_4 { get; set; }
+        [MiscSetting]
+        public byte RainID_5 { get; set; }
+        [MiscSetting]
+        public byte RainID_6 { get; set; }
+        [MiscSetting]
+        public byte RainID_7 { get; set; }
+        [MiscSetting]
+        public byte RainID_8 { get; set; }
+        [MiscSetting]
+        public byte RainID_9 { get; set; }
+        [MiscSetting]
+        public byte RainID_10 { get; set; }
+        [MiscSetting]
+        public byte RainID_11 { get; set; }
+        [MiscSetting]
+        public byte RainID_12 { get; set; }
+        [MiscSetting]
+        public byte RainID_13 { get; set; }
+        [MiscSetting]
+        public byte RainID_14 { get; set; }
+        [MiscSetting]
+        public byte RainID_15 { get; set; }
+        [MiscSetting]
+        public byte RainID_16 { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -53,46 +52,27 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public EStartMode StartMode { get; set; }
+        [MiscSetting]
         public EEnemyType EnemyType { get; set; }
+        [MiscSetting]
         public EWeapon Weapon { get; set; }
+        [MiscSetting]
         public EShield Shield { get; set; }
+        [MiscSetting]
         public short ScopeRange { get; set; }
+        [MiscSetting]
         public short ScopeOffset { get; set; }
+        [MiscSetting]
         public float MovingRange { get; set; }
+        [MiscSetting]
         public float FallWarpHeight { get; set; }
+        [MiscSetting]
         public float FalcoNumber { get; set; }
+        [MiscSetting]
         public float ShotSpeed { get; set; }
+        [MiscSetting]
         public int ShotInterval { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            StartMode = (EStartMode)reader.ReadByte();
-            EnemyType = (EEnemyType)reader.ReadByte();
-            Weapon = (EWeapon)reader.ReadByte();
-            Shield = (EShield)reader.ReadByte();
-            ScopeRange = reader.ReadInt16();
-            ScopeOffset = reader.ReadInt16();
-            MovingRange = reader.ReadSingle();
-            FallWarpHeight = reader.ReadSingle();
-            FalcoNumber = reader.ReadSingle();
-            ShotSpeed = reader.ReadSingle();
-            ShotInterval = reader.ReadInt32();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)StartMode);
-            writer.Write((byte)EnemyType);
-            writer.Write((byte)Weapon);
-            writer.Write((byte)Shield);
-            writer.Write(ScopeRange);
-            writer.Write(ScopeOffset);
-            writer.Write(MovingRange);
-            writer.Write(FallWarpHeight);
-            writer.Write(FalcoNumber);
-            writer.Write(ShotSpeed);
-            writer.Write(ShotInterval);
-        }
     }
 }

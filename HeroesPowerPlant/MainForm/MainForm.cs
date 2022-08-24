@@ -1,17 +1,4 @@
-using HeroesPowerPlant.CameraEditor;
-using HeroesPowerPlant.CollisionEditor;
-using HeroesPowerPlant.ConfigEditor;
-using HeroesPowerPlant.LayoutEditor;
-using HeroesPowerPlant.LevelEditor;
-using HeroesPowerPlant.LightEditor;
-using HeroesPowerPlant.MainForm;
-using HeroesPowerPlant.ParticleEditor;
-using HeroesPowerPlant.SetIdTableEditor;
-using HeroesPowerPlant.ShadowCameraEditor;
-using HeroesPowerPlant.ShadowLayoutDiffTool;
-using HeroesPowerPlant;
 using HeroesPowerPlant.Shared.IO.Config;
-using HeroesPowerPlant.TexturePatternEditor;
 using Ookii.Dialogs.WinForms;
 using ShadowFNT.Structures;
 using SharpDX;
@@ -94,8 +81,15 @@ namespace HeroesPowerPlant.MainForm
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
-                ProjectConfig.ApplyInstance(this, projectConfig);
+                try
+                {
+                    ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
+                    ProjectConfig.ApplyInstance(this, projectConfig);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"There was an error opening the project file: {ex.Message}");
+                }
 
                 // The ViewConfig screen should refresh in the case of loading new camera values.
                 ViewConfig.UpdateValues();
@@ -304,7 +298,7 @@ namespace HeroesPowerPlant.MainForm
             AddLayoutEditor(show: true);
         }
 
-        public void AddLayoutEditor(string filePath = null, bool show = false)
+        public void AddLayoutEditor(string filePath = null, bool show = false, bool visibleObjects = true)
         {
             ToolStripMenuItem tempMenuItem = new ToolStripMenuItem("No file loaded");
             tempMenuItem.Click += new EventHandler(LayoutEditorToolStripMenuItemClick);
@@ -321,7 +315,7 @@ namespace HeroesPowerPlant.MainForm
             }
 
             if (filePath != null)
-                tempLayoutEditor.OpenFile(filePath, this);
+                tempLayoutEditor.OpenFile(filePath, this, visibleObjects);
         }
 
         private void LayoutEditorToolStripMenuItemClick(object sender, EventArgs e)
@@ -479,7 +473,8 @@ namespace HeroesPowerPlant.MainForm
                     seeAllObjects = true;
                 else if (renderer.ShowObjects == CheckState.Indeterminate)
                     seeAllObjects = false;
-                else break;
+                else
+                    break;
 
                 c.GetClickedModelPosition(ray, renderer.Camera.GetPosition(), seeAllObjects, out bool has4, out float dist4);
 
@@ -701,11 +696,12 @@ namespace HeroesPowerPlant.MainForm
                         AddLayoutEditor(show: true);
                     else
                         foreach (var l in LayoutEditors)
-                        {
-                            l.Show();
-                            l.Focus();
-                            l.WindowState = FormWindowState.Normal;
-                        }
+                            if (l.RenderObjects)
+                            {
+                                l.Show();
+                                l.Focus();
+                                l.WindowState = FormWindowState.Normal;
+                            }
                     break;
                 case Keys.F6:
                     TeleportPlayerToCamera();
@@ -747,9 +743,9 @@ namespace HeroesPowerPlant.MainForm
         public void KeyboardController()
         {
             if (PressedKeys.Contains(Keys.Q))
-                    renderer.Camera.IncreaseCameraSpeed(-0.05F);
+                renderer.Camera.IncreaseCameraSpeed(-0.05F);
             if (PressedKeys.Contains(Keys.E))
-                    renderer.Camera.IncreaseCameraSpeed(0.05F);
+                renderer.Camera.IncreaseCameraSpeed(0.05F);
 
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
                 renderer.Camera.AddYaw(-renderer.Camera.KeyboardSensitivity);
@@ -1336,7 +1332,7 @@ namespace HeroesPowerPlant.MainForm
             if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
                 "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 return;
-            
+
             var openFile = new VistaOpenFileDialog()
             {
                 Filter = "ONE files|*.ONE",
@@ -1363,17 +1359,17 @@ namespace HeroesPowerPlant.MainForm
                 if (File.Exists(probComObjTxd) && !TextureManager.OpenTXDfiles.Contains(probComObjTxd))
                     TextureManager.LoadTexturesFromTXD(probComObjTxd, renderer, LevelEditor.bspRenderer);
 
-                foreach (var s in new string[] {
-                    dvdroot + "\\" + filenamePrefix + "_DB.bin",
-                    dvdroot + "\\" + filenamePrefix + "_PB.bin",
-                    dvdroot + "\\" + filenamePrefix + "_P1.bin",
-                    dvdroot + "\\" + filenamePrefix + "_P2.bin",
-                    dvdroot + "\\" + filenamePrefix + "_P3.bin",
-                    dvdroot + "\\" + filenamePrefix + "_P4.bin",
-                    dvdroot + "\\" + filenamePrefix + "_P5.bin",
+                foreach (var s in new (string, bool)[] {
+                    (dvdroot + "\\" + filenamePrefix + "_DB.bin", true),
+                    (dvdroot + "\\" + filenamePrefix + "_PB.bin", true),
+                    (dvdroot + "\\" + filenamePrefix + "_P1.bin", true),
+                    (dvdroot + "\\" + filenamePrefix + "_P2.bin", false),
+                    (dvdroot + "\\" + filenamePrefix + "_P3.bin", false),
+                    (dvdroot + "\\" + filenamePrefix + "_P4.bin", false),
+                    (dvdroot + "\\" + filenamePrefix + "_P5.bin", false),
                 })
-                    if (File.Exists(s) && !LayoutEditors.Any(l => l.GetOpenFileName().Equals(s)))
-                        AddLayoutEditor(s);
+                    if (File.Exists(s.Item1) && !LayoutEditors.Any(l => l.GetOpenFileName().Equals(s.Item1)))
+                        AddLayoutEditor(s.Item1, false, s.Item2);
 
                 foreach (var s in new string[] {
                     dvdroot + "\\collisions\\" + filenamePrefix + ".cl",
@@ -1400,6 +1396,12 @@ namespace HeroesPowerPlant.MainForm
                 var setidtbl = dvdroot + "\\setidtbl.bin";
                 if (File.Exists(setidtbl))
                     SetIdTableEditor.OpenExternal(setidtbl, false);
+
+                var objectOnes = new HashSet<string>();
+                foreach (var l in LayoutEditors)
+                    foreach (var s in l.GetObjectsForModels())
+                        objectOnes.Add(dvdroot + "\\" + s);
+                renderer.dffRenderer.AddDFFFiles(objectOnes);
             }
         }
     }

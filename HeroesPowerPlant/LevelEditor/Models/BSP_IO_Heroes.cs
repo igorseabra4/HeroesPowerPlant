@@ -218,7 +218,8 @@ namespace HeroesPowerPlant.LevelEditor
 
                 for (int i = 0; i < triangleStream.Count(); i++)
                 {
-                    if (triangleStream[i].MaterialIndex == -1) continue;
+                    if (triangleStream[i].MaterialIndex == -1)
+                        continue;
 
                     if (!inverted)
                     {
@@ -481,7 +482,8 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 if (rw is BinMeshPLG_050E binmesh)
                 {
-                    if (binmesh.numMeshes == 0) return;
+                    if (binmesh.numMeshes == 0)
+                        return;
                 }
                 if (rw is NativeDataPLG_0510 native)
                 {
@@ -489,7 +491,8 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
 
-            if (n == null) throw new Exception();
+            if (n == null)
+                throw new Exception();
 
             List<Vertex3> vertexList_init = new List<Vertex3>();
             List<RenderWareFile.Color> colorList_init = new List<RenderWareFile.Color>();
@@ -505,7 +508,8 @@ namespace HeroesPowerPlant.LevelEditor
                         colorList_init.Add(c);
                     else if (o is Vertex2 t)
                         textCoordList_init.Add(t);
-                    else throw new Exception();
+                    else
+                        throw new Exception();
                 }
             }
 

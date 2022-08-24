@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1590_RhinoLiner : SetObjectHeroes
     {
@@ -22,39 +20,21 @@ namespace HeroesPowerPlant.LayoutEditor
             NotHoming = 1
         }
 
+        [MiscSetting]
         public EEnemyType EnemyType { get; set; }
+        [MiscSetting]
         public EPathType PathType { get; set; }
+        [MiscSetting]
         public EIronBallType IronBallType { get; set; }
+        [MiscSetting]
         public float WeaponSpeed { get; set; }
+        [MiscSetting]
         public int AttackInterval { get; set; }
+        [MiscSetting]
         public float MoveSpeedMin { get; set; }
+        [MiscSetting]
         public float MoveSpeed { get; set; }
+        [MiscSetting]
         public float MoveSpeedMax { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            EnemyType = (EEnemyType)reader.ReadByte();
-            PathType = (EPathType)reader.ReadByte();
-            IronBallType = (EIronBallType)reader.ReadByte();
-            reader.BaseStream.Position += 1;
-            WeaponSpeed = reader.ReadSingle();
-            AttackInterval = reader.ReadInt32();
-            MoveSpeedMin = reader.ReadSingle();
-            MoveSpeed = reader.ReadSingle();
-            MoveSpeedMax = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)EnemyType);
-            writer.Write((byte)PathType);
-            writer.Write((byte)IronBallType);
-            writer.Write((byte)0);
-            writer.Write(WeaponSpeed);
-            writer.Write(AttackInterval);
-            writer.Write(MoveSpeedMin);
-            writer.Write(MoveSpeed);
-            writer.Write(MoveSpeedMax);
-        }
     }
 }

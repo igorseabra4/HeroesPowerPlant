@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1540_EggHammer : SetObjectHeroes
     {
@@ -10,42 +8,23 @@ namespace HeroesPowerPlant.LayoutEditor
             Helmet = 1
         }
 
+        [MiscSetting]
         public EEnemyType EnemyType { get; set; }
+        [MiscSetting]
         public EAppear Appear { get; set; }
+        [MiscSetting]
         public float MoveSpeed { get; set; }
+        [MiscSetting]
         public float MoveRange { get; set; }
+        [MiscSetting]
         public float ScopeRange { get; set; }
+        [MiscSetting]
         public float ScopeOffset { get; set; }
+        [MiscSetting]
         public int AttackInterval { get; set; }
+        [MiscSetting]
         public float WeaponSpeed { get; set; }
+        [MiscSetting]
         public float FallDistance { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            EnemyType = (EEnemyType)reader.ReadByte();
-            Appear = (EAppear)reader.ReadByte();
-            reader.BaseStream.Position += 2;
-            MoveSpeed = reader.ReadSingle();
-            MoveRange = reader.ReadSingle();
-            ScopeRange = reader.ReadSingle();
-            ScopeOffset = reader.ReadSingle();
-            AttackInterval = reader.ReadInt32();
-            WeaponSpeed = reader.ReadSingle();
-            FallDistance = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)EnemyType);
-            writer.Write((byte)Appear);
-            writer.Pad(2);
-            writer.Write(MoveSpeed);
-            writer.Write(MoveRange);
-            writer.Write(ScopeRange);
-            writer.Write(ScopeOffset);
-            writer.Write(AttackInterval);
-            writer.Write(WeaponSpeed);
-            writer.Write(FallDistance);
-        }
     }
 }

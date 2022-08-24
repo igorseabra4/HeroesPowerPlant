@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -26,36 +25,19 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.DrawCubeTrigger(triggerMatrix, true);
         }
 
+        [MiscSetting]
         public float TriggerX { get; set; }
+        [MiscSetting]
         public float TriggerY { get; set; }
+        [MiscSetting]
         public float TriggerZ { get; set; }
+        [MiscSetting]
         public short TriggerSizeX { get; set; }
+        [MiscSetting]
         public short TriggerSizeY { get; set; }
+        [MiscSetting]
         public short TriggerSizeZ { get; set; }
+        [MiscSetting]
         public short TriggerRotY { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            TriggerSizeX = reader.ReadInt16();
-            TriggerSizeY = reader.ReadInt16();
-            TriggerSizeZ = reader.ReadInt16();
-            reader.BaseStream.Position += 2;
-            TriggerX = reader.ReadSingle();
-            TriggerY = reader.ReadSingle();
-            TriggerZ = reader.ReadSingle();
-            TriggerRotY = reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(TriggerSizeX);
-            writer.Write(TriggerSizeY);
-            writer.Write(TriggerSizeZ);
-            writer.Pad(2);
-            writer.Write(TriggerX);
-            writer.Write(TriggerY);
-            writer.Write(TriggerZ);
-            writer.Write(TriggerRotY);
-        }
     }
 }

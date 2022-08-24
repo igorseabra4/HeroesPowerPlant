@@ -19,8 +19,10 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void PatternEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -141,7 +143,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void textBoxTextureName_TextChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff) return;
+            if (programIsChangingStuff)
+                return;
 
             // ugly code
             if (listBoxPatterns.SelectedItem != null)
@@ -155,7 +158,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void textBoxAnimationName_TextChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff) return;
+            if (programIsChangingStuff)
+                return;
 
             // ugly code
             if (listBoxPatterns.SelectedItem != null)
@@ -164,7 +168,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void numericFrameCount_ValueChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff) return;
+            if (programIsChangingStuff)
+                return;
 
             // ugly code
             if (listBoxPatterns.SelectedItem != null)
@@ -178,7 +183,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void listBoxFrames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff | listBoxPatterns.SelectedItem == null | listBoxFrames.SelectedItem == null) return;
+            if (programIsChangingStuff | listBoxPatterns.SelectedItem == null | listBoxFrames.SelectedItem == null)
+                return;
 
             if (listBoxFrames.SelectedItem != null)
             {
@@ -222,7 +228,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void numericFrameOffset_ValueChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff) return;
+            if (programIsChangingStuff)
+                return;
 
             if (listBoxPatterns.SelectedItem != null)
                 if (listBoxFrames.SelectedItem != null)
@@ -241,7 +248,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void numericTextureNumber_ValueChanged(object sender, EventArgs e)
         {
-            if (programIsChangingStuff) return;
+            if (programIsChangingStuff)
+                return;
 
             if (listBoxPatterns.SelectedItem != null)
                 if (listBoxFrames.SelectedItem != null)

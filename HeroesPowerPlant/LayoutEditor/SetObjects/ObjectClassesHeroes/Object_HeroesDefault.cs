@@ -8,15 +8,15 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object_HeroesDefault : SetObjectHeroes
     {
-        private byte[] _miscSettingBytes;
+        private byte[] _miscSettingBytes = new byte[byteCount];
         private const int byteCount = 32;
 
-        public override void ReadMiscSettings(EndianBinaryReader reader)
+        public override void ReadMiscSettings(BinaryReader reader)
         {
             _miscSettingBytes = reader.ReadBytes(byteCount);
         }
 
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
             writer.Write(_miscSettingBytes);
         }

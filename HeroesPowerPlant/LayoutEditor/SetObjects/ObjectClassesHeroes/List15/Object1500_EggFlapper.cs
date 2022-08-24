@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -83,56 +82,33 @@ namespace HeroesPowerPlant.LayoutEditor
         // Search = 6 "en_pw2"  YELLOW
         // Spec   = X "en_pw_v" GREY
 
+        [MiscSetting]
         public EQuality Quality { get; set; }
+        [MiscSetting]
         public EShadow Shadow { get; set; }
+        [MiscSetting]
         public EMovement Movement { get; set; }
-        [Description("Also determines color if quality isn't silver")]
+        [MiscSetting, Description("Also determines color if quality isn't silver")]
         public EWeapon Weapon { get; set; }
+        [MiscSetting]
         public short ScopeRange { get; set; }
+        [MiscSetting]
         public short ScopeOffset { get; set; }
+        [MiscSetting]
         public short AttackInterval { get; set; }
+        [MiscSetting]
         public short AttackFrame { get; set; }
+        [MiscSetting]
         public float FLOOR { get; set; }
+        [MiscSetting]
         public float MoveSpeed { get; set; }
+        [MiscSetting]
         public float MoveRange { get; set; }
+        [MiscSetting]
         public float WeaponSpeed { get; set; }
+        [MiscSetting]
         public short LightAngleY { get; set; }
+        [MiscSetting]
         public short LightAngleX { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Quality = (EQuality)reader.ReadByte();
-            Shadow = (EShadow)reader.ReadByte();
-            Movement = (EMovement)reader.ReadByte();
-            Weapon = (EWeapon)reader.ReadByte();
-            ScopeRange = reader.ReadInt16();
-            ScopeOffset = reader.ReadInt16();
-            AttackInterval = reader.ReadInt16();
-            AttackFrame = reader.ReadInt16();
-            FLOOR = reader.ReadSingle();
-            MoveSpeed = reader.ReadSingle();
-            MoveRange = reader.ReadSingle();
-            WeaponSpeed = reader.ReadSingle();
-            LightAngleY = reader.ReadInt16();
-            LightAngleX = reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)Quality);
-            writer.Write((byte)Shadow);
-            writer.Write((byte)Movement);
-            writer.Write((byte)Weapon);
-            writer.Write(ScopeRange);
-            writer.Write(ScopeOffset);
-            writer.Write(AttackInterval);
-            writer.Write(AttackFrame);
-            writer.Write(FLOOR);
-            writer.Write(MoveSpeed);
-            writer.Write(MoveRange);
-            writer.Write(WeaponSpeed);
-            writer.Write(LightAngleY);
-            writer.Write(LightAngleX);
-        }
     }
 }

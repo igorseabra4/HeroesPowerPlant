@@ -12,17 +12,15 @@ namespace HeroesPowerPlant.ShadowSplineEditor
     public class ShadowSplineEditor
     {
         public List<ShadowSpline> Splines;
-        private static Endianness endianness;
 
         public ShadowSplineEditor()
         {
             Splines = new List<ShadowSpline>();
-            endianness = Endianness.Big;
         }
 
         public ShadowSplineEditor(string fileName)
         {
-            Splines = ReadShadowSplineFile(fileName);
+            Splines = ReadShadowSplineFile(fileName, Endianness.Big);
             foreach (ShadowSpline ss in Splines)
                 ss.SetRenderStuff(Program.MainForm.renderer);
         }
@@ -46,7 +44,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             return new string(list.ToArray());
         }
 
-        private static List<ShadowSpline> ReadShadowSplineFile(string fileName)
+        private static List<ShadowSpline> ReadShadowSplineFile(string fileName, Endianness endianness)
         {
             if (File.Exists(fileName))
             {
@@ -87,6 +85,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                     foreach (int i in offsetList)
                     {
+                        if (i >= splineReader.BaseStream.Length)
+                            throw new Exception();
+
                         splineReader.BaseStream.Position = i;
 
                         ShadowSpline spline = new ShadowSpline();
@@ -149,10 +150,16 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                     return splineList;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    endianness = Endianness.Little;
-                    return ReadShadowSplineFile(fileName);
+                    if (endianness == Endianness.Little)
+                    {
+                        return ReadShadowSplineFile(fileName, Endianness.Big);
+                    }
+                    else
+                    {
+                        throw new Exception("Unable to read spline file: " + ex.Message);
+                    }
                 }
             }
 

@@ -2,17 +2,14 @@
 {
     public class Object1006_HealUnitServer : SetObjectShadow
     {
-        //BombServer(Type)
-        public BombServerServeType Serve
+        public enum EServe : int
         {
-            get => (BombServerServeType)ReadInt(0);
-            set => Write(0, (int)value);
+            Bomb,
+            HealUnit
         }
-    }
 
-    public enum BombServerServeType
-    {
-        Bomb,
-        HealUnit
+        //BombServer(Type)
+        [MiscSetting]
+        public EServe Serve { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SharpDX;
-using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -17,19 +16,9 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public EBoxType BoxType { get; set; }
+        [MiscSetting]
         public EWeapon Weapon { get; set; }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            BoxType = (EBoxType)reader.ReadInt32();
-            Weapon = (EWeapon)reader.ReadInt32();
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write((int)BoxType);
-            writer.Write((int)Weapon);
-        }
     }
 }

@@ -22,8 +22,10 @@ namespace HeroesPowerPlant.LevelEditor
     {
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -252,7 +254,8 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonExportClick(object sender, EventArgs e)
         {
-            if (listBoxLevelModels.Items.Count == 0) return;
+            if (listBoxLevelModels.Items.Count == 0)
+                return;
 
             ChooseTarget.GetTarget(out bool success, out Assimp.ExportFormatDescription format, out string textureExtension);
 

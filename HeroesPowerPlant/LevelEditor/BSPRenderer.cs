@@ -97,8 +97,10 @@ namespace HeroesPowerPlant
                     (BSPList[j].ChunkName == "A" || BSPList[j].ChunkName == "P" || BSPList[j].ChunkName == "K"))
                     continue;
 
-                if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
-                else renderer.Device.SetCullModeDefault();
+                if (BSPList[j].isNoCulling)
+                    renderer.Device.SetCullModeNone();
+                else
+                    renderer.Device.SetCullModeDefault();
 
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
@@ -115,8 +117,10 @@ namespace HeroesPowerPlant
                     (BSPList[j].ChunkName == "O"))
                     continue;
 
-                if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
-                else renderer.Device.SetCullModeDefault();
+                if (BSPList[j].isNoCulling)
+                    renderer.Device.SetCullModeNone();
+                else
+                    renderer.Device.SetCullModeDefault();
 
                 if (BSPList[j].ChunkName == "A" || BSPList[j].ChunkName == "P")
                 {
@@ -151,12 +155,14 @@ namespace HeroesPowerPlant
             if (Program.MainForm.dffsToLoad.Count == 0)
             {
                 firstTimeLoad = true;
-            } else
+            }
+            else
             {
                 // Remove other GDTs
                 foreach (string s in Program.MainForm.dffsToLoad)
                 {
-                    if (s.EndsWith("_gdt.one") && !s.EndsWith("stg_cmn_gdt.one")) {
+                    if (s.EndsWith("_gdt.one") && !s.EndsWith("stg_cmn_gdt.one"))
+                    {
                         renderer.dffRenderer.ClearSpecificObjectONEFile(s);
                     }
                 }
@@ -350,7 +356,8 @@ namespace HeroesPowerPlant
                             InitialPosition.Z < world.worldStruct.boxMinimum.Z ||
                             InitialPosition.X > world.worldStruct.boxMaximum.X ||
                             InitialPosition.Y > world.worldStruct.boxMaximum.Y ||
-                            InitialPosition.Z > world.worldStruct.boxMaximum.Z) continue;
+                            InitialPosition.Z > world.worldStruct.boxMaximum.Z)
+                            continue;
                     }
                 }
 

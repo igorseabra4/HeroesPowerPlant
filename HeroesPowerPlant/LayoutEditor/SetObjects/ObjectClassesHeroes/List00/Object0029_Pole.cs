@@ -1,46 +1,26 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0029_Pole : SetObjectHeroes
     {
+        [MiscSetting]
         public short Length { get; set; }
+        [MiscSetting]
         public short Range { get; set; }
+        [MiscSetting]
         public short StartOffset { get; set; }
+        [MiscSetting]
         public short EndOffset { get; set; }
+        [MiscSetting]
         public float ReleaseElevation { get; set; }
+        [MiscSetting]
         public float ReleaseAzimuth { get; set; }
+        [MiscSetting]
         public float ReleasePower { get; set; }
+        [MiscSetting]
         public byte UseReference { get; set; }
+        [MiscSetting]
         public byte ReferenceID { get; set; }
+        [MiscSetting]
         public short NoControlTime { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Length = reader.ReadInt16();
-            Range = reader.ReadInt16();
-            StartOffset = reader.ReadInt16();
-            EndOffset = reader.ReadInt16();
-            ReleaseElevation = reader.ReadSingle();
-            ReleaseAzimuth = reader.ReadSingle();
-            ReleasePower = reader.ReadSingle();
-            UseReference = reader.ReadByte();
-            ReferenceID = reader.ReadByte();
-            NoControlTime = reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Length);
-            writer.Write(Range);
-            writer.Write(StartOffset);
-            writer.Write(EndOffset);
-            writer.Write(ReleaseElevation);
-            writer.Write(ReleaseAzimuth);
-            writer.Write(ReleasePower);
-            writer.Write(UseReference);
-            writer.Write(ReferenceID);
-            writer.Write(NoControlTime);
-        }
     }
 }

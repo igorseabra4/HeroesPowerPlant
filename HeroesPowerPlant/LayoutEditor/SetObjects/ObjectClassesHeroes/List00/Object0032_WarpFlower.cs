@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -18,24 +17,11 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public EFlowerType FlowerType { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
+        [MiscSetting]
         public float RisingHeight { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            FlowerType = (EFlowerType)reader.ReadByte();
-            reader.BaseStream.Position += 3;
-            Scale = reader.ReadSingle();
-            RisingHeight = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)FlowerType);
-            writer.Pad(3);
-            writer.Write(Scale);
-            writer.Write(RisingHeight);
-        }
     }
 }

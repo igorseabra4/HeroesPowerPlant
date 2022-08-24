@@ -1,8 +1,5 @@
 ﻿using Heroes.SDK.Definitions.Structures.Stage.Spawn;
-using Heroes.SDK.Definitions.Enums;
-using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using SharpDX;
-using Newtonsoft.Json.Linq;
 
 namespace HeroesPowerPlant.ConfigEditor
 {

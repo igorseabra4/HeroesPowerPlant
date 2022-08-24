@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -99,43 +98,25 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        [MiscSetting]
         public int SE_ID { get; set; }
+        [MiscSetting]
         public SE_CALL CallType { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool Doppler { get; set; }
+        [MiscSetting]
         public byte Volume { get; set; }
+        [MiscSetting]
         public EShape Shape { get; set; }
+        [MiscSetting]
         public short Time { get; set; }
+        [MiscSetting]
         public short Radius { get; set; }
+        [MiscSetting]
         public short ScaleX { get; set; }
+        [MiscSetting]
         public short ScaleY { get; set; }
+        [MiscSetting]
         public short ScaleZ { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            SE_ID = reader.ReadInt32();
-            CallType = (SE_CALL)reader.ReadByte();
-            Doppler = reader.ReadByteBool();
-            Volume = reader.ReadByte();
-            Shape = (EShape)reader.ReadByte();
-            Time = reader.ReadInt16();
-            Radius = reader.ReadInt16();
-            ScaleX = reader.ReadInt16();
-            ScaleY = reader.ReadInt16();
-            ScaleZ = reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(SE_ID);
-            writer.Write((byte)CallType);
-            writer.Write((byte)(Doppler ? 1 : 0));
-            writer.Write(Volume);
-            writer.Write((byte)Shape);
-            writer.Write(Time);
-            writer.Write(Radius);
-            writer.Write(ScaleX);
-            writer.Write(ScaleY);
-            writer.Write(ScaleZ);
-        }
     }
 }

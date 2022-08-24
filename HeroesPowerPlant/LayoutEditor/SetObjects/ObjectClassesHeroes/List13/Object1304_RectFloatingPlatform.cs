@@ -1,28 +1,14 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1304_RectFloatingPlatform : SetObjectHeroes
     {
+        [MiscSetting]
         public float Speed { get; set; }
+        [MiscSetting]
         public float EndPosX { get; set; }
+        [MiscSetting]
         public float EndPosY { get; set; }
+        [MiscSetting]
         public float EndPosZ { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Speed = reader.ReadSingle();
-            EndPosX = reader.ReadSingle();
-            EndPosY = reader.ReadSingle();
-            EndPosZ = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Speed);
-            writer.Write(EndPosX);
-            writer.Write(EndPosY);
-            writer.Write(EndPosZ);
-        }
     }
 }

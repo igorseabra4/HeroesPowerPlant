@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -27,8 +26,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         // FootingMovable(type, pause(sec), InitPos(0.0-1.0), pauseDamage)
 
+        [MiscSetting(1)]
         public EPlatformType PlatformType { get; set; }
-        [Description("Path Types require a nearby spline w/ Setting3=8, Setting4=1")]
+        [MiscSetting(2), Description("Path Types require a nearby spline w/ Setting3=8, Setting4=1")]
         public EMovementType MovementType { get; set; }
 
         [Description("Time it takes to move to translation position")]
@@ -38,11 +38,14 @@ namespace HeroesPowerPlant.LayoutEditor
             set => TravelTime_Int = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
         }
 
-        [Description("Same field as above, but sometimes an Int for Linear type\nUsually a float though.")]
+        [MiscSetting(3), Description("Same field as above, but sometimes an Int for Linear type\nUsually a float though.")]
         public int TravelTime_Int { get; set; }
 
+        [MiscSetting(4)]
         public float WaitTime { get; set; }
+        [MiscSetting(5)]
         public float Float10 { get; set; }
+        [MiscSetting(6)]
         public float Float14 { get; set; }
 
         public float SplineID
@@ -51,37 +54,13 @@ namespace HeroesPowerPlant.LayoutEditor
             set => TranslationX = value;
         }
 
+        [MiscSetting(7)]
         public float TranslationX { get; set; }
+        [MiscSetting(8)]
         public float TranslationY { get; set; }
+        [MiscSetting(9)]
         public float TranslationZ { get; set; }
+        [MiscSetting(10)]
         public float Float24 { get; set; }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            PlatformType = (EPlatformType)reader.ReadInt32();
-            MovementType = (EMovementType)reader.ReadInt32();
-            TravelTime_Int = reader.ReadInt32();
-            WaitTime = reader.ReadSingle();
-            Float10 = reader.ReadSingle();
-            Float14 = reader.ReadSingle();
-            TranslationX = reader.ReadSingle();
-            TranslationY = reader.ReadSingle();
-            TranslationZ = reader.ReadSingle();
-            Float24 = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write((int)PlatformType);
-            writer.Write((int)MovementType);
-            writer.Write(TravelTime_Int);
-            writer.Write(WaitTime);
-            writer.Write(Float10);
-            writer.Write(Float14);
-            writer.Write(TranslationX);
-            writer.Write(TranslationY);
-            writer.Write(TranslationZ);
-            writer.Write(Float24);
-        }
     }
 }

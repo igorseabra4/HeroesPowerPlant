@@ -7,33 +7,16 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         //ElecFireWall(SearchRange, InitialY)
 
-        public float Scale_X
-        {
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
-        public float Scale_Y
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-        public float Scale_Z
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-        public float SearchRange
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        [Description("Move object starting point/appearance on the Y axis this amount.\n Animates to original position on detect")]
-        public float Initial_Y
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
+        [MiscSetting]
+        public float Scale_X { get; set; }
+        [MiscSetting]
+        public float Scale_Y { get; set; }
+        [MiscSetting]
+        public float Scale_Z { get; set; }
+        [MiscSetting]
+        public float SearchRange { get; set; }
+        [MiscSetting, Description("Move object starting point/appearance on the Y axis this amount.\n Animates to original position on detect")]
+        public float Initial_Y { get; set; }
 
         public override void CreateTransformMatrix()
         {

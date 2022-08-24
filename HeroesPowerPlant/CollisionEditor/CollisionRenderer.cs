@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
@@ -46,7 +45,8 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public void RenderCollisionModel(SharpRenderer renderer)
         {
-            if (collisionMesh == null) return;
+            if (collisionMesh == null)
+                return;
 
             sceneInformation = new CollisionRenderData()
             {
@@ -139,13 +139,16 @@ namespace HeroesPowerPlant.CollisionEditor
 
                 var color = new Color(tList[i].ColFlags[1], tList[i].ColFlags[2], tList[i].ColFlags[3]);
 
-                if (color.R == 0) color.R = 255;
+                if (color.R == 0)
+                    color.R = 255;
                 else
                     color.R = (byte)(256 - (Math.Log(color.R, 2) + 1) * 32);
-                if (color.G == 0) color.G = 255;
+                if (color.G == 0)
+                    color.G = 255;
                 else
                     color.G = (byte)(256 - (Math.Log(color.G, 2) + 1) * 32);
-                if (color.B == 0) color.B = 255;
+                if (color.B == 0)
+                    color.B = 255;
                 else
                     color.B = (byte)(256 - (Math.Log(color.B, 2) + 1) * 32);
 

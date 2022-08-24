@@ -422,8 +422,10 @@ namespace HeroesPowerPlant
 
         public void SetVSync(bool value)
         {
-            if (value) VSync = 1;
-            else VSync = 0;
+            if (value)
+                VSync = 1;
+            else
+                VSync = 0;
             Resize();
         }
     }

@@ -2,6 +2,7 @@
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -16,8 +17,10 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -64,8 +67,9 @@ namespace HeroesPowerPlant.ShadowLayoutDiffTool
 
             if (File.Exists(layout1) && File.Exists(layout2))
             {
-                layoutSystem1.OpenLayoutFile(layout1, out _);
-                layoutSystem2.OpenLayoutFile(layout2, out _);
+                var f = new Dictionary<(byte, byte, string), HashSet<byte[]>>();
+                layoutSystem1.OpenLayoutFile(layout1, out _, ref f);
+                layoutSystem2.OpenLayoutFile(layout2, out _, ref f);
 
                 if (layoutSystem1.Equals(layoutSystem2))
                 {

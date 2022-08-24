@@ -4,10 +4,7 @@
     {
         //AKA Green Spike Ball
         //DamageBlock(kind)
-        public int Kind
-        {
-            get => ReadInt(0);
-            set => Write(0, value);
-        }
+        [MiscSetting]
+        public int Kind { get; set; }
     }
 }

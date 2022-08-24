@@ -1,30 +1,16 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0066_TriggerBobJump : SetObjectHeroes
     {
         public override bool IsTrigger() => true;
 
+        [MiscSetting]
         public float Width { get; set; }
+        [MiscSetting]
         public float Height { get; set; }
+        [MiscSetting]
         public float RunDistance { get; set; }
+        [MiscSetting]
         public float JumpDistance { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Width = reader.ReadSingle();
-            Height = reader.ReadSingle();
-            RunDistance = reader.ReadSingle();
-            JumpDistance = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Width);
-            writer.Write(Height);
-            writer.Write(RunDistance);
-            writer.Write(JumpDistance);
-        }
     }
 }

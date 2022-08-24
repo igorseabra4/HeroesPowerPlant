@@ -8,6 +8,30 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0010_Ring : SetObjectShadow
     {
+        public ERingType RingType { get; set; }
+        public int NumberOfRings { get; set; }
+        public float LengthRadius { get; set; }
+        public float Angle { get; set; }
+        public bool Ghost { get; set; }
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
+        {
+            RingType = (ERingType)reader.ReadInt32();
+            NumberOfRings = reader.ReadInt32();
+            LengthRadius = reader.ReadSingle();
+            Angle = reader.ReadSingle();
+            Ghost = reader.ReadInt32() != 0;
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write((int)RingType);
+            writer.Write(NumberOfRings);
+            writer.Write(LengthRadius);
+            writer.Write(Angle);
+            writer.Write(Ghost ? 1 : 0);
+        }
+
         private List<Vector3> positionsList;
         private List<Vector3> transformedPoints;
         private List<Triangle> transformedTriangles;
@@ -66,13 +90,15 @@ namespace HeroesPowerPlant.LayoutEditor
                     positionsList.Add(Vector3.Zero);
                     break;
                 case ERingType.Line:
-                    if (NumberOfRings < 2) return;
+                    if (NumberOfRings < 2)
+                        return;
 
                     for (int i = 0; i < NumberOfRings; i++)
                         positionsList.Add(new Vector3(0, 0, -(LengthRadius * i / (NumberOfRings))));
                     break;
                 case ERingType.Circle:
-                    if (NumberOfRings < 1) return;
+                    if (NumberOfRings < 1)
+                        return;
 
                     for (int i = 0; i < NumberOfRings; i++)
                         positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LengthRadius), -Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
@@ -80,7 +106,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 case ERingType.Arch:
                     // parabola is y^2 = 4ax
                     // y^2 = 4(Angle)(LengthRadius)
-                    if (NumberOfRings < 2) return;
+                    if (NumberOfRings < 2)
+                        return;
                     for (int i = 0; i < NumberOfRings; i++)
                     {
                         positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
@@ -211,30 +238,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     renderer.Cube.Draw(renderer.Device);
                 }
             }
-        }
-
-        public ERingType RingType { get; set; }
-        public int NumberOfRings { get; set; }
-        public float LengthRadius { get; set; }
-        public float Angle { get; set; }
-        public bool Ghost { get; set; }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            RingType = (ERingType)reader.ReadInt32();
-            NumberOfRings = reader.ReadInt32();
-            LengthRadius = reader.ReadSingle();
-            Angle = reader.ReadSingle();
-            Ghost = reader.ReadInt32() != 0;
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write((int)RingType);
-            writer.Write(NumberOfRings);
-            writer.Write(LengthRadius);
-            writer.Write(Angle);
-            writer.Write(Ghost ? 1 : 0);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object001D_Pulley : SetObjectHeroes
     {
@@ -10,25 +8,13 @@ namespace HeroesPowerPlant.LayoutEditor
             Down = 1
         }
 
+        [MiscSetting]
         public float Elevation { get; set; }
+        [MiscSetting]
         public float ElevationAngle { get; set; }
+        [MiscSetting]
         public float Power { get; set; }
+        [MiscSetting]
         public EPulleyType PulleyType { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Elevation = reader.ReadSingle();
-            ElevationAngle = reader.ReadSingle();
-            Power = reader.ReadSingle();
-            PulleyType = (EPulleyType)reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Elevation);
-            writer.Write(ElevationAngle);
-            writer.Write(Power);
-            writer.Write((short)(PulleyType));
-        }
     }
 }

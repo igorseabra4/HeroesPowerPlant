@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -22,39 +21,21 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public EWeightType WeightType { get; set; }
-        public byte LinkID { get;set; }
+        [MiscSetting(2)]
+        public byte LinkID { get; set; }
+        [MiscSetting(3)]
         public short Height { get; set; }
+        [MiscSetting(4)]
         public float ScaleX { get; set; }
+        [MiscSetting(8)]
         public float ScaleY { get; set; }
+        [MiscSetting(5)]
         public float ScaleZ { get; set; }
-        [Description("In frames")]
+        [MiscSetting(6), Description("In frames")]
         public short UpWaitTime { get; set; }
-        [Description("In frames")]
+        [MiscSetting(7), Description("In frames")]
         public short DownWaitTime { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            WeightType = (EWeightType)reader.ReadByte();
-            LinkID = reader.ReadByte();
-            Height = reader.ReadInt16();
-            ScaleX = reader.ReadSingle();
-            ScaleZ = reader.ReadSingle();
-            UpWaitTime = reader.ReadInt16();
-            DownWaitTime = reader.ReadInt16();
-            ScaleY = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)WeightType);
-            writer.Write(LinkID);
-            writer.Write(Height);
-            writer.Write(ScaleX);
-            writer.Write(ScaleZ);
-            writer.Write(UpWaitTime);
-            writer.Write(DownWaitTime);
-            writer.Write(ScaleY);
-        }
     }
 }

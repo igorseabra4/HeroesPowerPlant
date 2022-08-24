@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -141,8 +140,11 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        [MiscSetting]
         public ENumber Number { get; set; }
+        [MiscSetting]
         public ETriggerType TriggerType { get; set; }
+        [MiscSetting]
         public EShape Shape { get; set; }
 
         [Description("Used only for Sphere and Cylinder")]
@@ -159,35 +161,13 @@ namespace HeroesPowerPlant.LayoutEditor
             set => ScaleY = value;
         }
 
-        [Description("Used only for Cube")]
+        [MiscSetting, Description("Used only for Cube")]
         public float ScaleX { get; set; }
 
-        [Description("Used only for Cube")]
+        [MiscSetting, Description("Used only for Cube")]
         public float ScaleY { get; set; }
 
-        [Description("Used only for Cube")]
+        [MiscSetting, Description("Used only for Cube")]
         public float ScaleZ { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Number = (ENumber)reader.ReadByte();
-            TriggerType = (ETriggerType)reader.ReadByte();
-            Shape = (EShape)reader.ReadByte();
-            reader.ReadByte();
-            ScaleX = reader.ReadSingle();
-            ScaleY = reader.ReadSingle();
-            ScaleZ = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)Number);
-            writer.Write((byte)TriggerType);
-            writer.Write((byte)Shape);
-            writer.Write((byte)0);
-            writer.Write(ScaleX);
-            writer.Write(ScaleY);
-            writer.Write(ScaleZ);
-        }
     }
 }

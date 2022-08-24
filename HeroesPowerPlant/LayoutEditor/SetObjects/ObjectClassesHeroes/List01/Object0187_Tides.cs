@@ -1,24 +1,10 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0187_Tides : SetObjectHeroes
     {
+        [MiscSetting]
         public byte ObjectType { get; set; }
+        [MiscSetting]
         public float Speed { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            ObjectType = reader.ReadByte();
-            reader.BaseStream.Position += 3;
-            Speed = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(ObjectType);
-            writer.Pad(3);
-            writer.Write(Speed);
-        }
     }
 }

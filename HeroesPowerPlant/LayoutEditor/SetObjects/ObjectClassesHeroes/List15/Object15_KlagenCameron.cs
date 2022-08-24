@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -23,39 +22,21 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public EEnemyType EnemyType { get; set; }
+        [MiscSetting]
         public EAppear Appear { get; set; }
+        [MiscSetting]
         public float MoveRange { get; set; }
+        [MiscSetting]
         public float ScopeRange { get; set; }
+        [MiscSetting]
         public float ScopeOffset { get; set; }
+        [MiscSetting]
         public short Unknown { get; set; }
+        [MiscSetting]
         public short AttackInterval { get; set; }
+        [MiscSetting]
         public float AttackSpeed { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            EnemyType = (EEnemyType)reader.ReadByte();
-            Appear = (EAppear)reader.ReadByte();
-            reader.BaseStream.Position += 2;
-            MoveRange = reader.ReadSingle();
-            ScopeRange = reader.ReadSingle();
-            ScopeOffset = reader.ReadSingle();
-            Unknown = reader.ReadInt16();
-            AttackInterval = reader.ReadInt16();
-            AttackSpeed = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)EnemyType);
-            writer.Write((byte)Appear);
-            writer.Pad(2);
-            writer.Write(MoveRange);
-            writer.Write(ScopeRange);
-            writer.Write(ScopeOffset);
-            writer.Write(Unknown);
-            writer.Write(AttackInterval);
-            writer.Write(AttackSpeed);
-        }
     }
 }

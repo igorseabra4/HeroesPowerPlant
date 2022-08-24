@@ -1,48 +1,26 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0206_ScrollBalloon : SetObjectHeroes
     {
-        public EHeroesItem Item { get; set; }
+        [MiscSetting]
+        public EItemHeroes Item { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
+        [MiscSetting]
         public float Speed { get; set; }
+        [MiscSetting]
         public float EndX { get; set; }
+        [MiscSetting]
         public float EndY { get; set; }
+        [MiscSetting]
         public float EndZ { get; set; }
+        [MiscSetting]
         public short InvokeOffX { get; set; }
+        [MiscSetting]
         public short InvokeOffY { get; set; }
+        [MiscSetting]
         public short InvokeOffZ { get; set; }
+        [MiscSetting]
         public short InvokeSize { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Item = (EHeroesItem)reader.ReadByte();
-            reader.BaseStream.Position += 3;
-            Scale = reader.ReadSingle();
-            Speed = reader.ReadSingle();
-            EndX = reader.ReadSingle();
-            EndY = reader.ReadSingle();
-            EndZ = reader.ReadSingle();
-            InvokeOffX = reader.ReadInt16();
-            InvokeOffY = reader.ReadInt16();
-            InvokeOffZ = reader.ReadInt16();
-            InvokeSize = reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)Item);
-            writer.Pad(3);
-            writer.Write(Scale);
-            writer.Write(Speed);
-            writer.Write(EndX);
-            writer.Write(EndY);
-            writer.Write(EndZ);
-            writer.Write(InvokeOffX);
-            writer.Write(InvokeOffY);
-            writer.Write(InvokeOffZ);
-            writer.Write(InvokeSize);
-        }
     }
 }

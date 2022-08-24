@@ -437,7 +437,8 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 if (rw is BinMeshPLG_050E binmesh)
                 {
-                    if (binmesh.numMeshes == 0) return;
+                    if (binmesh.numMeshes == 0)
+                        return;
                 }
                 if (rw is NativeDataPLG_0510 native)
                 {
@@ -462,7 +463,8 @@ namespace HeroesPowerPlant.LevelEditor
                         colorList_init.Add(c);
                     else if (o is Vertex2 t)
                         textCoordList_init.Add(t);
-                    else throw new Exception();
+                    else
+                        throw new Exception();
                 }
             }
 

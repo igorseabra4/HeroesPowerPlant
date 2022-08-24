@@ -1,6 +1,5 @@
-﻿using Collada141;
-using SharpDX;
-using System.IO;
+﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -18,21 +17,8 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public EWeapon WeaponIfSpecialWeaponsNotUnlocked
-        {
-            get => (EWeapon)ReadInt(0);
-            set => Write(0, (int)value);
-        }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            WeaponIfSpecialWeaponsNotUnlocked = (EWeapon)reader.ReadInt32();
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write((int)WeaponIfSpecialWeaponsNotUnlocked);
-        }
+        [MiscSetting, Description("Weapon to use if special weapons not unlocked")]
+        public EWeapon Weapon { get; set; }
     }
 }
 

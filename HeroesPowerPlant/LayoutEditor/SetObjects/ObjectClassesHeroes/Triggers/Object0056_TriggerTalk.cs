@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -98,8 +97,11 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        [MiscSetting]
         public ETriggerType TriggerType { get; set; }
+        [MiscSetting]
         public short CommonLineToPlay { get; set; }
+        [MiscSetting]
         public EShape Shape { get; set; }
 
         [Description("Used only for Sphere and Cylinder")]
@@ -116,52 +118,26 @@ namespace HeroesPowerPlant.LayoutEditor
             set => ScaleY = value;
         }
 
-        [Description("Used only for Cube")]
+        [MiscSetting, Description("Used only for Cube")]
         public float ScaleX { get; set; }
 
-        [Description("Used only for Cube")]
+        [MiscSetting, Description("Used only for Cube")]
         public float ScaleY { get; set; }
 
-        [Description("Used only for Cube")]
+        [MiscSetting, Description("Used only for Cube")]
         public float ScaleZ { get; set; }
 
+        [MiscSetting]
         public short HintStart1 { get; set; }
+        [MiscSetting]
         public short HintEnd1 { get; set; }
+        [MiscSetting]
         public short HintStart2 { get; set; }
+        [MiscSetting]
         public short HintEnd2 { get; set; }
+        [MiscSetting]
         public short HintStart3 { get; set; }
+        [MiscSetting]
         public short HintEnd3 { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            TriggerType = (ETriggerType)reader.ReadInt16();
-            CommonLineToPlay = reader.ReadInt16();
-            Shape = (EShape)reader.ReadInt32();
-            ScaleX = reader.ReadSingle();
-            ScaleY = reader.ReadSingle();
-            ScaleZ = reader.ReadSingle();
-            HintStart1 = reader.ReadInt16();
-            HintEnd1 = reader.ReadInt16();
-            HintStart2 = reader.ReadInt16();
-            HintEnd2 = reader.ReadInt16();
-            HintStart3 = reader.ReadInt16();
-            HintEnd3 = reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((short)TriggerType);
-            writer.Write(CommonLineToPlay);
-            writer.Write((int)Shape);
-            writer.Write(ScaleX);
-            writer.Write(ScaleY);
-            writer.Write(ScaleZ);
-            writer.Write(HintStart1);
-            writer.Write(HintEnd1);
-            writer.Write(HintStart2);
-            writer.Write(HintEnd2);
-            writer.Write(HintStart3);
-            writer.Write(HintEnd3);
-        }
     }
 }

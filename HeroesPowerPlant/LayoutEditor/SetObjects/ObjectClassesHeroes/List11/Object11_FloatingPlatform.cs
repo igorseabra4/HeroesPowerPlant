@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -13,41 +12,23 @@ namespace HeroesPowerPlant.LayoutEditor
             Disappear = 3
         }
 
-        [Description("Disappear mode is unused. Delay can be negative to make the platform faster.")]
+        [MiscSetting(1), Description("Disappear mode is unused. Delay can be negative to make the platform faster.")]
         public EPlatformType PlatformType { get; set; }
+        [MiscSetting(2, underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool AlternateModel { get; set; }
+        [MiscSetting(3)]
         public short UnknownAlternateRange0 { get; set; }
+        [MiscSetting(4)]
         public short UnknownAlternateRange1 { get; set; }
+        [MiscSetting(5)]
         public short XOffset { get; set; }
+        [MiscSetting(6)]
         public short YOffset { get; set; }
+        [MiscSetting(7)]
         public short ZOffset { get; set; }
+        [MiscSetting(8)]
         public short TimeCycleFrame { get; set; }
+        [MiscSetting(9)]
         public byte DisappearLinkID { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            PlatformType = (EPlatformType)reader.ReadByte();
-            AlternateModel = reader.ReadByteBool();
-            UnknownAlternateRange0 = reader.ReadInt16();
-            UnknownAlternateRange1 = reader.ReadInt16();
-            XOffset = reader.ReadInt16();
-            YOffset = reader.ReadInt16();
-            ZOffset = reader.ReadInt16();
-            TimeCycleFrame = reader.ReadInt16();
-            DisappearLinkID = reader.ReadByte();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)PlatformType);
-            writer.Write((byte)(AlternateModel ? 1 : 0));
-            writer.Write(UnknownAlternateRange0);
-            writer.Write(UnknownAlternateRange1);
-            writer.Write(XOffset);
-            writer.Write(YOffset);
-            writer.Write(ZOffset);
-            writer.Write(TimeCycleFrame);
-            writer.Write(DisappearLinkID);
-        }
     }
 }

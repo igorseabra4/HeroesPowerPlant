@@ -47,6 +47,7 @@
             this.object0000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.useDebugNamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadTemplatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exportINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,6 +113,7 @@
             this.checkBoxDrawTriggerObjs = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.buttonLoadShadowSFXBIN = new System.Windows.Forms.Button();
+            this.buttonGetTemplate = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
@@ -220,6 +222,7 @@
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sortToolStripMenuItem,
             this.objectNameFormatToolStripMenuItem,
+            this.loadTemplatesToolStripMenuItem,
             this.toolStripSeparator1,
             this.exportINIToolStripMenuItem,
             this.importINIToolStripMenuItem,
@@ -276,28 +279,35 @@
             // objectToolStripMenuItem
             // 
             this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.objectToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.objectToolStripMenuItem.Text = "00 00 Object";
             this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
             // 
             // object0000ToolStripMenuItem
             // 
             this.object0000ToolStripMenuItem.Name = "object0000ToolStripMenuItem";
-            this.object0000ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.object0000ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.object0000ToolStripMenuItem.Text = "Object [00][00]";
             this.object0000ToolStripMenuItem.Click += new System.EventHandler(this.object0000ToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
             // 
             // useDebugNamesToolStripMenuItem
             // 
             this.useDebugNamesToolStripMenuItem.Name = "useDebugNamesToolStripMenuItem";
-            this.useDebugNamesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.useDebugNamesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.useDebugNamesToolStripMenuItem.Text = "Use Debug Names";
             this.useDebugNamesToolStripMenuItem.Click += new System.EventHandler(this.useDebugNamesToolStripMenuItem_Click);
+            // 
+            // loadTemplatesToolStripMenuItem
+            // 
+            this.loadTemplatesToolStripMenuItem.Name = "loadTemplatesToolStripMenuItem";
+            this.loadTemplatesToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.loadTemplatesToolStripMenuItem.Text = "Load Templates";
+            this.loadTemplatesToolStripMenuItem.Click += new System.EventHandler(this.loadTemplatesToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -1099,11 +1109,25 @@
             this.buttonLoadShadowSFXBIN.UseVisualStyleBackColor = true;
             this.buttonLoadShadowSFXBIN.Click += new System.EventHandler(this.buttonLoadShadowSFXBIN_Click);
             // 
+            // buttonGetTemplate
+            // 
+            this.buttonGetTemplate.Enabled = false;
+            this.buttonGetTemplate.Location = new System.Drawing.Point(681, 37);
+            this.buttonGetTemplate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.buttonGetTemplate.Name = "buttonGetTemplate";
+            this.buttonGetTemplate.Size = new System.Drawing.Size(101, 36);
+            this.buttonGetTemplate.TabIndex = 94;
+            this.buttonGetTemplate.TabStop = false;
+            this.buttonGetTemplate.Text = "Pick Template";
+            this.buttonGetTemplate.UseVisualStyleBackColor = true;
+            this.buttonGetTemplate.Click += new System.EventHandler(this.buttonGetTemplate_Click);
+            // 
             // LayoutEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 601);
+            this.Controls.Add(this.buttonGetTemplate);
             this.Controls.Add(this.buttonPlayLinkedAudio);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.checkBoxDrawTriggerObjs);
@@ -1265,5 +1289,7 @@
         private System.Windows.Forms.ToolStripMenuItem object0000ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem useDebugNamesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.Button buttonGetTemplate;
+        private System.Windows.Forms.ToolStripMenuItem loadTemplatesToolStripMenuItem;
     }
 }

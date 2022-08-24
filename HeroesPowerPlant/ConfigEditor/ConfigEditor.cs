@@ -1,12 +1,12 @@
 ﻿using Heroes.SDK.Definitions.Enums;
+using Heroes.SDK.Definitions.Structures.Stage.Spawn;
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using SharpDX;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Heroes.SDK.Definitions.Structures.Stage.Spawn;
-using System.Collections.Generic;
 
 namespace HeroesPowerPlant.ConfigEditor
 {
@@ -61,8 +61,10 @@ namespace HeroesPowerPlant.ConfigEditor
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -123,7 +125,8 @@ namespace HeroesPowerPlant.ConfigEditor
                 ReadINIConfig(fileName);
             else if (Path.GetExtension(fileName).ToLower().Equals(".json"))
                 ReadJSONConfig(fileName);
-            else throw new Exception("Error: Unknown file type.");
+            else
+                throw new Exception("Error: Unknown file type.");
 
             OpenConfigFileName = fileName;
             LabelFileLoaded.Text = "Loaded " + fileName;
@@ -387,9 +390,12 @@ namespace HeroesPowerPlant.ConfigEditor
 
         public void RenderStartPositions(SharpRenderer renderer)
         {
-            foreach (StartPositionEntry p in StartPositions) p.Render(renderer);
-            foreach (EndPositionEntry p in EndPositions) p.Render(renderer);
-            foreach (EndPositionEntry p in BragPositions) p.Render(renderer);
+            foreach (StartPositionEntry p in StartPositions)
+                p.Render(renderer);
+            foreach (EndPositionEntry p in EndPositions)
+                p.Render(renderer);
+            foreach (EndPositionEntry p in BragPositions)
+                p.Render(renderer);
         }
 
         private void CleanFile()
@@ -479,130 +485,200 @@ namespace HeroesPowerPlant.ConfigEditor
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { SonicStartPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicStartPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { SonicStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { SonicStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
-                        else if (ConfigFile[x].Contains("RUNNING")) { SonicStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { SonicStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { SonicStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { SonicStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { SonicStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE"))
+                        { SonicStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("RUNNING"))
+                        { SonicStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { SonicEndPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicEndPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { SonicEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { SonicEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { SonicEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { SonicEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { SonicEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { SonicBragPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { SonicBragPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { SonicBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { SonicBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { SonicBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { SonicBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { SonicBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { SonicBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
                 else if (ConfigFile[x].StartsWith("DARK_"))
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { DarkStartPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkStartPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { DarkStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { DarkStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
-                        else if (ConfigFile[x].Contains("RUNNING")) { DarkStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { DarkStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { DarkStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { DarkStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { DarkStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE"))
+                        { DarkStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("RUNNING"))
+                        { DarkStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { DarkEndPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkEndPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { DarkEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { DarkEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { DarkEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { DarkEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { DarkEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { DarkBragPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { DarkBragPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { DarkBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { DarkBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { DarkBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { DarkBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { DarkBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { DarkBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
                 else if (ConfigFile[x].StartsWith("ROSE_"))
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { RoseStartPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseStartPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { RoseStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { RoseStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
-                        else if (ConfigFile[x].Contains("RUNNING")) { RoseStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { RoseStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { RoseStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { RoseStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { RoseStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE"))
+                        { RoseStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("RUNNING"))
+                        { RoseStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { RoseEndPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseEndPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { RoseEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { RoseEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { RoseEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { RoseEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { RoseEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { RoseBragPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { RoseBragPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { RoseBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { RoseBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { RoseBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { RoseBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { RoseBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { RoseBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
                 else if (ConfigFile[x].StartsWith("CHAOTIX_"))
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixStartPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixStartPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { ChaotixStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { ChaotixStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
-                        else if (ConfigFile[x].Contains("RUNNING")) { ChaotixStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { ChaotixStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { ChaotixStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { ChaotixStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { ChaotixStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE"))
+                        { ChaotixStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("RUNNING"))
+                        { ChaotixStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixEndPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixEndPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { ChaotixEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { ChaotixEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { ChaotixEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { ChaotixEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { ChaotixEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ChaotixBragPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ChaotixBragPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ChaotixBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { ChaotixBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { ChaotixBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { ChaotixBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { ChaotixBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { ChaotixBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
                 else if (ConfigFile[x].StartsWith("FOREDIT_"))
                 {
                     if (ConfigFile[x].Contains("START_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditStartPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditStartPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { ForeditStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
-                        else if (ConfigFile[x].Contains("MODE")) { ForeditStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
-                        else if (ConfigFile[x].Contains("RUNNING")) { ForeditStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { ForeditStartPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { ForeditStartPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { ForeditStartPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { ForeditStartPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        else if (ConfigFile[x].Contains("MODE"))
+                        { ForeditStartPosition.Mode = (StartPositionMode)Convert.ToByte(Value); continue; }
+                        else if (ConfigFile[x].Contains("RUNNING"))
+                        { ForeditStartPosition.HoldTime = Convert.ToInt32(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("END_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditEndPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditEndPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { ForeditEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { ForeditEndPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { ForeditEndPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { ForeditEndPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { ForeditEndPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                     else if (ConfigFile[x].Contains("BRAG_"))
                     {
-                        if (ConfigFile[x].Contains("POSITIONX")) { ForeditBragPosition.PositionX = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONY")) { ForeditBragPosition.PositionY = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("POSITIONZ")) { ForeditBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
-                        else if (ConfigFile[x].Contains("PITCH")) { ForeditBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
+                        if (ConfigFile[x].Contains("POSITIONX"))
+                        { ForeditBragPosition.PositionX = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONY"))
+                        { ForeditBragPosition.PositionY = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("POSITIONZ"))
+                        { ForeditBragPosition.PositionZ = Convert.ToSingle(Value); continue; }
+                        else if (ConfigFile[x].Contains("PITCH"))
+                        { ForeditBragPosition.Pitch = Convert.ToUInt16(Value); continue; }
                     }
                 }
             }

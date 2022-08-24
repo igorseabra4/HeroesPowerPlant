@@ -4,70 +4,39 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object11D4_BAGunShip : SetObjectShadow
     {
+        public enum EBAGunShipAttack : int
+        {
+            NONE,
+            ATTACK,
+            ATTACK2 = 5
+        }
+
         //radius, height, attack, ComID, delay, interval
 
-        public float DetectRangeXZ
-        { //radius
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
-        public float DetectRangeY
-        { //height
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-        public float TimeUntilTakeOff
-        { //delay
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public float DetectRangeXZ { get; set; } //radius
+        [MiscSetting]
+        public float DetectRangeY { get; set; } //height
+        [MiscSetting]
+        public float TimeUntilTakeOff { get; set; } //delay
 
-        public BAGunShipAttack Attack
-        { //attack
-            get => (BAGunShipAttack)ReadInt(12);
-            set => Write(12, (int)value);
-        }
+        [MiscSetting]
+        public EBAGunShipAttack Attack { get; set; } //attack
 
-        [Description("Always 0 in original objects, purpose unknown")]
-        public int int4
-        {  //??
-            get => ReadInt(16);
-            set => Write(16, value);
-        }
+        [MiscSetting, Description("Always 0 in original objects, purpose unknown")]
+        public int int4 { get; set; }
 
-        [Description("Enemy w/LinkID to spawn")]
-        public int LinkID_EnemySpawning
-        { //ComID
-            get => ReadInt(20);
-            set => Write(20, value);
-        }
+        [MiscSetting, Description("Enemy w/LinkID to spawn")]
+        public int LinkID_EnemySpawning { get; set; } //ComID
 
-        [Description("Number of times to re-drop enemy from LinkID_EnemySpawning")]
-        public int NumberOfDrops
-        {
-            get => ReadInt(24);
-            set => Write(24, value);
-        }
+        [MiscSetting, Description("Number of times to re-drop enemy from LinkID_EnemySpawning")]
+        public int NumberOfDrops { get; set; }
 
-        [Description("Always 0 in original objects, purpose unknown")]
-        public int int7
-        { //??
-            get => ReadInt(28);
-            set => Write(28, value);
-        }
+        [MiscSetting, Description("Always 0 in original objects, purpose unknown")]
+        public int int7 { get; set; }
 
-        public float AttackInterval
-        { //interval
-            get => ReadFloat(32);
-            set => Write(32, value);
-        }
-    }
-
-    public enum BAGunShipAttack
-    {
-        NONE,
-        ATTACK,
-        ATTACK2 = 5
+        [MiscSetting]
+        public float AttackInterval { get; set; } //interval
     }
 }
 

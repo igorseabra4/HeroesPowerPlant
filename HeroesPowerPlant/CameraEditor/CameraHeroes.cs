@@ -245,7 +245,8 @@ namespace HeroesPowerPlant.CameraEditor
 
             if (hasIntersected)
                 return smallestDistance;
-            else return null;
+            else
+                return null;
         }
     }
 }

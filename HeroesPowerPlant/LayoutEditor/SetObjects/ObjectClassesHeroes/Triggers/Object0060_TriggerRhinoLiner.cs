@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -45,38 +44,21 @@ namespace HeroesPowerPlant.LayoutEditor
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        [Description("Player activates Start and End, Rhino Liner activates the rest")]
+        [MiscSetting, Description("Player activates Start and End, Rhino Liner activates the rest")]
         public EType TriggerType { get; set; }
+        [MiscSetting]
         public byte SpeedControl { get; set; }
+        [MiscSetting]
         public byte Unknown1 { get; set; }
+        [MiscSetting]
         public byte Unknown2 { get; set; }
+        [MiscSetting]
         public float Radius { get; set; }
+        [MiscSetting]
         public float TargetX { get; set; }
+        [MiscSetting]
         public float TargetY { get; set; }
+        [MiscSetting]
         public float TargetZ { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            TriggerType = (EType)reader.ReadByte();
-            SpeedControl = reader.ReadByte();
-            Unknown1 = reader.ReadByte();
-            Unknown2 = reader.ReadByte();
-            Radius = reader.ReadSingle();
-            TargetX = reader.ReadSingle();
-            TargetY = reader.ReadSingle();
-            TargetZ = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)TriggerType);
-            writer.Write(SpeedControl);
-            writer.Write(Unknown1);
-            writer.Write(Unknown2);
-            writer.Write(Radius);
-            writer.Write(TargetX);
-            writer.Write(TargetY);
-            writer.Write(TargetZ);
-        }
     }
 }

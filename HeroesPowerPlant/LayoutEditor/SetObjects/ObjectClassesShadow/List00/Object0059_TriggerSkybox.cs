@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -16,62 +17,33 @@ namespace HeroesPowerPlant.LayoutEditor
         // 5 int
         // 6 int
 
-        [Description("Always 0 in original objects, purpose unknown\n Insert an int here for testing")]
-        public int Unknown_int0
-        {
-            get => ReadInt(0);
-            set => Write(0, value);
-        }
+        [MiscSetting(0), Description("Always 0 in original objects, purpose unknown\n Insert an int here for testing")]
+        public int Unknown_int0 { get; set; }
 
         [Description("Always 0 in original objects, purpose unknown\n Insert a float here for testing")]
         public float Unknown_float0
         {
-            get => ReadFloat(0);
-            set => Write(0, value);
+            get => BitConverter.ToSingle(BitConverter.GetBytes(Unknown_int0), 0);
+            set => Unknown_int0 = BitConverter.ToInt32(BitConverter.GetBytes(value));
         }
 
-        [Description("Force the chunk(s) On or Off while in Radius.\n Ignores Visibility constraints")]
-        public CommonNoYes DrawMode
-        {
-            get => (CommonNoYes)ReadInt(4);
-            set => Write(4, (int)value);
-        }
+        [MiscSetting(1), Description("Force the chunk(s) On or Off while in Radius.\n Ignores Visibility constraints")]
+        public ENoYes DrawMode { get; set; }
 
-        [Description("Radius from origin that the object is active")]
-        public float Radius
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting(2), Description("Radius from origin that the object is active")]
+        public float Radius { get; set; }
 
-        [Description("Chunk to force on/off, set to -1 or 0 to pick none")]
-        public int Chunk_1
-        {
-            get => ReadInt(12);
-            set => Write(12, value);
-        }
+        [MiscSetting(3), Description("Chunk to force on/off, set to -1 or 0 to pick none")]
+        public int Chunk_1 { get; set; }
 
-        [Description("Chunk to force on/off, set to -1 or 0 to pick none")]
-        public int Chunk_2
-        {
-            get => ReadInt(16);
-            set => Write(16, value);
-        }
+        [MiscSetting(4), Description("Chunk to force on/off, set to -1 or 0 to pick none")]
+        public int Chunk_2 { get; set; }
 
-        [Description("Chunk to force on/off, set to -1 or 0 to pick none")]
-        public int Chunk_3
-        {
-            get => ReadInt(20);
-            set => Write(20, value);
-        }
+        [MiscSetting(5), Description("Chunk to force on/off, set to -1 or 0 to pick none")]
+        public int Chunk_3 { get; set; }
 
-        [Description("Chunk to force on/off, set to -1 or 0 to pick none")]
-        public int Chunk_4
-        {
-            get => ReadInt(24);
-            set => Write(24, value);
-        }
-
+        [MiscSetting(6), Description("Chunk to force on/off, set to -1 or 0 to pick none")]
+        public int Chunk_4 { get; set; }
     }
 }
 

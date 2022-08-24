@@ -2,17 +2,14 @@
 {
     public class Object106C_SkyRuinsJewel : SetObjectShadow
     {
-        //PowerDeviceNaked
-        public PowerDeviceNakedModel Model
+        public enum EModel : int
         {
-            get => (PowerDeviceNakedModel)ReadInt(0);
-            set => Write(0, (int)value);
+            Out,
+            In
         }
-    }
 
-    public enum PowerDeviceNakedModel
-    {
-        Out,
-        In
+        //PowerDeviceNaked
+        [MiscSetting]
+        public EModel Model { get; set; }
     }
 }

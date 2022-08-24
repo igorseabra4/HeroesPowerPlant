@@ -1,25 +1,12 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0904_RainIvy : SetObjectHeroes
     {
+        [MiscSetting(1)]
         public float Range { get; set; }
+        [MiscSetting(2)]
         public float MotionSpeed { get; set; }
+        [MiscSetting(3)]
         public int NotInUse { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Range = reader.ReadSingle();
-            MotionSpeed = reader.ReadSingle();
-            NotInUse = reader.ReadInt32();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Range);
-            writer.Write(MotionSpeed);
-            writer.Write(NotInUse);
-        }
     }
 }

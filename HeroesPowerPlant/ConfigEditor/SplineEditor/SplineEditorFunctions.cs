@@ -90,7 +90,8 @@ namespace HeroesPowerPlant.SplineEditor
 
         public void RenderSplines(SharpRenderer renderer)
         {
-            foreach (Spline s in SplineList) s.Render(renderer);
+            foreach (Spline s in SplineList)
+                s.Render(renderer);
         }
 
         public void ViewHere(int pointIndex)
@@ -211,7 +212,7 @@ namespace HeroesPowerPlant.SplineEditor
             var splines = SplineList.Select(x => new ManagedSpline(ToSplineType(x.Type), ToSplineVertexArray(x.Points))).ToArray();
             var splineFile = new SplineFile(splines);
             JsonSerializable<SplineFile>.ToPath(splineFile, splineJsonPath);
-            
+
             UnsavedChanges = false;
         }
 

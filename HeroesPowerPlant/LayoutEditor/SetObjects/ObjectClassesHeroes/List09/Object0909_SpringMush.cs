@@ -1,22 +1,10 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0909_SpringMush : SetObjectHeroes
     {
+        [MiscSetting(1)]
         public float Speed { get; set; }
+        [MiscSetting(2)]
         public byte NoControlTime { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Speed = reader.ReadSingle();
-            NoControlTime = reader.ReadByte();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Speed);
-            writer.Write(NoControlTime);
-        }
     }
 }

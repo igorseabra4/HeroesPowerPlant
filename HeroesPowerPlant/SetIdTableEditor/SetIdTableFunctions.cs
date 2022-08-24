@@ -3,7 +3,6 @@ using HeroesPowerPlant.Shared.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.SetIdTableEditor
 {
@@ -45,7 +44,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             else
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
                     tableEntries.Add(ReadHeroesTableEntry(reader, objectEntries));
-            
+
             return tableEntries;
         }
 

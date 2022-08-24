@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object050A_Dice : SetObjectHeroes
     {
@@ -10,31 +8,17 @@ namespace HeroesPowerPlant.LayoutEditor
             Horizontal = 1
         }
 
+        [MiscSetting]
         public float Speed { get; set; }
+        [MiscSetting]
         public float Height { get; set; }
+        [MiscSetting]
         public float Radius { get; set; }
+        [MiscSetting]
         public short StopTime { get; set; }
+        [MiscSetting]
         public EDiceType DiceType { get; set; }
+        [MiscSetting]
         public short OffsetTime { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Speed = reader.ReadSingle();
-            Height = reader.ReadSingle();
-            Radius = reader.ReadSingle();
-            StopTime = reader.ReadInt16();
-            DiceType = (EDiceType)reader.ReadInt16();
-            OffsetTime = reader.ReadInt16();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Speed);
-            writer.Write(Height);
-            writer.Write(Radius);
-            writer.Write(StopTime);
-            writer.Write((short)DiceType);
-            writer.Write(OffsetTime);
-        }
     }
 }

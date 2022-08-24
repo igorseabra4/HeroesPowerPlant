@@ -1,19 +1,8 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object2300_EggAlbatross : SetObjectHeroes
     {
+        [MiscSetting]
         public float YOffset { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            YOffset = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(YOffset);
-        }
     }
 }

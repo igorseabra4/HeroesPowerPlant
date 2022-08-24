@@ -173,7 +173,8 @@ namespace HeroesPowerPlant
             {
                 AddPlane(device, pl);
             }
-            else throw new Exception();
+            else
+                throw new Exception();
 
             if (planeSection.rightSection is AtomicSector_0009 ar)
             {
@@ -183,7 +184,8 @@ namespace HeroesPowerPlant
             {
                 AddPlane(device, pr);
             }
-            else throw new Exception();
+            else
+                throw new Exception();
         }
 
         void AddAtomic(SharpDevice device, AtomicSector_0009 AtomicSector)
@@ -391,7 +393,8 @@ namespace HeroesPowerPlant
             {
                 if (rw is BinMeshPLG_050E binmesh)
                 {
-                    if (binmesh.numMeshes == 0) return;
+                    if (binmesh.numMeshes == 0)
+                        return;
                 }
                 if (rw is NativeDataPLG_0510 native)
                 {
@@ -400,7 +403,8 @@ namespace HeroesPowerPlant
                 }
             }
 
-            if (n == null) throw new Exception(ChunkName + ChunkNumber.ToString());
+            if (n == null)
+                throw new Exception(ChunkName + ChunkNumber.ToString());
 
             List<Vertex3> vertexList1 = new List<Vertex3>();
             List<Vertex3> normalList = new List<Vertex3>();
@@ -419,7 +423,8 @@ namespace HeroesPowerPlant
                         textCoordList.Add((Vertex2)o);
                     else if (d.declarationType == Declarations.Normal)
                         normalList.Add((Vertex3)o);
-                    else throw new Exception();
+                    else
+                        throw new Exception();
                 }
             }
 
@@ -501,7 +506,8 @@ namespace HeroesPowerPlant
         {
             foreach (SharpMesh mesh in meshList)
             {
-                if (mesh == null) continue;
+                if (mesh == null)
+                    continue;
 
                 mesh.Begin(device);
                 for (int i = 0; i < mesh.SubSets.Count(); i++)

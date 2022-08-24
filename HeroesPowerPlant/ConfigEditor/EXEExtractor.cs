@@ -1,6 +1,6 @@
 ﻿//using GenericStageInjectionCommon.Structs.Positions.Substructures;
-using Heroes.SDK.Definitions.Structures.Stage.Spawn;
 using Heroes.SDK.Definitions.Enums;
+using Heroes.SDK.Definitions.Structures.Stage.Spawn;
 using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
@@ -63,8 +63,10 @@ namespace HeroesPowerPlant.ConfigEditor
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();

@@ -10,7 +10,7 @@
         public string[][] ModelNames;
         public bool HasMiscSettings;
         public int MiscSettingCount;
-                
+
         public static bool AlternateFormat = false;
         public static bool UseDebugNames = false;
 

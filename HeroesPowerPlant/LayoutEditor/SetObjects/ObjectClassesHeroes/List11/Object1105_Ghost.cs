@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -19,28 +18,15 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
+        [MiscSetting]
         public EGhostType GhostType { get; set; }
+        [MiscSetting]
         public float Range { get; set; }
+        [MiscSetting]
         public float MovingArea { get; set; }
+        [MiscSetting]
         public float Speed { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            GhostType = (EGhostType)reader.ReadInt32();
-            Range = reader.ReadSingle();
-            MovingArea = reader.ReadSingle();
-            Speed = reader.ReadSingle();
-            Scale = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((int)GhostType);
-            writer.Write(Range);
-            writer.Write(MovingArea);
-            writer.Write(Speed);
-            writer.Write(Scale);
-        }
     }
 }

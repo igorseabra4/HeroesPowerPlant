@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -11,29 +10,15 @@ namespace HeroesPowerPlant.LayoutEditor
             Down = 1,
         }
 
+        [MiscSetting]
         public float ScaleX { get; set; }
+        [MiscSetting]
         public float ScaleY { get; set; }
+        [MiscSetting]
         public float ScaleZ { get; set; }
-        [Description("Doesn't use actual Link ID. Use this one.")]
+        [MiscSetting, Description("Doesn't use actual Link ID. Use this one.")]
         public byte LinkID { get; set; }
+        [MiscSetting]
         public EDirection Direction { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            ScaleX = reader.ReadSingle();
-            ScaleY = reader.ReadSingle();
-            ScaleZ = reader.ReadSingle();
-            LinkID = reader.ReadByte();
-            Direction = (EDirection)reader.ReadByte();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(ScaleX);
-            writer.Write(ScaleY);
-            writer.Write(ScaleZ);
-            writer.Write(LinkID);
-            writer.Write((byte)Direction);
-        }
     }
 }

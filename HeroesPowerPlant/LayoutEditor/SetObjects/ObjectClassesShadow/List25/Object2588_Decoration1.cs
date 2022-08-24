@@ -10,28 +10,16 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public int DecorationType
-        {
-            get => ReadInt(0x0);
-            set => Write(0x0, value);
-        }
+        [MiscSetting]
+        public int DecorationType { get; set; }
 
-        public float ScaleX
-        {
-            get => ReadFloat(0x4);
-            set => Write(0x4, value);
-        }
+        [MiscSetting]
+        public float ScaleX { get; set; }
 
-        public float ScaleY
-        {
-            get => ReadFloat(0x8);
-            set => Write(0x8, value);
-        }
+        [MiscSetting]
+        public float ScaleY { get; set; }
 
-        public float ScaleZ
-        {
-            get => ReadFloat(0xC);
-            set => Write(0xC, value);
-        }
+        [MiscSetting]
+        public float ScaleZ { get; set; }
     }
 }

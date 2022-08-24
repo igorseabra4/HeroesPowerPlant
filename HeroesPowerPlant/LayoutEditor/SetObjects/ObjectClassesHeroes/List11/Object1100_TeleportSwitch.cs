@@ -1,4 +1,3 @@
-using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -65,28 +64,15 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        [MiscSetting(1)]
         public float DestinationX { get; set; }
+        [MiscSetting(2)]
         public float DestinationY { get; set; }
+        [MiscSetting(3)]
         public float DestinationZ { get; set; }
+        [MiscSetting(4, underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool IsInactive { get; set; }
+        [MiscSetting(5, underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool IsUpsideDown { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            DestinationX = reader.ReadSingle();
-            DestinationY = reader.ReadSingle();
-            DestinationZ = reader.ReadSingle();
-            IsInactive = reader.ReadByteBool();
-            IsUpsideDown = reader.ReadByteBool();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(DestinationX);
-            writer.Write(DestinationY);
-            writer.Write(DestinationZ);
-            writer.Write((byte)(IsInactive ? 1 : 0));
-            writer.Write((byte)(IsUpsideDown ? 1 : 0));
-        }
     }
 }

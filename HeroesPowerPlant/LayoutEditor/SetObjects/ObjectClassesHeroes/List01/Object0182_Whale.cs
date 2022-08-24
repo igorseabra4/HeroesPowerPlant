@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -22,36 +21,19 @@ namespace HeroesPowerPlant.LayoutEditor
                 renderer.DrawSphereTrigger(triggerMatrix, true);
         }
 
+        [MiscSetting]
         public byte WhaleType { get; set; }
+        [MiscSetting]
         public short TriggerSize { get; set; }
+        [MiscSetting]
         public float WhaleScale { get; set; }
+        [MiscSetting]
         public float ArchRadius { get; set; }
+        [MiscSetting]
         public float TriggerX { get; set; }
+        [MiscSetting]
         public float TriggerY { get; set; }
+        [MiscSetting]
         public float TriggerZ { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            WhaleType = reader.ReadByte();
-            reader.BaseStream.Position += 1;
-            TriggerSize = reader.ReadInt16();
-            WhaleScale = reader.ReadSingle();
-            ArchRadius = reader.ReadSingle();
-            TriggerX = reader.ReadSingle();
-            TriggerY = reader.ReadSingle();
-            TriggerZ = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(WhaleType);
-            writer.Write((byte)0);
-            writer.Write(TriggerSize);
-            writer.Write(WhaleScale);
-            writer.Write(ArchRadius);
-            writer.Write(TriggerX);
-            writer.Write(TriggerY);
-            writer.Write(TriggerZ);
-        }
     }
 }

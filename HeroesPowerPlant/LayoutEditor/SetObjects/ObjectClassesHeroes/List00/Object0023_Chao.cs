@@ -1,22 +1,10 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0023_Chao : SetObjectHeroes
     {
+        [MiscSetting]
         public float Radius { get; set; }
+        [MiscSetting]
         public float AngularSpeed { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Radius = reader.ReadSingle();
-            AngularSpeed = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Radius);
-            writer.Write(AngularSpeed);
-        }
     }
 }

@@ -2,23 +2,16 @@
 {
     public class Object138E_ArkCannon : SetObjectShadow
     {
-        public ArkCannonType Model
+        public enum EModel : int
         {
-            get => (ArkCannonType)ReadInt(0);
-            set => Write(0, (int)value);
+            Ground, //GRAND
+            Air // AIR
         }
 
-        public float DetectRange
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-    }
-
-    public enum ArkCannonType
-    {
-        Ground, //GRAND
-        Air // AIR
+        [MiscSetting]
+        public EModel Model { get; set; }
+        [MiscSetting]
+        public float DetectRange { get; set; }
     }
 }
 

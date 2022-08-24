@@ -2,32 +2,20 @@
 {
     public class Object0838_RuinsStoneGuardian : SetObjectShadow
     {
-        //StoneStatue(Active{off,on},Mirror{off,on},Range_Radius m, Range_height m)
-        public StoneStatueOffOn Active
+        public enum EOffOn : int
         {
-            get => (StoneStatueOffOn)ReadInt(0);
-            set => Write(0, (int)value);
+            Off,
+            On
         }
-        public StoneStatueOffOn Mirror
-        {
-            get => (StoneStatueOffOn)ReadInt(4);
-            set => Write(4, (int)value);
-        }
-        public float DetectRadius
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-        public float DetectHeight
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-    }
 
-    public enum StoneStatueOffOn
-    {
-        Off,
-        On
+        //StoneStatue(Active{off,on},Mirror{off,on},Range_Radius m, Range_height m)
+        [MiscSetting]
+        public EOffOn Active { get; set; }
+        [MiscSetting]
+        public EOffOn Mirror { get; set; }
+        [MiscSetting]
+        public float DetectRadius { get; set; }
+        [MiscSetting]
+        public float DetectHeight { get; set; }
     }
 }

@@ -6,11 +6,7 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         //CatchStick
 
-        [Description("Extends equally up/down from object location")]
-        public float Length
-        {
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
+        [MiscSetting, Description("Extends equally up/down from object location")]
+        public float Length { get; set; }
     }
 }

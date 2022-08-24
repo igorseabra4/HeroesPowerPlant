@@ -1,25 +1,12 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0184_LargeBird : SetObjectHeroes
     {
+        [MiscSetting]
         public float Radius { get; set; }
+        [MiscSetting]
         public float Speed { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            Radius = reader.ReadSingle();
-            Speed = reader.ReadSingle();
-            Scale = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(Radius);
-            writer.Write(Speed);
-            writer.Write(Scale);
-        }
     }
 }

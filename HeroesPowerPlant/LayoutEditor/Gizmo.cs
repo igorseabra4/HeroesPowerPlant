@@ -38,7 +38,8 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void SetPosition(BoundingSphere Sphere)
         {
-            if (Sphere.Radius < 10f) Sphere.Radius = 10f;
+            if (Sphere.Radius < 10f)
+                Sphere.Radius = 10f;
             switch (type)
             {
                 case GizmoType.X:

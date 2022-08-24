@@ -1,6 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object1188_Curtain : SetObjectHeroes
     {
@@ -10,27 +8,13 @@ namespace HeroesPowerPlant.LayoutEditor
             Dark = 1,
         }
 
+        [MiscSetting]
         public ECurtainType CurtainType { get; set; }
+        [MiscSetting]
         public byte Pole { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
         public bool IsUpsideDown { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            CurtainType = (ECurtainType)reader.ReadByte();
-            Pole = reader.ReadByte();
-            IsUpsideDown = reader.ReadByteBool();
-            reader.ReadByte();
-            Scale = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write((byte)CurtainType);
-            writer.Write(Pole);
-            writer.Write((byte)(IsUpsideDown ? 1 : 0));
-            writer.Write((byte)0);
-            writer.Write(Scale);
-        }
     }
 }

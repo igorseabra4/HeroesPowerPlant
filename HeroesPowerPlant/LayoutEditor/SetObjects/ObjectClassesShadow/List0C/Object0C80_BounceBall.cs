@@ -1,35 +1,21 @@
-﻿using System.IO;
-
-namespace HeroesPowerPlant.LayoutEditor
+﻿namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0C80_BounceBall : SetObjectShadow
     {
-        public enum EAppearType
+        public enum EAppearType : int
         {
             Always,
             AfterLinkIDCleared
         }
 
         //CircusBall [Horror/Circus skins] (type, level, nocontrol time (sec), angle)
+        [MiscSetting]
         public EAppearType AppearType { get; set; }
+        [MiscSetting]
         public float Strength { get; set; }
+        [MiscSetting]
         public float NoControlTime { get; set; }
+        [MiscSetting]
         public float Angle { get; set; }
-
-        public override void ReadMiscSettings(BinaryReader reader, int count)
-        {
-            AppearType = (EAppearType)reader.ReadInt32();
-            Strength = reader.ReadSingle();
-            NoControlTime = reader.ReadSingle();
-            Angle = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(BinaryWriter writer)
-        {
-            writer.Write((int)AppearType);
-            writer.Write(Strength);
-            writer.Write(NoControlTime);
-            writer.Write(Angle);
-        }
     }
 }

@@ -7,12 +7,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public abstract class SetObject
     {
+        [JsonConstructor]
+        public SetObject()
+        {
+            UnkBytes = new byte[8];
+        }
+
         public Vector3 Position;
         public Vector3 Rotation;
         public byte List;
@@ -32,13 +39,98 @@ namespace HeroesPowerPlant.LayoutEditor
         protected string ModelMiscSetting => objectEntry.ModelMiscSetting;
         [JsonIgnore]
         protected string[][] ModelNames => objectEntry.ModelNames;
+
         public bool HasMiscSettings;
 
-        public virtual bool IsTrigger() => false;
+        [Browsable(false)]
+        public (PropertyInfo property, MiscSettingAttribute attribute)[] MiscProperties =>
+            (from prop in GetType().GetProperties()
+             where prop.GetCustomAttribute(typeof(MiscSettingAttribute)) != null
+             select (prop, attribute: (MiscSettingAttribute)prop.GetCustomAttribute(typeof(MiscSettingAttribute))))
+            .OrderBy(prop => prop.attribute.Order).ToArray();
 
         public abstract void SetMiscSettings(byte[] miscSettings);
 
-        public abstract byte[] GetMiscSettings();
+        public virtual void ReadMiscSettings(BinaryReader reader)
+        {
+            foreach (var (property, attribute) in MiscProperties)
+            {
+                var underlyingType = MiscSettingAttribute.GetUnderlyingType(property.PropertyType, attribute.UnderlyingType);
+
+                object value;
+                switch (underlyingType)
+                {
+                    case MiscSettingUnderlyingType.Int:
+                        while (reader.BaseStream.Position % 4 != 0)
+                            reader.BaseStream.Position++;
+                        value = reader.ReadInt32();
+                        break;
+                    case MiscSettingUnderlyingType.Float:
+                        while (reader.BaseStream.Position % 4 != 0)
+                            reader.BaseStream.Position++;
+                        value = reader.ReadSingle();
+                        break;
+                    case MiscSettingUnderlyingType.Short:
+                        while (reader.BaseStream.Position % 2 != 0)
+                            reader.BaseStream.Position++;
+                        value = reader.ReadInt16();
+                        break;
+                    case MiscSettingUnderlyingType.Byte:
+                        value = reader.ReadByte();
+                        break;
+                    default:
+                        throw new Exception();
+                }
+
+                reader.BaseStream.Position += attribute.PadAfter;
+
+                property.SetValue(this,
+                    property.PropertyType.Equals(typeof(bool)) ? Convert.ToBoolean(value) :
+                    property.PropertyType.IsEnum ? Enum.ToObject(property.PropertyType, value) :
+                    value);
+            }
+        }
+
+        public byte[] GetMiscSettings()
+        {
+            using var writer = new EndianBinaryWriter(new MemoryStream(), this is SetObjectHeroes ? Endianness.Big : Endianness.Little);
+            WriteMiscSettings(writer);
+            return ((MemoryStream)writer.BaseStream).ToArray();
+        }
+
+        public virtual void WriteMiscSettings(BinaryWriter writer)
+        {
+            foreach (var (property, attribute) in MiscProperties)
+            {
+                var underlyingType = MiscSettingAttribute.GetUnderlyingType(property.PropertyType, attribute.UnderlyingType);
+
+                switch (underlyingType)
+                {
+                    case MiscSettingUnderlyingType.Int:
+                        while (writer.BaseStream.Position % 4 != 0)
+                            writer.BaseStream.Position++;
+                        writer.Write(Convert.ToInt32(property.GetValue(this)));
+                        break;
+                    case MiscSettingUnderlyingType.Float:
+                        while (writer.BaseStream.Position % 4 != 0)
+                            writer.BaseStream.Position++;
+                        writer.Write(Convert.ToSingle(property.GetValue(this)));
+                        break;
+                    case MiscSettingUnderlyingType.Short:
+                        while (writer.BaseStream.Position % 2 != 0)
+                            writer.BaseStream.Position++;
+                        writer.Write(Convert.ToInt16(property.GetValue(this)));
+                        break;
+                    case MiscSettingUnderlyingType.Byte:
+                        writer.Write(Convert.ToByte(property.GetValue(this)));
+                        break;
+                }
+
+                writer.BaseStream.Position += attribute.PadAfter;
+            }
+        }
+
+        public virtual bool IsTrigger() => false;
 
         public override string ToString()
         {

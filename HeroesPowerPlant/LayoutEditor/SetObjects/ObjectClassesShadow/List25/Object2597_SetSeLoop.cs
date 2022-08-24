@@ -4,13 +4,21 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object2597_SetSeLoop : SetObjectShadow
     {
-
-        public int AudioID
+        public enum EType : int
         {
-            //30017, 29788, 30257, 30542, 30528
-            get => ReadInt(0);
-            set => Write(0, value);
+            FlatDamping,
+            PanCtrl
         }
+
+        public enum ERange : int
+        {
+            Sphere,
+            Box,
+            Cylinder //potentially offset by Capsule if shared with SetSeOneShot
+        }
+
+        [MiscSetting(0)]
+        public int AudioID { get; set; } //30017, 29788, 30257, 30542, 30528
 
         public SFXEntry sfxEntry;
 
@@ -22,66 +30,35 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public int RangeTypeMaybeRaw
+        [MiscSetting(1)]
+        public int RangeTypeMaybeRaw { get; set; }
+
+        public ERange RangeTypeMaybe
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            get => (ERange)RangeTypeMaybeRaw;
+            set => RangeTypeMaybeRaw = (int)value;
         }
 
-        public SetSeLoopRange RangeTypeMaybe
+        [MiscSetting(2)]
+        public int TypeMaybeRaw { get; set; }
+
+        public EType TypeMaybe
         {
-            get => (SetSeLoopRange)ReadInt(4);
-            set => Write(4, (int)value);
+            get => (EType)TypeMaybeRaw;
+            set => TypeMaybeRaw = (int)value;
         }
 
-        public int TypeMaybeRaw
-        {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
+        [MiscSetting(3)]
+        public float HalfLengthX { get; set; }
 
-        public SetSeLoopType TypeMaybe
-        {
-            get => (SetSeLoopType)ReadInt(8);
-            set => Write(8, (int)value);
-        }
+        [MiscSetting(4)]
+        public float HalfLengthY { get; set; }
 
-        public float HalfLengthX
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        [MiscSetting(5)]
+        public float HalfLengthZ { get; set; }
 
-        public float HalfLengthY
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float HalfLengthZ
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public float FlatDampingRate
-        { // FlatDampingRate(0-1)
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-    }
-
-    public enum SetSeLoopType
-    {
-        FlatDamping,
-        PanCtrl
-    }
-
-    public enum SetSeLoopRange
-    {
-        Sphere,
-        Box,
-        Cylinder //potentially offset by Capsule if shared with SetSeOneShot
+        [MiscSetting(6)]
+        public float FlatDampingRate { get; set; } // FlatDampingRate(0-1)
     }
 }
 

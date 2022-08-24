@@ -1,5 +1,4 @@
-﻿using HeroesPowerPlant.Shared.Utilities;
-using SharpDX;
+﻿using SharpDX;
 using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
@@ -36,25 +35,11 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        [Description("Types range from 0 to 15. 8 to 15 are the same as 0 to 7 but without the flag itself.")]
+        [MiscSetting, Description("Types range from 0 to 15. 8 to 15 are the same as 0 to 7 but without the flag itself.")]
         public byte ObjectType { get; set; }
+        [MiscSetting]
         public float FlagAngle { get; set; }
+        [MiscSetting]
         public float Scale { get; set; }
-
-        public override void ReadMiscSettings(EndianBinaryReader reader)
-        {
-            ObjectType = reader.ReadByte();
-            reader.BaseStream.Position += 3;
-            FlagAngle = reader.ReadSingle();
-            Scale = reader.ReadSingle();
-        }
-
-        public override void WriteMiscSettings(EndianBinaryWriter writer)
-        {
-            writer.Write(ObjectType);
-            writer.Pad(3);
-            writer.Write(FlagAngle);
-            writer.Write(Scale);
-        }
     }
 }
