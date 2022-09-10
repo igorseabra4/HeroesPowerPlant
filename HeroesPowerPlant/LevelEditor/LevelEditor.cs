@@ -18,7 +18,7 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant.LevelEditor
 {
-    public partial class LevelEditor : Form
+    public partial class LevelEditor : Form, IUnsavedChanges
     {
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -55,6 +55,8 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
             New();
         }
 
@@ -62,11 +64,14 @@ namespace HeroesPowerPlant.LevelEditor
         {
             SetHeroesMode();
             ResetEveryting();
-            _unsavedChangesLevel = true;
+            _unsavedChangesLevel = false;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "ONE files|*.ONE"
@@ -440,6 +445,9 @@ namespace HeroesPowerPlant.LevelEditor
             bspRenderer.ShadowColBSPList.Clear();
             shadowSplineEditor.Init();
             InitBSPList();
+
+            _unsavedChangesLevel = false;
+            _unsavedChangesVisibility = false;
         }
 
         // Shadow Level Editor
@@ -449,12 +457,18 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ShadowLevelMenuItemNew_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             SetShadowMode();
             ResetEveryting();
         }
 
         private async void ShadowLevelMenuItemOpen_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             VistaFolderBrowserDialog openFolder = new VistaFolderBrowserDialog();
 
             if (openFolder.ShowDialog() == DialogResult.OK)
@@ -562,6 +576,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             _unsavedChangesLevel = false;
             shadowCollisionEditor.UnsavedChanges = false;
+            shadowSplineEditor.UnsavedChanges = false;
+            _unsavedChangesVisibility = false;
 
             SaveShadowDATONE(datONEpath);
 
@@ -660,6 +676,9 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             NewVisibility();
         }
 
@@ -670,11 +689,14 @@ namespace HeroesPowerPlant.LevelEditor
             numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
             labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             labelLoadedBLK.Text = "No BLK loaded";
-            _unsavedChangesVisibility = true;
+            _unsavedChangesVisibility = false;
         }
 
         private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN files|*.bin"
@@ -714,7 +736,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
         }
 
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItemVisibility_Click(object sender, EventArgs e)
         {
             if (visibilityFunctions.OpenVisibilityFile != null)
             {
@@ -946,5 +968,68 @@ namespace HeroesPowerPlant.LevelEditor
             _unsavedChangesVisibility ||
             shadowCollisionEditor.UnsavedChanges ||
             shadowSplineEditor.UnsavedChanges;
+
+        private bool ShouldStopBecauseOfUnsavedChanges(object sender, EventArgs e)
+        {
+            if (isShadowMode)
+            {
+                if (UnsavedChanges)
+                {
+                    var result = Extensions.UnsavedChangesMessageBox("Level Editor");
+                    if (result == DialogResult.Yes)
+                    {
+                        ShadowLevelMenuItemSave_Click(sender, e);
+                        if (UnsavedChanges)
+                            return true;
+                    }
+                    else if (result == DialogResult.Cancel)
+                        return true;
+                }
+            }
+            else
+            {
+                if (_unsavedChangesLevel)
+                {
+                    var result = Extensions.UnsavedChangesMessageBox("Level Editor");
+                    if (result == DialogResult.Yes)
+                    {
+                        saveToolStripMenuItem_Click(sender, e);
+                        if (_unsavedChangesLevel)
+                            return true;
+                    }
+                    else if (result == DialogResult.Cancel)
+                        return true;
+                }
+                if (_unsavedChangesVisibility)
+                {
+                    var result = Extensions.UnsavedChangesMessageBox("Visibility Editor");
+                    if (result == DialogResult.Yes)
+                    {
+                        saveToolStripMenuItemVisibility_Click(sender, e);
+                        if (_unsavedChangesVisibility)
+                            return true;
+                    }
+                    else if (result == DialogResult.Cancel)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Save()
+        {
+            if (isShadowMode)
+            {
+                ShadowLevelMenuItemSave_Click(null, null);
+            }
+            else
+            {
+                if (_unsavedChangesLevel)
+                    saveToolStripMenuItem_Click(null, null);
+                if (_unsavedChangesVisibility)
+                    saveToolStripMenuItemVisibility_Click(null, null);
+            }
+        }
     }
 }

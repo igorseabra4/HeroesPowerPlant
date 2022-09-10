@@ -12,7 +12,7 @@ namespace HeroesPowerPlant.SplineEditor
 {
     public class SplineEditorFunctions
     {
-        public bool UnsavedChanges { get; private set; }
+        public bool UnsavedChanges { get; set; } = false;
 
         private List<Spline> SplineList = new List<Spline>();
         private string splineJsonPath => Path.Combine(Path.GetDirectoryName(Program.MainForm.ConfigEditor.GetOpenConfigFileName()), "Splines.json");
@@ -86,6 +86,8 @@ namespace HeroesPowerPlant.SplineEditor
 
             SplineList = new List<Spline>();
             AddBlankSpline();
+
+            UnsavedChanges = false;
         }
 
         public void RenderSplines(SharpRenderer renderer)
@@ -171,6 +173,8 @@ namespace HeroesPowerPlant.SplineEditor
                     SaveJson();
                 }
             }
+
+            UnsavedChanges = false;
         }
 
         internal void AddSpline(List<SplineVertex> vertices, Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType splineType, SharpRenderer renderer)

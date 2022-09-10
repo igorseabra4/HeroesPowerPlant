@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace HeroesPowerPlant.SplineEditor
 {
-    public partial class SplineEditor : Form
+    public partial class SplineEditor : Form, IUnsavedChanges
     {
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -99,7 +99,13 @@ namespace HeroesPowerPlant.SplineEditor
             {
                 splineEditorFunctions.GetSelected().Points[listBoxPoints.SelectedIndex].Pitch = (ushort)ReadWriteCommon.DegreesToBAMS((float)numericUpDownPitch.Value);
                 splineEditorFunctions.GetSelected().Points[listBoxPoints.SelectedIndex].Roll = (ushort)ReadWriteCommon.DegreesToBAMS((float)numericUpDownRoll.Value);
+                UnsavedChanges = true;
             }
+        }
+
+        public void Save()
+        {
+            splineEditorFunctions.SaveJson();
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -194,6 +200,10 @@ namespace HeroesPowerPlant.SplineEditor
             splineEditorFunctions.DisposeSplines();
         }
 
-        public bool UnsavedChanges => splineEditorFunctions.UnsavedChanges;
+        public bool UnsavedChanges
+        {
+            get => splineEditorFunctions.UnsavedChanges;
+            set => splineEditorFunctions.UnsavedChanges = value;
+        }
     }
 }

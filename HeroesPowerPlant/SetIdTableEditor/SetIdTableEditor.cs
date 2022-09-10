@@ -9,7 +9,7 @@ using static HeroesPowerPlant.SetIdTableEditor.SetIdTableFunctions;
 
 namespace HeroesPowerPlant.SetIdTableEditor
 {
-    public partial class SetIdTableEditor : Form
+    public partial class SetIdTableEditor : Form, IUnsavedChanges
     {
         public SetIdTableEditor()
         {
@@ -43,8 +43,23 @@ namespace HeroesPowerPlant.SetIdTableEditor
         private bool programIsChangingStuff = false;
         private string currentFileName;
 
+        public bool UnsavedChanges { get; private set; } = false;
+
         private void heroesSetidtblbinToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog openFileDialog = new VistaOpenFileDialog()
             {
                 Filter = ".bin files|*.bin",
@@ -60,11 +75,25 @@ namespace HeroesPowerPlant.SetIdTableEditor
                     comboBoxTableEntries.Items.Add(t);
 
                 UpdateStatusStripLabel();
+                UnsavedChanges = false;
             }
         }
 
         private void shadowSetidbinToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog openFileDialog = new VistaOpenFileDialog()
             {
                 Filter = ".bin files|*.bin",
@@ -80,6 +109,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
                     comboBoxTableEntries.Items.Add(t);
 
                 UpdateStatusStripLabel();
+                UnsavedChanges = false;
             }
         }
 
@@ -92,6 +122,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             saveToolStripMenuItem.Enabled = false;
             saveAsToolStripMenuItem.Enabled = false;
             UpdateStatusStripLabel();
+            UnsavedChanges = false;
         }
 
         public void OpenExternal(string fileName, bool isShadow)
@@ -106,6 +137,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             comboBoxTableEntries.Items.Clear();
             foreach (TableEntry t in LoadTable(currentFileName, isShadow, isShadow ? shadowObjectEntries : heroesObjectEntries))
                 comboBoxTableEntries.Items.Add(t);
+            UnsavedChanges = false;
         }
 
         private void SetHeroesMode()
@@ -150,10 +182,18 @@ namespace HeroesPowerPlant.SetIdTableEditor
             return currentFileName;
         }
 
+        public void Save()
+        {
+            saveToolStripMenuItem_Click(null, null);
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (currentFileName != null)
+            {
                 SaveTable(currentFileName, isShadow, comboBoxTableEntries.Items.Cast<TableEntry>().ToList());
+                UnsavedChanges = false;
+            }
             else
                 saveAsToolStripMenuItem_Click(sender, e);
         }
@@ -170,6 +210,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
                 currentFileName = saveFileDialog.FileName;
                 UpdateStatusStripLabel();
                 SaveTable(currentFileName, isShadow, comboBoxTableEntries.Items.Cast<TableEntry>().ToList());
+                UnsavedChanges = false;
             }
         }
 
@@ -209,6 +250,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
                     (comboBoxTableEntries.SelectedItem as TableEntry).values1 ^= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag1;
                     (comboBoxTableEntries.SelectedItem as TableEntry).values2 ^= (checkedListBoxStageEntries.Items[e.Index] as StageEntry).flag2;
                 }
+                UnsavedChanges = true;
             }
         }
 
@@ -224,6 +266,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
                                 (comboBoxTableEntries.Items[i] as TableEntry).values0 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag0;
                                 (comboBoxTableEntries.Items[i] as TableEntry).values1 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag1;
                                 (comboBoxTableEntries.Items[i] as TableEntry).values2 |= (comboBoxAutoLevel.SelectedItem as StageEntry).flag2;
+                                UnsavedChanges = true;
                             }
 
                 if (comboBoxTableEntries.SelectedItem != null)

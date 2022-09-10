@@ -309,8 +309,8 @@ namespace HeroesPowerPlant.LayoutEditor
             var setObjs = new List<(SetObject, byte[])>();
             foreach (int i in selectedIndices)
             {
-                var obj = GetSetObjectAt(i);
-                setObjs.Add((obj, obj.GetMiscSettings()));
+                var setObj = GetSetObjectAt(i);
+                setObjs.Add((setObj, setObj.GetMiscSettings()));
             }
             return JsonConvert.SerializeObject(setObjs);
         }
@@ -320,7 +320,7 @@ namespace HeroesPowerPlant.LayoutEditor
             text ??= Clipboard.GetText();
             int result = 0;
             var pasted = new List<SetObject>();
-            //try
+            try
             {
                 if (isShadow)
                 {
@@ -353,11 +353,11 @@ namespace HeroesPowerPlant.LayoutEditor
                 foreach (var obj in pasted)
                     setObjects.Add(obj);
             }
-            //catch
-            //{
-            //    MessageBox.Show($"Error pasting objects from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
-            //    result = 0;
-            //}
+            catch
+            {
+                MessageBox.Show($"Error pasting objects from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
+                result = 0;
+            }
             UnsavedChanges = true;
             return result;
         }

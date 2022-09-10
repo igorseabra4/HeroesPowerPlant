@@ -13,7 +13,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public partial class LayoutEditor : Form
+    public partial class LayoutEditor : Form, IUnsavedChanges
     {
         private ShadowSoundBIN loadedShadowSoundBIN;
 
@@ -77,6 +77,19 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void heroesLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             listBoxObjects.BeginUpdate();
             layoutSystem.NewHeroesLayout();
             UpdateHiddenUI(false);
@@ -90,6 +103,19 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void shadowLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             listBoxObjects.BeginUpdate();
             layoutSystem.NewShadowLayout();
             UpdateHiddenUI(true);
@@ -102,6 +128,19 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog
             {
                 Filter = "All supported types|*.bin; *.dat|BIN Files|*.bin|DAT Files|*.dat"
@@ -112,6 +151,11 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        public void Save()
         {
             if (string.IsNullOrEmpty(layoutSystem.CurrentlyOpenFileName))
                 SaveAs();
@@ -635,6 +679,7 @@ namespace HeroesPowerPlant.LayoutEditor
             UpdateObjectComboBox();
             UpdateFileLabel(mainForm);
             checkBoxDrawObjs.Checked = visibleObjects;
+            UnsavedChanges = false;
         }
 
         private void UpdateHiddenUI(bool IsShadow)

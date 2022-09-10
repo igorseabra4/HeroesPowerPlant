@@ -122,11 +122,28 @@ namespace HeroesPowerPlant.MainForm
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
-                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            var unsavedChanges = this.unsavedChanges;
+            if (unsavedChanges.Any(uc => uc.UnsavedChanges))
             {
-                ClearConfig();
+                var unsaved = new List<string>();
+                foreach (var uc in unsavedChanges)
+                    if (uc.UnsavedChanges)
+                        unsaved.Add(uc.Text);
+
+                var result = MessageBox.Show($"You have unsaved changes on the following editors: {string.Join(", ", unsaved)}. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    foreach (var uc in unsavedChanges)
+                        if (uc.UnsavedChanges)
+                            uc.Save();
+                }
             }
+
+            ClearConfig();
         }
 
         public void ClearConfig()
@@ -963,11 +980,30 @@ namespace HeroesPowerPlant.MainForm
             ViewConfig.WindowState = FormWindowState.Normal;
         }
 
+        private IEnumerable<IUnsavedChanges> unsavedChanges => new List<IUnsavedChanges>(LayoutEditors)
+        {
+            ConfigEditor,
+            ConfigEditor.SplineEditor,
+            LevelEditor,
+            CameraEditor,
+            ShadowCameraEditor,
+            ParticleEditor,
+            TexturePatternEditor,
+            LightEditor,
+            SetIdTableEditor,
+        };
+        
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (HasUnsavedChanges())
+            var unsavedChanges = this.unsavedChanges;
+            if (unsavedChanges.Any(uc => uc.UnsavedChanges))
             {
-                var result = MessageBox.Show("You have unsaved changes. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                var unsaved = new List<string>();
+                foreach (var uc in unsavedChanges)
+                    if (uc.UnsavedChanges)
+                        unsaved.Add(uc.Text);
+
+                var result = MessageBox.Show($"You have unsaved changes on the following editors: {string.Join(", ", unsaved)}. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (result == DialogResult.Cancel)
                 {
                     e.Cancel = true;
@@ -975,8 +1011,9 @@ namespace HeroesPowerPlant.MainForm
                 }
                 else if (result == DialogResult.Yes)
                 {
-                    throw new NotImplementedException();
-                    // SaveUnsavedChanges();
+                    foreach (var uc in unsavedChanges)
+                        if (uc.UnsavedChanges)
+                            uc.Save();
                 }
             }
 
@@ -987,7 +1024,6 @@ namespace HeroesPowerPlant.MainForm
                     var hppConfig = ProjectConfig.FromCurrentInstance(this);
                     ProjectConfig.Save(hppConfig, currentSavePath);
                 }
-
 
             //Environment.Exit(0); // Ensure background threads close too!
         }
@@ -1314,24 +1350,28 @@ namespace HeroesPowerPlant.MainForm
                 le.UpdateMenus();
         }
 
-        private bool HasUnsavedChanges() =>
-            ConfigEditor.UnsavedChanges ||
-            LevelEditor.UnsavedChanges ||
-            LayoutEditors.Any(c => c.UnsavedChanges);
-
-        //public CameraEditor.CameraEditor CameraEditor;
-        //public ShadowCameraEditor.ShadowCameraEditor ShadowCameraEditor;
-        //public ShadowLayoutDiffTool.ShadowLayoutDiffTool ShadowLayoutDiffTool;
-        //public ParticleEditor.ParticleMenu ParticleEditor;
-        //public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
-        //public LightEditor.LightMenu LightEditor;
-        //public SetIdTableEditor.SetIdTableEditor SetIdTableEditor;
-
         private void openHeroesLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
-                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                return;
+            var unsavedChanges = this.unsavedChanges;
+            if (unsavedChanges.Any(uc => uc.UnsavedChanges))
+            {
+                var unsaved = new List<string>();
+                foreach (var uc in unsavedChanges)
+                    if (uc.UnsavedChanges)
+                        unsaved.Add(uc.Text);
+
+                var result = MessageBox.Show($"You have unsaved changes on the following editors: {string.Join(", ", unsaved)}. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    foreach (var uc in unsavedChanges)
+                        if (uc.UnsavedChanges)
+                            uc.Save();
+                }
+            }
 
             var openFile = new VistaOpenFileDialog()
             {
@@ -1402,6 +1442,10 @@ namespace HeroesPowerPlant.MainForm
                     foreach (var s in l.GetObjectsForModels())
                         objectOnes.Add(dvdroot + "\\" + s);
                 renderer.dffRenderer.AddDFFFiles(objectOnes);
+
+                var tSonicWin = Path.Combine(Path.GetDirectoryName(dvdroot), "Tsonic_win.exe");
+                if (File.Exists(tSonicWin))
+                    ConfigEditor.EXEExtract(tSonicWin, filenamePrefix);
             }
         }
     }

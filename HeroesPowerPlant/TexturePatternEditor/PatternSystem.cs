@@ -6,6 +6,8 @@ namespace HeroesPowerPlant.TexturePatternEditor
 {
     public class PatternSystem
     {
+        public bool UnsavedChanges { get; set; } = false;
+
         private string currentlyOpenTXC;
         public string CurrentlyOpenTXC
         {
@@ -18,6 +20,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public PatternSystem()
         {
             patterns = new List<PatternEntry>();
+            UnsavedChanges = false;
         }
 
         public PatternSystem(string fileName)
@@ -25,7 +28,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             patterns = new List<PatternEntry>();
             currentlyOpenTXC = fileName;
 
-            BinaryReader patternReader = new BinaryReader(new FileStream(currentlyOpenTXC, FileMode.Open));
+            using var patternReader = new BinaryReader(new FileStream(currentlyOpenTXC, FileMode.Open));
 
             uint frameCount = patternReader.ReadUInt32();
 
@@ -64,7 +67,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 frameCount = patternReader.ReadUInt32();
             }
 
-            patternReader.Close();
+            UnsavedChanges = false;
         }
 
         public void Save(string fileName)
@@ -75,7 +78,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         public void Save()
         {
-            BinaryWriter patternWriter = new BinaryWriter(new FileStream(currentlyOpenTXC, FileMode.Create));
+            using var patternWriter = new BinaryWriter(new FileStream(currentlyOpenTXC, FileMode.Create));
 
             foreach (PatternEntry p in patterns)
             {
@@ -101,7 +104,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             }
             patternWriter.Write(0xFFFFFFFF);
 
-            patternWriter.Close();
+            UnsavedChanges = false;
         }
 
         public IEnumerable<string> GetPatternEntries()
@@ -128,6 +131,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             PatternEntry p = new PatternEntry();
             patterns.Add(p);
+            UnsavedChanges = true;
             return p.ToString();
         }
 
@@ -135,6 +139,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             PatternEntry p = new PatternEntry(patterns[index]);
             patterns.Add(p);
+            UnsavedChanges = true;
             return p.ToString();
         }
 
@@ -144,6 +149,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             {
                 patterns[index].StopAnimation(Program.MainForm.LevelEditor.bspRenderer, Program.MainForm.renderer.dffRenderer);
                 patterns.RemoveAt(index);
+                UnsavedChanges = true;
                 return index;
             }
             throw new IndexOutOfRangeException();

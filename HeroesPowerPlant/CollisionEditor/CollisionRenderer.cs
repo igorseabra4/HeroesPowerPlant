@@ -124,20 +124,43 @@ namespace HeroesPowerPlant.CollisionEditor
             for (int i = 0; i < data.numTriangles; i++)
             {
                 reader.BaseStream.Position = data.pointTriangle + i * 0x20;
-                tList.Add(new Triangle(reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16()));
+                var triangle = new Triangle(reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16());
                 reader.BaseStream.Position += 6;
 
-                var Normals = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-                vList[tList[i].Vertices[0]].NormalList.Add(Normals);
-                vList[tList[i].Vertices[1]].NormalList.Add(Normals);
-                vList[tList[i].Vertices[2]].NormalList.Add(Normals);
+                var normals = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
 
-                ulong FlagsAsUint64 = reader.ReadUInt64();
-                tList[i].ColFlags = BitConverter.GetBytes(FlagsAsUint64);
-                if (!data.MeshTypeList.Contains(FlagsAsUint64))
-                    data.MeshTypeList.Add(FlagsAsUint64);
+                var v0 = vList[triangle.Vertices[0]];
+                if (v0.ColorInitialized)
+                {
+                    v0 = new CollisionVertex(v0.Position.X, v0.Position.Y, v0.Position.Z) { NormalList = v0.NormalList };
+                    triangle.Vertices[0] = (ushort)vList.Count;
+                    vList.Add(v0);
+                }
+                var v1 = vList[triangle.Vertices[1]];
+                if (v1.ColorInitialized)
+                {
+                    v1 = new CollisionVertex(v1.Position.X, v1.Position.Y, v1.Position.Z) { NormalList = v1.NormalList };
+                    triangle.Vertices[1] = (ushort)vList.Count;
+                    vList.Add(v1);
+                }
+                var v2 = vList[triangle.Vertices[2]];
+                if (v2.ColorInitialized)
+                {
+                    v2 = new CollisionVertex(v2.Position.X, v2.Position.Y, v2.Position.Z) { NormalList = v2.NormalList };
+                    triangle.Vertices[2] = (ushort)vList.Count;
+                    vList.Add(v2);
+                }
 
-                var color = new Color(tList[i].ColFlags[1], tList[i].ColFlags[2], tList[i].ColFlags[3]);
+                v0.NormalList.Add(normals);
+                v1.NormalList.Add(normals);
+                v2.NormalList.Add(normals);
+
+                ulong flagsU64 = reader.ReadUInt64();
+                triangle.ColFlags = BitConverter.GetBytes(flagsU64);
+                if (!data.MeshTypeList.Contains(flagsU64))
+                    data.MeshTypeList.Add(flagsU64);
+
+                var color = new Color(triangle.ColFlags[1], triangle.ColFlags[2], triangle.ColFlags[3]);
 
                 if (color.R == 0)
                     color.R = 255;
@@ -152,9 +175,14 @@ namespace HeroesPowerPlant.CollisionEditor
                 else
                     color.B = (byte)(256 - (Math.Log(color.B, 2) + 1) * 32);
 
-                vList[tList[i].Vertices[0]].Color = color;
-                vList[tList[i].Vertices[1]].Color = color;
-                vList[tList[i].Vertices[2]].Color = color;
+                v0.Color = color;
+                v0.ColorInitialized = true;
+                v1.Color = color;
+                v1.ColorInitialized = true;
+                v2.Color = color;
+                v2.ColorInitialized = true;
+
+                tList.Add(triangle);
 
                 bar.PerformStep();
             }

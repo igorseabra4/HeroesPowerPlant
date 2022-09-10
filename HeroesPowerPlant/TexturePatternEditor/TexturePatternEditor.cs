@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace HeroesPowerPlant.TexturePatternEditor
 {
-    public partial class TexturePatternEditor : Form
+    public partial class TexturePatternEditor : Form, IUnsavedChanges
     {
         public TexturePatternEditor()
         {
@@ -32,8 +32,27 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private PatternSystem patternSystem;
 
+        public bool UnsavedChanges
+        {
+            get => patternSystem.UnsavedChanges;
+            set => patternSystem.UnsavedChanges = value;
+        }
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             New();
         }
 
@@ -46,6 +65,19 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "TXC Files|*.txc"
@@ -53,6 +85,11 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
             if (openFile.ShowDialog() == DialogResult.OK)
                 OpenFile(openFile.FileName);
+        }
+
+        public void Save()
+        {
+            saveToolStripMenuItem_Click(null, null);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -99,12 +136,16 @@ namespace HeroesPowerPlant.TexturePatternEditor
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             listBoxPatterns.Items.Add(patternSystem.Add());
+            UnsavedChanges = true;
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
             if (listBoxPatterns.SelectedItem != null)
+            {
                 listBoxPatterns.Items.Add(patternSystem.Add(listBoxPatterns.SelectedIndex));
+                UnsavedChanges = true;
+            }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
@@ -113,6 +154,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             {
                 programIsChangingStuff = true;
                 listBoxPatterns.Items.RemoveAt(patternSystem.Remove(listBoxPatterns.SelectedIndex));
+                UnsavedChanges = true;
                 programIsChangingStuff = false;
             }
         }
@@ -152,6 +194,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 programIsChangingStuff = true;
                 patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).TextureName = textBoxTextureName.Text;
                 listBoxPatterns.Items[listBoxPatterns.SelectedIndex] = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).ToString();
+                UnsavedChanges = true;
                 programIsChangingStuff = false;
             }
         }
@@ -163,7 +206,10 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
             // ugly code
             if (listBoxPatterns.SelectedItem != null)
+            { 
                 patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).AnimationName = textBoxAnimationName.Text;
+                UnsavedChanges = true;
+            }
         }
 
         private void numericFrameCount_ValueChanged(object sender, EventArgs e)
@@ -177,6 +223,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 programIsChangingStuff = true;
                 patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).FrameCount = (uint)numericFrameCount.Value;
                 listBoxPatterns.Items[listBoxPatterns.SelectedIndex] = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex).ToString();
+                UnsavedChanges = true;
                 programIsChangingStuff = false;
             }
         }
@@ -209,6 +256,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 PatternEntry p = patternSystem.GetPatternAt(listBoxPatterns.SelectedIndex);
                 p.frames.Add(f);
                 listBoxFrames.Items.Add(f.ToString());
+                UnsavedChanges = true;
             }
         }
 
@@ -222,6 +270,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
                     int index = listBoxFrames.SelectedIndex;
                     p.frames.RemoveAt(index);
                     listBoxFrames.Items.RemoveAt(index);
+                    UnsavedChanges = true;
                 }
             }
         }
@@ -243,6 +292,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
                     programIsChangingStuff = true;
                     listBoxFrames.Items[listBoxFrames.SelectedIndex] = f.ToString();
                     programIsChangingStuff = false;
+                    UnsavedChanges = true;
                 }
         }
 
@@ -263,6 +313,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
                     programIsChangingStuff = true;
                     listBoxFrames.Items[listBoxFrames.SelectedIndex] = f.ToString();
                     programIsChangingStuff = false;
+                    UnsavedChanges = true;
                 }
         }
 

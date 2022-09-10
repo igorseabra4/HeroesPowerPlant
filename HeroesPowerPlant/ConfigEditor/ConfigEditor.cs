@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace HeroesPowerPlant.ConfigEditor
 {
-    public partial class ConfigEditor : Form
+    public partial class ConfigEditor : Form, IUnsavedChanges
     {
         public ConfigEditor()
         {
@@ -46,7 +46,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             SplineEditor = new SplineEditor.SplineEditor();
             RankEditor = new RankEditor.RankEditor();
-            EXEExtractor = new EXEExtractor();
+            EXEExtractor = new EXEExtractor(this);
 
             CleanFile();
         }
@@ -74,6 +74,19 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges || SplineEditor.UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges || SplineEditor.UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             New();
         }
 
@@ -89,7 +102,7 @@ namespace HeroesPowerPlant.ConfigEditor
             EnableRankEditor();
             EnableEXEExtractor();
 
-            _unsavedChanges = true;
+            UnsavedChanges = false;
         }
 
         public SplineEditor.SplineEditor SplineEditor;
@@ -104,11 +117,23 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges || SplineEditor.UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges || SplineEditor.UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog OpenConfigFile = new VistaOpenFileDialog
             {
                 Filter = "JSON files (Reloaded Stage Injection)|*.json|.CC files (Legacy Heroes Mod Loader Stage Injection)|*.cc"
             };
-
             if (OpenConfigFile.ShowDialog() == DialogResult.OK)
                 OpenFile(OpenConfigFile.FileName, Program.MainForm);
         }
@@ -138,7 +163,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             ProgramIsChangingStuff = false;
 
-            _unsavedChanges = false;
+            UnsavedChanges = false;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,6 +172,11 @@ namespace HeroesPowerPlant.ConfigEditor
                 SaveFileJson(OpenConfigFileName);
             else
                 saveAsToolStripMenuItem_Click(sender, e);
+        }
+
+        public void Save()
+        {
+            saveToolStripMenuItem_Click(null, null);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -218,7 +248,7 @@ namespace HeroesPowerPlant.ConfigEditor
             StartPositions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)ReadWriteCommon.DegreesToBAMS((float)NumericStartRot.Value);
             StartPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
 
-            _unsavedChanges = true;
+            UnsavedChanges = true;
         }
 
         private void ComboStartMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -230,7 +260,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             StartPositions[ComboBoxTeam.SelectedIndex].Mode = (StartPositionMode)ComboStartMode.SelectedIndex;
 
-            _unsavedChanges = true;
+            UnsavedChanges = true;
         }
 
         private void NumericStartHold_ValueChanged(object sender, EventArgs e)
@@ -242,7 +272,7 @@ namespace HeroesPowerPlant.ConfigEditor
 
             StartPositions[ComboBoxTeam.SelectedIndex].HoldTime = (int)NumericStartHold.Value;
 
-            _unsavedChanges = true;
+            UnsavedChanges = true;
         }
 
         private void NumericEnd_ValueChanged(object sender, EventArgs e)
@@ -258,7 +288,7 @@ namespace HeroesPowerPlant.ConfigEditor
             EndPositions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)ReadWriteCommon.DegreesToBAMS((float)NumericEndRot.Value);
             EndPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
 
-            _unsavedChanges = true;
+            UnsavedChanges = true;
         }
 
         private void NumericBrag_ValueChanged(object sender, EventArgs e)
@@ -274,7 +304,7 @@ namespace HeroesPowerPlant.ConfigEditor
             BragPositions[ComboBoxTeam.SelectedIndex].Pitch = (ushort)ReadWriteCommon.DegreesToBAMS((float)NumericBragRot.Value);
             BragPositions[ComboBoxTeam.SelectedIndex].CreateTransformMatrix();
 
-            _unsavedChanges = true;
+            UnsavedChanges = true;
         }
 
         private void buttonViewHere_Click(object sender, EventArgs e)
@@ -836,10 +866,11 @@ namespace HeroesPowerPlant.ConfigEditor
             c.StageId = currentID;
 
             Heroes.SDK.Parsers.Custom.StageConfig.ToPath(c, FileName);
+            SplineEditor.Save();
             EnableSplineEditor();
             EnableRankEditor();
 
-            _unsavedChanges = false;
+            UnsavedChanges = false;
         }
 
         private void EnableSplineEditor()
@@ -899,7 +930,16 @@ namespace HeroesPowerPlant.ConfigEditor
             ComboBoxTeam_SelectedIndexChanged(null, null);
         }
 
-        private bool _unsavedChanges = false;
-        public bool UnsavedChanges => _unsavedChanges || SplineEditor.UnsavedChanges;
+        public void EXEExtract(string tSonicWin, string fileNamePrefix)
+        {
+            ProgramIsChangingStuff = true;
+            var stage = Extensions.StageFromFileNamePrefix(fileNamePrefix);
+            currentID = stage;
+            ComboLevelConfig.SelectedItem = currentID;
+            EXEExtractor.EXEExtract(tSonicWin, stage);
+            ProgramIsChangingStuff = false;
+        }
+
+        public bool UnsavedChanges { get; private set; } = false;
     }
 }

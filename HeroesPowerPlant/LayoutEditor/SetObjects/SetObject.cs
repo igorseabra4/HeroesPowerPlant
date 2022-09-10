@@ -42,7 +42,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public bool HasMiscSettings;
 
-        [Browsable(false)]
+        [Browsable(false), JsonIgnore]
         public (PropertyInfo property, MiscSettingAttribute attribute)[] MiscProperties =>
             (from prop in GetType().GetProperties()
              where prop.GetCustomAttribute(typeof(MiscSettingAttribute)) != null

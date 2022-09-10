@@ -42,15 +42,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void SetLevel(string fileName)
         {
-            var enumType = typeof(Stage);
-            foreach (Stage s in Enum.GetValues(enumType))
-            {
-                var memberInfos = enumType.GetMember(s.ToString());
-                var enumValueMemberInfo = memberInfos.FirstOrDefault(m => m.DeclaringType == enumType);
-                var valueAttribute = enumValueMemberInfo.GetCustomAttribute(typeof(FileNameAttribute));
-                if (valueAttribute != null && fileName == ((FileNameAttribute)valueAttribute).FileNameWithoutExtension)
-                    Stage = s;
-            }
+            Stage = Extensions.StageFromFileNamePrefix(fileName);
         }
 
         public override string ToString()

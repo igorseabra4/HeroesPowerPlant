@@ -99,14 +99,12 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         public static void SaveTable(string fileName, bool isShadow, List<TableEntry> tableEntries)
         {
-            var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
+            using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
 
             if (isShadow)
                 WriteShadowTable(TableWriter, tableEntries);
             else
                 WriteHeroesTable(TableWriter, tableEntries);
-
-            TableWriter.Close();
         }
 
         private static void WriteHeroesTable(EndianBinaryWriter tableWriter, List<TableEntry> tableEntries)

@@ -6,9 +6,15 @@ using System.Windows.Forms;
 
 namespace HeroesPowerPlant.ParticleEditor
 {
-    public partial class ParticleMenu : Form
+    public partial class ParticleMenu : Form, IUnsavedChanges
     {
         private ParticleEditor ParticleEditor;
+
+        public bool UnsavedChanges
+        {
+            get => ParticleEditor.UnsavedChanges;
+            set => ParticleEditor.UnsavedChanges = value;
+        }
 
         /*
             ------------
@@ -21,6 +27,7 @@ namespace HeroesPowerPlant.ParticleEditor
             InitializeComponent();
             ParticleEditor = new ParticleEditor();
             UpdateValues();
+            UnsavedChanges = false;
         }
 
         /*
@@ -81,6 +88,19 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             New();
         }
 
@@ -92,6 +112,19 @@ namespace HeroesPowerPlant.ParticleEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN Files|*.bin"
@@ -100,6 +133,11 @@ namespace HeroesPowerPlant.ParticleEditor
             {
                 OpenFile(openFile.FileName);
             }
+        }
+
+        public void Save()
+        {
+            saveToolStripMenuItem_Click(null, null);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -129,6 +167,7 @@ namespace HeroesPowerPlant.ParticleEditor
         {
             ParticleEditor.Particles.Add(new Particle());
             UpdateValues();
+            UnsavedChanges = true;
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
@@ -139,6 +178,7 @@ namespace HeroesPowerPlant.ParticleEditor
                 var particleToClone = Particle.FromParticleEntry(ParticleEditor.Particles[index]);
                 ParticleEditor.Particles.Add(particleToClone);
                 UpdateValues();
+                UnsavedChanges = true;
             }
         }
 
@@ -149,6 +189,7 @@ namespace HeroesPowerPlant.ParticleEditor
             {
                 ParticleEditor.Particles.RemoveAt(index);
                 UpdateValues();
+                UnsavedChanges = true;
             }
         }
 
@@ -167,7 +208,10 @@ namespace HeroesPowerPlant.ParticleEditor
             int index = (int)numericCurrentParticle.Value;
 
             if (index >= 0 & index < ParticleEditor.Particles.Count)
+            {
                 ParticleEditor.Particles[index] = (Particle)propertyGridParticles.SelectedObject;
+                UnsavedChanges = true;
+            }
 
             foreach (var v in Program.MainForm.LayoutEditors)
                 v.UpdateSetParticleMatrices();
