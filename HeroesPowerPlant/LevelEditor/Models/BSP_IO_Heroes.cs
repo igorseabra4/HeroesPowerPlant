@@ -11,7 +11,7 @@ namespace HeroesPowerPlant.LevelEditor
     {
         public static int heroesRenderWareVersion => 0x1400FFFF;
 
-        public static RWSection[] CreateBSPFile(string FileNameForBox, ModelConverterData data, bool useTristrips, bool flipUVs)
+        public static RWSection[] CreateBSPFile(ModelConverterData data, bool useTristrips, bool flipUVs)
         {
             Vertex3 Max = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
             Vertex3 Min = new Vertex3(data.VertexList[0].Position.X, data.VertexList[0].Position.Y, data.VertexList[0].Position.Z);
@@ -495,21 +495,35 @@ namespace HeroesPowerPlant.LevelEditor
                 throw new Exception();
 
             List<Vertex3> vertexList_init = new List<Vertex3>();
-            List<RenderWareFile.Color> colorList_init = new List<RenderWareFile.Color>();
+            List<Vertex3> normalList_init = new List<Vertex3>();
+            List<Color> colorList_init = new List<Color>();
             List<Vertex2> textCoordList_init = new List<Vertex2>();
 
             foreach (Declaration d in n.declarations)
             {
-                foreach (object o in d.entryList)
+                if (d.declarationType == Declarations.Vertex)
                 {
-                    if (o is Vertex3 v)
+                    var dec = (Vertex3Declaration)d;
+                    foreach (var v in dec.entryList)
                         vertexList_init.Add(v);
-                    else if (o is Color c)
+                }
+                else if (d.declarationType == Declarations.Normal)
+                {
+                    var dec = (Vertex3Declaration)d;
+                    foreach (var v in dec.entryList)
+                        normalList_init.Add(v);
+                }
+                else if (d.declarationType == Declarations.Color)
+                {
+                    var dec = (ColorDeclaration)d;
+                    foreach (var c in dec.entryList)
                         colorList_init.Add(c);
-                    else if (o is Vertex2 t)
-                        textCoordList_init.Add(t);
-                    else
-                        throw new Exception();
+                }
+                else if (d.declarationType == Declarations.TextCoord)
+                {
+                    var dec = (Vertex2Declaration)d;
+                    foreach (var v in dec.entryList)
+                        textCoordList_init.Add(v);
                 }
             }
 
@@ -518,6 +532,7 @@ namespace HeroesPowerPlant.LevelEditor
                 foreach (TriangleList tl in td.TriangleListList)
                 {
                     List<Vertex3> vertexList_final = new List<Vertex3>();
+                    List<Vertex3> normalList_final = new List<Vertex3>();
                     List<Color> colorList_final = new List<Color>();
                     List<Vertex2> textCoordList_final = new List<Vertex2>();
 
@@ -528,6 +543,10 @@ namespace HeroesPowerPlant.LevelEditor
                             if (n.declarations[j].declarationType == Declarations.Vertex)
                             {
                                 vertexList_final.Add(vertexList_init[objectList[j]]);
+                            }
+                            else if (n.declarations[j].declarationType == Declarations.Normal)
+                            {
+                                normalList_final.Add(normalList_init[objectList[j]]);
                             }
                             else if (n.declarations[j].declarationType == Declarations.Color)
                             {
@@ -576,8 +595,16 @@ namespace HeroesPowerPlant.LevelEditor
 
                     OBJWriter.WriteLine();
 
+                    if (normalList_final.Count > 0)
+                    {
+                        foreach (Vertex3 i in normalList_final)
+                            OBJWriter.WriteLine("vn " + i.X.ToString() + " " + i.Y.ToString() + " " + i.Z.ToString());
+
+                        OBJWriter.WriteLine();
+                    }
+
                     //Write uv list to obj
-                    if (textCoordList_final.Count() > 0)
+                    if (textCoordList_final.Count > 0)
                     {
                         if (flipUVs)
                             foreach (Vertex2 i in textCoordList_final)
@@ -589,7 +616,7 @@ namespace HeroesPowerPlant.LevelEditor
                     OBJWriter.WriteLine();
 
                     // Write vcolors to obj
-                    if (colorList_final.Count() > 0)
+                    if (colorList_final.Count > 0)
                         foreach (Color i in colorList_final)
                             OBJWriter.WriteLine("vc " + i.R.ToString() + " " + i.G.ToString() + " " + i.B.ToString() + " " + i.A.ToString());
 

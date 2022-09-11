@@ -230,9 +230,9 @@ namespace HeroesPowerPlant.LevelEditor
                             try
                             {
                                 if (Path.GetExtension(i).ToLower() == ".obj")
-                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                                 else
-                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                             }
                             catch
                             {
@@ -371,6 +371,9 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void listBoxLevelModels_SelectedIndexChanged(object sender, EventArgs e)
         {
+            foreach (var bsp in bspRenderer.BSPList)
+                bsp.isSelected = false;
+
             uint vertices = 0;
             uint triangles = 0;
 
@@ -378,6 +381,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 vertices += bspRenderer.BSPList[i].vertexAmount;
                 triangles += bspRenderer.BSPList[i].triangleAmount;
+                bspRenderer.BSPList[i].isSelected = true;
             }
 
             labelVertexAmount.Text = "Vertices: " + vertices.ToString();
