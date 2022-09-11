@@ -1,24 +1,39 @@
-﻿using System;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object_HeroesDefault : SetObjectHeroes
     {
+        private byte[] _miscSettingBytes = new byte[byteCount];
+        private const int byteCount = 32;
+
+        public override void ReadMiscSettings(BinaryReader reader)
+        {
+            _miscSettingBytes = reader.ReadBytes(byteCount);
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write(_miscSettingBytes);
+        }
+
         public byte[] MiscSettingBytes
         {
-            get => MiscSettings;
+            get => _miscSettingBytes;
             set
             {
                 var result = value.ToList();
 
-                while (result.Count < 36)
+                while (result.Count < byteCount)
                     result.Add(0);
-                while (result.Count > 36)
+                while (result.Count > byteCount)
                     result.RemoveAt(result.Count - 1);
 
-                MiscSettings = result.ToArray();
+                _miscSettingBytes = result.ToArray();
             }
         }
 
@@ -26,25 +41,18 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get
             {
-                var result = new List<short>(18);
-                for (int i = 0; i < MiscSettings.Length; i += 2)
-                    result.Add(BitConverter.ToInt16(new byte[] { MiscSettings[i + 1], MiscSettings[i] }, 0));
-
+                var reader = new EndianBinaryReader(new MemoryStream(_miscSettingBytes), Endianness.Big);
+                var result = new List<short>(byteCount / 2);
+                while (!reader.EndOfStream)
+                    result.Add(reader.ReadInt16());
                 return result.ToArray();
             }
             set
             {
                 var result = new List<byte>();
-
                 foreach (short i in value)
                     result.AddRange(BitConverter.GetBytes(i).Reverse());
-
-                while (result.Count < 36)
-                    result.Add(0);
-                while (result.Count > 36)
-                    result.RemoveAt(result.Count - 1);
-
-                MiscSettings = result.ToArray();
+                MiscSettingBytes = result.ToArray();
             }
         }
 
@@ -52,25 +60,18 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get
             {
-                var result = new List<int>(9);
-                for (int i = 0; i < MiscSettings.Length; i += 4)
-                    result.Add(BitConverter.ToInt32(new byte[] { MiscSettings[i + 3], MiscSettings[i + 2], MiscSettings[i + 1], MiscSettings[i] }, 0));
-
+                var reader = new EndianBinaryReader(new MemoryStream(_miscSettingBytes), Endianness.Big);
+                var result = new List<int>(byteCount / 4);
+                while (!reader.EndOfStream)
+                    result.Add(reader.ReadInt32());
                 return result.ToArray();
             }
             set
             {
                 var result = new List<byte>();
-
                 foreach (int i in value)
                     result.AddRange(BitConverter.GetBytes(i).Reverse());
-
-                while (result.Count < 36)
-                    result.Add(0);
-                while (result.Count > 36)
-                    result.RemoveAt(result.Count - 1);
-
-                MiscSettings = result.ToArray();
+                MiscSettingBytes = result.ToArray();
             }
         }
 
@@ -78,25 +79,18 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get
             {
-                var result = new List<float>(9);
-                for (int i = 0; i < MiscSettings.Length; i += 4)
-                    result.Add(BitConverter.ToSingle(new byte[] { MiscSettings[i + 3], MiscSettings[i + 2], MiscSettings[i + 1], MiscSettings[i] }, 0));
-
+                var reader = new EndianBinaryReader(new MemoryStream(_miscSettingBytes), Endianness.Big);
+                var result = new List<float>(byteCount / 4);
+                while (!reader.EndOfStream)
+                    result.Add(reader.ReadSingle());
                 return result.ToArray();
             }
             set
             {
                 var result = new List<byte>();
-
-                foreach (float i in value)
+                foreach (int i in value)
                     result.AddRange(BitConverter.GetBytes(i).Reverse());
-
-                while (result.Count < 36)
-                    result.Add(0);
-                while (result.Count > 36)
-                    result.RemoveAt(result.Count - 1);
-
-                MiscSettings = result.ToArray();
+                MiscSettingBytes = result.ToArray();
             }
         }
     }

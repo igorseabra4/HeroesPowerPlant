@@ -266,19 +266,27 @@ namespace HeroesPowerPlant
             for (int i = 0; i < 4; i++)// 3; i++)
             {
                 ModelConverterData objData;
-                if (i == 0) objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Box.obj", true);
-                else if (i == 1) objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Cylinder.obj", true);
-                else if (i == 2) objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Pyramid.obj", true);
-                else objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Sphere.obj", true);
+                if (i == 0)
+                    objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Box.obj", true);
+                else if (i == 1)
+                    objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Cylinder.obj", true);
+                else if (i == 2)
+                    objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Pyramid.obj", true);
+                else
+                    objData = ReadOBJFile(Application.StartupPath + "/Resources/Models/Sphere.obj", true);
 
                 List<Vertex> vertexList = new List<Vertex>();
                 foreach (LevelEditor.Vertex v in objData.VertexList)
                 {
                     vertexList.Add(new Vertex(v.Position));
-                    if (i == 0) cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
-                    else if (i == 1) cylinderVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
-                    else if (i == 2) pyramidVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
-                    else if (i == 3) sphereVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
+                    if (i == 0)
+                        cubeVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
+                    else if (i == 1)
+                        cylinderVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
+                    else if (i == 2)
+                        pyramidVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
+                    else if (i == 3)
+                        sphereVertices.Add(new Vector3(v.Position.X, v.Position.Y, v.Position.Z));
                 }
 
                 List<int> indexList = new List<int>();
@@ -287,16 +295,24 @@ namespace HeroesPowerPlant
                     indexList.Add(t.vertex1);
                     indexList.Add(t.vertex2);
                     indexList.Add(t.vertex3);
-                    if (i == 0) cubeTriangles.Add(t);
-                    else if (i == 1) cylinderTriangles.Add(t);
-                    else if (i == 2) pyramidTriangles.Add(t);
-                    else if (i == 3) sphereTriangles.Add(t);
+                    if (i == 0)
+                        cubeTriangles.Add(t);
+                    else if (i == 1)
+                        cylinderTriangles.Add(t);
+                    else if (i == 2)
+                        pyramidTriangles.Add(t);
+                    else if (i == 3)
+                        sphereTriangles.Add(t);
                 }
 
-                if (i == 0) Cube = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
-                else if (i == 1) Cylinder = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
-                else if (i == 2) Pyramid = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
-                else Sphere = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                if (i == 0)
+                    Cube = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                else if (i == 1)
+                    Cylinder = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                else if (i == 2)
+                    Pyramid = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
+                else
+                    Sphere = SharpMesh.Create(Device, vertexList.ToArray(), indexList.ToArray(), new List<SharpSubSet>() { new SharpSubSet(0, indexList.Count, null) });
             }
         }
 

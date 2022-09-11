@@ -2,10 +2,7 @@
 {
     public class Object2300_EggAlbatross : SetObjectHeroes
     {
-        public float YOffset
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
+        [MiscSetting]
+        public float YOffset { get; set; }
     }
 }

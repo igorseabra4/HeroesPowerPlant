@@ -2,16 +2,9 @@
 {
     public class Object0281_TurtleFeet : SetObjectHeroes
     {
-        public float Scale
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public float Scale { get; set; }
+        [MiscSetting]
+        public float Speed { get; set; }
     }
 }

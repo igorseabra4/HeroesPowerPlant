@@ -11,22 +11,11 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public float Scale
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public int ChipType
-        {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
-
-        public int Speed
-        {
-            get => ReadInt(12);
-            set => Write(12, value);
-        }
+        [MiscSetting]
+        public float Scale { get; set; }
+        [MiscSetting]
+        public int ObjectType { get; set; }
+        [MiscSetting]
+        public int Speed { get; set; }
     }
 }

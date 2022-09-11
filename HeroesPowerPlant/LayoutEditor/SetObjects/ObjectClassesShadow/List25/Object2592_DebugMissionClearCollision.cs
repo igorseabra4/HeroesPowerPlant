@@ -2,20 +2,17 @@
 {
     public class Object2592_DebugMissionClearCollision : SetObjectShadow
     {
-
-        public DebugClearMissionType MissionType
+        public enum EMissionType
         {
-            get => (DebugClearMissionType)ReadInt(0);
-            set => Write(0, (int)value);
+            Dark,
+            Normal,
+            Hero,
+            Boss
         }
+
+        [MiscSetting]
+        public EMissionType MissionType { get; set; }
     }
 
-    public enum DebugClearMissionType
-    {
-        Dark,
-        Normal,
-        Hero,
-        Boss
-    }
 }
 

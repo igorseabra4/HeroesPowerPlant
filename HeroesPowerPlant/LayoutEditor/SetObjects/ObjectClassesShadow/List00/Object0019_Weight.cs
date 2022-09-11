@@ -1,70 +1,40 @@
 ﻿using SharpDX;
+using System;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0019_Weight : SetObjectShadow
     {
-
-        public WeightMoveType MoveType
+        public enum EMoveType : int
         {
-            get => (WeightMoveType)ReadInt(0);
-            set => Write(0, (int)value);
+            UpDown,
+            WaitForPlayer,
+            NeverMove
         }
 
-        public float Height
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float WaitTimeTop
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float WaitTimeBottom
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float WaitTimeIfShot
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        //UNKNOWN 5 ALWAYS 0
-        public int u5_int
-        { //1 = never rise again
-            get => ReadInt(20);
-            set => Write(20, value);
-        }
-
+        [MiscSetting]
+        public EMoveType MoveType { get; set; }
+        [MiscSetting]
+        public float Height { get; set; }
+        [MiscSetting]
+        public float WaitTimeTop { get; set; }
+        [MiscSetting]
+        public float WaitTimeBottom { get; set; }
+        [MiscSetting]
+        public float WaitTimeIfShot { get; set; }
+        [MiscSetting]
+        public int u5_int { get; set; } // 1 = never rise again
         public float u5_float
         {
-            get => ReadFloat(20);
-            set => Write(20, value);
+            get => BitConverter.ToSingle(BitConverter.GetBytes(u5_int), 0);
+            set => u5_int = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
         }
-
-        public float ScaleX
-        {
-            get => ReadFloat(24);
-            set => Write(24, value);
-        }
-
-        public float ScaleY
-        {
-            get => ReadFloat(28);
-            set => Write(28, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(32);
-            set => Write(32, value);
-        }
+        [MiscSetting]
+        public float ScaleX { get; set; }
+        [MiscSetting]
+        public float ScaleY { get; set; }
+        [MiscSetting]
+        public float ScaleZ { get; set; }
 
         public override void CreateTransformMatrix()
         {
@@ -72,13 +42,6 @@ namespace HeroesPowerPlant.LayoutEditor
             transformMatrix *= DefaultTransformMatrix();
             CreateBoundingBox();
         }
-    }
-
-    public enum WeightMoveType
-    {
-        UpDown,
-        WaitForPlayer,
-        NeverMove
     }
 }
 

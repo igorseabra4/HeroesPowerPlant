@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using Newtonsoft.Json;
 using SharpDX;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace HeroesPowerPlant.LayoutEditor
         public static ObjectEntry shadowObjectEntry(byte List, byte Type) => shadowObjectEntries[(List, Type)];
 
         public bool autoUnkBytes;
+
+        public bool UnsavedChanges = false;
 
         public static void SetupLayoutEditorSystem()
         {
@@ -100,27 +103,34 @@ namespace HeroesPowerPlant.LayoutEditor
 
         #region Import/Export Methods
 
-        public void OpenLayoutFile(string fileName)
+        public void OpenLayoutFile(string fileName, out string result, ref Dictionary<(byte, byte, string), HashSet<byte[]>> miscSettingsDict)
         {
+            result = "";
             currentlyOpenFileName = fileName;
             setObjects.Clear();
 
             if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".bin")
             {
                 isShadow = false;
-                GetHeroesLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
+                var l = GetHeroesLayout(CurrentlyOpenFileName, out result, ref miscSettingsDict);
+                l.ForEach(setObjects.Add);
+
             }
             else if (Path.GetExtension(CurrentlyOpenFileName).ToLower() == ".dat")
             {
                 isShadow = true;
                 try
                 {
-                    GetShadowLayout(CurrentlyOpenFileName).ForEach(setObjects.Add);
-                } catch (InvalidDataException) {
+                    GetShadowLayout(CurrentlyOpenFileName, out result).ForEach(setObjects.Add);
+                }
+                catch (InvalidDataException)
+                {
                     // handle gracefully
                 }
             }
-            else throw new InvalidDataException("Unknown file type");
+            else
+                throw new InvalidDataException("Unknown file type");
+            UnsavedChanges = false;
         }
 
         public void Save(string fileName)
@@ -135,6 +145,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 SaveShadowLayout(setObjects.Cast<SetObjectShadow>(), CurrentlyOpenFileName, autoUnkBytes);
             else
                 SaveHeroesLayout(setObjects.Cast<SetObjectHeroes>(), CurrentlyOpenFileName, autoUnkBytes);
+            UnsavedChanges = false;
         }
 
         public void SaveINI(string fileName)
@@ -146,6 +157,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             foreach (var v in GetHeroesLayoutFromINI(fileName))
                 setObjects.Add(v);
+            UnsavedChanges = true;
         }
 
         public void ImportLayoutFile(string fileName)
@@ -154,8 +166,9 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 try
                 {
-                    GetShadowLayout(fileName).ForEach(setObjects.Add);
-                } catch (InvalidDataException)
+                    GetShadowLayout(fileName, out _).ForEach(setObjects.Add);
+                }
+                catch (InvalidDataException)
                 {
                     // cancel gracefully
                 }
@@ -164,25 +177,30 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (Path.GetExtension(fileName).ToLower() == ".bin")
                 {
-                    GetHeroesLayout(fileName).ForEach(setObjects.Add);
+                    var f = new Dictionary<(byte, byte, string), HashSet<byte[]>>();
+                    GetHeroesLayout(fileName, out _, ref f).ForEach(setObjects.Add);
                 }
                 else if (Path.GetExtension(fileName).ToLower() == ".dat")
                 {
                     GetHeroesLayoutFromShadow(fileName).ForEach(setObjects.Add);
                 }
-                else throw new InvalidDataException("Unknown file type");
+                else
+                    throw new InvalidDataException("Unknown file type");
             }
+            UnsavedChanges = true;
         }
 
         public void ImportOBJ(string fileName)
         {
             GetObjectsFromObjFile(fileName, 0, 3).ForEach(setObjects.Add);
+            UnsavedChanges = true;
         }
 
         public void ImportSALayout(string fileName)
         {
             foreach (var c in Other.OtherFunctions.ConvertSASetToHeroes(fileName))
                 setObjects.Add(c);
+            UnsavedChanges = true;
         }
 
         #endregion
@@ -205,13 +223,8 @@ namespace HeroesPowerPlant.LayoutEditor
             foreach (SetObject s in setObjects)
                 if (renderer.frustum.Intersects(ref s.boundingBox))
                 {
-                    if (!renderTriggers)
-                    {
-                        Type type = s.GetType();
-                        if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
-                            continue;
-                    }
-
+                    if (!renderTriggers && s.IsTrigger())
+                        continue;
                     s.Draw(renderer, drawEveryObject);
                 }
         }
@@ -225,10 +238,6 @@ namespace HeroesPowerPlant.LayoutEditor
         #endregion
 
         #region Object Editing Methods
-
-        public void SelectedIndexChanged(int[] index)
-        {
-        }
 
         public void SelectedIndexChanged(ListBox.SelectedIndexCollection selectedIndices)
         {
@@ -248,10 +257,14 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (!string.IsNullOrEmpty(currentlyOpenFileName))
                 {
-                    if (currentlyOpenFileName.ToLower().Contains("cmn")) currentNum = 0x10;
-                    else if (currentlyOpenFileName.ToLower().Contains("nrm")) currentNum = 0x20;
-                    else if (currentlyOpenFileName.ToLower().Contains("hrd")) currentNum = 0x40;
-                    else if (currentlyOpenFileName.ToLower().Contains("ds1")) currentNum = 0x80;
+                    if (currentlyOpenFileName.ToLower().Contains("cmn"))
+                        currentNum = 0x10;
+                    else if (currentlyOpenFileName.ToLower().Contains("nrm"))
+                        currentNum = 0x20;
+                    else if (currentlyOpenFileName.ToLower().Contains("hrd"))
+                        currentNum = 0x40;
+                    else if (currentlyOpenFileName.ToLower().Contains("ds1"))
+                        currentNum = 0x80;
                 }
 
                 var unkBytes = new List<byte>() { 1, currentNum };
@@ -265,17 +278,23 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 if (!string.IsNullOrEmpty(currentlyOpenFileName))
                 {
-                    if (currentlyOpenFileName.Contains("P1")) currentNum = 0x20;
-                    else if (currentlyOpenFileName.Contains("P2")) currentNum = 0x40;
-                    else if (currentlyOpenFileName.Contains("P3")) currentNum = 0x60;
-                    else if (currentlyOpenFileName.Contains("P4")) currentNum = 0x80;
-                    else if (currentlyOpenFileName.Contains("P5")) currentNum = 0xA0;
+                    if (currentlyOpenFileName.Contains("P1"))
+                        currentNum = 0x20;
+                    else if (currentlyOpenFileName.Contains("P2"))
+                        currentNum = 0x40;
+                    else if (currentlyOpenFileName.Contains("P3"))
+                        currentNum = 0x60;
+                    else if (currentlyOpenFileName.Contains("P4"))
+                        currentNum = 0x80;
+                    else if (currentlyOpenFileName.Contains("P5"))
+                        currentNum = 0xA0;
                 }
 
                 var unkBytes = new byte[8] { 0, 2, currentNum, 9, 0, 2, currentNum, 9 };
 
                 setObjects.Add(CreateHeroesObject(0, 0, Position, Vector3.Zero, 0, 10, unkBytes));
             }
+            UnsavedChanges = true;
         }
 
         public void DuplicateSetObjectAt(int index, Vector3 Position)
@@ -287,44 +306,59 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public string SerializeSetObject(ListBox.SelectedIndexCollection selectedIndices)
         {
-            List<SetObject> setObjs = new List<SetObject>();
+            var setObjs = new List<(SetObject, byte[])>();
             foreach (int i in selectedIndices)
-                setObjs.Add(GetSetObjectAt(i));
+            {
+                var setObj = GetSetObjectAt(i);
+                setObjs.Add((setObj, setObj.GetMiscSettings()));
+            }
             return JsonConvert.SerializeObject(setObjs);
         }
 
         public int PasteSetObject(string text = null)
         {
-            if (text == null)
-                text = Clipboard.GetText();
+            text ??= Clipboard.GetText();
             int result = 0;
-#if RELEASE
+            var pasted = new List<SetObject>();
             try
             {
-#endif
-            var list = JsonConvert.DeserializeObject<List<Object_ShadowDefault>>(text);
-            result = list.Count;
-
-            foreach (var src in list)
-            {
-                SetObject dest;
-
                 if (isShadow)
-                    dest = CreateShadowObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
+                {
+                    var list = JsonConvert.DeserializeObject<List<(SetObjectShadow, byte[])>>(text);
+                    foreach (var src in list)
+                    {
+                        var setObj = src.Item1;
+                        var miscSettings = src.Item2;
+                        var dest = CreateShadowObject(setObj.List, setObj.Type, setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
+                        dest.SetMiscSettings(miscSettings);
+                        dest.CreateTransformMatrix();
+                        pasted.Add(dest);
+                        result++;
+                    }
+                }
                 else
-                    dest = CreateHeroesObject(src.List, src.Type, src.Position, src.Rotation, src.Link, src.Rend, src.UnkBytes, false);
-
-                dest.MiscSettings = src.MiscSettings;
-                dest.CreateTransformMatrix();
-                setObjects.Add(dest);
-            }
-#if RELEASE
+                {
+                    var list = JsonConvert.DeserializeObject<List<(SetObjectHeroes, byte[])>>(text);
+                    foreach (var src in list)
+                    {
+                        var setObj = src.Item1;
+                        var miscSettings = src.Item2;
+                        var dest = CreateHeroesObject(setObj.List, setObj.Type, setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
+                        dest.SetMiscSettings(miscSettings);
+                        dest.CreateTransformMatrix();
+                        pasted.Add(dest);
+                        result++;
+                    }
+                }
+                foreach (var obj in pasted)
+                    setObjects.Add(obj);
             }
             catch
             {
-                MessageBox.Show($"Error pasting object from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
+                MessageBox.Show($"Error pasting objects from clipboard. Are you sure you have {(isShadow ? "Shadow The Hedgehog" : "Sonic Heroes")} objects copied?");
+                result = 0;
             }
-#endif
+            UnsavedChanges = true;
             return result;
         }
 
@@ -336,6 +370,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public void ClearList()
         {
             setObjects.Clear();
+            UnsavedChanges = true;
         }
 
         public void ChangeObjectType(int index, ObjectEntry newEntry)
@@ -349,17 +384,13 @@ namespace HeroesPowerPlant.LayoutEditor
             byte[] unkb = current.UnkBytes;
             bool isSelected = current.isSelected;
 
-            if (isShadow)
-            {
-                var newObject = CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb, false);
-                int dmsc = shadowObjectEntries[(newEntry.List, newEntry.Type)].MiscSettingCount;
-                newObject.MiscSettings = new byte[dmsc == -1 ? 0 : dmsc];
-                setObjects[index] = newObject;
-            }
-            else
-                setObjects[index] = CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
+            setObjects[index] = isShadow ?
+                CreateShadowObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb) :
+                CreateHeroesObject(newEntry.List, newEntry.Type, pos, rot, link, rend, unkb);
 
             setObjects[index].isSelected = isSelected;
+
+            UnsavedChanges = true;
         }
 
         public void SetObjectPosition(int index, float x, float y, float z)
@@ -371,6 +402,7 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             GetSetObjectAt(index).Position = v;
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void SetObjectRotation(int index, float x, float y, float z)
@@ -380,53 +412,68 @@ namespace HeroesPowerPlant.LayoutEditor
             else
                 GetSetObjectAt(index).Rotation = new Vector3(DegreesToBAMS(x), DegreesToBAMS(y), DegreesToBAMS(z));
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         private void SetObjectRotationDefault(int index, Vector3 v)
         {
             GetSetObjectAt(index).Rotation = v;
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void SetObjectLink(int index, byte value)
         {
             GetSetObjectAt(index).Link = value;
+            UnsavedChanges = true;
         }
 
         public void SetObjectRend(int index, byte value)
         {
             GetSetObjectAt(index).Rend = value;
+            UnsavedChanges = true;
         }
 
         public void SetUnkBytes(int index, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8)
         {
             GetSetObjectAt(index).UnkBytes = new byte[] { v1, v2, v3, v4, v5, v6, v7, v8 };
+            UnsavedChanges = true;
         }
 
         public void Drop(int index)
         {
             GetSetObjectAt(index).Position = Program.MainForm.LevelEditor.bspRenderer.GetDroppedPosition(GetSetObjectAt(index).Position);
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void DropToCurrentView(int index)
         {
             GetSetObjectAt(index).Position = Program.MainForm.renderer.Camera.GetPosition() + 200 * Program.MainForm.renderer.Camera.GetForward();
             GetSetObjectAt(index).CreateTransformMatrix();
+            UnsavedChanges = true;
         }
 
         public void CopyMisc(int index)
         {
-            Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index).MiscSettings));
+            Clipboard.SetText(JsonConvert.SerializeObject(GetSetObjectAt(index).GetMiscSettings()));
         }
 
         public void PasteMisc(int index)
         {
             try
             {
+                var obj = GetSetObjectAt(index);
                 byte[] misc = JsonConvert.DeserializeObject<byte[]>(Clipboard.GetText());
-                GetSetObjectAt(index).MiscSettings = misc;
-                GetSetObjectAt(index).CreateTransformMatrix();
+                using var reader = new EndianBinaryReader(new MemoryStream(misc), Endianness.Big);
+
+                if (obj is SetObjectHeroes objHeroes)
+                    objHeroes.ReadMiscSettings(reader);
+                else if (obj is SetObjectShadow objShadow)
+                    objShadow.ReadMiscSettings(reader, misc.Length);
+
+                obj.CreateTransformMatrix();
+                UnsavedChanges = true;
             }
             catch (Exception ex)
             {
@@ -502,12 +549,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (setObjects[i].isSelected || (!seeAllObjects && setObjects[i].DontDraw(camPos)))
                     continue;
 
-                if (!renderTriggers)
-                {
-                    Type type = setObjects[i].GetType();
-                    if (type == typeof(Object0051_TriggerTalking) || type == typeof(Object0050_Trigger) || type == typeof(Object0062_LightColli))
-                        continue;
-                }
+                if (!renderTriggers && setObjects[i].IsTrigger())
+                    continue;
 
                 if (setObjects[i].IntersectsWith(r, out float distance))
                     if (distance < smallerDistance)
@@ -555,6 +598,7 @@ namespace HeroesPowerPlant.LayoutEditor
             sorted = sorted.OrderBy(f => f.List).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
+            UnsavedChanges = true;
         }
 
         public void SortObjectsByDistance()
@@ -562,6 +606,15 @@ namespace HeroesPowerPlant.LayoutEditor
             List<SetObject> sorted = setObjects.OrderBy(f => f.GetDistanceFrom()).ToList();
             setObjects.Clear();
             sorted.ForEach(setObjects.Add);
+            UnsavedChanges = true;
+        }
+
+        public void SortObjectsAlphabetical()
+        {
+            List<SetObject> sorted = setObjects.OrderBy(f => f.GetName).ToList();
+            setObjects.Clear();
+            sorted.ForEach(setObjects.Add);
+            UnsavedChanges = true;
         }
         #endregion
 
@@ -702,6 +755,28 @@ namespace HeroesPowerPlant.LayoutEditor
             // now leaves us with the before and after Diff results
 
             return (this, system, log);
+        }
+
+        public static Dictionary<(byte, byte), string> ObjectsForModels = new Dictionary<(byte, byte), string>
+        {
+            { (0x15, 0x00), "en_searcher.one" },
+            { (0x15, 0x10), "en_pawn.one" },
+            { (0x15, 0x20), "en_capture.one" },
+            { (0x15, 0x30), "en_flyer.one" },
+            { (0x15, 0x40), "en_wall.one" },
+            { (0x15, 0x70), "en_turtle.one" },
+            { (0x15, 0x90), "en_rinoliner.one" },
+            { (0x15, 0xC0), "en_magician.one" },
+            { (0x15, 0xD0), "en_e2000.one" },
+        };
+
+        public List<string> GetObjectsForModels()
+        {
+            var result = new HashSet<string>();
+            foreach (var s in setObjects)
+                if (ObjectsForModels.ContainsKey((s.List, s.Type)))
+                    result.Add(ObjectsForModels[(s.List, s.Type)]);
+            return result.ToList();
         }
     }
 }

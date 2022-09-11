@@ -81,8 +81,15 @@ namespace HeroesPowerPlant.MainForm
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 currentSavePath = openFile.FileName;
-                ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
-                ProjectConfig.ApplyInstance(this, projectConfig);
+                try
+                {
+                    ProjectConfig projectConfig = ProjectConfig.Open(openFile.FileName);
+                    ProjectConfig.ApplyInstance(this, projectConfig);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"There was an error opening the project file: {ex.Message}");
+                }
 
                 // The ViewConfig screen should refresh in the case of loading new camera values.
                 ViewConfig.UpdateValues();
@@ -115,12 +122,28 @@ namespace HeroesPowerPlant.MainForm
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Warning! This will close the files open in each editor. If you have unsaved changes, they will be lost. Your project file will also not be saved. Proceed?",
-                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            var unsavedChanges = this.unsavedChanges;
+            if (unsavedChanges.Any(uc => uc.UnsavedChanges))
             {
-                ClearConfig();
+                var unsaved = new List<string>();
+                foreach (var uc in unsavedChanges)
+                    if (uc.UnsavedChanges)
+                        unsaved.Add(uc.Text);
+
+                var result = MessageBox.Show($"You have unsaved changes on the following editors: {string.Join(", ", unsaved)}. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    foreach (var uc in unsavedChanges)
+                        if (uc.UnsavedChanges)
+                            uc.Save();
+                }
             }
 
+            ClearConfig();
         }
 
         public void ClearConfig()
@@ -292,7 +315,7 @@ namespace HeroesPowerPlant.MainForm
             AddLayoutEditor(show: true);
         }
 
-        public void AddLayoutEditor(string filePath = null, bool show = false)
+        public void AddLayoutEditor(string filePath = null, bool show = false, bool visibleObjects = true)
         {
             ToolStripMenuItem tempMenuItem = new ToolStripMenuItem("No file loaded");
             tempMenuItem.Click += new EventHandler(LayoutEditorToolStripMenuItemClick);
@@ -309,7 +332,7 @@ namespace HeroesPowerPlant.MainForm
             }
 
             if (filePath != null)
-                tempLayoutEditor.OpenFile(filePath, this);
+                tempLayoutEditor.OpenFile(filePath, this, visibleObjects);
         }
 
         private void LayoutEditorToolStripMenuItemClick(object sender, EventArgs e)
@@ -467,7 +490,8 @@ namespace HeroesPowerPlant.MainForm
                     seeAllObjects = true;
                 else if (renderer.ShowObjects == CheckState.Indeterminate)
                     seeAllObjects = false;
-                else break;
+                else
+                    break;
 
                 c.GetClickedModelPosition(ray, renderer.Camera.GetPosition(), seeAllObjects, out bool has4, out float dist4);
 
@@ -514,10 +538,10 @@ namespace HeroesPowerPlant.MainForm
                 }
         }
 
-        public void UnselectEveryoneExceptMe(LayoutEditor.LayoutEditor editor)
+        public void UnselectEveryoneExceptMe(int hashCode)
         {
             foreach (var l in LayoutEditors)
-                if (l != editor)
+                if (!l.GetHashCode().Equals(hashCode))
                     l.SetSelectedIndex(-1, false);
         }
 
@@ -689,11 +713,12 @@ namespace HeroesPowerPlant.MainForm
                         AddLayoutEditor(show: true);
                     else
                         foreach (var l in LayoutEditors)
-                        {
-                            l.Show();
-                            l.Focus();
-                            l.WindowState = FormWindowState.Normal;
-                        }
+                            if (l.RenderObjects)
+                            {
+                                l.Show();
+                                l.Focus();
+                                l.WindowState = FormWindowState.Normal;
+                            }
                     break;
                 case Keys.F6:
                     TeleportPlayerToCamera();
@@ -735,9 +760,9 @@ namespace HeroesPowerPlant.MainForm
         public void KeyboardController()
         {
             if (PressedKeys.Contains(Keys.Q))
-                    renderer.Camera.IncreaseCameraSpeed(-0.05F);
+                renderer.Camera.IncreaseCameraSpeed(-0.05F);
             if (PressedKeys.Contains(Keys.E))
-                    renderer.Camera.IncreaseCameraSpeed(0.05F);
+                renderer.Camera.IncreaseCameraSpeed(0.05F);
 
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
                 renderer.Camera.AddYaw(-renderer.Camera.KeyboardSensitivity);
@@ -955,8 +980,43 @@ namespace HeroesPowerPlant.MainForm
             ViewConfig.WindowState = FormWindowState.Normal;
         }
 
+        private IEnumerable<IUnsavedChanges> unsavedChanges => new List<IUnsavedChanges>(LayoutEditors)
+        {
+            ConfigEditor,
+            ConfigEditor.SplineEditor,
+            LevelEditor,
+            CameraEditor,
+            ShadowCameraEditor,
+            ParticleEditor,
+            TexturePatternEditor,
+            LightEditor,
+            SetIdTableEditor,
+        };
+        
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            var unsavedChanges = this.unsavedChanges;
+            if (unsavedChanges.Any(uc => uc.UnsavedChanges))
+            {
+                var unsaved = new List<string>();
+                foreach (var uc in unsavedChanges)
+                    if (uc.UnsavedChanges)
+                        unsaved.Add(uc.Text);
+
+                var result = MessageBox.Show($"You have unsaved changes on the following editors: {string.Join(", ", unsaved)}. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    foreach (var uc in unsavedChanges)
+                        if (uc.UnsavedChanges)
+                            uc.Save();
+                }
+            }
+
             HPPConfig.GetInstance().Save();
             if (HPPConfig.GetInstance().AutomaticallySaveConfig)
                 if (currentSavePath != null)
@@ -1281,6 +1341,111 @@ namespace HeroesPowerPlant.MainForm
             catch (IOException e)
             {
                 MessageBox.Show(e.Message);
+            }
+        }
+
+        public void UpdateLayoutEditorMenus()
+        {
+            foreach (var le in LayoutEditorDict.Values)
+                le.UpdateMenus();
+        }
+
+        private void openHeroesLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var unsavedChanges = this.unsavedChanges;
+            if (unsavedChanges.Any(uc => uc.UnsavedChanges))
+            {
+                var unsaved = new List<string>();
+                foreach (var uc in unsavedChanges)
+                    if (uc.UnsavedChanges)
+                        unsaved.Add(uc.Text);
+
+                var result = MessageBox.Show($"You have unsaved changes on the following editors: {string.Join(", ", unsaved)}. Do you wish to save before closing?", "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    foreach (var uc in unsavedChanges)
+                        if (uc.UnsavedChanges)
+                            uc.Save();
+                }
+            }
+
+            var openFile = new VistaOpenFileDialog()
+            {
+                Filter = "ONE files|*.ONE",
+                Title = "Choose the level's ONE file..."
+            };
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                ClearConfig();
+
+                LevelEditor.OpenONEHeroesFile(openFile.FileName, renderer);
+
+                var dvdroot = Path.GetDirectoryName(openFile.FileName);
+                var filenamePrefix = LevelEditor.bspRenderer.currentFileNamePrefix;
+
+                string probObjOne = dvdroot + "\\" + filenamePrefix + "obj.one";
+                if (File.Exists(probObjOne) && !renderer.dffRenderer.filePaths.Contains(probObjOne))
+                    renderer.dffRenderer.AddDFFFiles(new string[] { probObjOne });
+
+                string probComObjOne = dvdroot + "\\comobj.one";
+                if (File.Exists(probComObjOne) && !renderer.dffRenderer.filePaths.Contains(probComObjOne))
+                    renderer.dffRenderer.AddDFFFiles(new string[] { probComObjOne });
+
+                string probComObjTxd = dvdroot + "\\textures\\obj_common.txd";
+                if (File.Exists(probComObjTxd) && !TextureManager.OpenTXDfiles.Contains(probComObjTxd))
+                    TextureManager.LoadTexturesFromTXD(probComObjTxd, renderer, LevelEditor.bspRenderer);
+
+                foreach (var s in new (string, bool)[] {
+                    (dvdroot + "\\" + filenamePrefix + "_DB.bin", true),
+                    (dvdroot + "\\" + filenamePrefix + "_PB.bin", true),
+                    (dvdroot + "\\" + filenamePrefix + "_P1.bin", true),
+                    (dvdroot + "\\" + filenamePrefix + "_P2.bin", false),
+                    (dvdroot + "\\" + filenamePrefix + "_P3.bin", false),
+                    (dvdroot + "\\" + filenamePrefix + "_P4.bin", false),
+                    (dvdroot + "\\" + filenamePrefix + "_P5.bin", false),
+                })
+                    if (File.Exists(s.Item1) && !LayoutEditors.Any(l => l.GetOpenFileName().Equals(s.Item1)))
+                        AddLayoutEditor(s.Item1, false, s.Item2);
+
+                foreach (var s in new string[] {
+                    dvdroot + "\\collisions\\" + filenamePrefix + ".cl",
+                    dvdroot + "\\collisions\\" + filenamePrefix + "_wt.cl",
+                    dvdroot + "\\collisions\\" + filenamePrefix + "_xx.cl",
+                })
+                    if (File.Exists(s) && !CollisionEditors.Any(l => l.GetOpenFileName().Equals(s)))
+                        AddCollisionEditor(s);
+
+                CameraEditor.OpenFile(dvdroot + "\\" + filenamePrefix + "_cam.bin");
+
+                var ptcl = dvdroot + "\\" + filenamePrefix + "_ptcl.bin";
+                if (File.Exists(ptcl))
+                    ParticleEditor.OpenFile(ptcl);
+
+                var txc = dvdroot + "\\" + filenamePrefix + ".txc";
+                if (File.Exists(txc))
+                    TexturePatternEditor.OpenFile(txc);
+
+                var light = dvdroot + "\\" + filenamePrefix + "_light.bin";
+                if (File.Exists(light))
+                    LightEditor.OpenFile(light, false);
+
+                var setidtbl = dvdroot + "\\setidtbl.bin";
+                if (File.Exists(setidtbl))
+                    SetIdTableEditor.OpenExternal(setidtbl, false);
+
+                var objectOnes = new HashSet<string>();
+                foreach (var l in LayoutEditors)
+                    foreach (var s in l.GetObjectsForModels())
+                        objectOnes.Add(dvdroot + "\\" + s);
+                renderer.dffRenderer.AddDFFFiles(objectOnes);
+
+                var tSonicWin = Path.Combine(Path.GetDirectoryName(dvdroot), "Tsonic_win.exe");
+                if (File.Exists(tSonicWin))
+                    ConfigEditor.EXEExtract(tSonicWin, filenamePrefix);
             }
         }
     }

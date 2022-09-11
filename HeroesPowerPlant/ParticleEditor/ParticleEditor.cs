@@ -14,6 +14,8 @@ namespace HeroesPowerPlant.ParticleEditor
         /// </summary>
         public List<Particle> Particles;
 
+        public bool UnsavedChanges { get; set; } = true;
+
         private string currentlyOpenParticleFile;
         public string CurrentlyOpenParticleFile
         {
@@ -24,6 +26,7 @@ namespace HeroesPowerPlant.ParticleEditor
         public ParticleEditor()
         {
             Particles = new List<Particle>();
+            UnsavedChanges = false;
         }
 
         /// <summary>
@@ -57,6 +60,7 @@ namespace HeroesPowerPlant.ParticleEditor
                 int currentOffset = Particle.SIZE * x;
                 Particles.Add(Particle.FromBytes(ref particleBytes, currentOffset));
             }
+            UnsavedChanges = false;
         }
 
         public void Save(string fileName)
@@ -69,6 +73,7 @@ namespace HeroesPowerPlant.ParticleEditor
                 finalFile.AddRange(Particle.GetBytesBigEndian(particle));
 
             File.WriteAllBytes(fileName, finalFile.ToArray());
+            UnsavedChanges = false;
         }
 
         public Vector3 GetBoxForSetParticle(int index)

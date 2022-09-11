@@ -2,16 +2,9 @@
 {
     public class Object0004_HintRing : SetObjectHeroes
     {
-        public short LineToPlay
-        {
-            get => ReadShort(4);
-            set => Write(4, value);
-        }
-
-        public bool DeleteByLinkOff
-        {
-            get => ReadByte(6) != 0;
-            set => Write(6, value ? (byte)1 : (byte)0);
-        }
+        [MiscSetting]
+        public short LineToPlay { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool DeleteByLinkOff { get; set; }
     }
 }

@@ -7,6 +7,11 @@ using System.Linq;
 
 namespace HeroesPowerPlant
 {
+    public enum ChunkType
+    {
+        O, P, K
+    }
+
     public class RenderWareModelFile
     {
         public string fileName;
@@ -16,10 +21,11 @@ namespace HeroesPowerPlant
         private RWSection[] rwSectionArray;
 
         public List<string> MaterialList = new List<string>();
-        public string ChunkName;
+        public ChunkType ChunkType = ChunkType.O;
         public int ChunkNumber;
         public bool isNoCulling = false;
         public bool isShadowCollision = false;
+        public bool isSelected = false;
 
         public List<SharpMesh> meshList;
 
@@ -45,12 +51,12 @@ namespace HeroesPowerPlant
             else
                 isNoCulling = false;
 
-            if (materialType.Contains("D") || materialType.Contains("O"))
-                ChunkName = "O";
-            else if (materialType.Contains("K") || materialType.Contains("G"))
-                ChunkName = "K";
-            else if (materialType.Contains("P") || materialType.Contains("A"))
-                ChunkName = "P";
+            if (materialType.Contains('D') || materialType.Contains('O'))
+                ChunkType = ChunkType.O;
+            else if (materialType.Contains('K') || materialType.Contains('G'))
+                ChunkType = ChunkType.K;
+            else if (materialType.Contains('P') || materialType.Contains('A'))
+                ChunkType = ChunkType.P;
 
             foreach (string s in materialType.Split('_'))
                 try
@@ -173,7 +179,8 @@ namespace HeroesPowerPlant
             {
                 AddPlane(device, pl);
             }
-            else throw new Exception();
+            else
+                throw new Exception();
 
             if (planeSection.rightSection is AtomicSector_0009 ar)
             {
@@ -183,7 +190,8 @@ namespace HeroesPowerPlant
             {
                 AddPlane(device, pr);
             }
-            else throw new Exception();
+            else
+                throw new Exception();
         }
 
         void AddAtomic(SharpDevice device, AtomicSector_0009 AtomicSector)
@@ -391,7 +399,8 @@ namespace HeroesPowerPlant
             {
                 if (rw is BinMeshPLG_050E binmesh)
                 {
-                    if (binmesh.numMeshes == 0) return;
+                    if (binmesh.numMeshes == 0)
+                        return;
                 }
                 if (rw is NativeDataPLG_0510 native)
                 {
@@ -400,7 +409,8 @@ namespace HeroesPowerPlant
                 }
             }
 
-            if (n == null) throw new Exception(ChunkName + ChunkNumber.ToString());
+            if (n == null)
+                throw new Exception(ChunkType + ChunkNumber.ToString());
 
             List<Vertex3> vertexList1 = new List<Vertex3>();
             List<Vertex3> normalList = new List<Vertex3>();
@@ -409,17 +419,29 @@ namespace HeroesPowerPlant
 
             foreach (Declaration d in n.declarations)
             {
-                foreach (object o in d.entryList)
+                if (d.declarationType == Declarations.Vertex)
                 {
-                    if (d.declarationType == Declarations.Vertex)
-                        vertexList1.Add((Vertex3)o);
-                    else if (d.declarationType == Declarations.Color)
-                        colorList.Add((RenderWareFile.Color)o);
-                    else if (d.declarationType == Declarations.TextCoord)
-                        textCoordList.Add((Vertex2)o);
-                    else if (d.declarationType == Declarations.Normal)
-                        normalList.Add((Vertex3)o);
-                    else throw new Exception();
+                    var dec = (Vertex3Declaration)d;
+                    foreach (var v in dec.entryList)
+                        vertexList1.Add(v);
+                }
+                else if (d.declarationType == Declarations.Normal)
+                {
+                    var dec = (Vertex3Declaration)d;
+                    foreach (var v in dec.entryList)
+                        normalList.Add(v);
+                }
+                else if (d.declarationType == Declarations.Color)
+                {
+                    var dec = (ColorDeclaration)d;
+                    foreach (var c in dec.entryList)
+                        colorList.Add(c);
+                }
+                else if (d.declarationType == Declarations.TextCoord)
+                {
+                    var dec = (Vertex2Declaration)d;
+                    foreach (var v in dec.entryList)
+                        textCoordList.Add(v);
                 }
             }
 
@@ -501,7 +523,8 @@ namespace HeroesPowerPlant
         {
             foreach (SharpMesh mesh in meshList)
             {
-                if (mesh == null) continue;
+                if (mesh == null)
+                    continue;
 
                 mesh.Begin(device);
                 for (int i = 0; i < mesh.SubSets.Count(); i++)

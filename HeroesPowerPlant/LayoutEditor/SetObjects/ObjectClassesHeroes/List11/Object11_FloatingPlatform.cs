@@ -2,69 +2,33 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum PlatformType
-    {
-        Fixed = 0,
-        Moving = 1,
-        Alternate = 2,
-        Disappear = 3
-    }
-
     public class Object11_FloatingPlatform : SetObjectHeroes
     {
-        [Description("Disappear mode is unused. Delay can be negative to make the platform faster.")]
-        public PlatformType PlatformType
+        public enum EPlatformType : byte
         {
-            get => (PlatformType)ReadByte(4);
-            set => Write(4, (byte)value);
+            Fixed = 0,
+            Moving = 1,
+            Alternate = 2,
+            Disappear = 3
         }
 
-        public bool AlternateModel
-        {
-            get => ReadByte(5) != 0;
-            set => Write(5, (byte)(value ? 1 : 0));
-        }
-
-        public short UnknownAlternateRange0
-        {
-            get => ReadShort(6);
-            set => Write(8, value);
-        }
-
-        public short UnknownAlternateRange1
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
-        }
-
-        public short XOffset
-        {
-            get => ReadShort(10);
-            set => Write(10, value);
-        }
-
-        public short YOffset
-        {
-            get => ReadShort(12);
-            set => Write(12, value);
-        }
-
-        public short ZOffset
-        {
-            get => ReadShort(14);
-            set => Write(14, value);
-        }
-
-        public short TimeCycleFrame
-        {
-            get => ReadShort(16);
-            set => Write(16, value);
-        }
-
-        public byte DisappearLinkID
-        {
-            get => ReadByte(18);
-            set => Write(18, value);
-        }
+        [MiscSetting(1), Description("Disappear mode is unused. Delay can be negative to make the platform faster.")]
+        public EPlatformType PlatformType { get; set; }
+        [MiscSetting(2, underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool AlternateModel { get; set; }
+        [MiscSetting(3)]
+        public short UnknownAlternateRange0 { get; set; }
+        [MiscSetting(4)]
+        public short UnknownAlternateRange1 { get; set; }
+        [MiscSetting(5)]
+        public short XOffset { get; set; }
+        [MiscSetting(6)]
+        public short YOffset { get; set; }
+        [MiscSetting(7)]
+        public short ZOffset { get; set; }
+        [MiscSetting(8)]
+        public short TimeCycleFrame { get; set; }
+        [MiscSetting(9)]
+        public byte DisappearLinkID { get; set; }
     }
 }

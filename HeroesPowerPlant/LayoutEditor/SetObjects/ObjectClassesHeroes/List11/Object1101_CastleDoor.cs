@@ -2,10 +2,7 @@
 {
     public class Object1101_CastleDoor : SetObjectHeroes
     {
-        public bool IsUpsideDown
-        {
-            get => ReadInt(4) != 0;
-            set => Write(4, value ? 1 : 0);
-        }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool IsUpsideDown { get; set; }
     }
 }

@@ -2,25 +2,18 @@
 {
     public class Object2595_MissionClearCollision : SetObjectShadow
     {
-
-        public MissionType MissionType
+        public enum EMissionType : int
         {
-            get => (MissionType)ReadInt(0);
-            set => Write(0, (int)value);
+            Dark,
+            Normal,
+            Hero
         }
 
-        public float Radius
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-    }
+        [MiscSetting]
+        public EMissionType MissionType { get; set; }
 
-    public enum MissionType
-    {
-        Dark,
-        Normal,
-        Hero
+        [MiscSetting]
+        public float Radius { get; set; }
     }
 }
 

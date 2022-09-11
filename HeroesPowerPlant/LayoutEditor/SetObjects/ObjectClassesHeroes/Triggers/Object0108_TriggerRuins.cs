@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum RuinType : byte
-    {
-        SeasideHillRuin = 0,
-        OceanPalaceRuins = 1
-    }
-
     public class Object0108_TriggerRuins : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
+        public enum ERuinType : byte
+        {
+            SeasideHill = 0,
+            OceanPalace = 1
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) * DefaultTransformMatrix();
@@ -37,28 +39,13 @@ namespace HeroesPowerPlant.LayoutEditor
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
-        public float ScaleX
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float ScaleY
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public RuinType RuinType
-        {
-            get => (RuinType)ReadByte(16);
-            set => Write(16, (byte)value);
-        }
+        [MiscSetting]
+        public float ScaleX { get; set; }
+        [MiscSetting]
+        public float ScaleY { get; set; }
+        [MiscSetting]
+        public float ScaleZ { get; set; }
+        [MiscSetting]
+        public ERuinType RuinType { get; set; }
     }
 }

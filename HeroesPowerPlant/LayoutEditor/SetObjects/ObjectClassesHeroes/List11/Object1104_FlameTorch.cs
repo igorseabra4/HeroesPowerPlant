@@ -2,15 +2,22 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum StartMode
-    {
-        Lit = 0,
-        LitOnRange = 1,
-        Unlit = 2
-    }
-
     public class Object1104_FlameTorch : SetObjectHeroes
     {
+        public enum EStartMode : int
+        {
+            Lit = 0,
+            LitOnRange = 1,
+            Unlit = 2
+        }
+
+        public enum EBaseType : byte
+        {
+            None = 0,
+            Floor = 1,
+            Air = 2
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = (IsUpsideDown ? Matrix.RotationY(MathUtil.Pi) : Matrix.Identity) *
@@ -28,9 +35,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer)
         {
-            if (BaseType == BaseTypeEnum.None)
+            if (BaseType == EBaseType.None)
                 DrawCube(renderer);
-            else if (BaseType == BaseTypeEnum.Floor)
+            else if (BaseType == EBaseType.Floor)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(FloorBase))
                     Draw(renderer, FloorBase);
@@ -45,7 +52,7 @@ namespace HeroesPowerPlant.LayoutEditor
                         Draw(renderer, FloorRed);
                 }
             }
-            else if (BaseType == BaseTypeEnum.Air)
+            else if (BaseType == EBaseType.Air)
             {
                 if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(AirBase))
                     Draw(renderer, AirBase);
@@ -68,58 +75,21 @@ namespace HeroesPowerPlant.LayoutEditor
             renderer.dffRenderer.DFFModels[modelName].Render(renderer.Device);
         }
 
-        public bool IsBlue
-        {
-            get => ReadInt(4) != 0;
-            set => Write(4, value ? 1 : 0);
-        }
-
-        public StartMode StartMode
-        {
-            get => (StartMode)ReadInt(8);
-            set => Write(8, (int)value);
-        }
-
-        public float Range
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public bool IsUpsideDown
-        {
-            get => ReadByte(20) != 0;
-            set => Write(20, (byte)(value ? 1 : 0));
-        }
-
-        public enum BaseTypeEnum
-        {
-            None = 0,
-            Floor = 1,
-            Air = 2
-        }
-        public BaseTypeEnum BaseType
-        {
-            get => (BaseTypeEnum)ReadByte(21);
-            set => Write(21, (byte)value);
-        }
-
-        public bool HasSE
-        {
-            get => ReadByte(22) != 0;
-            set => Write(22, (byte)(value ? 1 : 0));
-        }
-
-        public bool HasCollision
-        {
-            get => ReadByte(23) != 0;
-            set => Write(23, (byte)(value ? 1 : 0));
-        }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Int)]
+        public bool IsBlue { get; set; }
+        [MiscSetting]
+        public EStartMode StartMode { get; set; }
+        [MiscSetting]
+        public float Range { get; set; }
+        [MiscSetting]
+        public float Scale { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool IsUpsideDown { get; set; }
+        [MiscSetting]
+        public EBaseType BaseType { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool HasSE { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool HasCollision { get; set; }
     }
 }

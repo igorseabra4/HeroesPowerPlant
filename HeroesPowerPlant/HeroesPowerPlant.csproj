@@ -93,9 +93,6 @@
     <Compile Update="ConfigEditor\ConfigEditor.designer.cs">
       <DependentUpon>ConfigEditor.cs</DependentUpon>
     </Compile>
-    <Compile Update="ConfigEditor\ConfigEditorFunctions.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="ConfigEditor\EXEExtractor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +101,12 @@
     </Compile>
     <Compile Update="ConfigEditor\RankEditor\RankEditor.designer.cs">
       <DependentUpon>RankEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Update="LayoutEditor\Templates\PickTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LayoutEditor\Templates\PickTemplate.Designer.cs">
+      <DependentUpon>PickTemplate.cs</DependentUpon>
     </Compile>
     <Compile Update="LevelEditor\ChooseTarget.cs">
       <SubType>Form</SubType>

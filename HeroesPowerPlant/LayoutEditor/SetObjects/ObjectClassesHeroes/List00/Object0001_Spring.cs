@@ -11,24 +11,11 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        [Description("Defaults to 5.0")]
-        public float Power
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        [Description("In frames")]
-        public short NoControlTime
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
-        }
-
-        public float GuideLine
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        [MiscSetting, Description("Defaults to 5.0")]
+        public float Power { get; set; }
+        [MiscSetting, Description("In frames")]
+        public short NoControlTime { get; set; }
+        [MiscSetting]
+        public float GuideLine { get; set; }
     }
 }

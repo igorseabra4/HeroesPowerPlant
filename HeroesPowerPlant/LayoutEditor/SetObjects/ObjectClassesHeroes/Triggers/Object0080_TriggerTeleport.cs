@@ -4,6 +4,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0080_TriggerTeleport : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         private BoundingSphere sphereBound;
         private Matrix destinationMatrix;
 
@@ -14,7 +16,7 @@ namespace HeroesPowerPlant.LayoutEditor
             sphereBound = new BoundingSphere(Position, Radius * 2);
             boundingBox = BoundingBox.FromSphere(sphereBound);
 
-            destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(XDestination, YDestination, ZDestination);
+            destinationMatrix = Matrix.Scaling(5) * Matrix.Translation(DestinationX, DestinationY, DestinationZ);
         }
 
         public override void Draw(SharpRenderer renderer)
@@ -30,28 +32,13 @@ namespace HeroesPowerPlant.LayoutEditor
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        public float Radius
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float XDestination
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float YDestination
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float ZDestination
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
+        [MiscSetting]
+        public float Radius { get; set; }
+        [MiscSetting]
+        public float DestinationX { get; set; }
+        [MiscSetting]
+        public float DestinationY { get; set; }
+        [MiscSetting]
+        public float DestinationZ { get; set; }
     }
 }

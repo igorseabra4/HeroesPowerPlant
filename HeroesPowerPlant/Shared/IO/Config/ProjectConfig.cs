@@ -18,7 +18,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public string LevelEditorPath { get; set; }
         public string VisibilityPath { get; set; }
         public List<string> CollisionEditorPaths { get; set; }
-        public List<string> LayoutEditorPaths { get; set; }
+        public List<(string, bool)> LayoutEditorPaths { get; set; }
         public string CameraEditorPath { get; set; }
         public string ParticleEditorPath { get; set; }
         public string TexturePatternEditorPath { get; set; }
@@ -107,9 +107,9 @@ namespace HeroesPowerPlant.Shared.IO.Config
             foreach (var v in mainForm.CollisionEditors)
                 colEditorPaths.Add(v.GetOpenFileName());
 
-            List<string> layoutEditorPaths = new List<string>();
+            var layoutEditorPaths = new List<(string, bool)>();
             foreach (var v in mainForm.LayoutEditors)
-                layoutEditorPaths.Add(v.GetOpenFileName());
+                layoutEditorPaths.Add((v.GetOpenFileName(), v.RenderObjects));
 
             return new ProjectConfig
             {
@@ -191,7 +191,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
                     ExecuteIfFilePresent($"Collision Editor error: file not found: {v}", "Error", v, path => mainForm.AddCollisionEditor(path));
             if (config.LayoutEditorPaths != null)
                 foreach (var v in config.LayoutEditorPaths)
-                    ExecuteIfFilePresent($"Layout Editor error: file not found: {v}", "Error", v, path => mainForm.AddLayoutEditor(path));
+                    ExecuteIfFilePresent($"Layout Editor error: file not found: {v}", "Error", v.Item1, path => mainForm.AddLayoutEditor(path, false, v.Item2));
 
             ExecuteIfFilePresent($"Camera Editor error: file not found: {config.CameraEditorPath}", "Error", config.CameraEditorPath, path => mainForm.CameraEditor.OpenFile(path));
             ExecuteIfFilePresent($"Particle Editor error: file not found: {config.ParticleEditorPath}", "Error", config.ParticleEditorPath, path => mainForm.ParticleEditor.OpenFile(path));

@@ -15,18 +15,17 @@ namespace HeroesPowerPlant.RankEditor
             RankEditorNewConfig();
         }
 
-        private void LayoutEditor_Load(object sender, EventArgs e)
+        private void RankEditor_Load(object sender, EventArgs e)
         {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
+            TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();

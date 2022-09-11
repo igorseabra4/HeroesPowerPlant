@@ -1,13 +1,20 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
+using HeroesPowerPlant.TexturePatternEditor;
 using Ookii.Dialogs.WinForms;
 using System;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LightEditor
 {
-    public partial class LightMenu : Form
+    public partial class LightMenu : Form, IUnsavedChanges
     {
         private LightEditor LightEditor;
+
+        public bool UnsavedChanges
+        {
+            get => LightEditor.UnsavedChanges;
+            set => LightEditor.UnsavedChanges = value;
+        }
 
         public LightMenu()
         {
@@ -48,8 +55,10 @@ namespace HeroesPowerPlant.LightEditor
 
         private void LightEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -57,6 +66,19 @@ namespace HeroesPowerPlant.LightEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             New();
         }
 
@@ -68,6 +90,19 @@ namespace HeroesPowerPlant.LightEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN Files|*.bin"
@@ -80,6 +115,19 @@ namespace HeroesPowerPlant.LightEditor
 
         private void openShadowToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN Files|*.bin"
@@ -88,6 +136,11 @@ namespace HeroesPowerPlant.LightEditor
             {
                 OpenFile(openFile.FileName, true);
             }
+        }
+
+        public void Save()
+        {
+            saveToolStripMenuItem_Click(null, null);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -132,6 +185,7 @@ namespace HeroesPowerPlant.LightEditor
         {
             LightEditor.Lights.Add(new Light());
             UpdateValues();
+            UnsavedChanges = true;
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
@@ -142,6 +196,7 @@ namespace HeroesPowerPlant.LightEditor
                 var particleToClone = Light.FromLightEntry(LightEditor.Lights[index]);
                 LightEditor.Lights.Add(particleToClone);
                 UpdateValues();
+                UnsavedChanges = true;
             }
         }
 
@@ -152,6 +207,7 @@ namespace HeroesPowerPlant.LightEditor
             {
                 LightEditor.Lights.RemoveAt(index);
                 UpdateValues();
+                UnsavedChanges = true;
             }
         }
 
@@ -170,15 +226,15 @@ namespace HeroesPowerPlant.LightEditor
             int index = (int)numericCurrentLight.Value;
 
             if (index >= 0 & index < LightEditor.Lights.Count)
+            { 
                 LightEditor.Lights[index] = (Light)propertyGridLights.SelectedObject;
+                UnsavedChanges = true;
+            }
         }
 
         private void LightMenu_Load(object sender, EventArgs e)
         {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
+            TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
         }
     }
 }

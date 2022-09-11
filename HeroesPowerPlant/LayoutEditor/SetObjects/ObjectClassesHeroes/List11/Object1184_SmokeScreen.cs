@@ -12,22 +12,11 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public int ModelNumber
-        {
-            get => ReadInt(4);
-            set => Write(4, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public bool IsUpsideDown
-        {
-            get => ReadByte(12) != 0;
-            set => Write(12, (byte)(value ? 1 : 0));
-        }
+        [MiscSetting]
+        public int ObjectType { get; set; }
+        [MiscSetting]
+        public float Speed { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool IsUpsideDown { get; set; }
     }
 }

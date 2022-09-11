@@ -4,18 +4,13 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object000B_DashPanel : SetObjectHeroes
     {
-        [Description("Defaults to 5.0")]
-        public float Speed
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        [Description("In frames")]
-        public short NoControlTime
-        {
-            get => ReadShort(8);
-            set => Write(8, value);
-        }
+        [MiscSetting, Description("Defaults to 5.0")]
+        public float Speed { get; set; }
+        [MiscSetting, Description("In frames")]
+        public short NoControlTime { get; set; }
+        [MiscSetting(padAfter: 8), Description("Usually 0")]
+        public float Unknown1 { get; set; }
+        [MiscSetting, Description("Usually 0")]
+        public float Unknown2 { get; set; }
     }
 }

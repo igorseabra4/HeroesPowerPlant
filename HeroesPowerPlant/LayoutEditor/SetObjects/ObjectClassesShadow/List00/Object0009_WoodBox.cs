@@ -5,7 +5,6 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0009_WoodBox : SetObjectShadow
     {
-
         public override void CreateTransformMatrix()
         {
             // function 800c9ed4 | RotationTemplateGen
@@ -18,44 +17,32 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public BoxType BoxType
-        {
-            get => (BoxType)ReadInt(0);
-            set => Write(0, (int)value);
-        }
-
-        public BoxItem ItemType
-        {
-            get => (BoxItem)ReadInt(4);
-            set => Write(4, (int)value);
-        }
-
-        [Description("Use this if ItemType is any other type")]
-        public int ItemTypeModifier
-        {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public EBoxType BoxType { get; set; }
+        [MiscSetting]
+        public EBoxItem BoxItem { get; set; }
+        [MiscSetting, Description("Use this if ItemType is any other type")]
+        public int ItemTypeModifier { get; set; }
 
         [Description("Use this if ItemType is ItemCapsule")]
-        public ItemShadow ModifierCapsule
+        public EItemShadow ModifierCapsule
         {
-            get => (ItemShadow)ReadInt(8);
-            set => Write(8, (int)value);
+            get => (EItemShadow)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
 
         [Description("Use this if ItemType is Weapon")]
-        public Weapon ModifierWeapon
+        public EWeapon ModifierWeapon
         {
-            get => (Weapon)ReadInt(8);
-            set => Write(8, (int)value);
+            get => (EWeapon)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
 
         [Description("Use this if ItemType is EnergyCore")]
-        public EnergyCoreType ModifierEnergyCore
+        public EEnergyCore ModifierEnergyCore
         {
-            get => (EnergyCoreType)ReadInt(8);
-            set => Write(8, (int)value);
+            get => (EEnergyCore)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
     }
 }

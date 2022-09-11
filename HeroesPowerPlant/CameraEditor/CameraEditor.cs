@@ -12,7 +12,7 @@ using static HeroesPowerPlant.MemoryFunctions;
 
 namespace HeroesPowerPlant.CameraEditor
 {
-    public partial class CameraEditor : Form
+    public partial class CameraEditor : Form, IUnsavedChanges
     {
         public CameraEditor()
         {
@@ -113,8 +113,10 @@ namespace HeroesPowerPlant.CameraEditor
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -124,8 +126,23 @@ namespace HeroesPowerPlant.CameraEditor
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
 
+        public bool UnsavedChanges { get; private set; } = false;
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             New();
         }
 
@@ -136,10 +153,24 @@ namespace HeroesPowerPlant.CameraEditor
             ListBoxCameras.Items.Clear();
             toolStripStatusFile.Text = "No file loaded";
             UpdateLabelCameraCount();
+            UnsavedChanges = false;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog OpenCamera = new VistaOpenFileDialog()
             {
                 Filter = "BIN Files|*.bin"
@@ -169,9 +200,17 @@ namespace HeroesPowerPlant.CameraEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CurrentCameraFile != null)
+            {
                 SaveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
+                UnsavedChanges = false;
+            }
             else
                 saveAsToolStripMenuItem_Click(sender, e);
+        }
+
+        public void Save()
+        {
+            saveToolStripMenuItem_Click(null, null);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -185,6 +224,7 @@ namespace HeroesPowerPlant.CameraEditor
             {
                 CurrentCameraFile = SaveCamera.FileName;
                 SaveCameraFile(CurrentCameraFile, ListBoxCameras.Items.Cast<CameraHeroes>());
+                UnsavedChanges = false;
             }
         }
 
@@ -196,7 +236,8 @@ namespace HeroesPowerPlant.CameraEditor
 
             if (!hasRemoved & CurrentlySelectedCamera != -1)
                 (ListBoxCameras.Items[CurrentlySelectedCamera] as CameraHeroes).isSelected = false;
-            else if (hasRemoved) hasRemoved = false;
+            else if (hasRemoved)
+                hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
 
@@ -294,6 +335,7 @@ namespace HeroesPowerPlant.CameraEditor
                 current.CreateTransformMatrix();
 
                 ListBoxCameras.Items[CurrentlySelectedCamera] = current;
+                UnsavedChanges = true;
             }
         }
 
@@ -304,6 +346,7 @@ namespace HeroesPowerPlant.CameraEditor
             ListBoxCameras.Items.Add(newCamera);
             ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void buttonCopy_Click(object sender, EventArgs e)
@@ -313,6 +356,7 @@ namespace HeroesPowerPlant.CameraEditor
             ListBoxCameras.Items.Add(newCamera);
             ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -330,6 +374,7 @@ namespace HeroesPowerPlant.CameraEditor
                 ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
 
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
@@ -337,6 +382,7 @@ namespace HeroesPowerPlant.CameraEditor
             hasRemoved = true;
             ListBoxCameras.Items.Clear();
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void UpdateLabelCameraCount()
@@ -357,14 +403,16 @@ namespace HeroesPowerPlant.CameraEditor
         {
             if (TryAttach())
                 Clipboard.SetText(JsonConvert.SerializeObject(GetPlayer0Position()));
-            else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonGetCamera_Click(object sender, EventArgs e)
         {
             if (TryAttach())
                 Clipboard.SetText(JsonConvert.SerializeObject(GetCameraPosition()));
-            else MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show("Error reading data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void buttonComeHere_Click(object sender, EventArgs e)
@@ -407,7 +455,8 @@ namespace HeroesPowerPlant.CameraEditor
             float smallerDistance = 10000f;
             for (int i = 0; i < ListBoxCameras.Items.Count; i++)
             {
-                if (((CameraHeroes)ListBoxCameras.Items[i]).isSelected) continue;
+                if (((CameraHeroes)ListBoxCameras.Items[i]).isSelected)
+                    continue;
 
                 float? distance = ((CameraHeroes)ListBoxCameras.Items[i]).IntersectsWith(r);
                 if (distance != null)
@@ -424,6 +473,7 @@ namespace HeroesPowerPlant.CameraEditor
             cameras = cameras.OrderBy(c => c.GetDistance()).ToList();
             ListBoxCameras.Items.Clear();
             ListBoxCameras.Items.AddRange(cameras.ToArray());
+            UnsavedChanges = true;
         }
 
         private const string pasteErrorMessage = "Error pasting coordinates from clipboard. Are you sure you have a Vector3 copied?";
@@ -508,7 +558,10 @@ namespace HeroesPowerPlant.CameraEditor
             using VistaOpenFileDialog openFile = new VistaOpenFileDialog();
             if (openFile.ShowDialog() == DialogResult.OK)
                 foreach (var c in Other.OtherFunctions.ConvertSACamToHeroes(openFile.FileName))
+                {
                     ListBoxCameras.Items.Add(c);
+                    UnsavedChanges = true;
+                }
         }
     }
 }

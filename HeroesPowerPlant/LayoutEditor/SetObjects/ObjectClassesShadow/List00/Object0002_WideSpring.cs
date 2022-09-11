@@ -2,7 +2,7 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public class Object0002_WideSpring : SetObjectShadow
+    public class Object0002_WideSpring : Object0001_SpringShadow
     {
         // Previously known as WideSpring, official name is LongSpring
         public override void CreateTransformMatrix()
@@ -25,18 +25,6 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 Matrix.Translation(Position);
             CreateBoundingBox();
-        }
-
-        public float Strength
-        {
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
-
-        public float NoControlTime
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
         }
     }
 }

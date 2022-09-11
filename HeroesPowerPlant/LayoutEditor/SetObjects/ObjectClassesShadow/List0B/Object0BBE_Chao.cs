@@ -2,29 +2,17 @@
 {
     public class Object0BBE_Chao : SetObjectShadow
     {
-        //ChaoHolder
-        public Chao ChaoType
+        public enum EChao : int
         {
-            get => (Chao)ReadInt(0);
-            set => Write(0, (int)value);
+            Normal = 0x00, //CHAO
+            Cheese = 0x01 //CHEEZ
         }
 
-        public float MoveRadius
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float MoveSpeed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-    }
-
-    public enum Chao
-    {
-        Normal = 0x00, //CHAO
-        Cheese = 0x01 //CHEEZ
+        [MiscSetting]
+        public EChao Chao { get; set; }
+        [MiscSetting]
+        public float MoveRadius { get; set; }
+        [MiscSetting]
+        public float MoveSpeed { get; set; }
     }
 }

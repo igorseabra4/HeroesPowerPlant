@@ -9,19 +9,22 @@ using static HeroesPowerPlant.ShadowCameraEditor.ShadowCameraEditorFunctions;
 
 namespace HeroesPowerPlant.ShadowCameraEditor
 {
-    public partial class ShadowCameraEditor : Form
+    public partial class ShadowCameraEditor : Form, IUnsavedChanges
     {
-
         public string CurrentCameraFile;
         public ShadowCameraFileHeader header;
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
         private bool hasRemoved = false;
 
+        public bool UnsavedChanges { get; private set; } = false;
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -141,6 +144,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             numericUpDown_fD4.Minimum = Decimal.MinValue;
             numericUpDown_fD8.Minimum = Decimal.MinValue;
         }
+
         public void New()
         {
             CurrentCameraFile = null;
@@ -149,6 +153,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             ListBoxCameras.Items.Clear();
             toolStripStatusFile.Text = "No file loaded";
             UpdateLabelCameraCount();
+            UnsavedChanges = false;
         }
 
         public void RenderCameras(SharpRenderer renderer)
@@ -162,8 +167,22 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
             renderer.normalColor = oldColor;
         }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             VistaOpenFileDialog OpenCamera = new VistaOpenFileDialog()
             {
                 Filter = "DAT Files|*.dat"
@@ -189,7 +208,13 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
                 ListBoxCameras.SelectedIndex = -1;
                 CurrentlySelectedCamera = -1;
+                UnsavedChanges = false;
             }
+        }
+
+        public void Save()
+        {
+            saveToolStripMenuItem_Click(null, null);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -198,6 +223,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             {
                 header.numberOfCameras = ListBoxCameras.Items.Count;
                 SaveCameraFile(CurrentCameraFile, header, ListBoxCameras.Items.Cast<ShadowCamera>());
+                UnsavedChanges = false;
             }
             else
                 saveAsToolStripMenuItem_Click(sender, e);
@@ -214,6 +240,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 CurrentCameraFile = SaveCamera.FileName;
                 header.numberOfCameras = ListBoxCameras.Items.Count;
                 SaveCameraFile(CurrentCameraFile, header, ListBoxCameras.Items.Cast<ShadowCamera>());
+                UnsavedChanges = false;
             }
         }
 
@@ -232,7 +259,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor
 
             if (!hasRemoved & CurrentlySelectedCamera != -1)
                 (ListBoxCameras.Items[CurrentlySelectedCamera] as ShadowCamera).isSelected = false;
-            else if (hasRemoved) hasRemoved = false;
+            else if (hasRemoved)
+                hasRemoved = false;
 
             CurrentlySelectedCamera = ListBoxCameras.SelectedIndex;
 
@@ -366,6 +394,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 current.field_D8 = (float)numericUpDown_fD8.Value;
                 current.CreateTransformMatrix();
                 ListBoxCameras.Items[CurrentlySelectedCamera] = current;
+                UnsavedChanges = true;
             }
         }
 
@@ -376,7 +405,8 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             float smallerDistance = 10000f;
             for (int i = 0; i < ListBoxCameras.Items.Count; i++)
             {
-                if (((ShadowCamera)ListBoxCameras.Items[i]).isSelected) continue;
+                if (((ShadowCamera)ListBoxCameras.Items[i]).isSelected)
+                    continue;
 
                 float? distance = ((ShadowCamera)ListBoxCameras.Items[i]).IntersectsWith(r);
                 if (distance != null)
@@ -394,6 +424,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             ListBoxCameras.Items.Add(newCamera);
             ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void buttonDuplicate_Click(object sender, EventArgs e)
@@ -403,6 +434,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             ListBoxCameras.Items.Add(newCamera);
             ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -420,6 +452,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
                 ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
 
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
@@ -427,10 +460,24 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             hasRemoved = true;
             ListBoxCameras.Items.Clear();
             UpdateLabelCameraCount();
+            UnsavedChanges = true;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    saveToolStripMenuItem_Click(sender, e);
+                    if (UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             New();
         }
 
@@ -440,6 +487,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             cameras = cameras.OrderBy(c => c.GetDistance()).ToList();
             ListBoxCameras.Items.Clear();
             ListBoxCameras.Items.AddRange(cameras.ToArray());
+            UnsavedChanges = true;
         }
 
         private void sortByCameraNumberToolStripMenuItem_Click(object sender, EventArgs e)
@@ -448,6 +496,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
             cameras = cameras.OrderBy(c => c.CameraNumber).ToList();
             ListBoxCameras.Items.Clear();
             ListBoxCameras.Items.AddRange(cameras.ToArray());
+            UnsavedChanges = true;
         }
 
         private void ViewPosition(float positionX, float positionY, float positionZ)

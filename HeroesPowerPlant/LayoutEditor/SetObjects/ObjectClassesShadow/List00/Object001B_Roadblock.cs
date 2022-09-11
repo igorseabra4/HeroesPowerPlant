@@ -2,18 +2,14 @@
 {
     public class Object001B_Roadblock : SetObjectShadow
     {
-        //BreakObj
-        public RoadblockType RoadblockType
+        public enum ERoadblockType : int
         {
-            get => (RoadblockType)ReadInt(0);
-            set => Write(0, (int)value);
+            GUN,
+            BlackArms
         }
-    }
 
-    public enum RoadblockType
-    {
-        GUN,
-        BlackArms
+        [MiscSetting]
+        public ERoadblockType RoadblockType { get; set; }
     }
 }
 

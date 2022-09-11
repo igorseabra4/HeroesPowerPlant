@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant.Shared.IO.Config
 {
@@ -79,9 +81,16 @@ namespace HeroesPowerPlant.Shared.IO.Config
             {
                 if (AutomaticallyLoadLastConfig && File.Exists(LastProjectPath))
                 {
-                    var config = ProjectConfig.Open(LastProjectPath);
-                    ProjectConfig.ApplyInstance(mainForm, config);
-                    mainForm.currentSavePath = LastProjectPath;
+                    try
+                    {
+                        var config = ProjectConfig.Open(LastProjectPath);
+                        ProjectConfig.ApplyInstance(mainForm, config);
+                        mainForm.currentSavePath = LastProjectPath;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"There was an error opening the project file: {ex.Message}");
+                    }
                 }
 
                 if (VSync)

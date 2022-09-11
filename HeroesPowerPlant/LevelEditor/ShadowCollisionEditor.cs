@@ -15,8 +15,10 @@ namespace HeroesPowerPlant.LevelEditor
     {
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -81,6 +83,8 @@ namespace HeroesPowerPlant.LevelEditor
                     bspRenderer.ShadowColBSPList.Add(file);
                     listBoxLevelModels.Items.Add(file.fileName);
 
+                    UnsavedChanges = true;
+
                     ReadFileMethods.isCollision = false;
                 }
 
@@ -90,7 +94,8 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
-            if (listBoxLevelModels.Items.Count == 0) return;
+            if (listBoxLevelModels.Items.Count == 0)
+                return;
 
             if (listBoxLevelModels.SelectedIndices.Count == 1)
             {
@@ -134,6 +139,7 @@ namespace HeroesPowerPlant.LevelEditor
                     bspRenderer.ShadowColBSPList.RemoveAt(i);
                     listBoxLevelModels.Items.RemoveAt(i);
                     i -= 1;
+                    UnsavedChanges = true;
                 }
             }
             InitBSPList();
@@ -147,6 +153,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             bspRenderer.ShadowColBSPList.Clear();
             listBoxLevelModels.Items.Clear();
+            UnsavedChanges = true;
         }
 
         private void listBoxLevelModels_SelectedIndexChanged(object sender, EventArgs e)
@@ -184,6 +191,7 @@ namespace HeroesPowerPlant.LevelEditor
                 {
                     bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber = -1;
                 };
+                UnsavedChanges = true;
             }
         }
 
@@ -194,5 +202,7 @@ namespace HeroesPowerPlant.LevelEditor
             if (e.KeyCode == Keys.F2)
                 listBoxLevelModels_MouseDoubleClick(sender, null);
         }
+
+        public bool UnsavedChanges = false;
     }
 }

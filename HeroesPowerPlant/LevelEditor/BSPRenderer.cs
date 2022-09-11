@@ -76,7 +76,7 @@ namespace HeroesPowerPlant
                 DetermineVisibleChunks(renderer, chunkList);
 
             renderer.Device.SetFillModeDefault();
-            renderer.defaultShader.Apply();
+            renderer.tintedShader.Apply();
 
             RenderOpaque(renderer);
             RenderAlpha(renderer);
@@ -88,52 +88,66 @@ namespace HeroesPowerPlant
             renderer.Device.SetDefaultDepthState();
             renderer.Device.SetCullModeDefault();
 
-            renderer.Device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
-            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
+            renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-            for (int j = 0; j < BSPList.Count; j++)
+            for (int i = 0; i < BSPList.Count; i++)
             {
-                if ((renderByChunk && !VisibleChunks.Contains(BSPList[j].ChunkNumber)) ||
-                    (BSPList[j].ChunkName == "A" || BSPList[j].ChunkName == "P" || BSPList[j].ChunkName == "K"))
+                if ((renderByChunk && !VisibleChunks.Contains(BSPList[i].ChunkNumber)) ||
+                    (BSPList[i].ChunkType != ChunkType.O))
                     continue;
 
-                if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
-                else renderer.Device.SetCullModeDefault();
+                var renderData = new DefaultRenderData()
+                {
+                    worldViewProjection = renderer.viewProjection,
+                    Color = BSPList[i].isSelected ? renderer.selectedObjectColor : Vector4.One
+                };
+
+                renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+
+                if (BSPList[i].isNoCulling)
+                    renderer.Device.SetCullModeNone();
+                else
+                    renderer.Device.SetCullModeDefault();
 
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
 
-                BSPList[j].Render(renderer.Device);
+                BSPList[i].Render(renderer.Device);
             }
         }
 
         private void RenderAlpha(SharpRenderer renderer)
         {
-            for (int j = 0; j < BSPList.Count; j++)
+            for (int i = 0; i < BSPList.Count; i++)
             {
-                if ((renderByChunk && !VisibleChunks.Contains(BSPList[j].ChunkNumber)) ||
-                    (BSPList[j].ChunkName == "O"))
+                if ((renderByChunk && !VisibleChunks.Contains(BSPList[i].ChunkNumber)) ||
+                    (BSPList[i].ChunkType == ChunkType.O))
                     continue;
 
-                if (BSPList[j].isNoCulling) renderer.Device.SetCullModeNone();
-                else renderer.Device.SetCullModeDefault();
+                if (BSPList[i].isNoCulling)
+                    renderer.Device.SetCullModeNone();
+                else
+                    renderer.Device.SetCullModeDefault();
 
-                if (BSPList[j].ChunkName == "A" || BSPList[j].ChunkName == "P")
-                {
+                if (BSPList[i].ChunkType == ChunkType.P)
                     renderer.Device.SetBlendStateAlphaBlend();
-                }
-                else if (BSPList[j].ChunkName == "K")
-                {
+                else if (BSPList[i].ChunkType == ChunkType.K)
                     renderer.Device.SetBlendStateAdditive();
-                }
 
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
 
-                renderer.Device.UpdateData(renderer.defaultBuffer, renderer.viewProjection);
-                renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.defaultBuffer);
+                renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-                BSPList[j].Render(renderer.Device);
+                var renderData = new DefaultRenderData()
+                {
+                    worldViewProjection = renderer.viewProjection,
+                    Color = BSPList[i].isSelected ? renderer.selectedObjectColor : Vector4.One
+                };
+
+                renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+
+                BSPList[i].Render(renderer.Device);
             }
         }
 
@@ -151,12 +165,14 @@ namespace HeroesPowerPlant
             if (Program.MainForm.dffsToLoad.Count == 0)
             {
                 firstTimeLoad = true;
-            } else
+            }
+            else
             {
                 // Remove other GDTs
                 foreach (string s in Program.MainForm.dffsToLoad)
                 {
-                    if (s.EndsWith("_gdt.one") && !s.EndsWith("stg_cmn_gdt.one")) {
+                    if (s.EndsWith("_gdt.one") && !s.EndsWith("stg_cmn_gdt.one"))
+                    {
                         renderer.dffRenderer.ClearSpecificObjectONEFile(s);
                     }
                 }
@@ -350,7 +366,8 @@ namespace HeroesPowerPlant
                             InitialPosition.Z < world.worldStruct.boxMinimum.Z ||
                             InitialPosition.X > world.worldStruct.boxMaximum.X ||
                             InitialPosition.Y > world.worldStruct.boxMaximum.Y ||
-                            InitialPosition.Z > world.worldStruct.boxMaximum.Z) continue;
+                            InitialPosition.Z > world.worldStruct.boxMaximum.Z)
+                            continue;
                     }
                 }
 

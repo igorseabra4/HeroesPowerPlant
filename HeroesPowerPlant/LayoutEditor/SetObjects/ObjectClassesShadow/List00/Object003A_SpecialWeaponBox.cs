@@ -1,10 +1,10 @@
 ﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object003A_SpecialWeaponBox : SetObjectShadow
     {
-
         public override void CreateTransformMatrix()
         {
             // function 800c9ed4 | RotationTemplateGen
@@ -17,11 +17,8 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public Weapon WeaponIfSpecialWeaponsNotUnlocked
-        {
-            get => (Weapon)ReadInt(0);
-            set => Write(0, (int)value);
-        }
+        [MiscSetting, Description("Weapon to use if special weapons not unlocked")]
+        public EWeapon Weapon { get; set; }
     }
 }
 

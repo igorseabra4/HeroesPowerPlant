@@ -7,6 +7,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object01FF_SetParticle : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public override void CreateTransformMatrix()
         {
             Vector3 box = Program.MainForm.ParticleEditor.GetBoxForSetParticle(Number - 50);
@@ -20,7 +22,8 @@ namespace HeroesPowerPlant.LayoutEditor
                 transformMatrix = Matrix.Scaling(box * 2) * DefaultTransformMatrix();
                 CreateBoundingBox();
             }
-            else base.CreateTransformMatrix();
+            else
+                base.CreateTransformMatrix();
         }
 
         protected override void CreateBoundingBox()
@@ -43,59 +46,23 @@ namespace HeroesPowerPlant.LayoutEditor
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
-        [Description("Number, if taken from the ptcl file, is offset by 50 (so 50 here is entry 0 in the ptcl).")]
-        public byte Number
-        {
-            get => ReadByte(4);
-            set => Write(4, value);
-        }
-
-        public float SpeedX
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float SpeedY
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float SpeedZ
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float UnknownFloat
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-
-        public int UnknownInteger
-        {
-            get => ReadInt(24);
-            set => Write(24, value);
-        }
-
-        public byte UnknownByte1
-        {
-            get => ReadByte(28);
-            set => Write(28, value);
-        }
-
-        public byte UnknownByte2
-        {
-            get => ReadByte(29);
-            set => Write(29, value);
-        }
-
-        public byte UnknownByte3
-        {
-            get => ReadByte(30);
-            set => Write(30, value);
-        }
+        [MiscSetting, Description("Number, if taken from the ptcl file, is offset by 50 (so 50 here is entry 0 in the ptcl).")]
+        public byte Number { get; set; }
+        [MiscSetting]
+        public float SpeedX { get; set; }
+        [MiscSetting]
+        public float SpeedY { get; set; }
+        [MiscSetting]
+        public float SpeedZ { get; set; }
+        [MiscSetting]
+        public float UnknownFloat { get; set; }
+        [MiscSetting]
+        public int UnknownInteger { get; set; }
+        [MiscSetting]
+        public byte UnknownByte1 { get; set; }
+        [MiscSetting]
+        public byte UnknownByte2 { get; set; }
+        [MiscSetting]
+        public byte UnknownByte3 { get; set; }
     }
 }

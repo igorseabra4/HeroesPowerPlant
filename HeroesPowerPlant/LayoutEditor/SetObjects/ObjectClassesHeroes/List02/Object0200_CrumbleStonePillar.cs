@@ -1,18 +1,16 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum CrumbleStonePillarType : byte
-    {
-        Left = 0,
-        Right = 1,
-        Center = 2
-    }
 
     public class Object0200_CrumbleStonePillar : SetObjectHeroes
     {
-        public CrumbleStonePillarType RuinType
+        public enum EPillarType : byte
         {
-            get => (CrumbleStonePillarType)ReadByte(4);
-            set => Write(4, (byte)value);
+            Left = 0,
+            Right = 1,
+            Center = 2
         }
+
+        [MiscSetting]
+        public EPillarType PillarType { get; set; }
     }
 }

@@ -6,17 +6,9 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         //BDHologram
 
-        [Description("Distance (straight line) from player to object\nWhen met, the hologram disappears.")]
-        public float DetectDistance
-        {
-            get => ReadFloat(0);
-            set => Write(0, value);
-        }
-
-        public int VoiceID
-        {
-            get => ReadInt(4);
-            set => Write(4, value);
-        }
+        [MiscSetting, Description("Distance (straight line) from player to object\nWhen met, the hologram disappears.")]
+        public float DetectDistance { get; set; }
+        [MiscSetting]
+        public int VoiceID { get; set; }
     }
 }

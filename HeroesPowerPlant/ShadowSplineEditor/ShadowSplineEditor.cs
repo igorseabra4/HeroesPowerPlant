@@ -1,28 +1,26 @@
 ﻿using HeroesONE_R.Structures;
+using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.ShadowSplineEditor
 {
     public class ShadowSplineEditor
     {
         public List<ShadowSpline> Splines;
-        private static bool littleEndian;
 
         public ShadowSplineEditor()
         {
             Splines = new List<ShadowSpline>();
-            littleEndian = false;
         }
 
         public ShadowSplineEditor(string fileName)
         {
-            Splines = ReadShadowSplineFile(fileName);
+            Splines = ReadShadowSplineFile(fileName, Endianness.Big);
             foreach (ShadowSpline ss in Splines)
                 ss.SetRenderStuff(Program.MainForm.renderer);
         }
@@ -46,19 +44,19 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             return new string(list.ToArray());
         }
 
-        private static List<ShadowSpline> ReadShadowSplineFile(string fileName)
+        private static List<ShadowSpline> ReadShadowSplineFile(string fileName, Endianness endianness)
         {
             if (File.Exists(fileName))
             {
                 byte[] fileContents = File.ReadAllBytes(fileName);
                 Archive shadowDATONE = Archive.FromONEFile(ref fileContents);
-                BinaryReader splineReader = null;
+                EndianBinaryReader splineReader = null;
 
                 foreach (var file in shadowDATONE.Files)
                 {
                     if (file.Name == "PATH.PTP")
                     {
-                        splineReader = new BinaryReader(new MemoryStream(file.DecompressThis()));
+                        splineReader = new EndianBinaryReader(new MemoryStream(file.DecompressThis()), endianness);
                         break;
                     }
                 }
@@ -68,32 +66,32 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                 try
                 {
-                    if (littleEndian)
-                        DontSwitch = true;
-
                     List<ShadowSpline> splineList = new List<ShadowSpline>();
 
                     splineReader.BaseStream.Position = 0x4;
-                    int sec5offset = Switch(splineReader.ReadInt32());
-                    int sec5length = Switch(splineReader.ReadInt32());
+                    int sec5offset = splineReader.ReadInt32();
+                    int sec5length = splineReader.ReadInt32();
 
                     splineReader.BaseStream.Position = 0x20;
                     List<int> offsetList = new List<int>();
 
-                    int a = Switch(splineReader.ReadInt32());
+                    int a = splineReader.ReadInt32();
 
                     while (a != 0)
                     {
                         offsetList.Add(a + 0x20);
-                        a = Switch(splineReader.ReadInt32());
+                        a = splineReader.ReadInt32();
                     }
 
                     foreach (int i in offsetList)
                     {
+                        if (i >= splineReader.BaseStream.Length)
+                            throw new Exception();
+
                         splineReader.BaseStream.Position = i;
 
                         ShadowSpline spline = new ShadowSpline();
-                        int amountOfPoints = Switch(splineReader.ReadInt32());
+                        int amountOfPoints = splineReader.ReadInt32();
 
                         splineReader.BaseStream.Position += 8;
 
@@ -104,11 +102,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                         splineReader.BaseStream.Position += 0xC;
 
-                        spline.SettingInt = Switch(splineReader.ReadInt32());
+                        spline.SettingInt = splineReader.ReadInt32();
 
                         splineReader.BaseStream.Position += 0xC;
 
-                        int nameOffset = Switch(splineReader.ReadInt32());
+                        int nameOffset = splineReader.ReadInt32();
 
                         spline.Vertices = new ShadowSplineVertex[amountOfPoints];
 
@@ -116,11 +114,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                         {
                             ShadowSplineVertex vertex = new ShadowSplineVertex
                             {
-                                Position = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle())),
-                                Rotation = new Vector3(Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()), Switch(splineReader.ReadSingle()))
+                                Position = new Vector3(splineReader.ReadSingle(), splineReader.ReadSingle(), splineReader.ReadSingle()),
+                                Rotation = new Vector3(splineReader.ReadSingle(), splineReader.ReadSingle(), splineReader.ReadSingle())
                             };
                             splineReader.BaseStream.Position += 0x4;
-                            vertex.UnknownInt = Switch(splineReader.ReadInt32());
+                            vertex.UnknownInt = splineReader.ReadInt32();
 
                             spline.Vertices[j] = vertex;
                         }
@@ -150,13 +148,18 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                     splineReader.Close();
 
-                    DontSwitch = false;
                     return splineList;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    littleEndian = true;
-                    return ReadShadowSplineFile(fileName);
+                    if (endianness == Endianness.Little)
+                    {
+                        return ReadShadowSplineFile(fileName, Endianness.Big);
+                    }
+                    else
+                    {
+                        throw new Exception("Unable to read spline file: " + ex.Message);
+                    }
                 }
             }
 
@@ -293,6 +296,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             Splines.Add(new ShadowSpline());
             Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+            UnsavedChanges = true;
         }
 
         public void Add(string[] fileNames)
@@ -305,6 +309,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             Splines.Add(ShadowSpline.FromFile(objFile));
             Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+            UnsavedChanges = true;
         }
 
         public bool Copy(int index)
@@ -313,6 +318,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 Splines.Add(Splines[index].GetCopy());
                 Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+                UnsavedChanges = true;
                 return true;
             }
 
@@ -325,6 +331,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 Splines[index].Dispose();
                 Splines.RemoveAt(index);
+                UnsavedChanges = true;
                 return true;
             }
 
@@ -369,7 +376,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public void PropertyValueChanged()
         {
             if (selectedSpline > -1 && selectedSpline < Splines.Count)
+            {
                 Splines[selectedSpline].SetRenderStuff(Program.MainForm.renderer);
+                UnsavedChanges = true;
+            }
         }
 
         public void Export(string fileName)
@@ -395,5 +405,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 streamWriter.Close();
             }
         }
+
+        public bool UnsavedChanges = false;
     }
 }

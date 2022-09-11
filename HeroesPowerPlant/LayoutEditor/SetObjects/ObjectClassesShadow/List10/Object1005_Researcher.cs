@@ -2,17 +2,13 @@
 {
     public class Object1005_Researcher : SetObjectShadow
     {
-        //Researcher
-        public ResearcherType PositionType
+        public enum EResearcherType : int
         {
-            get => (ResearcherType)ReadInt(0);
-            set => Write(0, (int)value);
+            FaceUp,
+            FaceDown
         }
-    }
-
-    public enum ResearcherType
-    {
-        FaceUp,
-        FaceDown
+        //Researcher
+        [MiscSetting]
+        public EResearcherType ResearcherType { get; set; }
     }
 }

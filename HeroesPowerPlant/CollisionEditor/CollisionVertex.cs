@@ -8,6 +8,7 @@ namespace HeroesPowerPlant.CollisionEditor
         public Vector3 Position;
         public List<Vector3> NormalList;
         public Color Color;
+        public bool ColorInitialized = false;
 
         public CollisionVertex(float x, float y, float z)
         {

@@ -10,15 +10,9 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public float StartRange
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-        public float Scale
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public float StartRange { get; set; }
+        [MiscSetting]
+        public float Scale { get; set; }
     }
 }

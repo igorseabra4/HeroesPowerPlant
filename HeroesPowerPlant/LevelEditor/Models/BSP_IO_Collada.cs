@@ -270,9 +270,11 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 foreach (TriangleListCollada j in i.TriangleListList)
                 {
-                    if (j.TriangleList.Count == 0) continue;
+                    if (j.TriangleList.Count == 0)
+                        continue;
 
-                    if (j.TextureName == null) j.TextureName = "default";
+                    if (j.TextureName == null)
+                        j.TextureName = "default";
 
                     if (!data.MaterialList.Contains(j.TextureName))
                     {

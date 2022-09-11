@@ -4,6 +4,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object020C_TriggerKaos : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         private BoundingSphere sphereBound;
 
         public override void CreateTransformMatrix()
@@ -23,28 +25,13 @@ namespace HeroesPowerPlant.LayoutEditor
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        public float Scale
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public byte KaosType
-        {
-            get => ReadByte(8);
-            set => Write(8, value);
-        }
-
-        public byte Param2
-        {
-            get => ReadByte(9);
-            set => Write(9, value);
-        }
-
-        public float Param3
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        [MiscSetting]
+        public float Scale { get; set; }
+        [MiscSetting]
+        public byte KaosType { get; set; }
+        [MiscSetting]
+        public byte Param2 { get; set; }
+        [MiscSetting]
+        public float Param3 { get; set; }
     }
 }

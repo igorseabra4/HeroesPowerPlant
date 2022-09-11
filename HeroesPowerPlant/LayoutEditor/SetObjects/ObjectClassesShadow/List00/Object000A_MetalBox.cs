@@ -1,11 +1,11 @@
 ﻿using SharpDX;
 using System.ComponentModel;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object000A_MetalBox : SetObjectShadow
     {
-
         public override void CreateTransformMatrix()
         {
             // function 800c9ed4 | RotationTemplateGen
@@ -18,96 +18,53 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public BoxType BoxType
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => (BoxType)ReadInt(0);
-            set => Write(0, (int)value);
+            BoxType = (EBoxType)reader.ReadInt32();
+            BoxItem = (count > 4) ? (EBoxItem)reader.ReadInt32() : EBoxItem.NotValidInObject;
+            ItemTypeModifier = (count > 8) ? reader.ReadInt32() : -1;
         }
 
-        public string Warning => "If you see \"NotValidInObject\" or -1, Do not edit field.";
-
-        public BoxItem ItemType
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get
+            writer.Write((int)BoxType);
+            if (BoxItem != EBoxItem.NotValidInObject)
             {
-                if (MiscSettings.Length > 4)
-                    return (BoxItem)ReadInt(4);
-                return (BoxItem)(-1);
-            }
-            set
-            {
-                if (MiscSettings.Length < 8)
-                    return;
-                Write(4, (int)value);
+                writer.Write((int)BoxItem);
+
+                if (ItemTypeModifier != -1)
+                    writer.Write(ItemTypeModifier);
             }
         }
+
+        public EBoxType BoxType { get; set; }
+
+        public static string Warning => "If you see \"NotValidInObject\" or -1, do not edit field.";
+
+        public EBoxItem BoxItem { get; set; }
 
         [Description("Use this if ItemType is any other type")]
-        public int ItemTypeModifier
-        {
-            get
-            {
-                if (MiscSettings.Length > 8)
-                    return ReadInt(8);
-                return -1;
-            }
-            set
-            {
-                if (MiscSettings.Length < 12)
-                    return;
-                Write(8, value);
-            }
-        }
+        public int ItemTypeModifier { get; set; }
 
         [Description("Use this if ItemType is ItemCapsule")]
-        public ItemShadow ModifierCapsule
+        public EItemShadow ModifierCapsule
         {
-            get
-            {
-                if (MiscSettings.Length > 8)
-                    return (ItemShadow)ReadInt(8);
-                return (ItemShadow)(-1);
-            }
-            set
-            {
-                if (MiscSettings.Length < 12)
-                    return;
-                Write(8, (int)value);
-            }
+            get => (EItemShadow)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
 
         [Description("Use this if ItemType is Weapon")]
-        public Weapon ModifierWeapon
+        public EWeapon ModifierWeapon
         {
-            get
-            {
-                if (MiscSettings.Length > 8)
-                    return (Weapon)ReadInt(8);
-                return (Weapon)(-1);
-            }
-            set
-            {
-                if (MiscSettings.Length < 12)
-                    return;
-                Write(8, (int)value);
-            }
+            get => (EWeapon)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
 
         [Description("Use this if ItemType is EnergyCore")]
-        public EnergyCoreType ModifierEnergyCore
+        public EEnergyCore ModifierEnergyCore
         {
-            get
-            {
-                if (MiscSettings.Length > 8)
-                    return (EnergyCoreType)ReadInt(8);
-                return (EnergyCoreType)(-1);
-            }
-            set
-            {
-                if (MiscSettings.Length < 12)
-                    return;
-                Write(8, (int)value);
-            }
+            get => (EEnergyCore)ItemTypeModifier;
+            set => ItemTypeModifier = (int)value;
         }
     }
 }

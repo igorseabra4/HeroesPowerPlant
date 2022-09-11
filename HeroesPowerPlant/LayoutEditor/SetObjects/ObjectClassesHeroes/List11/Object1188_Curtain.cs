@@ -1,35 +1,20 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum CurtainType
-    {
-        Light = 0,
-        Dark = 1,
-    }
-
     public class Object1188_Curtain : SetObjectHeroes
     {
-        public CurtainType CurtainType
+        public enum ECurtainType : byte
         {
-            get => (CurtainType)ReadByte(4);
-            set => Write(4, (byte)value);
+            Light = 0,
+            Dark = 1,
         }
 
-        public byte Pole
-        {
-            get => ReadByte(5);
-            set => Write(5, value);
-        }
-
-        public bool IsUpsideDown
-        {
-            get => ReadByte(6) != 0;
-            set => Write(6, (byte)(value ? 1 : 0));
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public ECurtainType CurtainType { get; set; }
+        [MiscSetting]
+        public byte Pole { get; set; }
+        [MiscSetting(underlyingType: MiscSettingUnderlyingType.Byte)]
+        public bool IsUpsideDown { get; set; }
+        [MiscSetting]
+        public float Scale { get; set; }
     }
 }

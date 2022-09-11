@@ -1,10 +1,10 @@
-﻿using SharpDX;
+﻿using HeroesPowerPlant.Shared.Utilities;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.CollisionEditor
 {
@@ -45,7 +45,8 @@ namespace HeroesPowerPlant.CollisionEditor
 
         public void RenderCollisionModel(SharpRenderer renderer)
         {
-            if (collisionMesh == null) return;
+            if (collisionMesh == null)
+                return;
 
             sceneInformation = new CollisionRenderData()
             {
@@ -80,98 +81,129 @@ namespace HeroesPowerPlant.CollisionEditor
         {
             CLFile data = new CLFile(0);
 
-            BinaryReader CLReader = new BinaryReader(new FileStream(FileName, FileMode.Open));
+            var reader = new EndianBinaryReader(new FileStream(FileName, FileMode.Open), Endianness.Big);
 
-            CLReader.BaseStream.Position = 0;
+            reader.BaseStream.Position = 0;
 
-            data.numBytes = Switch(CLReader.ReadUInt32());
+            data.numBytes = reader.ReadUInt32();
             //Get total number of bytes in file
 
-            if (data.numBytes != CLReader.BaseStream.Length)
+            if (data.numBytes != reader.BaseStream.Length)
                 throw new ArgumentException("Not a valid CL file.");
 
             //Get offset of structs
-            data.pointQuadtree = Switch(CLReader.ReadUInt32());
-            data.pointTriangle = Switch(CLReader.ReadUInt32());
-            data.pointVertex = Switch(CLReader.ReadUInt32());
+            data.pointQuadtree = reader.ReadUInt32();
+            data.pointTriangle = reader.ReadUInt32();
+            data.pointVertex = reader.ReadUInt32();
 
             //Get quadtree center and radius
-            data.quadCenterX = Switch(CLReader.ReadSingle());
-            data.quadCenterY = Switch(CLReader.ReadSingle());
-            data.quadCenterZ = Switch(CLReader.ReadSingle());
-            data.quadLength = Switch(CLReader.ReadSingle());
+            data.quadCenterX = reader.ReadSingle();
+            data.quadCenterY = reader.ReadSingle();
+            data.quadCenterZ = reader.ReadSingle();
+            data.quadLength = reader.ReadSingle();
 
             //Get amount of stuff
-            data.basePower = Switch(CLReader.ReadUInt16());
-            data.numTriangles = Switch(CLReader.ReadUInt16());
-            data.numVertices = Switch(CLReader.ReadUInt16());
-            data.numQuadnodes = Switch(CLReader.ReadUInt16());
+            data.basePower = reader.ReadUInt16();
+            data.numTriangles = reader.ReadUInt16();
+            data.numVertices = reader.ReadUInt16();
+            data.numQuadnodes = reader.ReadUInt16();
 
             bar.Maximum = data.numTriangles + data.numVertices + 3 * data.numQuadnodes;
 
-            List<Triangle> CLTriangleList = new List<Triangle>(data.numTriangles);
-            List<CollisionVertex> CLVertexList = new List<CollisionVertex>(data.numVertices);
-            data.MeshTypeList = new List<UInt64>();
+            var tList = new List<Triangle>(data.numTriangles);
+            var vList = new List<CollisionVertex>(data.numVertices);
+            data.MeshTypeList = new List<ulong>();
 
             for (int i = 0; i < data.numVertices; i++)
             {
-                CLReader.BaseStream.Position = data.pointVertex + i * 0xC;
-                CLVertexList.Add(new CollisionVertex(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle())));
+                reader.BaseStream.Position = data.pointVertex + i * 0xC;
+                vList.Add(new CollisionVertex(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()));
                 bar.PerformStep();
             }
 
             for (int i = 0; i < data.numTriangles; i++)
             {
-                CLReader.BaseStream.Position = data.pointTriangle + i * 0x20;
-                CLTriangleList.Add(new Triangle(Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16()), Switch(CLReader.ReadUInt16())));
-                CLReader.BaseStream.Position += 6;
+                reader.BaseStream.Position = data.pointTriangle + i * 0x20;
+                var triangle = new Triangle(reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16());
+                reader.BaseStream.Position += 6;
 
-                Vector3 Normals = new Vector3(Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()), Switch(CLReader.ReadSingle()));
-                CLVertexList[CLTriangleList[i].Vertices[0]].NormalList.Add(Normals);
-                CLVertexList[CLTriangleList[i].Vertices[1]].NormalList.Add(Normals);
-                CLVertexList[CLTriangleList[i].Vertices[2]].NormalList.Add(Normals);
+                var normals = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
 
-                UInt64 FlagsAsUint64 = CLReader.ReadUInt64();
-                CLTriangleList[i].ColFlags = BitConverter.GetBytes(FlagsAsUint64);
-                if (!data.MeshTypeList.Contains(FlagsAsUint64))
-                    data.MeshTypeList.Add(FlagsAsUint64);
+                var v0 = vList[triangle.Vertices[0]];
+                if (v0.ColorInitialized)
+                {
+                    v0 = new CollisionVertex(v0.Position.X, v0.Position.Y, v0.Position.Z) { NormalList = v0.NormalList };
+                    triangle.Vertices[0] = (ushort)vList.Count;
+                    vList.Add(v0);
+                }
+                var v1 = vList[triangle.Vertices[1]];
+                if (v1.ColorInitialized)
+                {
+                    v1 = new CollisionVertex(v1.Position.X, v1.Position.Y, v1.Position.Z) { NormalList = v1.NormalList };
+                    triangle.Vertices[1] = (ushort)vList.Count;
+                    vList.Add(v1);
+                }
+                var v2 = vList[triangle.Vertices[2]];
+                if (v2.ColorInitialized)
+                {
+                    v2 = new CollisionVertex(v2.Position.X, v2.Position.Y, v2.Position.Z) { NormalList = v2.NormalList };
+                    triangle.Vertices[2] = (ushort)vList.Count;
+                    vList.Add(v2);
+                }
 
-                Color TempColor = new Color(CLTriangleList[i].ColFlags[1], CLTriangleList[i].ColFlags[2], CLTriangleList[i].ColFlags[3]);
+                v0.NormalList.Add(normals);
+                v1.NormalList.Add(normals);
+                v2.NormalList.Add(normals);
 
-                if (TempColor.R == 0) TempColor.R = 255;
+                ulong flagsU64 = reader.ReadUInt64();
+                triangle.ColFlags = BitConverter.GetBytes(flagsU64);
+                if (!data.MeshTypeList.Contains(flagsU64))
+                    data.MeshTypeList.Add(flagsU64);
+
+                var color = new Color(triangle.ColFlags[1], triangle.ColFlags[2], triangle.ColFlags[3]);
+
+                if (color.R == 0)
+                    color.R = 255;
                 else
-                    TempColor.R = (byte)(256 - (Math.Log(TempColor.R, 2) + 1) * 32);
-                if (TempColor.G == 0) TempColor.G = 255;
+                    color.R = (byte)(256 - (Math.Log(color.R, 2) + 1) * 32);
+                if (color.G == 0)
+                    color.G = 255;
                 else
-                    TempColor.G = (byte)(256 - (Math.Log(TempColor.G, 2) + 1) * 32);
-                if (TempColor.B == 0) TempColor.B = 255;
+                    color.G = (byte)(256 - (Math.Log(color.G, 2) + 1) * 32);
+                if (color.B == 0)
+                    color.B = 255;
                 else
-                    TempColor.B = (byte)(256 - (Math.Log(TempColor.B, 2) + 1) * 32);
+                    color.B = (byte)(256 - (Math.Log(color.B, 2) + 1) * 32);
 
-                CLVertexList[CLTriangleList[i].Vertices[0]].Color = TempColor;
-                CLVertexList[CLTriangleList[i].Vertices[1]].Color = TempColor;
-                CLVertexList[CLTriangleList[i].Vertices[2]].Color = TempColor;
+                v0.Color = color;
+                v0.ColorInitialized = true;
+                v1.Color = color;
+                v1.ColorInitialized = true;
+                v2.Color = color;
+                v2.ColorInitialized = true;
+
+                tList.Add(triangle);
 
                 bar.PerformStep();
             }
 
-            data.CLTriangleArray = CLTriangleList.ToArray();
+            data.CLTriangleArray = tList.ToArray();
 
             for (int i = 0; i < data.numQuadnodes; i++)
             {
-                CLReader.BaseStream.Position = data.pointQuadtree + i * 0x20;
+                reader.BaseStream.Position = data.pointQuadtree + i * 0x20;
                 QuadNode TempNode = new QuadNode
                 {
-                    Index = Switch(CLReader.ReadUInt16()),
-                    Parent = Switch(CLReader.ReadUInt16()),
-                    Child = Switch(CLReader.ReadUInt16())
+                    Index = reader.ReadUInt16(),
+                    Parent = reader.ReadUInt16(),
+                    Child = reader.ReadUInt16()
                 };
-                CLReader.BaseStream.Position += 8;
-                TempNode.NodeTriangleAmount = Switch(CLReader.ReadUInt16());
-                TempNode.TriListOffset = Switch(CLReader.ReadUInt32());
-                TempNode.PosValueX = Switch(CLReader.ReadUInt16());
-                TempNode.PosValueZ = Switch(CLReader.ReadUInt16());
-                TempNode.Depth = CLReader.ReadByte();
+                reader.BaseStream.Position += 8;
+                TempNode.NodeTriangleAmount = reader.ReadUInt16();
+                TempNode.TriListOffset = reader.ReadUInt32();
+                TempNode.PosValueX = reader.ReadUInt16();
+                TempNode.PosValueZ = reader.ReadUInt16();
+                TempNode.Depth = reader.ReadByte();
 
                 data.CLQuadNodeList.Add(TempNode);
                 bar.PerformStep();
@@ -180,14 +212,14 @@ namespace HeroesPowerPlant.CollisionEditor
             ReBuildQuadtree(ref data, bar);
             DetermineQuadtreeRenderStuff(ref data, device, bar);
 
-            CLReader.Close();
+            reader.Close();
 
-            data.CLVertexArray = new VertexColoredNormalized[CLVertexList.Count()];
-            for (int i = 0; i < CLVertexList.Count; i++)
+            data.CLVertexArray = new VertexColoredNormalized[vList.Count()];
+            for (int i = 0; i < vList.Count; i++)
             {
-                data.CLVertexArray[i] = new VertexColoredNormalized(CLVertexList[i].Position,
-                    CLVertexList[i].CalculateNormals(),
-                    CLVertexList[i].Color);
+                data.CLVertexArray[i] = new VertexColoredNormalized(vList[i].Position,
+                    vList[i].CalculateNormals(),
+                    vList[i].Color);
             }
 
             int[] IndexArray = new int[data.CLTriangleArray.Count() * 3];

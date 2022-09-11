@@ -4,36 +4,38 @@ using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum TriggerTalkType : short
-    {
-        Event = 0,
-        Tutorial = 1,
-        Hint = 2
-    }
-
-    public enum TriggerTalkShape : int
-    {
-        Sphere = 0,
-        Cylinder = 1,
-        Cube = 2
-    }
-
     public class Object0056_TriggerTalk : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
+        public enum ETriggerType : short
+        {
+            Event = 0,
+            Tutorial = 1,
+            Hint = 2
+        }
+
+        public enum EShape : int
+        {
+            Sphere = 0,
+            Cylinder = 1,
+            Cube = 2
+        }
+
         private BoundingSphere sphereBound;
 
         public override void CreateTransformMatrix()
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerTalkShape.Sphere:
+                case EShape.Sphere:
                     sphereBound = new BoundingSphere(Position, Radius);
                     transformMatrix = Matrix.Scaling(Radius * 2);
                     break;
-                case TriggerTalkShape.Cube:
+                case EShape.Cube:
                     transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
                     break;
-                case TriggerTalkShape.Cylinder:
+                case EShape.Cylinder:
                     transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
                     break;
             }
@@ -46,15 +48,15 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             List<Vector3> list = new List<Vector3>();
 
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerTalkShape.Sphere:
+                case EShape.Sphere:
                     list.AddRange(SharpRenderer.sphereVertices);
                     break;
-                case TriggerTalkShape.Cube:
+                case EShape.Cube:
                     list.AddRange(SharpRenderer.cubeVertices);
                     break;
-                case TriggerTalkShape.Cylinder:
+                case EShape.Cylinder:
                     list.AddRange(SharpRenderer.cylinderVertices);
                     break;
                 default:
@@ -70,11 +72,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer)
         {
-            if (TriggerShape == TriggerTalkShape.Sphere)
+            if (Shape == EShape.Sphere)
                 renderer.DrawSphereTrigger(transformMatrix, isSelected);
-            else if (TriggerShape == TriggerTalkShape.Cylinder)
+            else if (Shape == EShape.Cylinder)
                 renderer.DrawCylinderTrigger(transformMatrix, isSelected);
-            else if (TriggerShape == TriggerTalkShape.Cube)
+            else if (Shape == EShape.Cube)
                 renderer.DrawCubeTrigger(transformMatrix, isSelected);
             else
                 DrawCube(renderer);
@@ -82,106 +84,60 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerTalkShape.Sphere:
+                case EShape.Sphere:
                     return r.Intersects(ref sphereBound, out distance);
-                case TriggerTalkShape.Cube:
+                case EShape.Cube:
                     return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
-                case TriggerTalkShape.Cylinder:
+                case EShape.Cylinder:
                     return TriangleIntersection(r, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices, initialDistance, out distance);
                 default:
                     return base.TriangleIntersection(r, initialDistance, out distance);
             }
         }
 
-        public TriggerTalkType TriggerType
-        {
-            get => (TriggerTalkType)ReadShort(4);
-            set => Write(4, (short)value);
-        }
-
-        public short CommonLineToPlay
-        {
-            get => ReadShort(6);
-            set => Write(6, value);
-        }
-
-        public TriggerTalkShape TriggerShape
-        {
-            get => (TriggerTalkShape)ReadInt(8);
-            set => Write(8, (int)value);
-        }
+        [MiscSetting]
+        public ETriggerType TriggerType { get; set; }
+        [MiscSetting]
+        public short CommonLineToPlay { get; set; }
+        [MiscSetting]
+        public EShape Shape { get; set; }
 
         [Description("Used only for Sphere and Cylinder")]
         public float Radius
         {
-            get => ReadFloat(12);
-            set => Write(12, value);
+            get => ScaleX;
+            set => ScaleX = value;
         }
 
         [Description("Used only for Cylinder")]
         public float Height
         {
-            get => ReadFloat(16);
-            set => Write(16, value);
+            get => ScaleY;
+            set => ScaleY = value;
         }
 
-        [Description("Used only for Cube")]
-        public float ScaleX
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        [MiscSetting, Description("Used only for Cube")]
+        public float ScaleX { get; set; }
 
-        [Description("Used only for Cube")]
-        public float ScaleY
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
+        [MiscSetting, Description("Used only for Cube")]
+        public float ScaleY { get; set; }
 
-        [Description("Used only for Cube")]
-        public float ScaleZ
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
+        [MiscSetting, Description("Used only for Cube")]
+        public float ScaleZ { get; set; }
 
-        public short HintStart1
-        {
-            get => ReadShort(24);
-            set => Write(24, value);
-        }
-
-        public short HintEnd1
-        {
-            get => ReadShort(26);
-            set => Write(26, value);
-        }
-
-        public short HintStart2
-        {
-            get => ReadShort(28);
-            set => Write(28, value);
-        }
-
-        public short HintEnd2
-        {
-            get => ReadShort(30);
-            set => Write(30, value);
-        }
-
-        public short HintStart3
-        {
-            get => ReadShort(32);
-            set => Write(32, value);
-        }
-
-        public short HintEnd3
-        {
-            get => ReadShort(34);
-            set => Write(34, value);
-        }
+        [MiscSetting]
+        public short HintStart1 { get; set; }
+        [MiscSetting]
+        public short HintEnd1 { get; set; }
+        [MiscSetting]
+        public short HintStart2 { get; set; }
+        [MiscSetting]
+        public short HintEnd2 { get; set; }
+        [MiscSetting]
+        public short HintStart3 { get; set; }
+        [MiscSetting]
+        public short HintEnd3 { get; set; }
     }
 }

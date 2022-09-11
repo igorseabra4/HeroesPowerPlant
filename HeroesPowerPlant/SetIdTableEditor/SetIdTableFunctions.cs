@@ -1,8 +1,8 @@
 ﻿using HeroesPowerPlant.LayoutEditor;
+using HeroesPowerPlant.Shared.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using static HeroesPowerPlant.ReadWriteCommon;
 
 namespace HeroesPowerPlant.SetIdTableEditor
 {
@@ -31,112 +31,96 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         public static List<TableEntry> LoadTable(string fileName, bool isShadow, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
-            BinaryReader tableReader = new BinaryReader(new FileStream(fileName, FileMode.Open));
+            using var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big);
+            var tableEntries = new List<TableEntry>();
 
-            List<TableEntry> tableEntries = new List<TableEntry>();
-
-            int amount;
             if (isShadow)
             {
-                tableReader.BaseStream.Position = 4;
-                amount = tableReader.ReadInt32();
+                reader.BaseStream.Position = 4;
+                var amount = reader.ReadInt32();
+                for (int i = 0; i < amount; i++)
+                    tableEntries.Add(ReadShadowTableEntry(reader, objectEntries));
             }
             else
-            {
-                amount = (int)tableReader.BaseStream.Length / 20;
-            }
-
-            for (int i = 0; i < amount; i++)
-            {
-                TableEntry TemporaryEntry;
-                if (isShadow)
-                    TemporaryEntry = ReadShadowTableEntry(tableReader, objectEntries);
-                else
-                    TemporaryEntry = ReadHeroesTableEntry(tableReader, objectEntries);
-
-                tableEntries.Add(TemporaryEntry);
-            }
-
-            tableReader.Close();
+                while (reader.BaseStream.Position != reader.BaseStream.Length)
+                    tableEntries.Add(ReadHeroesTableEntry(reader, objectEntries));
 
             return tableEntries;
         }
 
-        private static TableEntry ReadHeroesTableEntry(BinaryReader tableReader, Dictionary<(byte, byte), ObjectEntry> objectEntries)
+        private static TableEntry ReadHeroesTableEntry(EndianBinaryReader reader, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
-            TableEntry temporaryEntry = new TableEntry
+            var entry = new TableEntry
             {
-                values0 = Switch(tableReader.ReadUInt32()),
-                values1 = Switch(tableReader.ReadUInt32()),
-                values2 = Switch(tableReader.ReadUInt32())
+                values0 = reader.ReadUInt32(),
+                values1 = reader.ReadUInt32(),
+                values2 = reader.ReadUInt32()
             };
-            tableReader.BaseStream.Position += 6;
+            reader.BaseStream.Position += 6;
 
-            byte objList = tableReader.ReadByte();
-            byte objType = tableReader.ReadByte();
+            byte objList = reader.ReadByte();
+            byte objType = reader.ReadByte();
 
             if (objectEntries.ContainsKey((objList, objType)))
-                temporaryEntry.objectEntry = objectEntries[(objList, objType)];
+                entry.objectEntry = objectEntries[(objList, objType)];
             else
-                temporaryEntry.objectEntry = new ObjectEntry()
+                entry.objectEntry = new ObjectEntry()
                 {
                     Type = objType,
                     List = objList,
                     Name = "Unknown/Unused"
                 };
 
-            return temporaryEntry;
+            return entry;
         }
 
-        private static TableEntry ReadShadowTableEntry(BinaryReader tableReader, Dictionary<(byte, byte), ObjectEntry> objectEntries)
+        private static TableEntry ReadShadowTableEntry(EndianBinaryReader tableReader, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
-            TableEntry temporaryEntry = new TableEntry();
+            var entry = new TableEntry();
 
             byte objType = tableReader.ReadByte();
             byte objList = tableReader.ReadByte();
             tableReader.ReadInt16();
-            temporaryEntry.values0 = Switch(tableReader.ReadUInt32());
-            temporaryEntry.values1 = Switch(tableReader.ReadUInt32());
+            entry.values0 = tableReader.ReadUInt32();
+            entry.values1 = tableReader.ReadUInt32();
 
             if (objectEntries.ContainsKey((objList, objType)))
-                temporaryEntry.objectEntry = objectEntries[(objList, objType)];
+                entry.objectEntry = objectEntries[(objList, objType)];
             else
-                temporaryEntry.objectEntry = new ObjectEntry()
+                entry.objectEntry = new ObjectEntry()
                 {
                     Type = objType,
                     List = objList,
                     Name = "Unknown/Unused"
                 };
 
-            return temporaryEntry;
+            return entry;
         }
 
         public static void SaveTable(string fileName, bool isShadow, List<TableEntry> tableEntries)
         {
-            BinaryWriter TableWriter = new BinaryWriter(new FileStream(fileName, FileMode.Create));
+            using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
 
             if (isShadow)
                 WriteShadowTable(TableWriter, tableEntries);
             else
                 WriteHeroesTable(TableWriter, tableEntries);
-
-            TableWriter.Close();
         }
 
-        private static void WriteHeroesTable(BinaryWriter tableWriter, List<TableEntry> tableEntries)
+        private static void WriteHeroesTable(EndianBinaryWriter tableWriter, List<TableEntry> tableEntries)
         {
             foreach (TableEntry i in tableEntries)
             {
-                tableWriter.Write(Switch(i.values0));
-                tableWriter.Write(Switch(i.values1));
-                tableWriter.Write(Switch(i.values2));
-                tableWriter.Write(new byte[6]);
+                tableWriter.Write(i.values0);
+                tableWriter.Write(i.values1);
+                tableWriter.Write(i.values2);
+                tableWriter.Pad(6);
                 tableWriter.Write(i.objectEntry.List);
                 tableWriter.Write(i.objectEntry.Type);
             }
         }
 
-        public static void WriteShadowTable(BinaryWriter tableWriter, List<TableEntry> tableEntries)
+        public static void WriteShadowTable(EndianBinaryWriter tableWriter, List<TableEntry> tableEntries)
         {
             tableWriter.Write(0);
             tableWriter.Write(tableEntries.Count);
@@ -146,8 +130,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
                 tableWriter.Write(i.objectEntry.Type);
                 tableWriter.Write(i.objectEntry.List);
                 tableWriter.Write((short)0);
-                tableWriter.Write(Switch(i.values0));
-                tableWriter.Write(Switch(i.values1));
+                tableWriter.Write(i.values0);
+                tableWriter.Write(i.values1);
             }
         }
     }

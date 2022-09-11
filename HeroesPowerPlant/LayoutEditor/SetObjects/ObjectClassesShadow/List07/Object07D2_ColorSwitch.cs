@@ -5,51 +5,32 @@
         //ElecPanel(Color, Type, Accell, MoveVectorX, MoveVectorY, MoveVectorZ)
         //Enums  Color{Red, Yellow, Green, Blue}, Type{Switch, Move}
 
-        public ElecPanelColor Color
-        { //0 or 1 or 2 or 3
-            get => (ElecPanelColor)ReadInt(0);
-            set => Write(0, (int)value);
-        }
-        public ElecPanelType PanelType
-        { //0 or 1
-            get => (ElecPanelType)ReadInt(4);
-            set => Write(4, (int)value);
+        public enum EColor : int
+        {
+            Red,
+            Yellow,
+            Green,
+            Blue
         }
 
-        public float Acceleration
+        public enum EPanelType : int
         {
-            get => ReadFloat(8);
-            set => Write(8, value);
+            Switch,
+            Move
         }
-        public float MoveVectorX
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-        public float MoveVectorY
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-        public float MoveVectorZ
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-    }
 
-    public enum ElecPanelColor
-    {
-        Red,
-        Yellow,
-        Green,
-        Blue
-    }
-
-    public enum ElecPanelType
-    {
-        Switch,
-        Move
+        [MiscSetting]
+        public EColor Color { get; set; }
+        [MiscSetting]
+        public EPanelType PanelType { get; set; }
+        [MiscSetting]
+        public float Acceleration { get; set; }
+        [MiscSetting]
+        public float MoveVectorX { get; set; }
+        [MiscSetting]
+        public float MoveVectorY { get; set; }
+        [MiscSetting]
+        public float MoveVectorZ { get; set; }
     }
 }
 

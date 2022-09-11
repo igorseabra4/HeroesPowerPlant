@@ -2,24 +2,17 @@
 {
     public class Object07D4_ElecSecurity : SetObjectShadow
     {
-
-        public ElecSecurityType ElecSecurityType
+        public enum EElecSecurityType : int
         {
-            get => (ElecSecurityType)ReadInt(0);
-            set => Write(0, (int)value);
+            STRONG,
+            MEDIUM,
+            WEAK,
+            TIKAL,
         }
 
-        public float DetectionRange
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-    }
-    public enum ElecSecurityType
-    {
-        STRONG,
-        MEDIUM,
-        WEAK,
-        TIKAL,
+        [MiscSetting]
+        public EElecSecurityType ElecSecurityType { get; set; }
+        [MiscSetting]
+        public float DetectionRange { get; set; }
     }
 }

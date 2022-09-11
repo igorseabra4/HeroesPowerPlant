@@ -1,28 +1,19 @@
-﻿using Newtonsoft.Json;
-using SharpDX;
-using System;
+﻿using SharpDX;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public abstract class SetObjectShadow : SetObject
+    public class SetObjectShadow : SetObject
     {
-        [JsonConstructor]
-        public SetObjectShadow()
+        public override void SetMiscSettings(byte[] miscSettings)
         {
-            UnkBytes = new byte[8];
-            MiscSettings = new byte[0];
+            using var reader = new BinaryReader(new MemoryStream(miscSettings));
+            ReadMiscSettings(reader, miscSettings.Length);
         }
 
-        public string DefaultMiscSettingCount { get; private set; }
-
-        public override void SetObjectEntry(ObjectEntry objectEntry)
+        public virtual void ReadMiscSettings(BinaryReader reader, int count)
         {
-            base.SetObjectEntry(objectEntry);
-
-            if (objectEntry.MiscSettingCount == -1)
-                DefaultMiscSettingCount = "Unknown";
-            else
-                DefaultMiscSettingCount = (objectEntry.MiscSettingCount / 4).ToString();
+            ReadMiscSettings(reader);
         }
 
         public override void CreateTransformMatrix()
@@ -36,21 +27,5 @@ namespace HeroesPowerPlant.LayoutEditor
             Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
             Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
             Matrix.Translation(Position);
-
-        public int ReadInt(int j) => BitConverter.ToInt32(MiscSettings, j);
-
-        public float ReadFloat(int j) => BitConverter.ToSingle(MiscSettings, j);
-
-        public void Write(int j, int value)
-        {
-            for (int i = 0; i < 4; i++)
-                MiscSettings[j + i] = BitConverter.GetBytes(value)[i];
-        }
-
-        public void Write(int j, float value)
-        {
-            for (int i = 0; i < 4; i++)
-                MiscSettings[j + i] = BitConverter.GetBytes(value)[i];
-        }
     }
 }

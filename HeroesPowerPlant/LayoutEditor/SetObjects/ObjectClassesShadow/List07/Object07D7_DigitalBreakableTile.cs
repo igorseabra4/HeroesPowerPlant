@@ -4,20 +4,11 @@
     {
         //ElecCristalWall(type<Horizontal,Vertical>, AppearAngleX, AppearAngleY)
 
-        public CommonDirectionType DirectionType
-        {
-            get => (CommonDirectionType)ReadInt(0);
-            set => Write(0, (int)value);
-        }
-        public float AppearAngleX
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-        public float AppearAngleY
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public EDirection DirectionType { get; set; }
+        [MiscSetting]
+        public float AppearAngleX { get; set; }
+        [MiscSetting]
+        public float AppearAngleY { get; set; }
     }
 }

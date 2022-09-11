@@ -12,6 +12,8 @@ namespace HeroesPowerPlant.SplineEditor
 {
     public class SplineEditorFunctions
     {
+        public bool UnsavedChanges { get; set; } = false;
+
         private List<Spline> SplineList = new List<Spline>();
         private string splineJsonPath => Path.Combine(Path.GetDirectoryName(Program.MainForm.ConfigEditor.GetOpenConfigFileName()), "Splines.json");
         private string splineFolder => Path.Combine(Path.GetDirectoryName(Program.MainForm.ConfigEditor.GetOpenConfigFileName()), "Splines");
@@ -29,12 +31,14 @@ namespace HeroesPowerPlant.SplineEditor
                     continue;
                 }
                 SplineList.Add(s);
+                UnsavedChanges = true;
             }
         }
 
         public void AddBlankSpline()
         {
             SplineList.Add(Spline.Blank(Program.MainForm.renderer));
+            UnsavedChanges = true;
         }
 
         public void DeleteSelectedSpline()
@@ -44,6 +48,7 @@ namespace HeroesPowerPlant.SplineEditor
                 int previous = CurrentlySelectedObject;
                 SplineList[CurrentlySelectedObject].Dispose();
                 SplineList.RemoveAt(CurrentlySelectedObject);
+                UnsavedChanges = true;
             }
         }
 
@@ -69,7 +74,10 @@ namespace HeroesPowerPlant.SplineEditor
         public void ChangeType(int type)
         {
             if (CurrentlySelectedObject != -1 & CurrentlySelectedObject < SplineList.Count)
+            {
                 SplineList[CurrentlySelectedObject].Type = (SplineType)type;
+                UnsavedChanges = true;
+            }
         }
 
         public void SplineEditorNewConfig()
@@ -78,11 +86,14 @@ namespace HeroesPowerPlant.SplineEditor
 
             SplineList = new List<Spline>();
             AddBlankSpline();
+
+            UnsavedChanges = false;
         }
 
         public void RenderSplines(SharpRenderer renderer)
         {
-            foreach (Spline s in SplineList) s.Render(renderer);
+            foreach (Spline s in SplineList)
+                s.Render(renderer);
         }
 
         public void ViewHere(int pointIndex)
@@ -102,7 +113,10 @@ namespace HeroesPowerPlant.SplineEditor
         public void AutoPitchPoint(int pointIndex)
         {
             if (pointIndex >= 0 && pointIndex < SplineList[CurrentlySelectedObject].Points.Length - 1)
+            {
                 SplineList[CurrentlySelectedObject].Points[pointIndex].Pitch = (ushort)SplineList[CurrentlySelectedObject].Points[pointIndex].GetPitch(SplineList[CurrentlySelectedObject].Points[pointIndex + 1]);
+                UnsavedChanges = true;
+            }
         }
 
         public void AutoPitchSpline()
@@ -114,7 +128,10 @@ namespace HeroesPowerPlant.SplineEditor
         {
             if (index != -1 && index < SplineList.Count)
                 for (int x = 0; x < SplineList[index].Points.Length - 1; x++)
+                {
                     SplineList[index].Points[x].Pitch = (ushort)SplineList[index].Points[x].GetPitch(SplineList[index].Points[x + 1]);
+                    UnsavedChanges = true;
+                }
         }
 
         public void AutoPitchAll()
@@ -156,6 +173,8 @@ namespace HeroesPowerPlant.SplineEditor
                     SaveJson();
                 }
             }
+
+            UnsavedChanges = false;
         }
 
         internal void AddSpline(List<SplineVertex> vertices, Heroes.SDK.Definitions.Structures.Stage.Splines.SplineType splineType, SharpRenderer renderer)
@@ -184,7 +203,6 @@ namespace HeroesPowerPlant.SplineEditor
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
             };
 
-
         private SplineVertex[] ToSplineVertexArray(SplineVertex[] vertices)
         {
             for (int x = 0; x < vertices.Length - 1; x++)
@@ -198,6 +216,8 @@ namespace HeroesPowerPlant.SplineEditor
             var splines = SplineList.Select(x => new ManagedSpline(ToSplineType(x.Type), ToSplineVertexArray(x.Points))).ToArray();
             var splineFile = new SplineFile(splines);
             JsonSerializable<SplineFile>.ToPath(splineFile, splineJsonPath);
+
+            UnsavedChanges = false;
         }
 
         private void LoadSplinesFromJson(SharpRenderer renderer)

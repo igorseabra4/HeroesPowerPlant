@@ -2,34 +2,15 @@
 {
     public class Object0502_Flipper : SetObjectHeroes
     {
-        public float Trance
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public byte FlipperType
-        {
-            get => ReadByte(8);
-            set => Write(8, value);
-        }
-
-        public byte KeyFlip
-        {
-            get => ReadByte(9);
-            set => Write(9, value);
-        }
-
-        public byte Power
-        {
-            get => ReadByte(10);
-            set => Write(10, value);
-        }
-
-        public byte Player
-        {
-            get => ReadByte(11);
-            set => Write(11, value);
-        }
+        [MiscSetting]
+        public float Trance { get; set; }
+        [MiscSetting]
+        public byte FlipperType { get; set; }
+        [MiscSetting]
+        public byte KeyFlip { get; set; }
+        [MiscSetting]
+        public byte Power { get; set; }
+        [MiscSetting]
+        public byte Player { get; set; }
     }
 }

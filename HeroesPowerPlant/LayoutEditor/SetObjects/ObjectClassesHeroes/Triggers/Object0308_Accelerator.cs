@@ -5,6 +5,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0308_Accelerator : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) * DefaultTransformMatrix();
@@ -31,28 +33,13 @@ namespace HeroesPowerPlant.LayoutEditor
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
-        public float Speed
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float ScaleX
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleY
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
+        [MiscSetting]
+        public float Speed { get; set; }
+        [MiscSetting]
+        public float ScaleX { get; set; }
+        [MiscSetting]
+        public float ScaleY { get; set; }
+        [MiscSetting]
+        public float ScaleZ { get; set; }
     }
 }

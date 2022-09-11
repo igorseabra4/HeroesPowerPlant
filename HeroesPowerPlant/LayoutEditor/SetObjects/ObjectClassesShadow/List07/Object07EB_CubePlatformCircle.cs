@@ -4,27 +4,13 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object07EB_CubePlatformCircle : SetObjectShadow
     {
-        //ElecFootingRotate(OBJ_NUM, RADIUS m, CIRCLE_SPD deg/sec)
+        [MiscSetting, Description("This objects spawns this many cubes that orbit around Radius at CircleSpeed")]
+        public int NumberOfCubes { get; set; }
 
-        [Description("This objects spawns this many cubes, that orbit around Radius at CircleSpeed")]
-        public int NumberOfCubes
-        {
-            get => ReadInt(0);
-            set => Write(0, value);
-        }
+        [MiscSetting, Description("m")]
+        public float Radius { get; set; }
 
-        [Description("m")]
-        public float Radius
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        [Description("deg/sec")]
-        public float CircleSpeed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting, Description("deg/sec")]
+        public float CircleSpeed { get; set; }
     }
 }

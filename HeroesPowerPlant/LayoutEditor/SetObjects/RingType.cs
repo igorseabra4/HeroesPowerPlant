@@ -1,6 +1,6 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum RingType
+    public enum ERingType
     {
         Normal = 0,
         Line = 1,

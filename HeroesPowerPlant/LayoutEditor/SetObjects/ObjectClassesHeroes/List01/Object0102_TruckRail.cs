@@ -2,28 +2,13 @@
 {
     public class Object0102_TruckRail : SetObjectHeroes
     {
-        public byte TruckRailType
-        {
-            get => ReadByte(4);
-            set => Write(4, value);
-        }
-
-        public byte StopTime
-        {
-            get => ReadByte(5);
-            set => Write(4, value);
-        }
-
-        public float Length
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        [MiscSetting]
+        public byte ObjectType { get; set; }
+        [MiscSetting]
+        public byte StopTime { get; set; }
+        [MiscSetting]
+        public float Length { get; set; }
+        [MiscSetting]
+        public float Speed { get; set; }
     }
 }

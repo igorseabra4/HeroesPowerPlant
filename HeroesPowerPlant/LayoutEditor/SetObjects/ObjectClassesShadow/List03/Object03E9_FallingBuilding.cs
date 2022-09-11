@@ -4,18 +4,15 @@
     {
         //FallingBuildingHolder obj
 
-        public FallingBuildingType StructureType
+        public enum EObjectType : int
         {
-            get => (FallingBuildingType)ReadInt(0);
-            set => Write(0, (int)value);
+            Bridge15Angle = 0,
+            Bridge45Angle = 1,
+            Building = 2,
         }
-    }
 
-    public enum FallingBuildingType
-    {
-        Bridge15Angle = 0,
-        Bridge45Angle = 1,
-        Building = 2,
+        [MiscSetting]
+        public EObjectType ObjectType { get; set; }
     }
 }
 

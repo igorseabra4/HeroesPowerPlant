@@ -5,6 +5,8 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0980_Butterfly : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(AreaX, AreaY, AreaZ) * DefaultTransformMatrix();
@@ -31,28 +33,13 @@ namespace HeroesPowerPlant.LayoutEditor
             return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
         }
 
-        public float AreaX
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float AreaY
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float AreaZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public int Number
-        {
-            get => ReadInt(16);
-            set => Write(16, value);
-        }
+        [MiscSetting]
+        public float AreaX { get; set; }
+        [MiscSetting]
+        public float AreaY { get; set; }
+        [MiscSetting]
+        public float AreaZ { get; set; }
+        [MiscSetting]
+        public int Number { get; set; }
     }
 }

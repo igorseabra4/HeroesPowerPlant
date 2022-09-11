@@ -1,35 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.IO;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object_ShadowDefault : SetObjectShadow
     {
-        [Browsable(false)]
-        public byte[] MiscSettingsBytes
+        private byte[] _miscSettingBytes = Array.Empty<byte>();
+
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => MiscSettings;
-            set => MiscSettings = value;
+            _miscSettingBytes = reader.ReadBytes(count);
+        }
+
+        public override void WriteMiscSettings(BinaryWriter writer)
+        {
+            writer.Write(_miscSettingBytes);
+        }
+
+        protected override int GetModelNumber()
+        {
+            try
+            {
+                int mms = Convert.ToInt32(ModelMiscSetting);
+                if (mms != -1 && mms < _miscSettingBytes.Length)
+                    return _miscSettingBytes[mms];
+            }
+            catch
+            {
+                return base.GetModelNumber();
+            }
+            return 0;
         }
 
         public int[] MiscSettingInts
         {
             get
             {
-                List<int> result = new List<int>();
-                for (int i = 0; i < MiscSettings.Length; i += 4)
-                {
-                    result.Add(BitConverter.ToInt32(MiscSettings, i));
-                }
+                var result = new List<int>();
+                for (int i = 0; i < _miscSettingBytes.Length; i += 4)
+                    result.Add(BitConverter.ToInt32(_miscSettingBytes, i));
                 return result.ToArray();
             }
             set
             {
-                List<byte> result = new List<byte>();
+                var result = new List<byte>();
                 foreach (int i in value)
                     result.AddRange(BitConverter.GetBytes(i));
-                MiscSettings = result.ToArray();
+                _miscSettingBytes = result.ToArray();
             }
         }
 
@@ -37,19 +55,17 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             get
             {
-                List<float> result = new List<float>();
-                for (int i = 0; i < MiscSettings.Length; i += 4)
-                {
-                    result.Add(BitConverter.ToSingle(MiscSettings, i));
-                }
+                var result = new List<float>();
+                for (int i = 0; i < _miscSettingBytes.Length; i += 4)
+                    result.Add(BitConverter.ToSingle(_miscSettingBytes, i));
                 return result.ToArray();
             }
             set
             {
-                List<byte> result = new List<byte>();
+                var result = new List<byte>();
                 foreach (float i in value)
                     result.AddRange(BitConverter.GetBytes(i));
-                MiscSettings = result.ToArray();
+                _miscSettingBytes = result.ToArray();
             }
         }
     }

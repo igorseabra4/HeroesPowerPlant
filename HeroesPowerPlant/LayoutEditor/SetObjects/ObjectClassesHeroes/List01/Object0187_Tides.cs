@@ -2,16 +2,9 @@
 {
     public class Object0187_Tides : SetObjectHeroes
     {
-        public byte TidesType
-        {
-            get => ReadByte(4);
-            set => Write(4, value);
-        }
-
-        public float Speed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public byte ObjectType { get; set; }
+        [MiscSetting]
+        public float Speed { get; set; }
     }
 }

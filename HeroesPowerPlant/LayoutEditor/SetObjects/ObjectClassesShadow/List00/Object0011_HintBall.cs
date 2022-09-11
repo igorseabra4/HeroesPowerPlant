@@ -1,37 +1,36 @@
-﻿namespace HeroesPowerPlant.LayoutEditor
+﻿using System.IO;
+
+namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object0011_HintBall : SetObjectShadow
     {
-        //AKA SetHintRing
+        [MiscSetting]
+        public int AudioBranchID { get; set; }
+        [MiscSetting]
+        public EAudioBranchType AudioBranchType { get; set; }
+        [MiscSetting]
+        public float Float_02 { get; set; }
+        [MiscSetting]
+        public float Float_03 { get; set; }
+        [MiscSetting]
+        public int Int_04 { get; set; }
 
-        public int AudioBranchID
+        public override void ReadMiscSettings(BinaryReader reader, int count)
         {
-            get => ReadInt(0);
-            set => Write(0, value);
+            AudioBranchID = reader.ReadInt32();
+            AudioBranchType = (EAudioBranchType)reader.ReadInt32();
+            Float_02 = reader.ReadSingle();
+            Float_03 = reader.ReadSingle();
+            Int_04 = reader.ReadInt32();
         }
 
-        public AudioBranchType AudioBranchType
+        public override void WriteMiscSettings(BinaryWriter writer)
         {
-            get => (AudioBranchType)ReadInt(4);
-            set => Write(4, (int)value);
-        }
-
-        public float Float_02
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Float_03
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public int Int_04
-        {
-            get => ReadInt(16);
-            set => Write(16, value);
+            writer.Write(AudioBranchID);
+            writer.Write((int)AudioBranchType);
+            writer.Write(Float_02);
+            writer.Write(Float_03);
+            writer.Write(Int_04);
         }
     }
 }

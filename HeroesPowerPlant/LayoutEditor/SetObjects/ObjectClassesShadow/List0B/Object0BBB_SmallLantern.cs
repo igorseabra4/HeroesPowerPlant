@@ -6,11 +6,7 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         //CandleStick(SAME_COMID_SWITCH_NUM)
 
-        [Description("SAME_COMID_SWITCH_NUM official name, may have to do with respawning if a ComID/LinkID is not cleared")]
-        public int WatchForLinkID
-        {
-            get => ReadInt(0);
-            set => Write(0, value);
-        }
+        [MiscSetting, Description("SAME_COMID_SWITCH_NUM official name, may have to do with respawning if a ComID/LinkID is not cleared")]
+        public int WatchForLinkID { get; set; }
     }
 }

@@ -4,12 +4,22 @@ namespace HeroesPowerPlant.LayoutEditor
 {
     public class Object2598_SetSeOneShot : SetObjectShadow
     {
-
-        public int AudioID
-        { //28980, 29004
-            get => ReadInt(0);
-            set => Write(0, value);
+        public enum EType : int
+        {
+            OnlyOnce,
+            CallAgain
         }
+
+        public enum ERange : int
+        {
+            Sphere,
+            Box,
+            Capsule,
+            Cylinder
+        }
+
+        [MiscSetting(0)]
+        public int AudioID { get; set; } //28980, 29004
 
         public SFXEntry sfxEntry;
 
@@ -21,61 +31,32 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        public int RangeTypeMaybeRaw
+        [MiscSetting(1)]
+        public int RangeTypeMaybeRaw { get; set; }
+
+        public ERange RangeTypeMaybe
         {
-            get => ReadInt(4);
-            set => Write(4, value);
+            get => (ERange)RangeTypeMaybeRaw;
+            set => RangeTypeMaybeRaw = (int)value;
         }
 
-        public SetSeOneShotRange RangeTypeMaybe
+        [MiscSetting(2)]
+        public int TypeMaybeRaw { get; set; }
+
+        public EType TypeMaybe
         {
-            get => (SetSeOneShotRange)ReadInt(4);
-            set => Write(4, (int)value);
+            get => (EType)TypeMaybeRaw;
+            set => TypeMaybeRaw = (int)value;
         }
 
-        public int TypeMaybeRaw
-        {
-            get => ReadInt(8);
-            set => Write(8, value);
-        }
+        [MiscSetting(3)]
+        public float HalfLengthX { get; set; }
 
-        public SetSeOneShotType TypeMaybe
-        {
-            get => (SetSeOneShotType)ReadInt(8);
-            set => Write(8, (int)value);
-        }
+        [MiscSetting(4)]
+        public float HalfLengthY { get; set; }
 
-        public float HalfLengthX
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float HalfLengthY
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float HalfLengthZ
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
-    }
-
-    public enum SetSeOneShotType
-    {
-        OnlyOnce,
-        CallAgain
-    }
-
-    public enum SetSeOneShotRange
-    {
-        Sphere,
-        Box,
-        Capsule,
-        Cylinder
+        [MiscSetting(5)]
+        public float HalfLengthZ { get; set; }
     }
 }
 

@@ -2,21 +2,17 @@
 {
     public class Object0015_BallSwitch : SetObjectShadow
     {
-        // Switch
-
-        public BallSwitchActivateType ActivateType
+        public enum EActivateType : int
         {
-            get => (BallSwitchActivateType)ReadInt(0);
-            set => Write(0, (int)value);
+            OnOff = 0,
+            OnTouch = 1,
+            OnAlways = 2,
+            Decoration = 3
         }
+
+        [MiscSetting]
+        public EActivateType ActivateType { get; set; }
     }
 
-    public enum BallSwitchActivateType
-    {
-        OnOff = 0,
-        OnTouch = 1,
-        OnAlways = 2,
-        Decoration = 3
-    }
 }
 

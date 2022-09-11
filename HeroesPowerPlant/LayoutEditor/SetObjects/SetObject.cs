@@ -1,13 +1,25 @@
 ﻿using HeroesPowerPlant.LevelEditor;
+using HeroesPowerPlant.Shared.Utilities;
 using Newtonsoft.Json;
 using SharpDX;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
     public abstract class SetObject
     {
+        [JsonConstructor]
+        public SetObject()
+        {
+            UnkBytes = new byte[8];
+        }
+
         public Vector3 Position;
         public Vector3 Rotation;
         public byte List;
@@ -16,18 +28,109 @@ namespace HeroesPowerPlant.LayoutEditor
         public byte Rend;
         public byte[] UnkBytes;
 
-        public byte[] MiscSettings;
-
         [JsonIgnore]
         public bool isSelected;
 
         [JsonIgnore]
         private ObjectEntry objectEntry;
-        [Browsable(false)]
+        [JsonIgnore, Browsable(false)]
         public string GetName => objectEntry.GetName();
-        protected int ModelMiscSetting => objectEntry.ModelMiscSetting;
+        [JsonIgnore]
+        protected string ModelMiscSetting => objectEntry.ModelMiscSetting;
+        [JsonIgnore]
         protected string[][] ModelNames => objectEntry.ModelNames;
+
         public bool HasMiscSettings;
+
+        [Browsable(false), JsonIgnore]
+        public (PropertyInfo property, MiscSettingAttribute attribute)[] MiscProperties =>
+            (from prop in GetType().GetProperties()
+             where prop.GetCustomAttribute(typeof(MiscSettingAttribute)) != null
+             select (prop, attribute: (MiscSettingAttribute)prop.GetCustomAttribute(typeof(MiscSettingAttribute))))
+            .OrderBy(prop => prop.attribute.Order).ToArray();
+
+        public abstract void SetMiscSettings(byte[] miscSettings);
+
+        public virtual void ReadMiscSettings(BinaryReader reader)
+        {
+            foreach (var (property, attribute) in MiscProperties)
+            {
+                var underlyingType = MiscSettingAttribute.GetUnderlyingType(property.PropertyType, attribute.UnderlyingType);
+
+                object value;
+                switch (underlyingType)
+                {
+                    case MiscSettingUnderlyingType.Int:
+                        while (reader.BaseStream.Position % 4 != 0)
+                            reader.BaseStream.Position++;
+                        value = reader.ReadInt32();
+                        break;
+                    case MiscSettingUnderlyingType.Float:
+                        while (reader.BaseStream.Position % 4 != 0)
+                            reader.BaseStream.Position++;
+                        value = reader.ReadSingle();
+                        break;
+                    case MiscSettingUnderlyingType.Short:
+                        while (reader.BaseStream.Position % 2 != 0)
+                            reader.BaseStream.Position++;
+                        value = reader.ReadInt16();
+                        break;
+                    case MiscSettingUnderlyingType.Byte:
+                        value = reader.ReadByte();
+                        break;
+                    default:
+                        throw new Exception();
+                }
+
+                reader.BaseStream.Position += attribute.PadAfter;
+
+                property.SetValue(this,
+                    property.PropertyType.Equals(typeof(bool)) ? Convert.ToBoolean(value) :
+                    property.PropertyType.IsEnum ? Enum.ToObject(property.PropertyType, value) :
+                    value);
+            }
+        }
+
+        public byte[] GetMiscSettings()
+        {
+            using var writer = new EndianBinaryWriter(new MemoryStream(), this is SetObjectHeroes ? Endianness.Big : Endianness.Little);
+            WriteMiscSettings(writer);
+            return ((MemoryStream)writer.BaseStream).ToArray();
+        }
+
+        public virtual void WriteMiscSettings(BinaryWriter writer)
+        {
+            foreach (var (property, attribute) in MiscProperties)
+            {
+                var underlyingType = MiscSettingAttribute.GetUnderlyingType(property.PropertyType, attribute.UnderlyingType);
+
+                switch (underlyingType)
+                {
+                    case MiscSettingUnderlyingType.Int:
+                        while (writer.BaseStream.Position % 4 != 0)
+                            writer.BaseStream.Position++;
+                        writer.Write(Convert.ToInt32(property.GetValue(this)));
+                        break;
+                    case MiscSettingUnderlyingType.Float:
+                        while (writer.BaseStream.Position % 4 != 0)
+                            writer.BaseStream.Position++;
+                        writer.Write(Convert.ToSingle(property.GetValue(this)));
+                        break;
+                    case MiscSettingUnderlyingType.Short:
+                        while (writer.BaseStream.Position % 2 != 0)
+                            writer.BaseStream.Position++;
+                        writer.Write(Convert.ToInt16(property.GetValue(this)));
+                        break;
+                    case MiscSettingUnderlyingType.Byte:
+                        writer.Write(Convert.ToByte(property.GetValue(this)));
+                        break;
+                }
+
+                writer.BaseStream.Position += attribute.PadAfter;
+            }
+        }
+
+        public virtual bool IsTrigger() => false;
 
         public override string ToString()
         {
@@ -37,7 +140,7 @@ namespace HeroesPowerPlant.LayoutEditor
         public virtual void SetObjectEntry(ObjectEntry objectEntry)
         {
             this.objectEntry = objectEntry;
-            this.HasMiscSettings = objectEntry.HasMiscSettings;
+            HasMiscSettings = objectEntry.HasMiscSettings;
         }
 
         public bool DontDraw(Vector3 camPos)
@@ -59,10 +162,23 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public abstract void CreateTransformMatrix();
 
+        protected virtual int GetModelNumber()
+        {
+            if (!string.IsNullOrEmpty(ModelMiscSetting))
+                try
+                {
+                    return Convert.ToInt32(GetType().GetProperty(ModelMiscSetting).GetValue(this));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"There was an error obtaining the model for {ToString()}: {e.Message}\nThis is a mistake and either an error in your Heroes/Shadow ObjectList.ini or HPP itself.");
+                }
+            return 0;
+        }
+
         protected void SetDFFModels()
         {
-            int modelNumber = (ModelMiscSetting != -1 && ModelMiscSetting < MiscSettings.Length) ?
-               MiscSettings[ModelMiscSetting] : 0;
+            int modelNumber = GetModelNumber();
 
             if (ModelNames != null && ModelNames.Length != 0 && modelNumber < ModelNames.Length)
             {
@@ -179,22 +295,20 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             distance = initialDistance;
 
-            int modelNumber = ModelMiscSetting == -1 ? 0 : MiscSettings[ModelMiscSetting];
-
-            if (ModelNames == null || ModelNames.Length == 0 || modelNumber >= ModelNames.Length)
+            if (models == null || models.Length == 0)
                 return true;
 
             bool hasModelData = false;
-            foreach (string s in ModelNames[modelNumber])
+            foreach (var m in models)
             {
-                if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(s))
+                if (m != null)
                 {
                     hasModelData = true;
-                    foreach (RenderWareFile.Triangle t in Program.MainForm.renderer.dffRenderer.DFFModels[s].triangleList)
+                    foreach (RenderWareFile.Triangle t in m.triangleList)
                     {
-                        Vector3 v1 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex1], transformMatrix);
-                        Vector3 v2 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex2], transformMatrix);
-                        Vector3 v3 = (Vector3)Vector3.Transform(Program.MainForm.renderer.dffRenderer.DFFModels[s].vertexListG[t.vertex3], transformMatrix);
+                        Vector3 v1 = (Vector3)Vector3.Transform(m.vertexListG[t.vertex1], transformMatrix);
+                        Vector3 v2 = (Vector3)Vector3.Transform(m.vertexListG[t.vertex2], transformMatrix);
+                        Vector3 v3 = (Vector3)Vector3.Transform(m.vertexListG[t.vertex3], transformMatrix);
 
                         bool hasIntersected = false;
                         if (r.Intersects(ref v1, ref v2, ref v3, out float latestDistance))
@@ -269,14 +383,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (!UnkBytes[i].Equals(setObject.UnkBytes[i]))
                     return false;
             }
-            if (MiscSettings.Length != setObject.MiscSettings.Length)
-                return false;
-            for (int i = 0; i < MiscSettings.Length; i++)
-            {
-                if (!MiscSettings[i].Equals(setObject.MiscSettings[i]))
-                    return false;
-            }
-            return true;
+            return Enumerable.SequenceEqual(GetMiscSettings(), setObject.GetMiscSettings());
         }
     }
 }

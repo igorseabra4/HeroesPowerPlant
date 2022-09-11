@@ -1,6 +1,5 @@
-﻿//using GenericStageInjectionCommon.Structs.Positions.Substructures;
+﻿using Heroes.SDK.Definitions.Enums;
 using Heroes.SDK.Definitions.Structures.Stage.Spawn;
-using Heroes.SDK.Definitions.Enums;
 using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
@@ -13,7 +12,9 @@ namespace HeroesPowerPlant.ConfigEditor
 {
     public partial class EXEExtractor : Form
     {
-        public EXEExtractor()
+        private ConfigEditor configEditor;
+
+        public EXEExtractor(ConfigEditor configEditor)
         {
             InitializeComponent();
 
@@ -51,6 +52,8 @@ namespace HeroesPowerPlant.ConfigEditor
 
             foreach (Stage i in Enum.GetValues(typeof(Stage)))
                 comboBoxStages.Items.Add(i);
+
+            this.configEditor = configEditor;
         }
 
         private void LayoutEditor_Load(object sender, EventArgs e)
@@ -63,8 +66,10 @@ namespace HeroesPowerPlant.ConfigEditor
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -75,18 +80,26 @@ namespace HeroesPowerPlant.ConfigEditor
             using VistaOpenFileDialog openFile = new VistaOpenFileDialog();
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                exe = File.ReadAllBytes(openFile.FileName);
-                groupBox1.Enabled = true;
+                OpenExe(openFile.FileName);
             }
         }
 
+        private void OpenExe(string fileName)
+        {
+            exe = File.ReadAllBytes(fileName);
+            groupBox1.Enabled = true;
+        }
+
         private byte[] exe;
-        private Dictionary<Stage, int> splineHeaderListOffsets;
+        private readonly Dictionary<Stage, int> splineHeaderListOffsets;
 
         private void comboBoxStages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Stage stage = (Stage)comboBoxStages.SelectedItem;
+            SetStage((Stage)comboBoxStages.SelectedItem);
+        }
 
+        private void SetStage(Stage stage)
+        {
             buttonStartPos.Enabled = true;
 
             if (stage >= Stage.SeasideHill && stage <= Stage.FinalFortress)
@@ -145,7 +158,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         startPosOffset += 0x1C;
                     }
 
-                    Program.MainForm.ConfigEditor.GetStartPositions(pos);
+                    configEditor.GetStartPositions(pos);
                 }
                 else
                     startPosOffset += 0x90;
@@ -179,9 +192,9 @@ namespace HeroesPowerPlant.ConfigEditor
                     }
 
                     if (brag)
-                        Program.MainForm.ConfigEditor.GetBragPositions(pos);
+                        configEditor.GetBragPositions(pos);
                     else
-                        Program.MainForm.ConfigEditor.GetEndPositions(pos);
+                        configEditor.GetEndPositions(pos);
                 }
                 else
                     offset += 0x68;
@@ -189,6 +202,11 @@ namespace HeroesPowerPlant.ConfigEditor
         }
 
         private void buttonSplines_Click(object sender, EventArgs e)
+        {
+            SendSplines();
+        }
+
+        private void SendSplines()
         {
             int currentHeaderPointerOffset = ReadInt(splineHeaderListOffsets[(Stage)comboBoxStages.SelectedItem]) - 0x400000;
 
@@ -210,7 +228,7 @@ namespace HeroesPowerPlant.ConfigEditor
                         Roll = ReadUWord(firstVertexOffset + 20 * i + 2),
                     });
 
-                Program.MainForm.ConfigEditor.SplineEditor.AddFromExe(vertices, splineType);
+                configEditor.SplineEditor.AddFromExe(vertices, splineType);
 
                 currentHeaderPointerOffset += 4;
                 splineHeaderStart = ReadInt(currentHeaderPointerOffset);
@@ -220,6 +238,18 @@ namespace HeroesPowerPlant.ConfigEditor
         private void buttonScores_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Not supported yet");
+        }
+
+        public void EXEExtract(string tSonicWin, Stage stage)
+        {
+            OpenExe(tSonicWin);
+            comboBoxStages.SelectedItem = stage;
+            SetStage(stage);
+            SendStartPosToConfig((int)stage);
+            SendEndPosToConfig((int)stage, false);
+            SendEndPosToConfig((int)stage, true);
+            if (buttonSplines.Enabled)
+                SendSplines();
         }
     }
 }

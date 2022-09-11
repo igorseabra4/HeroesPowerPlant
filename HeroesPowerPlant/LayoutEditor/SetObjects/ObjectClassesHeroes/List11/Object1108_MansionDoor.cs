@@ -1,18 +1,15 @@
 ﻿namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum OpenAngle
-    {
-        Angle90 = 0,
-        Angle180 = 1,
-        Angle83dot5 = 2
-    }
-
     public class Object1108_MansionDoor : SetObjectHeroes
     {
-        public OpenAngle OpenAngle
+        public enum EOpenAngle : int
         {
-            get => (OpenAngle)ReadInt(4);
-            set => Write(4, (int)value);
+            Angle90 = 0,
+            Angle180 = 1,
+            Angle83dot5 = 2
         }
+
+        [MiscSetting]
+        public EOpenAngle OpenAngle { get; set; }
     }
 }

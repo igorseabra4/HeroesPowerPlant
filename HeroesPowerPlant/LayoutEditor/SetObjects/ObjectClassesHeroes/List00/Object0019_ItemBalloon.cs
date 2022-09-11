@@ -1,4 +1,5 @@
 ﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -10,16 +11,11 @@ namespace HeroesPowerPlant.LayoutEditor
             CreateBoundingBox();
         }
 
-        public Item Item
-        {
-            get => (Item)ReadByte(4);
-            set => Write(4, (byte)value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public EItemHeroes Item { get; set; }
+        [MiscSetting(padAfter: 4)]
+        public float Scale { get; set; }
+        [MiscSetting, Description("Usually 0")]
+        public short Unknown { get; set; }
     }
 }

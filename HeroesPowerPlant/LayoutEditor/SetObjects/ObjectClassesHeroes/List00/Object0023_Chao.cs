@@ -2,16 +2,9 @@
 {
     public class Object0023_Chao : SetObjectHeroes
     {
-        public float Radius
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
-
-        public float AngularSpeed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting]
+        public float Radius { get; set; }
+        [MiscSetting]
+        public float AngularSpeed { get; set; }
     }
 }

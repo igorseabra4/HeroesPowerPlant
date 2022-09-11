@@ -6,39 +6,19 @@ namespace HeroesPowerPlant.LayoutEditor
     {
         //Coaster(PATH_NO, MOVE_SPPED m/sec, LAUNCH_SPD m/sec, LAUNCH_ANG deg, LAUNCH_NO_CTRL_TIME sec)
 
-        [Description("PATH/SplineID to follow when the player grabs object")]
-        public int SplineID
-        {
-            get => ReadInt(0);
-            set => Write(0, value);
-        }
+        [MiscSetting, Description("PATH/SplineID to follow when the player grabs object")]
+        public int SplineID { get; set; }
 
-        [Description("m/sec")]
-        public float MoveSpeed
-        {
-            get => ReadFloat(4);
-            set => Write(4, value);
-        }
+        [MiscSetting, Description("m/sec")]
+        public float MoveSpeed { get; set; }
 
-        [Description("m/sec")]
-        public float LaunchSpeed
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
+        [MiscSetting, Description("m/sec")]
+        public float LaunchSpeed { get; set; }
 
-        [Description("deg")]
-        public float LaunchAngle
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        [MiscSetting, Description("deg")]
+        public float LaunchAngle { get; set; }
 
-        [Description("sec")]
-        public float LaunchNoControlTime
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
+        [MiscSetting, Description("sec")]
+        public float LaunchNoControlTime { get; set; }
     }
 }

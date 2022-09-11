@@ -2,16 +2,13 @@
 {
     public class Object099A_Wanibreak : SetObjectHeroes
     {
-        public byte ObjectType
-        {
-            get => ReadByte(4);
-            set => Write(4, value);
-        }
-
-        public byte Kazari
-        {
-            get => ReadByte(5);
-            set => Write(5, value);
-        }
+        [MiscSetting]
+        public byte ObjectType { get; set; }
+        [MiscSetting]
+        public byte Kazari { get; set; }
+        [MiscSetting]
+        public byte Unknown1 { get; set; }
+        [MiscSetting]
+        public byte Unknown2 { get; set; }
     }
 }

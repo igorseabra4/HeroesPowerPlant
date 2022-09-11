@@ -1,32 +1,35 @@
 ﻿using SharpDX;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum TriggerMusicShape
-    {
-        Sphere = 0,
-        Cylinder = 1,
-        Cube = 2
-    }
-
     public class Object110C_TriggerMusic : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
+        public enum EShape : int
+        {
+            Sphere = 0,
+            Cylinder = 1,
+            Cube = 2
+        }
+
         private BoundingSphere sphereBound;
 
         public override void CreateTransformMatrix()
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerMusicShape.Sphere:
-                    sphereBound = new BoundingSphere(Position, Radius_ScaleX);
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2);
+                case EShape.Sphere:
+                    sphereBound = new BoundingSphere(Position, Radius);
+                    transformMatrix = Matrix.Scaling(Radius * 2);
                     break;
-                case TriggerMusicShape.Cube:
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, ScaleZ * 2);
+                case EShape.Cube:
+                    transformMatrix = Matrix.Scaling(ScaleX * 2, ScaleY * 2, ScaleZ * 2);
                     break;
-                case TriggerMusicShape.Cylinder:
-                    transformMatrix = Matrix.Scaling(Radius_ScaleX * 2, Height_ScaleY * 2, Radius_ScaleX * 2);
+                case EShape.Cylinder:
+                    transformMatrix = Matrix.Scaling(Radius * 2, Height * 2, Radius * 2);
                     break;
             }
 
@@ -39,15 +42,15 @@ namespace HeroesPowerPlant.LayoutEditor
         {
             List<Vector3> list = new List<Vector3>();
 
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerMusicShape.Sphere:
+                case EShape.Sphere:
                     list.AddRange(SharpRenderer.sphereVertices);
                     break;
-                case TriggerMusicShape.Cube:
+                case EShape.Cube:
                     list.AddRange(SharpRenderer.cubeVertices);
                     break;
-                case TriggerMusicShape.Cylinder:
+                case EShape.Cylinder:
                     list.AddRange(SharpRenderer.cylinderVertices);
                     break;
                 default:
@@ -63,15 +66,15 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void Draw(SharpRenderer renderer)
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerMusicShape.Sphere:
+                case EShape.Sphere:
                     renderer.DrawSphereTrigger(transformMatrix, isSelected);
                     break;
-                case TriggerMusicShape.Cube:
+                case EShape.Cube:
                     renderer.DrawCubeTrigger(transformMatrix, isSelected);
                     break;
-                case TriggerMusicShape.Cylinder:
+                case EShape.Cylinder:
                     renderer.DrawCylinderTrigger(transformMatrix, isSelected);
                     break;
                 default:
@@ -82,47 +85,45 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override bool TriangleIntersection(Ray r, float initialDistance, out float distance)
         {
-            switch (TriggerShape)
+            switch (Shape)
             {
-                case TriggerMusicShape.Sphere:
+                case EShape.Sphere:
                     return r.Intersects(ref sphereBound, out distance);
-                case TriggerMusicShape.Cube:
+                case EShape.Cube:
                     return TriangleIntersection(r, SharpRenderer.cubeTriangles, SharpRenderer.cubeVertices, initialDistance, out distance);
-                case TriggerMusicShape.Cylinder:
+                case EShape.Cylinder:
                     return TriangleIntersection(r, SharpRenderer.cylinderTriangles, SharpRenderer.cylinderVertices, initialDistance, out distance);
                 default:
                     return base.TriangleIntersection(r, initialDistance, out distance);
             }
         }
 
-        public short MusicNumber
+        [MiscSetting(padAfter: 2)]
+        public short MusicNumber { get; set; }
+        [MiscSetting]
+        public EShape Shape { get; set; }
+
+        [Description("Used only for Sphere and Cylinder")]
+        public float Radius
         {
-            get => ReadShort(4);
-            set => Write(4, value);
+            get => ScaleX;
+            set => ScaleX = value;
         }
 
-        public TriggerMusicShape TriggerShape
+        [Description("Used only for Cylinder")]
+        public float Height
         {
-            get => (TriggerMusicShape)ReadInt(8);
-            set => Write(8, (int)value);
+            get => ScaleY;
+            set => ScaleY = value;
         }
 
-        public float Radius_ScaleX
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
+        [MiscSetting, Description("Used only for Cube")]
+        public float ScaleX { get; set; }
 
-        public float Height_ScaleY
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
+        [MiscSetting, Description("Used only for Cube")]
+        public float ScaleY { get; set; }
 
-        public float ScaleZ
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
+        [MiscSetting, Description("Used only for Cube")]
+        public float ScaleZ { get; set; }
     }
 }

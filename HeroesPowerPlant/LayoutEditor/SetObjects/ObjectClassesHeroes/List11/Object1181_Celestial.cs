@@ -26,34 +26,15 @@ namespace HeroesPowerPlant.LayoutEditor
             base.Draw(renderer);
         }
 
-        public int CelestialType
-        {
-            get => ReadInt(4);
-            set => Write(4, value);
-        }
-
-        public float SpeedX
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float SpeedY
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float SpeedZ
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float Scale
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
+        [MiscSetting]
+        public int CelestialType { get; set; }
+        [MiscSetting]
+        public float SpeedX { get; set; }
+        [MiscSetting]
+        public float SpeedY { get; set; }
+        [MiscSetting]
+        public float SpeedZ { get; set; }
+        [MiscSetting]
+        public float Scale { get; set; }
     }
 }

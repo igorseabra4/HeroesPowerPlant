@@ -2,44 +2,23 @@
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum Direction : byte
-    {
-        Up = 0,
-        Down = 1,
-    }
-
     public class Object0031_Case : SetObjectHeroes
     {
-
-        public float ScaleX
+        public enum EDirection : byte
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Up = 0,
+            Down = 1,
         }
 
-        public float ScaleY
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float ScaleZ
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        [Description("Doesn't use actual Link ID. Use this one.")]
-        public byte LinkID
-        {
-            get => ReadByte(16);
-            set => Write(16, value);
-        }
-
-        public Direction Direction
-        {
-            get => (Direction)ReadByte(17);
-            set => Write(17, (byte)value);
-        }
+        [MiscSetting]
+        public float ScaleX { get; set; }
+        [MiscSetting]
+        public float ScaleY { get; set; }
+        [MiscSetting]
+        public float ScaleZ { get; set; }
+        [MiscSetting, Description("Doesn't use actual Link ID. Use this one.")]
+        public byte LinkID { get; set; }
+        [MiscSetting]
+        public EDirection Direction { get; set; }
     }
 }

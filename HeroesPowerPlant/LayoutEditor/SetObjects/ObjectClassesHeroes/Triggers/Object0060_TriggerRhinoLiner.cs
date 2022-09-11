@@ -3,19 +3,21 @@ using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
-    public enum RhinoTriggerType
-    {
-        Start = 0,
-        End = 1,
-        ChangePath = 2,
-        ChangePathSet = 3,
-        Attack = 4,
-        AttackSet = 5,
-        SpeedControl = 6
-    }
-
     public class Object0060_TriggerRhinoLiner : SetObjectHeroes
     {
+        public override bool IsTrigger() => true;
+
+        public enum EType : byte
+        {
+            Start = 0,
+            End = 1,
+            ChangePath = 2,
+            ChangePathSet = 3,
+            Attack = 4,
+            AttackSet = 5,
+            SpeedControl = 6
+        }
+
         private BoundingSphere sphereBound;
         private Matrix destinationMatrix;
 
@@ -42,53 +44,21 @@ namespace HeroesPowerPlant.LayoutEditor
             return r.Intersects(ref sphereBound, out distance);
         }
 
-        [Description("Player activates Start and End, Rhino Liner activates the rest")]
-        public RhinoTriggerType TriggerType
-        {
-            get => (RhinoTriggerType)ReadByte(4);
-            set => Write(4, (byte)value);
-        }
-
-        public byte SpeedControl
-        {
-            get => ReadByte(5);
-            set => Write(5, value);
-        }
-
-        public byte NotInUse1
-        {
-            get => ReadByte(6);
-            set => Write(6, value);
-        }
-
-        public byte NotInUse2
-        {
-            get => ReadByte(7);
-            set => Write(7, value);
-        }
-
-        public float Radius
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float TargetX
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public float TargetY
-        {
-            get => ReadFloat(16);
-            set => Write(16, value);
-        }
-
-        public float TargetZ
-        {
-            get => ReadFloat(20);
-            set => Write(20, value);
-        }
+        [MiscSetting, Description("Player activates Start and End, Rhino Liner activates the rest")]
+        public EType TriggerType { get; set; }
+        [MiscSetting]
+        public byte SpeedControl { get; set; }
+        [MiscSetting]
+        public byte Unknown1 { get; set; }
+        [MiscSetting]
+        public byte Unknown2 { get; set; }
+        [MiscSetting]
+        public float Radius { get; set; }
+        [MiscSetting]
+        public float TargetX { get; set; }
+        [MiscSetting]
+        public float TargetY { get; set; }
+        [MiscSetting]
+        public float TargetZ { get; set; }
     }
 }

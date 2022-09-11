@@ -2,34 +2,19 @@
 {
     public class Object001D_Pulley : SetObjectHeroes
     {
-        public float Elevation
+        public enum EPulleyType : short
         {
-            get => ReadFloat(4);
-            set => Write(4, value);
+            Up = 0,
+            Down = 1
         }
 
-        public float ElevationAngle
-        {
-            get => ReadFloat(8);
-            set => Write(8, value);
-        }
-
-        public float Power
-        {
-            get => ReadFloat(12);
-            set => Write(12, value);
-        }
-
-        public PulleyType PulleyType
-        {
-            get => (PulleyType)ReadShort(16);
-            set => Write(16, (short)value);
-        }
-    }
-
-    public enum PulleyType : short
-    {
-        Up = 0,
-        Down = 1
+        [MiscSetting]
+        public float Elevation { get; set; }
+        [MiscSetting]
+        public float ElevationAngle { get; set; }
+        [MiscSetting]
+        public float Power { get; set; }
+        [MiscSetting]
+        public EPulleyType PulleyType { get; set; }
     }
 }

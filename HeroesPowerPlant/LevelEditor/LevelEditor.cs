@@ -18,12 +18,14 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
 namespace HeroesPowerPlant.LevelEditor
 {
-    public partial class LevelEditor : Form
+    public partial class LevelEditor : Form, IUnsavedChanges
     {
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-            if (e.CloseReason == CloseReason.FormOwnerClosing) return;
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+                return;
 
             e.Cancel = true;
             Hide();
@@ -53,6 +55,8 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
             New();
         }
 
@@ -60,10 +64,14 @@ namespace HeroesPowerPlant.LevelEditor
         {
             SetHeroesMode();
             ResetEveryting();
+            _unsavedChangesLevel = false;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "ONE files|*.ONE"
@@ -85,21 +93,15 @@ namespace HeroesPowerPlant.LevelEditor
 
             InitBSPList();
 
-            string SupposedBLK = Path.GetDirectoryName(openONEfilePath) + "\\" + bspRenderer.currentFileNamePrefix + "_blk.bin";
-            if (File.Exists(SupposedBLK))
-            {
-                initVisibilityEditor(false, SupposedBLK);
-            }
+            string probBlk = Path.GetDirectoryName(openONEfilePath) + "\\" + bspRenderer.currentFileNamePrefix + "_blk.bin";
+            if (File.Exists(probBlk))
+                initVisibilityEditor(false, probBlk);
 
-            foreach (string s in TextureManager.OpenTXDfiles)
-                if (Path.GetFileNameWithoutExtension(s).ToLower() == bspRenderer.currentFileNamePrefix.ToLower())
-                    return;
+            _unsavedChangesLevel = false;
 
-            string SupposedTXD = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + bspRenderer.currentFileNamePrefix + ".txd";
-            if (File.Exists(SupposedTXD))
-            {
-                TextureManager.LoadTexturesFromTXD(SupposedTXD, renderer, bspRenderer);
-            }
+            string probTxd = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + bspRenderer.currentFileNamePrefix + ".txd";
+            if (File.Exists(probTxd) && !TextureManager.OpenTXDfiles.Contains(probTxd))
+                TextureManager.LoadTexturesFromTXD(probTxd, renderer, bspRenderer);
         }
 
         public string GetOpenONEFilePath()
@@ -159,6 +161,8 @@ namespace HeroesPowerPlant.LevelEditor
             InitBSPList();
 
             progressBar1.Value = 0;
+
+            _unsavedChangesLevel = false;
         }
 
         private void SetFilenamePrefix(string fileName)
@@ -213,6 +217,8 @@ namespace HeroesPowerPlant.LevelEditor
 
                 foreach (string i in openFile.FileNames)
                 {
+                    _unsavedChangesLevel = true;
+
                     RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + textBox_import_extension.Text);
                     file.SetChunkNumberAndName();
 
@@ -224,9 +230,9 @@ namespace HeroesPowerPlant.LevelEditor
                             try
                             {
                                 if (Path.GetExtension(i).ToLower() == ".obj")
-                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                                 else
-                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(i, ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                             }
                             catch
                             {
@@ -253,7 +259,8 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonExportClick(object sender, EventArgs e)
         {
-            if (listBoxLevelModels.Items.Count == 0) return;
+            if (listBoxLevelModels.Items.Count == 0)
+                return;
 
             ChooseTarget.GetTarget(out bool success, out Assimp.ExportFormatDescription format, out string textureExtension);
 
@@ -316,6 +323,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 if (listBoxLevelModels.SelectedIndices.Contains(i))
                 {
+                    _unsavedChangesLevel = true;
                     foreach (SharpMesh mesh in bspRenderer.BSPList[i].meshList)
                         mesh.Dispose();
 
@@ -335,6 +343,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             bspRenderer.BSPList.Clear();
             listBoxLevelModels.Items.Clear();
+
+            _unsavedChangesLevel = true;
         }
 
         private void listBoxLevelModelsDoubleClick(object sender, EventArgs e)
@@ -346,6 +356,8 @@ namespace HeroesPowerPlant.LevelEditor
                 listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex] = newName;
                 bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
                 bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].SetChunkNumberAndName();
+
+                _unsavedChangesLevel = true;
             }
         }
 
@@ -359,6 +371,9 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void listBoxLevelModels_SelectedIndexChanged(object sender, EventArgs e)
         {
+            foreach (var bsp in bspRenderer.BSPList)
+                bsp.isSelected = false;
+
             uint vertices = 0;
             uint triangles = 0;
 
@@ -366,6 +381,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 vertices += bspRenderer.BSPList[i].vertexAmount;
                 triangles += bspRenderer.BSPList[i].triangleAmount;
+                bspRenderer.BSPList[i].isSelected = true;
             }
 
             labelVertexAmount.Text = "Vertices: " + vertices.ToString();
@@ -433,6 +449,9 @@ namespace HeroesPowerPlant.LevelEditor
             bspRenderer.ShadowColBSPList.Clear();
             shadowSplineEditor.Init();
             InitBSPList();
+
+            _unsavedChangesLevel = false;
+            _unsavedChangesVisibility = false;
         }
 
         // Shadow Level Editor
@@ -442,12 +461,18 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ShadowLevelMenuItemNew_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             SetShadowMode();
             ResetEveryting();
         }
 
         private async void ShadowLevelMenuItemOpen_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             VistaFolderBrowserDialog openFolder = new VistaFolderBrowserDialog();
 
             if (openFolder.ShowDialog() == DialogResult.OK)
@@ -525,14 +550,14 @@ namespace HeroesPowerPlant.LevelEditor
             Dictionary<int, Archive> oneDict = new Dictionary<int, Archive>(fileList.Count);
 
             bool error = false;
-            string fileWithError = null;
+            string filesWithError = "";
 
             foreach (RenderWareModelFile i in fileList)
             {
                 if (i.ChunkNumber == -1)
                 {
                     error = true;
-                    fileWithError = i.fileName;
+                    filesWithError += i.fileName + ", ";
                     continue;
                 }
 
@@ -545,13 +570,18 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             if (error)
-                MessageBox.Show("Some of the files were not included in the archives because I could not figure out their chunk number. Please fix that and save again, otherwise those files will be lost. One of the files is " + fileWithError);
+                MessageBox.Show("Some of the files were not included in the archives because I could not figure out their chunk number. Please fix that and save again, otherwise those files will be lost: " + filesWithError);
 
             foreach (int i in oneDict.Keys)
             {
                 string fileName = Path.Combine(openONEfilePath, bspRenderer.currentShadowFolderNamePrefix + "_" + i.ToString("D2") + ".one");
                 File.WriteAllBytes(fileName, oneDict[i].BuildShadowONEArchive(true).ToArray());
             }
+
+            _unsavedChangesLevel = false;
+            shadowCollisionEditor.UnsavedChanges = false;
+            shadowSplineEditor.UnsavedChanges = false;
+            _unsavedChangesVisibility = false;
 
             SaveShadowDATONE(datONEpath);
 
@@ -605,6 +635,8 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             File.WriteAllBytes(datOneFileName, shadowDATONE.BuildShadowONEArchive(true).ToArray());
+            _unsavedChangesVisibility = false;
+            shadowSplineEditor.UnsavedChanges = false;
         }
 
         private void ShadowLevelMenuItemCollisionEditor_Click(object sender, EventArgs e)
@@ -648,6 +680,9 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             NewVisibility();
         }
 
@@ -658,10 +693,14 @@ namespace HeroesPowerPlant.LevelEditor
             numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
             labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             labelLoadedBLK.Text = "No BLK loaded";
+            _unsavedChangesVisibility = false;
         }
 
         private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (ShouldStopBecauseOfUnsavedChanges(sender, e))
+                return;
+
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
                 Filter = "BIN files|*.bin"
@@ -697,13 +736,17 @@ namespace HeroesPowerPlant.LevelEditor
                     numericCurrentChunk.Value = 1;
 
                 labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
+                _unsavedChangesVisibility = false;
             }
         }
 
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItemVisibility_Click(object sender, EventArgs e)
         {
             if (visibilityFunctions.OpenVisibilityFile != null)
+            {
                 VisibilityFunctions.SaveHeroesVisibilityFile(visibilityFunctions.ChunkList, visibilityFunctions.OpenVisibilityFile);
+                _unsavedChangesVisibility = false;
+            }
             else
                 saveAsToolStripMenuItem1_Click(sender, e);
         }
@@ -724,6 +767,7 @@ namespace HeroesPowerPlant.LevelEditor
                 visibilityFunctions.OpenVisibilityFile = saveFileDialog.FileName;
                 VisibilityFunctions.SaveHeroesVisibilityFile(visibilityFunctions.ChunkList, visibilityFunctions.OpenVisibilityFile);
                 labelLoadedBLK.Text = "Loaded " + visibilityFunctions.OpenVisibilityFile;
+                _unsavedChangesVisibility = false;
             }
         }
 
@@ -751,6 +795,7 @@ namespace HeroesPowerPlant.LevelEditor
                     numericCurrentChunk.Value = 1;
 
                 labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
+                _unsavedChangesVisibility = true;
             }
         }
 
@@ -784,13 +829,14 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonAddChunkClick(object sender, EventArgs e)
         {
-            Chunk NewChunk = new Chunk();
-            NewChunk.CalculateModel();
-            visibilityFunctions.ChunkList.Add(NewChunk);
+            var chunk = new Chunk(0, Vector3.Zero, Vector3.Zero);
+            chunk.CalculateModel();
+            visibilityFunctions.ChunkList.Add(chunk);
             numericCurrentChunk.Minimum = 1;
             numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
             numericCurrentChunk.Value = visibilityFunctions.ChunkList.Count();
             labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
+            _unsavedChangesVisibility = true;
         }
 
         private void buttonRemoveChunk_Click(object sender, EventArgs e)
@@ -798,6 +844,7 @@ namespace HeroesPowerPlant.LevelEditor
             if (visibilityFunctions.ChunkList.Count > 0)
                 visibilityFunctions.ChunkList.RemoveAt((int)numericCurrentChunk.Value - 1);
 
+            _unsavedChangesVisibility = true;
             numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
             labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
             numericCurrentChunk_ValueChanged(new object(), new EventArgs());
@@ -821,6 +868,7 @@ namespace HeroesPowerPlant.LevelEditor
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.X = (int)(Max.X + (int)numericUpDownAdd.Value);
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Y = (int)(Max.Y + (int)numericUpDownAdd.Value);
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)(Max.Z + (int)numericUpDownAdd.Value);
+                    _unsavedChangesVisibility = true;
                     numericCurrentChunk_ValueChanged(new object(), new EventArgs());
                 }
                 else
@@ -834,7 +882,10 @@ namespace HeroesPowerPlant.LevelEditor
         {
             if (!ProgramIsChangingStuff)
                 if (visibilityFunctions.ChunkList.Count > 0)
+                {
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].number = (int)NumChunkNum.Value;
+                    _unsavedChangesVisibility = true;
+                }
         }
 
         private void NumMaxMin_ValueChanged(object sender, EventArgs e)
@@ -849,6 +900,7 @@ namespace HeroesPowerPlant.LevelEditor
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Y = (int)NumMaxY.Value;
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].Max.Z = (int)NumMaxZ.Value;
                     visibilityFunctions.ChunkList[(int)numericCurrentChunk.Value - 1].CalculateModel();
+                    _unsavedChangesVisibility = true;
                 }
         }
 
@@ -870,19 +922,14 @@ namespace HeroesPowerPlant.LevelEditor
                 if (rwmf.ChunkNumber != -1)
                     numbers.Add(rwmf.ChunkNumber);
 
-            Vector3 add = new Vector3((int)numericUpDownAdd.Value);
+            var add = new Vector3((int)numericUpDownAdd.Value);
 
             foreach (int i in numbers)
             {
                 VisibilityFunctions.AutoChunk(i, bspAndCol, out bool success, out Vector3 Min, out Vector3 Max);
 
                 if (success)
-                    visibilityFunctions.ChunkList.Add(new Chunk()
-                    {
-                        Max = Max + add,
-                        Min = Min - add,
-                        number = i
-                    });
+                    visibilityFunctions.ChunkList.Add(new Chunk(i, Min - add, Max + add));
             }
 
             visibilityFunctions.ChunkList = visibilityFunctions.ChunkList.OrderBy(c => c.number).ToList();
@@ -891,6 +938,7 @@ namespace HeroesPowerPlant.LevelEditor
             numericCurrentChunk.Maximum = visibilityFunctions.ChunkList.Count();
             numericCurrentChunk.Value = visibilityFunctions.ChunkList.Count();
             labelChunkAmount.Text = "Amount: " + visibilityFunctions.ChunkList.Count();
+            _unsavedChangesVisibility = true;
         }
 
         private void DisableFilesizeWarningToolStripMenuItem_Click(object sender, EventArgs e)
@@ -913,6 +961,78 @@ namespace HeroesPowerPlant.LevelEditor
                     bspRenderer.BSPList[i].fileName = newName;
                     bspRenderer.BSPList[i].SetChunkNumberAndName();
                 }
+            }
+        }
+
+        private bool _unsavedChangesLevel = false;
+        private bool _unsavedChangesVisibility = false;
+
+        public bool UnsavedChanges =>
+            _unsavedChangesLevel ||
+            _unsavedChangesVisibility ||
+            shadowCollisionEditor.UnsavedChanges ||
+            shadowSplineEditor.UnsavedChanges;
+
+        private bool ShouldStopBecauseOfUnsavedChanges(object sender, EventArgs e)
+        {
+            if (isShadowMode)
+            {
+                if (UnsavedChanges)
+                {
+                    var result = Extensions.UnsavedChangesMessageBox("Level Editor");
+                    if (result == DialogResult.Yes)
+                    {
+                        ShadowLevelMenuItemSave_Click(sender, e);
+                        if (UnsavedChanges)
+                            return true;
+                    }
+                    else if (result == DialogResult.Cancel)
+                        return true;
+                }
+            }
+            else
+            {
+                if (_unsavedChangesLevel)
+                {
+                    var result = Extensions.UnsavedChangesMessageBox("Level Editor");
+                    if (result == DialogResult.Yes)
+                    {
+                        saveToolStripMenuItem_Click(sender, e);
+                        if (_unsavedChangesLevel)
+                            return true;
+                    }
+                    else if (result == DialogResult.Cancel)
+                        return true;
+                }
+                if (_unsavedChangesVisibility)
+                {
+                    var result = Extensions.UnsavedChangesMessageBox("Visibility Editor");
+                    if (result == DialogResult.Yes)
+                    {
+                        saveToolStripMenuItemVisibility_Click(sender, e);
+                        if (_unsavedChangesVisibility)
+                            return true;
+                    }
+                    else if (result == DialogResult.Cancel)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Save()
+        {
+            if (isShadowMode)
+            {
+                ShadowLevelMenuItemSave_Click(null, null);
+            }
+            else
+            {
+                if (_unsavedChangesLevel)
+                    saveToolStripMenuItem_Click(null, null);
+                if (_unsavedChangesVisibility)
+                    saveToolStripMenuItemVisibility_Click(null, null);
             }
         }
     }

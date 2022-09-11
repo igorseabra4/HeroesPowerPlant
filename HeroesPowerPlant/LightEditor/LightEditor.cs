@@ -5,6 +5,8 @@ namespace HeroesPowerPlant.LightEditor
 {
     public class LightEditor
     {
+        public bool UnsavedChanges { get; set; } = false;
+
         public List<Light> Lights;
         public bool isShadow;
 
@@ -19,6 +21,7 @@ namespace HeroesPowerPlant.LightEditor
         {
             Lights = new List<Light>();
             isShadow = false;
+            UnsavedChanges = false;
         }
 
         public LightEditor(string fileName, bool isShadow)
@@ -49,6 +52,7 @@ namespace HeroesPowerPlant.LightEditor
                 else
                     Lights.Add(Light.FromBigEndianBytes(ref lightBytes, currentOffset));
             }
+            UnsavedChanges = false;
         }
 
         public void Save(string fileName)
@@ -69,6 +73,7 @@ namespace HeroesPowerPlant.LightEditor
                     finalFile.AddRange(Light.GetBytesBigEndian(light));
 
             File.WriteAllBytes(fileName, finalFile.ToArray());
+            UnsavedChanges = false;
         }
     }
 }
