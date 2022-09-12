@@ -36,7 +36,7 @@ namespace HeroesPowerPlant
         }
 
         public static DialogResult UnsavedChangesMessageBox(string editorName) =>
-            MessageBox.Show($"You have unsaved changes on the {editorName}." +
+            MessageBox.Show($"You have unsaved changes on the {editorName}. " +
                 $"Do you wish to save before closing?",
                 "Unsaved changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
     }

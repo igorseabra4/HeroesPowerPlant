@@ -359,6 +359,16 @@ namespace HeroesPowerPlant
                 else
                     mainForm.LevelEditor.RenderLevelModel(this);
 
+                if (ShowSplines)
+                {
+                    mainForm.ConfigEditor.SplineEditor.RenderSplines(this);
+                    mainForm.LevelEditor.shadowSplineEditor.RenderSplines(this);
+                }
+
+                if (ShowQuadtree)
+                    foreach (var c in mainForm.CollisionEditorDict.Values)
+                        c.RenderQuadtree(this);
+
                 if (ShowChunkBoxes)
                     mainForm.LevelEditor.visibilityFunctions.RenderChunkModels(this);
 
@@ -376,16 +386,6 @@ namespace HeroesPowerPlant
                 }
                 if (ShowStartPositions)
                     mainForm.ConfigEditor.RenderStartPositions(this);
-
-                if (ShowSplines)
-                {
-                    mainForm.ConfigEditor.SplineEditor.RenderSplines(this);
-                    mainForm.LevelEditor.shadowSplineEditor.RenderSplines(this);
-                }
-
-                if (ShowQuadtree)
-                    foreach (var c in mainForm.CollisionEditorDict.Values)
-                        c.RenderQuadtree(this);
 
                 //present
                 Device.Present();

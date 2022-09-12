@@ -357,7 +357,7 @@ namespace HeroesPowerPlant.MainForm
         {
             if (sender.UnsavedChanges)
             {
-                var result = Extensions.UnsavedChangesMessageBox(Text);
+                var result = Extensions.UnsavedChangesMessageBox(sender.Text);
                 if (result == DialogResult.Yes)
                 {
                     sender.Save();
