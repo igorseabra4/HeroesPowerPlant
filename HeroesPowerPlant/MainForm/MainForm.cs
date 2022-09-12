@@ -1283,11 +1283,16 @@ namespace HeroesPowerPlant.MainForm
             SetMaxFPS();
         }
 
-        public void SetLimitFPSInitial(bool isEnabled, decimal fpsLimit)
+        public void SetLimitFPS(bool isEnabled, decimal fpsLimit)
         {
             LimitFPS_ToolStripMenuItem.Checked = isEnabled;
             ViewConfig.maxFps_numericUpDown.Value = fpsLimit;
             SetMaxFPS();
+        }
+
+        public void SetWindowPriorityBehavior (bool isEnabled)
+        {
+            LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked = isEnabled;
         }
 
         public void SetMaxFPS()

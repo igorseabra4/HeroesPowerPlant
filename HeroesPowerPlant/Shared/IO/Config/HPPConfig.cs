@@ -54,7 +54,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
             if (!File.Exists(ConfigPath))
             {
                 Save();
-                System.Windows.Forms.MessageBox.Show("It appears this is your first time using Heroes Power Plant.\nIf you haven't yet, please check out the Heroes Power Plant wiki on GitHub, as it features a complete guide on using the program and creating custom stages for Sonic Heroes and Shadow the Hedgehog.", "Heroes Power Plant");
+                MessageBox.Show("It appears this is your first time using Heroes Power Plant.\nIf you haven't yet, please check out the Heroes Power Plant wiki on GitHub, as it features a complete guide on using the program and creating custom stages for Sonic Heroes and Shadow the Hedgehog.", "Heroes Power Plant");
                 mainForm.AboutBox.Show();
             }
 
@@ -98,7 +98,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
                 else
                     mainForm.DisableVSync(); // In case the program default ever changes.
 
-                mainForm.SetLimitFPSInitial(LimitFPS, LimitFPSValue);
+                mainForm.SetLimitFPS(LimitFPS, LimitFPSValue);
+                mainForm.SetWindowPriorityBehavior(LegacyWindowPriorityBehavior);
 
                 mainForm.SetCheckForUpdatesOnStartup(CheckForUpdatesOnStartup);
                 mainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);
