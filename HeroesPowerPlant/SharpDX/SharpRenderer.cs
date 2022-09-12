@@ -4,6 +4,7 @@ using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
@@ -94,16 +95,17 @@ namespace HeroesPowerPlant
         // Texture loader
         public const string DefaultTexture = "default";
         public static ShaderResourceView whiteDefault;
+        private string whiteDefaultPath => Application.StartupPath + "/Resources\\WhiteDefault.png";
 
         public void LoadTexture()
         {
             if (whiteDefault != null)
             {
                 if (whiteDefault.IsDisposed)
-                    whiteDefault = Device.LoadTextureFromFile(Application.StartupPath + "/Resources\\WhiteDefault.png");
+                    whiteDefault = Device.LoadTextureFromFile(whiteDefaultPath);
             }
             else
-                whiteDefault = Device.LoadTextureFromFile(Application.StartupPath + "/Resources\\WhiteDefault.png");
+                whiteDefault = Device.LoadTextureFromFile(whiteDefaultPath);
         }
 
         private DefaultRenderData cubeRenderData;
@@ -133,7 +135,6 @@ namespace HeroesPowerPlant
                 cubeRenderData.Color = color ?? normalColor;
             else
                 cubeRenderData.Color = normalColor;
-
 
             Device.SetFillModeDefault();
             Device.SetCullModeNone();

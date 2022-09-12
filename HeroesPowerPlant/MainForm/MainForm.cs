@@ -355,6 +355,19 @@ namespace HeroesPowerPlant.MainForm
 
         public void CloseLayoutEditor(LayoutEditor.LayoutEditor sender)
         {
+            if (sender.UnsavedChanges)
+            {
+                var result = Extensions.UnsavedChangesMessageBox(Text);
+                if (result == DialogResult.Yes)
+                {
+                    sender.Save();
+                    if (sender.UnsavedChanges)
+                        return;
+                }
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
+
             foreach (ToolStripDropDownItem t in LayoutEditorDict.Keys)
                 if (LayoutEditorDict[t].Equals(sender))
                 {
@@ -547,21 +560,21 @@ namespace HeroesPowerPlant.MainForm
 
         public void OpenShadowLayoutEditors(string fileName, string fileNamePrefix)
         {
-            if (LayoutEditors.Count != 0)
+            if (LayoutEditors.Any())
             {
-                var result = MessageBox.Show("Close currently open Layout Editors?\nWARNING: Unsaved data will be lost", "Layout Editor Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var result = MessageBox.Show("Close currently open Layout Editors?", "Layout Editor Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                     Program.MainForm.ClearLayoutEditors();
             }
-            foreach (string s in new string[]
+            foreach (var s in new[]
             {
-                Path.Combine(fileName, fileNamePrefix) + "_ds1.dat",
-                Path.Combine(fileName, fileNamePrefix) + "_cmn.dat",
-                Path.Combine(fileName, fileNamePrefix) + "_nrm.dat",
-                Path.Combine(fileName, fileNamePrefix) + "_hrd.dat"
+                (Path.Combine(fileName, fileNamePrefix) + "_ds1.dat", true),
+                (Path.Combine(fileName, fileNamePrefix) + "_cmn.dat", true),
+                (Path.Combine(fileName, fileNamePrefix) + "_nrm.dat", true),
+                (Path.Combine(fileName, fileNamePrefix) + "_hrd.dat", false)
             })
-                if (File.Exists(s))
-                    AddLayoutEditor(s, false);
+                if (File.Exists(s.Item1))
+                    AddLayoutEditor(s.Item1, false, s.Item2);
         }
 
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)
@@ -712,13 +725,25 @@ namespace HeroesPowerPlant.MainForm
                     if (LayoutEditors.Count == 0)
                         AddLayoutEditor(show: true);
                     else
+                    {
+                        bool opened = false;
                         foreach (var l in LayoutEditors)
-                            if (l.RenderObjects)
+                            if (l.HasSelectedObject())
                             {
                                 l.Show();
                                 l.Focus();
                                 l.WindowState = FormWindowState.Normal;
+                                opened = true;
                             }
+                        if (!opened)
+                            foreach (var l in LayoutEditors)
+                                if (l.RenderObjects)
+                                {
+                                    l.Show();
+                                    l.Focus();
+                                    l.WindowState = FormWindowState.Normal;
+                                }
+                    }
                     break;
                 case Keys.F6:
                     TeleportPlayerToCamera();

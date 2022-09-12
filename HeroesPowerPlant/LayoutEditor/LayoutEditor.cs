@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
@@ -1398,7 +1397,8 @@ namespace HeroesPowerPlant.LayoutEditor
             foreach (var (key, value) in templates)
                 templates[key] = value.OrderBy(t => t.Stage).ToList();
 
-            buttonGetTemplate.Enabled = templates.ContainsKey((layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).List, layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Type));
+            if (listBoxObjects.SelectedIndex > 0)
+                buttonGetTemplate.Enabled = templates.ContainsKey((layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).List, layoutSystem.GetSetObjectAt(listBoxObjects.SelectedIndex).Type));
         }
 
         private void buttonGetTemplate_Click(object sender, EventArgs e)
@@ -1412,5 +1412,7 @@ namespace HeroesPowerPlant.LayoutEditor
                 PropertyGridMisc.Refresh();
             }
         }
+
+        public bool HasSelectedObject() => layoutSystem.HasSelectedObject();
     }
 }

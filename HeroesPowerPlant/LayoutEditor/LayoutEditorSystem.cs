@@ -235,6 +235,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 if (s.List == 0x01 & s.Type == 0xFF)
                     s.CreateTransformMatrix();
         }
+
+        public bool HasSelectedObject() => setObjects.Any(o => o.isSelected);
+        
         #endregion
 
         #region Object Editing Methods
@@ -778,5 +781,18 @@ namespace HeroesPowerPlant.LayoutEditor
                     result.Add(ObjectsForModels[(s.List, s.Type)]);
             return result.ToList();
         }
+
+        public static HashSet<(byte, byte)> ObjectsForTemplates = new()
+        {
+            (0x15, 0x00),
+            (0x15, 0x10),
+            (0x15, 0x20),
+            (0x15, 0x30),
+            (0x15, 0x40),
+            (0x15, 0x70),
+            (0x15, 0x90),
+            (0x15, 0xC0),
+            (0x15, 0xD0)
+        };
     }
 }

@@ -9,7 +9,6 @@
         public string ModelMiscSetting;
         public string[][] ModelNames;
         public bool HasMiscSettings;
-        public int MiscSettingCount;
 
         public static bool AlternateFormat = false;
         public static bool UseDebugNames = false;
@@ -18,9 +17,9 @@
 
         public string GetName()
         {
-            if (Name != "" && !UseDebugNames)
+            if (!(UseDebugNames || string.IsNullOrEmpty(Name)) || (UseDebugNames && string.IsNullOrEmpty(DebugName)))
                 return Name;
-            if (DebugName != "")
+            if (string.IsNullOrEmpty(DebugName))
                 return DebugName;
             return "Unknown/Unused";
         }

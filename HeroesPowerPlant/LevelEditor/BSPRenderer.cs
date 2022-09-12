@@ -90,21 +90,22 @@ namespace HeroesPowerPlant
 
             renderer.Device.DeviceContext.VertexShader.SetConstantBuffer(0, renderer.tintedBuffer);
 
-            for (int i = 0; i < BSPList.Count; i++)
+            foreach (var bsp in BSPList)
             {
-                if ((renderByChunk && !VisibleChunks.Contains(BSPList[i].ChunkNumber)) ||
-                    (BSPList[i].ChunkType != ChunkType.O))
+                if (!bsp.isVisible ||
+                    (renderByChunk && !VisibleChunks.Contains(bsp.ChunkNumber)) ||
+                    (bsp.ChunkType != ChunkType.O))
                     continue;
 
                 var renderData = new DefaultRenderData()
                 {
                     worldViewProjection = renderer.viewProjection,
-                    Color = BSPList[i].isSelected ? renderer.selectedObjectColor : Vector4.One
+                    Color = bsp.isSelected ? renderer.selectedObjectColor : Vector4.One
                 };
 
                 renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
 
-                if (BSPList[i].isNoCulling)
+                if (bsp.isNoCulling)
                     renderer.Device.SetCullModeNone();
                 else
                     renderer.Device.SetCullModeDefault();
@@ -112,26 +113,27 @@ namespace HeroesPowerPlant
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
 
-                BSPList[i].Render(renderer.Device);
+                bsp.Render(renderer.Device);
             }
         }
 
         private void RenderAlpha(SharpRenderer renderer)
         {
-            for (int i = 0; i < BSPList.Count; i++)
+            foreach (var bsp in BSPList)
             {
-                if ((renderByChunk && !VisibleChunks.Contains(BSPList[i].ChunkNumber)) ||
-                    (BSPList[i].ChunkType == ChunkType.O))
+                if (!bsp.isVisible || 
+                    (renderByChunk && !VisibleChunks.Contains(bsp.ChunkNumber)) ||
+                    (bsp.ChunkType == ChunkType.O))
                     continue;
 
-                if (BSPList[i].isNoCulling)
+                if (bsp.isNoCulling)
                     renderer.Device.SetCullModeNone();
                 else
                     renderer.Device.SetCullModeDefault();
 
-                if (BSPList[i].ChunkType == ChunkType.P)
+                if (bsp.ChunkType == ChunkType.P)
                     renderer.Device.SetBlendStateAlphaBlend();
-                else if (BSPList[i].ChunkType == ChunkType.K)
+                else if (bsp.ChunkType == ChunkType.K)
                     renderer.Device.SetBlendStateAdditive();
 
                 renderer.Device.ApplyRasterState();
@@ -142,12 +144,12 @@ namespace HeroesPowerPlant
                 var renderData = new DefaultRenderData()
                 {
                     worldViewProjection = renderer.viewProjection,
-                    Color = BSPList[i].isSelected ? renderer.selectedObjectColor : Vector4.One
+                    Color = bsp.isSelected ? renderer.selectedObjectColor : Vector4.One
                 };
 
                 renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
 
-                BSPList[i].Render(renderer.Device);
+                bsp.Render(renderer.Device);
             }
         }
 

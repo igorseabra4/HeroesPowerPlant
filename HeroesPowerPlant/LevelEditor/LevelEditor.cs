@@ -1,4 +1,5 @@
-﻿using HeroesONE_R.Structures;
+﻿using Collada141;
+using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using HeroesPowerPlant.ShadowSplineEditor;
 using HeroesPowerPlant.Shared.IO.Config;
@@ -15,6 +16,7 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -39,6 +41,8 @@ namespace HeroesPowerPlant.LevelEditor
 
             shadowCollisionEditor = new ShadowCollisionEditor(bspRenderer);
             shadowSplineEditor = new ShadowSplineMenu();
+
+            listViewLevelModels.Columns[0].Width = listViewLevelModels.Width - 4 - SystemInformation.VerticalScrollBarWidth;
         }
 
         private void LevelEditor_Load(object sender, EventArgs e)
@@ -189,15 +193,25 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void InitBSPList()
         {
-            if (openONEfilePath != null)
+            if (openONEfilePath == null)
+                return;
+
+            labelLoadedONE.Text = "Loaded " + openONEfilePath;
+            listViewLevelModels.BeginUpdate();
+            listViewLevelModels.Items.Clear();
+            foreach (RenderWareModelFile item in bspRenderer.BSPList)
+                AddToListView(item);
+            listViewLevelModels.EndUpdate();
+        }
+
+        private void AddToListView(RenderWareModelFile file)
+        {
+            var item = new ListViewItem(file.fileName)
             {
-                labelLoadedONE.Text = "Loaded " + openONEfilePath;
-                listBoxLevelModels.Items.Clear();
-                foreach (RenderWareModelFile item in bspRenderer.BSPList)
-                {
-                    listBoxLevelModels.Items.Add(item.fileName);
-                }
-            }
+                Checked = true,
+                Selected = false
+            };
+            listViewLevelModels.Items.Add(item);
         }
 
         private void buttonImport_Click(object sender, EventArgs e)
@@ -249,7 +263,7 @@ namespace HeroesPowerPlant.LevelEditor
                     }
 
                     bspRenderer.BSPList.Add(file);
-                    listBoxLevelModels.Items.Add(file.fileName);
+                    AddToListView(file);
                     progressBar1.PerformStep();
                 }
 
@@ -259,7 +273,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonExportClick(object sender, EventArgs e)
         {
-            if (listBoxLevelModels.Items.Count == 0)
+            if (listViewLevelModels.Items.Count == 0)
                 return;
 
             ChooseTarget.GetTarget(out bool success, out Assimp.ExportFormatDescription format, out string textureExtension);
@@ -269,18 +283,18 @@ namespace HeroesPowerPlant.LevelEditor
                 List<int> indices = new List<int>();
                 string fileName = null;
 
-                if (listBoxLevelModels.SelectedIndices.Count == 1)
+                if (listViewLevelModels.SelectedIndices.Count == 1)
                 {
                     VistaSaveFileDialog a = new VistaSaveFileDialog()
                     {
                         Filter = format == null ? "RenderWare BSP|*.bsp" : format.Description + "|*." + format.FileExtension,
-                        FileName = listBoxLevelModels.GetItemText(listBoxLevelModels.SelectedItem) + (format == null ? "" : "." + format.FileExtension)
+                        FileName = listViewLevelModels.SelectedItems[0].Text + (format == null ? "" : "." + format.FileExtension)
                     };
 
                     if (a.ShowDialog() == DialogResult.OK)
                     {
                         fileName = a.FileName;
-                        indices.Add(listBoxLevelModels.SelectedIndex);
+                        indices.Add(listViewLevelModels.SelectedIndices[0]);
                     }
                 }
                 else
@@ -290,8 +304,8 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         fileName = dialog.SelectedPath;
 
-                        if (listBoxLevelModels.SelectedIndices.Count > 1)
-                            foreach (int i in listBoxLevelModels.SelectedIndices)
+                        if (listViewLevelModels.SelectedIndices.Count > 1)
+                            foreach (int i in listViewLevelModels.SelectedIndices)
                                 indices.Add(i);
                         else
                             for (int i = 0; i < bspRenderer.BSPList.Count; i++)
@@ -304,7 +318,7 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         string path = fileName;
 
-                        if (listBoxLevelModels.SelectedIndices.Count != 1)
+                        if (listViewLevelModels.SelectedIndices.Count != 1)
                             path = Path.Combine(fileName, bspRenderer.BSPList[i].fileName);
 
                         if (format == null)
@@ -321,14 +335,14 @@ namespace HeroesPowerPlant.LevelEditor
         {
             for (int i = 0; i < bspRenderer.BSPList.Count; i++)
             {
-                if (listBoxLevelModels.SelectedIndices.Contains(i))
+                if (listViewLevelModels.SelectedIndices.Contains(i))
                 {
                     _unsavedChangesLevel = true;
                     foreach (SharpMesh mesh in bspRenderer.BSPList[i].meshList)
                         mesh.Dispose();
 
                     bspRenderer.BSPList.RemoveAt(i);
-                    listBoxLevelModels.Items.RemoveAt(i);
+                    listViewLevelModels.Items.RemoveAt(i);
                     i -= 1;
                 }
             }
@@ -342,20 +356,20 @@ namespace HeroesPowerPlant.LevelEditor
                     mesh.Dispose();
 
             bspRenderer.BSPList.Clear();
-            listBoxLevelModels.Items.Clear();
+            listViewLevelModels.Items.Clear();
 
             _unsavedChangesLevel = true;
         }
 
         private void listBoxLevelModelsDoubleClick(object sender, EventArgs e)
         {
-            if (listBoxLevelModels.SelectedIndices.Count == 1)
+            if (listViewLevelModels.SelectedIndices.Count == 1)
             {
-                string newName = EditBSPName.GetName(listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex].ToString());
+                string newName = EditBSPName.GetName(listViewLevelModels.SelectedItems[0].Text);
 
-                listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex] = newName;
-                bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
-                bspRenderer.BSPList[listBoxLevelModels.SelectedIndex].SetChunkNumberAndName();
+                listViewLevelModels.Items[listViewLevelModels.SelectedIndices[0]].Text = newName;
+                bspRenderer.BSPList[listViewLevelModels.SelectedIndices[0]].fileName = newName;
+                bspRenderer.BSPList[listViewLevelModels.SelectedIndices[0]].SetChunkNumberAndName();
 
                 _unsavedChangesLevel = true;
             }
@@ -377,7 +391,7 @@ namespace HeroesPowerPlant.LevelEditor
             uint vertices = 0;
             uint triangles = 0;
 
-            foreach (int i in listBoxLevelModels.SelectedIndices)
+            foreach (int i in listViewLevelModels.SelectedIndices)
             {
                 vertices += bspRenderer.BSPList[i].vertexAmount;
                 triangles += bspRenderer.BSPList[i].triangleAmount;
@@ -439,7 +453,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ResetEveryting()
         {
-            listBoxLevelModels.Items.Clear();
+            listViewLevelModels.Items.Clear();
             openONEfilePath = null;
             bspRenderer.currentFileNamePrefix = "default";
             bspRenderer.currentShadowFolderNamePrefix = "default";
@@ -952,12 +966,12 @@ namespace HeroesPowerPlant.LevelEditor
             string target;
             string replacement;
             (target, replacement) = ReassignMATFlags.GetMATSwap();
-            for (int i = 0; i < listBoxLevelModels.Items.Count; i++)
+            for (int i = 0; i < listViewLevelModels.Items.Count; i++)
             {
-                if (listBoxLevelModels.Items[i].ToString().Contains(target))
+                if (listViewLevelModels.Items[i].ToString().Contains(target))
                 {
-                    var newName = listBoxLevelModels.Items[i].ToString().Replace(target, replacement);
-                    listBoxLevelModels.Items[i] = newName;
+                    var newName = listViewLevelModels.Items[i].ToString().Replace(target, replacement);
+                    listViewLevelModels.Items[i].Text = newName;
                     bspRenderer.BSPList[i].fileName = newName;
                     bspRenderer.BSPList[i].SetChunkNumberAndName();
                 }
@@ -1034,6 +1048,12 @@ namespace HeroesPowerPlant.LevelEditor
                 if (_unsavedChangesVisibility)
                     saveToolStripMenuItemVisibility_Click(null, null);
             }
+        }
+
+        private void listViewLevelModels_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (e.Item.Index < bspRenderer.BSPList.Count)
+                bspRenderer.BSPList[e.Item.Index].isVisible = e.Item.Checked;            
         }
     }
 }

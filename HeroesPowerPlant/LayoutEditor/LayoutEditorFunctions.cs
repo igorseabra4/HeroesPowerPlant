@@ -61,11 +61,12 @@ namespace HeroesPowerPlant.LayoutEditor
                         var miscSettingsForTest = reader.ReadBytes(32);
                         result += CheckMiscSettingsBuilder(miscSettingsForTest, obj, count);
 
-                        if (LayoutEditorSystem.ObjectsForModels.ContainsKey((List, Type)))
+                        if (LayoutEditorSystem.ObjectsForTemplates.Contains((List, Type)))
                         {
-                            if (!miscSettingsDict.ContainsKey((List, Type, Path.GetFileNameWithoutExtension(fileName))))
-                                miscSettingsDict.Add((List, Type, Path.GetFileNameWithoutExtension(fileName)), new HashSet<byte[]>());
-                            miscSettingsDict[(List, Type, Path.GetFileNameWithoutExtension(fileName))].Add(miscSettingsForTest);
+                            var fnwe = Path.GetFileNameWithoutExtension(fileName);
+                            if (!miscSettingsDict.ContainsKey((List, Type, fnwe)))
+                                miscSettingsDict.Add((List, Type, fnwe), new HashSet<byte[]>());
+                            miscSettingsDict[(List, Type, fnwe)].Add(miscSettingsForTest);
                         }
 #endif
                     }
@@ -95,15 +96,15 @@ namespace HeroesPowerPlant.LayoutEditor
             else
                 currentNum = 0;
 
-            int i = 0;
-            short j = 1;
+            int objectIndex = 0;
+            short miscIndex = 1;
 
             foreach (SetObjectHeroes obj in list)
             {
-                if (obj.List == 0 & obj.Type == 0)
+                if (obj.List == 0 && obj.Type == 0)
                     continue;
 
-                writer.BaseStream.Position = 0x30 * i;
+                writer.BaseStream.Position = 0x30 * objectIndex;
 
                 writer.Write(obj.Position.X);
                 writer.Write(obj.Position.Y);
@@ -127,11 +128,11 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 if (obj.HasMiscSettings)
                 {
-                    writer.Write((int)j);
+                    writer.Write((int)miscIndex);
 
-                    writer.BaseStream.Position = 0x18000 + (0x24 * j);
+                    writer.BaseStream.Position = 0x18000 + (0x24 * miscIndex);
 
-                    var sBytes = BitConverter.GetBytes(j);
+                    var sBytes = BitConverter.GetBytes(miscIndex);
 
                     writer.Write((byte)1);
                     writer.Write((byte)0);
@@ -139,12 +140,12 @@ namespace HeroesPowerPlant.LayoutEditor
 
                     obj.WriteMiscSettings(writer);
 
-                    j++;
+                    miscIndex++;
                 }
                 else
                     writer.Write(0);
 
-                i++;
+                objectIndex++;
             }
         }
 
@@ -415,7 +416,6 @@ namespace HeroesPowerPlant.LayoutEditor
             byte Type = 0;
             string Name = "";
             bool HasMiscSettings = true;
-            int MiscSettingCount = -1;
             string ModelMiscSetting = "";
             string DebugName = "";
             List<string[]> Models = new List<string[]>();
@@ -431,8 +431,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     Name = i.Split('=')[1];
                 else if (i.StartsWith("NoMiscSettings="))
                     HasMiscSettings = !Convert.ToBoolean(i.Split('=')[1]);
-                else if (i.StartsWith("MiscSettingCount="))
-                    MiscSettingCount = Convert.ToInt32(i.Split('=')[1]);
                 else if (i.StartsWith("Debug="))
                     DebugName = i.Split('=')[1];
                 else if (i.StartsWith("Model="))
@@ -449,7 +447,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         HasMiscSettings = HasMiscSettings,
                         DebugName = DebugName,
                         ModelNames = Models.ToArray(),
-                        MiscSettingCount = MiscSettingCount,
                         ModelMiscSetting = ModelMiscSetting
                     });
                     break;
@@ -464,7 +461,6 @@ namespace HeroesPowerPlant.LayoutEditor
                         HasMiscSettings = HasMiscSettings,
                         DebugName = DebugName,
                         ModelNames = Models.ToArray(),
-                        MiscSettingCount = MiscSettingCount,
                         ModelMiscSetting = ModelMiscSetting
                     });
                     List = 0;
@@ -473,7 +469,6 @@ namespace HeroesPowerPlant.LayoutEditor
                     HasMiscSettings = true;
                     DebugName = "";
                     Models = new List<string[]>();
-                    MiscSettingCount = -1;
                     ModelMiscSetting = "";
                 }
             }

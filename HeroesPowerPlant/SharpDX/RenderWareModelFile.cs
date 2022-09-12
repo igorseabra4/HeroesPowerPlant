@@ -26,6 +26,7 @@ namespace HeroesPowerPlant
         public bool isNoCulling = false;
         public bool isShadowCollision = false;
         public bool isSelected = false;
+        public bool isVisible = false;
 
         public List<SharpMesh> meshList;
 
@@ -46,10 +47,7 @@ namespace HeroesPowerPlant
             string materialType = System.IO.Path.GetFileNameWithoutExtension(fileName).TrimStart
                 ('s', 't', 'g', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0');
 
-            if (materialType.Contains("W"))
-                isNoCulling = true;
-            else
-                isNoCulling = false;
+            isNoCulling = materialType.Contains('W');
 
             if (materialType.Contains('D') || materialType.Contains('O'))
                 ChunkType = ChunkType.O;
