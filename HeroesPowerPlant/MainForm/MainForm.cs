@@ -110,7 +110,10 @@ namespace HeroesPowerPlant.MainForm
         private void ToolStripFileSaveAs(object sender, EventArgs e)
         {
             VistaSaveFileDialog openFile = new VistaSaveFileDialog()
-            { Filter = "Power Plant Config File|*.json" };
+            { 
+                Filter = "Power Plant Config File|*.json",
+                DefaultExt = ".json"
+            };
 
             if (openFile.ShowDialog() == DialogResult.OK)
             {
