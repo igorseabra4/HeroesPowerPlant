@@ -1174,7 +1174,6 @@ namespace HeroesPowerPlant.MainForm
                     } else
                     {
                         TextureManager.SetupTextureDisplay(File.ReadAllBytes(fileName), renderer, LevelEditor.bspRenderer);
-                        //TextureManager.LoadTexturesFromTXD(fileName, renderer, LevelEditor.bspRenderer);
                     }
                 }
         }

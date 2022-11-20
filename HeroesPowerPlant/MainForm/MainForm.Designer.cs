@@ -54,6 +54,8 @@ namespace HeroesPowerPlant.MainForm
             this.sETIDTableEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.shadowLayoutDiffToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openHeroesLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.addTXDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTextureFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearTXDsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,8 +95,6 @@ namespace HeroesPowerPlant.MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.renderPanel = new System.Windows.Forms.Panel();
-            this.openHeroesLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -130,40 +130,40 @@ namespace HeroesPowerPlant.MainForm
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.ToolstripFileOpen);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ToolStripFileSave);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.ToolStripFileSaveAs);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(120, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -294,52 +294,64 @@ namespace HeroesPowerPlant.MainForm
             this.resourceToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.resourceToolStripMenuItem.Text = "Resources";
             // 
+            // openHeroesLevelToolStripMenuItem
+            // 
+            this.openHeroesLevelToolStripMenuItem.Name = "openHeroesLevelToolStripMenuItem";
+            this.openHeroesLevelToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.openHeroesLevelToolStripMenuItem.Text = "Open Heroes Level";
+            this.openHeroesLevelToolStripMenuItem.Click += new System.EventHandler(this.openHeroesLevelToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(170, 6);
+            // 
             // addTXDToolStripMenuItem
             // 
             this.addTXDToolStripMenuItem.Name = "addTXDToolStripMenuItem";
-            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addTXDToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.addTXDToolStripMenuItem.Text = "Add TXD(s)";
             this.addTXDToolStripMenuItem.Click += new System.EventHandler(this.addTXDToolStripMenuItem_Click);
             // 
             // addTextureFolderToolStripMenuItem
             // 
             this.addTextureFolderToolStripMenuItem.Name = "addTextureFolderToolStripMenuItem";
-            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.addTextureFolderToolStripMenuItem.Text = "Add Texture Folder";
             this.addTextureFolderToolStripMenuItem.Click += new System.EventHandler(this.addTextureFolderToolStripMenuItem_Click);
             // 
             // clearTXDsToolStripMenuItem
             // 
             this.clearTXDsToolStripMenuItem.Name = "clearTXDsToolStripMenuItem";
-            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.clearTXDsToolStripMenuItem.Text = "Clear Textures";
             this.clearTXDsToolStripMenuItem.Click += new System.EventHandler(this.clearTXDsToolStripMenuItem_Click);
             // 
             // addObjectONEToolStripMenuItem1
             // 
             this.addObjectONEToolStripMenuItem1.Name = "addObjectONEToolStripMenuItem1";
-            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
             this.addObjectONEToolStripMenuItem1.Text = "Add Object ONE";
             this.addObjectONEToolStripMenuItem1.Click += new System.EventHandler(this.addObjectONEToolStripMenuItem1_Click);
             // 
             // clearObjectONEsToolStripMenuItem1
             // 
             this.clearObjectONEsToolStripMenuItem1.Name = "clearObjectONEsToolStripMenuItem1";
-            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
             this.clearObjectONEsToolStripMenuItem1.Text = "Clear Object ONEs";
             this.clearObjectONEsToolStripMenuItem1.Click += new System.EventHandler(this.clearObjectONEsToolStripMenuItem1_Click);
             // 
             // ResourceToolStripMenuItemSetAFS
             // 
             this.ResourceToolStripMenuItemSetAFS.Name = "ResourceToolStripMenuItemSetAFS";
-            this.ResourceToolStripMenuItemSetAFS.Size = new System.Drawing.Size(180, 22);
+            this.ResourceToolStripMenuItemSetAFS.Size = new System.Drawing.Size(173, 22);
             this.ResourceToolStripMenuItemSetAFS.Text = "Set AFS";
             this.ResourceToolStripMenuItemSetAFS.Click += new System.EventHandler(this.ResourceToolStripMenuItemSetAFS_Click);
             // 
             // ResourceToolStripMenuItemSetFNT
             // 
             this.ResourceToolStripMenuItemSetFNT.Name = "ResourceToolStripMenuItemSetFNT";
-            this.ResourceToolStripMenuItemSetFNT.Size = new System.Drawing.Size(180, 22);
+            this.ResourceToolStripMenuItemSetFNT.Size = new System.Drawing.Size(173, 22);
             this.ResourceToolStripMenuItemSetFNT.Text = "Set FNT";
             this.ResourceToolStripMenuItemSetFNT.Click += new System.EventHandler(this.ResourceToolStripMenuItemSetFNT_Click);
             // 
@@ -620,18 +632,6 @@ namespace HeroesPowerPlant.MainForm
             this.renderPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseWheel);
             this.renderPanel.Resize += new System.EventHandler(this.ResetMouseCenter);
             // 
-            // openHeroesLevelToolStripMenuItem
-            // 
-            this.openHeroesLevelToolStripMenuItem.Name = "openHeroesLevelToolStripMenuItem";
-            this.openHeroesLevelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openHeroesLevelToolStripMenuItem.Text = "Open Heroes Level";
-            this.openHeroesLevelToolStripMenuItem.Click += new System.EventHandler(this.openHeroesLevelToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -645,7 +645,7 @@ namespace HeroesPowerPlant.MainForm
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "MainForm";
-            this.Text = "Heroes Power Plant 2022.09.XX (Dev)";
+            this.Text = "Heroes Power Plant 2022.11.20";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);

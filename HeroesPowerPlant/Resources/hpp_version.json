@@ -1,4 +1,4 @@
 ﻿{
-  "version": "2022.07.20",
-  "versionName": "!!! .NET 6 REQUIRED !!!\n!!! 64-bit OS Required !!!\n\nIf you cannot update due to these new requirements, disable:\nOptions -> Check For Updates on Startup"
+  "version": "2022.11.20",
+  "versionName": "Newer version of HPP available!!!\nTo stay on the current version disable:\nOptions -> Check For Updates on Startup"
 }
