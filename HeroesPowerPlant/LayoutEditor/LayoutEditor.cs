@@ -147,6 +147,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
             if (openFile.ShowDialog() == DialogResult.OK)
                 OpenFile(openFile.FileName, Program.MainForm);
+            listBoxObjects.SelectedIndex = -1;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

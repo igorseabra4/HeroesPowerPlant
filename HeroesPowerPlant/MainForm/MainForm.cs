@@ -574,10 +574,13 @@ namespace HeroesPowerPlant.MainForm
                 (Path.Combine(fileName, fileNamePrefix) + "_ds1.dat", true),
                 (Path.Combine(fileName, fileNamePrefix) + "_cmn.dat", true),
                 (Path.Combine(fileName, fileNamePrefix) + "_nrm.dat", true),
-                (Path.Combine(fileName, fileNamePrefix) + "_hrd.dat", false)
+                (Path.Combine(fileName, fileNamePrefix) + "_hrd.dat", true)
             })
-                if (File.Exists(s.Item1))
-                    AddLayoutEditor(s.Item1, false, s.Item2);
+            if (File.Exists(s.Item1))
+                AddLayoutEditor(s.Item1, false, s.Item2);
+            foreach (var l in LayoutEditors) // reset selected index to prevent F5 not opening all if initial without object click
+                l.SetSelectedIndex(-1, false);
+
         }
 
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)
@@ -740,12 +743,11 @@ namespace HeroesPowerPlant.MainForm
                             }
                         if (!opened)
                             foreach (var l in LayoutEditors)
-                                if (l.RenderObjects)
-                                {
-                                    l.Show();
-                                    l.Focus();
-                                    l.WindowState = FormWindowState.Normal;
-                                }
+                            {
+                                l.Show();
+                                l.Focus();
+                                l.WindowState = FormWindowState.Normal;
+                            }
                     }
                     break;
                 case Keys.F6:
