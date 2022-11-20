@@ -48,7 +48,6 @@ namespace HeroesPowerPlant
                 }
                 else if (Path.GetExtension(filePath).ToLower().Equals(".txd"))
                     LoadTexturesFromTXD(File.ReadAllBytes(filePath), renderer, bspRenderer);
-
                 else
                     throw new InvalidDataException(filePath);
             }

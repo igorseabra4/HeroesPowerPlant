@@ -1167,7 +1167,16 @@ namespace HeroesPowerPlant.MainForm
             };
             if (openTXD.ShowDialog() == DialogResult.OK)
                 foreach (var fileName in openTXD.FileNames)
-                    TextureManager.LoadTexturesFromTXD(fileName, renderer, LevelEditor.bspRenderer);
+                {
+                    if (fileName.ToLower().EndsWith(".one"))
+                    {
+                        TextureManager.LoadTexturesFromTXD(fileName, renderer, LevelEditor.bspRenderer);
+                    } else
+                    {
+                        TextureManager.SetupTextureDisplay(File.ReadAllBytes(fileName), renderer, LevelEditor.bspRenderer);
+                        //TextureManager.LoadTexturesFromTXD(fileName, renderer, LevelEditor.bspRenderer);
+                    }
+                }
         }
 
         private void addTextureFolderToolStripMenuItem_Click(object sender, EventArgs e)
