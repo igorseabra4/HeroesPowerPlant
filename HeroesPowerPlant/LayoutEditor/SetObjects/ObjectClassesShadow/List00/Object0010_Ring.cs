@@ -136,7 +136,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         protected override void CreateBoundingBox()
         {
-            SetDFFModels();
+            //SetDFFModels(); Hacky workaround to make click masks semi accurate
 
             List<Vector3> modelPoints;
             transformedPoints = new List<Vector3>();
