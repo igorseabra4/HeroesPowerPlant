@@ -177,9 +177,9 @@ namespace HeroesPowerPlant.SplineEditor
         {
             if (listBoxSplines.SelectedIndex >= 0 && listBoxSplines.SelectedIndex < splineEditorFunctions.GetSplineCount())
             {
-                using VistaSaveFileDialog saveFile = new VistaSaveFileDialog() { Filter = "*.obj|OBJ files|*.*|All Files" };
+                using VistaSaveFileDialog saveFile = new VistaSaveFileDialog() { Filter = "*.obj|OBJ files" };
                 if (saveFile.ShowDialog() == DialogResult.OK)
-                    splineEditorFunctions.ExportOBJ(saveFile.FileName);
+                    splineEditorFunctions.ExportOBJ(saveFile.FileName, checkBoxExportAll.Checked);
             }
         }
 
