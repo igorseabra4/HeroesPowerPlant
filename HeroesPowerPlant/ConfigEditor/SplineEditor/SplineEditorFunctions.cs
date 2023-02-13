@@ -226,16 +226,45 @@ namespace HeroesPowerPlant.SplineEditor
                 SplineList.Add(new Spline(spline.Vertices, ToSplineType(spline.SplineType), renderer));
         }
 
-        internal void ExportOBJ(string fileName)
+        internal void ExportOBJ(string fileName, bool exportAll = false)
         {
+            // Append .obj to the file name if it isn't already there.
+            if (!fileName.EndsWith(".obj") && !exportAll)
+                fileName += ".obj";
+
+            // If we're only exporting this one spline, then call the Write function with the value of CurrentlySelectedObject.
+            if (!exportAll)
+                WriteOBJ(fileName, CurrentlySelectedObject);
+
+            // If we're exporting all the splines, loop through and call the Write function for each.
+            else
+                for (int s = 0; s < SplineList.Count; s++)
+                    WriteOBJ($"{fileName}{s}.obj", s);
+        }
+
+        private void WriteOBJ(string fileName, int splineIndex)
+        {
+            // Set up a StreamWriter.
             using StreamWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create));
             {
+                // Write the HPP credit header.
                 writer.WriteLine("# Exported by Heroes Power Plant");
-                foreach (var v in SplineList[CurrentlySelectedObject].Points)
+
+                // Write each vertex coordinate.
+                foreach (var v in SplineList[splineIndex].Points)
                     writer.WriteLine($"v {v.Position.X} {v.Position.Y} {v.Position.Z} {v.Roll} {v.Pitch}");
+
+                // Name the spline.
+                writer.WriteLine($"\r\no Spline{splineIndex + 1}\r\ng Spline{splineIndex + 1}");
+
+                // Set up the line.
                 string l = "l ";
-                for (int i = 0; i < SplineList[CurrentlySelectedObject].Points.Length; i++)
-                    l += $"{i} ";
+
+                // Add each vertex index to the spline line, incremented by 1 as OBJ starts from 1 not 0.
+                for (int i = 0; i < SplineList[splineIndex].Points.Length; i++)
+                    l += $"{i + 1} ";
+
+                // Write the line value to the OBJ.
                 writer.WriteLine(l);
             }
         }
