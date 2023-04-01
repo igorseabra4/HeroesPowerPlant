@@ -9,6 +9,12 @@ namespace HeroesPowerPlant.LayoutEditor
             Up = 0,
             Down = 1,
         }
+        
+        public override void CreateTransformMatrix()
+        {
+            transformMatrix = Matrix.Scaling((ScaleX + 20f) * 0.05f, (ScaleY + 20f) * 0.05f, (ScaleZ + 20f) * 0.05f) * Matrix.RotationX(Direction == EDirection.Down ? MathUtil.Pi : 0) * DefaultTransformMatrix();
+            CreateBoundingBox();
+        }
 
         [MiscSetting]
         public float ScaleX { get; set; }
