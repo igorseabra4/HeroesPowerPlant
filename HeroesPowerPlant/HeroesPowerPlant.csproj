@@ -380,7 +380,7 @@
     <PackageReference Include="HeroesONE_R" Version="1.0.6">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
     <PackageReference Include="Reloaded.Memory" Version="8.1.0" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
