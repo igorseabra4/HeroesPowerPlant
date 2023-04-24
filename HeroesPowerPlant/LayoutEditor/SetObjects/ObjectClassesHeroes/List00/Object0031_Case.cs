@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SharpDX;
+using System.ComponentModel;
 
 namespace HeroesPowerPlant.LayoutEditor
 {
