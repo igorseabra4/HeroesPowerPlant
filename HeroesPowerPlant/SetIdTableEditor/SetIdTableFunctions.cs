@@ -31,19 +31,23 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         public static List<TableEntry> LoadTable(string fileName, bool isShadow, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
-            using var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big);
             var tableEntries = new List<TableEntry>();
 
             if (isShadow)
             {
+                using var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Little);
                 reader.BaseStream.Position = 4;
                 var amount = reader.ReadInt32();
                 for (int i = 0; i < amount; i++)
                     tableEntries.Add(ReadShadowTableEntry(reader, objectEntries));
             }
             else
+            {
+                using var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big);
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
                     tableEntries.Add(ReadHeroesTableEntry(reader, objectEntries));
+            }
+
 
             return tableEntries;
         }
@@ -93,18 +97,21 @@ namespace HeroesPowerPlant.SetIdTableEditor
                     List = objList,
                     Name = "Unknown/Unused"
                 };
-
+ 
             return entry;
         }
 
         public static void SaveTable(string fileName, bool isShadow, List<TableEntry> tableEntries)
         {
-            using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
-
             if (isShadow)
+            {
+                using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Little);
                 WriteShadowTable(TableWriter, tableEntries);
-            else
+            } else
+            {
+                using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
                 WriteHeroesTable(TableWriter, tableEntries);
+            }
         }
 
         private static void WriteHeroesTable(EndianBinaryWriter tableWriter, List<TableEntry> tableEntries)
