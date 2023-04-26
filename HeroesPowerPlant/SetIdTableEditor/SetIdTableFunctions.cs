@@ -48,7 +48,6 @@ namespace HeroesPowerPlant.SetIdTableEditor
                     tableEntries.Add(ReadHeroesTableEntry(reader, objectEntries));
             }
 
-
             return tableEntries;
         }
 
@@ -97,7 +96,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
                     List = objList,
                     Name = "Unknown/Unused"
                 };
- 
+
             return entry;
         }
 

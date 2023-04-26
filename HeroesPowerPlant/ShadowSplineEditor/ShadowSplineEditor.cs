@@ -158,7 +158,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                     }
                     else
                     {
-                        throw new Exception("Unable to read spline file: " + ex.Message);
+                        MessageBox.Show("Unable to read spline file: " + ex.Message);
+                        //throw new Exception("Unable to read spline file: " + ex.Message);
                     }
                 }
             }
