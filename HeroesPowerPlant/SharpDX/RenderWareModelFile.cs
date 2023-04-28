@@ -53,12 +53,12 @@ namespace HeroesPowerPlant
 
             isNoCulling = materialType.Contains('W');
 
-            if (materialType.Contains('D') || materialType.Contains('O'))
+            if ((materialType.Contains('D') && materialType.Contains('A')) || (materialType.Contains('A') && materialType.Contains('F')))
+                ChunkType = ChunkType.AF;
+            else if (materialType.Contains('D') || materialType.Contains('O'))
                 ChunkType = ChunkType.O;
             else if (materialType.Contains('P'))
                 ChunkType = ChunkType.P;
-            else if ((materialType.Contains('D') && materialType.Contains('A')) || (materialType.Contains('A') && materialType.Contains('F')))
-                ChunkType = ChunkType.AF;
             else if (materialType.Contains('K'))
                 ChunkType = ChunkType.K;
             else if (materialType.Contains('A') || materialType.Contains('M'))
@@ -630,7 +630,6 @@ namespace HeroesPowerPlant
                 }
                 else
                     device.SetDefaultBlendState();
-                device.ApplyRasterState();
                 device.UpdateAllStates();
 
                 mesh.Begin(device);
@@ -643,7 +642,6 @@ namespace HeroesPowerPlant
 
             device.enableAlphaTest(false);
             device.SetDefaultBlendState();
-            device.ApplyRasterState();
             device.UpdateAllStates();
         }
 
