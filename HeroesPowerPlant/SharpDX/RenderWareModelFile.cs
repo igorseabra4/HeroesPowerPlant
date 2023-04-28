@@ -629,15 +629,20 @@ namespace HeroesPowerPlant
                 if (mesh == null)
                     continue;
                     
+                renderer.Device.enableAlphaTest(mesh.RenderIndex == 1);                    
                 if (mesh.RenderIndex == 3 || mesh.RenderIndex == 5)
                 {
                     renderer.Device.SetBlendStateAdditive();
                 }
                 else
                     renderer.Device.SetDefaultBlendState();
+                renderer.Device.UpdateAllStates();
 
                 Render(mesh, renderer.Device);
             }
+            
+            renderer.Device.enableAlphaTest(false);
+            renderer.Device.UpdateAllStates();
         }
 
         public void Render(SharpDevice device)
