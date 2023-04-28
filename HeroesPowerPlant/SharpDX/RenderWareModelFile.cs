@@ -413,9 +413,9 @@ namespace HeroesPowerPlant
 
                 SharpMesh mesh = SharpMesh.Create(device, vertices, indexList.ToArray(), SubsetList);
 
-                GetUserDefinedData("ATTR.WORLDPARM.ATTR.WORLDPARM", device, g.geometryExtension, materialList, transformMatrix);
+                GetUserDefinedData("ATTR_WORLDPARM.ATTR_WORLDPARM", device, g.geometryExtension, materialList, transformMatrix);
 
-                if (userDataInt != null)
+                if (userDataInt != null && userDataInt.Count != 0)
                 {
                     var parameter = userDataInt[0];
                     int[] worldParameterIndex = { 0, 0, 0, 0, 0, 0, 2, 4, 3, 5, 5, 4 };
@@ -424,8 +424,6 @@ namespace HeroesPowerPlant
                 }
 
                 meshList.Add(mesh);
-
-                mesh.Dispose();
             }
 
             CleanUserData();
@@ -569,6 +567,10 @@ namespace HeroesPowerPlant
                 {
                     if (userdata.dataList != null)
                     {
+                        userDataInt = new List<int>();
+                        userDataFloat = new List<float>();
+                        userDataText = new List<string>();
+
                         foreach (var data2 in userdata.dataList)
                         {
                             string attribute = data2.attribute;
@@ -612,38 +614,37 @@ namespace HeroesPowerPlant
                 userDataText.Clear();
         }
 
-        public void Render(SharpMesh mesh, SharpDevice device)
-        {
-            mesh.Begin(device);
-            for (int i = 0; i < mesh.SubSets.Count(); i++)
-            {
-                device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
-                mesh.Draw(device, i);
-            }
-        }
-
         public void Render(SharpRenderer renderer)
         {
+            SharpDevice device = renderer.Device;
+
             foreach (SharpMesh mesh in meshList)
             {
                 if (mesh == null)
                     continue;
                     
-                renderer.Device.enableAlphaTest(mesh.RenderIndex == 1);                    
+                device.enableAlphaTest(mesh.RenderIndex == 1);                    
                 if (mesh.RenderIndex == 3 || mesh.RenderIndex == 5)
                 {
-                    renderer.Device.SetBlendStateAdditive();
+                    device.SetBlendStateAdditive();
                 }
                 else
-                    renderer.Device.SetDefaultBlendState();
-                renderer.Device.UpdateAllStates();
+                    device.SetDefaultBlendState();
+                device.ApplyRasterState();
+                device.UpdateAllStates();
 
-                Render(mesh, renderer.Device);
+                mesh.Begin(device);
+                for (int i = 0; i < mesh.SubSets.Count(); i++)
+                {
+                    device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
+                    mesh.Draw(device, i);
+                }
             }
-            
-            renderer.Device.SetDefaultBlendState();
-            renderer.Device.enableAlphaTest(false);
-            renderer.Device.UpdateAllStates();
+
+            device.enableAlphaTest(false);
+            device.SetDefaultBlendState();
+            device.ApplyRasterState();
+            device.UpdateAllStates();
         }
 
         public void Render(SharpDevice device)
@@ -653,7 +654,12 @@ namespace HeroesPowerPlant
                 if (mesh == null)
                     continue;
 
-                Render(mesh, device);
+                mesh.Begin(device);
+                for (int i = 0; i < mesh.SubSets.Count(); i++)
+                {
+                    device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
+                    mesh.Draw(device, i);
+                }
             }
         }
     }
