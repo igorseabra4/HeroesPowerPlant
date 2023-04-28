@@ -1,4 +1,4 @@
-﻿using RenderWareFile;
+using RenderWareFile;
 using RenderWareFile.Sections;
 using SharpDX;
 using System;
@@ -9,7 +9,7 @@ namespace HeroesPowerPlant
 {
     public enum ChunkType
     {
-        O, P, K
+        O, P, AF, K, A, G
     }
 
     public class RenderWareModelFile
@@ -37,6 +37,10 @@ namespace HeroesPowerPlant
         public List<Triangle> triangleList;
         private int triangleListOffset;
 
+        public List<int> userDataInt;
+        public List<float> userDataFloat;
+        public List<string> userDataText;
+
         public RenderWareModelFile(string fileName)
         {
             this.fileName = fileName;
@@ -45,16 +49,24 @@ namespace HeroesPowerPlant
         public void SetChunkNumberAndName()
         {
             string materialType = System.IO.Path.GetFileNameWithoutExtension(fileName).TrimStart
-                ('s', 't', 'g', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0');
+                ('S', 's', 'T', 't', 'G', 'g', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0');
 
             isNoCulling = materialType.Contains('W');
 
             if (materialType.Contains('D') || materialType.Contains('O'))
                 ChunkType = ChunkType.O;
-            else if (materialType.Contains('K') || materialType.Contains('G'))
-                ChunkType = ChunkType.K;
-            else if (materialType.Contains('P') || materialType.Contains('A'))
+            else if (materialType.Contains('P'))
                 ChunkType = ChunkType.P;
+            else if ((materialType.Contains('D') && materialType.Contains('A')) || (materialType.Contains('A') && materialType.Contains('F')))
+                ChunkType = ChunkType.AF;
+            else if (materialType.Contains('K'))
+                ChunkType = ChunkType.K;
+            else if (materialType.Contains('A') || materialType.Contains('M'))
+                ChunkType = ChunkType.A;
+            else if (materialType.Contains('G'))
+                ChunkType = ChunkType.G;
+
+            SetRenderQueueAll((int)ChunkType);
 
             foreach (string s in materialType.Split('_'))
                 try
@@ -63,6 +75,19 @@ namespace HeroesPowerPlant
                     break;
                 }
                 catch { ChunkNumber = -1; }
+        }
+
+        public void SetRenderQueueAll(int renderIndex)
+        {
+            if (meshList != null)
+                foreach (var mesh in meshList)
+                    mesh.RenderIndex = renderIndex;
+        }
+
+        public void SetRenderQueue(SharpMesh mesh, int renderIndex)
+        {
+            if (mesh != null)
+                mesh.RenderIndex = renderIndex;
         }
 
         public byte[] GetAsByteArray()
@@ -385,8 +410,25 @@ namespace HeroesPowerPlant
                 VertexColoredTextured[] vertices = new VertexColoredTextured[vertexList1.Count];
                 for (int i = 0; i < vertices.Length; i++)
                     vertices[i] = new VertexColoredTextured(vertexList1[i], textCoordList[i], colorList[i]);
-                meshList.Add(SharpMesh.Create(device, vertices, indexList.ToArray(), SubsetList));
+
+                SharpMesh mesh = SharpMesh.Create(device, vertices, indexList.ToArray(), SubsetList);
+
+                GetUserDefinedData("ATTR.WORLDPARM.ATTR.WORLDPARM", device, g.geometryExtension, materialList, transformMatrix);
+
+                if (userDataInt != null)
+                {
+                    var parameter = userDataInt[0];
+                    int[] worldParameterIndex = { 0, 0, 0, 0, 0, 0, 2, 4, 3, 5, 5, 4 };
+
+                    SetRenderQueue(mesh, worldParameterIndex[parameter]);
+                }
+
+                meshList.Add(mesh);
+
+                mesh.Dispose();
             }
+
+            CleanUserData();
         }
 
         void AddNativeData(SharpDevice device, Extension_0003 extension, List<string> MaterialStream, Matrix transformMatrix)
@@ -517,6 +559,87 @@ namespace HeroesPowerPlant
             }
         }
 
+        void GetUserDefinedData(string targetAttribute, SharpDevice device, Extension_0003 extension, List<string> MaterialStream, Matrix transformMatrix)
+        {
+            CleanUserData();
+
+            foreach (RWSection rw in extension.extensionSectionList)
+            {
+                if (rw is UserDataPLG_011F userdata)
+                {
+                    if (userdata.dataList != null)
+                    {
+                        foreach (var data2 in userdata.dataList)
+                        {
+                            string attribute = data2.attribute;
+
+                            if (attribute == targetAttribute)
+                            {
+                                if (data2.data != null)
+                                {
+                                    foreach (var data in data2.data)
+                                    {
+                                        var dataType = data.GetType();
+
+                                        if (dataType.Equals(typeof(int)))
+                                            userDataInt.Add(Convert.ToInt32(data));
+                                        else if (dataType.Equals(typeof(float)))
+                                            userDataFloat.Add(Convert.ToSingle(data));
+                                        else if (dataType.Equals(typeof(string)))
+                                            userDataText.Add(Convert.ToString(data));
+                                    }
+                                }
+                                else
+                                    continue;
+                            }
+                            else
+                                continue;
+                        }
+                    }
+                }
+            }
+        }
+
+        void CleanUserData()
+        {
+            if (userDataInt != null)
+                userDataInt.Clear();
+
+            if (userDataFloat != null)
+                userDataFloat.Clear();
+
+            if (userDataText != null)
+                userDataText.Clear();
+        }
+
+        public void Render(SharpMesh mesh, SharpDevice device)
+        {
+            mesh.Begin(device);
+            for (int i = 0; i < mesh.SubSets.Count(); i++)
+            {
+                device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
+                mesh.Draw(device, i);
+            }
+        }
+
+        public void Render(SharpRenderer renderer)
+        {
+            foreach (SharpMesh mesh in meshList)
+            {
+                if (mesh == null)
+                    continue;
+                    
+                if (mesh.RenderIndex == 3 || mesh.RenderIndex == 5)
+                {
+                    renderer.Device.SetBlendStateAdditive();
+                }
+                else
+                    renderer.Device.SetDefaultBlendState();
+
+                Render(mesh, renderer.Device);
+            }
+        }
+
         public void Render(SharpDevice device)
         {
             foreach (SharpMesh mesh in meshList)
@@ -524,12 +647,7 @@ namespace HeroesPowerPlant
                 if (mesh == null)
                     continue;
 
-                mesh.Begin(device);
-                for (int i = 0; i < mesh.SubSets.Count(); i++)
-                {
-                    device.DeviceContext.PixelShader.SetShaderResource(0, mesh.SubSets[i].DiffuseMap);
-                    mesh.Draw(device, i);
-                }
+                Render(mesh, device);
             }
         }
     }
