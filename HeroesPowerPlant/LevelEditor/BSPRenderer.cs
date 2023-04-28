@@ -39,9 +39,9 @@ namespace HeroesPowerPlant
                     continue;
 
                 RenderWareModelFile TempBSPFile = new RenderWareModelFile(file.Name);
-                TempBSPFile.SetChunkNumberAndName();
                 byte[] uncompressedData = file.DecompressThis();
                 TempBSPFile.SetForRendering(device, ReadFileMethods.ReadRenderWareFile(uncompressedData), uncompressedData);
+                TempBSPFile.SetChunkNumberAndName();
                 BSPList.Add(TempBSPFile);
             }
         }
@@ -94,7 +94,7 @@ namespace HeroesPowerPlant
             {
                 if (!bsp.isVisible ||
                     (renderByChunk && !VisibleChunks.Contains(bsp.ChunkNumber)) ||
-                    (bsp.ChunkType != ChunkType.O))
+                    (bsp.ChunkType != ChunkType.O) || (bsp.ChunkType != ChunkType.P))
                     continue;
 
                 var renderData = new DefaultRenderData()
@@ -104,6 +104,8 @@ namespace HeroesPowerPlant
                 };
 
                 renderer.Device.UpdateData(renderer.tintedBuffer, renderData);
+                
+                renderer.Device.enableDepthWrite();
 
                 if (bsp.isNoCulling)
                     renderer.Device.SetCullModeNone();
@@ -123,19 +125,17 @@ namespace HeroesPowerPlant
             {
                 if (!bsp.isVisible || 
                     (renderByChunk && !VisibleChunks.Contains(bsp.ChunkNumber)) ||
-                    (bsp.ChunkType == ChunkType.O))
+                    (bsp.ChunkType == ChunkType.O) || (bsp.ChunkType == ChunkType.P))
                     continue;
+                    
+                renderer.Device.disableDepthWrite();
 
                 if (bsp.isNoCulling)
                     renderer.Device.SetCullModeNone();
                 else
                     renderer.Device.SetCullModeDefault();
 
-                if (bsp.ChunkType == ChunkType.P)
-                    renderer.Device.SetBlendStateAlphaBlend();
-                else if (bsp.ChunkType == ChunkType.K)
-                    renderer.Device.SetBlendStateAdditive();
-
+                renderer.Device.SetDefaultDepthState();
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
 
@@ -151,6 +151,10 @@ namespace HeroesPowerPlant
 
                 bsp.Render(renderer.Device);
             }
+            
+            renderer.Device.enableDepthWrite();
+            renderer.Device.SetDefaultDepthState();
+            renderer.Device.UpdateAllStates();
         }
 
         // Shadow functions
