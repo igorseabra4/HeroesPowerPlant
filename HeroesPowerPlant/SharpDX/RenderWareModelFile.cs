@@ -641,6 +641,7 @@ namespace HeroesPowerPlant
                 Render(mesh, renderer.Device);
             }
             
+            renderer.Device.SetDefaultBlendState();
             renderer.Device.enableAlphaTest(false);
             renderer.Device.UpdateAllStates();
         }
