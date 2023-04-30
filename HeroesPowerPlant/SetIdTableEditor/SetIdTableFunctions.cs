@@ -3,6 +3,7 @@ using HeroesPowerPlant.Shared.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace HeroesPowerPlant.SetIdTableEditor
 {
@@ -32,21 +33,20 @@ namespace HeroesPowerPlant.SetIdTableEditor
         public static List<TableEntry> LoadTable(string fileName, bool isShadow, Dictionary<(byte, byte), ObjectEntry> objectEntries)
         {
             var tableEntries = new List<TableEntry>();
+            using var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big);
 
             if (isShadow)
             {
-                using var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Little);
                 reader.BaseStream.Position = 4;
-                var amount = reader.ReadInt32();
+                
+                // Shadow entry amount is in Little Endian, but the rest of the table is Big Endian
+                var amount = reader.ReadInt32().ReverseEndian();
                 for (int i = 0; i < amount; i++)
                     tableEntries.Add(ReadShadowTableEntry(reader, objectEntries));
             }
             else
-            {
-                using var reader = new EndianBinaryReader(new FileStream(fileName, FileMode.Open), Endianness.Big);
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
                     tableEntries.Add(ReadHeroesTableEntry(reader, objectEntries));
-            }
 
             return tableEntries;
         }
@@ -102,13 +102,13 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         public static void SaveTable(string fileName, bool isShadow, List<TableEntry> tableEntries)
         {
+            using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
+
             if (isShadow)
             {
-                using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Little);
                 WriteShadowTable(TableWriter, tableEntries);
             } else
             {
-                using var TableWriter = new EndianBinaryWriter(new FileStream(fileName, FileMode.Create), Endianness.Big);
                 WriteHeroesTable(TableWriter, tableEntries);
             }
         }
@@ -129,7 +129,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
         public static void WriteShadowTable(EndianBinaryWriter tableWriter, List<TableEntry> tableEntries)
         {
             tableWriter.Write(0);
-            tableWriter.Write(tableEntries.Count);
+            tableWriter.Write(tableEntries.Count.ReverseEndian());
 
             foreach (TableEntry i in tableEntries)
             {
