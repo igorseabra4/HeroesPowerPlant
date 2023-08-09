@@ -605,7 +605,7 @@ namespace HeroesPowerPlant.LevelEditor
             progressBar1.Value = 0;
         }
 
-        private void SaveShadowDATONE(string datOneFileName)
+        private void SaveShadowDATONE(string datOneFileName, bool splinesOnly = false)
         {
             byte[] bdtBytes = VisibilityFunctions.ShadowVisibilityFileToArray(visibilityFunctions.ChunkList, bspRenderer.currentShadowFolderNamePrefix);
             byte[] splineBytes = shadowSplineEditor.ShadowSplinesToByteArray(bspRenderer.currentShadowFolderNamePrefix).ToArray();
@@ -625,7 +625,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             foreach (var file in shadowDATONE.Files)
             {
-                if (Path.GetExtension(file.Name).ToLower() == ".bdt")
+                if (Path.GetExtension(file.Name).ToLower() == ".bdt" && !splinesOnly)
                 {
                     file.CompressedData = Prs.Compress(ref bdtBytes);
                     bdtFound = true;
@@ -637,7 +637,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
 
-            if (!bdtFound)
+            if (!bdtFound && !splinesOnly)
             {
                 ArchiveFile file = new ArchiveFile((bspRenderer.currentShadowFolderNamePrefix + ".bdt").ToUpper(), bdtBytes);
                 shadowDATONE.Files.Add(file);
@@ -1053,7 +1053,12 @@ namespace HeroesPowerPlant.LevelEditor
         private void listViewLevelModels_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             if (e.Item.Index < bspRenderer.BSPList.Count)
-                bspRenderer.BSPList[e.Item.Index].isVisible = e.Item.Checked;            
+                bspRenderer.BSPList[e.Item.Index].isVisible = e.Item.Checked;
+        }
+
+        private void ShadowLevelMenuItemSaveSplineDataOnly_Click(object sender, EventArgs e)
+        {
+            SaveShadowDATONE(Path.Combine(openONEfilePath, bspRenderer.currentShadowFolderNamePrefix + "_dat.one"), true);
         }
     }
 }

@@ -28,821 +28,728 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.labelTriangleAmount = new System.Windows.Forms.Label();
-            this.labelVertexAmount = new System.Windows.Forms.Label();
-            this.checkBoxTristrip = new System.Windows.Forms.CheckBox();
-            this.buttonImport = new System.Windows.Forms.Button();
-            this.checkBoxFlipUVs = new System.Windows.Forms.CheckBox();
-            this.buttonRemove = new System.Windows.Forms.Button();
-            this.buttonClear = new System.Windows.Forms.Button();
-            this.buttonExport = new System.Windows.Forms.Button();
-            this.listViewLevelModels = new System.Windows.Forms.ListView();
-            this.file = new System.Windows.Forms.ColumnHeader();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.buttonAutoBuild = new System.Windows.Forms.Button();
-            this.labelChunkAmount = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.numericCurrentChunk = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDownAdd = new System.Windows.Forms.NumericUpDown();
-            this.buttonAutoChunk = new System.Windows.Forms.Button();
-            this.buttonRemoveChunk = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.NumMinZ = new System.Windows.Forms.NumericUpDown();
-            this.NumMinY = new System.Windows.Forms.NumericUpDown();
-            this.NumMinX = new System.Windows.Forms.NumericUpDown();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.NumMaxZ = new System.Windows.Forms.NumericUpDown();
-            this.NumMaxY = new System.Windows.Forms.NumericUpDown();
-            this.NumMaxX = new System.Windows.Forms.NumericUpDown();
-            this.buttonAddChunk = new System.Windows.Forms.Button();
-            this.NumChunkNum = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelLoadedONE = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.oNEFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.disableFilesizeWarningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bLKFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShadowLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShadowLevelMenuItemNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShadowLevelMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShadowLevelMenuItemSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShadowLevelMenuItemSaveAs = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ShadowLevelMenuItemCollisionEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShadowLevelMenuItemSplineEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShadowLevelMenuItemImportBLK = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelLoadedBLK = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.ButtonReassignMATFlag = new System.Windows.Forms.Button();
-            this.textBox_import_extension = new System.Windows.Forms.TextBox();
-            this.label_import_extension = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericCurrentChunk)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAdd)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMinZ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMinY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMinX)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMaxZ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMaxY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMaxX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumChunkNum)).BeginInit();
-            this.menuStrip1.SuspendLayout();
-            this.SuspendLayout();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            labelTriangleAmount = new System.Windows.Forms.Label();
+            labelVertexAmount = new System.Windows.Forms.Label();
+            checkBoxTristrip = new System.Windows.Forms.CheckBox();
+            buttonImport = new System.Windows.Forms.Button();
+            checkBoxFlipUVs = new System.Windows.Forms.CheckBox();
+            buttonRemove = new System.Windows.Forms.Button();
+            buttonClear = new System.Windows.Forms.Button();
+            buttonExport = new System.Windows.Forms.Button();
+            listViewLevelModels = new System.Windows.Forms.ListView();
+            file = new System.Windows.Forms.ColumnHeader();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            buttonAutoBuild = new System.Windows.Forms.Button();
+            labelChunkAmount = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            numericCurrentChunk = new System.Windows.Forms.NumericUpDown();
+            label1 = new System.Windows.Forms.Label();
+            numericUpDownAdd = new System.Windows.Forms.NumericUpDown();
+            buttonAutoChunk = new System.Windows.Forms.Button();
+            buttonRemoveChunk = new System.Windows.Forms.Button();
+            groupBox3 = new System.Windows.Forms.GroupBox();
+            NumMinZ = new System.Windows.Forms.NumericUpDown();
+            NumMinY = new System.Windows.Forms.NumericUpDown();
+            NumMinX = new System.Windows.Forms.NumericUpDown();
+            groupBox4 = new System.Windows.Forms.GroupBox();
+            NumMaxZ = new System.Windows.Forms.NumericUpDown();
+            NumMaxY = new System.Windows.Forms.NumericUpDown();
+            NumMaxX = new System.Windows.Forms.NumericUpDown();
+            buttonAddChunk = new System.Windows.Forms.Button();
+            NumChunkNum = new System.Windows.Forms.NumericUpDown();
+            label2 = new System.Windows.Forms.Label();
+            labelLoadedONE = new System.Windows.Forms.Label();
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            oNEFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            disableFilesizeWarningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            bLKFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            saveAsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemNew = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemSave = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            ShadowLevelMenuItemCollisionEditor = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemSplineEditor = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemImportBLK = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemSaveSplineDataOnly = new System.Windows.Forms.ToolStripMenuItem();
+            labelLoadedBLK = new System.Windows.Forms.Label();
+            progressBar1 = new System.Windows.Forms.ProgressBar();
+            ButtonReassignMATFlag = new System.Windows.Forms.Button();
+            textBox_import_extension = new System.Windows.Forms.TextBox();
+            label_import_extension = new System.Windows.Forms.Label();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericCurrentChunk).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownAdd).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NumMinZ).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumMinY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumMinX).BeginInit();
+            groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NumMaxZ).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumMaxY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumMaxX).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumChunkNum).BeginInit();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.labelTriangleAmount);
-            this.groupBox1.Controls.Add(this.labelVertexAmount);
-            this.groupBox1.Controls.Add(this.checkBoxTristrip);
-            this.groupBox1.Controls.Add(this.buttonImport);
-            this.groupBox1.Controls.Add(this.checkBoxFlipUVs);
-            this.groupBox1.Controls.Add(this.buttonRemove);
-            this.groupBox1.Controls.Add(this.buttonClear);
-            this.groupBox1.Controls.Add(this.buttonExport);
-            this.groupBox1.Controls.Add(this.listViewLevelModels);
-            this.groupBox1.Location = new System.Drawing.Point(14, 31);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox1.Size = new System.Drawing.Size(240, 403);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Level Models";
+            groupBox1.Controls.Add(labelTriangleAmount);
+            groupBox1.Controls.Add(labelVertexAmount);
+            groupBox1.Controls.Add(checkBoxTristrip);
+            groupBox1.Controls.Add(buttonImport);
+            groupBox1.Controls.Add(checkBoxFlipUVs);
+            groupBox1.Controls.Add(buttonRemove);
+            groupBox1.Controls.Add(buttonClear);
+            groupBox1.Controls.Add(buttonExport);
+            groupBox1.Controls.Add(listViewLevelModels);
+            groupBox1.Location = new System.Drawing.Point(14, 31);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Size = new System.Drawing.Size(240, 403);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Level Models";
             // 
             // labelTriangleAmount
             // 
-            this.labelTriangleAmount.AutoSize = true;
-            this.labelTriangleAmount.Location = new System.Drawing.Point(7, 291);
-            this.labelTriangleAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelTriangleAmount.Name = "labelTriangleAmount";
-            this.labelTriangleAmount.Size = new System.Drawing.Size(56, 15);
-            this.labelTriangleAmount.TabIndex = 25;
-            this.labelTriangleAmount.Text = "Triangles:";
+            labelTriangleAmount.AutoSize = true;
+            labelTriangleAmount.Location = new System.Drawing.Point(7, 291);
+            labelTriangleAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelTriangleAmount.Name = "labelTriangleAmount";
+            labelTriangleAmount.Size = new System.Drawing.Size(56, 15);
+            labelTriangleAmount.TabIndex = 25;
+            labelTriangleAmount.Text = "Triangles:";
             // 
             // labelVertexAmount
             // 
-            this.labelVertexAmount.AutoSize = true;
-            this.labelVertexAmount.Location = new System.Drawing.Point(7, 270);
-            this.labelVertexAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelVertexAmount.Name = "labelVertexAmount";
-            this.labelVertexAmount.Size = new System.Drawing.Size(50, 15);
-            this.labelVertexAmount.TabIndex = 24;
-            this.labelVertexAmount.Text = "Vertices:";
+            labelVertexAmount.AutoSize = true;
+            labelVertexAmount.Location = new System.Drawing.Point(7, 270);
+            labelVertexAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelVertexAmount.Name = "labelVertexAmount";
+            labelVertexAmount.Size = new System.Drawing.Size(50, 15);
+            labelVertexAmount.TabIndex = 24;
+            labelVertexAmount.Text = "Vertices:";
             // 
             // checkBoxTristrip
             // 
-            this.checkBoxTristrip.AutoSize = true;
-            this.checkBoxTristrip.Enabled = false;
-            this.checkBoxTristrip.Location = new System.Drawing.Point(126, 309);
-            this.checkBoxTristrip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBoxTristrip.Name = "checkBoxTristrip";
-            this.checkBoxTristrip.Size = new System.Drawing.Size(88, 19);
-            this.checkBoxTristrip.TabIndex = 24;
-            this.checkBoxTristrip.Text = "Use Tristrips";
-            this.checkBoxTristrip.UseVisualStyleBackColor = true;
+            checkBoxTristrip.AutoSize = true;
+            checkBoxTristrip.Enabled = false;
+            checkBoxTristrip.Location = new System.Drawing.Point(126, 309);
+            checkBoxTristrip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxTristrip.Name = "checkBoxTristrip";
+            checkBoxTristrip.Size = new System.Drawing.Size(88, 19);
+            checkBoxTristrip.TabIndex = 24;
+            checkBoxTristrip.Text = "Use Tristrips";
+            checkBoxTristrip.UseVisualStyleBackColor = true;
             // 
             // buttonImport
             // 
-            this.buttonImport.Enabled = false;
-            this.buttonImport.Location = new System.Drawing.Point(7, 336);
-            this.buttonImport.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(110, 27);
-            this.buttonImport.TabIndex = 2;
-            this.buttonImport.Text = "Import";
-            this.buttonImport.UseVisualStyleBackColor = true;
-            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
+            buttonImport.Enabled = false;
+            buttonImport.Location = new System.Drawing.Point(7, 336);
+            buttonImport.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonImport.Name = "buttonImport";
+            buttonImport.Size = new System.Drawing.Size(110, 27);
+            buttonImport.TabIndex = 2;
+            buttonImport.Text = "Import";
+            buttonImport.UseVisualStyleBackColor = true;
+            buttonImport.Click += buttonImport_Click;
             // 
             // checkBoxFlipUVs
             // 
-            this.checkBoxFlipUVs.AutoSize = true;
-            this.checkBoxFlipUVs.Location = new System.Drawing.Point(7, 309);
-            this.checkBoxFlipUVs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBoxFlipUVs.Name = "checkBoxFlipUVs";
-            this.checkBoxFlipUVs.Size = new System.Drawing.Size(104, 19);
-            this.checkBoxFlipUVs.TabIndex = 22;
-            this.checkBoxFlipUVs.Text = "Flip UV Coords";
-            this.checkBoxFlipUVs.UseVisualStyleBackColor = true;
+            checkBoxFlipUVs.AutoSize = true;
+            checkBoxFlipUVs.Location = new System.Drawing.Point(7, 309);
+            checkBoxFlipUVs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxFlipUVs.Name = "checkBoxFlipUVs";
+            checkBoxFlipUVs.Size = new System.Drawing.Size(104, 19);
+            checkBoxFlipUVs.TabIndex = 22;
+            checkBoxFlipUVs.Text = "Flip UV Coords";
+            checkBoxFlipUVs.UseVisualStyleBackColor = true;
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(7, 369);
-            this.buttonRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(110, 27);
-            this.buttonRemove.TabIndex = 4;
-            this.buttonRemove.Text = "Remove";
-            this.buttonRemove.UseVisualStyleBackColor = true;
-            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+            buttonRemove.Location = new System.Drawing.Point(7, 369);
+            buttonRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonRemove.Name = "buttonRemove";
+            buttonRemove.Size = new System.Drawing.Size(110, 27);
+            buttonRemove.TabIndex = 4;
+            buttonRemove.Text = "Remove";
+            buttonRemove.UseVisualStyleBackColor = true;
+            buttonRemove.Click += buttonRemove_Click;
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(124, 369);
-            this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(110, 27);
-            this.buttonClear.TabIndex = 5;
-            this.buttonClear.Text = "Clear";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            buttonClear.Location = new System.Drawing.Point(124, 369);
+            buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonClear.Name = "buttonClear";
+            buttonClear.Size = new System.Drawing.Size(110, 27);
+            buttonClear.TabIndex = 5;
+            buttonClear.Text = "Clear";
+            buttonClear.UseVisualStyleBackColor = true;
+            buttonClear.Click += buttonClear_Click;
             // 
             // buttonExport
             // 
-            this.buttonExport.Location = new System.Drawing.Point(124, 336);
-            this.buttonExport.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(110, 27);
-            this.buttonExport.TabIndex = 6;
-            this.buttonExport.Text = "Export";
-            this.buttonExport.UseVisualStyleBackColor = true;
-            this.buttonExport.Click += new System.EventHandler(this.buttonExportClick);
+            buttonExport.Location = new System.Drawing.Point(124, 336);
+            buttonExport.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonExport.Name = "buttonExport";
+            buttonExport.Size = new System.Drawing.Size(110, 27);
+            buttonExport.TabIndex = 6;
+            buttonExport.Text = "Export";
+            buttonExport.UseVisualStyleBackColor = true;
+            buttonExport.Click += buttonExportClick;
             // 
             // listViewLevelModels
             // 
-            this.listViewLevelModels.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listViewLevelModels.CheckBoxes = true;
-            this.listViewLevelModels.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.file});
-            this.listViewLevelModels.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listViewLevelModels.Location = new System.Drawing.Point(7, 22);
-            this.listViewLevelModels.Name = "listViewLevelModels";
-            this.listViewLevelModels.Size = new System.Drawing.Size(226, 244);
-            this.listViewLevelModels.TabIndex = 28;
-            this.listViewLevelModels.UseCompatibleStateImageBehavior = false;
-            this.listViewLevelModels.View = System.Windows.Forms.View.Details;
-            this.listViewLevelModels.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewLevelModels_ItemChecked);
-            this.listViewLevelModels.SelectedIndexChanged += new System.EventHandler(this.listBoxLevelModels_SelectedIndexChanged);
-            this.listViewLevelModels.DoubleClick += new System.EventHandler(this.listBoxLevelModelsDoubleClick);
-            this.listViewLevelModels.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listBoxLevelModels_KeyDown);
+            listViewLevelModels.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            listViewLevelModels.CheckBoxes = true;
+            listViewLevelModels.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { file });
+            listViewLevelModels.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            listViewLevelModels.Location = new System.Drawing.Point(7, 22);
+            listViewLevelModels.Name = "listViewLevelModels";
+            listViewLevelModels.Size = new System.Drawing.Size(226, 244);
+            listViewLevelModels.TabIndex = 28;
+            listViewLevelModels.UseCompatibleStateImageBehavior = false;
+            listViewLevelModels.View = System.Windows.Forms.View.Details;
+            listViewLevelModels.ItemChecked += listViewLevelModels_ItemChecked;
+            listViewLevelModels.SelectedIndexChanged += listBoxLevelModels_SelectedIndexChanged;
+            listViewLevelModels.DoubleClick += listBoxLevelModelsDoubleClick;
+            listViewLevelModels.KeyDown += listBoxLevelModels_KeyDown;
             // 
             // file
             // 
-            this.file.Text = "File";
-            this.file.Width = 226;
+            file.Text = "File";
+            file.Width = 226;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.buttonAutoBuild);
-            this.groupBox2.Controls.Add(this.labelChunkAmount);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.numericCurrentChunk);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.numericUpDownAdd);
-            this.groupBox2.Controls.Add(this.buttonAutoChunk);
-            this.groupBox2.Controls.Add(this.buttonRemoveChunk);
-            this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Controls.Add(this.groupBox4);
-            this.groupBox2.Controls.Add(this.buttonAddChunk);
-            this.groupBox2.Controls.Add(this.NumChunkNum);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(261, 31);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox2.Size = new System.Drawing.Size(270, 339);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Visibility Editor";
+            groupBox2.Controls.Add(buttonAutoBuild);
+            groupBox2.Controls.Add(labelChunkAmount);
+            groupBox2.Controls.Add(label3);
+            groupBox2.Controls.Add(numericCurrentChunk);
+            groupBox2.Controls.Add(label1);
+            groupBox2.Controls.Add(numericUpDownAdd);
+            groupBox2.Controls.Add(buttonAutoChunk);
+            groupBox2.Controls.Add(buttonRemoveChunk);
+            groupBox2.Controls.Add(groupBox3);
+            groupBox2.Controls.Add(groupBox4);
+            groupBox2.Controls.Add(buttonAddChunk);
+            groupBox2.Controls.Add(NumChunkNum);
+            groupBox2.Controls.Add(label2);
+            groupBox2.Location = new System.Drawing.Point(261, 31);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Size = new System.Drawing.Size(270, 339);
+            groupBox2.TabIndex = 1;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Visibility Editor";
             // 
             // buttonAutoBuild
             // 
-            this.buttonAutoBuild.Location = new System.Drawing.Point(14, 301);
-            this.buttonAutoBuild.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonAutoBuild.Name = "buttonAutoBuild";
-            this.buttonAutoBuild.Size = new System.Drawing.Size(238, 27);
-            this.buttonAutoBuild.TabIndex = 24;
-            this.buttonAutoBuild.Text = "AutoBuild";
-            this.buttonAutoBuild.UseVisualStyleBackColor = true;
-            this.buttonAutoBuild.Click += new System.EventHandler(this.ButtonAutoBuild_Click);
+            buttonAutoBuild.Location = new System.Drawing.Point(14, 301);
+            buttonAutoBuild.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonAutoBuild.Name = "buttonAutoBuild";
+            buttonAutoBuild.Size = new System.Drawing.Size(238, 27);
+            buttonAutoBuild.TabIndex = 24;
+            buttonAutoBuild.Text = "AutoBuild";
+            buttonAutoBuild.UseVisualStyleBackColor = true;
+            buttonAutoBuild.Click += ButtonAutoBuild_Click;
             // 
             // labelChunkAmount
             // 
-            this.labelChunkAmount.AutoSize = true;
-            this.labelChunkAmount.Location = new System.Drawing.Point(12, 66);
-            this.labelChunkAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelChunkAmount.Name = "labelChunkAmount";
-            this.labelChunkAmount.Size = new System.Drawing.Size(57, 15);
-            this.labelChunkAmount.TabIndex = 27;
-            this.labelChunkAmount.Text = "Amount: ";
+            labelChunkAmount.AutoSize = true;
+            labelChunkAmount.Location = new System.Drawing.Point(12, 66);
+            labelChunkAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelChunkAmount.Name = "labelChunkAmount";
+            labelChunkAmount.Size = new System.Drawing.Size(57, 15);
+            labelChunkAmount.TabIndex = 27;
+            labelChunkAmount.Text = "Amount: ";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 18);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(92, 15);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "Selected Chunk:";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(12, 18);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(92, 15);
+            label3.TabIndex = 26;
+            label3.Text = "Selected Chunk:";
             // 
             // numericCurrentChunk
             // 
-            this.numericCurrentChunk.Location = new System.Drawing.Point(7, 39);
-            this.numericCurrentChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericCurrentChunk.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericCurrentChunk.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericCurrentChunk.Name = "numericCurrentChunk";
-            this.numericCurrentChunk.Size = new System.Drawing.Size(134, 23);
-            this.numericCurrentChunk.TabIndex = 25;
-            this.numericCurrentChunk.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericCurrentChunk.ValueChanged += new System.EventHandler(this.numericCurrentChunk_ValueChanged);
+            numericCurrentChunk.Location = new System.Drawing.Point(7, 39);
+            numericCurrentChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericCurrentChunk.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericCurrentChunk.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericCurrentChunk.Name = "numericCurrentChunk";
+            numericCurrentChunk.Size = new System.Drawing.Size(134, 23);
+            numericCurrentChunk.TabIndex = 25;
+            numericCurrentChunk.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericCurrentChunk.ValueChanged += numericCurrentChunk_ValueChanged;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 125);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 15);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "AutoChunk Add:";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(7, 125);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(96, 15);
+            label1.TabIndex = 24;
+            label1.Text = "AutoChunk Add:";
             // 
             // numericUpDownAdd
             // 
-            this.numericUpDownAdd.Location = new System.Drawing.Point(113, 122);
-            this.numericUpDownAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUpDownAdd.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.numericUpDownAdd.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownAdd.Name = "numericUpDownAdd";
-            this.numericUpDownAdd.Size = new System.Drawing.Size(149, 23);
-            this.numericUpDownAdd.TabIndex = 23;
-            this.numericUpDownAdd.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+            numericUpDownAdd.Location = new System.Drawing.Point(113, 122);
+            numericUpDownAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownAdd.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            numericUpDownAdd.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            numericUpDownAdd.Name = "numericUpDownAdd";
+            numericUpDownAdd.Size = new System.Drawing.Size(149, 23);
+            numericUpDownAdd.TabIndex = 23;
+            numericUpDownAdd.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // buttonAutoChunk
             // 
-            this.buttonAutoChunk.Location = new System.Drawing.Point(148, 89);
-            this.buttonAutoChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonAutoChunk.Name = "buttonAutoChunk";
-            this.buttonAutoChunk.Size = new System.Drawing.Size(114, 27);
-            this.buttonAutoChunk.TabIndex = 22;
-            this.buttonAutoChunk.Text = "AutoChunk";
-            this.buttonAutoChunk.UseVisualStyleBackColor = true;
-            this.buttonAutoChunk.Click += new System.EventHandler(this.buttonAutoChunk_Click);
+            buttonAutoChunk.Location = new System.Drawing.Point(148, 89);
+            buttonAutoChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonAutoChunk.Name = "buttonAutoChunk";
+            buttonAutoChunk.Size = new System.Drawing.Size(114, 27);
+            buttonAutoChunk.TabIndex = 22;
+            buttonAutoChunk.Text = "AutoChunk";
+            buttonAutoChunk.UseVisualStyleBackColor = true;
+            buttonAutoChunk.Click += buttonAutoChunk_Click;
             // 
             // buttonRemoveChunk
             // 
-            this.buttonRemoveChunk.Location = new System.Drawing.Point(148, 55);
-            this.buttonRemoveChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonRemoveChunk.Name = "buttonRemoveChunk";
-            this.buttonRemoveChunk.Size = new System.Drawing.Size(115, 27);
-            this.buttonRemoveChunk.TabIndex = 12;
-            this.buttonRemoveChunk.Text = "Remove";
-            this.buttonRemoveChunk.UseVisualStyleBackColor = true;
-            this.buttonRemoveChunk.Click += new System.EventHandler(this.buttonRemoveChunk_Click);
+            buttonRemoveChunk.Location = new System.Drawing.Point(148, 55);
+            buttonRemoveChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonRemoveChunk.Name = "buttonRemoveChunk";
+            buttonRemoveChunk.Size = new System.Drawing.Size(115, 27);
+            buttonRemoveChunk.TabIndex = 12;
+            buttonRemoveChunk.Text = "Remove";
+            buttonRemoveChunk.UseVisualStyleBackColor = true;
+            buttonRemoveChunk.Click += buttonRemoveChunk_Click;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.NumMinZ);
-            this.groupBox3.Controls.Add(this.NumMinY);
-            this.groupBox3.Controls.Add(this.NumMinX);
-            this.groupBox3.Location = new System.Drawing.Point(7, 182);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox3.Size = new System.Drawing.Size(121, 112);
-            this.groupBox3.TabIndex = 20;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Min (X,Y,Z)";
+            groupBox3.Controls.Add(NumMinZ);
+            groupBox3.Controls.Add(NumMinY);
+            groupBox3.Controls.Add(NumMinX);
+            groupBox3.Location = new System.Drawing.Point(7, 182);
+            groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Size = new System.Drawing.Size(121, 112);
+            groupBox3.TabIndex = 20;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Min (X,Y,Z)";
             // 
             // NumMinZ
             // 
-            this.NumMinZ.Location = new System.Drawing.Point(7, 82);
-            this.NumMinZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumMinZ.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.NumMinZ.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.NumMinZ.Name = "NumMinZ";
-            this.NumMinZ.Size = new System.Drawing.Size(107, 23);
-            this.NumMinZ.TabIndex = 16;
-            this.NumMinZ.ValueChanged += new System.EventHandler(this.NumMaxMin_ValueChanged);
+            NumMinZ.Location = new System.Drawing.Point(7, 82);
+            NumMinZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumMinZ.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            NumMinZ.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            NumMinZ.Name = "NumMinZ";
+            NumMinZ.Size = new System.Drawing.Size(107, 23);
+            NumMinZ.TabIndex = 16;
+            NumMinZ.ValueChanged += NumMaxMin_ValueChanged;
             // 
             // NumMinY
             // 
-            this.NumMinY.Location = new System.Drawing.Point(7, 52);
-            this.NumMinY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumMinY.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.NumMinY.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.NumMinY.Name = "NumMinY";
-            this.NumMinY.Size = new System.Drawing.Size(107, 23);
-            this.NumMinY.TabIndex = 15;
-            this.NumMinY.ValueChanged += new System.EventHandler(this.NumMaxMin_ValueChanged);
+            NumMinY.Location = new System.Drawing.Point(7, 52);
+            NumMinY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumMinY.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            NumMinY.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            NumMinY.Name = "NumMinY";
+            NumMinY.Size = new System.Drawing.Size(107, 23);
+            NumMinY.TabIndex = 15;
+            NumMinY.ValueChanged += NumMaxMin_ValueChanged;
             // 
             // NumMinX
             // 
-            this.NumMinX.Location = new System.Drawing.Point(7, 22);
-            this.NumMinX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumMinX.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.NumMinX.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.NumMinX.Name = "NumMinX";
-            this.NumMinX.Size = new System.Drawing.Size(107, 23);
-            this.NumMinX.TabIndex = 14;
-            this.NumMinX.ValueChanged += new System.EventHandler(this.NumMaxMin_ValueChanged);
+            NumMinX.Location = new System.Drawing.Point(7, 22);
+            NumMinX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumMinX.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            NumMinX.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            NumMinX.Name = "NumMinX";
+            NumMinX.Size = new System.Drawing.Size(107, 23);
+            NumMinX.TabIndex = 14;
+            NumMinX.ValueChanged += NumMaxMin_ValueChanged;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.NumMaxZ);
-            this.groupBox4.Controls.Add(this.NumMaxY);
-            this.groupBox4.Controls.Add(this.NumMaxX);
-            this.groupBox4.Location = new System.Drawing.Point(138, 182);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox4.Size = new System.Drawing.Size(125, 112);
-            this.groupBox4.TabIndex = 21;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Max (X,Y,Z)";
+            groupBox4.Controls.Add(NumMaxZ);
+            groupBox4.Controls.Add(NumMaxY);
+            groupBox4.Controls.Add(NumMaxX);
+            groupBox4.Location = new System.Drawing.Point(138, 182);
+            groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Size = new System.Drawing.Size(125, 112);
+            groupBox4.TabIndex = 21;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Max (X,Y,Z)";
             // 
             // NumMaxZ
             // 
-            this.NumMaxZ.Location = new System.Drawing.Point(7, 82);
-            this.NumMaxZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumMaxZ.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.NumMaxZ.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.NumMaxZ.Name = "NumMaxZ";
-            this.NumMaxZ.Size = new System.Drawing.Size(107, 23);
-            this.NumMaxZ.TabIndex = 19;
-            this.NumMaxZ.ValueChanged += new System.EventHandler(this.NumMaxMin_ValueChanged);
+            NumMaxZ.Location = new System.Drawing.Point(7, 82);
+            NumMaxZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumMaxZ.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            NumMaxZ.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            NumMaxZ.Name = "NumMaxZ";
+            NumMaxZ.Size = new System.Drawing.Size(107, 23);
+            NumMaxZ.TabIndex = 19;
+            NumMaxZ.ValueChanged += NumMaxMin_ValueChanged;
             // 
             // NumMaxY
             // 
-            this.NumMaxY.Location = new System.Drawing.Point(7, 52);
-            this.NumMaxY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumMaxY.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.NumMaxY.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.NumMaxY.Name = "NumMaxY";
-            this.NumMaxY.Size = new System.Drawing.Size(107, 23);
-            this.NumMaxY.TabIndex = 18;
-            this.NumMaxY.ValueChanged += new System.EventHandler(this.NumMaxMin_ValueChanged);
+            NumMaxY.Location = new System.Drawing.Point(7, 52);
+            NumMaxY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumMaxY.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            NumMaxY.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            NumMaxY.Name = "NumMaxY";
+            NumMaxY.Size = new System.Drawing.Size(107, 23);
+            NumMaxY.TabIndex = 18;
+            NumMaxY.ValueChanged += NumMaxMin_ValueChanged;
             // 
             // NumMaxX
             // 
-            this.NumMaxX.Location = new System.Drawing.Point(7, 22);
-            this.NumMaxX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumMaxX.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.NumMaxX.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.NumMaxX.Name = "NumMaxX";
-            this.NumMaxX.Size = new System.Drawing.Size(107, 23);
-            this.NumMaxX.TabIndex = 17;
-            this.NumMaxX.ValueChanged += new System.EventHandler(this.NumMaxMin_ValueChanged);
+            NumMaxX.Location = new System.Drawing.Point(7, 22);
+            NumMaxX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumMaxX.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            NumMaxX.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            NumMaxX.Name = "NumMaxX";
+            NumMaxX.Size = new System.Drawing.Size(107, 23);
+            NumMaxX.TabIndex = 17;
+            NumMaxX.ValueChanged += NumMaxMin_ValueChanged;
             // 
             // buttonAddChunk
             // 
-            this.buttonAddChunk.Location = new System.Drawing.Point(148, 22);
-            this.buttonAddChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonAddChunk.Name = "buttonAddChunk";
-            this.buttonAddChunk.Size = new System.Drawing.Size(115, 27);
-            this.buttonAddChunk.TabIndex = 11;
-            this.buttonAddChunk.Text = "Add";
-            this.buttonAddChunk.UseVisualStyleBackColor = true;
-            this.buttonAddChunk.Click += new System.EventHandler(this.buttonAddChunkClick);
+            buttonAddChunk.Location = new System.Drawing.Point(148, 22);
+            buttonAddChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonAddChunk.Name = "buttonAddChunk";
+            buttonAddChunk.Size = new System.Drawing.Size(115, 27);
+            buttonAddChunk.TabIndex = 11;
+            buttonAddChunk.Text = "Add";
+            buttonAddChunk.UseVisualStyleBackColor = true;
+            buttonAddChunk.Click += buttonAddChunkClick;
             // 
             // NumChunkNum
             // 
-            this.NumChunkNum.Location = new System.Drawing.Point(113, 152);
-            this.NumChunkNum.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumChunkNum.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NumChunkNum.Name = "NumChunkNum";
-            this.NumChunkNum.Size = new System.Drawing.Size(150, 23);
-            this.NumChunkNum.TabIndex = 13;
-            this.NumChunkNum.ValueChanged += new System.EventHandler(this.NumChunkNum_ValueChanged);
+            NumChunkNum.Location = new System.Drawing.Point(113, 152);
+            NumChunkNum.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumChunkNum.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NumChunkNum.Name = "NumChunkNum";
+            NumChunkNum.Size = new System.Drawing.Size(150, 23);
+            NumChunkNum.TabIndex = 13;
+            NumChunkNum.ValueChanged += NumChunkNum_ValueChanged;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 155);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(92, 15);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Chunk Number:";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(12, 155);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(92, 15);
+            label2.TabIndex = 8;
+            label2.Text = "Chunk Number:";
             // 
             // labelLoadedONE
             // 
-            this.labelLoadedONE.AutoSize = true;
-            this.labelLoadedONE.Location = new System.Drawing.Point(14, 471);
-            this.labelLoadedONE.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelLoadedONE.Name = "labelLoadedONE";
-            this.labelLoadedONE.Size = new System.Drawing.Size(89, 15);
-            this.labelLoadedONE.TabIndex = 2;
-            this.labelLoadedONE.Text = "No ONE loaded";
+            labelLoadedONE.AutoSize = true;
+            labelLoadedONE.Location = new System.Drawing.Point(14, 471);
+            labelLoadedONE.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelLoadedONE.Name = "labelLoadedONE";
+            labelLoadedONE.Size = new System.Drawing.Size(89, 15);
+            labelLoadedONE.TabIndex = 2;
+            labelLoadedONE.Text = "No ONE loaded";
             // 
             // menuStrip1
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.oNEFileToolStripMenuItem,
-            this.bLKFileToolStripMenuItem,
-            this.ShadowLevelToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(539, 24);
-            this.menuStrip1.TabIndex = 16;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { oNEFileToolStripMenuItem, bLKFileToolStripMenuItem, ShadowLevelToolStripMenuItem });
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            menuStrip1.Size = new System.Drawing.Size(539, 24);
+            menuStrip1.TabIndex = 16;
+            menuStrip1.Text = "menuStrip1";
             // 
             // oNEFileToolStripMenuItem
             // 
-            this.oNEFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.disableFilesizeWarningToolStripMenuItem});
-            this.oNEFileToolStripMenuItem.Name = "oNEFileToolStripMenuItem";
-            this.oNEFileToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this.oNEFileToolStripMenuItem.Text = "ONE File";
+            oNEFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { newToolStripMenuItem, openToolStripMenuItem, saveToolStripMenuItem, saveAsToolStripMenuItem, toolStripSeparator3, disableFilesizeWarningToolStripMenuItem });
+            oNEFileToolStripMenuItem.Name = "oNEFileToolStripMenuItem";
+            oNEFileToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            oNEFileToolStripMenuItem.Text = "ONE File";
             // 
             // newToolStripMenuItem
             // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.newToolStripMenuItem.Text = "New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            newToolStripMenuItem.Name = "newToolStripMenuItem";
+            newToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            newToolStripMenuItem.Text = "New";
+            newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Enabled = false;
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            saveToolStripMenuItem.Enabled = false;
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
             // 
-            this.saveAsToolStripMenuItem.Enabled = false;
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.saveAsToolStripMenuItem.Text = "Save As...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            saveAsToolStripMenuItem.Enabled = false;
+            saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            saveAsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            saveAsToolStripMenuItem.Text = "Save As...";
+            saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(197, 6);
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new System.Drawing.Size(197, 6);
             // 
             // disableFilesizeWarningToolStripMenuItem
             // 
-            this.disableFilesizeWarningToolStripMenuItem.Name = "disableFilesizeWarningToolStripMenuItem";
-            this.disableFilesizeWarningToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.disableFilesizeWarningToolStripMenuItem.Text = "Disable Filesize Warning";
-            this.disableFilesizeWarningToolStripMenuItem.Click += new System.EventHandler(this.DisableFilesizeWarningToolStripMenuItem_Click);
+            disableFilesizeWarningToolStripMenuItem.Name = "disableFilesizeWarningToolStripMenuItem";
+            disableFilesizeWarningToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            disableFilesizeWarningToolStripMenuItem.Text = "Disable Filesize Warning";
+            disableFilesizeWarningToolStripMenuItem.Click += DisableFilesizeWarningToolStripMenuItem_Click;
             // 
             // bLKFileToolStripMenuItem
             // 
-            this.bLKFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem1,
-            this.openToolStripMenuItem1,
-            this.saveToolStripMenuItem1,
-            this.saveAsToolStripMenuItem1,
-            this.toolStripSeparator2,
-            this.importToolStripMenuItem});
-            this.bLKFileToolStripMenuItem.Name = "bLKFileToolStripMenuItem";
-            this.bLKFileToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.bLKFileToolStripMenuItem.Text = "BLK File";
+            bLKFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { newToolStripMenuItem1, openToolStripMenuItem1, saveToolStripMenuItem1, saveAsToolStripMenuItem1, toolStripSeparator2, importToolStripMenuItem });
+            bLKFileToolStripMenuItem.Name = "bLKFileToolStripMenuItem";
+            bLKFileToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            bLKFileToolStripMenuItem.Text = "BLK File";
             // 
             // newToolStripMenuItem1
             // 
-            this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
-            this.newToolStripMenuItem1.Text = "New";
-            this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
+            newToolStripMenuItem1.Name = "newToolStripMenuItem1";
+            newToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            newToolStripMenuItem1.Text = "New";
+            newToolStripMenuItem1.Click += newToolStripMenuItem1_Click;
             // 
             // openToolStripMenuItem1
             // 
-            this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
-            this.openToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
-            this.openToolStripMenuItem1.Text = "Open";
-            this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
+            openToolStripMenuItem1.Name = "openToolStripMenuItem1";
+            openToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            openToolStripMenuItem1.Text = "Open";
+            openToolStripMenuItem1.Click += openToolStripMenuItem1_Click;
             // 
             // saveToolStripMenuItem1
             // 
-            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
-            this.saveToolStripMenuItem1.Text = "Save";
-            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItemVisibility_Click);
+            saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            saveToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            saveToolStripMenuItem1.Text = "Save";
+            saveToolStripMenuItem1.Click += saveToolStripMenuItemVisibility_Click;
             // 
             // saveAsToolStripMenuItem1
             // 
-            this.saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
-            this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
-            this.saveAsToolStripMenuItem1.Text = "Save As...";
-            this.saveAsToolStripMenuItem1.Click += new System.EventHandler(this.saveAsToolStripMenuItem1_Click);
+            saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
+            saveAsToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            saveAsToolStripMenuItem1.Text = "Save As...";
+            saveAsToolStripMenuItem1.Click += saveAsToolStripMenuItem1_Click;
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(120, 6);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(120, 6);
             // 
             // importToolStripMenuItem
             // 
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.importToolStripMenuItem.Text = "Import";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.importBLKToolStripMenuItem_Click);
+            importToolStripMenuItem.Name = "importToolStripMenuItem";
+            importToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            importToolStripMenuItem.Text = "Import";
+            importToolStripMenuItem.Click += importBLKToolStripMenuItem_Click;
             // 
             // ShadowLevelToolStripMenuItem
             // 
-            this.ShadowLevelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ShadowLevelMenuItemNew,
-            this.ShadowLevelMenuItemOpen,
-            this.ShadowLevelMenuItemSave,
-            this.ShadowLevelMenuItemSaveAs,
-            this.toolStripSeparator1,
-            this.ShadowLevelMenuItemCollisionEditor,
-            this.ShadowLevelMenuItemSplineEditor,
-            this.ShadowLevelMenuItemImportBLK});
-            this.ShadowLevelToolStripMenuItem.Name = "ShadowLevelToolStripMenuItem";
-            this.ShadowLevelToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
-            this.ShadowLevelToolStripMenuItem.Text = "Shadow Level";
+            ShadowLevelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { ShadowLevelMenuItemNew, ShadowLevelMenuItemOpen, ShadowLevelMenuItemSave, ShadowLevelMenuItemSaveAs, toolStripSeparator1, ShadowLevelMenuItemCollisionEditor, ShadowLevelMenuItemSplineEditor, ShadowLevelMenuItemSaveSplineDataOnly, ShadowLevelMenuItemImportBLK });
+            ShadowLevelToolStripMenuItem.Name = "ShadowLevelToolStripMenuItem";
+            ShadowLevelToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            ShadowLevelToolStripMenuItem.Text = "Shadow Level";
             // 
             // ShadowLevelMenuItemNew
             // 
-            this.ShadowLevelMenuItemNew.Name = "ShadowLevelMenuItemNew";
-            this.ShadowLevelMenuItemNew.Size = new System.Drawing.Size(154, 22);
-            this.ShadowLevelMenuItemNew.Text = "New";
-            this.ShadowLevelMenuItemNew.Click += new System.EventHandler(this.ShadowLevelMenuItemNew_Click);
+            ShadowLevelMenuItemNew.Name = "ShadowLevelMenuItemNew";
+            ShadowLevelMenuItemNew.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemNew.Text = "New";
+            ShadowLevelMenuItemNew.Click += ShadowLevelMenuItemNew_Click;
             // 
             // ShadowLevelMenuItemOpen
             // 
-            this.ShadowLevelMenuItemOpen.Name = "ShadowLevelMenuItemOpen";
-            this.ShadowLevelMenuItemOpen.Size = new System.Drawing.Size(154, 22);
-            this.ShadowLevelMenuItemOpen.Text = "Open";
-            this.ShadowLevelMenuItemOpen.Click += new System.EventHandler(this.ShadowLevelMenuItemOpen_Click);
+            ShadowLevelMenuItemOpen.Name = "ShadowLevelMenuItemOpen";
+            ShadowLevelMenuItemOpen.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemOpen.Text = "Open";
+            ShadowLevelMenuItemOpen.Click += ShadowLevelMenuItemOpen_Click;
             // 
             // ShadowLevelMenuItemSave
             // 
-            this.ShadowLevelMenuItemSave.Enabled = false;
-            this.ShadowLevelMenuItemSave.Name = "ShadowLevelMenuItemSave";
-            this.ShadowLevelMenuItemSave.Size = new System.Drawing.Size(154, 22);
-            this.ShadowLevelMenuItemSave.Text = "Save";
-            this.ShadowLevelMenuItemSave.Click += new System.EventHandler(this.ShadowLevelMenuItemSave_Click);
+            ShadowLevelMenuItemSave.Enabled = false;
+            ShadowLevelMenuItemSave.Name = "ShadowLevelMenuItemSave";
+            ShadowLevelMenuItemSave.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemSave.Text = "Save";
+            ShadowLevelMenuItemSave.Click += ShadowLevelMenuItemSave_Click;
             // 
             // ShadowLevelMenuItemSaveAs
             // 
-            this.ShadowLevelMenuItemSaveAs.Enabled = false;
-            this.ShadowLevelMenuItemSaveAs.Name = "ShadowLevelMenuItemSaveAs";
-            this.ShadowLevelMenuItemSaveAs.Size = new System.Drawing.Size(154, 22);
-            this.ShadowLevelMenuItemSaveAs.Text = "Save As...";
-            this.ShadowLevelMenuItemSaveAs.Click += new System.EventHandler(this.ShadowLevelMenuItemSaveAs_Click);
+            ShadowLevelMenuItemSaveAs.Enabled = false;
+            ShadowLevelMenuItemSaveAs.Name = "ShadowLevelMenuItemSaveAs";
+            ShadowLevelMenuItemSaveAs.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemSaveAs.Text = "Save As...";
+            ShadowLevelMenuItemSaveAs.Click += ShadowLevelMenuItemSaveAs_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
             // 
             // ShadowLevelMenuItemCollisionEditor
             // 
-            this.ShadowLevelMenuItemCollisionEditor.Enabled = false;
-            this.ShadowLevelMenuItemCollisionEditor.Name = "ShadowLevelMenuItemCollisionEditor";
-            this.ShadowLevelMenuItemCollisionEditor.Size = new System.Drawing.Size(154, 22);
-            this.ShadowLevelMenuItemCollisionEditor.Text = "Collision Editor";
-            this.ShadowLevelMenuItemCollisionEditor.Click += new System.EventHandler(this.ShadowLevelMenuItemCollisionEditor_Click);
+            ShadowLevelMenuItemCollisionEditor.Enabled = false;
+            ShadowLevelMenuItemCollisionEditor.Name = "ShadowLevelMenuItemCollisionEditor";
+            ShadowLevelMenuItemCollisionEditor.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemCollisionEditor.Text = "Collision Editor";
+            ShadowLevelMenuItemCollisionEditor.Click += ShadowLevelMenuItemCollisionEditor_Click;
             // 
             // ShadowLevelMenuItemSplineEditor
             // 
-            this.ShadowLevelMenuItemSplineEditor.Enabled = false;
-            this.ShadowLevelMenuItemSplineEditor.Name = "ShadowLevelMenuItemSplineEditor";
-            this.ShadowLevelMenuItemSplineEditor.Size = new System.Drawing.Size(154, 22);
-            this.ShadowLevelMenuItemSplineEditor.Text = "Spline Editor";
-            this.ShadowLevelMenuItemSplineEditor.Click += new System.EventHandler(this.ShadowLevelMenuItemSplineEditor_Click);
+            ShadowLevelMenuItemSplineEditor.Enabled = false;
+            ShadowLevelMenuItemSplineEditor.Name = "ShadowLevelMenuItemSplineEditor";
+            ShadowLevelMenuItemSplineEditor.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemSplineEditor.Text = "Spline Editor";
+            ShadowLevelMenuItemSplineEditor.Click += ShadowLevelMenuItemSplineEditor_Click;
             // 
             // ShadowLevelMenuItemImportBLK
             // 
-            this.ShadowLevelMenuItemImportBLK.Enabled = false;
-            this.ShadowLevelMenuItemImportBLK.Name = "ShadowLevelMenuItemImportBLK";
-            this.ShadowLevelMenuItemImportBLK.Size = new System.Drawing.Size(154, 22);
-            this.ShadowLevelMenuItemImportBLK.Text = "Import BLK";
-            this.ShadowLevelMenuItemImportBLK.Click += new System.EventHandler(this.importBLKToolStripMenuItem_Click);
+            ShadowLevelMenuItemImportBLK.Enabled = false;
+            ShadowLevelMenuItemImportBLK.Name = "ShadowLevelMenuItemImportBLK";
+            ShadowLevelMenuItemImportBLK.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemImportBLK.Text = "Import BLK";
+            ShadowLevelMenuItemImportBLK.Click += importBLKToolStripMenuItem_Click;
+            // 
+            // ShadowLevelMenuItemSaveSplineDataOnly
+            // 
+            ShadowLevelMenuItemSaveSplineDataOnly.Name = "ShadowLevelMenuItemSaveSplineDataOnly";
+            ShadowLevelMenuItemSaveSplineDataOnly.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemSaveSplineDataOnly.Text = "Save Spline Data Only";
+            ShadowLevelMenuItemSaveSplineDataOnly.Click += ShadowLevelMenuItemSaveSplineDataOnly_Click;
             // 
             // labelLoadedBLK
             // 
-            this.labelLoadedBLK.AutoSize = true;
-            this.labelLoadedBLK.Location = new System.Drawing.Point(14, 493);
-            this.labelLoadedBLK.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelLoadedBLK.Name = "labelLoadedBLK";
-            this.labelLoadedBLK.Size = new System.Drawing.Size(85, 15);
-            this.labelLoadedBLK.TabIndex = 2;
-            this.labelLoadedBLK.Text = "No BLK loaded";
+            labelLoadedBLK.AutoSize = true;
+            labelLoadedBLK.Location = new System.Drawing.Point(14, 493);
+            labelLoadedBLK.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelLoadedBLK.Name = "labelLoadedBLK";
+            labelLoadedBLK.Size = new System.Drawing.Size(85, 15);
+            labelLoadedBLK.TabIndex = 2;
+            labelLoadedBLK.Text = "No BLK loaded";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(14, 441);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(517, 27);
-            this.progressBar1.TabIndex = 23;
+            progressBar1.Location = new System.Drawing.Point(14, 441);
+            progressBar1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new System.Drawing.Size(517, 27);
+            progressBar1.TabIndex = 23;
             // 
             // ButtonReassignMATFlag
             // 
-            this.ButtonReassignMATFlag.Location = new System.Drawing.Point(262, 400);
-            this.ButtonReassignMATFlag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonReassignMATFlag.Name = "ButtonReassignMATFlag";
-            this.ButtonReassignMATFlag.Size = new System.Drawing.Size(110, 27);
-            this.ButtonReassignMATFlag.TabIndex = 24;
-            this.ButtonReassignMATFlag.Text = "Reassign MATFlag";
-            this.ButtonReassignMATFlag.UseVisualStyleBackColor = true;
-            this.ButtonReassignMATFlag.Click += new System.EventHandler(this.ButtonReassignMATFlag_Click);
+            ButtonReassignMATFlag.Location = new System.Drawing.Point(262, 400);
+            ButtonReassignMATFlag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonReassignMATFlag.Name = "ButtonReassignMATFlag";
+            ButtonReassignMATFlag.Size = new System.Drawing.Size(110, 27);
+            ButtonReassignMATFlag.TabIndex = 24;
+            ButtonReassignMATFlag.Text = "Reassign MATFlag";
+            ButtonReassignMATFlag.UseVisualStyleBackColor = true;
+            ButtonReassignMATFlag.Click += ButtonReassignMATFlag_Click;
             // 
             // textBox_import_extension
             // 
-            this.textBox_import_extension.Location = new System.Drawing.Point(406, 404);
-            this.textBox_import_extension.Name = "textBox_import_extension";
-            this.textBox_import_extension.Size = new System.Drawing.Size(100, 23);
-            this.textBox_import_extension.TabIndex = 25;
-            this.textBox_import_extension.Text = ".BSP";
-            this.textBox_import_extension.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            textBox_import_extension.Location = new System.Drawing.Point(406, 404);
+            textBox_import_extension.Name = "textBox_import_extension";
+            textBox_import_extension.Size = new System.Drawing.Size(100, 23);
+            textBox_import_extension.TabIndex = 25;
+            textBox_import_extension.Text = ".BSP";
+            textBox_import_extension.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label_import_extension
             // 
-            this.label_import_extension.AutoSize = true;
-            this.label_import_extension.Location = new System.Drawing.Point(406, 386);
-            this.label_import_extension.Name = "label_import_extension";
-            this.label_import_extension.Size = new System.Drawing.Size(97, 15);
-            this.label_import_extension.TabIndex = 26;
-            this.label_import_extension.Text = "Import Extension";
+            label_import_extension.AutoSize = true;
+            label_import_extension.Location = new System.Drawing.Point(406, 386);
+            label_import_extension.Name = "label_import_extension";
+            label_import_extension.Size = new System.Drawing.Size(97, 15);
+            label_import_extension.TabIndex = 26;
+            label_import_extension.Text = "Import Extension";
             // 
             // LevelEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 517);
-            this.Controls.Add(this.label_import_extension);
-            this.Controls.Add(this.textBox_import_extension);
-            this.Controls.Add(this.ButtonReassignMATFlag);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.labelLoadedBLK);
-            this.Controls.Add(this.labelLoadedONE);
-            this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximizeBox = false;
-            this.Name = "LevelEditor";
-            this.ShowIcon = false;
-            this.Text = "Level Editor";
-            this.Load += new System.EventHandler(this.LevelEditor_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listBoxLevelModels_KeyDown);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericCurrentChunk)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAdd)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumMinZ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMinY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMinX)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumMaxZ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMaxY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumMaxX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumChunkNum)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(539, 517);
+            Controls.Add(label_import_extension);
+            Controls.Add(textBox_import_extension);
+            Controls.Add(ButtonReassignMATFlag);
+            Controls.Add(progressBar1);
+            Controls.Add(labelLoadedBLK);
+            Controls.Add(labelLoadedONE);
+            Controls.Add(menuStrip1);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip1;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            Name = "LevelEditor";
+            ShowIcon = false;
+            Text = "Level Editor";
+            Load += LevelEditor_Load;
+            KeyDown += listBoxLevelModels_KeyDown;
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericCurrentChunk).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownAdd).EndInit();
+            groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NumMinZ).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumMinY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumMinX).EndInit();
+            groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NumMaxZ).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumMaxY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumMaxX).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumChunkNum).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -908,5 +815,6 @@
         private System.Windows.Forms.Label label_import_extension;
         private System.Windows.Forms.ListView listViewLevelModels;
         private System.Windows.Forms.ColumnHeader file;
+        private System.Windows.Forms.ToolStripMenuItem ShadowLevelMenuItemSaveSplineDataOnly;
     }
 }
