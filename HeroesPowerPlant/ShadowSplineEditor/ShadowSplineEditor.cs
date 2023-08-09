@@ -180,9 +180,13 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
 
-            // add 0x10 offset (breaks without this on stg0412, other stages seem to have no issues with this added and match proper filesize)
-            for (int i = 0; i < 10; i++)
-                bytes.Add(0);
+            // add 0x10 offset (breaks without this on stg0412)
+            // with this added offset, breaks stg0504, so for now just hardcode for 0412
+            if (shadowFolderNamePrefix == "stg0412")
+            {
+                for (int i = 0; i < 10; i++)
+                    bytes.Add(0);
+            }
 
             foreach (ShadowSpline s in Splines)
                 bytes.AddRange(BitConverter.GetBytes(0));
