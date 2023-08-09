@@ -112,7 +112,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Y).Reverse());
                 vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Z).Reverse());
                 vertexBytes.AddRange(BitConverter.GetBytes(distance).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].UnknownInt).Reverse());
+                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].AngularAttachmentToleranceInt).Reverse());
             }
 
             List<byte> bytes = new List<byte>(0x30 + 0x20 * Vertices.Length);

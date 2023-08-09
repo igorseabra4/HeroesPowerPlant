@@ -38,11 +38,12 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             set => Rotation.Z = MathUtil.DegreesToRadians(value);
         }
 
-        public int UnknownInt { get; set; }
+        // TODO: Better name for this. The value determines if Shadow is allowed to attach depending on the direction the vertices connect. From observations and tests 4 = straight, 6 = sloped, exact math unknown
+        public int AngularAttachmentToleranceInt { get; set; }
 
         public override string ToString()
         {
-            return $"X:{PositionX} Y:{PositionY} Z:{PositionZ} UnknownInt:{UnknownInt}";
+            return $"X:{PositionX} Y:{PositionY} Z:{PositionZ} AAT:{AngularAttachmentToleranceInt}";
         }
     }
 }

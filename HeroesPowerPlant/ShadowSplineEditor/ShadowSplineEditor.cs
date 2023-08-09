@@ -118,7 +118,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                                 Rotation = new Vector3(splineReader.ReadSingle(), splineReader.ReadSingle(), splineReader.ReadSingle())
                             };
                             splineReader.BaseStream.Position += 0x4;
-                            vertex.UnknownInt = splineReader.ReadInt32();
+                            vertex.AngularAttachmentToleranceInt = splineReader.ReadInt32();
 
                             spline.Vertices[j] = vertex;
                         }
@@ -180,9 +180,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
 
-            // add 0x10 offset (mismatch on stg0412, TODO: Research why it needs the extra 0x10 padding)
-            /*            for (int i = 0; i < 10; i++)
-                            bytes.Add(0);*/
+            // add 0x10 offset (breaks without this on stg0412, other stages seem to have no issues with this added and match proper filesize)
+            for (int i = 0; i < 10; i++)
+                bytes.Add(0);
 
             foreach (ShadowSpline s in Splines)
                 bytes.AddRange(BitConverter.GetBytes(0));

@@ -656,11 +656,14 @@ namespace HeroesPowerPlant.LevelEditor
         private void ShadowLevelMenuItemCollisionEditor_Click(object sender, EventArgs e)
         {
             shadowCollisionEditor.Show();
+            shadowCollisionEditor.Focus();
+
         }
 
         private void ShadowLevelMenuItemSplineEditor_Click(object sender, EventArgs e)
         {
             shadowSplineEditor.Show();
+            shadowSplineEditor.Focus();
         }
 
         public void GetClickedModelPosition(bool isShadowCollision, Ray ray, out bool found, out float smallestDistance)
