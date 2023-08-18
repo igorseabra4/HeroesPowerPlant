@@ -662,6 +662,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     0x04 => new Object0704_RailRoadblock(),
                     0x05 => new Object0705_Capsule(),
                     0x06 => new Object_L1Type(),
+                    0x2D => new Object072D_TrainCore(),
                     0x43 => new Object_F1Range(),
                     0x81 => new Object_F1Scale(),
                     0x87 => new Object_XYZScale(11),
