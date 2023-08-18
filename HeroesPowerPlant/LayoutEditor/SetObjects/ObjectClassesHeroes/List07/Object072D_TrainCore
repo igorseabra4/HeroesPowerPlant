@@ -1,0 +1,8 @@
+namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object072D_TrainCore : SetObjectHeroes
+    {
+        [MiscSetting]
+        public int WarpID { get; set; }
+    }
+}
