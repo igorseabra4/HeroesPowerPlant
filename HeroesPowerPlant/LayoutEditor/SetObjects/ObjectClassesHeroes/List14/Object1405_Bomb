@@ -1,0 +1,40 @@
+using SharpDX;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HeroesPowerPlant.LayoutEditor
+{
+    public class Object1405_Bomb : SetObjectHeroes
+    {
+        public override void Draw(SharpRenderer renderer)
+        {
+            SetRendererStates(renderer);
+
+            if (models == null)
+                DrawCube(renderer);
+            else
+            {
+                int i = 0;
+
+                foreach (var model in models)
+                {
+                    if (i > 2)
+                        renderer.Device.SetBlendStateAdditive();
+                    else
+                        renderer.Device.SetDefaultBlendState();
+                    renderer.Device.UpdateAllStates();
+
+                    model.Render(renderer.Device);
+
+                    i++;
+                }
+            }    
+        }
+
+        [MiscSetting]
+        public byte PosIndex { get; set; }
+    }
+}
