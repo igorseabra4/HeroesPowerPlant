@@ -17,7 +17,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public override void CreateTransformMatrix()
         {
-            transformMatrix = Matrix.Scaling(ScaleX + 1F, ScaleY + 1F, ScaleZ + 1F) * DefaultTransformMatrix();
+            transformMatrix = Matrix.Scaling(ScaleX, ScaleY, ScaleZ) * DefaultTransformMatrix();
             CreateBoundingBox();
         }
 
