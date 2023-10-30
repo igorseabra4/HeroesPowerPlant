@@ -357,9 +357,9 @@ namespace HeroesPowerPlant.LayoutEditor
                 List<int> matchesIndex = new();
 
                 var targetSize = setObjAudioBranchID.Length;
-                for (int i = 0; i < Program.MainForm.loadedFNT.entryTable.Count; i++)
+                for (int i = 0; i < Program.MainForm.loadedFNT.GetEntryTableCount(); i++)
                 {
-                    var entry = Program.MainForm.loadedFNT.entryTable[i].messageIdBranchSequence.ToString();
+                    var entry = Program.MainForm.loadedFNT.GetEntryMessageIdBranchSequence(i).ToString();
                     //size comparison is faster
                     if (entry.Length != targetSize + 3)
                         continue;
@@ -376,7 +376,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
                 foreach (int match in matchesIndex)
                 {
-                    var entry = Program.MainForm.loadedFNT.entryTable[match];
+                    var entry = Program.MainForm.loadedFNT.GetTableEntry(match);
                     var entrySubtitle = entry.messageIdBranchSequence.ToString();
                     var branchType = entrySubtitle.Substring(entrySubtitle.Length - 3);
                     if (branchType.StartsWith("0"))

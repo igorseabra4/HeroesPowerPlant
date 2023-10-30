@@ -1,6 +1,6 @@
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
-using ShadowFNT.Structures;
+using ShadowFNT;
 using SharpDX;
 using SharpDX.Direct3D11;
 using System;
