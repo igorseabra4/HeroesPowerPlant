@@ -1,4 +1,4 @@
-﻿using Reloaded.Memory;
+﻿using Reloaded.Memory.Utilities;
 
 namespace HeroesPowerPlant.Shared.Utilities
 {
@@ -9,7 +9,7 @@ namespace HeroesPowerPlant.Shared.Utilities
     {
         public static T ReverseEndian<T>(this T type) where T : unmanaged
         {
-            Endian.Reverse(ref type);
+            Endian.Reverse(type);
             return type;
         }
     }
