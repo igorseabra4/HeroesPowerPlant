@@ -386,6 +386,7 @@
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+    <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0030" />
     <PackageReference Include="VGAudio" Version="2.2.1" />
   </ItemGroup>
   <ItemGroup>
