@@ -387,27 +387,38 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             }
         }
 
-        public void Export(string fileName)
+        public void ExportSelectedSpline(string fileName)
         {
             if (selectedSpline > -1 && selectedSpline < Splines.Count)
             {
-                StreamWriter streamWriter = new StreamWriter(new FileStream(fileName, FileMode.Create));
+                ExportSpline(Splines[selectedSpline], fileName);
+            }
+        }
 
-                streamWriter.WriteLine("## Exported from Heroes Power Plant");
-                streamWriter.WriteLine();
+        private void ExportSpline(ShadowSpline spline, string fileName) {
+            StreamWriter streamWriter = new StreamWriter(new FileStream(fileName, FileMode.Create));
 
-                foreach (ShadowSplineVertex v in Splines[selectedSpline].Vertices)
-                    streamWriter.WriteLine("v {0} {1} {2}", v.Position.X, v.Position.Y, v.Position.Z);
+            streamWriter.WriteLine("## Exported from Heroes Power Plant");
+            streamWriter.WriteLine();
 
-                streamWriter.WriteLine();
-                streamWriter.WriteLine("g " + Splines[selectedSpline].Name);
+            foreach (ShadowSplineVertex v in spline.Vertices)
+                streamWriter.WriteLine("v {0} {1} {2}", v.Position.X, v.Position.Y, v.Position.Z);
 
-                string final = "l ";
-                for (int i = 1; i <= Splines[selectedSpline].Vertices.Length; i++)
-                    final += i.ToString() + " ";
-                streamWriter.WriteLine(final);
+            streamWriter.WriteLine();
+            streamWriter.WriteLine("g " + spline.Name);
 
-                streamWriter.Close();
+            string final = "l ";
+            for (int i = 1; i <= spline.Vertices.Length; i++)
+                final += i.ToString() + " ";
+            streamWriter.WriteLine(final);
+
+            streamWriter.Close();
+        }
+
+        public void ExportAllSplines(string folderPath) {
+            for (int i = 0; i < Splines.Count; i++) {
+                var targetSpline = Splines[i];
+                ExportSpline(targetSpline, Path.Combine(folderPath, targetSpline.Name + ".obj"));
             }
         }
 
