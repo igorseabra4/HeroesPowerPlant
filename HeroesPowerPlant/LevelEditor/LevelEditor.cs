@@ -16,7 +16,6 @@ using static HeroesPowerPlant.LevelEditor.BSP_IO_Assimp;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Collada;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace HeroesPowerPlant.LevelEditor
 {
@@ -69,6 +68,7 @@ namespace HeroesPowerPlant.LevelEditor
             SetHeroesMode();
             ResetEveryting();
             _unsavedChangesLevel = false;
+            textBox_import_extension.Text = ".BSP";
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -84,6 +84,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 OpenONEHeroesFile(openFile.FileName, Program.MainForm.renderer);
             }
+            textBox_import_extension.Text = ".BSP";
         }
 
         public void OpenONEHeroesFile(string fileName, SharpRenderer renderer)
@@ -490,6 +491,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             SetShadowMode();
             ResetEveryting();
+            textBox_import_extension.Text = ".RG1";
         }
 
         private async void ShadowLevelMenuItemOpen_Click(object sender, EventArgs e)
@@ -505,6 +507,8 @@ namespace HeroesPowerPlant.LevelEditor
                 await Task.Run(() => Program.MainForm.renderer.dffRenderer.AddDFFFiles(Program.MainForm.dffsToLoad));
                 await Task.Run(() => Program.MainForm.AutoLoadFNTAndAFS(Path.GetFileName(openFolder.SelectedPath)));
             }
+
+            textBox_import_extension.Text = ".RG1";
         }
 
         public void OpenONEShadowFolder(string fileName, bool startup)

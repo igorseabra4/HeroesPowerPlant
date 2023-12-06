@@ -696,7 +696,7 @@
             textBox_import_extension.Name = "textBox_import_extension";
             textBox_import_extension.Size = new System.Drawing.Size(100, 23);
             textBox_import_extension.TabIndex = 25;
-            textBox_import_extension.Text = "..";
+            textBox_import_extension.Text = ".BSP";
             textBox_import_extension.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label_import_extension
