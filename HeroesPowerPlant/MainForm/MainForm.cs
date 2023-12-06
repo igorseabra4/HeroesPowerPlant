@@ -1440,7 +1440,7 @@ namespace HeroesPowerPlant.MainForm
 
                 string probComObjTxd = dvdroot + "\\textures\\obj_common.txd";
                 if (File.Exists(probComObjTxd) && !TextureManager.OpenTXDfiles.Contains(probComObjTxd))
-                    TextureManager.LoadTexturesFromTXD(probComObjTxd, renderer, LevelEditor.bspRenderer);
+                    TextureManager.SetupTextureDisplay(File.ReadAllBytes(probComObjTxd), renderer, LevelEditor.bspRenderer);
 
                 foreach (var s in new (string, bool)[] {
                     (dvdroot + "\\" + filenamePrefix + "_DB.bin", true),

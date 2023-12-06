@@ -105,7 +105,17 @@ namespace HeroesPowerPlant.LevelEditor
 
             string probTxd = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + bspRenderer.currentFileNamePrefix + ".txd";
             if (File.Exists(probTxd) && !TextureManager.OpenTXDfiles.Contains(probTxd))
-                TextureManager.LoadTexturesFromTXD(probTxd, renderer, bspRenderer);
+                TextureManager.SetupTextureDisplay(File.ReadAllBytes(probTxd), renderer, bspRenderer);
+
+            // TODO: Something is wrong with loading GCN _indirect .txd; Skipping for now
+            /*
+            string probIndirectTxd = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + bspRenderer.currentFileNamePrefix + "_indirect.txd";
+            if (File.Exists(probIndirectTxd) && !TextureManager.OpenTXDfiles.Contains(probIndirectTxd))
+                TextureManager.SetupTextureDisplay(File.ReadAllBytes(probIndirectTxd), renderer, bspRenderer);*/
+
+            string probEffectTxd = Path.GetDirectoryName(openONEfilePath) + "\\textures\\" + bspRenderer.currentFileNamePrefix + "_effect.txd";
+            if (File.Exists(probEffectTxd) && !TextureManager.OpenTXDfiles.Contains(probEffectTxd))
+                TextureManager.SetupTextureDisplay(File.ReadAllBytes(probEffectTxd), renderer, bspRenderer);
         }
 
         public string GetOpenONEFilePath()
