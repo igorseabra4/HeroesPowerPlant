@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows7.0</TargetFrameworks>
+	<RollForward>LatestMajor</RollForward>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -14,16 +15,16 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2023.08.08</ApplicationVersion>
-    <ProductVersion>2023.08.08</ProductVersion>
+    <ApplicationVersion>2023.12.12</ApplicationVersion>
+    <ProductVersion>2023.12.12</ProductVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
     <Company>Heroes Hacking Central</Company>
     <Product>Heroes Power Plant</Product>
     <Copyright>Copyright © 2018-2023 igorseabra4 + friends</Copyright>
-    <AssemblyVersion>2023.08.08</AssemblyVersion>
-    <FileVersion>2023.08.08</FileVersion>
+    <AssemblyVersion>2023.12.12</AssemblyVersion>
+    <FileVersion>2023.12.12</FileVersion>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
@@ -372,7 +373,7 @@
     <ProjectReference Include="..\Submodules\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AFSLib" Version="1.1.0" />
+    <PackageReference Include="AFSLib" Version="1.1.1" />
     <PackageReference Include="AssimpNet" Version="4.1.0" />
     <PackageReference Include="csharp-prs" Version="2.1.3" />
     <PackageReference Include="DSoft.SharpDX.Desktop" Version="4.2.1" />
@@ -381,7 +382,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
-    <PackageReference Include="Reloaded.Memory" Version="9.1.0" />
+    <PackageReference Include="Reloaded.Memory" Version="9.3.2" />
     <PackageReference Include="ShadowFNT" Version="2.0.1" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
