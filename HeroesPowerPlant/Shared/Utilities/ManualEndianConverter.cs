@@ -9,8 +9,7 @@ namespace HeroesPowerPlant.Shared.Utilities
     {
         public static T ReverseEndian<T>(this T type) where T : unmanaged
         {
-            Endian.Reverse(type);
-            return type;
+            return Endian.Reverse(type);
         }
     }
 }
