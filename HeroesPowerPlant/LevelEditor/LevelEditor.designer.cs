@@ -83,8 +83,8 @@
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ShadowLevelMenuItemCollisionEditor = new System.Windows.Forms.ToolStripMenuItem();
             ShadowLevelMenuItemSplineEditor = new System.Windows.Forms.ToolStripMenuItem();
-            ShadowLevelMenuItemImportBLK = new System.Windows.Forms.ToolStripMenuItem();
             ShadowLevelMenuItemSaveSplineDataOnly = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemImportBLK = new System.Windows.Forms.ToolStripMenuItem();
             labelLoadedBLK = new System.Windows.Forms.Label();
             progressBar1 = new System.Windows.Forms.ProgressBar();
             ButtonReassignMATFlag = new System.Windows.Forms.Button();
@@ -646,6 +646,13 @@
             ShadowLevelMenuItemSplineEditor.Text = "Spline Editor";
             ShadowLevelMenuItemSplineEditor.Click += ShadowLevelMenuItemSplineEditor_Click;
             // 
+            // ShadowLevelMenuItemSaveSplineDataOnly
+            // 
+            ShadowLevelMenuItemSaveSplineDataOnly.Name = "ShadowLevelMenuItemSaveSplineDataOnly";
+            ShadowLevelMenuItemSaveSplineDataOnly.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemSaveSplineDataOnly.Text = "Save Spline Data Only";
+            ShadowLevelMenuItemSaveSplineDataOnly.Click += ShadowLevelMenuItemSaveSplineDataOnly_Click;
+            // 
             // ShadowLevelMenuItemImportBLK
             // 
             ShadowLevelMenuItemImportBLK.Enabled = false;
@@ -653,13 +660,6 @@
             ShadowLevelMenuItemImportBLK.Size = new System.Drawing.Size(188, 22);
             ShadowLevelMenuItemImportBLK.Text = "Import BLK";
             ShadowLevelMenuItemImportBLK.Click += importBLKToolStripMenuItem_Click;
-            // 
-            // ShadowLevelMenuItemSaveSplineDataOnly
-            // 
-            ShadowLevelMenuItemSaveSplineDataOnly.Name = "ShadowLevelMenuItemSaveSplineDataOnly";
-            ShadowLevelMenuItemSaveSplineDataOnly.Size = new System.Drawing.Size(188, 22);
-            ShadowLevelMenuItemSaveSplineDataOnly.Text = "Save Spline Data Only";
-            ShadowLevelMenuItemSaveSplineDataOnly.Click += ShadowLevelMenuItemSaveSplineDataOnly_Click;
             // 
             // labelLoadedBLK
             // 
@@ -684,9 +684,9 @@
             ButtonReassignMATFlag.Location = new System.Drawing.Point(262, 400);
             ButtonReassignMATFlag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             ButtonReassignMATFlag.Name = "ButtonReassignMATFlag";
-            ButtonReassignMATFlag.Size = new System.Drawing.Size(110, 27);
+            ButtonReassignMATFlag.Size = new System.Drawing.Size(120, 27);
             ButtonReassignMATFlag.TabIndex = 24;
-            ButtonReassignMATFlag.Text = "Reassign MATFlag";
+            ButtonReassignMATFlag.Text = "Reassign MAT Flags";
             ButtonReassignMATFlag.UseVisualStyleBackColor = true;
             ButtonReassignMATFlag.Click += ButtonReassignMATFlag_Click;
             // 
@@ -696,7 +696,7 @@
             textBox_import_extension.Name = "textBox_import_extension";
             textBox_import_extension.Size = new System.Drawing.Size(100, 23);
             textBox_import_extension.TabIndex = 25;
-            textBox_import_extension.Text = ".BSP";
+            textBox_import_extension.Text = "..";
             textBox_import_extension.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label_import_extension

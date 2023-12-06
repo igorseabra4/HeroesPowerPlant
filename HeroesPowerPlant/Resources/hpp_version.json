@@ -1,4 +1,4 @@
 ﻿{
-  "version": "2023.08.08",
-  "versionName": "Newer version of HPP available.\nTo stay on the current version disable:\nOptions -> Check For Updates on Startup"
+  "version": "2023.12.06",
+  "versionName": "Newer version of HPP available. \n!!Requires .NET 8!!\n\nTo stay on the current version, disable:\nOptions -> Check For Updates on Startup"
 }
