@@ -42,8 +42,8 @@ namespace HeroesPowerPlant
             {
                 if (!File.Exists(s))
                 {
-                    MessageBox.Show("Error: file not found: " + s, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    continue;
+                    MessageBox.Show("Error: file not found: " + s + ". Stopping further reads.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
                 }
 
                 if (!filePaths.Contains(s))
