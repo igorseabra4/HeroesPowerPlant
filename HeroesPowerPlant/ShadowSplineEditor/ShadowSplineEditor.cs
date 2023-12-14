@@ -254,6 +254,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 bytes.Add((byte)c);
             bytes.Add(0);
 
+            // Inspect byte % 0x10
+
             while (bytes.Count % 0x4 != 0)
                 bytes.Add(0);
 
