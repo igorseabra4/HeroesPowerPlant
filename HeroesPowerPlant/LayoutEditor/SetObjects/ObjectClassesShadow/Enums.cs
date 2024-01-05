@@ -156,7 +156,18 @@
         Knife = 0x1E,
         BlackSword = 0x1F,
         DarkHammer = 0x20,
-        EggLance = 0x21
+        EggLance = 0x21,
+        SamuraiSwordLv1 = 0x39,
+        SamuraiSwordLv2 = 0x3A,
+        SatelliteLaserLv1 = 0x3B,
+        SatelliteLaserLv2 = 0x3C,
+        EggVacLv1 = 0x3D,
+        EggVacLv2 = 0x3E,
+        OmochaoLv1 = 0x3F,
+        OmochaoLv2 = 0x40,
+        HealCannonLv1 = 0x41,
+        HealCannonLv2 = 0x42,
+        ShadowRifle = 0x43,
     }
 
     /*
