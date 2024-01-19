@@ -1364,8 +1364,8 @@ namespace HeroesPowerPlant.MainForm
 
         public void AutoLoadFNTAndAFS(string shadowStage)
         {
-            SetAFSlocation(currentShadowLevelRoot + "/PRS_VOICE_E.afs");
-            var fntFileName = currentShadowLevelRoot + "/fonts/" + shadowStage + "/" + shadowStage + "_EN.fnt";
+            SetAFSlocation(currentShadowLevelRoot + "\\PRS_VOICE_E.afs");
+            var fntFileName = currentShadowLevelRoot + "\\fonts\\" + shadowStage + "\\" + shadowStage + "_EN.fnt";
             LoadFNT(fntFileName);
         }
 

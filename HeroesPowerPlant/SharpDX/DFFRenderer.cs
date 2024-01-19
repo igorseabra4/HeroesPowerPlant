@@ -31,6 +31,7 @@ namespace HeroesPowerPlant
 
         public void AddDFFFiles(IEnumerable<string> fileNames)
         {
+            List<string> missingFiles = new List<string>();
             foreach (ObjectEntry o in LayoutEditorSystem.GetAllObjectEntries())
                 if (o.ModelNames != null)
                     foreach (string[] s2 in o.ModelNames)
@@ -42,8 +43,8 @@ namespace HeroesPowerPlant
             {
                 if (!File.Exists(s))
                 {
-                    MessageBox.Show("Error: file not found: " + s + ". Stopping further reads.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
+                    missingFiles.Add(s);
+                    continue;
                 }
 
                 if (!filePaths.Contains(s))
@@ -56,6 +57,7 @@ namespace HeroesPowerPlant
                 v.UpdateAllMatrices();
 
             mainForm.ReapplyTextures();
+            MessageBox.Show("Missing models:\n" + string.Join(Environment.NewLine, missingFiles), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void AddDFFFiles(string fileName)
