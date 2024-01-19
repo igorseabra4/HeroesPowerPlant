@@ -980,14 +980,16 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ButtonReassignMATFlag_Click(object sender, EventArgs e)
         {
-            string target;
-            string replacement;
-            (target, replacement) = ReassignMATFlags.GetMATSwap();
+            ReassignMATFlags.OpenReassignMATFlags(this);
+        }
+
+        public void MATFlag_Reassignment(string target, string replacement)
+        {
             for (int i = 0; i < listViewLevelModels.Items.Count; i++)
             {
                 if (listViewLevelModels.Items[i].ToString().Contains(target))
                 {
-                    var newName = listViewLevelModels.Items[i].ToString().Replace(target, replacement);
+                    var newName = listViewLevelModels.Items[i].Text.Replace(target, replacement);
                     listViewLevelModels.Items[i].Text = newName;
                     bspRenderer.BSPList[i].fileName = newName;
                     bspRenderer.BSPList[i].SetChunkNumberAndName();

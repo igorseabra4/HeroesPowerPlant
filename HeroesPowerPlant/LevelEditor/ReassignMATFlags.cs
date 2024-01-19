@@ -8,26 +8,26 @@ namespace HeroesPowerPlant.LevelEditor
 {
     public partial class ReassignMATFlags : Form
     {
-        public ReassignMATFlags()
+        LevelEditor levelEditor;
+        public ReassignMATFlags(LevelEditor levelEditor)
         {
             InitializeComponent();
             if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
                 TopMost = true;
             else
                 TopMost = false;
+            this.levelEditor = levelEditor;
         }
 
-        public static (string, string) GetMATSwap()
+        public static void OpenReassignMATFlags(LevelEditor levelEditor)
         {
-            ReassignMATFlags form = new ReassignMATFlags();
+            ReassignMATFlags form = new ReassignMATFlags(levelEditor);
             form.ShowDialog();
-
-            return ("_" + form.textBox_targetMAT.Text + "_", "_" + form.textBox_replacementMAT.Text + "_");
         }
 
         private void button_ReplaceFlags_Click(object sender, EventArgs e)
         {
-            Close();
+            levelEditor.MATFlag_Reassignment(textBox_targetMAT.Text, textBox_replacementMAT.Text);
         }
 
         private void buttonWikiForGeoMatFlags_Click(object sender, EventArgs e)

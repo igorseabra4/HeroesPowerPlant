@@ -117,7 +117,7 @@
             labelCopyright.Name = "labelCopyright";
             labelCopyright.Size = new System.Drawing.Size(316, 20);
             labelCopyright.TabIndex = 21;
-            labelCopyright.Text = "© 2018-2023+ igorseabra4 and friends";
+            labelCopyright.Text = "© 2018-2024+ igorseabra4 and friends";
             labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCompanyName

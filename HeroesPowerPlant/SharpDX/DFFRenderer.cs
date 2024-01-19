@@ -57,7 +57,10 @@ namespace HeroesPowerPlant
                 v.UpdateAllMatrices();
 
             mainForm.ReapplyTextures();
-            MessageBox.Show("Missing models:\n" + string.Join(Environment.NewLine, missingFiles), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (missingFiles.Count > 0)
+            {
+                MessageBox.Show("Missing models:\n" + string.Join(Environment.NewLine, missingFiles), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void AddDFFFiles(string fileName)

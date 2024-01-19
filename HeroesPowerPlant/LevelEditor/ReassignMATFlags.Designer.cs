@@ -37,6 +37,7 @@ namespace HeroesPowerPlant.LevelEditor
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             buttonWikiForGeoMatFlags = new System.Windows.Forms.Button();
+            label4 = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
             // button_ReplaceFlags
@@ -117,11 +118,21 @@ namespace HeroesPowerPlant.LevelEditor
             buttonWikiForGeoMatFlags.UseVisualStyleBackColor = true;
             buttonWikiForGeoMatFlags.Click += buttonWikiForGeoMatFlags_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(12, 180);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(186, 195);
+            label4.TabIndex = 12;
+            label4.Text = "Tip:\r\nSurround Target and Replacement\r\nwith _\r\n\r\nThie esnures you don't\r\nreplace shared letter types\r\n\r\nExample:\r\nTarget:\r\n_AFN_\r\nReplacement:\r\n_OS_\r\n\r\n";
+            // 
             // ReassignMATFlags
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(420, 402);
+            Controls.Add(label4);
             Controls.Add(buttonWikiForGeoMatFlags);
             Controls.Add(label2);
             Controls.Add(label3);
@@ -150,5 +161,6 @@ namespace HeroesPowerPlant.LevelEditor
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonWikiForGeoMatFlags;
+        private System.Windows.Forms.Label label4;
     }
 }
