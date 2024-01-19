@@ -129,7 +129,7 @@
         MachineGun = 0x03,
         HeavyMachineGun = 0x04,
         GatlingGun = 0x05,
-        None06 = 0x06,
+        UnusedEggmanWeaponSlot = 0x06,
         EggGun = 0x07,
         LightShot = 0x08,
         FlashShot = 0x09,
