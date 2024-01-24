@@ -36,12 +36,13 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
             if (isShadow)
             {
-                reader.BaseStream.Position = 4;
-                
-                // Shadow entry amount is in Little Endian, but the rest of the table is Big Endian
-                var amount = reader.ReadInt32().ReverseEndian();
-                for (int i = 0; i < amount; i++)
+                reader.BaseStream.Position = 0;
+                for (int i = 0; i < 9999; i++)
+                {
+                    if (reader.BaseStream.Position >= 0xA70)
+                        break;
                     tableEntries.Add(ReadShadowTableEntry(reader, objectEntries));
+                }
             }
             else
                 while (reader.BaseStream.Position != reader.BaseStream.Length)

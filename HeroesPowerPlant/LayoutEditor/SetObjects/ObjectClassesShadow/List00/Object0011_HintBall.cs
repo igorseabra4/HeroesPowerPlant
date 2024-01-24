@@ -13,7 +13,7 @@ namespace HeroesPowerPlant.LayoutEditor
         [MiscSetting]
         public float Float_03 { get; set; }
         [MiscSetting]
-        public int Int_04 { get; set; }
+        public int Int_04 { get; set; } = 0;
 
         public override void ReadMiscSettings(BinaryReader reader, int count)
         {
@@ -21,7 +21,7 @@ namespace HeroesPowerPlant.LayoutEditor
             AudioBranchType = (EAudioBranchType)reader.ReadInt32();
             Float_02 = reader.ReadSingle();
             Float_03 = reader.ReadSingle();
-            Int_04 = reader.ReadInt32();
+            //Int_04 = reader.ReadInt32();
         }
 
         public override void WriteMiscSettings(BinaryWriter writer)

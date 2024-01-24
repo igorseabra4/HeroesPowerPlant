@@ -584,7 +584,7 @@ namespace HeroesPowerPlant.MainForm
             KeyPreview = true;
             Margin = new Padding(4, 3, 4, 3);
             Name = "MainForm";
-            Text = "Heroes Power Plant 2024.01.19";
+            Text = "Heroes Power Plant Whats up With Y2K? Is it real or fake? Like a pair of denims on a fat ass Edition";
             Deactivate += MainForm_Deactivate;
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
