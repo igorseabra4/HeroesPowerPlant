@@ -95,6 +95,8 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void comboBoxStages_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBoxStages.SelectedItem == null)
+                return;
             SetStage((Stage)comboBoxStages.SelectedItem);
         }
 

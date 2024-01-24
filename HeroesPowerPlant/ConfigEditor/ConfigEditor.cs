@@ -228,6 +228,8 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void ComboLevelConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ComboLevelConfig.SelectedItem == null)
+                return;
             if (ProgramIsChangingStuff)
                 return;
 
