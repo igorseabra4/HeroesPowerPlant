@@ -221,6 +221,8 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         private void comboBoxTableEntries_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBoxTableEntries.SelectedItem == null)
+                return;
             programIsChangingStuff = true;
 
             for (int i = 0; i < checkedListBoxStageEntries.Items.Count; i++)
