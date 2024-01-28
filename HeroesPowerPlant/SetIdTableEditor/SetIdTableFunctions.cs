@@ -128,9 +128,6 @@ namespace HeroesPowerPlant.SetIdTableEditor
 
         public static void WriteShadowTable(EndianBinaryWriter tableWriter, List<TableEntry> tableEntries)
         {
-            tableWriter.Write(0);
-            tableWriter.Write(tableEntries.Count.ReverseEndian());
-
             foreach (TableEntry i in tableEntries)
             {
                 tableWriter.Write(i.objectEntry.Type);
