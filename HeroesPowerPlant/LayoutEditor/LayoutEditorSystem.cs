@@ -150,7 +150,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void SaveINI(string fileName)
         {
-            SaveHeroesLayoutINI(setObjects.Cast<SetObjectHeroes>(), fileName);
+            SaveLayoutINI(setObjects.Cast<SetObject>(), fileName);
         }
 
         public void ImportINI(string fileName)
