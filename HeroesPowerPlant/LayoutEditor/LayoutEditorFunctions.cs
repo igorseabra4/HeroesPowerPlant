@@ -367,7 +367,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
-        public static void SaveHeroesLayoutINI(IEnumerable<SetObjectHeroes> list, string outputFile)
+        public static void SaveLayoutINI(IEnumerable<SetObject> list, string outputFile)
         {
             var iniWriter = new StreamWriter(new FileStream(outputFile, FileMode.Create));
             iniWriter.WriteLine("#Exported by HeroesPowerPlant");
