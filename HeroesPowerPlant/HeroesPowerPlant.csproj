@@ -15,16 +15,16 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2024.01.19</ApplicationVersion>
-    <ProductVersion>2024.01.19</ProductVersion>
+    <ApplicationVersion>2024.02.15</ApplicationVersion>
+    <ProductVersion>2024.02.15</ProductVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
     <Company>Heroes Hacking Central</Company>
     <Product>Heroes Power Plant</Product>
     <Copyright>Copyright © 2018-2024 igorseabra4 + friends</Copyright>
-    <AssemblyVersion>2024.01.19</AssemblyVersion>
-    <FileVersion>2024.01.19</FileVersion>
+    <AssemblyVersion>2024.02.15</AssemblyVersion>
+    <FileVersion>2024.02.15</FileVersion>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
@@ -374,7 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AFSLib" Version="1.1.1" />
-    <PackageReference Include="AssimpNet" Version="4.1.0" />
+    <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
     <PackageReference Include="csharp-prs" Version="2.1.3" />
     <PackageReference Include="DSoft.SharpDX.Desktop" Version="4.2.1" />
     <PackageReference Include="HeroesONE_R" Version="1.0.6">
