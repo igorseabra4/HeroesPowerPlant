@@ -40,6 +40,7 @@ namespace HeroesPowerPlant.LevelEditor
                 tList.Add(new RenderWareFile.Triangle((ushort)t.MaterialIndex, (ushort)t.vertex1, (ushort)t.vertex2, (ushort)t.vertex3));
 
             List<BinMesh> binMeshList = new List<BinMesh>();
+            List<UserData> dataList = new List<UserData>();
             int TotalNumberOfTristripIndicies = 0;
 
             for (int i = 0; i < data.MaterialList.Count; i++)
@@ -260,17 +261,7 @@ namespace HeroesPowerPlant.LevelEditor
                             },
                             new UserDataPLG_011F()
                             {
-                                userDataType = 0x02,
-                                unknown2 = 0x0A,
-                                attribute = "attribute",
-                                unknown3 = 0x01,
-                                numTriangles = tList.Count(),
-                                collisionFlags = cFlags.ToArray(),
-                                unknown4 = 0x0D,
-                                userData = "FVF.UserData",
-                                unknown5 = 0x01,
-                                unknown6 = 0x01,
-                                unknown7 = 0x3003
+                                dataList = dataList.ToArray()
                             }
                         }
                     }
