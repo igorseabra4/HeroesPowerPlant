@@ -214,6 +214,7 @@ namespace HeroesPowerPlant.CameraEditor
             VistaSaveFileDialog SaveCamera = new VistaSaveFileDialog()
             {
                 Filter = "Binary Files|*.bin",
+                DefaultExt = ".bin",
                 FileName = CurrentCameraFile
             };
             if (SaveCamera.ShowDialog() == DialogResult.OK)

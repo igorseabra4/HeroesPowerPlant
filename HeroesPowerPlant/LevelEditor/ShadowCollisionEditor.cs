@@ -102,6 +102,7 @@ namespace HeroesPowerPlant.LevelEditor
                 VistaSaveFileDialog saveDialog = new VistaSaveFileDialog()
                 {
                     Filter = "OBJ Files|*.obj|BSP Files|*.bsp",
+                    DefaultExt = ".obj",
                     FileName = Path.ChangeExtension(listBoxLevelModels.GetItemText(listBoxLevelModels.SelectedItem), ".obj")
                 };
                 if (saveDialog.ShowDialog() == DialogResult.OK)

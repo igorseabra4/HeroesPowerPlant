@@ -73,6 +73,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             if (result == DialogResult.No) {
                 VistaSaveFileDialog saveSpline = new VistaSaveFileDialog() {
                     Filter = ".obj files|*.obj",
+                    DefaultExt = ".obj",
                     FileName = SplineEditor.GetSplineAt(listBoxSplines.SelectedIndex) + ".obj"
                 };
                 if (saveSpline.ShowDialog() == DialogResult.OK) {

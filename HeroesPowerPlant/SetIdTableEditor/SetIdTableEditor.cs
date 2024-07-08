@@ -63,6 +63,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             VistaOpenFileDialog openFileDialog = new VistaOpenFileDialog()
             {
                 Filter = ".bin files|*.bin",
+                DefaultExt = ".bin",
                 FileName = "setidtbl.bin"
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -97,6 +98,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             VistaOpenFileDialog openFileDialog = new VistaOpenFileDialog()
             {
                 Filter = ".bin files|*.bin",
+                DefaultExt = ".bin",
                 FileName = "setid.bin"
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -203,6 +205,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
             VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog
             {
                 Filter = ".bin files|*.bin",
+                DefaultExt = ".bin",
                 FileName = currentFileName
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)

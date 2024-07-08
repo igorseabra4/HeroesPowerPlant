@@ -156,6 +156,7 @@ namespace HeroesPowerPlant.LightEditor
             VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
                 Filter = "BIN Files|*.bin",
+                DefaultExt = ".bin",
                 FileName = LightEditor.CurrentlyOpenLightFile
             };
 
@@ -171,6 +172,7 @@ namespace HeroesPowerPlant.LightEditor
             VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
                 Filter = "BIN Files|*.bin",
+                DefaultExt = ".bin",
                 FileName = LightEditor.CurrentlyOpenLightFile
             };
 

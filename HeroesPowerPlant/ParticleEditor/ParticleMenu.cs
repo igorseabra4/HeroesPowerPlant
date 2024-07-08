@@ -153,6 +153,7 @@ namespace HeroesPowerPlant.ParticleEditor
             VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
                 Filter = "BIN Files|*.bin",
+                DefaultExt = ".bin",
                 FileName = ParticleEditor.CurrentlyOpenParticleFile
             };
 

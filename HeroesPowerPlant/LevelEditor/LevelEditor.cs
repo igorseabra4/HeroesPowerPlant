@@ -139,7 +139,7 @@ namespace HeroesPowerPlant.LevelEditor
                 Filter = "ONE files|*.one",
                 FileName = openONEfilePath,
                 AddExtension = true,
-                DefaultExt = "ONE",
+                DefaultExt = ".one",
                 InitialDirectory = Path.GetDirectoryName(openONEfilePath)
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -299,6 +299,7 @@ namespace HeroesPowerPlant.LevelEditor
                     VistaSaveFileDialog a = new VistaSaveFileDialog()
                     {
                         Filter = format == null ? "RenderWare BSP|*.bsp" : format.Description + "|*." + format.FileExtension,
+                        DefaultExt = ".bsp",
                         FileName = listViewLevelModels.SelectedItems[0].Text + (format == null ? "" : "." + format.FileExtension)
                     };
 
