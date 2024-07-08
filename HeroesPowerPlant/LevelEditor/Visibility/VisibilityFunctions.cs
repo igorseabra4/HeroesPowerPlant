@@ -101,12 +101,12 @@ namespace HeroesPowerPlant.LevelEditor
                     continue;
                 writer.Write(i.number);
 
-                writer.Write(i.Min.X);
-                writer.Write(i.Min.Y);
-                writer.Write(i.Min.Z);
-                writer.Write(i.Max.X);
-                writer.Write(i.Max.Y);
-                writer.Write(i.Max.Z);
+                writer.Write((int)i.Min.X);
+                writer.Write((int)i.Min.Y);
+                writer.Write((int)i.Min.Z);
+                writer.Write((int)i.Max.X);
+                writer.Write((int)i.Max.Y);
+                writer.Write((int)i.Max.Z);
             }
         }
 
