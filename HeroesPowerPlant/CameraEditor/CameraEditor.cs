@@ -18,10 +18,6 @@ namespace HeroesPowerPlant.CameraEditor
         {
             InitializeComponent();
 
-#if !DEBUG
-            importSACameraFileToolStripMenuItem.Visible = false;
-#endif
-
             numericUpDownCamType.Maximum = Decimal.MaxValue;
             numericUpDownCamSpeed.Maximum = Decimal.MaxValue;
             numericUpDown3.Maximum = Decimal.MaxValue;
@@ -558,6 +554,17 @@ namespace HeroesPowerPlant.CameraEditor
             using VistaOpenFileDialog openFile = new VistaOpenFileDialog();
             if (openFile.ShowDialog() == DialogResult.OK)
                 foreach (var c in Other.OtherFunctions.ConvertSACamToHeroes(openFile.FileName))
+                {
+                    ListBoxCameras.Items.Add(c);
+                    UnsavedChanges = true;
+                }
+        }
+
+        private void importShadowCameraFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using VistaOpenFileDialog openFile = new VistaOpenFileDialog();
+            if (openFile.ShowDialog() == DialogResult.OK)
+                foreach (var c in Other.OtherFunctions.ConvertShadowCamToHeroes(openFile.FileName))
                 {
                     ListBoxCameras.Items.Add(c);
                     UnsavedChanges = true;
