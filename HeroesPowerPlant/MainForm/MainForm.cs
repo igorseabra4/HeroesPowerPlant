@@ -790,9 +790,9 @@ namespace HeroesPowerPlant.MainForm
         public void KeyboardController()
         {
             if (PressedKeys.Contains(Keys.Q))
-                renderer.Camera.IncreaseCameraSpeed(-0.05F);
+                renderer.Camera.ModifyCameraSpeed(-0.05F);
             if (PressedKeys.Contains(Keys.E))
-                renderer.Camera.IncreaseCameraSpeed(0.05F);
+                renderer.Camera.ModifyCameraSpeed(0.05F);
 
             if (PressedKeys.Contains(Keys.A) & PressedKeys.Contains(Keys.ControlKey))
                 renderer.Camera.AddYaw(-renderer.Camera.KeyboardSensitivity);

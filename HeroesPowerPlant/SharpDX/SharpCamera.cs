@@ -93,9 +93,9 @@ namespace HeroesPowerPlant
             RaiseCameraChangedEvent();
         }
 
-        public void IncreaseCameraSpeed(float amount)
+        public void ModifyCameraSpeed(float amount)
         {
-            if (Speed + amount < 0)
+            if (Speed + amount < 0 || Speed + amount > 100)
                 return;
             Speed += amount;
             RaiseCameraChangedEvent();
