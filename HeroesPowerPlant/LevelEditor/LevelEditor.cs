@@ -997,6 +997,38 @@ namespace HeroesPowerPlant.LevelEditor
             }
         }
 
+        private void buttonIsolateChunk_Click(object sender, EventArgs e)
+        {
+            // Set up a list of level model indices to be hidden.
+            List<int> indicesToHide = new();
+
+            // Recheck all the level models in the list view.
+            foreach (ListViewItem item in listViewLevelModels.Items)
+                item.Checked = true;
+
+            // Loop through each entry in the BSP list.
+            for (int bspIndex = 0; bspIndex < bspRenderer.BSPList.Count; bspIndex++)
+            {
+                // Check if this BSP's chunk index doesn't match the selected visiblity block's chunk value.
+                if (bspRenderer.BSPList[bspIndex].ChunkNumber != NumChunkNum.Value)
+                {
+                    // Hide this chunk.
+                    bspRenderer.BSPList[bspIndex].isVisible = false;
+
+                    // Mark the index of this BSP to be hidden.
+                    indicesToHide.Add(bspIndex);
+                }
+
+                // If not, then make this chunk visible.
+                else
+                    bspRenderer.BSPList[bspIndex].isVisible = true;
+            }
+
+            // Loop through and uncheck each level model in our list of indices.
+            foreach (int index in indicesToHide)
+                listViewLevelModels.Items[index].Checked = false;
+        }
+
         private bool _unsavedChangesLevel = false;
         private bool _unsavedChangesVisibility = false;
 

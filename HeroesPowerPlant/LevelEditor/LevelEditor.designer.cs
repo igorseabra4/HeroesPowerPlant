@@ -90,6 +90,7 @@
             ButtonReassignMATFlag = new System.Windows.Forms.Button();
             textBox_import_extension = new System.Windows.Forms.TextBox();
             label_import_extension = new System.Windows.Forms.Label();
+            buttonIsolateChunk = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericCurrentChunk).BeginInit();
@@ -238,6 +239,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(buttonIsolateChunk);
             groupBox2.Controls.Add(buttonAutoBuild);
             groupBox2.Controls.Add(labelChunkAmount);
             groupBox2.Controls.Add(label3);
@@ -708,6 +710,17 @@
             label_import_extension.TabIndex = 26;
             label_import_extension.Text = "Import Extension";
             // 
+            // buttonIsolateChunk
+            // 
+            buttonIsolateChunk.Location = new System.Drawing.Point(7, 89);
+            buttonIsolateChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonIsolateChunk.Name = "buttonIsolateChunk";
+            buttonIsolateChunk.Size = new System.Drawing.Size(134, 27);
+            buttonIsolateChunk.TabIndex = 28;
+            buttonIsolateChunk.Text = "Isolate Chunk";
+            buttonIsolateChunk.UseVisualStyleBackColor = true;
+            buttonIsolateChunk.Click += buttonIsolateChunk_Click;
+            // 
             // LevelEditor
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -816,5 +829,7 @@
         private System.Windows.Forms.ListView listViewLevelModels;
         private System.Windows.Forms.ColumnHeader file;
         private System.Windows.Forms.ToolStripMenuItem ShadowLevelMenuItemSaveSplineDataOnly;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonIsolateChunk;
     }
 }
