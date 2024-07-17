@@ -21,6 +21,9 @@ namespace HeroesPowerPlant.LevelEditor
 {
     public partial class LevelEditor : Form, IUnsavedChanges
     {
+        // Internal value to determine if chunk isolation is active.
+        private bool isolationActive = false;
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown)
@@ -857,6 +860,12 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             ProgramIsChangingStuff = false;
+
+            // Change the isolation button text.
+            buttonIsolateChunk.Text = "Isolate Chunk";
+
+            // Disable the isolation flag.
+            isolationActive = false;
         }
 
         private void buttonAddChunkClick(object sender, EventArgs e)
@@ -1000,34 +1009,56 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonIsolateChunk_Click(object sender, EventArgs e)
         {
-            // Set up a list of level model indices to be hidden.
-            List<int> indicesToHide = new();
-
             // Recheck all the level models in the list view.
             foreach (ListViewItem item in listViewLevelModels.Items)
                 item.Checked = true;
 
-            // Loop through each entry in the BSP list.
-            for (int bspIndex = 0; bspIndex < bspRenderer.BSPList.Count; bspIndex++)
+            // Check if the isolation isn't active.
+            if (!isolationActive)
             {
-                // Check if this BSP's chunk index doesn't match the selected visiblity block's chunk value.
-                if (bspRenderer.BSPList[bspIndex].ChunkNumber != NumChunkNum.Value)
-                {
-                    // Hide this chunk.
-                    bspRenderer.BSPList[bspIndex].isVisible = false;
+                // Set up a list of level model indices to be hidden.
+                List<int> indicesToHide = new();
 
-                    // Mark the index of this BSP to be hidden.
-                    indicesToHide.Add(bspIndex);
+                // Loop through each entry in the BSP list.
+                for (int bspIndex = 0; bspIndex < bspRenderer.BSPList.Count; bspIndex++)
+                {
+                    // Check if this BSP's chunk index doesn't match the selected visiblity block's chunk value.
+                    if (bspRenderer.BSPList[bspIndex].ChunkNumber != NumChunkNum.Value)
+                    {
+                        // Hide this chunk.
+                        bspRenderer.BSPList[bspIndex].isVisible = false;
+
+                        // Mark the index of this BSP to be hidden.
+                        indicesToHide.Add(bspIndex);
+                    }
+
+                    // If not, then make this chunk visible.
+                    else
+                        bspRenderer.BSPList[bspIndex].isVisible = true;
                 }
 
-                // If not, then make this chunk visible.
-                else
-                    bspRenderer.BSPList[bspIndex].isVisible = true;
-            }
+                // Loop through and uncheck each level model in our list of indices.
+                foreach (int index in indicesToHide)
+                    listViewLevelModels.Items[index].Checked = false;
 
-            // Loop through and uncheck each level model in our list of indices.
-            foreach (int index in indicesToHide)
-                listViewLevelModels.Items[index].Checked = false;
+                // Change the button text.
+                buttonIsolateChunk.Text = "Disable Isolation";
+
+                // Set the isolation flag.
+                isolationActive = true;
+            }
+            else
+            {
+                // Loop through and make every chunk visible.
+                for (int bspIndex = 0; bspIndex < bspRenderer.BSPList.Count; bspIndex++)
+                    bspRenderer.BSPList[bspIndex].isVisible = true;
+
+                // Change the button text.
+                buttonIsolateChunk.Text = "Isolate Chunk";
+
+                // Disable the isolation flag.
+                isolationActive = false;
+            }
         }
 
         private bool _unsavedChangesLevel = false;
