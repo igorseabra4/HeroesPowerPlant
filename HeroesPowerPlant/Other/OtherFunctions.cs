@@ -1,5 +1,6 @@
 ﻿using HeroesPowerPlant.CameraEditor;
 using HeroesPowerPlant.LayoutEditor;
+using HeroesPowerPlant.ShadowCameraEditor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -552,6 +553,47 @@ namespace HeroesPowerPlant.Other
                     TriggerScale = cam.Scale,
                     CamPos = cam.PointB,
                     PointA = cam.PointA,
+                });
+
+            return outCameras;
+        }
+
+        public static List<CameraHeroes> ConvertShadowCamToHeroes(string filePath)
+        {
+            (var header, var shadowCameras) = ShadowCameraEditorFunctions.ImportCameraFile(filePath);
+
+            var outCameras = new List<CameraHeroes>();
+
+            foreach (ShadowCamera cam in shadowCameras)
+                outCameras.Add(new CameraHeroes()
+                {
+                    CameraType = (int)cam.CameraMode,//CamTypeFromShadow(cam.CameraMode),
+                    CameraSpeed = 9,
+                    Integer3 = 7,
+                    ActivationType = 1,
+                    TriggerShape = 3,
+                    TriggerPosition = cam.TriggerPosition,
+                    TriggerRotX = 0,
+                    TriggerRotY = 0,
+                    TriggerRotZ = 0,
+                    TriggerScale = cam.TriggerScale,
+                    CamPos = new SharpDX.Vector3(cam.PointA_LookFrom_X, cam.PointA_LookFrom_Y, cam.PointA_LookFrom_Z),
+                    CamRotX = 0,
+                    CamRotY = 0,
+                    CamRotZ = 0,
+                    PointA = new SharpDX.Vector3(cam.PointA_LookAt_X, cam.PointA_LookAt_Y, cam.PointA_LookAt_Z),
+                    PointB = new SharpDX.Vector3(cam.PointB_LookAt_X, cam.PointB_LookAt_Y, cam.PointB_LookAt_Z),
+                    PointC = new SharpDX.Vector3(0f, 0f, 0f), //cam.PointA_LookAt_X, cam.PointA_LookAt_Y, cam.PointA_LookAt_Z),,
+                    Integer30 = 0,
+                    Integer31 = 0,
+                    FloatX32 = 0,
+                    FloatY33 = 0,
+                    FloatX34 = 0,
+                    FloatY35 = 0,
+                    Integer36 = 0,
+                    Integer37 = 0,
+                    Integer38 = 0,
+                    Integer39 = 0
                 });
 
             return outCameras;

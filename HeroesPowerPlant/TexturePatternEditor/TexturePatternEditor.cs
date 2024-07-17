@@ -105,6 +105,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
             VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
                 Filter = "TXC Files|*.txc",
+                DefaultExt = ".txc",
                 FileName = patternSystem.CurrentlyOpenTXC
             };
 

@@ -199,6 +199,7 @@ namespace HeroesPowerPlant.LayoutEditor
             VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog()
             {
                 Filter = ".ini files|*.ini",
+                DefaultExt = ".ini",
                 FileName = Path.ChangeExtension(layoutSystem.CurrentlyOpenFileName, ".ini")
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -703,6 +704,7 @@ namespace HeroesPowerPlant.LayoutEditor
             VistaSaveFileDialog saveFile = new VistaSaveFileDialog
             {
                 Filter = layoutSystem.IsShadow ? "DAT Files|*.dat" : "BIN Files|*.bin",
+                DefaultExt = layoutSystem.IsShadow ? ".dat" : ".bin",
                 FileName = layoutSystem.CurrentlyOpenFileName
             };
             if (saveFile.ShowDialog() == DialogResult.OK)

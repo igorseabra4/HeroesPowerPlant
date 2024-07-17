@@ -184,6 +184,7 @@ namespace HeroesPowerPlant.ConfigEditor
             VistaSaveFileDialog SaveConfigFile = new VistaSaveFileDialog
             {
                 Filter = "JSON files (Reloaded/New Stage Injection)|*.json",
+                DefaultExt = ".json",
                 FileName = OpenConfigFileName
             };
             DialogResult result = SaveConfigFile.ShowDialog();
