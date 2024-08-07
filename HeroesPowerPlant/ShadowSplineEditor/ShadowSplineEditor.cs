@@ -1,4 +1,5 @@
-﻿using HeroesONE_R.Structures;
+﻿using AquaModelLibrary.Data.Ninja;
+using HeroesONE_R.Structures;
 using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
 using System;
@@ -170,7 +171,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix)
         {
             List<byte> bytes = new List<byte>();
-
+            List<int> offsetLocations = new List<int>();
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
@@ -198,12 +199,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
             for (int i = 0; i < Splines.Count; i++)
             {
+                offsetLocations.Add(bytes.Count - 0x20 + 0x8);
                 offsets.Add(bytes.Count - 0x20);
                 bytes.AddRange(Splines[i].ToByteArray(bytes.Count - 0x20));
             }
 
             for (int i = 0; i < Splines.Count; i++)
             {
+                offsetLocations.Add(4 * i);
                 byte[] offsetBytes = BitConverter.GetBytes(offsets[i]);
 
                 bytes[0x20 + 4 * i + 0] = offsetBytes[3];
@@ -211,6 +214,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 bytes[0x20 + 4 * i + 2] = offsetBytes[1];
                 bytes[0x20 + 4 * i + 3] = offsetBytes[0];
 
+                offsetLocations.Add(offsets[i] + 0x2C);
+                offsets.Add(bytes.Count - 0x20);
                 byte[] nameOffset = BitConverter.GetBytes(bytes.Count - 0x20);
 
                 bytes[offsets[i] + 0x20 + 0x2C] = nameOffset[3];
@@ -227,10 +232,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             while (bytes.Count % 0x4 != 0)
                 bytes.Add(0);
 
+            offsets.Add(bytes.Count - 0x20);
             int section5startOffset = bytes.Count - 0x20;
 
-            bytes.Add(0x40);
+            offsetLocations.Sort();
+            var pof0 = POF0.GenerateRawPOF0(offsetLocations);
+            bytes.AddRange(pof0);
 
+            /*
             for (int i = 1; i < Splines.Count; i++)
                 bytes.Add(0x41);
 
@@ -244,8 +253,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
             while (bytes.Count % 0x4 != 0)
                 bytes.Add(0);
+            */
 
             int section5length = bytes.Count - section5startOffset - 0x20;
+            int pof0Length = pof0.Length;
 
             for (int i = 0; i < 8; i++)
                 bytes.Add(0);
@@ -273,7 +284,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes[6] = aux[1];
             bytes[7] = aux[0];
 
-            aux = BitConverter.GetBytes(section5length);
+            aux = BitConverter.GetBytes(pof0Length);
 
             bytes[8] = aux[3];
             bytes[9] = aux[2];
