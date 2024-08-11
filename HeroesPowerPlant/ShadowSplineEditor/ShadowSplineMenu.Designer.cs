@@ -22,7 +22,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             buttonAdd = new System.Windows.Forms.Button();
             buttonCopy = new System.Windows.Forms.Button();
             buttonRemove = new System.Windows.Forms.Button();
@@ -32,6 +33,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             buttonImport = new System.Windows.Forms.Button();
             buttonExport = new System.Windows.Forms.Button();
+            textBox_splineNamePrefix = new System.Windows.Forms.TextBox();
+            textBox_splineSuffixNumber = new System.Windows.Forms.TextBox();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -76,7 +79,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             propertyGridSplines.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             propertyGridSplines.Name = "propertyGridSplines";
             propertyGridSplines.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            propertyGridSplines.Size = new System.Drawing.Size(335, 190);
+            propertyGridSplines.Size = new System.Drawing.Size(621, 190);
             propertyGridSplines.TabIndex = 5;
             propertyGridSplines.ToolbarVisible = false;
             propertyGridSplines.PropertyValueChanged += propertyGridSplines_PropertyValueChanged;
@@ -100,7 +103,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             listBoxSplines.Location = new System.Drawing.Point(4, 3);
             listBoxSplines.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             listBoxSplines.Name = "listBoxSplines";
-            listBoxSplines.Size = new System.Drawing.Size(335, 197);
+            listBoxSplines.Size = new System.Drawing.Size(621, 197);
             listBoxSplines.TabIndex = 63;
             listBoxSplines.SelectedIndexChanged += listBoxSplines_SelectedIndexChanged;
             // 
@@ -117,7 +120,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 196F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(343, 399);
+            tableLayoutPanel1.Size = new System.Drawing.Size(629, 399);
             tableLayoutPanel1.TabIndex = 66;
             // 
             // buttonImport
@@ -142,11 +145,29 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             buttonExport.UseVisualStyleBackColor = true;
             buttonExport.Click += buttonExport_Click;
             // 
+            // textBox_splineNamePrefix
+            // 
+            textBox_splineNamePrefix.Location = new System.Drawing.Point(383, 16);
+            textBox_splineNamePrefix.Name = "textBox_splineNamePrefix";
+            textBox_splineNamePrefix.Size = new System.Drawing.Size(135, 23);
+            textBox_splineNamePrefix.TabIndex = 69;
+            textBox_splineNamePrefix.Text = "spline_name_prefix_";
+            // 
+            // textBox_splineSuffixNumber
+            // 
+            textBox_splineSuffixNumber.Location = new System.Drawing.Point(383, 46);
+            textBox_splineSuffixNumber.Name = "textBox_splineSuffixNumber";
+            textBox_splineSuffixNumber.Size = new System.Drawing.Size(135, 23);
+            textBox_splineSuffixNumber.TabIndex = 70;
+            textBox_splineSuffixNumber.Text = "spline suffix number";
+            // 
             // ShadowSplineMenu
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(371, 489);
+            ClientSize = new System.Drawing.Size(657, 489);
+            Controls.Add(textBox_splineSuffixNumber);
+            Controls.Add(textBox_splineNamePrefix);
             Controls.Add(buttonExport);
             Controls.Add(buttonImport);
             Controls.Add(tableLayoutPanel1);
@@ -163,6 +184,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             Load += ShadowSplineMenu_Load;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -175,5 +197,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button buttonImport;
         private System.Windows.Forms.Button buttonExport;
+        private System.Windows.Forms.TextBox textBox_splineNamePrefix;
+        private System.Windows.Forms.TextBox textBox_splineSuffixNumber;
     }
 }

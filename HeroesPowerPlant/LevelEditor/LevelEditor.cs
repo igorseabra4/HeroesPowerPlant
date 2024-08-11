@@ -675,7 +675,6 @@ namespace HeroesPowerPlant.LevelEditor
         {
             shadowCollisionEditor.Show();
             shadowCollisionEditor.Focus();
-
         }
 
         private void ShadowLevelMenuItemSplineEditor_Click(object sender, EventArgs e)

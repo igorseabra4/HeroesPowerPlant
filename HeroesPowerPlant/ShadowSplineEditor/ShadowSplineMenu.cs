@@ -49,14 +49,23 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
         }
 
         private void buttonImport_Click(object sender, EventArgs e) {
-            VistaOpenFileDialog openSpline = new VistaOpenFileDialog() {
-                Multiselect = true,
-                Filter = ".obj files|*.obj"
-            };
-            if (openSpline.ShowDialog() == DialogResult.OK) {
-                SplineEditor.Add(openSpline.FileNames);
-                UpdateSplineList();
-                listBoxSplines.SelectedIndex = listBoxSplines.Items.Count - 1;
+            try
+            {
+                int suffix = int.Parse(textBox_splineSuffixNumber.Text);
+                VistaOpenFileDialog openSpline = new VistaOpenFileDialog()
+                {
+                    Multiselect = true,
+                    Filter = ".obj files|*.obj"
+                };
+                if (openSpline.ShowDialog() == DialogResult.OK)
+                {
+                    SplineEditor.Add(openSpline.FileNames, textBox_splineNamePrefix.Text, suffix);
+                    UpdateSplineList();
+                    listBoxSplines.SelectedIndex = listBoxSplines.Items.Count - 1;
+                }
+            } catch(Exception ex)
+            {
+                MessageBox.Show("Double check your spline suffix number.\n\n" + ex.Message);
             }
         }
 

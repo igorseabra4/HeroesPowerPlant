@@ -18,15 +18,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public int SettingInt { get; set; }
         public string Name { get; set; }
 
-        // workaround to force Collection editor, should not be an array ideally
-        public ShadowSplineSec5Bytes[] UnknownSec5Bytes { get; set; }
+        public ShadowSplinePOF0 pof0 { get; set; }
 
         public ShadowSplineVertex[] Vertices { get; set; }
 
         public ShadowSpline()
         {
             Vertices = new ShadowSplineVertex[0];
-            UnknownSec5Bytes = new ShadowSplineSec5Bytes[0];
+            pof0 = new ShadowSplinePOF0();
             Name = "NewSpline";
         }
 
@@ -45,7 +44,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 Setting4 = Setting4,
                 SettingInt = SettingInt,
                 Name = Name,
-                UnknownSec5Bytes = JsonConvert.DeserializeObject<ShadowSplineSec5Bytes[]>(JsonConvert.SerializeObject(UnknownSec5Bytes)),
+                pof0 = JsonConvert.DeserializeObject<ShadowSplinePOF0>(JsonConvert.SerializeObject(pof0)),
                 Vertices = JsonConvert.DeserializeObject<ShadowSplineVertex[]>(JsonConvert.SerializeObject(Vertices))
             };
         }
@@ -59,7 +58,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             CreateMesh(renderer, vertices.ToArray());
         }
 
-        public static ShadowSpline FromFile(string FileName)
+        public static ShadowSpline FromFile(string FileName, int splineId, string splinePrefix)
         {
             string[] SplineFile = File.ReadAllLines(FileName);
             ShadowSpline Temp = new ShadowSpline();
@@ -70,10 +69,16 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 if (j.StartsWith("v"))
                 {
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
-                    Points.Add(new ShadowSplineVertex() { Position = new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), RotationY = Convert.ToUInt16(a[4]) * (360.0f / 65535), RotationX = Convert.ToUInt16(a[5]) * (360.0f / 65535) });//ReadWriteCommon.BAMStoRadians(Convert.ToSingle(a[5])) * 180f * MathUtil.Pi });
+                    Points.Add(new ShadowSplineVertex() {
+                        //TODO: Figure out better conversion
+                        AngularAttachmentToleranceInt = 4, Position = new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])), RotationY = Convert.ToUInt16(a[4]) * (360.0f / 65535), RotationX = Convert.ToUInt16(a[5]) * (360.0f / 65535)
+                    });//ReadWriteCommon.BAMStoRadians(Convert.ToSingle(a[5])) * 180f * MathUtil.Pi });
                 }
             }
-
+            Points.Last().AngularAttachmentToleranceInt = 0; // last point needs AAT of 0
+            Temp.Name = splinePrefix + splineId; 
+            Temp.SplineType = 2;
+            Temp.SettingInt = splineId;
             Temp.Vertices = Points.ToArray();
             Temp.SetRenderStuff(Program.MainForm.renderer);
             return Temp;
