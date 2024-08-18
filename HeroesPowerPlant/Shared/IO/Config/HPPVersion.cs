@@ -2,7 +2,7 @@
 {
     public class HPPVersion
     {
-        public string version = "2024.08.10";
-        public string versionName = "2024.08.10";
+        public string version = "2024.08.18";
+        public string versionName = "2024.08.18";
     }
 }
