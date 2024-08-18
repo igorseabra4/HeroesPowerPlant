@@ -374,7 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AFSLib" Version="1.1.1" />
-    <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
+    <PackageReference Include="AssimpNet" Version="4.1.0" />
     <PackageReference Include="csharp-prs" Version="2.1.3" />
     <PackageReference Include="DSoft.SharpDX.Desktop" Version="4.3.2406.51" />
     <PackageReference Include="HeroesONE_R" Version="1.0.6">
