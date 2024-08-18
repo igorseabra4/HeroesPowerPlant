@@ -24,7 +24,7 @@ namespace HeroesPowerPlant.LevelEditor
             {
                 if (item is library_images images)
                 {
-                    if (images == null)
+                    if (images == null || images.image == null)
                         continue;
 
                     foreach (image i in images.image)
@@ -37,7 +37,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 else if (item is library_effects effects)
                 {
-                    if (effects == null)
+                    if (effects == null || effects.effect == null)
                         continue;
 
                     foreach (effect ef in effects.effect)
@@ -60,7 +60,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 else if (item is library_materials materials)
                 {
-                    if (materials == null)
+                    if (materials == null || materials.material == null)
                         continue;
 
                     // Iterate on materials in library_materials 
@@ -71,7 +71,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
                 else if (item is library_geometries geometries)
                 {
-                    if (geometries == null)
+                    if (geometries == null || geometries.geometry == null)
                         continue;
 
                     foreach (geometry geom in geometries.geometry)
@@ -89,7 +89,7 @@ namespace HeroesPowerPlant.LevelEditor
                         foreach (source source in mesh.source)
                         {
                             var float_array = source.Item as float_array;
-                            if (float_array == null)
+                            if (float_array == null || float_array.Values == null)
                                 continue;
 
                             if (source.id.ToLower().Contains("position"))
