@@ -1,4 +1,4 @@
-﻿using SharpDX;
+using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
@@ -289,6 +289,13 @@ namespace HeroesPowerPlant
             return normalFillMode;
         }
 
+        public bool AlphaTestEnabled = false;
+
+        public void enableAlphaTest(bool enableAlphaTest)
+        {
+            AlphaTestEnabled = enableAlphaTest;
+        }
+
         /// <summary>
         /// Set current blending state to default
         /// </summary>
@@ -296,6 +303,8 @@ namespace HeroesPowerPlant
         {
             Utilities.Dispose(ref _blendState);
             BlendStateDescription description = BlendStateDescription.Default();
+
+            description.AlphaToCoverageEnable = AlphaTestEnabled;
 
             _blendState = new BlendState(Device, description);
         }
@@ -315,6 +324,7 @@ namespace HeroesPowerPlant
             description.RenderTarget[0].SourceBlend = source;
             description.RenderTarget[0].DestinationBlend = destination;
             description.RenderTarget[0].IsBlendEnabled = true;
+            description.AlphaToCoverageEnable = AlphaTestEnabled;
 
             _blendState = new BlendState(Device, description);
         }
@@ -324,6 +334,7 @@ namespace HeroesPowerPlant
             Utilities.Dispose(ref _blendState);
             BlendStateDescription description = BlendStateDescription.Default();
 
+            description.AlphaToCoverageEnable = AlphaTestEnabled;
             description.RenderTarget[0].IsBlendEnabled = true;
             description.RenderTarget[0].BlendOperation = BlendOperation.Add;
             description.RenderTarget[0].SourceBlend = BlendOption.SourceAlpha;
@@ -339,6 +350,7 @@ namespace HeroesPowerPlant
             Utilities.Dispose(ref _blendState);
             BlendStateDescription description = BlendStateDescription.Default();
 
+            description.AlphaToCoverageEnable = AlphaTestEnabled;
             description.RenderTarget[0].IsBlendEnabled = true;
             description.RenderTarget[0].BlendOperation = BlendOperation.Add;
             description.RenderTarget[0].SourceBlend = BlendOption.SourceAlpha;
@@ -349,6 +361,18 @@ namespace HeroesPowerPlant
             _blendState = new BlendState(Device, description);
         }
 
+        public DepthWriteMask depthWrite = DepthWriteMask.All;
+
+        public void disableDepthWrite()
+        {
+            depthWrite = DepthWriteMask.Zero;
+        }
+
+        public void enableDepthWrite()
+        {
+            depthWrite = DepthWriteMask.All;
+        }
+
         /// <summary>
         /// Set current depth state to default
         /// </summary>
@@ -356,6 +380,8 @@ namespace HeroesPowerPlant
         {
             Utilities.Dispose(ref _depthState);
             DepthStencilStateDescription description = DepthStencilStateDescription.Default();
+
+            description.DepthWriteMask = depthWrite;
 
             _depthState = new DepthStencilState(Device, description);
         }
@@ -368,6 +394,7 @@ namespace HeroesPowerPlant
             Utilities.Dispose(ref _depthState);
             DepthStencilStateDescription description = DepthStencilStateDescription.Default();
             description.IsDepthEnabled = false;
+            description.DepthWriteMask = depthWrite;
             _depthState = new DepthStencilState(Device, description);
         }
 
