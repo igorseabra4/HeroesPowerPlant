@@ -7,3 +7,6 @@
 [submodule "Submodules/Heroes.SDK"]
 	path = Submodules/Heroes.SDK
 	url = https://github.com/Heroes-Hacking-Central/Heroes.SDK.git
+[submodule "Submodules/NvTriStrip.Net"]
+	path = Submodules/NvTriStrip.Net
+	url = https://github.com/ShadowTheHedgehogHacking/NvTriStrip.Net.git
