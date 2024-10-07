@@ -1,4 +1,6 @@
-﻿using RenderWareFile;
+﻿using Heroes.SDK.Definitions.Structures.Collision.Stage;
+using NvTriStripDotNet;
+using RenderWareFile;
 using RenderWareFile.Sections;
 using System;
 using System.Collections.Generic;
@@ -64,6 +66,11 @@ namespace HeroesPowerPlant.LevelEditor
                         if (f.MaterialIndex == i)
                             TriangleStream2.Add(f);
 
+                    NvStripifier stripifier = new NvStripifier();
+                    var nvStrips = stripifier.GenerateStrips(indices, true);
+                    tri
+
+                    //TriangleStream2
                     List<List<int>> indexLists = GenerateTristrips(TriangleStream2);
 
                     foreach (List<int> indices in indexLists)
@@ -103,8 +110,7 @@ namespace HeroesPowerPlant.LevelEditor
                 }
             }
 
-            WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;
-
+            WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;f
             if (useTristrips)
                 worldFlags |= WorldFlags.UseTriangleStrips;
 

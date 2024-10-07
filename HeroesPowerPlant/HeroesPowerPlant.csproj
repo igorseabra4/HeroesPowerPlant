@@ -15,16 +15,16 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2024.08.18</ApplicationVersion>
-    <ProductVersion>2024.08.18</ProductVersion>
+    <ApplicationVersion>2024.10.05</ApplicationVersion>
+    <ProductVersion>2024.10.05</ProductVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
     <Company>Heroes Hacking Central</Company>
     <Product>Heroes Power Plant</Product>
     <Copyright>Copyright © 2018-2024 igorseabra4 + friends</Copyright>
-    <AssemblyVersion>2024.08.18</AssemblyVersion>
-    <FileVersion>2024.08.18</FileVersion>
+    <AssemblyVersion>2024.10.05</AssemblyVersion>
+    <FileVersion>2024.10.05</FileVersion>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
@@ -373,6 +373,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Submodules\Heroes.SDK\Heroes.SDK.Library\Heroes.SDK.csproj" />
     <ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj" />
+    <ProjectReference Include="..\Submodules\NvTriStrip.Net\NvTriStripDotNet\NvTriStripDotNet.csproj" />
     <ProjectReference Include="..\Submodules\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
   </ItemGroup>
   <ItemGroup>
