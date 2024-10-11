@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Collada141;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,11 +9,11 @@ namespace HeroesPowerPlant.TexturePatternEditor
     {
         public bool UnsavedChanges { get; set; } = false;
 
-        private string currentlyOpenTXC;
-        public string CurrentlyOpenTXC
+        private string currentlyOpenTextureAnimation;
+        public string CurrentlyOpenTextureAnimation
         {
-            get => currentlyOpenTXC;
-            private set => currentlyOpenTXC = value;
+            get => currentlyOpenTextureAnimation;
+            private set => currentlyOpenTextureAnimation = value;
         }
 
         public List<PatternEntry> patterns;
@@ -26,59 +27,95 @@ namespace HeroesPowerPlant.TexturePatternEditor
         public PatternSystem(string fileName)
         {
             patterns = new List<PatternEntry>();
-            currentlyOpenTXC = fileName;
+            currentlyOpenTextureAnimation = fileName;
 
-            using var patternReader = new BinaryReader(new FileStream(currentlyOpenTXC, FileMode.Open));
+            using var patternReader = new BinaryReader(new FileStream(currentlyOpenTextureAnimation, FileMode.Open));
+
+            patternReader.BaseStream.Position += 0x0;
 
             uint frameCount = patternReader.ReadUInt32();
 
-            while (frameCount != 0xFFFFFFFF)
+            string textureName = new string(patternReader.ReadChars(0x20)).Trim('\0');
+            string animationName = new string(patternReader.ReadChars(0x20)).Trim('\0');
+
+            //uint unknown = patternReader.ReadUInt32();
+            List<Frame> frames = new List<Frame>();
+
+            uint FrameOffset = patternReader.ReadUInt32();
+            uint TextureNumber = patternReader.ReadUInt32();
+
+            while (patternReader.BaseStream.Position < patternReader.BaseStream.Length)
             {
-                patternReader.BaseStream.Position += 0x204;
-
-                string textureName = new string(patternReader.ReadChars(0x20)).Trim('\0');
-                string animationName = new string(patternReader.ReadChars(0x20)).Trim('\0');
-
-                List<Frame> frames = new List<Frame>();
-
-                ushort FrameOffset = patternReader.ReadUInt16();
-                ushort TextureNumber = patternReader.ReadUInt16();
-
-                while (FrameOffset != 0xFFFF & TextureNumber != 0xFFFF)
+                frames.Add(new Frame()
                 {
-                    frames.Add(new Frame()
-                    {
-                        FrameOffset = FrameOffset,
-                        TextureNumber = TextureNumber
-                    });
-
-                    FrameOffset = patternReader.ReadUInt16();
-                    TextureNumber = patternReader.ReadUInt16();
-                }
-
-                patterns.Add(new PatternEntry()
-                {
-                    FrameCount = frameCount,
-                    TextureName = textureName,
-                    AnimationName = animationName,
-                    frames = frames
+                    FrameOffset = (ushort)FrameOffset,
+                    TextureNumber = (ushort)TextureNumber
                 });
 
-                frameCount = patternReader.ReadUInt32();
+                FrameOffset = patternReader.ReadUInt32();
+                TextureNumber = patternReader.ReadUInt32();
             }
+
+            patterns.Add(new PatternEntry()
+            {
+                FrameCount = frameCount,
+                TextureName = textureName,
+                AnimationName = animationName,
+                frames = frames
+            });
+
+
+
+            // if heroes
+            //uint frameCount = patternReader.ReadUInt32();
+
+            //while (frameCount != 0xFFFFFFFF)
+            //{
+            //    patternReader.BaseStream.Position += 0x204;
+
+            //    string textureName = new string(patternReader.ReadChars(0x20)).Trim('\0');
+            //    string animationName = new string(patternReader.ReadChars(0x20)).Trim('\0');
+
+            //    List<Frame> frames = new List<Frame>();
+
+            //    ushort FrameOffset = patternReader.ReadUInt16();
+            //    ushort TextureNumber = patternReader.ReadUInt16();
+
+            //    while (FrameOffset != 0xFFFF & TextureNumber != 0xFFFF)
+            //    {
+            //        frames.Add(new Frame()
+            //        {
+            //            FrameOffset = FrameOffset,
+            //            TextureNumber = TextureNumber
+            //        });
+
+            //        FrameOffset = patternReader.ReadUInt16();
+            //        TextureNumber = patternReader.ReadUInt16();
+            //    }
+
+            //    patterns.Add(new PatternEntry()
+            //    {
+            //        FrameCount = frameCount,
+            //        TextureName = textureName,
+            //        AnimationName = animationName,
+            //        frames = frames
+            //    });
+
+            //    frameCount = patternReader.ReadUInt32();
+            //}
 
             UnsavedChanges = false;
         }
 
         public void Save(string fileName)
         {
-            currentlyOpenTXC = fileName;
+            currentlyOpenTextureAnimation = fileName;
             Save();
         }
 
         public void Save()
         {
-            using var patternWriter = new BinaryWriter(new FileStream(currentlyOpenTXC, FileMode.Create));
+            using var patternWriter = new BinaryWriter(new FileStream(currentlyOpenTextureAnimation, FileMode.Create));
 
             foreach (PatternEntry p in patterns)
             {

@@ -80,7 +80,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
-                Filter = "TXC Files|*.txc"
+                Filter = "All Supported Files (*.txc;*.adb)|*.txc;*.adb|Shadow animated textures (*.adb)|*.adb|Heroes animated textures (*.txc)|*.txc|All files (*.*)|*.*"
             };
 
             if (openFile.ShowDialog() == DialogResult.OK)
@@ -94,7 +94,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(patternSystem.CurrentlyOpenTXC))
+            if (String.IsNullOrEmpty(patternSystem.CurrentlyOpenTextureAnimation))
                 saveAsToolStripMenuItem_Click(sender, e);
             else
                 patternSystem.Save();
@@ -104,15 +104,15 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             VistaSaveFileDialog saveFile = new VistaSaveFileDialog()
             {
-                Filter = "TXC Files|*.txc",
+                Filter = "Shadow animated textures (*.adb)|*.adb|Heroes animated textures (*.txc)|*.txc|All files (*.*)|*.*",
                 DefaultExt = ".txc",
-                FileName = patternSystem.CurrentlyOpenTXC
+                FileName = patternSystem.CurrentlyOpenTextureAnimation
             };
 
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
                 patternSystem.Save(saveFile.FileName);
-                toolStripStatusLabel1.Text = patternSystem.CurrentlyOpenTXC;
+                toolStripStatusLabel1.Text = patternSystem.CurrentlyOpenTextureAnimation;
             }
         }
 
@@ -126,12 +126,12 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
             listBoxFrames.Items.Clear();
 
-            toolStripStatusLabel1.Text = patternSystem.CurrentlyOpenTXC;
+            toolStripStatusLabel1.Text = patternSystem.CurrentlyOpenTextureAnimation;
         }
 
         public string GetCurrentlyOpenTXC()
         {
-            return patternSystem.CurrentlyOpenTXC;
+            return patternSystem.CurrentlyOpenTextureAnimation;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
