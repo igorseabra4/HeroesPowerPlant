@@ -1,5 +1,4 @@
-﻿using Collada141;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -38,8 +37,11 @@ namespace HeroesPowerPlant.TexturePatternEditor
             string textureName = new string(patternReader.ReadChars(0x20)).Trim('\0');
             string animationName = new string(patternReader.ReadChars(0x20)).Trim('\0');
 
-            //uint unknown = patternReader.ReadUInt32();
             List<Frame> frames = new List<Frame>();
+
+            // TODO: extract frame zero as total keyframes before reading frame 1
+            //uint alwaysZero = patternReader.ReadUInt32();
+            //uint keyframeCount = patternReader.ReadUInt32();
 
             uint FrameOffset = patternReader.ReadUInt32();
             uint TextureNumber = patternReader.ReadUInt32();
@@ -56,6 +58,13 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 TextureNumber = patternReader.ReadUInt32();
             }
 
+            // TODO: also add this to Heroes, its consuming 1 frame less than it should be
+            frames.Add(new Frame()
+            {
+                FrameOffset = (ushort)FrameOffset,
+                TextureNumber = (ushort)TextureNumber
+            });
+
             patterns.Add(new PatternEntry()
             {
                 FrameCount = frameCount,
@@ -64,45 +73,6 @@ namespace HeroesPowerPlant.TexturePatternEditor
                 frames = frames
             });
 
-
-
-            // if heroes
-            //uint frameCount = patternReader.ReadUInt32();
-
-            //while (frameCount != 0xFFFFFFFF)
-            //{
-            //    patternReader.BaseStream.Position += 0x204;
-
-            //    string textureName = new string(patternReader.ReadChars(0x20)).Trim('\0');
-            //    string animationName = new string(patternReader.ReadChars(0x20)).Trim('\0');
-
-            //    List<Frame> frames = new List<Frame>();
-
-            //    ushort FrameOffset = patternReader.ReadUInt16();
-            //    ushort TextureNumber = patternReader.ReadUInt16();
-
-            //    while (FrameOffset != 0xFFFF & TextureNumber != 0xFFFF)
-            //    {
-            //        frames.Add(new Frame()
-            //        {
-            //            FrameOffset = FrameOffset,
-            //            TextureNumber = TextureNumber
-            //        });
-
-            //        FrameOffset = patternReader.ReadUInt16();
-            //        TextureNumber = patternReader.ReadUInt16();
-            //    }
-
-            //    patterns.Add(new PatternEntry()
-            //    {
-            //        FrameCount = frameCount,
-            //        TextureName = textureName,
-            //        AnimationName = animationName,
-            //        frames = frames
-            //    });
-
-            //    frameCount = patternReader.ReadUInt32();
-            //}
 
             UnsavedChanges = false;
         }
@@ -120,7 +90,6 @@ namespace HeroesPowerPlant.TexturePatternEditor
             foreach (PatternEntry p in patterns)
             {
                 patternWriter.Write(p.FrameCount);
-                patternWriter.BaseStream.Position += 0x204;
 
                 foreach (char c in p.TextureName)
                     patternWriter.Write(c);
@@ -130,16 +99,15 @@ namespace HeroesPowerPlant.TexturePatternEditor
                     patternWriter.Write(c);
                 for (int i = p.AnimationName.Length; i < 0x20; i++)
                     patternWriter.Write((byte)0);
+                
+                // TODO: extract frame zero as total keyframes
 
                 foreach (Frame f in p.frames)
                 {
-                    patternWriter.Write(f.FrameOffset);
-                    patternWriter.Write(f.TextureNumber);
+                    patternWriter.Write((uint)f.FrameOffset);
+                    patternWriter.Write((uint)f.TextureNumber);
                 }
-
-                patternWriter.Write(0xFFFFFFFF);
             }
-            patternWriter.Write(0xFFFFFFFF);
 
             UnsavedChanges = false;
         }
