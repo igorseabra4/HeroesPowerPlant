@@ -95,6 +95,7 @@ namespace HeroesPowerPlant.MainForm
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             renderPanel = new Panel();
+            shadowTexturePatternEditorToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -159,7 +160,7 @@ namespace HeroesPowerPlant.MainForm
             // 
             // editorsToolStripMenuItem
             // 
-            editorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modLoaderConfigEditorF2ToolStripMenuItem, levelEditorF3ToolStripMenuItem, collisionEditorToolStripMenuItem, layoutEditorToolStripMenuItem, cameraEditorToolStripMenuItem, shadowCameraEditorToolStripMenuItem, particleEditorF8ToolStripMenuItem, texturePatternEditorF9ToolStripMenuItem, lightEditorF10ToolStripMenuItem, sETIDTableEditorToolStripMenuItem, shadowLayoutDiffToolToolStripMenuItem });
+            editorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modLoaderConfigEditorF2ToolStripMenuItem, levelEditorF3ToolStripMenuItem, collisionEditorToolStripMenuItem, layoutEditorToolStripMenuItem, cameraEditorToolStripMenuItem, shadowCameraEditorToolStripMenuItem, particleEditorF8ToolStripMenuItem, texturePatternEditorF9ToolStripMenuItem, shadowTexturePatternEditorToolStripMenuItem, lightEditorF10ToolStripMenuItem, sETIDTableEditorToolStripMenuItem, shadowLayoutDiffToolToolStripMenuItem });
             editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
             editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             editorsToolStripMenuItem.Text = "Editors";
@@ -571,6 +572,13 @@ namespace HeroesPowerPlant.MainForm
             renderPanel.MouseWheel += renderPanel_MouseWheel;
             renderPanel.Resize += ResetMouseCenter;
             // 
+            // shadowTexturePatternEditorToolStripMenuItem
+            // 
+            shadowTexturePatternEditorToolStripMenuItem.Name = "shadowTexturePatternEditorToolStripMenuItem";
+            shadowTexturePatternEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            shadowTexturePatternEditorToolStripMenuItem.Text = "Shadow Texture Pattern Editor";
+            shadowTexturePatternEditorToolStripMenuItem.Click += shadowTexturePatternEditorToolStripMenuItem_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -666,6 +674,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem ResourceToolStripMenuItemSetFNT;
         private ToolStripMenuItem openHeroesLevelToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem shadowTexturePatternEditorToolStripMenuItem;
     }
 }
 

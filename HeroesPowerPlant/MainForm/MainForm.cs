@@ -25,6 +25,7 @@ namespace HeroesPowerPlant.MainForm
         public ShadowLayoutDiffTool.ShadowLayoutDiffTool ShadowLayoutDiffTool;
         public ParticleEditor.ParticleMenu ParticleEditor;
         public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
+        public ShadowTexturePatternEditor.ShadowTexturePatternEditor ShadowTexturePatternEditor;
         public LightEditor.LightMenu LightEditor;
         public SetIdTableEditor.SetIdTableEditor SetIdTableEditor;
 
@@ -58,6 +59,7 @@ namespace HeroesPowerPlant.MainForm
             ShadowLayoutDiffTool = new ShadowLayoutDiffTool.ShadowLayoutDiffTool();
             ParticleEditor = new ParticleEditor.ParticleMenu();
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
+            ShadowTexturePatternEditor = new ShadowTexturePatternEditor.ShadowTexturePatternEditor();
             LightEditor = new LightEditor.LightMenu();
             SetIdTableEditor = new SetIdTableEditor.SetIdTableEditor();
 
@@ -110,7 +112,7 @@ namespace HeroesPowerPlant.MainForm
         private void ToolStripFileSaveAs(object sender, EventArgs e)
         {
             VistaSaveFileDialog openFile = new VistaSaveFileDialog()
-            { 
+            {
                 Filter = "Power Plant Config File|*.json",
                 DefaultExt = ".json"
             };
@@ -161,6 +163,7 @@ namespace HeroesPowerPlant.MainForm
             ShadowLayoutDiffTool.New();
             ParticleEditor.New();
             TexturePatternEditor.New();
+            ShadowTexturePatternEditor.New();
             SetIdTableEditor.New();
             LightEditor.New();
             renderer.dffRenderer.ClearObjectONEFiles();
@@ -412,6 +415,13 @@ namespace HeroesPowerPlant.MainForm
             TexturePatternEditor.WindowState = FormWindowState.Normal;
         }
 
+        private void shadowTexturePatternEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShadowTexturePatternEditor.Show();
+            ShadowTexturePatternEditor.Focus();
+            ShadowTexturePatternEditor.WindowState = FormWindowState.Normal;
+        }
+
         private void sETIDTableEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetIdTableEditor.Show();
@@ -576,8 +586,8 @@ namespace HeroesPowerPlant.MainForm
                 (Path.Combine(fileName, fileNamePrefix) + "_nrm.dat", true),
                 (Path.Combine(fileName, fileNamePrefix) + "_hrd.dat", true)
             })
-            if (File.Exists(s.Item1))
-                AddLayoutEditor(s.Item1, false, s.Item2);
+                if (File.Exists(s.Item1))
+                    AddLayoutEditor(s.Item1, false, s.Item2);
             foreach (var l in LayoutEditors) // reset selected index to prevent F5 not opening all if initial without object click
                 l.SetSelectedIndex(-1, false);
 
@@ -1019,10 +1029,11 @@ namespace HeroesPowerPlant.MainForm
             ShadowCameraEditor,
             ParticleEditor,
             TexturePatternEditor,
+            ShadowTexturePatternEditor,
             LightEditor,
             SetIdTableEditor,
         };
-        
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             var unsavedChanges = this.unsavedChanges;
@@ -1171,7 +1182,8 @@ namespace HeroesPowerPlant.MainForm
                     if (fileName.ToLower().EndsWith(".one"))
                     {
                         TextureManager.LoadTexturesFromTXD(fileName, renderer, LevelEditor.bspRenderer);
-                    } else
+                    }
+                    else
                     {
                         TextureManager.SetupTextureDisplay(File.ReadAllBytes(fileName), renderer, LevelEditor.bspRenderer);
                     }
@@ -1218,6 +1230,7 @@ namespace HeroesPowerPlant.MainForm
             ShadowCameraEditor.TopMost = value;
             ParticleEditor.TopMost = value;
             TexturePatternEditor.TopMost = value;
+            ShadowTexturePatternEditor.TopMost = value;
             SetIdTableEditor.TopMost = value;
             LightEditor.TopMost = value;
             ShadowLayoutDiffTool.TopMost = value;
@@ -1303,7 +1316,7 @@ namespace HeroesPowerPlant.MainForm
             SetMaxFPS();
         }
 
-        public void SetWindowPriorityBehavior (bool isEnabled)
+        public void SetWindowPriorityBehavior(bool isEnabled)
         {
             LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked = isEnabled;
         }

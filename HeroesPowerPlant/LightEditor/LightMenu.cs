@@ -1,5 +1,4 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
-using HeroesPowerPlant.TexturePatternEditor;
 using Ookii.Dialogs.WinForms;
 using System;
 using System.Windows.Forms;
