@@ -3,6 +3,7 @@ using NvTriStripDotNet;
 using RenderWareFile;
 using RenderWareFile.Sections;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,33 +58,28 @@ namespace HeroesPowerPlant.LevelEditor
             List<BinMesh> binMeshList = new List<BinMesh>();
             int TotalNumberOfTristripIndicies = 0;
 
-            if (useTristrips) // tristrip generator
+            if (false) // tristrip generator
             {
-                for (int i = 0; i < data.MaterialList.Count; i++)
-                {
-                    List<Triangle> TriangleStream2 = new List<Triangle>();
-                    foreach (Triangle f in data.TriangleList)
-                        if (f.MaterialIndex == i)
-                            TriangleStream2.Add(f);
+                //for (int i = 0; i < data.MaterialList.Count; i++)
+                //{
+                //    List<Triangle> TriangleStream2 = new List<Triangle>();
+                //    foreach (Triangle f in data.TriangleList)
+                //        if (f.MaterialIndex == i)
+                //            TriangleStream2.Add(f);
 
-                    NvStripifier stripifier = new NvStripifier();
-                    var nvStrips = stripifier.GenerateStrips(indices, true);
-                    tri
+                //   List<List<int>> indexLists = GenerateTristrips(TriangleStream2);
 
-                    //TriangleStream2
-                    List<List<int>> indexLists = GenerateTristrips(TriangleStream2);
-
-                    foreach (List<int> indices in indexLists)
-                    {
-                        TotalNumberOfTristripIndicies += indices.Count();
-                        binMeshList.Add(new BinMesh()
-                        {
-                            materialIndex = i,
-                            indexCount = indices.Count(),
-                            vertexIndices = indices.ToArray()
-                        });
-                    }
-                }
+                //    foreach (List<int> indices in indexLists)
+                //    {
+                //        TotalNumberOfTristripIndicies += indices.Count();
+                //        binMeshList.Add(new BinMesh()
+                //        {
+                //            materialIndex = i,
+                //            indexCount = indices.Count(),
+                //            vertexIndices = indices.ToArray()
+                //        });
+                //    }
+                //}
             }
             else //trilist generator
             {
@@ -101,18 +97,24 @@ namespace HeroesPowerPlant.LevelEditor
                     }
                     TotalNumberOfTristripIndicies += indices.Count();
 
+                    ushort[] ushortIndices = indices.Select(i => (ushort)i).ToArray();
+                    NvStripifier stripifier = new NvStripifier();
+                    var nvStrips = stripifier.GenerateStrips(ushortIndices, out PrimitiveGroup[] primitiveGroups, true);
+
+                    int[] triStrippedOutput = Array.ConvertAll(primitiveGroups[0].Indices, i => (int)i);
+                    
                     binMeshList.Add(new BinMesh
                     {
                         materialIndex = i,
-                        indexCount = indices.Count(),
-                        vertexIndices = indices.ToArray()
+                        indexCount = primitiveGroups[0].Indices.Length,
+                        vertexIndices = triStrippedOutput
                     });
                 }
             }
 
-            WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;f
-            if (useTristrips)
-                worldFlags |= WorldFlags.UseTriangleStrips;
+            WorldFlags worldFlags = WorldFlags.HasOneSetOfTextCoords | WorldFlags.HasVertexColors | WorldFlags.WorldSectorsOverlap | (WorldFlags)0x00010000;
+            //if (useTristrips)
+            worldFlags |= WorldFlags.UseTriangleStrips;
 
             World_000B world = new World_000B()
             {
@@ -159,7 +161,7 @@ namespace HeroesPowerPlant.LevelEditor
                     {
                         extensionSectionList = new List<RWSection>() { new BinMeshPLG_050E()
                         {
-                            binMeshHeaderFlags = useTristrips ? BinMeshHeaderFlags.TriangleStrip : BinMeshHeaderFlags.TriangleList,
+                            binMeshHeaderFlags = BinMeshHeaderFlags.TriangleStrip,
                             numMeshes = binMeshList.Count(),
                             totalIndexCount = TotalNumberOfTristripIndicies,
                             binMeshList = binMeshList.ToArray()
@@ -205,9 +207,12 @@ namespace HeroesPowerPlant.LevelEditor
             return new RWSection[] { world };
         }
 
-        private static List<List<int>> GenerateTristrips(List<Triangle> triangleStream)
+/*        private static List<List<int>> GenerateTristrips(List<Triangle> triangleStream)
         {
-            List<List<int>> indexLists = new List<List<int>>
+            NvStripifier stripifier = new NvStripifier();
+            var nvStrips = stripifier.GenerateStrips(triangleStream.ToArray, out PrimitiveGroup[] primitiveGroups, true);
+*/
+            /*List<List<int>> indexLists = new List<List<int>>
             {
                 new List<int>()
             };
@@ -306,10 +311,10 @@ namespace HeroesPowerPlant.LevelEditor
 
                     }
                 }
-            }
+            }*/
 
-            return indexLists;
-        }
+            // return indexLists;
+        // }
 
         public static void ConvertBSPtoOBJ(string fileName, RenderWareModelFile bspFile, bool flipUVs)
         {

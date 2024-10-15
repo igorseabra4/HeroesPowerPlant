@@ -40,6 +40,7 @@
             listViewLevelModels = new System.Windows.Forms.ListView();
             file = new System.Windows.Forms.ColumnHeader();
             groupBox2 = new System.Windows.Forms.GroupBox();
+            buttonIsolateChunk = new System.Windows.Forms.Button();
             buttonAutoBuild = new System.Windows.Forms.Button();
             labelChunkAmount = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -90,7 +91,6 @@
             ButtonReassignMATFlag = new System.Windows.Forms.Button();
             textBox_import_extension = new System.Windows.Forms.TextBox();
             label_import_extension = new System.Windows.Forms.Label();
-            buttonIsolateChunk = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericCurrentChunk).BeginInit();
@@ -150,7 +150,6 @@
             // checkBoxTristrip
             // 
             checkBoxTristrip.AutoSize = true;
-            checkBoxTristrip.Enabled = false;
             checkBoxTristrip.Location = new System.Drawing.Point(126, 309);
             checkBoxTristrip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             checkBoxTristrip.Name = "checkBoxTristrip";
@@ -261,6 +260,17 @@
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Visibility Editor";
+            // 
+            // buttonIsolateChunk
+            // 
+            buttonIsolateChunk.Location = new System.Drawing.Point(7, 89);
+            buttonIsolateChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonIsolateChunk.Name = "buttonIsolateChunk";
+            buttonIsolateChunk.Size = new System.Drawing.Size(134, 27);
+            buttonIsolateChunk.TabIndex = 28;
+            buttonIsolateChunk.Text = "Isolate Chunk";
+            buttonIsolateChunk.UseVisualStyleBackColor = true;
+            buttonIsolateChunk.Click += buttonIsolateChunk_Click;
             // 
             // buttonAutoBuild
             // 
@@ -709,17 +719,6 @@
             label_import_extension.Size = new System.Drawing.Size(97, 15);
             label_import_extension.TabIndex = 26;
             label_import_extension.Text = "Import Extension";
-            // 
-            // buttonIsolateChunk
-            // 
-            buttonIsolateChunk.Location = new System.Drawing.Point(7, 89);
-            buttonIsolateChunk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            buttonIsolateChunk.Name = "buttonIsolateChunk";
-            buttonIsolateChunk.Size = new System.Drawing.Size(134, 27);
-            buttonIsolateChunk.TabIndex = 28;
-            buttonIsolateChunk.Text = "Isolate Chunk";
-            buttonIsolateChunk.UseVisualStyleBackColor = true;
-            buttonIsolateChunk.Click += buttonIsolateChunk_Click;
             // 
             // LevelEditor
             // 
