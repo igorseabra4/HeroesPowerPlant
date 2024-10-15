@@ -441,7 +441,10 @@ namespace HeroesPowerPlant.LevelEditor
                     RenderWareFile.Color[] collisionFlagList = new RenderWareFile.Color[0];
                     foreach (RWSection r in AtomicSector.atomicSectorExtension.extensionSectionList)
                         if (r is UserDataPLG_011F userdata)
-                            collisionFlagList = userdata.collisionFlags;
+                            foreach (var data2 in userdata.dataList)
+                                if (data2.attribute == "attribute")
+                                    foreach (var data in data2.data)
+                                        collisionFlagList = new RenderWareFile.Color[Convert.ToInt32(data)];
 
                     for (int i = 0; i < AtomicSector.atomicSectorStruct.triangleArray.Length; i++)
                     {
