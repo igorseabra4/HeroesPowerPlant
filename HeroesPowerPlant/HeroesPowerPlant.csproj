@@ -191,6 +191,9 @@
     <Compile Update="MainForm\ViewConfig.designer.cs">
       <DependentUpon>ViewConfig.cs</DependentUpon>
     </Compile>
+    <Compile Update="ShadowTexturePatternEditor\ShadowTexturePatternEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TexturePatternEditor\TexturePatternEditor.cs">
       <SubType>Form</SubType>
     </Compile>

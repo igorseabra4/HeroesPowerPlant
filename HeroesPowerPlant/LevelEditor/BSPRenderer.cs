@@ -197,6 +197,7 @@ namespace HeroesPowerPlant
                     {
                         levelEditor.initVisibilityEditor(true, fileName);
                         levelEditor.shadowSplineEditor.Init(fileName);
+                        Program.MainForm.ShadowTexturePatternEditor.OpenFile(fileName);
                     }
                     else if (fileName.Contains("fx"))
                     {

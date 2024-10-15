@@ -4,7 +4,6 @@ using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
 
@@ -349,6 +348,7 @@ namespace HeroesPowerPlant
                 frustum = new BoundingFrustum(viewProjection);
 
                 mainForm.TexturePatternEditor.Animate();
+                mainForm.ShadowTexturePatternEditor.Animate();
 
                 if (ShowCollision)
                 {
