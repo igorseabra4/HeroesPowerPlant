@@ -65,8 +65,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 if (splineReader == null)
                     return new List<ShadowSpline>();
 
-                //try
-                //{
+                try
+                {
                     List<ShadowSpline> splineList = new List<ShadowSpline>();
 
                     splineReader.BaseStream.Position = 0x4;
@@ -151,8 +151,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                     splineReader.Close();
 
                     return splineList;
-                //}
-/*                catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     if (endianness == Endianness.Little)
                     {
@@ -160,11 +160,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                     }
                     else
                     {
-                        //MessageBox.Show("Unable to read spline file: " + ex.Message);
-                        throw ex;
-                        //throw new Exception("Unable to read spline file: " + ex.Message);
+                        MessageBox.Show("Unable to read spline file: " + ex.Message);
+                        throw;
                     }
-                }*/
+                }
             }
 
             return new List<ShadowSpline>();
@@ -183,21 +182,18 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
 
-            // add 0x10 offset (breaks without this on stg0412)
-            // with this added offset, breaks stg0504, so for now just hardcode for 0412
-            if (shadowFolderNamePrefix == "stg0412")
+            // add forced offset if its already == 0 (-_-)
+            if (bytes.Count % 0x10 == 0)
             {
                 for (int i = 0; i < 10; i++)
                     bytes.Add(0);
             }
-            while (bytes.Count % 0x20 != 0)
+
+            while (bytes.Count % 0x10 != 0)
                 bytes.Add(0);
 
             foreach (ShadowSpline s in Splines)
                 bytes.AddRange(BitConverter.GetBytes(0));
-
-            while (bytes.Count % 0x20 != 0)
-                bytes.Add(0);
 
             List<int> offsets = new List<int>();
 
@@ -251,8 +247,6 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             foreach (char c in ("o:\\PJS\\PJSart\\exportdata\\stage\\" + shadowFolderNamePrefix + "\\path"))
                 bytes.Add((byte)c);
             bytes.Add(0);
-
-            // Inspect byte % 0x10
 
             while (bytes.Count % 0x4 != 0)
                 bytes.Add(0);
