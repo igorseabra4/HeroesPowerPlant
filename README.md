@@ -14,7 +14,8 @@ Please see the [Heroes Power Plant Wiki](https://github.com/igorseabra4/HeroesPo
 *  Object Layout Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Camera Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Start/Ending/Bragging Position Editor - Sonic Heroes PC only, use with Reloaded II Stage Injector
-*  Spline Editor - for Sonic Heroes PC only, use with Generic Stage Injection Mod
+*  Spline Editor (Hardcoded) - for Sonic Heroes PC only, use with Generic Stage Injection Mod
+*  Spline Editor (PATH) (Shadow the Hedgehog) - all platforms
 *  Particle (PTCL) Editor - Sonic Heroes (all platforms)
-*  Texture Pattern (TXC) Editor - Sonic Heroes (all platforms)
+*  Texture Pattern (TXC / ADB) Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Light Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
