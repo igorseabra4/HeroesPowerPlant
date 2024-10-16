@@ -15,16 +15,16 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2024.08.18</ApplicationVersion>
-    <ProductVersion>2024.08.18</ProductVersion>
+    <ApplicationVersion>2024.10.16</ApplicationVersion>
+    <ProductVersion>2024.10.16</ProductVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
     <Company>Heroes Hacking Central</Company>
     <Product>Heroes Power Plant</Product>
     <Copyright>Copyright © 2018-2024 igorseabra4 + friends</Copyright>
-    <AssemblyVersion>2024.08.18</AssemblyVersion>
-    <FileVersion>2024.08.18</FileVersion>
+    <AssemblyVersion>2024.10.16</AssemblyVersion>
+    <FileVersion>2024.10.16</FileVersion>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
@@ -385,7 +385,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
-    <PackageReference Include="Reloaded.Memory" Version="9.4.1" />
+    <PackageReference Include="Reloaded.Memory" Version="9.4.2" />
     <PackageReference Include="ShadowFNT" Version="2.0.1" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
