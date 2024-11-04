@@ -152,16 +152,15 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                     return splineList;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    if (endianness == Endianness.Little)
+                    if (endianness == Endianness.Big)
                     {
-                        return ReadShadowSplineFile(fileName, Endianness.Big);
+                        return ReadShadowSplineFile(fileName, Endianness.Little);
                     }
                     else
                     {
-                        MessageBox.Show("Unable to read spline file: " + ex.Message);
-                        throw;
+                        MessageBox.Show("Unable to read spline file.\nPlease report this on GitHub, including what stage and version of the game you tried loading.");
                     }
                 }
             }
