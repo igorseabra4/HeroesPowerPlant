@@ -14,7 +14,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             InitializeComponent();
         }
 
-        private void ParticleEditor_FormClosing(object sender, FormClosingEventArgs e)
+        private void ShadowSplineEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown)
                 return;
@@ -166,7 +166,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             catch { }
         }
 
-        private void ShadowSplineMenu_Load(object sender, EventArgs e)
+        private void ShadowSplineEditor_Load(object sender, EventArgs e)
         {
             TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
         }
