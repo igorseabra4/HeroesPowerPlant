@@ -193,8 +193,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             Name = "ShadowSplineMenu";
             ShowIcon = false;
             Text = "Shadow Spline Editor";
-            FormClosing += ParticleEditor_FormClosing;
-            Load += ShadowSplineMenu_Load;
+            FormClosing += ShadowSplineEditor_FormClosing;
+            Load += ShadowSplineEditor_Load;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
