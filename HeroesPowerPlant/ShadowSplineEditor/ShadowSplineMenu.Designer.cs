@@ -35,6 +35,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             buttonExport = new System.Windows.Forms.Button();
             textBox_splineNamePrefix = new System.Windows.Forms.TextBox();
             textBox_splineSuffixNumber = new System.Windows.Forms.TextBox();
+            buttonClear = new System.Windows.Forms.Button();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -147,7 +148,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             // 
             // textBox_splineNamePrefix
             // 
-            textBox_splineNamePrefix.Location = new System.Drawing.Point(383, 16);
+            textBox_splineNamePrefix.Location = new System.Drawing.Point(475, 16);
             textBox_splineNamePrefix.Name = "textBox_splineNamePrefix";
             textBox_splineNamePrefix.Size = new System.Drawing.Size(135, 23);
             textBox_splineNamePrefix.TabIndex = 69;
@@ -155,17 +156,29 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             // 
             // textBox_splineSuffixNumber
             // 
-            textBox_splineSuffixNumber.Location = new System.Drawing.Point(383, 46);
+            textBox_splineSuffixNumber.Location = new System.Drawing.Point(475, 47);
             textBox_splineSuffixNumber.Name = "textBox_splineSuffixNumber";
             textBox_splineSuffixNumber.Size = new System.Drawing.Size(135, 23);
             textBox_splineSuffixNumber.TabIndex = 70;
             textBox_splineSuffixNumber.Text = "spline suffix number";
+            // 
+            // buttonClear
+            // 
+            buttonClear.Location = new System.Drawing.Point(358, 45);
+            buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonClear.Name = "buttonClear";
+            buttonClear.Size = new System.Drawing.Size(110, 24);
+            buttonClear.TabIndex = 71;
+            buttonClear.Text = "Clear";
+            buttonClear.UseVisualStyleBackColor = true;
+            buttonClear.Click += buttonClear_Click;
             // 
             // ShadowSplineMenu
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(657, 489);
+            Controls.Add(buttonClear);
             Controls.Add(textBox_splineSuffixNumber);
             Controls.Add(textBox_splineNamePrefix);
             Controls.Add(buttonExport);
@@ -199,5 +212,6 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
         private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.TextBox textBox_splineNamePrefix;
         private System.Windows.Forms.TextBox textBox_splineSuffixNumber;
+        private System.Windows.Forms.Button buttonClear;
     }
 }

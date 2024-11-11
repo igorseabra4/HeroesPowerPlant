@@ -339,6 +339,12 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             return false;
         }
 
+        public void RemoveAll()
+        {
+            Splines.Clear();
+            UnsavedChanges = true;
+        }
+
         private int selectedSpline;
 
         public void SetSelectedSpline(int index, PropertyGrid propertyGrid)
