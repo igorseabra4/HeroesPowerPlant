@@ -14,6 +14,11 @@ namespace HeroesPowerPlant
     public class SharpMesh : IDisposable
     {
         /// <summary>
+        /// Render Index
+        /// </summary>
+        public int RenderIndex { get; set; }
+        
+        /// <summary>
         /// Vertex Buffer
         /// </summary>
         public Buffer11 VertexBuffer { get; private set; }
