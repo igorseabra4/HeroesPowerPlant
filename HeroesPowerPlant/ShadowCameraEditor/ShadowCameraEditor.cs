@@ -2,6 +2,7 @@
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -17,6 +18,7 @@ namespace HeroesPowerPlant.ShadowCameraEditor
         int CurrentlySelectedCamera = -1;
         private bool hasRemoved = false;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges { get; private set; } = false;
 
         protected override void OnFormClosing(FormClosingEventArgs e)

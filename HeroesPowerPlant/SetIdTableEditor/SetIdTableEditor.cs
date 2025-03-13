@@ -3,6 +3,7 @@ using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using static HeroesPowerPlant.SetIdTableEditor.SetIdTableFunctions;
@@ -43,6 +44,7 @@ namespace HeroesPowerPlant.SetIdTableEditor
         private bool programIsChangingStuff = false;
         private string currentFileName;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges { get; private set; } = false;
 
         private void heroesSetidtblbinToolStripMenuItem_Click(object sender, EventArgs e)

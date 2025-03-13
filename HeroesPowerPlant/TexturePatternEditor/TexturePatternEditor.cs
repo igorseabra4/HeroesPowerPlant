@@ -1,6 +1,7 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.TexturePatternEditor
@@ -32,6 +33,7 @@ namespace HeroesPowerPlant.TexturePatternEditor
 
         private PatternSystem patternSystem;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges
         {
             get => patternSystem.UnsavedChanges;

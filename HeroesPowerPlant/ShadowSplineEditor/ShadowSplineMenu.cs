@@ -2,6 +2,7 @@
 using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.ShadowSplineEditor {
@@ -182,6 +183,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             catch { }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges
         {
             get => SplineEditor != null && SplineEditor.UnsavedChanges;

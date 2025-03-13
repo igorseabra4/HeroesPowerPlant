@@ -3,6 +3,7 @@ using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.SplineEditor
@@ -200,6 +201,7 @@ namespace HeroesPowerPlant.SplineEditor
             splineEditorFunctions.DisposeSplines();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges
         {
             get => splineEditorFunctions.UnsavedChanges;

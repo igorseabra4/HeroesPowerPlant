@@ -1,6 +1,7 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
 using SharpDX;
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -8,6 +9,7 @@ namespace HeroesPowerPlant.MainForm
 {
     public partial class ViewConfig : Form
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public static bool ProgramIsUpdatingValues { get; set; } = true;
         private static bool _invalidCameraValues { get; set; } = false;
         private Thread _updateViewValuesThread;

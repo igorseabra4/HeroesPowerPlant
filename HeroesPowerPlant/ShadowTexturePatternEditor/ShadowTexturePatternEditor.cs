@@ -2,6 +2,7 @@
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.ShadowTexturePatternEditor
@@ -33,6 +34,7 @@ namespace HeroesPowerPlant.ShadowTexturePatternEditor
 
         private ShadowPatternSystem patternSystem;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges
         {
             get => patternSystem.UnsavedChanges;

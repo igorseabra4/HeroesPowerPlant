@@ -5,6 +5,7 @@ using Shadow.Structures;
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -1347,6 +1348,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public List<string> GetObjectsForModels() => layoutSystem.GetObjectsForModels();
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges
         {
             get => layoutSystem.UnsavedChanges;

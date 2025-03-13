@@ -4,6 +4,7 @@ using Ookii.Dialogs.WinForms;
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -122,6 +123,7 @@ namespace HeroesPowerPlant.CameraEditor
         bool ProgramIsChangingStuff;
         int CurrentlySelectedCamera = -1;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges { get; private set; } = false;
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)

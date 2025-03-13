@@ -1,6 +1,7 @@
 ﻿using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.LightEditor
@@ -9,6 +10,7 @@ namespace HeroesPowerPlant.LightEditor
     {
         private LightEditor LightEditor;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges
         {
             get => LightEditor.UnsavedChanges;

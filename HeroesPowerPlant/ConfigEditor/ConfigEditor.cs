@@ -5,6 +5,7 @@ using Ookii.Dialogs.WinForms;
 using SharpDX;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 
@@ -943,6 +944,7 @@ namespace HeroesPowerPlant.ConfigEditor
             ProgramIsChangingStuff = false;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges { get; private set; } = false;
     }
 }

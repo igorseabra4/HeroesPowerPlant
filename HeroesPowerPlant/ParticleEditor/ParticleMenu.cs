@@ -2,6 +2,7 @@
 using Ookii.Dialogs.WinForms;
 using SharpDX;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace HeroesPowerPlant.ParticleEditor
@@ -10,6 +11,7 @@ namespace HeroesPowerPlant.ParticleEditor
     {
         private ParticleEditor ParticleEditor;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UnsavedChanges
         {
             get => ParticleEditor.UnsavedChanges;
