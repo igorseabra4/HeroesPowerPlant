@@ -14,6 +14,20 @@ namespace HeroesPowerPlant.LayoutEditor
         [MiscSetting, Description("Sets the base gravity. By default the world is NegY")]
         public EGravityDirection GravityDirection { get; set; }
 
+        public override void Draw(SharpRenderer renderer)
+        {
+            base.Draw(renderer);
+            if (isSelected)
+                renderer.DrawCubeTrigger(CreateTriggerTransformMatrix(), isSelected, new Color4(0f, 0.75f, 0.79f, 0.5f));
+        }
+
+        private Matrix CreateTriggerTransformMatrix()
+        {
+            Matrix triggerTransformMatrix = Matrix.Scaling(Size_X * 2, Size_Y * 2, Size_Z * 2);
+            triggerTransformMatrix *= DefaultTransformMatrix();
+            return triggerTransformMatrix;
+        }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = Matrix.Scaling(Size_X * 2, (Size_Y + Size_Z) * 2, Size_X * 2);
