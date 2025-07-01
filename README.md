@@ -19,3 +19,7 @@ Please see the [Heroes Power Plant Wiki](https://github.com/igorseabra4/HeroesPo
 *  Particle (PTCL) Editor - Sonic Heroes (all platforms)
 *  Texture Pattern (TXC / ADB) Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
 *  Light Editor - Sonic Heroes (all platforms), Shadow the Hedgehog (all platforms)
+
+## Dev Note
+Release build with
+`dotnet publish HeroesPowerPlant -c Release --self-contained false /p:PublishSingleFile=true -p:TrimMode=CopyUsed --framework net9.0-windows7.0`
