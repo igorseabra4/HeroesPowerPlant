@@ -69,6 +69,16 @@ namespace HeroesPowerPlant.LayoutEditor
             return list;
         }
 
+        public static ObjectEntry[] GetAllHeroesObjectEntries()
+        {
+            return heroesObjectEntries.Values.ToArray();
+        }
+
+        public static ObjectEntry[] GetAllShadowObjectEntries()
+        {
+            return shadowObjectEntries.Values.ToArray();
+        }
+
         public static ObjectEntry[] GetActiveObjectEntries()
         {
             if (isShadow)

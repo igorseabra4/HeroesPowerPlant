@@ -22,7 +22,7 @@ namespace HeroesPowerPlant.MainForm
         public Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor> LayoutEditorDict;
         public CameraEditor.CameraEditor CameraEditor;
         public ShadowCameraEditor.ShadowCameraEditor ShadowCameraEditor;
-        public ShadowLayoutDiffTool.ShadowLayoutDiffTool ShadowLayoutDiffTool;
+        public ShadowLayoutMiscTools.ShadowLayoutMiscTools ShadowLayoutMiscTools;
         public ParticleEditor.ParticleMenu ParticleEditor;
         public TexturePatternEditor.TexturePatternEditor TexturePatternEditor;
         public ShadowTexturePatternEditor.ShadowTexturePatternEditor ShadowTexturePatternEditor;
@@ -56,7 +56,7 @@ namespace HeroesPowerPlant.MainForm
             LayoutEditorDict = new Dictionary<ToolStripDropDownItem, LayoutEditor.LayoutEditor>();
             CameraEditor = new CameraEditor.CameraEditor();
             ShadowCameraEditor = new ShadowCameraEditor.ShadowCameraEditor();
-            ShadowLayoutDiffTool = new ShadowLayoutDiffTool.ShadowLayoutDiffTool();
+            ShadowLayoutMiscTools = new ShadowLayoutMiscTools.ShadowLayoutMiscTools();
             ParticleEditor = new ParticleEditor.ParticleMenu();
             TexturePatternEditor = new TexturePatternEditor.TexturePatternEditor();
             ShadowTexturePatternEditor = new ShadowTexturePatternEditor.ShadowTexturePatternEditor();
@@ -160,7 +160,7 @@ namespace HeroesPowerPlant.MainForm
             ClearLayoutEditors();
             CameraEditor.New();
             ShadowCameraEditor.New();
-            ShadowLayoutDiffTool.New();
+            ShadowLayoutMiscTools.New();
             ParticleEditor.New();
             TexturePatternEditor.New();
             ShadowTexturePatternEditor.New();
@@ -1233,7 +1233,7 @@ namespace HeroesPowerPlant.MainForm
             ShadowTexturePatternEditor.TopMost = value;
             SetIdTableEditor.TopMost = value;
             LightEditor.TopMost = value;
-            ShadowLayoutDiffTool.TopMost = value;
+            ShadowLayoutMiscTools.TopMost = value;
 
             allTopMost = value;
         }
@@ -1334,11 +1334,11 @@ namespace HeroesPowerPlant.MainForm
             }
         }
 
-        private void shadowLayoutDiffToolToolStripMenuItem_Click(object sender, EventArgs e)
+        private void shadowLayoutMiscToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShadowLayoutDiffTool.Show();
-            ShadowLayoutDiffTool.Focus();
-            ShadowLayoutDiffTool.WindowState = FormWindowState.Normal;
+            ShadowLayoutMiscTools.Show();
+            ShadowLayoutMiscTools.Focus();
+            ShadowLayoutMiscTools.WindowState = FormWindowState.Normal;
         }
 
         private void LegacyWindowPriorityBehavior_ToolStripMenuItem_Click(object sender, EventArgs e)

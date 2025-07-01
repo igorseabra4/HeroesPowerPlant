@@ -52,7 +52,7 @@ namespace HeroesPowerPlant.MainForm
             texturePatternEditorF9ToolStripMenuItem = new ToolStripMenuItem();
             lightEditorF10ToolStripMenuItem = new ToolStripMenuItem();
             sETIDTableEditorToolStripMenuItem = new ToolStripMenuItem();
-            shadowLayoutDiffToolToolStripMenuItem = new ToolStripMenuItem();
+            shadowLayoutMiscToolsToolStripMenuItem = new ToolStripMenuItem();
             resourceToolStripMenuItem = new ToolStripMenuItem();
             openHeroesLevelToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
@@ -160,7 +160,7 @@ namespace HeroesPowerPlant.MainForm
             // 
             // editorsToolStripMenuItem
             // 
-            editorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modLoaderConfigEditorF2ToolStripMenuItem, levelEditorF3ToolStripMenuItem, collisionEditorToolStripMenuItem, layoutEditorToolStripMenuItem, cameraEditorToolStripMenuItem, shadowCameraEditorToolStripMenuItem, particleEditorF8ToolStripMenuItem, texturePatternEditorF9ToolStripMenuItem, shadowTexturePatternEditorToolStripMenuItem, lightEditorF10ToolStripMenuItem, sETIDTableEditorToolStripMenuItem, shadowLayoutDiffToolToolStripMenuItem });
+            editorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modLoaderConfigEditorF2ToolStripMenuItem, levelEditorF3ToolStripMenuItem, collisionEditorToolStripMenuItem, layoutEditorToolStripMenuItem, cameraEditorToolStripMenuItem, shadowCameraEditorToolStripMenuItem, particleEditorF8ToolStripMenuItem, texturePatternEditorF9ToolStripMenuItem, shadowTexturePatternEditorToolStripMenuItem, lightEditorF10ToolStripMenuItem, sETIDTableEditorToolStripMenuItem, shadowLayoutMiscToolsToolStripMenuItem });
             editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
             editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             editorsToolStripMenuItem.Text = "Editors";
@@ -249,12 +249,12 @@ namespace HeroesPowerPlant.MainForm
             sETIDTableEditorToolStripMenuItem.Text = "SET ID Table Editor";
             sETIDTableEditorToolStripMenuItem.Click += sETIDTableEditorToolStripMenuItem_Click;
             // 
-            // shadowLayoutDiffToolToolStripMenuItem
+            // shadowLayoutMiscToolsToolStripMenuItem
             // 
-            shadowLayoutDiffToolToolStripMenuItem.Name = "shadowLayoutDiffToolToolStripMenuItem";
-            shadowLayoutDiffToolToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            shadowLayoutDiffToolToolStripMenuItem.Text = "Shadow Layout Diff Tool";
-            shadowLayoutDiffToolToolStripMenuItem.Click += shadowLayoutDiffToolToolStripMenuItem_Click;
+            shadowLayoutMiscToolsToolStripMenuItem.Name = "shadowLayoutMiscToolsToolStripMenuItem";
+            shadowLayoutMiscToolsToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            shadowLayoutMiscToolsToolStripMenuItem.Text = "Shadow Layout Misc Tools";
+            shadowLayoutMiscToolsToolStripMenuItem.Click += shadowLayoutMiscToolsToolStripMenuItem_Click;
             // 
             // resourceToolStripMenuItem
             // 
@@ -668,7 +668,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem shadowCameraEditorToolStripMenuItem;
         private ToolStripMenuItem disableRendering_ToolStripMenuItem;
         private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
-        private ToolStripMenuItem shadowLayoutDiffToolToolStripMenuItem;
+        private ToolStripMenuItem shadowLayoutMiscToolsToolStripMenuItem;
         private ToolStripMenuItem LegacyWindowPriorityBehavior_ToolStripMenuItem;
         private ToolStripMenuItem ResourceToolStripMenuItemSetAFS;
         private ToolStripMenuItem ResourceToolStripMenuItemSetFNT;
