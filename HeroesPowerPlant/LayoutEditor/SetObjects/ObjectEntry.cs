@@ -19,7 +19,7 @@
         {
             if (!(UseDebugNames || string.IsNullOrEmpty(Name)) || (UseDebugNames && string.IsNullOrEmpty(DebugName)))
                 return Name;
-            if (string.IsNullOrEmpty(DebugName))
+            if (!string.IsNullOrEmpty(DebugName))
                 return DebugName;
             return "Unknown/Unused";
         }
