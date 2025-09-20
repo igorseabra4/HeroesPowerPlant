@@ -1,3 +1,4 @@
+using HeroesPowerPlant.Other;
 using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using ShadowFNT;
@@ -32,6 +33,7 @@ namespace HeroesPowerPlant.MainForm
         public SharpRenderer renderer;
         public List<string> dffsToLoad = new List<string>();
         public string currentShadowLevelRoot = "";
+        public Dictionary<string, Nukkoro2Stage> shadowNukkoro2;
 
         public List<CollisionEditor.CollisionEditor> CollisionEditors => CollisionEditorDict.Values.ToList();
         public List<LayoutEditor.LayoutEditor> LayoutEditors => LayoutEditorDict.Values.ToList();
@@ -841,7 +843,20 @@ namespace HeroesPowerPlant.MainForm
                 renderer.Camera.AddYaw(renderer.Camera.KeyboardSensitivity);
 
             if (PressedKeys.Contains(Keys.R))
+            {
                 renderer.Camera.Reset();
+                if (shadowNukkoro2.Count > 0)
+                {
+                    try
+                    {
+                        var shadowSpawnPosition = shadowNukkoro2[Nukkoro2.Nukkoro2StageIdentifiers[LevelEditor.bspRenderer.currentShadowFolderNamePrefix]].Player[0].Position;
+                        renderer.Camera.SetPosition(new Vector3(shadowSpawnPosition.X, shadowSpawnPosition.Y, shadowSpawnPosition.Z));
+                    } catch (Exception ex)
+                    {
+                        // ignore
+                    }
+                }
+            }
         }
 
         private void noCullingCToolStripMenuItem_Click(object sender, EventArgs e)

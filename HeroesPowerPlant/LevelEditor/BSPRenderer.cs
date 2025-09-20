@@ -1,5 +1,6 @@
 ﻿using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
+using HeroesPowerPlant.Other;
 using RenderWareFile;
 using SharpDX;
 using System;
@@ -216,6 +217,14 @@ namespace HeroesPowerPlant
             // perform autoload
             if (firstTimeLoad)
             {
+                try
+                {
+                    Program.MainForm.shadowNukkoro2 = Nukkoro2.ReadFile(shadowRoot.FullName + "\\" + "nukkoro2.inf");
+                }
+                catch (Exception ex)
+                {
+                    // ignore any nukkoro load errors
+                }
                 // TODO: move defaultShadowObjectsToLoad somewhere optimally and let user customize this
                 List<string> defaultShadowObjectsToLoad = new List<string> {
                                 "character\\amy.one",
