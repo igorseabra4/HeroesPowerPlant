@@ -845,7 +845,7 @@ namespace HeroesPowerPlant.MainForm
             if (PressedKeys.Contains(Keys.R))
             {
                 renderer.Camera.Reset();
-                if (shadowNukkoro2.Count > 0)
+                if (shadowNukkoro2 != null && shadowNukkoro2.Count > 0)
                 {
                     try
                     {
