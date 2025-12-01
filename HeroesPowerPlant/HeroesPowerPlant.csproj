@@ -15,16 +15,16 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2025.09.19</ApplicationVersion>
-    <ProductVersion>2025.09.19</ProductVersion>
+    <ApplicationVersion>2025.11.30</ApplicationVersion>
+    <ProductVersion>2025.11.30</ProductVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
     <Company>Heroes Hacking Central</Company>
     <Product>Heroes Power Plant</Product>
     <Copyright>Copyright © 2018+ igorseabra4 + friends</Copyright>
-    <AssemblyVersion>2025.09.19</AssemblyVersion>
-    <FileVersion>2025.09.19</FileVersion>
+    <AssemblyVersion>2025.11.30</AssemblyVersion>
+    <FileVersion>2025.11.30</FileVersion>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
