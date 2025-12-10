@@ -153,11 +153,11 @@ namespace HeroesPowerPlant.LightEditor
             light.Unknown_Green = light.Unknown_Green.ReverseEndian();
             light.Unknown_Blue = light.Unknown_Blue.ReverseEndian();
 
-            byte[] member2CTemp = new byte[] { light.member2C[0], light.member2C[1], light.member2C[2], light.member2C[3] }.Reverse().ToArray();
+            byte[] member2CTemp = Enumerable.Reverse(new byte[] { light.member2C[0], light.member2C[1], light.member2C[2], light.member2C[3] }).ToArray();
             for (int i = 0; i < 4; i++)
                 light.member2C[i] = member2CTemp[i];
 
-            byte[] member30Temp = new byte[] { light.member30[0], light.member30[1], light.member30[2], light.member30[3] }.Reverse().ToArray();
+            byte[] member30Temp = Enumerable.Reverse(new byte[] { light.member30[0], light.member30[1], light.member30[2], light.member30[3] }).ToArray();
             for (int i = 0; i < 4; i++)
                 light.member30[i] = member30Temp[i];
 

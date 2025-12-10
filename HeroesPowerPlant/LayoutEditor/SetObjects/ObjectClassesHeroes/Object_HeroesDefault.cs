@@ -51,7 +51,7 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 var result = new List<byte>();
                 foreach (short i in value)
-                    result.AddRange(BitConverter.GetBytes(i).Reverse());
+                    result.AddRange(Enumerable.Reverse(BitConverter.GetBytes(i)));
                 MiscSettingBytes = result.ToArray();
             }
         }
@@ -70,7 +70,7 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 var result = new List<byte>();
                 foreach (int i in value)
-                    result.AddRange(BitConverter.GetBytes(i).Reverse());
+                    result.AddRange(Enumerable.Reverse(BitConverter.GetBytes(i)));
                 MiscSettingBytes = result.ToArray();
             }
         }
@@ -89,7 +89,7 @@ namespace HeroesPowerPlant.LayoutEditor
             {
                 var result = new List<byte>();
                 foreach (int i in value)
-                    result.AddRange(BitConverter.GetBytes(i).Reverse());
+                    result.AddRange(Enumerable.Reverse(BitConverter.GetBytes(i)));
                 MiscSettingBytes = result.ToArray();
             }
         }

@@ -175,9 +175,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
-            bytes.AddRange(BitConverter.GetBytes(1).Reverse());
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(1)));
             bytes.AddRange(BitConverter.GetBytes(0));
-            bytes.AddRange(BitConverter.GetBytes(12610).Reverse());
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(12610)));
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
 

@@ -23,27 +23,27 @@ namespace HeroesPowerPlant.Shared.Utilities
         public override float ReadSingle() =>
             (endianness == Endianness.Little) ?
             base.ReadSingle() :
-            BitConverter.ToSingle(base.ReadBytes(4).Reverse().ToArray(), 0);
+            BitConverter.ToSingle(Enumerable.Reverse(base.ReadBytes(4)).ToArray(), 0);
 
         public override short ReadInt16() =>
             (endianness == Endianness.Little) ?
             base.ReadInt16() :
-            BitConverter.ToInt16(base.ReadBytes(2).Reverse().ToArray(), 0);
+            BitConverter.ToInt16(Enumerable.Reverse(base.ReadBytes(2)).ToArray(), 0);
 
         public override int ReadInt32() =>
             (endianness == Endianness.Little) ?
             base.ReadInt32() :
-            BitConverter.ToInt32(base.ReadBytes(4).Reverse().ToArray(), 0);
+            BitConverter.ToInt32(Enumerable.Reverse(base.ReadBytes(4)).ToArray(), 0);
 
         public override ushort ReadUInt16() =>
             (endianness == Endianness.Little) ?
             base.ReadUInt16() :
-            BitConverter.ToUInt16(base.ReadBytes(2).Reverse().ToArray(), 0);
+            BitConverter.ToUInt16(Enumerable.Reverse(base.ReadBytes(2)).ToArray(), 0);
 
         public override uint ReadUInt32() =>
             (endianness == Endianness.Little) ?
             base.ReadUInt32() :
-            BitConverter.ToUInt32(base.ReadBytes(4).Reverse().ToArray(), 0);
+            BitConverter.ToUInt32(Enumerable.Reverse(base.ReadBytes(4)).ToArray(), 0);
 
         public bool ReadByteBool() => ReadByte() != 0;
 
@@ -116,7 +116,7 @@ namespace HeroesPowerPlant.Shared.Utilities
                 Write(with);
         }
 
-        private void WriteReverse(byte[] bytes) => base.Write(bytes.Reverse().ToArray());
+        private void WriteReverse(byte[] bytes) => base.Write(Enumerable.Reverse(bytes).ToArray());
 
         public override void Write(string f)
         {
@@ -129,7 +129,7 @@ namespace HeroesPowerPlant.Shared.Utilities
             if (magic.Length != 4)
                 throw new ArgumentException("Magic word must have 4 characters");
             var chars = magic.ToCharArray();
-            Write(endianness == Endianness.Little ? chars : chars.Reverse().ToArray());
+            Write(endianness == Endianness.Little ? chars : Enumerable.Reverse(chars).ToArray());
         }
     }
 }

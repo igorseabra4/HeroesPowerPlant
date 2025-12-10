@@ -141,32 +141,32 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 if (Vertices[i].PositionZ < Min.Z)
                     Min.Z = Vertices[i].PositionZ;
 
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].PositionX).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].PositionY).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].PositionZ).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.X).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Y).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].Rotation.Z).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(distance).Reverse());
-                vertexBytes.AddRange(BitConverter.GetBytes(Vertices[i].AngularAttachmentToleranceInt).Reverse());
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].PositionX)));
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].PositionY)));
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].PositionZ)));
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].Rotation.X)));
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].Rotation.Y)));
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].Rotation.Z)));
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(distance)));
+                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].AngularAttachmentToleranceInt)));
             }
 
             List<byte> bytes = new List<byte>(0x30 + 0x20 * Vertices.Length);
 
-            bytes.AddRange(BitConverter.GetBytes(Vertices.Length).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(totalLength).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(startOffset + 0x30).Reverse());
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices.Length)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(totalLength)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(startOffset + 0x30)));
             bytes.Add(Setting1);
             bytes.Add(Setting2);
             bytes.Add(SplineType);
             bytes.Add(Setting4);
-            bytes.AddRange(BitConverter.GetBytes(Max.X).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(Max.Y).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(Max.Z).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(SettingInt).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(Min.X).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(Min.Y).Reverse());
-            bytes.AddRange(BitConverter.GetBytes(Min.Z).Reverse());
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Max.X)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Max.Y)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Max.Z)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(SettingInt)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Min.X)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Min.Y)));
+            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Min.Z)));
             bytes.AddRange(BitConverter.GetBytes(0));
 
             bytes.AddRange(vertexBytes);
