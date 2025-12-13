@@ -1,4 +1,4 @@
 ﻿{
-  "version": "2025.11.30",
-  "versionName": "!!WARNING: NET Desktop Runtime 9.0 Required!!\nTo stay on the current version, disable:\nOptions -> Check For Updates on Startup"
+  "version": "2025.12.13",
+  "versionName": "!!WARNING: New version requires NET Desktop Runtime 10.0!\nTo stay on the current version, disable:\nOptions -> Check For Updates on Startup"
 }
