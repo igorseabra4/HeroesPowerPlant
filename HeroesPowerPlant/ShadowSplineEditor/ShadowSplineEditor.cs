@@ -13,6 +13,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
     public class ShadowSplineEditor
     {
         public List<ShadowSpline> Splines;
+        
+        // inverted render-only splines for mad matrix; not shown in the editable collection
+        private readonly Dictionary<ShadowSpline, ShadowSpline> invertedMap = new Dictionary<ShadowSpline, ShadowSpline>();
 
         public ShadowSplineEditor()
         {
@@ -22,8 +25,24 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public ShadowSplineEditor(string fileName)
         {
             Splines = ReadShadowSplineFile(fileName, Endianness.Big);
+
             foreach (ShadowSpline ss in Splines)
+            {
                 ss.SetRenderStuff(Program.MainForm.renderer);
+
+                if (ss.Setting2 == 64 && Program.MainForm.LevelEditor.bspRenderer.currentShadowFolderNamePrefix.ToLower() == "stg0403")
+                {
+                    ShadowSpline invertedSpline = ss.GetCopy();
+                    invertedSpline.Name += "_inverted";
+                    foreach (var vert in invertedSpline.Vertices)
+                    {
+                        vert.PositionX = -vert.PositionX;
+                    }
+
+                    invertedSpline.SetRenderStuff(Program.MainForm.renderer);
+                    invertedMap[ss] = invertedSpline;
+                }
+            }
         }
 
         public void Dispose()
@@ -31,6 +50,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             foreach (ShadowSpline ss in Splines)
                 ss.Dispose();
             Splines.Clear();
+
+            foreach (var kv in invertedMap)
+                kv.Value.Dispose();
+            invertedMap.Clear();
         }
 
         private static string ReadString(BinaryReader binaryReader)
@@ -294,6 +317,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             Splines.Add(new ShadowSpline());
             Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+            if (Splines.Last().Setting2 == 64)
+                UpdateInvertedFor(Splines.Last());
             UnsavedChanges = true;
         }
 
@@ -310,6 +335,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             Splines.Add(ShadowSpline.FromFile(objFile, splineId, splinePrefix));
             Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+            if (Splines.Last().Setting2 == 64)
+                UpdateInvertedFor(Splines.Last());
             UnsavedChanges = true;
         }
 
@@ -319,6 +346,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 Splines.Add(Splines[index].GetCopy());
                 Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+                if (Splines.Last().Setting2 == 64)
+                    UpdateInvertedFor(Splines.Last());
                 UnsavedChanges = true;
                 return true;
             }
@@ -330,7 +359,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             if (index > -1 && index < Splines.Count)
             {
-                Splines[index].Dispose();
+                var original = Splines[index];
+                if (invertedMap.TryGetValue(original, out ShadowSpline inv))
+                {
+                    inv.Dispose();
+                    invertedMap.Remove(original);
+                }
+
+                original.Dispose();
                 Splines.RemoveAt(index);
                 UnsavedChanges = true;
                 return true;
@@ -341,7 +377,14 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         public void RemoveAll()
         {
+            foreach (var kv in invertedMap)
+                kv.Value.Dispose();
+            invertedMap.Clear();
+
+            foreach (ShadowSpline ss in Splines)
+                ss.Dispose();
             Splines.Clear();
+
             UnsavedChanges = true;
         }
 
@@ -378,6 +421,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             foreach (ShadowSpline s in Splines)
                 s.Render(renderer);
+
+            foreach (var kv in invertedMap)
+                kv.Value.Render(renderer);
         }
 
         public void PropertyValueChanged()
@@ -385,7 +431,56 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             if (selectedSpline > -1 && selectedSpline < Splines.Count)
             {
                 Splines[selectedSpline].SetRenderStuff(Program.MainForm.renderer);
+                UpdateInvertedFor(Splines[selectedSpline]);
                 UnsavedChanges = true;
+            }
+        }
+
+        private void UpdateInvertedFor(ShadowSpline original)
+        {
+            if (original == null)
+                return;
+
+            if (Program.MainForm.LevelEditor.bspRenderer.currentShadowFolderNamePrefix.ToLower() != "stg0403")
+                return;
+
+            if (original.Setting2 == 64)
+            {
+                // create or update inverted
+                if (invertedMap.TryGetValue(original, out ShadowSpline inv))
+                {
+                    // update vertices positions (invert X) and re-create mesh
+                    for (int i = 0; i < original.Vertices.Length; i++)
+                    {
+                        if (i >= inv.Vertices.Length)
+                            break;
+                        inv.Vertices[i].PositionX = -original.Vertices[i].PositionX;
+                        inv.Vertices[i].PositionY = original.Vertices[i].PositionY;
+                        inv.Vertices[i].PositionZ = original.Vertices[i].PositionZ;
+                        inv.Vertices[i].Rotation = original.Vertices[i].Rotation;
+                        inv.Vertices[i].AngularAttachmentToleranceInt = original.Vertices[i].AngularAttachmentToleranceInt;
+                    }
+                    inv.SetRenderStuff(Program.MainForm.renderer);
+                }
+                else
+                {
+                    ShadowSpline inverted = original.GetCopy();
+                    inverted.Name = original.Name + "_inverted";
+                    for (int i = 0; i < inverted.Vertices.Length; i++)
+                        inverted.Vertices[i].PositionX = -inverted.Vertices[i].PositionX;
+
+                    inverted.SetRenderStuff(Program.MainForm.renderer);
+                    invertedMap[original] = inverted;
+                }
+            }
+            else
+            {
+                // no longer should have an inverted; remove if exists
+                if (invertedMap.TryGetValue(original, out ShadowSpline oldInv))
+                {
+                    oldInv.Dispose();
+                    invertedMap.Remove(original);
+                }
             }
         }
 
