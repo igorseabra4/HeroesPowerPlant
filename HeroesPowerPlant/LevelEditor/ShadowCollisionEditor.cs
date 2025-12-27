@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Heroes;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_ShadowCollision;
 using static HeroesPowerPlant.LevelEditor.BSP_IO_Shared;
@@ -65,11 +66,11 @@ namespace HeroesPowerPlant.LevelEditor
                     RenderWareModelFile file = new RenderWareModelFile(Path.GetFileNameWithoutExtension(i) + ".BSP");
                     file.isShadowCollision = true;
 
-                    try
-                    {
-                        file.ChunkNumber = Convert.ToByte(Path.GetFileNameWithoutExtension(i).Split('_').Last());
-                    }
-                    catch { file.ChunkNumber = -1; };
+                    int parsedChunk = ParseChunkNumberFromFileName(Path.GetFileNameWithoutExtension(i));
+                    if (parsedChunk == -1)
+                        MessageBox.Show("Error parsing chunk number from name. Setting to -1. Report this to HeroesPowerPlant Issue Tracker");
+
+                    file.ChunkNumber = parsedChunk;
 
                     if (Path.GetExtension(i).ToLower() == ".obj")
                     {
@@ -90,6 +91,65 @@ namespace HeroesPowerPlant.LevelEditor
 
                 buttonExport.Enabled = true;
             }
+        }
+
+        /// <summary>
+        /// Parses a chunk number from various filename formats. Returns -1 if none found.
+        /// Strategy:
+        ///  - normalize separators to underscores and split
+        ///  - if a token contains "COLI", prefer numeric tokens immediately after or before it
+        ///  - otherwise pick the last short numeric token (1-2 digits)
+        ///  - fallback: pick the last numeric sequence, skipping the leading STG#### stage number when present
+        /// </summary>
+        private static int ParseChunkNumberFromFileName(string nameNoExt)
+        {
+            if (string.IsNullOrWhiteSpace(nameNoExt))
+                return -1;
+
+            // Normalize separators and collapse runs of non-alnum to single underscore
+            string normalized = Regex.Replace(nameNoExt, "[^A-Za-z0-9]+", "_");
+            var tokens = normalized.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Prefer numbers near a 'COLI' token
+            int coliIndex = Array.FindIndex(tokens, t => t.IndexOf("COLI", StringComparison.OrdinalIgnoreCase) >= 0);
+            if (coliIndex >= 0)
+            {
+                // look after COLI first
+                for (int j = coliIndex + 1; j < tokens.Length; j++)
+                    if (int.TryParse(tokens[j], out var v))
+                        return v;
+
+                // then look before COLI
+                for (int j = coliIndex - 1; j >= 0; j--)
+                    if (int.TryParse(tokens[j], out var v))
+                        return v;
+            }
+
+            // No COLI or not found near it. Prefer short numeric tokens (1-2 digits) from the end.
+            for (int j = tokens.Length - 1; j >= 0; j--)
+            {
+                var t = tokens[j];
+                if (int.TryParse(t, out var v) && t.Length <= 2)
+                    return v;
+            }
+
+            // Fallback: find all digit runs in the original name and pick the last one.
+            var matches = Regex.Matches(nameNoExt, "\\d+");
+            if (matches.Count > 0)
+            {
+                int startIndex = 0;
+                // If filename starts with STG, skip the leading stage number (e.g. STG0100)
+                if (nameNoExt.StartsWith("STG", StringComparison.OrdinalIgnoreCase) && matches[0].Value.Length >= 3)
+                    startIndex = 1;
+
+                for (int m = matches.Count - 1; m >= startIndex; m--)
+                {
+                    if (int.TryParse(matches[m].Value, out var v))
+                        return v;
+                }
+            }
+
+            return -1;
         }
 
         private void buttonExport_Click(object sender, EventArgs e)
@@ -183,15 +243,10 @@ namespace HeroesPowerPlant.LevelEditor
                 bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].fileName = newName;
                 listBoxLevelModels.Items[listBoxLevelModels.SelectedIndex] = newName;
 
-                try
-                {
-                    bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber =
-                        Convert.ToByte(Path.GetFileNameWithoutExtension(newName).Split('_').Last());
-                }
-                catch
-                {
-                    bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber = -1;
-                };
+                int parsed = ParseChunkNumberFromFileName(Path.GetFileNameWithoutExtension(newName));
+                if (parsed == -1)
+                    MessageBox.Show("Error parsing chunk number from name. Setting to -1. Report this to HeroesPowerPlant Issue Tracker");
+                bspRenderer.ShadowColBSPList[listBoxLevelModels.SelectedIndex].ChunkNumber = parsed;
                 UnsavedChanges = true;
             }
         }
