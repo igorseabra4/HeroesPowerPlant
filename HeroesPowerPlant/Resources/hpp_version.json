@@ -1,4 +1,4 @@
 ﻿{
-  "version": "2025.12.13",
-  "versionName": "!!WARNING: New version requires NET Desktop Runtime 10.0!\nTo stay on the current version, disable:\nOptions -> Check For Updates on Startup"
+  "version": "2025.12.28",
+  "versionName": "!!WARNING: Auto updates will pull NET 10 version. Linux users on Wine 10 and earlier, manually download the newest NET 9 build.\nTo stay on the current version, disable:\nOptions -> Check For Updates on Startup"
 }
