@@ -232,7 +232,7 @@ namespace HeroesPowerPlant.LevelEditor
         {
             VistaOpenFileDialog openFile = new VistaOpenFileDialog()
             {
-                Filter = GetImportFilter(), // "All supported types|*.dae;*.obj;*.bsp|DAE Files|*.dae|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
+                Filter = "All supported types|*.dae;*.obj;*.bsp|DAE Files|*.dae|OBJ Files|*.obj|BSP Files|*.bsp|All files|*.*",
                 Multiselect = true
             };
 
@@ -260,7 +260,8 @@ namespace HeroesPowerPlant.LevelEditor
                                 if (Path.GetExtension(i).ToLower() == ".obj")
                                     file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(ReadOBJFile(i, false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                                 else
-                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
+                                    file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFromAssimp(i, checkBoxFlipUVs.Checked), null);
+                                //file.SetForRendering(Program.MainForm.renderer.Device, CreateBSPFile(ConvertDataFromDAEObject(ReadDAEFile(i), false), checkBoxTristrip.Checked, checkBoxFlipUVs.Checked), null);
                             }
                             catch
                             {

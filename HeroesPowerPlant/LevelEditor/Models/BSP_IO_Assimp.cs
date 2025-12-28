@@ -1,4 +1,5 @@
 ﻿using Assimp;
+using HelixToolkit.SharpDX;
 using RenderWareFile;
 using RenderWareFile.Sections;
 using SharpDX;
@@ -89,6 +90,40 @@ namespace HeroesPowerPlant.LevelEditor
 
         public static RWSection[] CreateBSPFromAssimp(string fileName, bool flipUVs)
         {
+            var Importer = new HelixToolkit.SharpDX.Assimp.Importer();
+            var model = Importer.Load(fileName);
+            int totalVertices = 0;
+            int totalIndices = 0;
+
+            // scene.Root is a SceneNode. 
+            // Traverse() visits every child and sub-child in the hierarchy.
+            foreach (var node in model.Root.Traverse())
+            {
+                // Check if the node is a MeshNode and contains geometry
+                if (node is HelixToolkit.SharpDX.Model.Scene.MeshNode meshNode && meshNode.Geometry != null)
+                {
+                    // Positions contains the vertex data
+                    totalVertices += meshNode.Geometry.Positions.Count;
+
+                    // Indices contains the vertex order; 3 indices = 1 triangle
+                    totalIndices += meshNode.Geometry.Indices.Count;
+                }
+            }
+            var test = totalIndices;
+
+/*            // Traverse all nodes in the scene graph
+            foreach (var node in model.Root.Items.Traverse())
+            {
+                totalVertices += node. Positions.Count;
+                totalIndices += meshNode.Geometry.Indices.Count;
+*//*                // Only MeshNodes contain actual geometry data
+                if (node is HelixToolkit.SharpDX.Core.MeshNode meshNode && meshNode.Geometry != null)
+                {
+                    totalVertices += meshNode.Geometry.Positions.Count;
+                    totalIndices += meshNode.Geometry.Indices.Count;
+                }*//*
+            }*/
+
             PostProcessSteps pps =
                 PostProcessSteps.Debone | PostProcessSteps.FindInstances |
                 PostProcessSteps.FindInvalidData | PostProcessSteps.OptimizeGraph |
@@ -108,7 +143,7 @@ namespace HeroesPowerPlant.LevelEditor
             List<Vertex2> textCoords = new List<Vertex2>(vertexCount);
             List<RenderWareFile.Triangle> triangles = new List<RenderWareFile.Triangle>(triangleCount);
 
-            int totalVertices = 0;
+            //int totalVertices = 0;
 
             foreach (var m in scene.Meshes)
             {
