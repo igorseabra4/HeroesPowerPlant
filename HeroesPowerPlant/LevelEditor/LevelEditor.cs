@@ -602,7 +602,7 @@ namespace HeroesPowerPlant.LevelEditor
             }
 
             if (error)
-                MessageBox.Show("Some of the files were not included in the archives because I could not figure out their chunk number. Please fix that and save again, otherwise those files will be lost: " + filesWithError);
+                MessageBox.Show("WARNING: Some of the files have an unknown chunk number. Fix & save again, otherwise these files will be lost: " + filesWithError);
 
             foreach (int i in oneDict.Keys)
             {

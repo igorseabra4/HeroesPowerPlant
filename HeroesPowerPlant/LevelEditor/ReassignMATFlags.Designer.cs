@@ -125,7 +125,7 @@ namespace HeroesPowerPlant.LevelEditor
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(186, 195);
             label4.TabIndex = 12;
-            label4.Text = "Tip:\r\nSurround Target and Replacement\r\nwith _\r\n\r\nThie esnures you don't\r\nreplace shared letter types\r\n\r\nExample:\r\nTarget:\r\n_AFN_\r\nReplacement:\r\n_OS_\r\n\r\n";
+            label4.Text = "Tip:\r\nSurround Target and Replacement\r\nwith _\r\n\r\nThis ensures you do not\r\nreplace shared letter types\r\n\r\nExample:\r\nTarget:\r\n_AFN_\r\nReplacement:\r\n_OS_\r\n\r\n";
             // 
             // ReassignMATFlags
             // 
