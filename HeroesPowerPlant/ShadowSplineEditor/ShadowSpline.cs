@@ -53,7 +53,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             List<Vector3> vertices = new List<Vector3>(Vertices.Length);
             foreach (ShadowSplineVertex v in Vertices)
+            {
                 vertices.Add(v.Position);
+            }
 
             CreateMesh(renderer, vertices.ToArray());
         }
