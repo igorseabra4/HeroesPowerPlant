@@ -1,5 +1,4 @@
-﻿using Collada141;
-using HeroesONE_R.Structures;
+﻿using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
 using HeroesPowerPlant.ShadowSplineEditor;
 using HeroesPowerPlant.Shared.IO.Config;
@@ -435,6 +434,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             ShadowLevelMenuItemCollisionEditor.Enabled = false;
             ShadowLevelMenuItemSplineEditor.Enabled = false;
+            ShadowLevelMenuItemSaveSplineDataOnly.Enabled = false;
             ShadowLevelMenuItemImportBLK.Enabled = false;
 
             shadowCollisionEditor.Hide();
@@ -460,6 +460,7 @@ namespace HeroesPowerPlant.LevelEditor
 
             ShadowLevelMenuItemCollisionEditor.Enabled = true;
             ShadowLevelMenuItemSplineEditor.Enabled = true;
+            ShadowLevelMenuItemSaveSplineDataOnly.Enabled = true;
             ShadowLevelMenuItemImportBLK.Enabled = true;
             buttonImport.Enabled = true;
 
@@ -1140,6 +1141,11 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ShadowLevelMenuItemSaveSplineDataOnly_Click(object sender, EventArgs e)
         {
+            if (openONEfilePath == null)
+            {
+                MessageBox.Show("You need to open or save the shadow level folder first!");
+                return;
+            }
             SaveShadowDATONE(Path.Combine(openONEfilePath, bspRenderer.currentShadowFolderNamePrefix + "_dat.one"), true);
         }
     }

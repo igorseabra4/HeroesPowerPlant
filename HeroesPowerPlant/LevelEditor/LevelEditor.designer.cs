@@ -650,6 +650,7 @@
             // 
             // ShadowLevelMenuItemSaveSplineDataOnly
             // 
+            ShadowLevelMenuItemSaveSplineDataOnly.Enabled = false;
             ShadowLevelMenuItemSaveSplineDataOnly.Name = "ShadowLevelMenuItemSaveSplineDataOnly";
             ShadowLevelMenuItemSaveSplineDataOnly.Size = new System.Drawing.Size(188, 22);
             ShadowLevelMenuItemSaveSplineDataOnly.Text = "Save Spline Data Only";
