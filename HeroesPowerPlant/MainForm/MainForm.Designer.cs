@@ -50,6 +50,7 @@ namespace HeroesPowerPlant.MainForm
             shadowCameraEditorToolStripMenuItem = new ToolStripMenuItem();
             particleEditorF8ToolStripMenuItem = new ToolStripMenuItem();
             texturePatternEditorF9ToolStripMenuItem = new ToolStripMenuItem();
+            shadowTexturePatternEditorToolStripMenuItem = new ToolStripMenuItem();
             lightEditorF10ToolStripMenuItem = new ToolStripMenuItem();
             sETIDTableEditorToolStripMenuItem = new ToolStripMenuItem();
             shadowLayoutMiscToolsToolStripMenuItem = new ToolStripMenuItem();
@@ -95,7 +96,6 @@ namespace HeroesPowerPlant.MainForm
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             renderPanel = new Panel();
-            shadowTexturePatternEditorToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -106,8 +106,8 @@ namespace HeroesPowerPlant.MainForm
             menuStrip1.Items.AddRange(new ToolStripItem[] { projectToolStripMenuItem, editorsToolStripMenuItem, resourceToolStripMenuItem, optionsToolStripMenuItem });
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(7, 2, 0, 2);
-            menuStrip1.Size = new System.Drawing.Size(1474, 24);
+            menuStrip1.Padding = new Padding(10, 3, 0, 3);
+            menuStrip1.Size = new System.Drawing.Size(2106, 35);
             menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -115,46 +115,46 @@ namespace HeroesPowerPlant.MainForm
             // 
             projectToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, saveAsToolStripMenuItem, closeToolStripMenuItem, toolStripSeparator1, aboutToolStripMenuItem });
             projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            projectToolStripMenuItem.Size = new System.Drawing.Size(82, 29);
             projectToolStripMenuItem.Text = "Project";
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            openToolStripMenuItem.Size = new System.Drawing.Size(188, 34);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += ToolstripFileOpen;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            saveToolStripMenuItem.Size = new System.Drawing.Size(188, 34);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += ToolStripFileSave;
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            saveAsToolStripMenuItem.Size = new System.Drawing.Size(188, 34);
             saveAsToolStripMenuItem.Text = "Save As...";
             saveAsToolStripMenuItem.Click += ToolStripFileSaveAs;
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            closeToolStripMenuItem.Size = new System.Drawing.Size(188, 34);
             closeToolStripMenuItem.Text = "Close";
             closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(120, 6);
+            toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
             // 
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            aboutToolStripMenuItem.Size = new System.Drawing.Size(188, 34);
             aboutToolStripMenuItem.Text = "About";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
@@ -162,20 +162,20 @@ namespace HeroesPowerPlant.MainForm
             // 
             editorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modLoaderConfigEditorF2ToolStripMenuItem, levelEditorF3ToolStripMenuItem, collisionEditorToolStripMenuItem, layoutEditorToolStripMenuItem, cameraEditorToolStripMenuItem, shadowCameraEditorToolStripMenuItem, particleEditorF8ToolStripMenuItem, texturePatternEditorF9ToolStripMenuItem, shadowTexturePatternEditorToolStripMenuItem, lightEditorF10ToolStripMenuItem, sETIDTableEditorToolStripMenuItem, shadowLayoutMiscToolsToolStripMenuItem });
             editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
-            editorsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            editorsToolStripMenuItem.Size = new System.Drawing.Size(83, 29);
             editorsToolStripMenuItem.Text = "Editors";
             // 
             // modLoaderConfigEditorF2ToolStripMenuItem
             // 
             modLoaderConfigEditorF2ToolStripMenuItem.Name = "modLoaderConfigEditorF2ToolStripMenuItem";
-            modLoaderConfigEditorF2ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            modLoaderConfigEditorF2ToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
             modLoaderConfigEditorF2ToolStripMenuItem.Text = "Mod Loader Config Editor (F2)";
             modLoaderConfigEditorF2ToolStripMenuItem.Click += modLoaderConfigEditorF2ToolStripMenuItem_Click;
             // 
             // levelEditorF3ToolStripMenuItem
             // 
             levelEditorF3ToolStripMenuItem.Name = "levelEditorF3ToolStripMenuItem";
-            levelEditorF3ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            levelEditorF3ToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
             levelEditorF3ToolStripMenuItem.Text = "Level Editor (F3)";
             levelEditorF3ToolStripMenuItem.Click += levelEditorF3ToolStripMenuItem_Click;
             // 
@@ -183,13 +183,13 @@ namespace HeroesPowerPlant.MainForm
             // 
             collisionEditorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem });
             collisionEditorToolStripMenuItem.Name = "collisionEditorToolStripMenuItem";
-            collisionEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            collisionEditorToolStripMenuItem.Text = "Collision Editor (F4)";
+            collisionEditorToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
+            collisionEditorToolStripMenuItem.Text = "Heroes Collision Editor (F4)";
             // 
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            newToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             newToolStripMenuItem.Text = "New";
             newToolStripMenuItem.Click += newCollisionEditorToolStripMenuItem_Click;
             // 
@@ -197,62 +197,69 @@ namespace HeroesPowerPlant.MainForm
             // 
             layoutEditorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem1 });
             layoutEditorToolStripMenuItem.Name = "layoutEditorToolStripMenuItem";
-            layoutEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            layoutEditorToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
             layoutEditorToolStripMenuItem.Text = "Layout Editor (F5)";
             // 
             // newToolStripMenuItem1
             // 
             newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            newToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
+            newToolStripMenuItem1.Size = new System.Drawing.Size(270, 34);
             newToolStripMenuItem1.Text = "New";
             newToolStripMenuItem1.Click += newLayoutEditorToolStripMenuItem1_Click;
             // 
             // cameraEditorToolStripMenuItem
             // 
             cameraEditorToolStripMenuItem.Name = "cameraEditorToolStripMenuItem";
-            cameraEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            cameraEditorToolStripMenuItem.Text = "Camera Editor (F7)";
+            cameraEditorToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
+            cameraEditorToolStripMenuItem.Text = "Heroes Camera Editor (F7)";
             cameraEditorToolStripMenuItem.Click += cameraEditorToolStripMenuItem_Click;
             // 
             // shadowCameraEditorToolStripMenuItem
             // 
             shadowCameraEditorToolStripMenuItem.Name = "shadowCameraEditorToolStripMenuItem";
-            shadowCameraEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            shadowCameraEditorToolStripMenuItem.Text = "Shadow Camera Editor";
+            shadowCameraEditorToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
+            shadowCameraEditorToolStripMenuItem.Text = "Shadow Camera Editor (F7)";
             shadowCameraEditorToolStripMenuItem.Click += shadowCameraEditorToolStripMenuItem_Click;
             // 
             // particleEditorF8ToolStripMenuItem
             // 
             particleEditorF8ToolStripMenuItem.Name = "particleEditorF8ToolStripMenuItem";
-            particleEditorF8ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            particleEditorF8ToolStripMenuItem.Text = "Particle Editor (F8)";
+            particleEditorF8ToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
+            particleEditorF8ToolStripMenuItem.Text = "Heroes Particle Editor (F8)";
             particleEditorF8ToolStripMenuItem.Click += particleEditorF8ToolStripMenuItem_Click;
             // 
             // texturePatternEditorF9ToolStripMenuItem
             // 
             texturePatternEditorF9ToolStripMenuItem.Name = "texturePatternEditorF9ToolStripMenuItem";
-            texturePatternEditorF9ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            texturePatternEditorF9ToolStripMenuItem.Text = "Texture Pattern Editor (F9)";
+            texturePatternEditorF9ToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
+            texturePatternEditorF9ToolStripMenuItem.Text = "Heroes Texture Pattern Editor (F9)";
             texturePatternEditorF9ToolStripMenuItem.Click += texturePatternEditorF9ToolStripMenuItem_Click;
+            // 
+            // shadowTexturePatternEditorToolStripMenuItem
+            // 
+            shadowTexturePatternEditorToolStripMenuItem.Name = "shadowTexturePatternEditorToolStripMenuItem";
+            shadowTexturePatternEditorToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
+            shadowTexturePatternEditorToolStripMenuItem.Text = "Shadow Texture Pattern Editor (F9)";
+            shadowTexturePatternEditorToolStripMenuItem.Click += shadowTexturePatternEditorToolStripMenuItem_Click;
             // 
             // lightEditorF10ToolStripMenuItem
             // 
             lightEditorF10ToolStripMenuItem.Name = "lightEditorF10ToolStripMenuItem";
-            lightEditorF10ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            lightEditorF10ToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
             lightEditorF10ToolStripMenuItem.Text = "Light Editor (F10)";
             lightEditorF10ToolStripMenuItem.Click += lightEditorF10ToolStripMenuItem_Click;
             // 
             // sETIDTableEditorToolStripMenuItem
             // 
             sETIDTableEditorToolStripMenuItem.Name = "sETIDTableEditorToolStripMenuItem";
-            sETIDTableEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            sETIDTableEditorToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
             sETIDTableEditorToolStripMenuItem.Text = "SET ID Table Editor";
             sETIDTableEditorToolStripMenuItem.Click += sETIDTableEditorToolStripMenuItem_Click;
             // 
             // shadowLayoutMiscToolsToolStripMenuItem
             // 
             shadowLayoutMiscToolsToolStripMenuItem.Name = "shadowLayoutMiscToolsToolStripMenuItem";
-            shadowLayoutMiscToolsToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            shadowLayoutMiscToolsToolStripMenuItem.Size = new System.Drawing.Size(384, 34);
             shadowLayoutMiscToolsToolStripMenuItem.Text = "Shadow Layout Misc Tools";
             shadowLayoutMiscToolsToolStripMenuItem.Click += shadowLayoutMiscToolsToolStripMenuItem_Click;
             // 
@@ -260,67 +267,67 @@ namespace HeroesPowerPlant.MainForm
             // 
             resourceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openHeroesLevelToolStripMenuItem, toolStripSeparator2, addTXDToolStripMenuItem, addTextureFolderToolStripMenuItem, clearTXDsToolStripMenuItem, addObjectONEToolStripMenuItem1, clearObjectONEsToolStripMenuItem1, ResourceToolStripMenuItemSetAFS, ResourceToolStripMenuItemSetFNT });
             resourceToolStripMenuItem.Name = "resourceToolStripMenuItem";
-            resourceToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            resourceToolStripMenuItem.Size = new System.Drawing.Size(107, 29);
             resourceToolStripMenuItem.Text = "Resources";
             // 
             // openHeroesLevelToolStripMenuItem
             // 
             openHeroesLevelToolStripMenuItem.Name = "openHeroesLevelToolStripMenuItem";
-            openHeroesLevelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            openHeroesLevelToolStripMenuItem.Size = new System.Drawing.Size(263, 34);
             openHeroesLevelToolStripMenuItem.Text = "Open Heroes Level";
             openHeroesLevelToolStripMenuItem.Click += openHeroesLevelToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            toolStripSeparator2.Size = new System.Drawing.Size(260, 6);
             // 
             // addTXDToolStripMenuItem
             // 
             addTXDToolStripMenuItem.Name = "addTXDToolStripMenuItem";
-            addTXDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            addTXDToolStripMenuItem.Size = new System.Drawing.Size(263, 34);
             addTXDToolStripMenuItem.Text = "Add TXD(s)";
             addTXDToolStripMenuItem.Click += addTXDToolStripMenuItem_Click;
             // 
             // addTextureFolderToolStripMenuItem
             // 
             addTextureFolderToolStripMenuItem.Name = "addTextureFolderToolStripMenuItem";
-            addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            addTextureFolderToolStripMenuItem.Size = new System.Drawing.Size(263, 34);
             addTextureFolderToolStripMenuItem.Text = "Add Texture Folder";
             addTextureFolderToolStripMenuItem.Click += addTextureFolderToolStripMenuItem_Click;
             // 
             // clearTXDsToolStripMenuItem
             // 
             clearTXDsToolStripMenuItem.Name = "clearTXDsToolStripMenuItem";
-            clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            clearTXDsToolStripMenuItem.Size = new System.Drawing.Size(263, 34);
             clearTXDsToolStripMenuItem.Text = "Clear Textures";
             clearTXDsToolStripMenuItem.Click += clearTXDsToolStripMenuItem_Click;
             // 
             // addObjectONEToolStripMenuItem1
             // 
             addObjectONEToolStripMenuItem1.Name = "addObjectONEToolStripMenuItem1";
-            addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            addObjectONEToolStripMenuItem1.Size = new System.Drawing.Size(263, 34);
             addObjectONEToolStripMenuItem1.Text = "Add Object ONE";
             addObjectONEToolStripMenuItem1.Click += addObjectONEToolStripMenuItem1_Click;
             // 
             // clearObjectONEsToolStripMenuItem1
             // 
             clearObjectONEsToolStripMenuItem1.Name = "clearObjectONEsToolStripMenuItem1";
-            clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            clearObjectONEsToolStripMenuItem1.Size = new System.Drawing.Size(263, 34);
             clearObjectONEsToolStripMenuItem1.Text = "Clear Object ONEs";
             clearObjectONEsToolStripMenuItem1.Click += clearObjectONEsToolStripMenuItem1_Click;
             // 
             // ResourceToolStripMenuItemSetAFS
             // 
             ResourceToolStripMenuItemSetAFS.Name = "ResourceToolStripMenuItemSetAFS";
-            ResourceToolStripMenuItemSetAFS.Size = new System.Drawing.Size(180, 22);
+            ResourceToolStripMenuItemSetAFS.Size = new System.Drawing.Size(263, 34);
             ResourceToolStripMenuItemSetAFS.Text = "Set AFS";
             ResourceToolStripMenuItemSetAFS.Click += ResourceToolStripMenuItemSetAFS_Click;
             // 
             // ResourceToolStripMenuItemSetFNT
             // 
             ResourceToolStripMenuItemSetFNT.Name = "ResourceToolStripMenuItemSetFNT";
-            ResourceToolStripMenuItemSetFNT.Size = new System.Drawing.Size(180, 22);
+            ResourceToolStripMenuItemSetFNT.Size = new System.Drawing.Size(263, 34);
             ResourceToolStripMenuItemSetFNT.Text = "Set FNT";
             ResourceToolStripMenuItemSetFNT.Click += ResourceToolStripMenuItemSetFNT_Click;
             // 
@@ -328,20 +335,20 @@ namespace HeroesPowerPlant.MainForm
             // 
             optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { noCullingCToolStripMenuItem, wireframeFToolStripMenuItem, colorsToolStripMenuItem, toolStripSeparator3, mouseModeToolStripMenuItem, startPosToolStripMenuItem, splinesToolStripMenuItem, renderByChunkToolStripMenuItem, chunkBoxesToolStripMenuItem, showCollisionXToolStripMenuItem, showQuadtreeTToolStripMenuItem, showObjectsGToolStripMenuItem, camerasVToolStripMenuItem, toolStripSeparator4, checkForUpdatesOnStartupToolStripMenuItem, checkForUpdatesNowToolStripMenuItem, vSyncToolStripMenuItem, autoLoadLastProjectOnLaunchToolStripMenuItem, autoSaveProjectOnClosingToolStripMenuItem, cameraViewSettingsToolStripMenuItem, disableRendering_ToolStripMenuItem, LimitFPS_ToolStripMenuItem, LegacyWindowPriorityBehavior_ToolStripMenuItem });
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            optionsToolStripMenuItem.Size = new System.Drawing.Size(92, 29);
             optionsToolStripMenuItem.Text = "Options";
             // 
             // noCullingCToolStripMenuItem
             // 
             noCullingCToolStripMenuItem.Name = "noCullingCToolStripMenuItem";
-            noCullingCToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            noCullingCToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             noCullingCToolStripMenuItem.Text = "No Culling (C)";
             noCullingCToolStripMenuItem.Click += noCullingCToolStripMenuItem_Click;
             // 
             // wireframeFToolStripMenuItem
             // 
             wireframeFToolStripMenuItem.Name = "wireframeFToolStripMenuItem";
-            wireframeFToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            wireframeFToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             wireframeFToolStripMenuItem.Text = "Wireframe (F)";
             wireframeFToolStripMenuItem.Click += wireframeFToolStripMenuItem_Click;
             // 
@@ -349,40 +356,40 @@ namespace HeroesPowerPlant.MainForm
             // 
             colorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backgroundColorToolStripMenuItem1, selectionColorToolStripMenuItem1, resetToolStripMenuItem });
             colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
-            colorsToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            colorsToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             colorsToolStripMenuItem.Text = "Colors";
             // 
             // backgroundColorToolStripMenuItem1
             // 
             backgroundColorToolStripMenuItem1.Name = "backgroundColorToolStripMenuItem1";
-            backgroundColorToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
+            backgroundColorToolStripMenuItem1.Size = new System.Drawing.Size(269, 34);
             backgroundColorToolStripMenuItem1.Text = "Background Color...";
             backgroundColorToolStripMenuItem1.Click += BackgroundColorToolStripMenuItem_Click;
             // 
             // selectionColorToolStripMenuItem1
             // 
             selectionColorToolStripMenuItem1.Name = "selectionColorToolStripMenuItem1";
-            selectionColorToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
+            selectionColorToolStripMenuItem1.Size = new System.Drawing.Size(269, 34);
             selectionColorToolStripMenuItem1.Text = "Selection Color...";
             selectionColorToolStripMenuItem1.Click += selectionColorToolStripMenuItem_Click;
             // 
             // resetToolStripMenuItem
             // 
             resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            resetToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            resetToolStripMenuItem.Size = new System.Drawing.Size(269, 34);
             resetToolStripMenuItem.Text = "Reset";
             resetToolStripMenuItem.Click += resetToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new System.Drawing.Size(251, 6);
+            toolStripSeparator3.Size = new System.Drawing.Size(377, 6);
             // 
             // mouseModeToolStripMenuItem
             // 
             mouseModeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { objectsToolStripMenuItem, camerasToolStripMenuItem });
             mouseModeToolStripMenuItem.Name = "mouseModeToolStripMenuItem";
-            mouseModeToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            mouseModeToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             mouseModeToolStripMenuItem.Text = "Selection Mode (M)";
             // 
             // objectsToolStripMenuItem
@@ -390,14 +397,14 @@ namespace HeroesPowerPlant.MainForm
             objectsToolStripMenuItem.Checked = true;
             objectsToolStripMenuItem.CheckState = CheckState.Checked;
             objectsToolStripMenuItem.Name = "objectsToolStripMenuItem";
-            objectsToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            objectsToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             objectsToolStripMenuItem.Text = "Objects";
             objectsToolStripMenuItem.Click += objectsToolStripMenuItem_Click;
             // 
             // camerasToolStripMenuItem
             // 
             camerasToolStripMenuItem.Name = "camerasToolStripMenuItem";
-            camerasToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            camerasToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             camerasToolStripMenuItem.Text = "Cameras";
             camerasToolStripMenuItem.Click += camerasToolStripMenuItem_Click;
             // 
@@ -406,7 +413,7 @@ namespace HeroesPowerPlant.MainForm
             startPosToolStripMenuItem.Checked = true;
             startPosToolStripMenuItem.CheckState = CheckState.Checked;
             startPosToolStripMenuItem.Name = "startPosToolStripMenuItem";
-            startPosToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            startPosToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             startPosToolStripMenuItem.Text = "Start Pos (Y)";
             startPosToolStripMenuItem.Click += startPosYToolStripMenuItem_Click;
             // 
@@ -415,7 +422,7 @@ namespace HeroesPowerPlant.MainForm
             splinesToolStripMenuItem.Checked = true;
             splinesToolStripMenuItem.CheckState = CheckState.Checked;
             splinesToolStripMenuItem.Name = "splinesToolStripMenuItem";
-            splinesToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            splinesToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             splinesToolStripMenuItem.Text = "Splines (U)";
             splinesToolStripMenuItem.Click += splinesUToolStripMenuItem_Click;
             // 
@@ -424,35 +431,35 @@ namespace HeroesPowerPlant.MainForm
             renderByChunkToolStripMenuItem.Checked = true;
             renderByChunkToolStripMenuItem.CheckState = CheckState.Checked;
             renderByChunkToolStripMenuItem.Name = "renderByChunkToolStripMenuItem";
-            renderByChunkToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            renderByChunkToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             renderByChunkToolStripMenuItem.Text = "Render By Chunk (H)";
             renderByChunkToolStripMenuItem.Click += renderByChunkHToolStripMenuItem_Click;
             // 
             // chunkBoxesToolStripMenuItem
             // 
             chunkBoxesToolStripMenuItem.Name = "chunkBoxesToolStripMenuItem";
-            chunkBoxesToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            chunkBoxesToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             chunkBoxesToolStripMenuItem.Text = "Chunk Boxes (B)";
             chunkBoxesToolStripMenuItem.Click += chunkBoxesBToolStripMenuItem_Click;
             // 
             // showCollisionXToolStripMenuItem
             // 
             showCollisionXToolStripMenuItem.Name = "showCollisionXToolStripMenuItem";
-            showCollisionXToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            showCollisionXToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             showCollisionXToolStripMenuItem.Text = "Collision (X)";
             showCollisionXToolStripMenuItem.Click += showCollisionXToolStripMenuItem_Click;
             // 
             // showQuadtreeTToolStripMenuItem
             // 
             showQuadtreeTToolStripMenuItem.Name = "showQuadtreeTToolStripMenuItem";
-            showQuadtreeTToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            showQuadtreeTToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             showQuadtreeTToolStripMenuItem.Text = "Quadtree (T)";
             showQuadtreeTToolStripMenuItem.Click += showQuadtreeTToolStripMenuItem_Click;
             // 
             // showObjectsGToolStripMenuItem
             // 
             showObjectsGToolStripMenuItem.Name = "showObjectsGToolStripMenuItem";
-            showObjectsGToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            showObjectsGToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             showObjectsGToolStripMenuItem.Text = "Objects (G)";
             showObjectsGToolStripMenuItem.Click += showObjectsGToolStripMenuItem_Click;
             // 
@@ -461,28 +468,28 @@ namespace HeroesPowerPlant.MainForm
             camerasVToolStripMenuItem.Checked = true;
             camerasVToolStripMenuItem.CheckState = CheckState.Checked;
             camerasVToolStripMenuItem.Name = "camerasVToolStripMenuItem";
-            camerasVToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            camerasVToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             camerasVToolStripMenuItem.Text = "Cameras (V)";
             camerasVToolStripMenuItem.Click += camerasVToolStripMenuItem_Click;
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new System.Drawing.Size(251, 6);
+            toolStripSeparator4.Size = new System.Drawing.Size(377, 6);
             // 
             // checkForUpdatesOnStartupToolStripMenuItem
             // 
             checkForUpdatesOnStartupToolStripMenuItem.Checked = true;
             checkForUpdatesOnStartupToolStripMenuItem.CheckState = CheckState.Checked;
             checkForUpdatesOnStartupToolStripMenuItem.Name = "checkForUpdatesOnStartupToolStripMenuItem";
-            checkForUpdatesOnStartupToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            checkForUpdatesOnStartupToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             checkForUpdatesOnStartupToolStripMenuItem.Text = "Check For Updates on Startup";
             checkForUpdatesOnStartupToolStripMenuItem.Click += CheckForUpdatesOnStartupToolStripMenuItem_Click;
             // 
             // checkForUpdatesNowToolStripMenuItem
             // 
             checkForUpdatesNowToolStripMenuItem.Name = "checkForUpdatesNowToolStripMenuItem";
-            checkForUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            checkForUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             checkForUpdatesNowToolStripMenuItem.Text = "Check For Updates Now";
             checkForUpdatesNowToolStripMenuItem.Click += CheckForUpdatesNowToolStripMenuItem_Click;
             // 
@@ -491,7 +498,7 @@ namespace HeroesPowerPlant.MainForm
             vSyncToolStripMenuItem.Checked = true;
             vSyncToolStripMenuItem.CheckState = CheckState.Checked;
             vSyncToolStripMenuItem.Name = "vSyncToolStripMenuItem";
-            vSyncToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            vSyncToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             vSyncToolStripMenuItem.Text = "VSync";
             vSyncToolStripMenuItem.Click += vSyncToolStripMenuItem_Click;
             // 
@@ -500,42 +507,42 @@ namespace HeroesPowerPlant.MainForm
             autoLoadLastProjectOnLaunchToolStripMenuItem.Checked = true;
             autoLoadLastProjectOnLaunchToolStripMenuItem.CheckState = CheckState.Checked;
             autoLoadLastProjectOnLaunchToolStripMenuItem.Name = "autoLoadLastProjectOnLaunchToolStripMenuItem";
-            autoLoadLastProjectOnLaunchToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            autoLoadLastProjectOnLaunchToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             autoLoadLastProjectOnLaunchToolStripMenuItem.Text = "Auto-Load Last Project on Launch";
             autoLoadLastProjectOnLaunchToolStripMenuItem.Click += autoLoadLastProjectOnLaunchToolStripMenuItem_Click;
             // 
             // autoSaveProjectOnClosingToolStripMenuItem
             // 
             autoSaveProjectOnClosingToolStripMenuItem.Name = "autoSaveProjectOnClosingToolStripMenuItem";
-            autoSaveProjectOnClosingToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            autoSaveProjectOnClosingToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             autoSaveProjectOnClosingToolStripMenuItem.Text = "Auto-Save Project on Closing";
             autoSaveProjectOnClosingToolStripMenuItem.Click += autoSaveProjectOnClosingToolStripMenuItem_Click;
             // 
             // cameraViewSettingsToolStripMenuItem
             // 
             cameraViewSettingsToolStripMenuItem.Name = "cameraViewSettingsToolStripMenuItem";
-            cameraViewSettingsToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            cameraViewSettingsToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             cameraViewSettingsToolStripMenuItem.Text = "Camera/View Settings";
             cameraViewSettingsToolStripMenuItem.Click += cameraViewSettingsToolStripMenuItem_Click;
             // 
             // disableRendering_ToolStripMenuItem
             // 
             disableRendering_ToolStripMenuItem.Name = "disableRendering_ToolStripMenuItem";
-            disableRendering_ToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            disableRendering_ToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             disableRendering_ToolStripMenuItem.Text = "Disable Rendering";
             disableRendering_ToolStripMenuItem.Click += disableRendering_ToolStripMenuItem_Click;
             // 
             // LimitFPS_ToolStripMenuItem
             // 
             LimitFPS_ToolStripMenuItem.Name = "LimitFPS_ToolStripMenuItem";
-            LimitFPS_ToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            LimitFPS_ToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             LimitFPS_ToolStripMenuItem.Text = "Limit FPS (Set In View Settings)";
             LimitFPS_ToolStripMenuItem.Click += LimitFPS_ToolStripMenuItem_Click;
             // 
             // LegacyWindowPriorityBehavior_ToolStripMenuItem
             // 
             LegacyWindowPriorityBehavior_ToolStripMenuItem.Name = "LegacyWindowPriorityBehavior_ToolStripMenuItem";
-            LegacyWindowPriorityBehavior_ToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            LegacyWindowPriorityBehavior_ToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
             LegacyWindowPriorityBehavior_ToolStripMenuItem.Text = "Legacy Window Priority Behavior";
             LegacyWindowPriorityBehavior_ToolStripMenuItem.Click += LegacyWindowPriorityBehavior_ToolStripMenuItem_Click;
             // 
@@ -543,26 +550,26 @@ namespace HeroesPowerPlant.MainForm
             // 
             statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
-            statusStrip1.Location = new System.Drawing.Point(0, 769);
+            statusStrip1.Location = new System.Drawing.Point(0, 1296);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Padding = new Padding(1, 0, 16, 0);
-            statusStrip1.Size = new System.Drawing.Size(1474, 22);
+            statusStrip1.Padding = new Padding(1, 0, 23, 0);
+            statusStrip1.Size = new System.Drawing.Size(2106, 22);
             statusStrip1.TabIndex = 3;
             statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            toolStripStatusLabel1.Size = new System.Drawing.Size(0, 15);
             toolStripStatusLabel1.Click += toolStripStatusLabel1_Click;
             // 
             // renderPanel
             // 
             renderPanel.Dock = DockStyle.Fill;
-            renderPanel.Location = new System.Drawing.Point(0, 24);
-            renderPanel.Margin = new Padding(4, 3, 4, 3);
+            renderPanel.Location = new System.Drawing.Point(0, 35);
+            renderPanel.Margin = new Padding(6, 5, 6, 5);
             renderPanel.Name = "renderPanel";
-            renderPanel.Size = new System.Drawing.Size(1474, 745);
+            renderPanel.Size = new System.Drawing.Size(2106, 1261);
             renderPanel.TabIndex = 4;
             renderPanel.MouseClick += renderPanel_MouseClick;
             renderPanel.MouseDown += renderPanel_MouseDown;
@@ -572,25 +579,18 @@ namespace HeroesPowerPlant.MainForm
             renderPanel.MouseWheel += renderPanel_MouseWheel;
             renderPanel.Resize += ResetMouseCenter;
             // 
-            // shadowTexturePatternEditorToolStripMenuItem
-            // 
-            shadowTexturePatternEditorToolStripMenuItem.Name = "shadowTexturePatternEditorToolStripMenuItem";
-            shadowTexturePatternEditorToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            shadowTexturePatternEditorToolStripMenuItem.Text = "Shadow Texture Pattern Editor";
-            shadowTexturePatternEditorToolStripMenuItem.Click += shadowTexturePatternEditorToolStripMenuItem_Click;
-            // 
             // MainForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoValidate = AutoValidate.EnableAllowFocusChange;
-            ClientSize = new System.Drawing.Size(1474, 791);
+            ClientSize = new System.Drawing.Size(2106, 1318);
             Controls.Add(renderPanel);
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
-            Margin = new Padding(4, 3, 4, 3);
+            Margin = new Padding(6, 5, 6, 5);
             Name = "MainForm";
             Text = "Heroes Power Plant 2025.12.28";
             Deactivate += MainForm_Deactivate;

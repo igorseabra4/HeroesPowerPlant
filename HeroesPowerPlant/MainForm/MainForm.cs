@@ -766,9 +766,18 @@ namespace HeroesPowerPlant.MainForm
                     TeleportPlayerToCamera();
                     break;
                 case Keys.F7:
-                    CameraEditor.Show();
-                    CameraEditor.Focus();
-                    CameraEditor.WindowState = FormWindowState.Normal;
+                    if (currentShadowLevelRoot != "")
+                    {
+                        ShadowCameraEditor.Show();
+                        ShadowCameraEditor.Focus();
+                        ShadowCameraEditor.WindowState = FormWindowState.Normal;
+                    } 
+                    else
+                    {
+                        CameraEditor.Show();
+                        CameraEditor.Focus();
+                        CameraEditor.WindowState = FormWindowState.Normal;
+                    }
                     break;
                 case Keys.F8:
                     ParticleEditor.Show();
@@ -776,9 +785,17 @@ namespace HeroesPowerPlant.MainForm
                     ParticleEditor.WindowState = FormWindowState.Normal;
                     break;
                 case Keys.F9:
-                    TexturePatternEditor.Show();
-                    TexturePatternEditor.Focus();
-                    TexturePatternEditor.WindowState = FormWindowState.Normal;
+                    if (currentShadowLevelRoot != "")
+                    {
+                        ShadowTexturePatternEditor.Show();
+                        ShadowTexturePatternEditor.Focus();
+                        ShadowTexturePatternEditor.WindowState = FormWindowState.Normal;
+                    } else
+                    {
+                        TexturePatternEditor.Show();
+                        TexturePatternEditor.Focus();
+                        TexturePatternEditor.WindowState = FormWindowState.Normal;
+                    }
                     break;
                 case Keys.F10:
                     LightEditor.Show();
