@@ -22,6 +22,7 @@ namespace HeroesPowerPlant.LevelEditor
     {
         // Internal value to determine if chunk isolation is active.
         private bool isolationActive = false;
+        private bool doingWork = false;
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -70,6 +71,7 @@ namespace HeroesPowerPlant.LevelEditor
             SetHeroesMode();
             ResetEveryting();
             _unsavedChangesLevel = false;
+            doingWork = false;
             textBox_import_extension.Text = ".BSP";
         }
 
@@ -347,6 +349,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
+            doingWork = true;
             for (int i = 0; i < bspRenderer.BSPList.Count; i++)
             {
                 if (listViewLevelModels.SelectedIndices.Contains(i))
@@ -360,6 +363,7 @@ namespace HeroesPowerPlant.LevelEditor
                     i -= 1;
                 }
             }
+            doingWork = false;
             InitBSPList();
         }
 
@@ -401,6 +405,11 @@ namespace HeroesPowerPlant.LevelEditor
         {
             foreach (var bsp in bspRenderer.BSPList)
                 bsp.isSelected = false;
+
+            if (doingWork)
+            {
+                return;
+            }
 
             uint vertices = 0;
             uint triangles = 0;
