@@ -213,30 +213,30 @@ namespace HeroesPowerPlant
                 (toPC ?
                 "gameRoot=" + tempGcTxdsDir + "\r\n" +
                 "outputRoot=" + tempPcTxdsDir + "\r\n" +
-                "targetVersion=VC\r\n" +
+                "targetVersion=SHEROES\r\n" +
                 "targetPlatform=PC\r\n"
                 :
                 "gameRoot=" + tempPcTxdsDir + "\r\n" +
                 "outputRoot=" + tempGcTxdsDir + "\r\n" +
-                "targetVersion=VC\r\n" +
+                "targetVersion=SHEROES\r\n" +
                 "targetPlatform=Gamecube\r\n") +
 
-                "clearMipmaps=false\r\n" +
+                "clearMipmaps=true\r\n" +
                 "generateMipmaps=" + generateMipmaps.ToString().ToLower() + "\r\n" +
                 "mipGenMode=default\r\n" +
                 "mipGenMaxLevel=10\r\n" +
-                "improveFiltering=true\r\n" +
+                "improveFiltering=false\r\n" +
                 "compressTextures=" + compress.ToString().ToLower() + "\r\n" +
                 "compressionQuality=1.0\r\n" +
                 "palRuntimeType=PNGQUANT\r\n" +
                 "dxtRuntimeType=SQUISH\r\n" +
                 "warningLevel=1\r\n" +
                 "ignoreSecureWarnings=true\r\n" +
-                "reconstructIMGArchives=false\r\n" +
-                "fixIncompatibleRasters=true\r\n" +
+                "reconstructIMGArchives=true\r\n" +
+                "fixIncompatibleRasters=false\r\n" +
                 "dxtPackedDecompression=false\r\n" +
-                "imgArchivesCompressed=false\r\n" +
-                "ignoreSerializationRegions=true";
+                "imgArchivesCompressed=true\r\n" +
+                "ignoreSerializationRegions0=true";
 
             string curr = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(txdGenFolder);

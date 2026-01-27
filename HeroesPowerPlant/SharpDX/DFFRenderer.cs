@@ -104,7 +104,6 @@ namespace HeroesPowerPlant
                 try
                 {
                     byte[] txdData = j.DecompressThis();
-
                     mainForm.LoadTexturesFromTXD(txdData);
                 }
                 catch (Exception ex)
