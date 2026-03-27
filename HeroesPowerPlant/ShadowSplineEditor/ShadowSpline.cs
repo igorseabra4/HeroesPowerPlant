@@ -117,7 +117,19 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             return Temp;
         }
 
-        public IEnumerable<byte> ToByteArray(int startOffset)
+        private static byte[] GetBytes(int value, bool bigEndian)
+        {
+            byte[] b = BitConverter.GetBytes(value);
+            return bigEndian ? b.Reverse().ToArray() : b;
+        }
+
+        private static byte[] GetBytes(float value, bool bigEndian)
+        {
+            byte[] b = BitConverter.GetBytes(value);
+            return bigEndian ? b.Reverse().ToArray() : b;
+        }
+
+        public IEnumerable<byte> ToByteArray(int startOffset, bool isBigEndian)
         {
             List<byte> vertexBytes = new List<byte>(0x20 * Vertices.Length);
 
@@ -143,32 +155,30 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 if (Vertices[i].PositionZ < Min.Z)
                     Min.Z = Vertices[i].PositionZ;
 
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].PositionX)));
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].PositionY)));
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].PositionZ)));
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].Rotation.X)));
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].Rotation.Y)));
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].Rotation.Z)));
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(distance)));
-                vertexBytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices[i].AngularAttachmentToleranceInt)));
+                vertexBytes.AddRange(GetBytes(Vertices[i].PositionX, isBigEndian));
+                vertexBytes.AddRange(GetBytes(Vertices[i].PositionY, isBigEndian));
+                vertexBytes.AddRange(GetBytes(Vertices[i].PositionZ, isBigEndian));
+                vertexBytes.AddRange(GetBytes(Vertices[i].Rotation.X, isBigEndian));
+                vertexBytes.AddRange(GetBytes(Vertices[i].Rotation.Y, isBigEndian));
+                vertexBytes.AddRange(GetBytes(Vertices[i].Rotation.Z, isBigEndian));
+                vertexBytes.AddRange(GetBytes(distance, isBigEndian));
+                vertexBytes.AddRange(GetBytes(Vertices[i].AngularAttachmentToleranceInt, isBigEndian));
             }
 
             List<byte> bytes = new List<byte>(0x30 + 0x20 * Vertices.Length);
 
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Vertices.Length)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(totalLength)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(startOffset + 0x30)));
-            bytes.Add(Setting1);
-            bytes.Add(Setting2);
-            bytes.Add(SplineType);
-            bytes.Add(Setting4);
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Max.X)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Max.Y)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Max.Z)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(SettingInt)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Min.X)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Min.Y)));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(Min.Z)));
+            bytes.AddRange(GetBytes(Vertices.Length, isBigEndian));
+            bytes.AddRange(GetBytes(totalLength, isBigEndian));
+            bytes.AddRange(GetBytes(startOffset + 0x30, isBigEndian));
+            int settingsValue = (Setting1 << 24) | (Setting2 << 16) | (SplineType << 8) | Setting4;
+            bytes.AddRange(GetBytes(settingsValue, isBigEndian));
+            bytes.AddRange(GetBytes(Max.X, isBigEndian));
+            bytes.AddRange(GetBytes(Max.Y, isBigEndian));
+            bytes.AddRange(GetBytes(Max.Z, isBigEndian));
+            bytes.AddRange(GetBytes(SettingInt, isBigEndian));
+            bytes.AddRange(GetBytes(Min.X, isBigEndian));
+            bytes.AddRange(GetBytes(Min.Y, isBigEndian));
+            bytes.AddRange(GetBytes(Min.Z, isBigEndian));
             bytes.AddRange(BitConverter.GetBytes(0));
 
             bytes.AddRange(vertexBytes);
