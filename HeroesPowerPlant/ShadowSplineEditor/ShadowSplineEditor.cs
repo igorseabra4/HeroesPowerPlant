@@ -238,7 +238,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix)
         {
-            bool isBigEndian = DetectedEndianness == Endianness.Big;
+            return ShadowSplinesToByteArray(shadowFolderNamePrefix, DetectedEndianness == Endianness.Big);
+        }
+
+        public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix, bool isBigEndian)
+        {
             List<byte> bytes = new List<byte>();
             List<int> offsetLocations = new List<int>();
             bytes.AddRange(BitConverter.GetBytes(0));

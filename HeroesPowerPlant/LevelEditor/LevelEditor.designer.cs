@@ -84,6 +84,7 @@
             ShadowLevelMenuItemCollisionEditor = new System.Windows.Forms.ToolStripMenuItem();
             ShadowLevelMenuItemSplineEditor = new System.Windows.Forms.ToolStripMenuItem();
             ShadowLevelMenuItemSaveSplineDataOnly = new System.Windows.Forms.ToolStripMenuItem();
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData = new System.Windows.Forms.ToolStripMenuItem();
             ShadowLevelMenuItemImportBLK = new System.Windows.Forms.ToolStripMenuItem();
             labelLoadedBLK = new System.Windows.Forms.Label();
             progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -592,7 +593,7 @@
             // 
             // ShadowLevelToolStripMenuItem
             // 
-            ShadowLevelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { ShadowLevelMenuItemNew, ShadowLevelMenuItemOpen, ShadowLevelMenuItemSave, ShadowLevelMenuItemSaveAs, toolStripSeparator1, ShadowLevelMenuItemCollisionEditor, ShadowLevelMenuItemSplineEditor, ShadowLevelMenuItemSaveSplineDataOnly, ShadowLevelMenuItemImportBLK });
+            ShadowLevelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { ShadowLevelMenuItemNew, ShadowLevelMenuItemOpen, ShadowLevelMenuItemSave, ShadowLevelMenuItemSaveAs, toolStripSeparator1, ShadowLevelMenuItemCollisionEditor, ShadowLevelMenuItemSplineEditor, ShadowLevelMenuItemSaveSplineDataOnly, ShadowLevelMenuItemConvertToXboxAndExportSplineData, ShadowLevelMenuItemImportBLK });
             ShadowLevelToolStripMenuItem.Name = "ShadowLevelToolStripMenuItem";
             ShadowLevelToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
             ShadowLevelToolStripMenuItem.Text = "Shadow Level";
@@ -655,6 +656,14 @@
             ShadowLevelMenuItemSaveSplineDataOnly.Size = new System.Drawing.Size(188, 22);
             ShadowLevelMenuItemSaveSplineDataOnly.Text = "Save Spline Data Only";
             ShadowLevelMenuItemSaveSplineDataOnly.Click += ShadowLevelMenuItemSaveSplineDataOnly_Click;
+            // 
+            // ShadowLevelMenuItemConvertToXboxAndExportSplineData
+            // 
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData.Enabled = false;
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData.Name = "ShadowLevelMenuItemConvertToXboxAndExportSplineData";
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData.Size = new System.Drawing.Size(188, 22);
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData.Text = "Export as Xbox Spline Data";
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData.Click += ShadowLevelMenuItemConvertToXboxAndExportSplineData_Click;
             // 
             // ShadowLevelMenuItemImportBLK
             // 
@@ -830,6 +839,7 @@
         private System.Windows.Forms.ListView listViewLevelModels;
         private System.Windows.Forms.ColumnHeader file;
         private System.Windows.Forms.ToolStripMenuItem ShadowLevelMenuItemSaveSplineDataOnly;
+        private System.Windows.Forms.ToolStripMenuItem ShadowLevelMenuItemConvertToXboxAndExportSplineData;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonIsolateChunk;
     }

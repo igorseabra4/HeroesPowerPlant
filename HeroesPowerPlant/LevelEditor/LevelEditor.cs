@@ -444,6 +444,7 @@ namespace HeroesPowerPlant.LevelEditor
             ShadowLevelMenuItemCollisionEditor.Enabled = false;
             ShadowLevelMenuItemSplineEditor.Enabled = false;
             ShadowLevelMenuItemSaveSplineDataOnly.Enabled = false;
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData.Enabled = false;
             ShadowLevelMenuItemImportBLK.Enabled = false;
 
             shadowCollisionEditor.Hide();
@@ -470,6 +471,7 @@ namespace HeroesPowerPlant.LevelEditor
             ShadowLevelMenuItemCollisionEditor.Enabled = true;
             ShadowLevelMenuItemSplineEditor.Enabled = true;
             ShadowLevelMenuItemSaveSplineDataOnly.Enabled = true;
+            ShadowLevelMenuItemConvertToXboxAndExportSplineData.Enabled = true;
             ShadowLevelMenuItemImportBLK.Enabled = true;
             buttonImport.Enabled = true;
 
@@ -1156,6 +1158,22 @@ namespace HeroesPowerPlant.LevelEditor
                 return;
             }
             SaveShadowDATONE(Path.Combine(openONEfilePath, bspRenderer.currentShadowFolderNamePrefix + "_dat.one"), true);
+        }
+
+        private void ShadowLevelMenuItemConvertToXboxAndExportSplineData_Click(object sender, EventArgs e)
+        {
+            VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog()
+            {
+                Filter = "PTP files|*.PTP",
+                DefaultExt = ".PTP",
+                FileName = "PATH.PTP"
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                byte[] splineBytes = shadowSplineEditor.ShadowSplinesToByteArray(bspRenderer.currentShadowFolderNamePrefix, false).ToArray();
+                File.WriteAllBytes(saveFileDialog.FileName, splineBytes);
+            }
         }
     }
 }
