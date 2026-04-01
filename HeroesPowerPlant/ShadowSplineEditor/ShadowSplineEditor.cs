@@ -17,6 +17,8 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         // inverted render-only splines for mad matrix; not shown in the editable collection
         private readonly Dictionary<ShadowSpline, ShadowSpline> invertedMap = new Dictionary<ShadowSpline, ShadowSpline>();
 
+        public Endianness DetectedEndianness { get; private set; } = Endianness.Big;
+
         public ShadowSplineEditor()
         {
             Splines = new List<ShadowSpline>();
@@ -24,7 +26,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
         public ShadowSplineEditor(string fileName)
         {
-            Splines = ReadShadowSplineFile(fileName, Endianness.Big);
+            Endianness detected = Endianness.Big;
+            Splines = ReadShadowSplineFile(fileName, Endianness.Big, ref detected);
+            DetectedEndianness = detected;
 
             foreach (ShadowSpline ss in Splines)
             {
@@ -68,8 +72,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             return new string(list.ToArray());
         }
 
-        private static List<ShadowSpline> ReadShadowSplineFile(string fileName, Endianness endianness)
+        private static List<ShadowSpline> ReadShadowSplineFile(string fileName, Endianness endianness, ref Endianness detectedEndianness)
         {
+            detectedEndianness = endianness;
+
             if (File.Exists(fileName))
             {
                 byte[] fileContents = File.ReadAllBytes(fileName);
@@ -119,10 +125,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor
 
                         splineReader.BaseStream.Position += 8;
 
-                        spline.Setting1 = splineReader.ReadByte();
-                        spline.Setting2 = splineReader.ReadByte();
-                        spline.SplineType = splineReader.ReadByte();
-                        spline.Setting4 = splineReader.ReadByte();
+                        int settings = splineReader.ReadInt32();
+                        spline.Setting1 = (byte)((settings >> 24) & 0xFF);
+                        spline.Setting2 = (byte)((settings >> 16) & 0xFF);
+                        spline.SplineType = (byte)((settings >> 8) & 0xFF);
+                        spline.Setting4 = (byte)(settings & 0xFF);
 
                         splineReader.BaseStream.Position += 0xC;
 
@@ -179,7 +186,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor
                 {
                     if (endianness == Endianness.Big)
                     {
-                        return ReadShadowSplineFile(fileName, Endianness.Little);
+                        return ReadShadowSplineFile(fileName, Endianness.Little, ref detectedEndianness);
                     }
                     else
                     {
@@ -191,16 +198,59 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             return new List<ShadowSpline>();
         }
 
+        private static void WriteInt32At(List<byte> bytes, int offset, int value, bool isBigEndian)
+        {
+            byte[] b = BitConverter.GetBytes(value);
+            if (isBigEndian)
+            {
+                bytes[offset] = b[3];
+                bytes[offset + 1] = b[2];
+                bytes[offset + 2] = b[1];
+                bytes[offset + 3] = b[0];
+            }
+            else
+            {
+                bytes[offset] = b[0];
+                bytes[offset + 1] = b[1];
+                bytes[offset + 2] = b[2];
+                bytes[offset + 3] = b[3];
+            }
+        }
+
+        private static void AddInt32(List<byte> bytes, int value, bool isBigEndian)
+        {
+            byte[] b = BitConverter.GetBytes(value);
+            if (isBigEndian)
+            {
+                bytes.Add(b[3]);
+                bytes.Add(b[2]);
+                bytes.Add(b[1]);
+                bytes.Add(b[0]);
+            }
+            else
+            {
+                bytes.Add(b[0]);
+                bytes.Add(b[1]);
+                bytes.Add(b[2]);
+                bytes.Add(b[3]);
+            }
+        }
+
         public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix)
+        {
+            return ShadowSplinesToByteArray(shadowFolderNamePrefix, DetectedEndianness == Endianness.Big);
+        }
+
+        public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix, bool isBigEndian)
         {
             List<byte> bytes = new List<byte>();
             List<int> offsetLocations = new List<int>();
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(1)));
+            AddInt32(bytes, 1, isBigEndian);
             bytes.AddRange(BitConverter.GetBytes(0));
-            bytes.AddRange(Enumerable.Reverse(BitConverter.GetBytes(12610)));
+            AddInt32(bytes, isBigEndian ? PTPHeader.GameCube : PTPHeader.Xbox, true);
             bytes.AddRange(BitConverter.GetBytes(0));
             bytes.AddRange(BitConverter.GetBytes(0));
 
@@ -223,27 +273,17 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             {
                 offsetLocations.Add(bytes.Count - 0x20 + 0x8);
                 offsets.Add(bytes.Count - 0x20);
-                bytes.AddRange(Splines[i].ToByteArray(bytes.Count - 0x20));
+                bytes.AddRange(Splines[i].ToByteArray(bytes.Count - 0x20, isBigEndian));
             }
 
             for (int i = 0; i < Splines.Count; i++)
             {
                 offsetLocations.Add(4 * i);
-                byte[] offsetBytes = BitConverter.GetBytes(offsets[i]);
-
-                bytes[0x20 + 4 * i + 0] = offsetBytes[3];
-                bytes[0x20 + 4 * i + 1] = offsetBytes[2];
-                bytes[0x20 + 4 * i + 2] = offsetBytes[1];
-                bytes[0x20 + 4 * i + 3] = offsetBytes[0];
+                WriteInt32At(bytes, 0x20 + 4 * i, offsets[i], isBigEndian);
 
                 offsetLocations.Add(offsets[i] + 0x2C);
                 offsets.Add(bytes.Count - 0x20);
-                byte[] nameOffset = BitConverter.GetBytes(bytes.Count - 0x20);
-
-                bytes[offsets[i] + 0x20 + 0x2C] = nameOffset[3];
-                bytes[offsets[i] + 0x20 + 0x2D] = nameOffset[2];
-                bytes[offsets[i] + 0x20 + 0x2E] = nameOffset[1];
-                bytes[offsets[i] + 0x20 + 0x2F] = nameOffset[0];
+                WriteInt32At(bytes, offsets[i] + 0x20 + 0x2C, bytes.Count - 0x20, isBigEndian);
 
                 foreach (char c in Splines[i].Name)
                     bytes.Add((byte)c);
@@ -273,26 +313,9 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             while (bytes.Count % 0x4 != 0)
                 bytes.Add(0);
 
-            byte[] aux = BitConverter.GetBytes(bytes.Count);
-
-            bytes[0] = aux[3];
-            bytes[1] = aux[2];
-            bytes[2] = aux[1];
-            bytes[3] = aux[0];
-
-            aux = BitConverter.GetBytes(pof0startOffset);
-
-            bytes[4] = aux[3];
-            bytes[5] = aux[2];
-            bytes[6] = aux[1];
-            bytes[7] = aux[0];
-
-            aux = BitConverter.GetBytes(pof0Length);
-
-            bytes[8] = aux[3];
-            bytes[9] = aux[2];
-            bytes[10] = aux[1];
-            bytes[11] = aux[0];
+            WriteInt32At(bytes, 0, bytes.Count, isBigEndian);
+            WriteInt32At(bytes, 4, pof0startOffset, isBigEndian);
+            WriteInt32At(bytes, 8, pof0Length, isBigEndian);
 
             return bytes;
         }

@@ -49,6 +49,11 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             return SplineEditor.ShadowSplinesToByteArray(shadowFolderNamePrefix);
         }
 
+        public IEnumerable<byte> ShadowSplinesToByteArray(string shadowFolderNamePrefix, bool isBigEndian)
+        {
+            return SplineEditor.ShadowSplinesToByteArray(shadowFolderNamePrefix, isBigEndian);
+        }
+
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             SplineEditor.Add();
