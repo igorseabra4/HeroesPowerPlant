@@ -1,7 +1,9 @@
-﻿using HeroesONE_R.Structures;
+using HeroesONE_R.Structures;
 using HeroesONE_R.Structures.Subsctructures;
+using HeroesPowerPlant.Shared.IO.Config;
 using RenderWareFile;
 using RenderWareFile.Sections;
+using ShadowTXD;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
@@ -189,6 +191,12 @@ namespace HeroesPowerPlant
 
         public static void SetupTextureDisplay(byte[] txdFile, SharpRenderer renderer, BSPRenderer bspRenderer)
         {
+            if (HPPConfig.GetInstance().UseShadowTXDForTextures)
+            {
+                SetupTextureDisplayUsingShadowTXD(txdFile, renderer, bspRenderer);
+                return;
+            }
+
             if (!Directory.Exists(tempGcTxdsDir))
                 Directory.CreateDirectory(tempGcTxdsDir);
             if (!Directory.Exists(tempPcTxdsDir))
@@ -203,6 +211,36 @@ namespace HeroesPowerPlant
 
             File.Delete(pathToGcTXD);
             File.Delete(pathToPcTXD);
+        }
+
+        private static void SetupTextureDisplayUsingShadowTXD(byte[] txdData, SharpRenderer renderer, BSPRenderer bspRenderer)
+        {
+            var textures = TxdFile.ExtractTextures(new MemoryStream(txdData));
+
+            string tempDir = Path.Combine(Path.GetTempPath(), "HPP_ShadowTXD");
+            if (!Directory.Exists(tempDir))
+                Directory.CreateDirectory(tempDir);
+
+            try
+            {
+                foreach (var texture in textures)
+                {
+                    string pngPath = Path.Combine(tempDir, texture.Name + ".png");
+                    PngWriter.Write(texture.RgbaData, texture.Width, texture.Height, pngPath);
+                    AddTexturePNG(pngPath, renderer);
+                }
+
+                ReapplyTextures(renderer, bspRenderer);
+            }
+            finally
+            {
+                foreach (var texture in textures)
+                {
+                    string pngPath = Path.Combine(tempDir, texture.Name + ".png");
+                    if (File.Exists(pngPath))
+                        File.Delete(pngPath);
+                }
+            }
         }
 
         private static void PerformTXDConversionExternal(bool toPC = true, bool compress = false, bool generateMipmaps = false)

@@ -374,6 +374,7 @@
     <ProjectReference Include="..\Submodules\Heroes.SDK\Heroes.SDK.Library\Heroes.SDK.csproj" />
     <ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj" />
     <ProjectReference Include="..\Submodules\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
+    <ProjectReference Include="..\Submodules\ShadowTXD\ShadowTXD.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AFSLib" Version="1.1.2" />

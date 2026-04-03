@@ -23,6 +23,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
         public bool VSync { get; set; } = true;
         public bool LimitFPS { get; set; } = true;
         public bool LegacyWindowPriorityBehavior { get; set; } = false;
+        public bool UseShadowTXDForTextures { get; set; } = false;
 
         public decimal LimitFPSValue { get; set; } = 60.0000m;
 
@@ -100,6 +101,7 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
                 mainForm.SetLimitFPS(LimitFPS, LimitFPSValue);
                 mainForm.SetWindowPriorityBehavior(LegacyWindowPriorityBehavior);
+                mainForm.SetUseShadowTXDForTextures(UseShadowTXDForTextures);
 
                 mainForm.SetCheckForUpdatesOnStartup(CheckForUpdatesOnStartup);
                 mainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);

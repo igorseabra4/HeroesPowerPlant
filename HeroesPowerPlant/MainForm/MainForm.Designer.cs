@@ -93,6 +93,7 @@ namespace HeroesPowerPlant.MainForm
             disableRendering_ToolStripMenuItem = new ToolStripMenuItem();
             LimitFPS_ToolStripMenuItem = new ToolStripMenuItem();
             LegacyWindowPriorityBehavior_ToolStripMenuItem = new ToolStripMenuItem();
+            UseShadowTXDForTextures_ToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             renderPanel = new Panel();
@@ -333,7 +334,7 @@ namespace HeroesPowerPlant.MainForm
             // 
             // optionsToolStripMenuItem
             // 
-            optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { noCullingCToolStripMenuItem, wireframeFToolStripMenuItem, colorsToolStripMenuItem, toolStripSeparator3, mouseModeToolStripMenuItem, startPosToolStripMenuItem, splinesToolStripMenuItem, renderByChunkToolStripMenuItem, chunkBoxesToolStripMenuItem, showCollisionXToolStripMenuItem, showQuadtreeTToolStripMenuItem, showObjectsGToolStripMenuItem, camerasVToolStripMenuItem, toolStripSeparator4, checkForUpdatesOnStartupToolStripMenuItem, checkForUpdatesNowToolStripMenuItem, vSyncToolStripMenuItem, autoLoadLastProjectOnLaunchToolStripMenuItem, autoSaveProjectOnClosingToolStripMenuItem, cameraViewSettingsToolStripMenuItem, disableRendering_ToolStripMenuItem, LimitFPS_ToolStripMenuItem, LegacyWindowPriorityBehavior_ToolStripMenuItem });
+            optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { noCullingCToolStripMenuItem, wireframeFToolStripMenuItem, colorsToolStripMenuItem, toolStripSeparator3, mouseModeToolStripMenuItem, startPosToolStripMenuItem, splinesToolStripMenuItem, renderByChunkToolStripMenuItem, chunkBoxesToolStripMenuItem, showCollisionXToolStripMenuItem, showQuadtreeTToolStripMenuItem, showObjectsGToolStripMenuItem, camerasVToolStripMenuItem, toolStripSeparator4, checkForUpdatesOnStartupToolStripMenuItem, checkForUpdatesNowToolStripMenuItem, vSyncToolStripMenuItem, autoLoadLastProjectOnLaunchToolStripMenuItem, autoSaveProjectOnClosingToolStripMenuItem, cameraViewSettingsToolStripMenuItem, disableRendering_ToolStripMenuItem, LimitFPS_ToolStripMenuItem, LegacyWindowPriorityBehavior_ToolStripMenuItem, UseShadowTXDForTextures_ToolStripMenuItem });
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             optionsToolStripMenuItem.Size = new System.Drawing.Size(92, 29);
             optionsToolStripMenuItem.Text = "Options";
@@ -546,6 +547,13 @@ namespace HeroesPowerPlant.MainForm
             LegacyWindowPriorityBehavior_ToolStripMenuItem.Text = "Legacy Window Priority Behavior";
             LegacyWindowPriorityBehavior_ToolStripMenuItem.Click += LegacyWindowPriorityBehavior_ToolStripMenuItem_Click;
             // 
+            // UseShadowTXDForTextures_ToolStripMenuItem
+            // 
+            UseShadowTXDForTextures_ToolStripMenuItem.Name = "UseShadowTXDForTextures_ToolStripMenuItem";
+            UseShadowTXDForTextures_ToolStripMenuItem.Size = new System.Drawing.Size(380, 34);
+            UseShadowTXDForTextures_ToolStripMenuItem.Text = "Use ShadowTXD for Textures";
+            UseShadowTXDForTextures_ToolStripMenuItem.Click += UseShadowTXDForTextures_ToolStripMenuItem_Click;
+            // 
             // statusStrip1
             // 
             statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -670,6 +678,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
         private ToolStripMenuItem shadowLayoutMiscToolsToolStripMenuItem;
         private ToolStripMenuItem LegacyWindowPriorityBehavior_ToolStripMenuItem;
+        private ToolStripMenuItem UseShadowTXDForTextures_ToolStripMenuItem;
         private ToolStripMenuItem ResourceToolStripMenuItemSetAFS;
         private ToolStripMenuItem ResourceToolStripMenuItemSetFNT;
         private ToolStripMenuItem openHeroesLevelToolStripMenuItem;
