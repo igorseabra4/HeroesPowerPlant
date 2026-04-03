@@ -1353,6 +1353,11 @@ namespace HeroesPowerPlant.MainForm
             LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked = isEnabled;
         }
 
+        public void SetUseShadowTXDForTextures(bool isEnabled)
+        {
+            UseShadowTXDForTextures_ToolStripMenuItem.Checked = isEnabled;
+        }
+
         public void SetMaxFPS()
         {
             if (LimitFPS_ToolStripMenuItem.Checked)
@@ -1381,6 +1386,12 @@ namespace HeroesPowerPlant.MainForm
                 LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked = false;
             HPPConfig.GetInstance().LegacyWindowPriorityBehavior = LegacyWindowPriorityBehavior_ToolStripMenuItem.Checked;
             SetAllTopMost(true); // invoke reset
+        }
+
+        private void UseShadowTXDForTextures_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UseShadowTXDForTextures_ToolStripMenuItem.Checked = !UseShadowTXDForTextures_ToolStripMenuItem.Checked;
+            HPPConfig.GetInstance().UseShadowTXDForTextures = UseShadowTXDForTextures_ToolStripMenuItem.Checked;
         }
 
         private void ResourceToolStripMenuItemSetAFS_Click(object sender, EventArgs e)
