@@ -1,403 +1,403 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net10.0-windows7.0</TargetFrameworks>
-	<RollForward>LatestMajor</RollForward>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2025.12.28</ApplicationVersion>
-    <ProductVersion>2025.12.28</ProductVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
-    <Company>Heroes Hacking Central</Company>
-    <Product>Heroes Power Plant</Product>
-    <Copyright>Copyright © 2018+ igorseabra4 + friends</Copyright>
-    <AssemblyVersion>2025.12.28</AssemblyVersion>
-    <FileVersion>2025.12.28</FileVersion>
-    <LangVersion>14.0</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWinForms>true</UseWinForms>
-    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-    <Authors>Heroes Hacking Central</Authors>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <DebugType>full</DebugType>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <DebugType>pdbonly</DebugType>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <DebugType>full</DebugType>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <DebugType>pdbonly</DebugType>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Backup\**" />
-    <EmbeddedResource Remove="Backup\**" />
-    <None Remove="Backup\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="CameraEditor\CameraEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="CameraEditor\CameraEditor.designer.cs">
-      <DependentUpon>CameraEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="CollisionEditor\CollisionEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="CollisionEditor\CollisionEditor.designer.cs">
-      <DependentUpon>CollisionEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ConfigEditor\ConfigEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ConfigEditor\ConfigEditor.designer.cs">
-      <DependentUpon>ConfigEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ConfigEditor\EXEExtractor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ConfigEditor\RankEditor\RankEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ConfigEditor\RankEditor\RankEditor.designer.cs">
-      <DependentUpon>RankEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="LayoutEditor\Templates\PickTemplate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LayoutEditor\Templates\PickTemplate.Designer.cs">
-      <DependentUpon>PickTemplate.cs</DependentUpon>
-    </Compile>
-    <Compile Update="LevelEditor\ChooseTarget.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LevelEditor\ChooseTarget.Designer.cs">
-      <DependentUpon>ChooseTarget.cs</DependentUpon>
-    </Compile>
-    <Compile Update="LevelEditor\ReassignMATFlag.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LightEditor\LightMenu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LightEditor\LightMenu.Designer.cs">
-      <DependentUpon>LightMenu.cs</DependentUpon>
-    </Compile>
-    <None Include="Resources\hpp_version.json" />
-    <Compile Update="SetIdTableEditor\SetIdTableEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="SetIdTableEditor\SetIdTableEditor.designer.cs">
-      <DependentUpon>SetIdTableEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ShadowSplineEditor\ShadowSplineMenu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ShadowSplineEditor\ShadowSplineMenu.Designer.cs">
-      <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ParticleEditor\ParticleMenu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ParticleEditor\ParticleMenu.Designer.cs">
-      <DependentUpon>ParticleMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ConfigEditor\SplineEditor\SplineEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ConfigEditor\SplineEditor\SplineEditor.designer.cs">
-      <DependentUpon>SplineEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="LayoutEditor\LayoutEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LayoutEditor\LayoutEditor.Designer.cs">
-      <DependentUpon>LayoutEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="LevelEditor\EditBSPName.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LevelEditor\EditBSPName.designer.cs">
-      <DependentUpon>EditBSPName.cs</DependentUpon>
-    </Compile>
-    <Compile Update="LevelEditor\LevelEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LevelEditor\LevelEditor.designer.cs">
-      <DependentUpon>LevelEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="LevelEditor\ShadowCollisionEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="LevelEditor\ShadowCollisionEditor.Designer.cs">
-      <DependentUpon>ShadowCollisionEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Update="MainForm\AboutBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="MainForm\AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </Compile>
-    <Compile Update="MainForm\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="MainForm\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Update="MainForm\ViewConfig.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="MainForm\ViewConfig.designer.cs">
-      <DependentUpon>ViewConfig.cs</DependentUpon>
-    </Compile>
-    <Compile Update="ShadowTexturePatternEditor\ShadowTexturePatternEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="TexturePatternEditor\TexturePatternEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="TexturePatternEditor\TexturePatternEditor.Designer.cs">
-      <DependentUpon>TexturePatternEditor.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Update="CameraEditor\CameraEditor.resx">
-      <DependentUpon>CameraEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="CollisionEditor\CollisionEditor.resx">
-      <DependentUpon>CollisionEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ConfigEditor\ConfigEditor.resx">
-      <DependentUpon>ConfigEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="LevelEditor\ChooseTarget.resx">
-      <DependentUpon>ChooseTarget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="LightEditor\LightMenu.resx">
-      <DependentUpon>LightMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="SetIdTableEditor\SetIdTableEditor.resx">
-      <DependentUpon>SetIdTableEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ShadowSplineEditor\ShadowSplineMenu.resx">
-      <DependentUpon>ShadowSplineMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ConfigEditor\SplineEditor\SplineEditor.resx">
-      <DependentUpon>SplineEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="LayoutEditor\LayoutEditor.resx">
-      <DependentUpon>LayoutEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="LevelEditor\EditBSPName.resx">
-      <DependentUpon>EditBSPName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="LevelEditor\LevelEditor.resx">
-      <DependentUpon>LevelEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="LevelEditor\ShadowCollisionEditor.resx">
-      <DependentUpon>ShadowCollisionEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MainForm\AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MainForm\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ParticleEditor\ParticleMenu.resx">
-      <DependentUpon>ParticleMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Update="MainForm\ViewConfig.resx">
-      <DependentUpon>ViewConfig.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Update="TexturePatternEditor\TexturePatternEditor.resx">
-      <DependentUpon>TexturePatternEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <None Include="Resources\Lists\HeroesObjectList.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Lists\ObjectMiscHelper.ini" />
-    <None Include="Resources\Lists\ShadowObjectList.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Box.mtl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Box.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Cylinder.mtl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Cylinder.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Pyramid.mtl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Pyramid.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Sphere.mtl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Models\Sphere.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\importvcolorobj_v1.3.7.ms">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Lists\ShadowStageList.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Lists\HeroesStageList.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\eirrepo\LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\libimagequant\COPYRIGHT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\libjpeg\COPYRIGHT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\libpng\COPYRIGHT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\libsquish\COPYRIGHT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\lzo-2.08\COPYING">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\pvrtextool\COPYRIGHT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\rwtools\COPYRIGHT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Tools\txdgen_1.0\LICENSES\rwtools\README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Game.ico" />
-    <Content Include="Resources\SharpDX\Shader_Tinted.hlsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\HeroesSPLTool.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\readme.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\txdgen_1.0\README.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\txdgen_1.0\txdgen64.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\AboutImage.png" />
-    <Content Include="Resources\SharpDX\Shader_Basic.hlsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SharpDX\Shader_Collision.hlsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SharpDX\Shader_Default.hlsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\WhiteDefault.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Submodules\Heroes.SDK\Heroes.SDK.Library\Heroes.SDK.csproj" />
-    <ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj" />
-    <ProjectReference Include="..\Submodules\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
-    <ProjectReference Include="..\Submodules\ShadowTXD\ShadowTXD.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AFSLib" Version="1.1.2" />
-    <PackageReference Include="AssimpNet" Version="4.1.0" />
-    <PackageReference Include="csharp-prs" Version="2.1.3" />
-    <PackageReference Include="DSoft.SharpDX.Desktop" Version="4.4.2504.231" />
-    <PackageReference Include="HeroesONE_R" Version="1.0.6">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
-    <PackageReference Include="Reloaded.Memory" Version="9.4.3" />
-    <PackageReference Include="ShadowFNT" Version="2.0.1" />
-    <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
-    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-    <PackageReference Include="VGAudio" Version="2.2.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Resources\Lists\HeroesObjectListCustom.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFrameworks>net10.0-windows7.0</TargetFrameworks>
+		<RollForward>LatestMajor</RollForward>
+		<IsWebBootstrapper>false</IsWebBootstrapper>
+		<PublishUrl>publish\</PublishUrl>
+		<Install>true</Install>
+		<InstallFrom>Disk</InstallFrom>
+		<UpdateEnabled>false</UpdateEnabled>
+		<UpdateMode>Foreground</UpdateMode>
+		<UpdateInterval>7</UpdateInterval>
+		<UpdateIntervalUnits>Days</UpdateIntervalUnits>
+		<UpdatePeriodically>false</UpdatePeriodically>
+		<UpdateRequired>false</UpdateRequired>
+		<MapFileExtensions>true</MapFileExtensions>
+		<ApplicationRevision>0</ApplicationRevision>
+		<ApplicationVersion>2026.04.03</ApplicationVersion>
+		<ProductVersion>2026.04.03</ProductVersion>
+		<UseApplicationTrust>false</UseApplicationTrust>
+		<BootstrapperEnabled>true</BootstrapperEnabled>
+		<AssemblyTitle>HeroesPowerPlant</AssemblyTitle>
+		<Company>Heroes Hacking Central</Company>
+		<Product>Heroes Power Plant</Product>
+		<Copyright>Copyright © 2018+ igorseabra4 + friends</Copyright>
+		<AssemblyVersion>2026.04.03</AssemblyVersion>
+		<FileVersion>2026.04.03</FileVersion>
+		<LangVersion>14.0</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWinForms>true</UseWinForms>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugType>full</DebugType>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<PlatformTarget>x86</PlatformTarget>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationIcon>Game.ico</ApplicationIcon>
+		<Authors>Heroes Hacking Central</Authors>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<DebugType>full</DebugType>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+		<Prefer32Bit>true</Prefer32Bit>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<DebugType>pdbonly</DebugType>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+		<Prefer32Bit>true</Prefer32Bit>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<DebugType>full</DebugType>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+		<Prefer32Bit>true</Prefer32Bit>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<DebugType>pdbonly</DebugType>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+		<Prefer32Bit>true</Prefer32Bit>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Backup\**" />
+		<EmbeddedResource Remove="Backup\**" />
+		<None Remove="Backup\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="CameraEditor\CameraEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="CameraEditor\CameraEditor.designer.cs">
+			<DependentUpon>CameraEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="CollisionEditor\CollisionEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="CollisionEditor\CollisionEditor.designer.cs">
+			<DependentUpon>CollisionEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="ConfigEditor\ConfigEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="ConfigEditor\ConfigEditor.designer.cs">
+			<DependentUpon>ConfigEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="ConfigEditor\EXEExtractor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="ConfigEditor\RankEditor\RankEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="ConfigEditor\RankEditor\RankEditor.designer.cs">
+			<DependentUpon>RankEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="LayoutEditor\Templates\PickTemplate.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LayoutEditor\Templates\PickTemplate.Designer.cs">
+			<DependentUpon>PickTemplate.cs</DependentUpon>
+		</Compile>
+		<Compile Update="LevelEditor\ChooseTarget.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LevelEditor\ChooseTarget.Designer.cs">
+			<DependentUpon>ChooseTarget.cs</DependentUpon>
+		</Compile>
+		<Compile Update="LevelEditor\ReassignMATFlag.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LightEditor\LightMenu.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LightEditor\LightMenu.Designer.cs">
+			<DependentUpon>LightMenu.cs</DependentUpon>
+		</Compile>
+		<None Include="Resources\hpp_version.json" />
+		<Compile Update="SetIdTableEditor\SetIdTableEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="SetIdTableEditor\SetIdTableEditor.designer.cs">
+			<DependentUpon>SetIdTableEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="ShadowSplineEditor\ShadowSplineMenu.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="ShadowSplineEditor\ShadowSplineMenu.Designer.cs">
+			<DependentUpon>ShadowSplineMenu.cs</DependentUpon>
+		</Compile>
+		<Compile Update="ParticleEditor\ParticleMenu.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="ParticleEditor\ParticleMenu.Designer.cs">
+			<DependentUpon>ParticleMenu.cs</DependentUpon>
+		</Compile>
+		<Compile Update="ConfigEditor\SplineEditor\SplineEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="ConfigEditor\SplineEditor\SplineEditor.designer.cs">
+			<DependentUpon>SplineEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="LayoutEditor\LayoutEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LayoutEditor\LayoutEditor.Designer.cs">
+			<DependentUpon>LayoutEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="LevelEditor\EditBSPName.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LevelEditor\EditBSPName.designer.cs">
+			<DependentUpon>EditBSPName.cs</DependentUpon>
+		</Compile>
+		<Compile Update="LevelEditor\LevelEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LevelEditor\LevelEditor.designer.cs">
+			<DependentUpon>LevelEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="LevelEditor\ShadowCollisionEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="LevelEditor\ShadowCollisionEditor.Designer.cs">
+			<DependentUpon>ShadowCollisionEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="MainForm\AboutBox.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="MainForm\AboutBox.Designer.cs">
+			<DependentUpon>AboutBox.cs</DependentUpon>
+		</Compile>
+		<Compile Update="MainForm\MainForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="MainForm\MainForm.Designer.cs">
+			<DependentUpon>MainForm.cs</DependentUpon>
+		</Compile>
+		<Compile Update="MainForm\ViewConfig.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="MainForm\ViewConfig.designer.cs">
+			<DependentUpon>ViewConfig.cs</DependentUpon>
+		</Compile>
+		<Compile Update="ShadowTexturePatternEditor\ShadowTexturePatternEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="TexturePatternEditor\TexturePatternEditor.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="TexturePatternEditor\TexturePatternEditor.Designer.cs">
+			<DependentUpon>TexturePatternEditor.cs</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="CameraEditor\CameraEditor.resx">
+			<DependentUpon>CameraEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="CollisionEditor\CollisionEditor.resx">
+			<DependentUpon>CollisionEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ConfigEditor\ConfigEditor.resx">
+			<DependentUpon>ConfigEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="LevelEditor\ChooseTarget.resx">
+			<DependentUpon>ChooseTarget.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="LightEditor\LightMenu.resx">
+			<DependentUpon>LightMenu.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="SetIdTableEditor\SetIdTableEditor.resx">
+			<DependentUpon>SetIdTableEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ShadowSplineEditor\ShadowSplineMenu.resx">
+			<DependentUpon>ShadowSplineMenu.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ConfigEditor\SplineEditor\SplineEditor.resx">
+			<DependentUpon>SplineEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="LayoutEditor\LayoutEditor.resx">
+			<DependentUpon>LayoutEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="LevelEditor\EditBSPName.resx">
+			<DependentUpon>EditBSPName.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="LevelEditor\LevelEditor.resx">
+			<DependentUpon>LevelEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="LevelEditor\ShadowCollisionEditor.resx">
+			<DependentUpon>ShadowCollisionEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainForm\AboutBox.resx">
+			<DependentUpon>AboutBox.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainForm\MainForm.resx">
+			<DependentUpon>MainForm.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ParticleEditor\ParticleMenu.resx">
+			<DependentUpon>ParticleMenu.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+		</Compile>
+		<EmbeddedResource Update="MainForm\ViewConfig.resx">
+			<DependentUpon>ViewConfig.cs</DependentUpon>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<EmbeddedResource Update="TexturePatternEditor\TexturePatternEditor.resx">
+			<DependentUpon>TexturePatternEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<None Include="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+		</Compile>
+		<None Include="Resources\Lists\HeroesObjectList.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Lists\ObjectMiscHelper.ini" />
+		<None Include="Resources\Lists\ShadowObjectList.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Box.mtl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Box.obj">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Cylinder.mtl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Cylinder.obj">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Pyramid.mtl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Pyramid.obj">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Sphere.mtl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Models\Sphere.obj">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\importvcolorobj_v1.3.7.ms">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Lists\ShadowStageList.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Resources\Lists\HeroesStageList.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\eirrepo\LICENSE">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\libimagequant\COPYRIGHT">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\libjpeg\COPYRIGHT">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\libpng\COPYRIGHT">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\libsquish\COPYRIGHT">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\lzo-2.08\COPYING">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\pvrtextool\COPYRIGHT">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\rwtools\COPYRIGHT">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="Tools\txdgen_1.0\LICENSES\rwtools\README.md">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Game.ico" />
+		<Content Include="Resources\SharpDX\Shader_Tinted.hlsl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Tools\HeroesSPLTool.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Tools\readme.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Tools\txdgen_1.0\README.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Tools\txdgen_1.0\txdgen64.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<None Include="Resources\AboutImage.png" />
+		<Content Include="Resources\SharpDX\Shader_Basic.hlsl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resources\SharpDX\Shader_Collision.hlsl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resources\SharpDX\Shader_Default.hlsl">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resources\WhiteDefault.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Submodules\Heroes.SDK\Heroes.SDK.Library\Heroes.SDK.csproj" />
+		<ProjectReference Include="..\Submodules\HeroesPowerPlant.RemoteControl.ReloadedII\HeroesPowerPlant.RemoteControl.Shared\HeroesPowerPlant.RemoteControl.Shared.csproj" />
+		<ProjectReference Include="..\Submodules\RenderWareFile\RenderWareFile\RenderWareFile.csproj" />
+		<ProjectReference Include="..\Submodules\ShadowTXD\ShadowTXD.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AFSLib" Version="1.1.2" />
+		<PackageReference Include="AssimpNet" Version="4.1.0" />
+		<PackageReference Include="csharp-prs" Version="2.1.3" />
+		<PackageReference Include="DSoft.SharpDX.Desktop" Version="4.4.2504.231" />
+		<PackageReference Include="HeroesONE_R" Version="1.0.6">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
+		<PackageReference Include="Reloaded.Memory" Version="9.4.3" />
+		<PackageReference Include="ShadowFNT" Version="2.0.1" />
+		<PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
+		<PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+		<PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+		<PackageReference Include="VGAudio" Version="2.2.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Resources\Lists\HeroesObjectListCustom.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
