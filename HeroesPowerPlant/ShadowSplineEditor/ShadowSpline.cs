@@ -1,4 +1,4 @@
-﻿using HeroesPowerPlant.SplineEditor;
+using HeroesPowerPlant.SplineEditor;
 using Newtonsoft.Json;
 using SharpDX;
 using System;
@@ -64,54 +64,288 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         {
             string[] SplineFile = File.ReadAllLines(FileName);
             ShadowSpline Temp = new ShadowSpline();
-            List<ShadowSplineVertex> Points = new List<ShadowSplineVertex>();
+
+            List<Vector3> positions = new List<Vector3>();
+            foreach (string j in SplineFile)
+            {
+                if (j.StartsWith("v"))
+                {
+                    string[] a = Regex.Replace(j, @"\s+", " ").Split();
+                    positions.Add(new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])));
+                }
+            }
+
+            int n = positions.Count;
+            List<ShadowSplineVertex> Points = new List<ShadowSplineVertex>(n);
+
+            if (n < 2)
+            {
+                Temp.Name = splinePrefix + splineId;
+                Temp.SplineType = 2;
+                Temp.SettingInt = splineId;
+                Temp.Setting4 = 1;
+                Temp.Vertices = Points.ToArray();
+                Temp.SetRenderStuff(Program.MainForm.renderer);
+                return Temp;
+            }
+
+            Vector3 worldUp = new Vector3(0, 1, 0);
+
+            for (int i = 0; i < n; i++)
+            {
+                ShadowSplineVertex vertex = new ShadowSplineVertex { Position = positions[i] };
+
+                if (i < n - 1)
+                {
+                    Vector3 dir = positions[i + 1] - positions[i];
+                    float len = dir.Length();
+
+                    if (len > 0.0001f)
+                    {
+                        Vector3 fwd = dir / len;
+                        float rx = (float)Math.Asin(MathUtil.Clamp(fwd.Y, -1f, 1f));
+                        float ry = (float)Math.Atan2(-fwd.X, -fwd.Z);
+
+                        Vector3 right = Vector3.Cross(fwd, worldUp);
+                        if (right.LengthSquared() < 0.0001f)
+                            right = new Vector3(1, 0, 0);
+                        else
+                            right = Vector3.Normalize(right);
+                        Vector3 up = Vector3.Cross(right, fwd);
+
+                        float rz;
+                        float cosRx = (float)Math.Cos(rx);
+                        if (Math.Abs(cosRx) > 0.001f)
+                        {
+                            Vector3 r2 = Vector3.Cross(up, -fwd);
+                            rz = (float)Math.Atan2(r2.Y, up.Y);
+                        }
+                        else
+                        {
+                            rz = 0f;
+                        }
+
+                        vertex.Rotation = new Vector3(rx, ry, rz);
+                    }
+                    else
+                    {
+                        vertex.Rotation = Vector3.Zero;
+                    }
+                }
+                else
+                {
+                    if (Points.Count > 0)
+                        vertex.Rotation = Points[Points.Count - 1].Rotation;
+                }
+
+                Points.Add(vertex);
+            }
+
+            if (n >= 3)
+            {
+                for (int i = 1; i < n - 1; i++)
+                {
+                    Vector3 fwdPrev = Vector3.Normalize(positions[i] - positions[i - 1]);
+                    Vector3 fwdCurr = Vector3.Normalize(positions[i + 1] - positions[i]);
+
+                    float yawPrevAngle = (float)Math.Atan2(-fwdPrev.X, -fwdPrev.Z);
+                    float yawCurrAngle = (float)Math.Atan2(-fwdCurr.X, -fwdCurr.Z);
+                    float pitchPrevAngle = (float)Math.Asin(MathUtil.Clamp(fwdPrev.Y, -1f, 1f));
+                    float pitchCurrAngle = (float)Math.Asin(MathUtil.Clamp(fwdCurr.Y, -1f, 1f));
+
+                    float yawDiff = yawCurrAngle - yawPrevAngle;
+                    if (yawDiff > (float)Math.PI) yawDiff -= 2f * (float)Math.PI;
+                    if (yawDiff < -(float)Math.PI) yawDiff += 2f * (float)Math.PI;
+
+                    float yawChange = Math.Abs(yawDiff) * 180f / (float)Math.PI;
+                    float pitchChange = Math.Abs(pitchCurrAngle - pitchPrevAngle) * 180f / (float)Math.PI;
+
+                    int aat;
+                    if (pitchChange > yawChange && pitchChange > 3f)
+                        aat = 6;
+                    else if (yawChange < 4f)
+                        aat = 4;
+                    else if (yawChange < 5.5f)
+                        aat = 5;
+                    else
+                        aat = 7;
+
+                    Points[i].AngularAttachmentToleranceInt = aat;
+                }
+
+                Points[0].AngularAttachmentToleranceInt = Points[1].AngularAttachmentToleranceInt;
+            }
+            else
+            {
+                Points[0].AngularAttachmentToleranceInt = 4;
+            }
+
+            Points[n - 1].AngularAttachmentToleranceInt = 0;
+
+            Temp.Name = splinePrefix + splineId;
+            Temp.SplineType = 2;
+            Temp.SettingInt = splineId;
+            Temp.Setting4 = 1;
+            Temp.Vertices = Points.ToArray();
+            Temp.SetRenderStuff(Program.MainForm.renderer);
+            return Temp;
+        }
+
+        public static ShadowSpline FromHeroesFile(string FileName, int splineId, string splinePrefix)
+        {
+            // Sonic Team did some weird things with Heroes Splines. While some splines vertices are indexed 'forward' flowing for connected splines,
+            // some are unfortunately NOT. We need to detect these and invert them to calculate rotation properly, otherwise the rotation will be underneath each spline.
+            // Since this is specific to Sonic Heroes, we have its own parser -> convert
+            string[] SplineFile = File.ReadAllLines(FileName);
+            ShadowSpline Temp = new ShadowSpline();
+
+            List<Vector3> positions = new List<Vector3>();
+            List<float> heroPitch = new List<float>();
+            List<float> heroRoll = new List<float>();
 
             foreach (string j in SplineFile)
             {
                 if (j.StartsWith("v"))
                 {
                     string[] a = Regex.Replace(j, @"\s+", " ").Split();
-                    Points.Add(new ShadowSplineVertex()
-                    {
-                        AngularAttachmentToleranceInt = 4,
-                        Position = new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])),
-                        RotationY = Convert.ToUInt16(a[4]) * (360.0f / 65535),
-                        RotationX = Convert.ToUInt16(a[5]) * (360.0f / 65535)
-                    });
-                }
-            }
-                    // TODO: FIGURE OUT THE Rotation points logic
-/*                    var roll = Convert.ToUInt16(a[4]) * (360.0f / 65535);
-                    var pitch = Convert.ToUInt16(a[5]) * (360.0f / 65535);
-                    Points.Add(new ShadowSplineVertex() {
-                        //TODO: Figure out better conversion
-                        //Heroes = "v {v.Position.X} {v.Position.Y} {v.Position.Z} {v.Roll} {v.Pitch}");
-                        // old : RotationY = Convert.ToUInt16(a[4]) * (360.0f / 65535), RotationX = Convert.ToUInt16(a[5]) * (360.0f / 65535)
-                        // a[4] = Roll
-                        // a[5] = Pitch
-                        AngularAttachmentToleranceInt = 4, Position = new Vector3(
-                            Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])),
-                        RotationX = pitch,
-                        RotationY = -pitch,//(roll + pitch) / 2,
-                        RotationZ = roll,//(pitch - roll) / 2
-                        //RotationY = (float)Math.Atan2((Math.Sin(Convert.ToUInt16(a[5]) * (360.0f / 65535))) * Math.Cos(Convert.ToUInt16(a[4]) * (360.0f / 65535)), Math.Cos(Convert.ToUInt16(a[5]) * (360.0f / 65535))),
-                        //RotationZ = (float)Math.Atan2(-Math.Sin(Convert.ToUInt16(a[4]) * (360.0f / 65535)), Math.Cos(Convert.ToUInt16(a[4]) * (360.0f / 65535)))
-                        *//*RotationX = Convert.ToUInt16(a[4]) * (360.0f / 65535),
-                                                       RotationY = (float)-Math.Atan2((Math.Sin(Convert.ToUInt16(a[5]) * (360.0f / 65535))) * Math.Cos(Convert.ToUInt16(a[4]) * (360.0f / 65535)), Math.Cos(Convert.ToUInt16(a[5]) * (360.0f / 65535))),
-                                                       RotationZ = (float)Math.Atan2(-Math.Sin(Convert.ToUInt16(a[4]) * (360.0f / 65535)), Math.Cos(Convert.ToUInt16(a[4]) * (360.0f / 65535)))*//*
-                    });//ReadWriteCommon.BAMStoRadians(Convert.ToSingle(a[5])) * 180f * MathUtil.Pi });
-                }
-            }
-            // Now compute the rotations given all the points
-*//*            for (int splRot = 0; splRot < Points.Count; splRot++)
-            {
-                Points[splRot].Rotation.X = 2;
-            }*/
+                    positions.Add(new Vector3(Convert.ToSingle(a[1]), Convert.ToSingle(a[2]), Convert.ToSingle(a[3])));
 
-            Points.Last().AngularAttachmentToleranceInt = 0; // last point needs AAT of 0
-            Temp.Name = splinePrefix + splineId; 
-            Temp.SplineType = 2;
+                    float pitch = 0f, roll = 0f;
+                    if (a.Length > 4)
+                    {
+                        roll = Convert.ToSingle(a[4]);
+                        pitch = Convert.ToSingle(a[5]);
+                    }
+                    heroPitch.Add(pitch * (float)Math.PI / 180f);
+                    heroRoll.Add(roll * (float)Math.PI / 180f);
+                }
+            }
+
+            int n = positions.Count;
+            List<ShadowSplineVertex> Points = new List<ShadowSplineVertex>(n);
+
+            if (n < 2)
+            {
+                Temp.Name = splinePrefix + splineId;
+                Temp.SplineType = 2;
+                Temp.SettingInt = splineId;
+                Temp.Setting4 = 1;
+                Temp.Vertices = Points.ToArray();
+                Temp.SetRenderStuff(Program.MainForm.renderer);
+                return Temp;
+            }
+
+            int agreeCount = 0, disagreeCount = 0;
+            for (int i = 0; i < n - 1; i++)
+            {
+                Vector3 dir = positions[i + 1] - positions[i];
+                float len = dir.Length();
+                if (len > 0.0001f)
+                {
+                    float geometricPitch = (float)Math.Asin(dir.Y / len);
+                    float storedPitch = heroPitch[i];
+                    if (Math.Abs(geometricPitch) > 0.02f && Math.Abs(storedPitch) > 0.02f)
+                    {
+                        if ((geometricPitch > 0) != (storedPitch > 0))
+                            disagreeCount++;
+                        else
+                            agreeCount++;
+                    }
+                }
+            }
+
+            bool reversed = disagreeCount > agreeCount;
+            if (reversed)
+            {
+                positions.Reverse();
+                heroPitch.Reverse();
+                heroRoll.Reverse();
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                ShadowSplineVertex vertex = new ShadowSplineVertex { Position = positions[i] };
+
+                if (i < n - 1)
+                {
+                    Vector3 dir = positions[i + 1] - positions[i];
+                    float len = dir.Length();
+
+                    if (len > 0.0001f)
+                    {
+                        Vector3 fwd = dir / len;
+                        float ry = (float)Math.Atan2(-fwd.X, -fwd.Z);
+                        float rx = heroPitch[i];
+                        float rz = heroRoll[i];
+
+                        vertex.Rotation = new Vector3(rx, ry, rz);
+                    }
+                    else
+                    {
+                        vertex.Rotation = new Vector3(heroPitch[i], 0f, heroRoll[i]);
+                    }
+                }
+                else
+                {
+                    if (Points.Count > 0)
+                        vertex.Rotation = Points[Points.Count - 1].Rotation;
+                }
+
+                Points.Add(vertex);
+            }
+
+            if (n >= 3)
+            {
+                for (int i = 1; i < n - 1; i++)
+                {
+                    float absPitchDeg = Math.Abs(heroPitch[i]) * 180f / (float)Math.PI;
+                    float absRollDeg = Math.Abs(heroRoll[i]) * 180f / (float)Math.PI;
+                    float combinedAngle = absPitchDeg + absRollDeg;
+
+                    int aat;
+                    if (combinedAngle > 20f)
+                        aat = 6;
+                    else if (combinedAngle > 10f)
+                        aat = 5;
+                    else
+                    {
+                        Vector3 fwdPrev = Vector3.Normalize(positions[i] - positions[i - 1]);
+                        Vector3 fwdCurr = Vector3.Normalize(positions[i + 1] - positions[i]);
+
+                        float yawPrevAngle = (float)Math.Atan2(-fwdPrev.X, -fwdPrev.Z);
+                        float yawCurrAngle = (float)Math.Atan2(-fwdCurr.X, -fwdCurr.Z);
+
+                        float yawDiff = yawCurrAngle - yawPrevAngle;
+                        if (yawDiff > (float)Math.PI) yawDiff -= 2f * (float)Math.PI;
+                        if (yawDiff < -(float)Math.PI) yawDiff += 2f * (float)Math.PI;
+
+                        float yawChange = Math.Abs(yawDiff) * 180f / (float)Math.PI;
+
+                        // TODO: This heuristic is not perfect, still seeing some wrong AAT but its better than prior code
+                        if (yawChange < 4f)
+                            aat = 4;
+                        else if (yawChange < 5.5f)
+                            aat = 5;
+                        else
+                            aat = 7;
+                    }
+
+                    Points[i].AngularAttachmentToleranceInt = aat;
+                }
+
+                Points[0].AngularAttachmentToleranceInt = Points[1].AngularAttachmentToleranceInt;
+            }
+            else
+            {
+                Points[0].AngularAttachmentToleranceInt = 4;
+            }
+
+            Points[n - 1].AngularAttachmentToleranceInt = 0; // last point needs AAT of 0
+
+            Temp.Name = splinePrefix + splineId;
+            Temp.SplineType = 2; // Grind rail type - TODO: Should probably have a 'import as type' setting for the import
             Temp.SettingInt = splineId;
+            Temp.Setting4 = 1; // Allows spline->spline connected flows without dropping the player off the spline
             Temp.Vertices = Points.ToArray();
             Temp.SetRenderStuff(Program.MainForm.renderer);
             return Temp;

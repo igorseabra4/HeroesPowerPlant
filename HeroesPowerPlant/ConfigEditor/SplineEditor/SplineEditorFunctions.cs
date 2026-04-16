@@ -1,4 +1,4 @@
-﻿using Heroes.SDK.Definitions.Structures.Stage.Splines;
+using Heroes.SDK.Definitions.Structures.Stage.Splines;
 using Heroes.SDK.Parsers;
 using SonicHeroes.Utils.StageInjector.Common;
 using SonicHeroes.Utils.StageInjector.Common.Utilities;
@@ -230,19 +230,27 @@ namespace HeroesPowerPlant.SplineEditor
         {
             // Append .obj to the file name if it isn't already there.
             if (!fileName.EndsWith(".obj") && !exportAll)
+            {
                 fileName += ".obj";
+            }
 
             // If we're only exporting this one spline, then call the Write function with the value of CurrentlySelectedObject.
             if (!exportAll)
-                WriteOBJ(fileName, CurrentlySelectedObject);
+            {
+                WriteOBJ(fileName, CurrentlySelectedObject, true);
+            }
 
             // If we're exporting all the splines, loop through and call the Write function for each.
             else
+            {
                 for (int s = 0; s < SplineList.Count; s++)
-                    WriteOBJ($"{fileName}{s}.obj", s);
+                {
+                    WriteOBJ($"{fileName}{s}.obj", s, true);
+                }
+            }
         }
 
-        private void WriteOBJ(string fileName, int splineIndex)
+        private void WriteOBJ(string fileName, int splineIndex, bool convertedPitchRoll)
         {
             // Set up a StreamWriter.
             using StreamWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create));
@@ -252,7 +260,17 @@ namespace HeroesPowerPlant.SplineEditor
 
                 // Write each vertex coordinate.
                 foreach (var v in SplineList[splineIndex].Points)
-                    writer.WriteLine($"v {v.Position.X} {v.Position.Y} {v.Position.Z} {v.Roll} {v.Pitch}");
+                {
+                    if (convertedPitchRoll)
+                    {
+                        float pitchDeg = (short)v.Pitch * 360f / 65536f;
+                        float rollDeg = (short)v.Roll * 360f / 65536f;
+                        writer.WriteLine($"v {v.Position.X} {v.Position.Y} {v.Position.Z} {rollDeg} {pitchDeg}"); // New format
+                    } else
+                    {
+                        writer.WriteLine($"v {v.Position.X} {v.Position.Y} {v.Position.Z} {v.Roll} {v.Pitch}"); // Legacy format
+                    }
+                }
 
                 // Name the spline.
                 writer.WriteLine($"\r\no Spline{splineIndex + 1}\r\ng Spline{splineIndex + 1}");

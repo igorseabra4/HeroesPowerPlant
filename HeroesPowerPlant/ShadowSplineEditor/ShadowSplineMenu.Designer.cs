@@ -1,5 +1,7 @@
-namespace HeroesPowerPlant.ShadowSplineEditor {
-    partial class ShadowSplineMenu {
+namespace HeroesPowerPlant.ShadowSplineEditor
+{
+    partial class ShadowSplineMenu
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -36,6 +40,7 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             textBox_splineNamePrefix = new System.Windows.Forms.TextBox();
             textBox_splineSuffixNumber = new System.Windows.Forms.TextBox();
             buttonClear = new System.Windows.Forms.Button();
+            buttonImportHeroes = new System.Windows.Forms.Button();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -173,11 +178,23 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             buttonClear.UseVisualStyleBackColor = true;
             buttonClear.Click += buttonClear_Click;
             // 
+            // buttonImportHeroes
+            // 
+            buttonImportHeroes.Location = new System.Drawing.Point(358, 14);
+            buttonImportHeroes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonImportHeroes.Name = "buttonImportHeroes";
+            buttonImportHeroes.Size = new System.Drawing.Size(110, 24);
+            buttonImportHeroes.TabIndex = 72;
+            buttonImportHeroes.Text = "Import Heroes";
+            buttonImportHeroes.UseVisualStyleBackColor = true;
+            buttonImportHeroes.Click += buttonImportHeroes_Click;
+            // 
             // ShadowSplineMenu
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(657, 489);
+            Controls.Add(buttonImportHeroes);
             Controls.Add(buttonClear);
             Controls.Add(textBox_splineSuffixNumber);
             Controls.Add(textBox_splineNamePrefix);
@@ -213,5 +230,6 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
         private System.Windows.Forms.TextBox textBox_splineNamePrefix;
         private System.Windows.Forms.TextBox textBox_splineSuffixNumber;
         private System.Windows.Forms.Button buttonClear;
+        private System.Windows.Forms.Button buttonImportHeroes;
     }
 }

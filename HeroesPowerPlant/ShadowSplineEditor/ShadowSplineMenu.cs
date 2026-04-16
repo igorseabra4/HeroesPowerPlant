@@ -1,4 +1,4 @@
-﻿using HeroesPowerPlant.Shared.IO.Config;
+using HeroesPowerPlant.Shared.IO.Config;
 using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
@@ -74,6 +74,29 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
                 if (openSpline.ShowDialog() == DialogResult.OK)
                 {
                     SplineEditor.Add(openSpline.FileNames, textBox_splineNamePrefix.Text, suffix);
+                    UpdateSplineList();
+                    listBoxSplines.SelectedIndex = listBoxSplines.Items.Count - 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Double check your spline suffix number.\n\n" + ex.Message);
+            }
+        }
+
+        private void buttonImportHeroes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int suffix = int.Parse(textBox_splineSuffixNumber.Text);
+                VistaOpenFileDialog openSpline = new VistaOpenFileDialog()
+                {
+                    Multiselect = true,
+                    Filter = ".obj files|*.obj"
+                };
+                if (openSpline.ShowDialog() == DialogResult.OK)
+                {
+                    SplineEditor.AddHeroes(openSpline.FileNames, textBox_splineNamePrefix.Text, suffix);
                     UpdateSplineList();
                     listBoxSplines.SelectedIndex = listBoxSplines.Items.Count - 1;
                 }

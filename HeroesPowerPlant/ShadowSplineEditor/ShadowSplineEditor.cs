@@ -1,4 +1,4 @@
-﻿using AquaModelLibrary.Data.Ninja;
+using AquaModelLibrary.Data.Ninja;
 using HeroesONE_R.Structures;
 using HeroesPowerPlant.Shared.Utilities;
 using SharpDX;
@@ -357,6 +357,24 @@ namespace HeroesPowerPlant.ShadowSplineEditor
         public void Add(string objFile, int splineId, string splinePrefix)
         {
             Splines.Add(ShadowSpline.FromFile(objFile, splineId, splinePrefix));
+            Splines.Last().SetRenderStuff(Program.MainForm.renderer);
+            if (Splines.Last().Setting2 == 64)
+                UpdateInvertedFor(Splines.Last());
+            UnsavedChanges = true;
+        }
+
+        public void AddHeroes(string[] fileNames, string splinePrefix, int splineSuffixNumber)
+        {
+            foreach (string s in fileNames)
+            {
+                AddHeroes(s, splineSuffixNumber, splinePrefix);
+                splineSuffixNumber++;
+            }
+        }
+
+        public void AddHeroes(string objFile, int splineId, string splinePrefix)
+        {
+            Splines.Add(ShadowSpline.FromHeroesFile(objFile, splineId, splinePrefix));
             Splines.Last().SetRenderStuff(Program.MainForm.renderer);
             if (Splines.Last().Setting2 == 64)
                 UpdateInvertedFor(Splines.Last());
