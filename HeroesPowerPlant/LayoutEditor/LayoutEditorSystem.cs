@@ -494,6 +494,14 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
+        public void SwapSetObjects(int index1, int index2)
+        {
+            if (index1 < 0 || index1 >= setObjects.Count || index2 < 0 || index2 >= setObjects.Count)
+                return;
+            (setObjects[index2], setObjects[index1]) = (setObjects[index1], setObjects[index2]);
+            UnsavedChanges = true;
+        }
+
         #endregion
 
         #region GUI Return Methods

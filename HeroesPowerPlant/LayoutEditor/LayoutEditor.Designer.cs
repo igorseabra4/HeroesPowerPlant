@@ -28,1176 +28,1093 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.heroesLayoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.shadowLayoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.byIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.byDistanceFromOriginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.alphabeticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.objectNameFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.objectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.object0000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.useDebugNamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadTemplatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.exportINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importLayoutFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importSALayoutFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.objectAmountLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.openFileLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.listBoxObjects = new System.Windows.Forms.ListBox();
-            this.buttonDuplicate = new System.Windows.Forms.Button();
-            this.buttonClear = new System.Windows.Forms.Button();
-            this.ButtonRemove = new System.Windows.Forms.Button();
-            this.ButtonAdd = new System.Windows.Forms.Button();
-            this.ButtonFindNextLink = new System.Windows.Forms.Button();
-            this.ComboBoxObject = new System.Windows.Forms.ComboBox();
-            this.LabelRend = new System.Windows.Forms.Label();
-            this.NumericObjRend = new System.Windows.Forms.NumericUpDown();
-            this.LabelLinkId = new System.Windows.Forms.Label();
-            this.NumericObjLink = new System.Windows.Forms.NumericUpDown();
-            this.LabelObject = new System.Windows.Forms.Label();
-            this.GroupBox2 = new System.Windows.Forms.GroupBox();
-            this.NumericRotZ = new System.Windows.Forms.NumericUpDown();
-            this.NumericRotY = new System.Windows.Forms.NumericUpDown();
-            this.NumericRotX = new System.Windows.Forms.NumericUpDown();
-            this.buttonViewHere = new System.Windows.Forms.Button();
-            this.GroupBoxSonicHeroesStuff = new System.Windows.Forms.GroupBox();
-            this.ButtonTeleport = new System.Windows.Forms.Button();
-            this.GroupBoxGetRot = new System.Windows.Forms.GroupBox();
-            this.ButtonPowRot = new System.Windows.Forms.Button();
-            this.ButtonSpeedRot = new System.Windows.Forms.Button();
-            this.ButtonFlyRot = new System.Windows.Forms.Button();
-            this.GroupBoxGetPos = new System.Windows.Forms.GroupBox();
-            this.ButtonGetPow = new System.Windows.Forms.Button();
-            this.ButtonGetFly = new System.Windows.Forms.Button();
-            this.ButtonGetSpeed = new System.Windows.Forms.Button();
-            this.PropertyGridMisc = new System.Windows.Forms.PropertyGrid();
-            this.buttonDrop = new System.Windows.Forms.Button();
-            this.buttonCurrentViewDrop = new System.Windows.Forms.Button();
-            this.NumericPosX = new System.Windows.Forms.NumericUpDown();
-            this.NumericPosY = new System.Windows.Forms.NumericUpDown();
-            this.NumericPosZ = new System.Windows.Forms.NumericUpDown();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numericUnkB8 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB7 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB6 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB5 = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxAutoBytes = new System.Windows.Forms.CheckBox();
-            this.numericUnkB4 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUnkB1 = new System.Windows.Forms.NumericUpDown();
-            this.buttonCopy = new System.Windows.Forms.Button();
-            this.buttonPaste = new System.Windows.Forms.Button();
-            this.buttonCopyMisc = new System.Windows.Forms.Button();
-            this.buttonPasteMisc = new System.Windows.Forms.Button();
-            this.checkBoxDrawObjs = new System.Windows.Forms.CheckBox();
-            this.buttonPlayLinkedAudio = new System.Windows.Forms.Button();
-            this.TextBox_PreviewView = new System.Windows.Forms.TextBox();
-            this.checkBoxDrawTriggerObjs = new System.Windows.Forms.CheckBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.buttonLoadShadowSFXBIN = new System.Windows.Forms.Button();
-            this.buttonGetTemplate = new System.Windows.Forms.Button();
-            this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericObjLink)).BeginInit();
-            this.GroupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericRotZ)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericRotY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericRotX)).BeginInit();
-            this.GroupBoxSonicHeroesStuff.SuspendLayout();
-            this.GroupBoxGetRot.SuspendLayout();
-            this.GroupBoxGetPos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).BeginInit();
-            this.groupBox8.SuspendLayout();
-            this.SuspendLayout();
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            heroesLayoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            shadowLayoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            byIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            byDistanceFromOriginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            alphabeticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            objectNameFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            objectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            object0000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            useDebugNamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            loadTemplatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            deleteAllObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            exportINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            importINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            importLayoutFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            importOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            importSALayoutFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            statusStrip1 = new System.Windows.Forms.StatusStrip();
+            objectAmountLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            openFileLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            listBoxObjects = new System.Windows.Forms.ListBox();
+            buttonDuplicate = new System.Windows.Forms.Button();
+            ButtonRemove = new System.Windows.Forms.Button();
+            ButtonAdd = new System.Windows.Forms.Button();
+            ButtonFindNextLink = new System.Windows.Forms.Button();
+            ComboBoxObject = new System.Windows.Forms.ComboBox();
+            LabelRend = new System.Windows.Forms.Label();
+            NumericObjRend = new System.Windows.Forms.NumericUpDown();
+            LabelLinkId = new System.Windows.Forms.Label();
+            NumericObjLink = new System.Windows.Forms.NumericUpDown();
+            LabelObject = new System.Windows.Forms.Label();
+            GroupBox2 = new System.Windows.Forms.GroupBox();
+            NumericRotZ = new System.Windows.Forms.NumericUpDown();
+            NumericRotY = new System.Windows.Forms.NumericUpDown();
+            NumericRotX = new System.Windows.Forms.NumericUpDown();
+            buttonViewHere = new System.Windows.Forms.Button();
+            GroupBoxSonicHeroesStuff = new System.Windows.Forms.GroupBox();
+            ButtonTeleport = new System.Windows.Forms.Button();
+            GroupBoxGetRot = new System.Windows.Forms.GroupBox();
+            ButtonPowRot = new System.Windows.Forms.Button();
+            ButtonSpeedRot = new System.Windows.Forms.Button();
+            ButtonFlyRot = new System.Windows.Forms.Button();
+            GroupBoxGetPos = new System.Windows.Forms.GroupBox();
+            ButtonGetPow = new System.Windows.Forms.Button();
+            ButtonGetFly = new System.Windows.Forms.Button();
+            ButtonGetSpeed = new System.Windows.Forms.Button();
+            PropertyGridMisc = new System.Windows.Forms.PropertyGrid();
+            buttonDrop = new System.Windows.Forms.Button();
+            buttonCurrentViewDrop = new System.Windows.Forms.Button();
+            NumericPosX = new System.Windows.Forms.NumericUpDown();
+            NumericPosY = new System.Windows.Forms.NumericUpDown();
+            NumericPosZ = new System.Windows.Forms.NumericUpDown();
+            groupBox3 = new System.Windows.Forms.GroupBox();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            numericUnkB8 = new System.Windows.Forms.NumericUpDown();
+            numericUnkB7 = new System.Windows.Forms.NumericUpDown();
+            numericUnkB6 = new System.Windows.Forms.NumericUpDown();
+            numericUnkB5 = new System.Windows.Forms.NumericUpDown();
+            checkBoxAutoBytes = new System.Windows.Forms.CheckBox();
+            numericUnkB4 = new System.Windows.Forms.NumericUpDown();
+            numericUnkB3 = new System.Windows.Forms.NumericUpDown();
+            numericUnkB2 = new System.Windows.Forms.NumericUpDown();
+            numericUnkB1 = new System.Windows.Forms.NumericUpDown();
+            buttonCopy = new System.Windows.Forms.Button();
+            buttonPaste = new System.Windows.Forms.Button();
+            buttonCopyMisc = new System.Windows.Forms.Button();
+            buttonPasteMisc = new System.Windows.Forms.Button();
+            checkBoxDrawObjs = new System.Windows.Forms.CheckBox();
+            buttonPlayLinkedAudio = new System.Windows.Forms.Button();
+            TextBox_PreviewView = new System.Windows.Forms.TextBox();
+            checkBoxDrawTriggerObjs = new System.Windows.Forms.CheckBox();
+            groupBox8 = new System.Windows.Forms.GroupBox();
+            buttonLoadShadowSFXBIN = new System.Windows.Forms.Button();
+            buttonGetTemplate = new System.Windows.Forms.Button();
+            buttonArrowUp = new System.Windows.Forms.Button();
+            buttonArrowDown = new System.Windows.Forms.Button();
+            menuStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NumericObjRend).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumericObjLink).BeginInit();
+            GroupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NumericRotZ).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumericRotY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumericRotX).BeginInit();
+            GroupBoxSonicHeroesStuff.SuspendLayout();
+            GroupBoxGetRot.SuspendLayout();
+            GroupBoxGetPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NumericPosX).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumericPosY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumericPosZ).BeginInit();
+            groupBox3.SuspendLayout();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB1).BeginInit();
+            groupBox8.SuspendLayout();
+            SuspendLayout();
             // 
             // menuStrip1
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(795, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem });
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            menuStrip1.Size = new System.Drawing.Size(795, 24);
+            menuStrip1.TabIndex = 0;
+            menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
-            this.closeToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { newToolStripMenuItem, openToolStripMenuItem, saveToolStripMenuItem, saveAsToolStripMenuItem, closeToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
             // 
-            this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.heroesLayoutToolStripMenuItem,
-            this.shadowLayoutToolStripMenuItem});
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.newToolStripMenuItem.Text = "New";
+            newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { heroesLayoutToolStripMenuItem, shadowLayoutToolStripMenuItem });
+            newToolStripMenuItem.Name = "newToolStripMenuItem";
+            newToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            newToolStripMenuItem.Text = "New";
             // 
             // heroesLayoutToolStripMenuItem
             // 
-            this.heroesLayoutToolStripMenuItem.Name = "heroesLayoutToolStripMenuItem";
-            this.heroesLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.heroesLayoutToolStripMenuItem.Text = "Heroes Layout";
-            this.heroesLayoutToolStripMenuItem.Click += new System.EventHandler(this.heroesLayoutToolStripMenuItem_Click);
+            heroesLayoutToolStripMenuItem.Name = "heroesLayoutToolStripMenuItem";
+            heroesLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            heroesLayoutToolStripMenuItem.Text = "Heroes Layout";
+            heroesLayoutToolStripMenuItem.Click += heroesLayoutToolStripMenuItem_Click;
             // 
             // shadowLayoutToolStripMenuItem
             // 
-            this.shadowLayoutToolStripMenuItem.Name = "shadowLayoutToolStripMenuItem";
-            this.shadowLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.shadowLayoutToolStripMenuItem.Text = "Shadow Layout";
-            this.shadowLayoutToolStripMenuItem.Click += new System.EventHandler(this.shadowLayoutToolStripMenuItem_Click);
+            shadowLayoutToolStripMenuItem.Name = "shadowLayoutToolStripMenuItem";
+            shadowLayoutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            shadowLayoutToolStripMenuItem.Text = "Shadow Layout";
+            shadowLayoutToolStripMenuItem.Click += shadowLayoutToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.openToolStripMenuItem.Text = "Open...";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            openToolStripMenuItem.Text = "Open...";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
             // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.saveAsToolStripMenuItem.Text = "Save As...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            saveAsToolStripMenuItem.Text = "Save As...";
+            saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // closeToolStripMenuItem
             // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            closeToolStripMenuItem.Text = "Close";
+            closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sortToolStripMenuItem,
-            this.objectNameFormatToolStripMenuItem,
-            this.loadTemplatesToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.exportINIToolStripMenuItem,
-            this.importINIToolStripMenuItem,
-            this.importLayoutFileToolStripMenuItem,
-            this.importOBJToolStripMenuItem,
-            this.importSALayoutFileToolStripMenuItem,
-            this.openFolderToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
+            editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { sortToolStripMenuItem, objectNameFormatToolStripMenuItem, loadTemplatesToolStripMenuItem, deleteAllObjectsToolStripMenuItem, toolStripSeparator1, exportINIToolStripMenuItem, importINIToolStripMenuItem, importLayoutFileToolStripMenuItem, importOBJToolStripMenuItem, importSALayoutFileToolStripMenuItem, openFolderToolStripMenuItem });
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            editToolStripMenuItem.Text = "Edit";
             // 
             // sortToolStripMenuItem
             // 
-            this.sortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.byIDToolStripMenuItem,
-            this.byDistanceFromOriginToolStripMenuItem,
-            this.alphabeticallyToolStripMenuItem});
-            this.sortToolStripMenuItem.Name = "sortToolStripMenuItem";
-            this.sortToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.sortToolStripMenuItem.Text = "Sort";
+            sortToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { byIDToolStripMenuItem, byDistanceFromOriginToolStripMenuItem, alphabeticallyToolStripMenuItem });
+            sortToolStripMenuItem.Name = "sortToolStripMenuItem";
+            sortToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            sortToolStripMenuItem.Text = "Sort";
             // 
             // byIDToolStripMenuItem
             // 
-            this.byIDToolStripMenuItem.Name = "byIDToolStripMenuItem";
-            this.byIDToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.byIDToolStripMenuItem.Text = "numerically by ID";
-            this.byIDToolStripMenuItem.Click += new System.EventHandler(this.byIDToolStripMenuItem_Click);
+            byIDToolStripMenuItem.Name = "byIDToolStripMenuItem";
+            byIDToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            byIDToolStripMenuItem.Text = "numerically by ID";
+            byIDToolStripMenuItem.Click += byIDToolStripMenuItem_Click;
             // 
             // byDistanceFromOriginToolStripMenuItem
             // 
-            this.byDistanceFromOriginToolStripMenuItem.Name = "byDistanceFromOriginToolStripMenuItem";
-            this.byDistanceFromOriginToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.byDistanceFromOriginToolStripMenuItem.Text = "by distance from origin";
-            this.byDistanceFromOriginToolStripMenuItem.Click += new System.EventHandler(this.byDistanceFromOriginToolStripMenuItem_Click);
+            byDistanceFromOriginToolStripMenuItem.Name = "byDistanceFromOriginToolStripMenuItem";
+            byDistanceFromOriginToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            byDistanceFromOriginToolStripMenuItem.Text = "by distance from origin";
+            byDistanceFromOriginToolStripMenuItem.Click += byDistanceFromOriginToolStripMenuItem_Click;
             // 
             // alphabeticallyToolStripMenuItem
             // 
-            this.alphabeticallyToolStripMenuItem.Name = "alphabeticallyToolStripMenuItem";
-            this.alphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.alphabeticallyToolStripMenuItem.Text = "alphabetically";
-            this.alphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.alphabeticallyToolStripMenuItem_Click);
+            alphabeticallyToolStripMenuItem.Name = "alphabeticallyToolStripMenuItem";
+            alphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            alphabeticallyToolStripMenuItem.Text = "alphabetically";
+            alphabeticallyToolStripMenuItem.Click += alphabeticallyToolStripMenuItem_Click;
             // 
             // objectNameFormatToolStripMenuItem
             // 
-            this.objectNameFormatToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.objectToolStripMenuItem,
-            this.object0000ToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.useDebugNamesToolStripMenuItem});
-            this.objectNameFormatToolStripMenuItem.Name = "objectNameFormatToolStripMenuItem";
-            this.objectNameFormatToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.objectNameFormatToolStripMenuItem.Text = "Object Name Format";
+            objectNameFormatToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { objectToolStripMenuItem, object0000ToolStripMenuItem, toolStripSeparator2, useDebugNamesToolStripMenuItem });
+            objectNameFormatToolStripMenuItem.Name = "objectNameFormatToolStripMenuItem";
+            objectNameFormatToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            objectNameFormatToolStripMenuItem.Text = "Object Name Format";
             // 
             // objectToolStripMenuItem
             // 
-            this.objectToolStripMenuItem.Name = "objectToolStripMenuItem";
-            this.objectToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.objectToolStripMenuItem.Text = "00 00 Object";
-            this.objectToolStripMenuItem.Click += new System.EventHandler(this.objectToolStripMenuItem_Click);
+            objectToolStripMenuItem.Name = "objectToolStripMenuItem";
+            objectToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            objectToolStripMenuItem.Text = "00 00 Object";
+            objectToolStripMenuItem.Click += objectToolStripMenuItem_Click;
             // 
             // object0000ToolStripMenuItem
             // 
-            this.object0000ToolStripMenuItem.Name = "object0000ToolStripMenuItem";
-            this.object0000ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.object0000ToolStripMenuItem.Text = "Object [00][00]";
-            this.object0000ToolStripMenuItem.Click += new System.EventHandler(this.object0000ToolStripMenuItem_Click);
+            object0000ToolStripMenuItem.Name = "object0000ToolStripMenuItem";
+            object0000ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            object0000ToolStripMenuItem.Text = "Object [00][00]";
+            object0000ToolStripMenuItem.Click += object0000ToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
             // 
             // useDebugNamesToolStripMenuItem
             // 
-            this.useDebugNamesToolStripMenuItem.Name = "useDebugNamesToolStripMenuItem";
-            this.useDebugNamesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.useDebugNamesToolStripMenuItem.Text = "Use Debug Names";
-            this.useDebugNamesToolStripMenuItem.Click += new System.EventHandler(this.useDebugNamesToolStripMenuItem_Click);
+            useDebugNamesToolStripMenuItem.Name = "useDebugNamesToolStripMenuItem";
+            useDebugNamesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            useDebugNamesToolStripMenuItem.Text = "Use Debug Names";
+            useDebugNamesToolStripMenuItem.Click += useDebugNamesToolStripMenuItem_Click;
             // 
             // loadTemplatesToolStripMenuItem
             // 
-            this.loadTemplatesToolStripMenuItem.Name = "loadTemplatesToolStripMenuItem";
-            this.loadTemplatesToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.loadTemplatesToolStripMenuItem.Text = "Load Templates";
-            this.loadTemplatesToolStripMenuItem.Click += new System.EventHandler(this.loadTemplatesToolStripMenuItem_Click);
+            loadTemplatesToolStripMenuItem.Name = "loadTemplatesToolStripMenuItem";
+            loadTemplatesToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            loadTemplatesToolStripMenuItem.Text = "Load Templates";
+            loadTemplatesToolStripMenuItem.Click += loadTemplatesToolStripMenuItem_Click;
+            // 
+            // deleteAllObjectsToolStripMenuItem
+            // 
+            deleteAllObjectsToolStripMenuItem.Name = "deleteAllObjectsToolStripMenuItem";
+            deleteAllObjectsToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            deleteAllObjectsToolStripMenuItem.Text = "Delete All Objects";
+            deleteAllObjectsToolStripMenuItem.Click += deleteAllObjectsToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
             // 
             // exportINIToolStripMenuItem
             // 
-            this.exportINIToolStripMenuItem.Name = "exportINIToolStripMenuItem";
-            this.exportINIToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.exportINIToolStripMenuItem.Text = "Export INI";
-            this.exportINIToolStripMenuItem.Click += new System.EventHandler(this.exportINIToolStripMenuItem_Click);
+            exportINIToolStripMenuItem.Name = "exportINIToolStripMenuItem";
+            exportINIToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            exportINIToolStripMenuItem.Text = "Export INI";
+            exportINIToolStripMenuItem.Click += exportINIToolStripMenuItem_Click;
             // 
             // importINIToolStripMenuItem
             // 
-            this.importINIToolStripMenuItem.Name = "importINIToolStripMenuItem";
-            this.importINIToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.importINIToolStripMenuItem.Text = "Import INI";
-            this.importINIToolStripMenuItem.Click += new System.EventHandler(this.importINIToolStripMenuItem_Click);
+            importINIToolStripMenuItem.Name = "importINIToolStripMenuItem";
+            importINIToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            importINIToolStripMenuItem.Text = "Import INI";
+            importINIToolStripMenuItem.Click += importINIToolStripMenuItem_Click;
             // 
             // importLayoutFileToolStripMenuItem
             // 
-            this.importLayoutFileToolStripMenuItem.Name = "importLayoutFileToolStripMenuItem";
-            this.importLayoutFileToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.importLayoutFileToolStripMenuItem.Text = "Import Layout File";
-            this.importLayoutFileToolStripMenuItem.Click += new System.EventHandler(this.importLayoutFileToolStripMenuItem_Click);
+            importLayoutFileToolStripMenuItem.Name = "importLayoutFileToolStripMenuItem";
+            importLayoutFileToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            importLayoutFileToolStripMenuItem.Text = "Import Layout File";
+            importLayoutFileToolStripMenuItem.Click += importLayoutFileToolStripMenuItem_Click;
             // 
             // importOBJToolStripMenuItem
             // 
-            this.importOBJToolStripMenuItem.Name = "importOBJToolStripMenuItem";
-            this.importOBJToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.importOBJToolStripMenuItem.Text = "Import OBJ";
-            this.importOBJToolStripMenuItem.Click += new System.EventHandler(this.importOBJToolStripMenuItem_Click);
+            importOBJToolStripMenuItem.Name = "importOBJToolStripMenuItem";
+            importOBJToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            importOBJToolStripMenuItem.Text = "Import OBJ";
+            importOBJToolStripMenuItem.Click += importOBJToolStripMenuItem_Click;
             // 
             // importSALayoutFileToolStripMenuItem
             // 
-            this.importSALayoutFileToolStripMenuItem.Name = "importSALayoutFileToolStripMenuItem";
-            this.importSALayoutFileToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.importSALayoutFileToolStripMenuItem.Text = "Import SA Layout File";
-            this.importSALayoutFileToolStripMenuItem.Click += new System.EventHandler(this.importSALayoutFileToolStripMenuItem_Click);
+            importSALayoutFileToolStripMenuItem.Name = "importSALayoutFileToolStripMenuItem";
+            importSALayoutFileToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            importSALayoutFileToolStripMenuItem.Text = "Import SA Layout File";
+            importSALayoutFileToolStripMenuItem.Click += importSALayoutFileToolStripMenuItem_Click;
             // 
             // openFolderToolStripMenuItem
             // 
-            this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
-            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.openFolderToolStripMenuItem.Text = "Open Folder";
-            this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
+            openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
+            openFolderToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            openFolderToolStripMenuItem.Text = "Open Folder";
+            openFolderToolStripMenuItem.Click += openFolderToolStripMenuItem_Click;
             // 
             // statusStrip1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.objectAmountLabel,
-            this.toolStripStatusLabel1,
-            this.openFileLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 579);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(795, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { objectAmountLabel, toolStripStatusLabel1, openFileLabel });
+            statusStrip1.Location = new System.Drawing.Point(0, 579);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            statusStrip1.Size = new System.Drawing.Size(795, 22);
+            statusStrip1.SizingGrip = false;
+            statusStrip1.TabIndex = 1;
+            statusStrip1.Text = "statusStrip1";
             // 
             // objectAmountLabel
             // 
-            this.objectAmountLabel.Name = "objectAmountLabel";
-            this.objectAmountLabel.Size = new System.Drawing.Size(54, 17);
-            this.objectAmountLabel.Text = "0 objects";
+            objectAmountLabel.Name = "objectAmountLabel";
+            objectAmountLabel.Size = new System.Drawing.Size(54, 17);
+            objectAmountLabel.Text = "0 objects";
             // 
             // toolStripStatusLabel1
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel1.Text = "|";
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
+            toolStripStatusLabel1.Text = "|";
             // 
             // openFileLabel
             // 
-            this.openFileLabel.Name = "openFileLabel";
-            this.openFileLabel.Size = new System.Drawing.Size(81, 17);
-            this.openFileLabel.Text = "No file loaded";
+            openFileLabel.Name = "openFileLabel";
+            openFileLabel.Size = new System.Drawing.Size(81, 17);
+            openFileLabel.Text = "No file loaded";
             // 
             // listBoxObjects
             // 
-            this.listBoxObjects.FormattingEnabled = true;
-            this.listBoxObjects.ItemHeight = 15;
-            this.listBoxObjects.Location = new System.Drawing.Point(14, 31);
-            this.listBoxObjects.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.listBoxObjects.Name = "listBoxObjects";
-            this.listBoxObjects.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxObjects.Size = new System.Drawing.Size(212, 439);
-            this.listBoxObjects.TabIndex = 2;
-            this.listBoxObjects.SelectedIndexChanged += new System.EventHandler(this.listBoxObjects_SelectedIndexChanged);
+            listBoxObjects.FormattingEnabled = true;
+            listBoxObjects.Location = new System.Drawing.Point(14, 31);
+            listBoxObjects.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listBoxObjects.Name = "listBoxObjects";
+            listBoxObjects.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            listBoxObjects.Size = new System.Drawing.Size(212, 469);
+            listBoxObjects.TabIndex = 2;
+            listBoxObjects.SelectedIndexChanged += listBoxObjects_SelectedIndexChanged;
             // 
             // buttonDuplicate
             // 
-            this.buttonDuplicate.Location = new System.Drawing.Point(124, 483);
-            this.buttonDuplicate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonDuplicate.Name = "buttonDuplicate";
-            this.buttonDuplicate.Size = new System.Drawing.Size(103, 27);
-            this.buttonDuplicate.TabIndex = 61;
-            this.buttonDuplicate.TabStop = false;
-            this.buttonDuplicate.Text = "Duplicate";
-            this.buttonDuplicate.UseVisualStyleBackColor = true;
-            this.buttonDuplicate.Click += new System.EventHandler(this.buttonDuplicate_Click);
-            // 
-            // buttonClear
-            // 
-            this.buttonClear.Location = new System.Drawing.Point(124, 550);
-            this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(103, 27);
-            this.buttonClear.TabIndex = 64;
-            this.buttonClear.TabStop = false;
-            this.buttonClear.Text = "Clear";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            buttonDuplicate.Location = new System.Drawing.Point(151, 506);
+            buttonDuplicate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonDuplicate.Name = "buttonDuplicate";
+            buttonDuplicate.Size = new System.Drawing.Size(74, 27);
+            buttonDuplicate.TabIndex = 61;
+            buttonDuplicate.TabStop = false;
+            buttonDuplicate.Text = "Duplicate";
+            buttonDuplicate.UseVisualStyleBackColor = true;
+            buttonDuplicate.Click += buttonDuplicate_Click;
             // 
             // ButtonRemove
             // 
-            this.ButtonRemove.Location = new System.Drawing.Point(124, 517);
-            this.ButtonRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonRemove.Name = "ButtonRemove";
-            this.ButtonRemove.Size = new System.Drawing.Size(103, 27);
-            this.ButtonRemove.TabIndex = 63;
-            this.ButtonRemove.TabStop = false;
-            this.ButtonRemove.Text = "Remove";
-            this.ButtonRemove.UseVisualStyleBackColor = true;
-            this.ButtonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+            ButtonRemove.Location = new System.Drawing.Point(151, 539);
+            ButtonRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonRemove.Name = "ButtonRemove";
+            ButtonRemove.Size = new System.Drawing.Size(74, 27);
+            ButtonRemove.TabIndex = 63;
+            ButtonRemove.TabStop = false;
+            ButtonRemove.Text = "Remove";
+            ButtonRemove.UseVisualStyleBackColor = true;
+            ButtonRemove.Click += buttonRemove_Click;
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(14, 483);
-            this.ButtonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonAdd.Name = "ButtonAdd";
-            this.ButtonAdd.Size = new System.Drawing.Size(103, 27);
-            this.ButtonAdd.TabIndex = 62;
-            this.ButtonAdd.TabStop = false;
-            this.ButtonAdd.Text = "Add";
-            this.ButtonAdd.UseVisualStyleBackColor = true;
-            this.ButtonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
+            ButtonAdd.Location = new System.Drawing.Point(13, 506);
+            ButtonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonAdd.Name = "ButtonAdd";
+            ButtonAdd.Size = new System.Drawing.Size(60, 27);
+            ButtonAdd.TabIndex = 62;
+            ButtonAdd.TabStop = false;
+            ButtonAdd.Text = "Add";
+            ButtonAdd.UseVisualStyleBackColor = true;
+            ButtonAdd.Click += ButtonAdd_Click;
             // 
             // ButtonFindNextLink
             // 
-            this.ButtonFindNextLink.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ButtonFindNextLink.Location = new System.Drawing.Point(276, 196);
-            this.ButtonFindNextLink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonFindNextLink.Name = "ButtonFindNextLink";
-            this.ButtonFindNextLink.Size = new System.Drawing.Size(49, 21);
-            this.ButtonFindNextLink.TabIndex = 73;
-            this.ButtonFindNextLink.TabStop = false;
-            this.ButtonFindNextLink.Text = "Find";
-            this.ButtonFindNextLink.UseVisualStyleBackColor = true;
-            this.ButtonFindNextLink.Click += new System.EventHandler(this.ButtonFindNextLink_Click);
+            ButtonFindNextLink.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            ButtonFindNextLink.Location = new System.Drawing.Point(276, 196);
+            ButtonFindNextLink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonFindNextLink.Name = "ButtonFindNextLink";
+            ButtonFindNextLink.Size = new System.Drawing.Size(49, 21);
+            ButtonFindNextLink.TabIndex = 73;
+            ButtonFindNextLink.TabStop = false;
+            ButtonFindNextLink.Text = "Find";
+            ButtonFindNextLink.UseVisualStyleBackColor = true;
+            ButtonFindNextLink.Click += ButtonFindNextLink_Click;
             // 
             // ComboBoxObject
             // 
-            this.ComboBoxObject.FormattingEnabled = true;
-            this.ComboBoxObject.Location = new System.Drawing.Point(240, 48);
-            this.ComboBoxObject.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ComboBoxObject.Name = "ComboBoxObject";
-            this.ComboBoxObject.Size = new System.Drawing.Size(327, 23);
-            this.ComboBoxObject.TabIndex = 23;
-            this.ComboBoxObject.SelectedIndexChanged += new System.EventHandler(this.ComboBoxObject_SelectedIndexChanged);
+            ComboBoxObject.FormattingEnabled = true;
+            ComboBoxObject.Location = new System.Drawing.Point(240, 48);
+            ComboBoxObject.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ComboBoxObject.Name = "ComboBoxObject";
+            ComboBoxObject.Size = new System.Drawing.Size(327, 23);
+            ComboBoxObject.TabIndex = 23;
+            ComboBoxObject.SelectedIndexChanged += ComboBoxObject_SelectedIndexChanged;
             // 
             // LabelRend
             // 
-            this.LabelRend.AutoSize = true;
-            this.LabelRend.Location = new System.Drawing.Point(332, 198);
-            this.LabelRend.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelRend.Name = "LabelRend";
-            this.LabelRend.Size = new System.Drawing.Size(92, 15);
-            this.LabelRend.TabIndex = 69;
-            this.LabelRend.Text = "Render Distance";
+            LabelRend.AutoSize = true;
+            LabelRend.Location = new System.Drawing.Point(332, 198);
+            LabelRend.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            LabelRend.Name = "LabelRend";
+            LabelRend.Size = new System.Drawing.Size(92, 15);
+            LabelRend.TabIndex = 69;
+            LabelRend.Text = "Render Distance";
             // 
             // NumericObjRend
             // 
-            this.NumericObjRend.Location = new System.Drawing.Point(332, 218);
-            this.NumericObjRend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericObjRend.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NumericObjRend.Name = "NumericObjRend";
-            this.NumericObjRend.Size = new System.Drawing.Size(102, 23);
-            this.NumericObjRend.TabIndex = 72;
-            this.NumericObjRend.ValueChanged += new System.EventHandler(this.NumericObjRend_ValueChanged);
+            NumericObjRend.Location = new System.Drawing.Point(332, 218);
+            NumericObjRend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericObjRend.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NumericObjRend.Name = "NumericObjRend";
+            NumericObjRend.Size = new System.Drawing.Size(102, 23);
+            NumericObjRend.TabIndex = 72;
+            NumericObjRend.ValueChanged += NumericObjRend_ValueChanged;
             // 
             // LabelLinkId
             // 
-            this.LabelLinkId.AutoSize = true;
-            this.LabelLinkId.Location = new System.Drawing.Point(234, 198);
-            this.LabelLinkId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelLinkId.Name = "LabelLinkId";
-            this.LabelLinkId.Size = new System.Drawing.Size(43, 15);
-            this.LabelLinkId.TabIndex = 68;
-            this.LabelLinkId.Text = "Link ID";
+            LabelLinkId.AutoSize = true;
+            LabelLinkId.Location = new System.Drawing.Point(234, 198);
+            LabelLinkId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            LabelLinkId.Name = "LabelLinkId";
+            LabelLinkId.Size = new System.Drawing.Size(43, 15);
+            LabelLinkId.TabIndex = 68;
+            LabelLinkId.Text = "Link ID";
             // 
             // NumericObjLink
             // 
-            this.NumericObjLink.Location = new System.Drawing.Point(234, 218);
-            this.NumericObjLink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericObjLink.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NumericObjLink.Name = "NumericObjLink";
-            this.NumericObjLink.Size = new System.Drawing.Size(90, 23);
-            this.NumericObjLink.TabIndex = 71;
-            this.NumericObjLink.ValueChanged += new System.EventHandler(this.NumericObjLink_ValueChanged);
+            NumericObjLink.Location = new System.Drawing.Point(234, 218);
+            NumericObjLink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericObjLink.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NumericObjLink.Name = "NumericObjLink";
+            NumericObjLink.Size = new System.Drawing.Size(90, 23);
+            NumericObjLink.TabIndex = 71;
+            NumericObjLink.ValueChanged += NumericObjLink_ValueChanged;
             // 
             // LabelObject
             // 
-            this.LabelObject.AutoSize = true;
-            this.LabelObject.Location = new System.Drawing.Point(240, 31);
-            this.LabelObject.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelObject.Name = "LabelObject";
-            this.LabelObject.Size = new System.Drawing.Size(42, 15);
-            this.LabelObject.TabIndex = 67;
-            this.LabelObject.Text = "Object";
+            LabelObject.AutoSize = true;
+            LabelObject.Location = new System.Drawing.Point(240, 31);
+            LabelObject.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            LabelObject.Name = "LabelObject";
+            LabelObject.Size = new System.Drawing.Size(42, 15);
+            LabelObject.TabIndex = 67;
+            LabelObject.Text = "Object";
             // 
             // GroupBox2
             // 
-            this.GroupBox2.Controls.Add(this.NumericRotZ);
-            this.GroupBox2.Controls.Add(this.NumericRotY);
-            this.GroupBox2.Controls.Add(this.NumericRotX);
-            this.GroupBox2.Location = new System.Drawing.Point(233, 141);
-            this.GroupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBox2.Name = "GroupBox2";
-            this.GroupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBox2.Size = new System.Drawing.Size(338, 54);
-            this.GroupBox2.TabIndex = 66;
-            this.GroupBox2.TabStop = false;
-            this.GroupBox2.Text = "Rotation (X, Y, Z)";
+            GroupBox2.Controls.Add(NumericRotZ);
+            GroupBox2.Controls.Add(NumericRotY);
+            GroupBox2.Controls.Add(NumericRotX);
+            GroupBox2.Location = new System.Drawing.Point(233, 141);
+            GroupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBox2.Name = "GroupBox2";
+            GroupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBox2.Size = new System.Drawing.Size(338, 54);
+            GroupBox2.TabIndex = 66;
+            GroupBox2.TabStop = false;
+            GroupBox2.Text = "Rotation (X, Y, Z)";
             // 
             // NumericRotZ
             // 
-            this.NumericRotZ.DecimalPlaces = 4;
-            this.NumericRotZ.Location = new System.Drawing.Point(228, 22);
-            this.NumericRotZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericRotZ.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NumericRotZ.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
-            this.NumericRotZ.Name = "NumericRotZ";
-            this.NumericRotZ.Size = new System.Drawing.Size(105, 23);
-            this.NumericRotZ.TabIndex = 29;
-            this.NumericRotZ.ValueChanged += new System.EventHandler(this.NumericRot_ValueChanged);
+            NumericRotZ.DecimalPlaces = 4;
+            NumericRotZ.Location = new System.Drawing.Point(228, 22);
+            NumericRotZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericRotZ.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NumericRotZ.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
+            NumericRotZ.Name = "NumericRotZ";
+            NumericRotZ.Size = new System.Drawing.Size(105, 23);
+            NumericRotZ.TabIndex = 29;
+            NumericRotZ.ValueChanged += NumericRot_ValueChanged;
             // 
             // NumericRotY
             // 
-            this.NumericRotY.DecimalPlaces = 4;
-            this.NumericRotY.Location = new System.Drawing.Point(117, 22);
-            this.NumericRotY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericRotY.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NumericRotY.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
-            this.NumericRotY.Name = "NumericRotY";
-            this.NumericRotY.Size = new System.Drawing.Size(105, 23);
-            this.NumericRotY.TabIndex = 28;
-            this.NumericRotY.ValueChanged += new System.EventHandler(this.NumericRot_ValueChanged);
+            NumericRotY.DecimalPlaces = 4;
+            NumericRotY.Location = new System.Drawing.Point(117, 22);
+            NumericRotY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericRotY.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NumericRotY.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
+            NumericRotY.Name = "NumericRotY";
+            NumericRotY.Size = new System.Drawing.Size(105, 23);
+            NumericRotY.TabIndex = 28;
+            NumericRotY.ValueChanged += NumericRot_ValueChanged;
             // 
             // NumericRotX
             // 
-            this.NumericRotX.DecimalPlaces = 4;
-            this.NumericRotX.Location = new System.Drawing.Point(7, 22);
-            this.NumericRotX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericRotX.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NumericRotX.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
-            this.NumericRotX.Name = "NumericRotX";
-            this.NumericRotX.Size = new System.Drawing.Size(105, 23);
-            this.NumericRotX.TabIndex = 27;
-            this.NumericRotX.ValueChanged += new System.EventHandler(this.NumericRot_ValueChanged);
+            NumericRotX.DecimalPlaces = 4;
+            NumericRotX.Location = new System.Drawing.Point(7, 22);
+            NumericRotX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericRotX.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NumericRotX.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
+            NumericRotX.Name = "NumericRotX";
+            NumericRotX.Size = new System.Drawing.Size(105, 23);
+            NumericRotX.TabIndex = 27;
+            NumericRotX.ValueChanged += NumericRot_ValueChanged;
             // 
             // buttonViewHere
             // 
-            this.buttonViewHere.Location = new System.Drawing.Point(575, 37);
-            this.buttonViewHere.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonViewHere.Name = "buttonViewHere";
-            this.buttonViewHere.Size = new System.Drawing.Size(98, 36);
-            this.buttonViewHere.TabIndex = 74;
-            this.buttonViewHere.TabStop = false;
-            this.buttonViewHere.Text = "View Here";
-            this.buttonViewHere.UseVisualStyleBackColor = true;
-            this.buttonViewHere.Click += new System.EventHandler(this.buttonViewHere_Click);
+            buttonViewHere.Location = new System.Drawing.Point(575, 37);
+            buttonViewHere.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonViewHere.Name = "buttonViewHere";
+            buttonViewHere.Size = new System.Drawing.Size(98, 36);
+            buttonViewHere.TabIndex = 74;
+            buttonViewHere.TabStop = false;
+            buttonViewHere.Text = "View Here";
+            buttonViewHere.UseVisualStyleBackColor = true;
+            buttonViewHere.Click += buttonViewHere_Click;
             // 
             // GroupBoxSonicHeroesStuff
             // 
-            this.GroupBoxSonicHeroesStuff.Controls.Add(this.ButtonTeleport);
-            this.GroupBoxSonicHeroesStuff.Controls.Add(this.GroupBoxGetRot);
-            this.GroupBoxSonicHeroesStuff.Controls.Add(this.GroupBoxGetPos);
-            this.GroupBoxSonicHeroesStuff.Location = new System.Drawing.Point(575, 199);
-            this.GroupBoxSonicHeroesStuff.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBoxSonicHeroesStuff.Name = "GroupBoxSonicHeroesStuff";
-            this.GroupBoxSonicHeroesStuff.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBoxSonicHeroesStuff.Size = new System.Drawing.Size(217, 202);
-            this.GroupBoxSonicHeroesStuff.TabIndex = 75;
-            this.GroupBoxSonicHeroesStuff.TabStop = false;
-            this.GroupBoxSonicHeroesStuff.Text = "Sonic Heroes Stuff";
+            GroupBoxSonicHeroesStuff.Controls.Add(ButtonTeleport);
+            GroupBoxSonicHeroesStuff.Controls.Add(GroupBoxGetRot);
+            GroupBoxSonicHeroesStuff.Controls.Add(GroupBoxGetPos);
+            GroupBoxSonicHeroesStuff.Location = new System.Drawing.Point(575, 199);
+            GroupBoxSonicHeroesStuff.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBoxSonicHeroesStuff.Name = "GroupBoxSonicHeroesStuff";
+            GroupBoxSonicHeroesStuff.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBoxSonicHeroesStuff.Size = new System.Drawing.Size(217, 202);
+            GroupBoxSonicHeroesStuff.TabIndex = 75;
+            GroupBoxSonicHeroesStuff.TabStop = false;
+            GroupBoxSonicHeroesStuff.Text = "Sonic Heroes Stuff";
             // 
             // ButtonTeleport
             // 
-            this.ButtonTeleport.Location = new System.Drawing.Point(8, 162);
-            this.ButtonTeleport.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonTeleport.Name = "ButtonTeleport";
-            this.ButtonTeleport.Size = new System.Drawing.Size(196, 27);
-            this.ButtonTeleport.TabIndex = 3;
-            this.ButtonTeleport.TabStop = false;
-            this.ButtonTeleport.Text = "Teleport";
-            this.ButtonTeleport.UseVisualStyleBackColor = true;
-            this.ButtonTeleport.Click += new System.EventHandler(this.ButtonTeleport_Click);
+            ButtonTeleport.Location = new System.Drawing.Point(8, 162);
+            ButtonTeleport.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonTeleport.Name = "ButtonTeleport";
+            ButtonTeleport.Size = new System.Drawing.Size(196, 27);
+            ButtonTeleport.TabIndex = 3;
+            ButtonTeleport.TabStop = false;
+            ButtonTeleport.Text = "Teleport";
+            ButtonTeleport.UseVisualStyleBackColor = true;
+            ButtonTeleport.Click += ButtonTeleport_Click;
             // 
             // GroupBoxGetRot
             // 
-            this.GroupBoxGetRot.Controls.Add(this.ButtonPowRot);
-            this.GroupBoxGetRot.Controls.Add(this.ButtonSpeedRot);
-            this.GroupBoxGetRot.Controls.Add(this.ButtonFlyRot);
-            this.GroupBoxGetRot.Location = new System.Drawing.Point(108, 22);
-            this.GroupBoxGetRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBoxGetRot.Name = "GroupBoxGetRot";
-            this.GroupBoxGetRot.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBoxGetRot.Size = new System.Drawing.Size(94, 133);
-            this.GroupBoxGetRot.TabIndex = 5;
-            this.GroupBoxGetRot.TabStop = false;
-            this.GroupBoxGetRot.Text = "Get Rotation";
+            GroupBoxGetRot.Controls.Add(ButtonPowRot);
+            GroupBoxGetRot.Controls.Add(ButtonSpeedRot);
+            GroupBoxGetRot.Controls.Add(ButtonFlyRot);
+            GroupBoxGetRot.Location = new System.Drawing.Point(108, 22);
+            GroupBoxGetRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBoxGetRot.Name = "GroupBoxGetRot";
+            GroupBoxGetRot.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBoxGetRot.Size = new System.Drawing.Size(94, 133);
+            GroupBoxGetRot.TabIndex = 5;
+            GroupBoxGetRot.TabStop = false;
+            GroupBoxGetRot.Text = "Get Rotation";
             // 
             // ButtonPowRot
             // 
-            this.ButtonPowRot.Location = new System.Drawing.Point(7, 92);
-            this.ButtonPowRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonPowRot.Name = "ButtonPowRot";
-            this.ButtonPowRot.Size = new System.Drawing.Size(80, 27);
-            this.ButtonPowRot.TabIndex = 2;
-            this.ButtonPowRot.TabStop = false;
-            this.ButtonPowRot.Text = "Other2";
-            this.ButtonPowRot.UseVisualStyleBackColor = true;
-            this.ButtonPowRot.Click += new System.EventHandler(this.ButtonPowRot_Click);
+            ButtonPowRot.Location = new System.Drawing.Point(7, 92);
+            ButtonPowRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonPowRot.Name = "ButtonPowRot";
+            ButtonPowRot.Size = new System.Drawing.Size(80, 27);
+            ButtonPowRot.TabIndex = 2;
+            ButtonPowRot.TabStop = false;
+            ButtonPowRot.Text = "Other2";
+            ButtonPowRot.UseVisualStyleBackColor = true;
+            ButtonPowRot.Click += ButtonPowRot_Click;
             // 
             // ButtonSpeedRot
             // 
-            this.ButtonSpeedRot.Location = new System.Drawing.Point(7, 25);
-            this.ButtonSpeedRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonSpeedRot.Name = "ButtonSpeedRot";
-            this.ButtonSpeedRot.Size = new System.Drawing.Size(80, 27);
-            this.ButtonSpeedRot.TabIndex = 0;
-            this.ButtonSpeedRot.TabStop = false;
-            this.ButtonSpeedRot.Text = "Leader";
-            this.ButtonSpeedRot.UseVisualStyleBackColor = true;
-            this.ButtonSpeedRot.Click += new System.EventHandler(this.ButtonSpeedRot_Click);
+            ButtonSpeedRot.Location = new System.Drawing.Point(7, 25);
+            ButtonSpeedRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonSpeedRot.Name = "ButtonSpeedRot";
+            ButtonSpeedRot.Size = new System.Drawing.Size(80, 27);
+            ButtonSpeedRot.TabIndex = 0;
+            ButtonSpeedRot.TabStop = false;
+            ButtonSpeedRot.Text = "Leader";
+            ButtonSpeedRot.UseVisualStyleBackColor = true;
+            ButtonSpeedRot.Click += ButtonSpeedRot_Click;
             // 
             // ButtonFlyRot
             // 
-            this.ButtonFlyRot.Location = new System.Drawing.Point(7, 59);
-            this.ButtonFlyRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonFlyRot.Name = "ButtonFlyRot";
-            this.ButtonFlyRot.Size = new System.Drawing.Size(80, 27);
-            this.ButtonFlyRot.TabIndex = 1;
-            this.ButtonFlyRot.TabStop = false;
-            this.ButtonFlyRot.Text = "Other";
-            this.ButtonFlyRot.UseVisualStyleBackColor = true;
-            this.ButtonFlyRot.Click += new System.EventHandler(this.ButtonFlyRot_Click);
+            ButtonFlyRot.Location = new System.Drawing.Point(7, 59);
+            ButtonFlyRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonFlyRot.Name = "ButtonFlyRot";
+            ButtonFlyRot.Size = new System.Drawing.Size(80, 27);
+            ButtonFlyRot.TabIndex = 1;
+            ButtonFlyRot.TabStop = false;
+            ButtonFlyRot.Text = "Other";
+            ButtonFlyRot.UseVisualStyleBackColor = true;
+            ButtonFlyRot.Click += ButtonFlyRot_Click;
             // 
             // GroupBoxGetPos
             // 
-            this.GroupBoxGetPos.Controls.Add(this.ButtonGetPow);
-            this.GroupBoxGetPos.Controls.Add(this.ButtonGetFly);
-            this.GroupBoxGetPos.Controls.Add(this.ButtonGetSpeed);
-            this.GroupBoxGetPos.Location = new System.Drawing.Point(7, 22);
-            this.GroupBoxGetPos.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBoxGetPos.Name = "GroupBoxGetPos";
-            this.GroupBoxGetPos.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.GroupBoxGetPos.Size = new System.Drawing.Size(94, 133);
-            this.GroupBoxGetPos.TabIndex = 4;
-            this.GroupBoxGetPos.TabStop = false;
-            this.GroupBoxGetPos.Text = "Get Position";
+            GroupBoxGetPos.Controls.Add(ButtonGetPow);
+            GroupBoxGetPos.Controls.Add(ButtonGetFly);
+            GroupBoxGetPos.Controls.Add(ButtonGetSpeed);
+            GroupBoxGetPos.Location = new System.Drawing.Point(7, 22);
+            GroupBoxGetPos.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBoxGetPos.Name = "GroupBoxGetPos";
+            GroupBoxGetPos.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GroupBoxGetPos.Size = new System.Drawing.Size(94, 133);
+            GroupBoxGetPos.TabIndex = 4;
+            GroupBoxGetPos.TabStop = false;
+            GroupBoxGetPos.Text = "Get Position";
             // 
             // ButtonGetPow
             // 
-            this.ButtonGetPow.Location = new System.Drawing.Point(7, 92);
-            this.ButtonGetPow.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonGetPow.Name = "ButtonGetPow";
-            this.ButtonGetPow.Size = new System.Drawing.Size(80, 27);
-            this.ButtonGetPow.TabIndex = 2;
-            this.ButtonGetPow.TabStop = false;
-            this.ButtonGetPow.Text = "Other2";
-            this.ButtonGetPow.UseVisualStyleBackColor = true;
-            this.ButtonGetPow.Click += new System.EventHandler(this.ButtonGetPow_Click);
+            ButtonGetPow.Location = new System.Drawing.Point(7, 92);
+            ButtonGetPow.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonGetPow.Name = "ButtonGetPow";
+            ButtonGetPow.Size = new System.Drawing.Size(80, 27);
+            ButtonGetPow.TabIndex = 2;
+            ButtonGetPow.TabStop = false;
+            ButtonGetPow.Text = "Other2";
+            ButtonGetPow.UseVisualStyleBackColor = true;
+            ButtonGetPow.Click += ButtonGetPow_Click;
             // 
             // ButtonGetFly
             // 
-            this.ButtonGetFly.Location = new System.Drawing.Point(7, 59);
-            this.ButtonGetFly.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonGetFly.Name = "ButtonGetFly";
-            this.ButtonGetFly.Size = new System.Drawing.Size(80, 27);
-            this.ButtonGetFly.TabIndex = 1;
-            this.ButtonGetFly.TabStop = false;
-            this.ButtonGetFly.Text = "Other";
-            this.ButtonGetFly.UseVisualStyleBackColor = true;
-            this.ButtonGetFly.Click += new System.EventHandler(this.ButtonGetFly_Click);
+            ButtonGetFly.Location = new System.Drawing.Point(7, 59);
+            ButtonGetFly.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonGetFly.Name = "ButtonGetFly";
+            ButtonGetFly.Size = new System.Drawing.Size(80, 27);
+            ButtonGetFly.TabIndex = 1;
+            ButtonGetFly.TabStop = false;
+            ButtonGetFly.Text = "Other";
+            ButtonGetFly.UseVisualStyleBackColor = true;
+            ButtonGetFly.Click += ButtonGetFly_Click;
             // 
             // ButtonGetSpeed
             // 
-            this.ButtonGetSpeed.Location = new System.Drawing.Point(7, 25);
-            this.ButtonGetSpeed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonGetSpeed.Name = "ButtonGetSpeed";
-            this.ButtonGetSpeed.Size = new System.Drawing.Size(80, 27);
-            this.ButtonGetSpeed.TabIndex = 0;
-            this.ButtonGetSpeed.TabStop = false;
-            this.ButtonGetSpeed.Text = "Leader";
-            this.ButtonGetSpeed.UseVisualStyleBackColor = true;
-            this.ButtonGetSpeed.Click += new System.EventHandler(this.ButtonGetSpeed_Click);
+            ButtonGetSpeed.Location = new System.Drawing.Point(7, 25);
+            ButtonGetSpeed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonGetSpeed.Name = "ButtonGetSpeed";
+            ButtonGetSpeed.Size = new System.Drawing.Size(80, 27);
+            ButtonGetSpeed.TabIndex = 0;
+            ButtonGetSpeed.TabStop = false;
+            ButtonGetSpeed.Text = "Leader";
+            ButtonGetSpeed.UseVisualStyleBackColor = true;
+            ButtonGetSpeed.Click += ButtonGetSpeed_Click;
             // 
             // PropertyGridMisc
             // 
-            this.PropertyGridMisc.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.PropertyGridMisc.Location = new System.Drawing.Point(233, 247);
-            this.PropertyGridMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.PropertyGridMisc.Name = "PropertyGridMisc";
-            this.PropertyGridMisc.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.PropertyGridMisc.Size = new System.Drawing.Size(326, 330);
-            this.PropertyGridMisc.TabIndex = 78;
-            this.PropertyGridMisc.TabStop = false;
-            this.PropertyGridMisc.ToolbarVisible = false;
-            this.PropertyGridMisc.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PropertyGridMisc_PropertyValueChanged);
+            PropertyGridMisc.BackColor = System.Drawing.SystemColors.Control;
+            PropertyGridMisc.LineColor = System.Drawing.SystemColors.ControlDark;
+            PropertyGridMisc.Location = new System.Drawing.Point(233, 247);
+            PropertyGridMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PropertyGridMisc.Name = "PropertyGridMisc";
+            PropertyGridMisc.PropertySort = System.Windows.Forms.PropertySort.NoSort;
+            PropertyGridMisc.Size = new System.Drawing.Size(326, 330);
+            PropertyGridMisc.TabIndex = 78;
+            PropertyGridMisc.TabStop = false;
+            PropertyGridMisc.ToolbarVisible = false;
+            PropertyGridMisc.PropertyValueChanged += PropertyGridMisc_PropertyValueChanged;
             // 
             // buttonDrop
             // 
-            this.buttonDrop.Location = new System.Drawing.Point(575, 117);
-            this.buttonDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonDrop.Name = "buttonDrop";
-            this.buttonDrop.Size = new System.Drawing.Size(98, 36);
-            this.buttonDrop.TabIndex = 79;
-            this.buttonDrop.TabStop = false;
-            this.buttonDrop.Text = "Floor-Drop";
-            this.buttonDrop.UseVisualStyleBackColor = true;
-            this.buttonDrop.Click += new System.EventHandler(this.buttonDrop_Click);
+            buttonDrop.Location = new System.Drawing.Point(575, 117);
+            buttonDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonDrop.Name = "buttonDrop";
+            buttonDrop.Size = new System.Drawing.Size(98, 36);
+            buttonDrop.TabIndex = 79;
+            buttonDrop.TabStop = false;
+            buttonDrop.Text = "Floor-Drop";
+            buttonDrop.UseVisualStyleBackColor = true;
+            buttonDrop.Click += buttonDrop_Click;
             // 
             // buttonCurrentViewDrop
             // 
-            this.buttonCurrentViewDrop.Location = new System.Drawing.Point(575, 77);
-            this.buttonCurrentViewDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
-            this.buttonCurrentViewDrop.Size = new System.Drawing.Size(98, 36);
-            this.buttonCurrentViewDrop.TabIndex = 80;
-            this.buttonCurrentViewDrop.TabStop = false;
-            this.buttonCurrentViewDrop.Text = "Cam-Drop";
-            this.buttonCurrentViewDrop.UseVisualStyleBackColor = true;
-            this.buttonCurrentViewDrop.Click += new System.EventHandler(this.buttonCurrentViewDrop_Click);
+            buttonCurrentViewDrop.Location = new System.Drawing.Point(575, 77);
+            buttonCurrentViewDrop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonCurrentViewDrop.Name = "buttonCurrentViewDrop";
+            buttonCurrentViewDrop.Size = new System.Drawing.Size(98, 36);
+            buttonCurrentViewDrop.TabIndex = 80;
+            buttonCurrentViewDrop.TabStop = false;
+            buttonCurrentViewDrop.Text = "Cam-Drop";
+            buttonCurrentViewDrop.UseVisualStyleBackColor = true;
+            buttonCurrentViewDrop.Click += buttonCurrentViewDrop_Click;
             // 
             // NumericPosX
             // 
-            this.NumericPosX.DecimalPlaces = 4;
-            this.NumericPosX.Location = new System.Drawing.Point(7, 22);
-            this.NumericPosX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericPosX.Maximum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.NumericPosX.Name = "NumericPosX";
-            this.NumericPosX.Size = new System.Drawing.Size(105, 23);
-            this.NumericPosX.TabIndex = 24;
-            this.NumericPosX.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
+            NumericPosX.DecimalPlaces = 4;
+            NumericPosX.Location = new System.Drawing.Point(7, 22);
+            NumericPosX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericPosX.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
+            NumericPosX.Name = "NumericPosX";
+            NumericPosX.Size = new System.Drawing.Size(105, 23);
+            NumericPosX.TabIndex = 24;
+            NumericPosX.ValueChanged += NumericPos_ValueChanged;
             // 
             // NumericPosY
             // 
-            this.NumericPosY.DecimalPlaces = 4;
-            this.NumericPosY.Location = new System.Drawing.Point(117, 22);
-            this.NumericPosY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericPosY.Maximum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.NumericPosY.Name = "NumericPosY";
-            this.NumericPosY.Size = new System.Drawing.Size(105, 23);
-            this.NumericPosY.TabIndex = 25;
-            this.NumericPosY.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
+            NumericPosY.DecimalPlaces = 4;
+            NumericPosY.Location = new System.Drawing.Point(117, 22);
+            NumericPosY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericPosY.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
+            NumericPosY.Name = "NumericPosY";
+            NumericPosY.Size = new System.Drawing.Size(105, 23);
+            NumericPosY.TabIndex = 25;
+            NumericPosY.ValueChanged += NumericPos_ValueChanged;
             // 
             // NumericPosZ
             // 
-            this.NumericPosZ.DecimalPlaces = 4;
-            this.NumericPosZ.Location = new System.Drawing.Point(228, 22);
-            this.NumericPosZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericPosZ.Maximum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.NumericPosZ.Name = "NumericPosZ";
-            this.NumericPosZ.Size = new System.Drawing.Size(105, 23);
-            this.NumericPosZ.TabIndex = 26;
-            this.NumericPosZ.ValueChanged += new System.EventHandler(this.NumericPos_ValueChanged);
+            NumericPosZ.DecimalPlaces = 4;
+            NumericPosZ.Location = new System.Drawing.Point(228, 22);
+            NumericPosZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericPosZ.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
+            NumericPosZ.Name = "NumericPosZ";
+            NumericPosZ.Size = new System.Drawing.Size(105, 23);
+            NumericPosZ.TabIndex = 26;
+            NumericPosZ.ValueChanged += NumericPos_ValueChanged;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.NumericPosZ);
-            this.groupBox3.Controls.Add(this.NumericPosY);
-            this.groupBox3.Controls.Add(this.NumericPosX);
-            this.groupBox3.Location = new System.Drawing.Point(233, 80);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox3.Size = new System.Drawing.Size(338, 54);
-            this.groupBox3.TabIndex = 65;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Position (X, Y, Z)";
+            groupBox3.Controls.Add(NumericPosZ);
+            groupBox3.Controls.Add(NumericPosY);
+            groupBox3.Controls.Add(NumericPosX);
+            groupBox3.Location = new System.Drawing.Point(233, 80);
+            groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Size = new System.Drawing.Size(338, 54);
+            groupBox3.TabIndex = 65;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Position (X, Y, Z)";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.numericUnkB8);
-            this.groupBox1.Controls.Add(this.numericUnkB7);
-            this.groupBox1.Controls.Add(this.numericUnkB6);
-            this.groupBox1.Controls.Add(this.numericUnkB5);
-            this.groupBox1.Controls.Add(this.checkBoxAutoBytes);
-            this.groupBox1.Controls.Add(this.numericUnkB4);
-            this.groupBox1.Controls.Add(this.numericUnkB3);
-            this.groupBox1.Controls.Add(this.numericUnkB2);
-            this.groupBox1.Controls.Add(this.numericUnkB1);
-            this.groupBox1.Location = new System.Drawing.Point(566, 435);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox1.Size = new System.Drawing.Size(226, 142);
-            this.groupBox1.TabIndex = 67;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Unknown Bytes";
+            groupBox1.Controls.Add(numericUnkB8);
+            groupBox1.Controls.Add(numericUnkB7);
+            groupBox1.Controls.Add(numericUnkB6);
+            groupBox1.Controls.Add(numericUnkB5);
+            groupBox1.Controls.Add(checkBoxAutoBytes);
+            groupBox1.Controls.Add(numericUnkB4);
+            groupBox1.Controls.Add(numericUnkB3);
+            groupBox1.Controls.Add(numericUnkB2);
+            groupBox1.Controls.Add(numericUnkB1);
+            groupBox1.Location = new System.Drawing.Point(566, 435);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Size = new System.Drawing.Size(226, 142);
+            groupBox1.TabIndex = 67;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Unknown Bytes";
             // 
             // numericUnkB8
             // 
-            this.numericUnkB8.Hexadecimal = true;
-            this.numericUnkB8.Location = new System.Drawing.Point(115, 112);
-            this.numericUnkB8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB8.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB8.Name = "numericUnkB8";
-            this.numericUnkB8.Size = new System.Drawing.Size(80, 23);
-            this.numericUnkB8.TabIndex = 88;
-            this.numericUnkB8.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB8.Hexadecimal = true;
+            numericUnkB8.Location = new System.Drawing.Point(115, 112);
+            numericUnkB8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB8.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB8.Name = "numericUnkB8";
+            numericUnkB8.Size = new System.Drawing.Size(80, 23);
+            numericUnkB8.TabIndex = 88;
+            numericUnkB8.ValueChanged += numericUnkB_ValueChanged;
             // 
             // numericUnkB7
             // 
-            this.numericUnkB7.Hexadecimal = true;
-            this.numericUnkB7.Location = new System.Drawing.Point(7, 112);
-            this.numericUnkB7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB7.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB7.Name = "numericUnkB7";
-            this.numericUnkB7.Size = new System.Drawing.Size(88, 23);
-            this.numericUnkB7.TabIndex = 87;
-            this.numericUnkB7.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB7.Hexadecimal = true;
+            numericUnkB7.Location = new System.Drawing.Point(7, 112);
+            numericUnkB7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB7.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB7.Name = "numericUnkB7";
+            numericUnkB7.Size = new System.Drawing.Size(88, 23);
+            numericUnkB7.TabIndex = 87;
+            numericUnkB7.ValueChanged += numericUnkB_ValueChanged;
             // 
             // numericUnkB6
             // 
-            this.numericUnkB6.Hexadecimal = true;
-            this.numericUnkB6.Location = new System.Drawing.Point(115, 82);
-            this.numericUnkB6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB6.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB6.Name = "numericUnkB6";
-            this.numericUnkB6.Size = new System.Drawing.Size(80, 23);
-            this.numericUnkB6.TabIndex = 86;
-            this.numericUnkB6.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB6.Hexadecimal = true;
+            numericUnkB6.Location = new System.Drawing.Point(115, 82);
+            numericUnkB6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB6.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB6.Name = "numericUnkB6";
+            numericUnkB6.Size = new System.Drawing.Size(80, 23);
+            numericUnkB6.TabIndex = 86;
+            numericUnkB6.ValueChanged += numericUnkB_ValueChanged;
             // 
             // numericUnkB5
             // 
-            this.numericUnkB5.Hexadecimal = true;
-            this.numericUnkB5.Location = new System.Drawing.Point(7, 82);
-            this.numericUnkB5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB5.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB5.Name = "numericUnkB5";
-            this.numericUnkB5.Size = new System.Drawing.Size(88, 23);
-            this.numericUnkB5.TabIndex = 85;
-            this.numericUnkB5.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB5.Hexadecimal = true;
+            numericUnkB5.Location = new System.Drawing.Point(7, 82);
+            numericUnkB5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB5.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB5.Name = "numericUnkB5";
+            numericUnkB5.Size = new System.Drawing.Size(88, 23);
+            numericUnkB5.TabIndex = 85;
+            numericUnkB5.ValueChanged += numericUnkB_ValueChanged;
             // 
             // checkBoxAutoBytes
             // 
-            this.checkBoxAutoBytes.AutoSize = true;
-            this.checkBoxAutoBytes.Location = new System.Drawing.Point(126, 0);
-            this.checkBoxAutoBytes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBoxAutoBytes.Name = "checkBoxAutoBytes";
-            this.checkBoxAutoBytes.Size = new System.Drawing.Size(52, 19);
-            this.checkBoxAutoBytes.TabIndex = 81;
-            this.checkBoxAutoBytes.Text = "Auto";
-            this.checkBoxAutoBytes.UseVisualStyleBackColor = true;
-            this.checkBoxAutoBytes.CheckedChanged += new System.EventHandler(this.checkBoxAutoBytes_CheckedChanged);
+            checkBoxAutoBytes.AutoSize = true;
+            checkBoxAutoBytes.Location = new System.Drawing.Point(126, 0);
+            checkBoxAutoBytes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxAutoBytes.Name = "checkBoxAutoBytes";
+            checkBoxAutoBytes.Size = new System.Drawing.Size(52, 19);
+            checkBoxAutoBytes.TabIndex = 81;
+            checkBoxAutoBytes.Text = "Auto";
+            checkBoxAutoBytes.UseVisualStyleBackColor = true;
+            checkBoxAutoBytes.CheckedChanged += checkBoxAutoBytes_CheckedChanged;
             // 
             // numericUnkB4
             // 
-            this.numericUnkB4.Hexadecimal = true;
-            this.numericUnkB4.Location = new System.Drawing.Point(115, 52);
-            this.numericUnkB4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB4.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB4.Name = "numericUnkB4";
-            this.numericUnkB4.Size = new System.Drawing.Size(80, 23);
-            this.numericUnkB4.TabIndex = 84;
-            this.numericUnkB4.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB4.Hexadecimal = true;
+            numericUnkB4.Location = new System.Drawing.Point(115, 52);
+            numericUnkB4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB4.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB4.Name = "numericUnkB4";
+            numericUnkB4.Size = new System.Drawing.Size(80, 23);
+            numericUnkB4.TabIndex = 84;
+            numericUnkB4.ValueChanged += numericUnkB_ValueChanged;
             // 
             // numericUnkB3
             // 
-            this.numericUnkB3.Hexadecimal = true;
-            this.numericUnkB3.Location = new System.Drawing.Point(7, 52);
-            this.numericUnkB3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB3.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB3.Name = "numericUnkB3";
-            this.numericUnkB3.Size = new System.Drawing.Size(88, 23);
-            this.numericUnkB3.TabIndex = 83;
-            this.numericUnkB3.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB3.Hexadecimal = true;
+            numericUnkB3.Location = new System.Drawing.Point(7, 52);
+            numericUnkB3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB3.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB3.Name = "numericUnkB3";
+            numericUnkB3.Size = new System.Drawing.Size(88, 23);
+            numericUnkB3.TabIndex = 83;
+            numericUnkB3.ValueChanged += numericUnkB_ValueChanged;
             // 
             // numericUnkB2
             // 
-            this.numericUnkB2.Hexadecimal = true;
-            this.numericUnkB2.Location = new System.Drawing.Point(115, 22);
-            this.numericUnkB2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB2.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB2.Name = "numericUnkB2";
-            this.numericUnkB2.Size = new System.Drawing.Size(80, 23);
-            this.numericUnkB2.TabIndex = 82;
-            this.numericUnkB2.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB2.Hexadecimal = true;
+            numericUnkB2.Location = new System.Drawing.Point(115, 22);
+            numericUnkB2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB2.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB2.Name = "numericUnkB2";
+            numericUnkB2.Size = new System.Drawing.Size(80, 23);
+            numericUnkB2.TabIndex = 82;
+            numericUnkB2.ValueChanged += numericUnkB_ValueChanged;
             // 
             // numericUnkB1
             // 
-            this.numericUnkB1.Hexadecimal = true;
-            this.numericUnkB1.Location = new System.Drawing.Point(7, 22);
-            this.numericUnkB1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.numericUnkB1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUnkB1.Name = "numericUnkB1";
-            this.numericUnkB1.Size = new System.Drawing.Size(88, 23);
-            this.numericUnkB1.TabIndex = 81;
-            this.numericUnkB1.ValueChanged += new System.EventHandler(this.numericUnkB_ValueChanged);
+            numericUnkB1.Hexadecimal = true;
+            numericUnkB1.Location = new System.Drawing.Point(7, 22);
+            numericUnkB1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUnkB1.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUnkB1.Name = "numericUnkB1";
+            numericUnkB1.Size = new System.Drawing.Size(88, 23);
+            numericUnkB1.TabIndex = 81;
+            numericUnkB1.ValueChanged += numericUnkB_ValueChanged;
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(14, 517);
-            this.buttonCopy.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(103, 27);
-            this.buttonCopy.TabIndex = 81;
-            this.buttonCopy.TabStop = false;
-            this.buttonCopy.Text = "Copy";
-            this.buttonCopy.UseVisualStyleBackColor = true;
-            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+            buttonCopy.Location = new System.Drawing.Point(13, 539);
+            buttonCopy.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonCopy.Name = "buttonCopy";
+            buttonCopy.Size = new System.Drawing.Size(60, 27);
+            buttonCopy.TabIndex = 81;
+            buttonCopy.TabStop = false;
+            buttonCopy.Text = "Copy";
+            buttonCopy.UseVisualStyleBackColor = true;
+            buttonCopy.Click += buttonCopy_Click;
             // 
             // buttonPaste
             // 
-            this.buttonPaste.Location = new System.Drawing.Point(14, 550);
-            this.buttonPaste.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonPaste.Name = "buttonPaste";
-            this.buttonPaste.Size = new System.Drawing.Size(103, 27);
-            this.buttonPaste.TabIndex = 82;
-            this.buttonPaste.TabStop = false;
-            this.buttonPaste.Text = "Paste";
-            this.buttonPaste.UseVisualStyleBackColor = true;
-            this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
+            buttonPaste.Location = new System.Drawing.Point(81, 539);
+            buttonPaste.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonPaste.Name = "buttonPaste";
+            buttonPaste.Size = new System.Drawing.Size(62, 27);
+            buttonPaste.TabIndex = 82;
+            buttonPaste.TabStop = false;
+            buttonPaste.Text = "Paste";
+            buttonPaste.UseVisualStyleBackColor = true;
+            buttonPaste.Click += buttonPaste_Click;
             // 
             // buttonCopyMisc
             // 
-            this.buttonCopyMisc.Location = new System.Drawing.Point(438, 201);
-            this.buttonCopyMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonCopyMisc.Name = "buttonCopyMisc";
-            this.buttonCopyMisc.Size = new System.Drawing.Size(57, 40);
-            this.buttonCopyMisc.TabIndex = 83;
-            this.buttonCopyMisc.TabStop = false;
-            this.buttonCopyMisc.Text = "Copy Misc.";
-            this.buttonCopyMisc.UseVisualStyleBackColor = true;
-            this.buttonCopyMisc.Click += new System.EventHandler(this.buttonCopyMisc_Click);
+            buttonCopyMisc.Location = new System.Drawing.Point(438, 201);
+            buttonCopyMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonCopyMisc.Name = "buttonCopyMisc";
+            buttonCopyMisc.Size = new System.Drawing.Size(57, 40);
+            buttonCopyMisc.TabIndex = 83;
+            buttonCopyMisc.TabStop = false;
+            buttonCopyMisc.Text = "Copy Misc.";
+            buttonCopyMisc.UseVisualStyleBackColor = true;
+            buttonCopyMisc.Click += buttonCopyMisc_Click;
             // 
             // buttonPasteMisc
             // 
-            this.buttonPasteMisc.Location = new System.Drawing.Point(502, 201);
-            this.buttonPasteMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonPasteMisc.Name = "buttonPasteMisc";
-            this.buttonPasteMisc.Size = new System.Drawing.Size(57, 40);
-            this.buttonPasteMisc.TabIndex = 84;
-            this.buttonPasteMisc.TabStop = false;
-            this.buttonPasteMisc.Text = "Paste Misc.";
-            this.buttonPasteMisc.UseVisualStyleBackColor = true;
-            this.buttonPasteMisc.Click += new System.EventHandler(this.buttonPasteMisc_Click);
+            buttonPasteMisc.Location = new System.Drawing.Point(502, 201);
+            buttonPasteMisc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonPasteMisc.Name = "buttonPasteMisc";
+            buttonPasteMisc.Size = new System.Drawing.Size(57, 40);
+            buttonPasteMisc.TabIndex = 84;
+            buttonPasteMisc.TabStop = false;
+            buttonPasteMisc.Text = "Paste Misc.";
+            buttonPasteMisc.UseVisualStyleBackColor = true;
+            buttonPasteMisc.Click += buttonPasteMisc_Click;
             // 
             // checkBoxDrawObjs
             // 
-            this.checkBoxDrawObjs.AutoSize = true;
-            this.checkBoxDrawObjs.Checked = true;
-            this.checkBoxDrawObjs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDrawObjs.Location = new System.Drawing.Point(99, 5);
-            this.checkBoxDrawObjs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBoxDrawObjs.Name = "checkBoxDrawObjs";
-            this.checkBoxDrawObjs.Size = new System.Drawing.Size(96, 19);
-            this.checkBoxDrawObjs.TabIndex = 89;
-            this.checkBoxDrawObjs.Text = "Draw Objects";
-            this.checkBoxDrawObjs.UseVisualStyleBackColor = true;
+            checkBoxDrawObjs.AutoSize = true;
+            checkBoxDrawObjs.Checked = true;
+            checkBoxDrawObjs.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxDrawObjs.Location = new System.Drawing.Point(99, 5);
+            checkBoxDrawObjs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxDrawObjs.Name = "checkBoxDrawObjs";
+            checkBoxDrawObjs.Size = new System.Drawing.Size(96, 19);
+            checkBoxDrawObjs.TabIndex = 89;
+            checkBoxDrawObjs.Text = "Draw Objects";
+            checkBoxDrawObjs.UseVisualStyleBackColor = true;
             // 
             // buttonPlayLinkedAudio
             // 
-            this.buttonPlayLinkedAudio.Location = new System.Drawing.Point(575, 402);
-            this.buttonPlayLinkedAudio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonPlayLinkedAudio.Name = "buttonPlayLinkedAudio";
-            this.buttonPlayLinkedAudio.Size = new System.Drawing.Size(201, 27);
-            this.buttonPlayLinkedAudio.TabIndex = 2;
-            this.buttonPlayLinkedAudio.TabStop = false;
-            this.buttonPlayLinkedAudio.Text = "Play Linked Audio (AFS)";
-            this.buttonPlayLinkedAudio.UseVisualStyleBackColor = true;
-            this.buttonPlayLinkedAudio.Click += new System.EventHandler(this.buttonPlayTriggerTalkingAudio_Click);
+            buttonPlayLinkedAudio.Location = new System.Drawing.Point(575, 402);
+            buttonPlayLinkedAudio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonPlayLinkedAudio.Name = "buttonPlayLinkedAudio";
+            buttonPlayLinkedAudio.Size = new System.Drawing.Size(201, 27);
+            buttonPlayLinkedAudio.TabIndex = 2;
+            buttonPlayLinkedAudio.TabStop = false;
+            buttonPlayLinkedAudio.Text = "Play Linked Audio (AFS)";
+            buttonPlayLinkedAudio.UseVisualStyleBackColor = true;
+            buttonPlayLinkedAudio.Click += buttonPlayTriggerTalkingAudio_Click;
             // 
             // TextBox_PreviewView
             // 
-            this.TextBox_PreviewView.Location = new System.Drawing.Point(575, 157);
-            this.TextBox_PreviewView.Multiline = true;
-            this.TextBox_PreviewView.Name = "TextBox_PreviewView";
-            this.TextBox_PreviewView.ReadOnly = true;
-            this.TextBox_PreviewView.Size = new System.Drawing.Size(201, 244);
-            this.TextBox_PreviewView.TabIndex = 92;
+            TextBox_PreviewView.Location = new System.Drawing.Point(575, 157);
+            TextBox_PreviewView.Multiline = true;
+            TextBox_PreviewView.Name = "TextBox_PreviewView";
+            TextBox_PreviewView.ReadOnly = true;
+            TextBox_PreviewView.Size = new System.Drawing.Size(201, 244);
+            TextBox_PreviewView.TabIndex = 92;
             // 
             // checkBoxDrawTriggerObjs
             // 
-            this.checkBoxDrawTriggerObjs.AutoSize = true;
-            this.checkBoxDrawTriggerObjs.Checked = true;
-            this.checkBoxDrawTriggerObjs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDrawTriggerObjs.Location = new System.Drawing.Point(203, 5);
-            this.checkBoxDrawTriggerObjs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.checkBoxDrawTriggerObjs.Name = "checkBoxDrawTriggerObjs";
-            this.checkBoxDrawTriggerObjs.Size = new System.Drawing.Size(97, 19);
-            this.checkBoxDrawTriggerObjs.TabIndex = 93;
-            this.checkBoxDrawTriggerObjs.Text = "Draw Triggers";
-            this.checkBoxDrawTriggerObjs.UseVisualStyleBackColor = true;
+            checkBoxDrawTriggerObjs.AutoSize = true;
+            checkBoxDrawTriggerObjs.Checked = true;
+            checkBoxDrawTriggerObjs.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxDrawTriggerObjs.Location = new System.Drawing.Point(203, 5);
+            checkBoxDrawTriggerObjs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxDrawTriggerObjs.Name = "checkBoxDrawTriggerObjs";
+            checkBoxDrawTriggerObjs.Size = new System.Drawing.Size(98, 19);
+            checkBoxDrawTriggerObjs.TabIndex = 93;
+            checkBoxDrawTriggerObjs.Text = "Draw Triggers";
+            checkBoxDrawTriggerObjs.UseVisualStyleBackColor = true;
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.buttonLoadShadowSFXBIN);
-            this.groupBox8.Location = new System.Drawing.Point(678, 101);
-            this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox8.Size = new System.Drawing.Size(114, 51);
-            this.groupBox8.TabIndex = 92;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Shadow SFX BIN";
+            groupBox8.Controls.Add(buttonLoadShadowSFXBIN);
+            groupBox8.Location = new System.Drawing.Point(678, 101);
+            groupBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox8.Size = new System.Drawing.Size(114, 51);
+            groupBox8.TabIndex = 92;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "Shadow SFX BIN";
             // 
             // buttonLoadShadowSFXBIN
             // 
-            this.buttonLoadShadowSFXBIN.Location = new System.Drawing.Point(14, 17);
-            this.buttonLoadShadowSFXBIN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonLoadShadowSFXBIN.Name = "buttonLoadShadowSFXBIN";
-            this.buttonLoadShadowSFXBIN.Size = new System.Drawing.Size(80, 27);
-            this.buttonLoadShadowSFXBIN.TabIndex = 0;
-            this.buttonLoadShadowSFXBIN.TabStop = false;
-            this.buttonLoadShadowSFXBIN.Text = "BIN";
-            this.buttonLoadShadowSFXBIN.UseVisualStyleBackColor = true;
-            this.buttonLoadShadowSFXBIN.Click += new System.EventHandler(this.buttonLoadShadowSFXBIN_Click);
+            buttonLoadShadowSFXBIN.Location = new System.Drawing.Point(14, 17);
+            buttonLoadShadowSFXBIN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonLoadShadowSFXBIN.Name = "buttonLoadShadowSFXBIN";
+            buttonLoadShadowSFXBIN.Size = new System.Drawing.Size(80, 27);
+            buttonLoadShadowSFXBIN.TabIndex = 0;
+            buttonLoadShadowSFXBIN.TabStop = false;
+            buttonLoadShadowSFXBIN.Text = "BIN";
+            buttonLoadShadowSFXBIN.UseVisualStyleBackColor = true;
+            buttonLoadShadowSFXBIN.Click += buttonLoadShadowSFXBIN_Click;
             // 
             // buttonGetTemplate
             // 
-            this.buttonGetTemplate.Enabled = false;
-            this.buttonGetTemplate.Location = new System.Drawing.Point(681, 37);
-            this.buttonGetTemplate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonGetTemplate.Name = "buttonGetTemplate";
-            this.buttonGetTemplate.Size = new System.Drawing.Size(101, 36);
-            this.buttonGetTemplate.TabIndex = 94;
-            this.buttonGetTemplate.TabStop = false;
-            this.buttonGetTemplate.Text = "Pick Template";
-            this.buttonGetTemplate.UseVisualStyleBackColor = true;
-            this.buttonGetTemplate.Click += new System.EventHandler(this.buttonGetTemplate_Click);
+            buttonGetTemplate.Enabled = false;
+            buttonGetTemplate.Location = new System.Drawing.Point(681, 37);
+            buttonGetTemplate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonGetTemplate.Name = "buttonGetTemplate";
+            buttonGetTemplate.Size = new System.Drawing.Size(101, 36);
+            buttonGetTemplate.TabIndex = 94;
+            buttonGetTemplate.TabStop = false;
+            buttonGetTemplate.Text = "Pick Template";
+            buttonGetTemplate.UseVisualStyleBackColor = true;
+            buttonGetTemplate.Click += buttonGetTemplate_Click;
+            // 
+            // buttonArrowUp
+            // 
+            buttonArrowUp.Location = new System.Drawing.Point(81, 506);
+            buttonArrowUp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonArrowUp.Name = "buttonArrowUp";
+            buttonArrowUp.Size = new System.Drawing.Size(27, 27);
+            buttonArrowUp.TabIndex = 95;
+            buttonArrowUp.TabStop = false;
+            buttonArrowUp.Text = "▲";
+            buttonArrowUp.UseVisualStyleBackColor = true;
+            buttonArrowUp.Click += buttonArrowUp_Click;
+            // 
+            // buttonArrowDown
+            // 
+            buttonArrowDown.Location = new System.Drawing.Point(116, 506);
+            buttonArrowDown.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonArrowDown.Name = "buttonArrowDown";
+            buttonArrowDown.Size = new System.Drawing.Size(27, 27);
+            buttonArrowDown.TabIndex = 96;
+            buttonArrowDown.TabStop = false;
+            buttonArrowDown.Text = "▼";
+            buttonArrowDown.UseVisualStyleBackColor = true;
+            buttonArrowDown.Click += buttonArrowDown_Click;
             // 
             // LayoutEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(795, 601);
-            this.Controls.Add(this.buttonGetTemplate);
-            this.Controls.Add(this.buttonPlayLinkedAudio);
-            this.Controls.Add(this.groupBox8);
-            this.Controls.Add(this.checkBoxDrawTriggerObjs);
-            this.Controls.Add(this.TextBox_PreviewView);
-            this.Controls.Add(this.GroupBoxSonicHeroesStuff);
-            this.Controls.Add(this.checkBoxDrawObjs);
-            this.Controls.Add(this.buttonPasteMisc);
-            this.Controls.Add(this.buttonCopyMisc);
-            this.Controls.Add(this.buttonPaste);
-            this.Controls.Add(this.buttonCopy);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.buttonCurrentViewDrop);
-            this.Controls.Add(this.buttonDrop);
-            this.Controls.Add(this.PropertyGridMisc);
-            this.Controls.Add(this.buttonViewHere);
-            this.Controls.Add(this.ButtonFindNextLink);
-            this.Controls.Add(this.ComboBoxObject);
-            this.Controls.Add(this.LabelRend);
-            this.Controls.Add(this.NumericObjRend);
-            this.Controls.Add(this.LabelLinkId);
-            this.Controls.Add(this.NumericObjLink);
-            this.Controls.Add(this.LabelObject);
-            this.Controls.Add(this.GroupBox2);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.buttonDuplicate);
-            this.Controls.Add(this.buttonClear);
-            this.Controls.Add(this.ButtonRemove);
-            this.Controls.Add(this.ButtonAdd);
-            this.Controls.Add(this.listBoxObjects);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximumSize = new System.Drawing.Size(811, 640);
-            this.Name = "LayoutEditor";
-            this.ShowIcon = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "Layout Editor";
-            this.Load += new System.EventHandler(this.LayoutEditor_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LayoutEditor_KeyDown);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericObjRend)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericObjLink)).EndInit();
-            this.GroupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumericRotZ)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericRotY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericRotX)).EndInit();
-            this.GroupBoxSonicHeroesStuff.ResumeLayout(false);
-            this.GroupBoxGetRot.ResumeLayout(false);
-            this.GroupBoxGetPos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericPosZ)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUnkB1)).EndInit();
-            this.groupBox8.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(795, 601);
+            Controls.Add(buttonArrowDown);
+            Controls.Add(buttonArrowUp);
+            Controls.Add(buttonGetTemplate);
+            Controls.Add(buttonPlayLinkedAudio);
+            Controls.Add(groupBox8);
+            Controls.Add(checkBoxDrawTriggerObjs);
+            Controls.Add(TextBox_PreviewView);
+            Controls.Add(GroupBoxSonicHeroesStuff);
+            Controls.Add(checkBoxDrawObjs);
+            Controls.Add(buttonPasteMisc);
+            Controls.Add(buttonCopyMisc);
+            Controls.Add(buttonPaste);
+            Controls.Add(buttonCopy);
+            Controls.Add(groupBox1);
+            Controls.Add(buttonCurrentViewDrop);
+            Controls.Add(buttonDrop);
+            Controls.Add(PropertyGridMisc);
+            Controls.Add(buttonViewHere);
+            Controls.Add(ButtonFindNextLink);
+            Controls.Add(ComboBoxObject);
+            Controls.Add(LabelRend);
+            Controls.Add(NumericObjRend);
+            Controls.Add(LabelLinkId);
+            Controls.Add(NumericObjLink);
+            Controls.Add(LabelObject);
+            Controls.Add(GroupBox2);
+            Controls.Add(groupBox3);
+            Controls.Add(buttonDuplicate);
+            Controls.Add(ButtonRemove);
+            Controls.Add(ButtonAdd);
+            Controls.Add(listBoxObjects);
+            Controls.Add(statusStrip1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximumSize = new System.Drawing.Size(811, 640);
+            Name = "LayoutEditor";
+            ShowIcon = false;
+            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            Text = "Layout Editor";
+            Load += LayoutEditor_Load;
+            KeyDown += LayoutEditor_KeyDown;
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NumericObjRend).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumericObjLink).EndInit();
+            GroupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NumericRotZ).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumericRotY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumericRotX).EndInit();
+            GroupBoxSonicHeroesStuff.ResumeLayout(false);
+            GroupBoxGetRot.ResumeLayout(false);
+            GroupBoxGetPos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NumericPosX).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumericPosY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumericPosZ).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUnkB1).EndInit();
+            groupBox8.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -1221,7 +1138,6 @@
         private System.Windows.Forms.ToolStripMenuItem importOBJToolStripMenuItem;
         private System.Windows.Forms.ListBox listBoxObjects;
         private System.Windows.Forms.Button buttonDuplicate;
-        private System.Windows.Forms.Button buttonClear;
         internal System.Windows.Forms.Button ButtonRemove;
         internal System.Windows.Forms.Button ButtonAdd;
         internal System.Windows.Forms.Button ButtonFindNextLink;
@@ -1291,5 +1207,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Button buttonGetTemplate;
         private System.Windows.Forms.ToolStripMenuItem loadTemplatesToolStripMenuItem;
+        internal System.Windows.Forms.Button buttonArrowUp;
+        internal System.Windows.Forms.Button buttonArrowDown;
+        private System.Windows.Forms.ToolStripMenuItem deleteAllObjectsToolStripMenuItem;
     }
 }

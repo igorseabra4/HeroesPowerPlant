@@ -507,11 +507,15 @@ namespace HeroesPowerPlant.LayoutEditor
             catch { listBoxObjects.SelectedIndex = Temp - 1; }
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void deleteAllObjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listBoxObjects.BeginUpdate();
-            layoutSystem.ClearList();
-            listBoxObjects.EndUpdate();
+            var result = MessageBox.Show("Are you sure you want to delete all objects?", "Confirm Delete", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                listBoxObjects.BeginUpdate();
+                layoutSystem.ClearList();
+                listBoxObjects.EndUpdate();
+            }
         }
 
         private void ComboBoxObject_SelectedIndexChanged(object sender, EventArgs e)
@@ -1419,5 +1423,27 @@ namespace HeroesPowerPlant.LayoutEditor
         }
 
         public bool HasSelectedObject() => layoutSystem.HasSelectedObject();
+
+        private void buttonArrowUp_Click(object sender, EventArgs e)
+        {
+            var selectedIndices = listBoxObjects.SelectedIndices.Cast<int>().ToList();
+            listBoxObjects.ClearSelected();
+            foreach (var i in selectedIndices)
+            {
+                layoutSystem.SwapSetObjects(i, i - 1);
+                listBoxObjects.SelectedIndices.Add(Math.Max(i - 1, 0));
+            }
+        }
+
+        private void buttonArrowDown_Click(object sender, EventArgs e)
+        {
+            var selectedIndices = listBoxObjects.SelectedIndices.Cast<int>().Reverse().ToList();
+            listBoxObjects.ClearSelected();
+            foreach (var i in selectedIndices)
+            {
+                layoutSystem.SwapSetObjects(i, i + 1);
+                listBoxObjects.SelectedIndices.Add(Math.Min(i + 1, listBoxObjects.Items.Count - 1));
+            }
+        }
     }
 }
