@@ -68,9 +68,6 @@
             numericUpDown37 = new System.Windows.Forms.NumericUpDown();
             numericUpDown38 = new System.Windows.Forms.NumericUpDown();
             numericUpDown39 = new System.Windows.Forms.NumericUpDown();
-            buttonAdd = new System.Windows.Forms.Button();
-            buttonDelete = new System.Windows.Forms.Button();
-            buttonClear = new System.Windows.Forms.Button();
             buttonTeleport = new System.Windows.Forms.Button();
             groupBox13 = new System.Windows.Forms.GroupBox();
             buttonCopyLeaderPos = new System.Windows.Forms.Button();
@@ -85,6 +82,7 @@
             sortByDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             importSACameraFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             importShadowCameraFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            deleteAllCamerasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             groupBox14 = new System.Windows.Forms.GroupBox();
             groupBox15 = new System.Windows.Forms.GroupBox();
             statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -96,12 +94,18 @@
             groupBox11 = new System.Windows.Forms.GroupBox();
             buttonCopyFocus = new System.Windows.Forms.Button();
             buttonComeTrigger = new System.Windows.Forms.Button();
-            buttonCopy = new System.Windows.Forms.Button();
             buttonPasteTriggerPos = new System.Windows.Forms.Button();
             buttonPasteCamPos = new System.Windows.Forms.Button();
             buttonPastePointA = new System.Windows.Forms.Button();
             buttonPastePointB = new System.Windows.Forms.Button();
             buttonPastePointc = new System.Windows.Forms.Button();
+            buttonArrowDown = new System.Windows.Forms.Button();
+            buttonArrowUp = new System.Windows.Forms.Button();
+            buttonPaste = new System.Windows.Forms.Button();
+            buttonCopy = new System.Windows.Forms.Button();
+            buttonDuplicate = new System.Windows.Forms.Button();
+            buttonRemove = new System.Windows.Forms.Button();
+            buttonAdd = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTrigShape).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownActType).BeginInit();
@@ -163,11 +167,10 @@
             // ListBoxCameras
             // 
             ListBoxCameras.FormattingEnabled = true;
-            ListBoxCameras.ItemHeight = 15;
             ListBoxCameras.Location = new System.Drawing.Point(14, 31);
             ListBoxCameras.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             ListBoxCameras.Name = "ListBoxCameras";
-            ListBoxCameras.Size = new System.Drawing.Size(171, 349);
+            ListBoxCameras.Size = new System.Drawing.Size(171, 409);
             ListBoxCameras.TabIndex = 0;
             ListBoxCameras.SelectedIndexChanged += ListBoxCameras_SelectedIndexChanged;
             // 
@@ -706,39 +709,6 @@
             numericUpDown39.TabIndex = 2;
             numericUpDown39.ValueChanged += numericUpDown_ValueChanged;
             // 
-            // buttonAdd
-            // 
-            buttonAdd.Location = new System.Drawing.Point(14, 387);
-            buttonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            buttonAdd.Name = "buttonAdd";
-            buttonAdd.Size = new System.Drawing.Size(172, 27);
-            buttonAdd.TabIndex = 5;
-            buttonAdd.Text = "Add";
-            buttonAdd.UseVisualStyleBackColor = true;
-            buttonAdd.Click += buttonAdd_Click;
-            // 
-            // buttonDelete
-            // 
-            buttonDelete.Location = new System.Drawing.Point(14, 453);
-            buttonDelete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            buttonDelete.Name = "buttonDelete";
-            buttonDelete.Size = new System.Drawing.Size(172, 27);
-            buttonDelete.TabIndex = 5;
-            buttonDelete.Text = "Delete";
-            buttonDelete.UseVisualStyleBackColor = true;
-            buttonDelete.Click += buttonDelete_Click;
-            // 
-            // buttonClear
-            // 
-            buttonClear.Location = new System.Drawing.Point(14, 487);
-            buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            buttonClear.Name = "buttonClear";
-            buttonClear.Size = new System.Drawing.Size(172, 27);
-            buttonClear.TabIndex = 5;
-            buttonClear.Text = "Clear";
-            buttonClear.UseVisualStyleBackColor = true;
-            buttonClear.Click += buttonClear_Click;
-            // 
             // buttonTeleport
             // 
             buttonTeleport.Location = new System.Drawing.Point(280, 22);
@@ -833,7 +803,7 @@
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { sortByDistanceToolStripMenuItem, importSACameraFileToolStripMenuItem, importShadowCameraFileToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { sortByDistanceToolStripMenuItem, importSACameraFileToolStripMenuItem, importShadowCameraFileToolStripMenuItem, deleteAllCamerasToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
@@ -858,6 +828,13 @@
             importShadowCameraFileToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             importShadowCameraFileToolStripMenuItem.Text = "Import Shadow Camera File";
             importShadowCameraFileToolStripMenuItem.Click += importShadowCameraFileToolStripMenuItem_Click;
+            // 
+            // deleteAllCamerasToolStripMenuItem
+            // 
+            deleteAllCamerasToolStripMenuItem.Name = "deleteAllCamerasToolStripMenuItem";
+            deleteAllCamerasToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            deleteAllCamerasToolStripMenuItem.Text = "Delete All Cameras";
+            deleteAllCamerasToolStripMenuItem.Click += deleteAllCamerasToolStripMenuItem_Click;
             // 
             // groupBox14
             // 
@@ -972,17 +949,6 @@
             buttonComeTrigger.UseVisualStyleBackColor = true;
             buttonComeTrigger.Click += buttonComeTrigger_Click;
             // 
-            // buttonCopy
-            // 
-            buttonCopy.Location = new System.Drawing.Point(14, 420);
-            buttonCopy.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            buttonCopy.Name = "buttonCopy";
-            buttonCopy.Size = new System.Drawing.Size(172, 27);
-            buttonCopy.TabIndex = 16;
-            buttonCopy.Text = "Duplicate";
-            buttonCopy.UseVisualStyleBackColor = true;
-            buttonCopy.Click += buttonCopy_Click;
-            // 
             // buttonPasteTriggerPos
             // 
             buttonPasteTriggerPos.Location = new System.Drawing.Point(472, 83);
@@ -1038,25 +1004,112 @@
             buttonPastePointc.UseVisualStyleBackColor = true;
             buttonPastePointc.Click += buttonPastePointc_Click;
             // 
+            // buttonArrowDown
+            // 
+            buttonArrowDown.Location = new System.Drawing.Point(85, 446);
+            buttonArrowDown.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonArrowDown.Name = "buttonArrowDown";
+            buttonArrowDown.Size = new System.Drawing.Size(27, 27);
+            buttonArrowDown.TabIndex = 103;
+            buttonArrowDown.TabStop = false;
+            buttonArrowDown.Text = "▼";
+            buttonArrowDown.UseVisualStyleBackColor = true;
+            buttonArrowDown.Click += buttonArrowDown_Click;
+            // 
+            // buttonArrowUp
+            // 
+            buttonArrowUp.Location = new System.Drawing.Point(56, 446);
+            buttonArrowUp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonArrowUp.Name = "buttonArrowUp";
+            buttonArrowUp.Size = new System.Drawing.Size(27, 27);
+            buttonArrowUp.TabIndex = 102;
+            buttonArrowUp.TabStop = false;
+            buttonArrowUp.Text = "▲";
+            buttonArrowUp.UseVisualStyleBackColor = true;
+            buttonArrowUp.Click += buttonArrowUp_Click;
+            // 
+            // buttonPaste
+            // 
+            buttonPaste.Location = new System.Drawing.Point(67, 479);
+            buttonPaste.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonPaste.Name = "buttonPaste";
+            buttonPaste.Size = new System.Drawing.Size(49, 27);
+            buttonPaste.TabIndex = 101;
+            buttonPaste.TabStop = false;
+            buttonPaste.Text = "Paste";
+            buttonPaste.UseVisualStyleBackColor = true;
+            buttonPaste.Click += buttonPaste_Click;
+            // 
+            // buttonCopy
+            // 
+            buttonCopy.Location = new System.Drawing.Point(14, 479);
+            buttonCopy.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonCopy.Name = "buttonCopy";
+            buttonCopy.Size = new System.Drawing.Size(45, 27);
+            buttonCopy.TabIndex = 100;
+            buttonCopy.TabStop = false;
+            buttonCopy.Text = "Copy";
+            buttonCopy.UseVisualStyleBackColor = true;
+            buttonCopy.Click += buttonCopy_Click;
+            // 
+            // buttonDuplicate
+            // 
+            buttonDuplicate.Location = new System.Drawing.Point(114, 446);
+            buttonDuplicate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonDuplicate.Name = "buttonDuplicate";
+            buttonDuplicate.Size = new System.Drawing.Size(71, 27);
+            buttonDuplicate.TabIndex = 97;
+            buttonDuplicate.TabStop = false;
+            buttonDuplicate.Text = "Duplicate";
+            buttonDuplicate.UseVisualStyleBackColor = true;
+            buttonDuplicate.Click += buttonDuplicate_Click;
+            // 
+            // buttonRemove
+            // 
+            buttonRemove.Location = new System.Drawing.Point(124, 479);
+            buttonRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonRemove.Name = "buttonRemove";
+            buttonRemove.Size = new System.Drawing.Size(61, 27);
+            buttonRemove.TabIndex = 99;
+            buttonRemove.TabStop = false;
+            buttonRemove.Text = "Remove";
+            buttonRemove.UseVisualStyleBackColor = true;
+            buttonRemove.Click += buttonRemove_Click;
+            // 
+            // buttonAdd
+            // 
+            buttonAdd.Location = new System.Drawing.Point(14, 446);
+            buttonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonAdd.Name = "buttonAdd";
+            buttonAdd.Size = new System.Drawing.Size(40, 27);
+            buttonAdd.TabIndex = 98;
+            buttonAdd.TabStop = false;
+            buttonAdd.Text = "Add";
+            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.Click += buttonAdd_Click;
+            // 
             // CameraEditor
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(911, 543);
+            Controls.Add(buttonArrowDown);
+            Controls.Add(buttonArrowUp);
+            Controls.Add(buttonPaste);
+            Controls.Add(buttonCopy);
+            Controls.Add(buttonDuplicate);
+            Controls.Add(buttonRemove);
+            Controls.Add(buttonAdd);
             Controls.Add(buttonPastePointc);
             Controls.Add(buttonPastePointB);
             Controls.Add(buttonPastePointA);
             Controls.Add(buttonPasteCamPos);
             Controls.Add(buttonPasteTriggerPos);
-            Controls.Add(buttonCopy);
             Controls.Add(groupBox11);
             Controls.Add(statusStrip1);
             Controls.Add(groupBox15);
             Controls.Add(groupBox14);
             Controls.Add(groupBox13);
-            Controls.Add(buttonClear);
-            Controls.Add(buttonDelete);
-            Controls.Add(buttonAdd);
             Controls.Add(groupBox6);
             Controls.Add(groupBox10);
             Controls.Add(groupBox3);
@@ -1193,9 +1246,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown37;
         private System.Windows.Forms.NumericUpDown numericUpDown38;
         private System.Windows.Forms.NumericUpDown numericUpDown39;
-        private System.Windows.Forms.Button buttonAdd;
-        private System.Windows.Forms.Button buttonDelete;
-        private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonTeleport;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Button buttonCopyLeaderPos;
@@ -1216,7 +1266,6 @@
         private System.Windows.Forms.Button buttonCopyViewPos;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button buttonComeTrigger;
-        private System.Windows.Forms.Button buttonCopy;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortByDistanceToolStripMenuItem;
         private System.Windows.Forms.Button buttonPasteTriggerPos;
@@ -1227,5 +1276,13 @@
         private System.Windows.Forms.ToolStripMenuItem importShadowCameraFileToolStripMenuItem;
         private System.Windows.Forms.Button buttonCopyFocus;
         private System.Windows.Forms.ToolStripMenuItem importSACameraFileToolStripMenuItem;
+        internal System.Windows.Forms.Button buttonArrowDown;
+        internal System.Windows.Forms.Button buttonArrowUp;
+        private System.Windows.Forms.Button buttonPaste;
+        private System.Windows.Forms.Button buttonCopy;
+        private System.Windows.Forms.Button buttonDuplicate;
+        internal System.Windows.Forms.Button buttonRemove;
+        internal System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.ToolStripMenuItem deleteAllCamerasToolStripMenuItem;
     }
 }

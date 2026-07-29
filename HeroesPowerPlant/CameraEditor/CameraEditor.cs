@@ -348,7 +348,7 @@ namespace HeroesPowerPlant.CameraEditor
             UnsavedChanges = true;
         }
 
-        private void buttonCopy_Click(object sender, EventArgs e)
+        private void buttonDuplicate_Click(object sender, EventArgs e)
         {
             CameraHeroes newCamera = new CameraHeroes((CameraHeroes)ListBoxCameras.Items[CurrentlySelectedCamera]);
             newCamera.CreateTransformMatrix();
@@ -358,7 +358,7 @@ namespace HeroesPowerPlant.CameraEditor
             UnsavedChanges = true;
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+        private void buttonRemove_Click(object sender, EventArgs e)
         {
             if (CurrentlySelectedCamera == -1)
                 return;
@@ -376,8 +376,82 @@ namespace HeroesPowerPlant.CameraEditor
             UnsavedChanges = true;
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void buttonCopy_Click(object sender, EventArgs e)
         {
+            if (CurrentlySelectedCamera == -1)
+                return;
+
+            var camera = ListBoxCameras.Items[CurrentlySelectedCamera] as CameraHeroes;
+
+            Clipboard.SetText(JsonConvert.SerializeObject(camera));
+        }
+
+        private void buttonPaste_Click(object sender, EventArgs e)
+        {
+            CameraHeroes newCamera;
+            try
+            {
+                newCamera = new CameraHeroes(JsonConvert.DeserializeObject<CameraHeroes>(Clipboard.GetText()));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error pasting camera from clipboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            newCamera.CreateTransformMatrix();
+            ListBoxCameras.Items.Add(newCamera);
+            ListBoxCameras.SelectedIndex = ListBoxCameras.Items.Count - 1;
+            UpdateLabelCameraCount();
+            UnsavedChanges = true;
+        }
+
+        private void buttonArrowUp_Click(object sender, EventArgs e)
+        {
+            var selectedIndices = ListBoxCameras.SelectedIndices.Cast<int>().ToList();
+            ListBoxCameras.ClearSelected();
+            foreach (var i in selectedIndices)
+            {
+                if (i <= 0)
+                {
+                    ListBoxCameras.SelectedIndices.Add(0);
+                    continue;
+                }
+
+                SwapCameras(i, i - 1);
+                ListBoxCameras.SelectedIndices.Add(i - 1);
+            }
+        }
+
+        private void buttonArrowDown_Click(object sender, EventArgs e)
+        {
+            var selectedIndices = ListBoxCameras.SelectedIndices.Cast<int>().Reverse().ToList();
+            ListBoxCameras.ClearSelected();
+            foreach (var i in selectedIndices)
+            {
+                if (i >= ListBoxCameras.Items.Count - 1)
+                {
+                    ListBoxCameras.SelectedIndices.Add(ListBoxCameras.Items.Count - 1);
+                    continue;
+                }
+
+                SwapCameras(i, i + 1);
+                ListBoxCameras.SelectedIndices.Add(i + 1);
+            }
+        }
+
+        private void SwapCameras(int index1, int index2)
+        {
+            if (index1 < 0 || index1 >= ListBoxCameras.Items.Count || index2 < 0 || index2 >= ListBoxCameras.Items.Count)
+                return;
+            (ListBoxCameras.Items[index2], ListBoxCameras.Items[index1]) = (ListBoxCameras.Items[index1], ListBoxCameras.Items[index2]);
+            UnsavedChanges = true;
+        }
+
+        private void deleteAllCamerasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to delete all cameras?", "Confirm Delete", MessageBoxButtons.YesNo);
+            if (result != DialogResult.Yes)
+                return;
             hasRemoved = true;
             ListBoxCameras.Items.Clear();
             UpdateLabelCameraCount();

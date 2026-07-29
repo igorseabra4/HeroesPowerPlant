@@ -1430,6 +1430,11 @@ namespace HeroesPowerPlant.LayoutEditor
             listBoxObjects.ClearSelected();
             foreach (var i in selectedIndices)
             {
+                if (i <= 0)
+                {
+                    listBoxObjects.SelectedIndices.Add(0);
+                    continue;
+                }
                 layoutSystem.SwapSetObjects(i, i - 1);
                 listBoxObjects.SelectedIndices.Add(Math.Max(i - 1, 0));
             }
@@ -1441,6 +1446,11 @@ namespace HeroesPowerPlant.LayoutEditor
             listBoxObjects.ClearSelected();
             foreach (var i in selectedIndices)
             {
+                if (i >= listBoxObjects.Items.Count - 1)
+                {
+                    listBoxObjects.SelectedIndices.Add(listBoxObjects.Items.Count - 1);
+                    continue;
+                }
                 layoutSystem.SwapSetObjects(i, i + 1);
                 listBoxObjects.SelectedIndices.Add(Math.Min(i + 1, listBoxObjects.Items.Count - 1));
             }
