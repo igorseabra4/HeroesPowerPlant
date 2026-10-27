@@ -637,6 +637,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void SaveShadowDATONE(string datOneFileName, bool splinesOnly = false)
         {
+            CommitPendingChunkEdits();
             byte[] bdtBytes = VisibilityFunctions.ShadowVisibilityFileToArray(visibilityFunctions.ChunkList, bspRenderer.currentShadowFolderNamePrefix);
             byte[] splineBytes = shadowSplineEditor.ShadowSplinesToByteArray(bspRenderer.currentShadowFolderNamePrefix).ToArray();
 
@@ -788,6 +789,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void saveToolStripMenuItemVisibility_Click(object sender, EventArgs e)
         {
+            CommitPendingChunkEdits();
             if (visibilityFunctions.OpenVisibilityFile != null)
             {
                 VisibilityFunctions.SaveHeroesVisibilityFile(visibilityFunctions.ChunkList, visibilityFunctions.OpenVisibilityFile);
@@ -799,6 +801,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            CommitPendingChunkEdits();
             VistaSaveFileDialog saveFileDialog = new VistaSaveFileDialog()
             {
                 Filter = "BIN files|*.bin",
@@ -846,6 +849,14 @@ namespace HeroesPowerPlant.LevelEditor
         }
 
         bool ProgramIsChangingStuff = false;
+
+        private void CommitPendingChunkEdits()
+        {
+            foreach (var pendingChunk in new[] { NumChunkNum, NumMinX, NumMinY, NumMinZ, NumMaxX, NumMaxY, NumMaxZ })
+            {
+                _ = pendingChunk.Value;
+            }
+        }
 
         private void numericCurrentChunk_ValueChanged(object sender, EventArgs e)
         {
@@ -1083,6 +1094,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         private bool ShouldStopBecauseOfUnsavedChanges(object sender, EventArgs e)
         {
+            CommitPendingChunkEdits();
             if (isShadowMode)
             {
                 if (UnsavedChanges)
@@ -1131,6 +1143,7 @@ namespace HeroesPowerPlant.LevelEditor
 
         public void Save()
         {
+            CommitPendingChunkEdits();
             if (isShadowMode)
             {
                 ShadowLevelMenuItemSave_Click(null, null);
