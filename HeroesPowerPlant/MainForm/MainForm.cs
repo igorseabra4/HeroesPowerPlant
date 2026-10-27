@@ -45,6 +45,7 @@ namespace HeroesPowerPlant.MainForm
             StartPosition = FormStartPosition.CenterScreen;
 
             InitializeComponent();
+            Text += " " + HPPVersion.Current;
 
             renderer = new SharpRenderer(renderPanel) { dffRenderer = new DFFRenderer(this) };
 
