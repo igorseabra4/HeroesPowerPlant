@@ -166,12 +166,13 @@ namespace HeroesPowerPlant.LayoutEditor
             if (Program.MainForm.renderer.dffRenderer.DFFModels.ContainsKey(ModelNames[nameIndex][0]))
             {
                 if (isSelected)
-                    renderData.Color = renderer.selectedColor;
+                    renderData.Color = renderer.selectedObjectColor;
                 else
-                    renderData.Color = renderer.normalColor;
+                    renderData.Color = Vector4.One;
 
+                renderer.Device.SetFillModeDefault();
                 renderer.Device.SetCullModeDefault();
-                renderer.Device.SetDefaultBlendState();
+                renderer.Device.SetBlendStateAlphaBlend();
                 renderer.Device.ApplyRasterState();
                 renderer.Device.UpdateAllStates();
 
