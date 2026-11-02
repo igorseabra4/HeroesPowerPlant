@@ -36,52 +36,28 @@ namespace HeroesPowerPlant.LayoutEditor
         private List<Vector3> transformedPoints;
         private List<Triangle> transformedTriangles;
 
-        // New Info
-        /* Normal/Single:
-         * RotY is used for spin face, XZ unused
-         *  
-         */
         private float shift = MathUtil.Pi / 180f;
 
         protected Matrix ShadowRingTransformMatrix()
         {
-            Matrix matrix = Matrix.Translation(Position);
+            // Normal/Single:
+            // RotY is used for spin face, XZ unused
             switch (RingType)
             {
-                //case RingType.Normal:
-                //   break;
                 case ERingType.Line:
-                    matrix = Matrix.RotationX(Rotation.X * shift) *
-                    Matrix.RotationY(Rotation.Y * shift) *
-                    Matrix.RotationZ(0f);
-                    break;
                 case ERingType.Circle:
-                    // X seems off?
-                    matrix = Matrix.RotationX(Rotation.X * shift) *
-                    Matrix.RotationZ(Rotation.Z * shift) *
-                    Matrix.RotationY(Rotation.Y * shift);
-
-                    break;
-                //case RingType.Arch:
-                //     break;
+                case ERingType.Arch:
+                    return DefaultTransformMatrix();
                 default:
-                    matrix = Matrix.RotationX(Rotation.X * shift) *
-                    Matrix.RotationY(Rotation.Y * shift) *
-                    Matrix.RotationZ(0f);//Rotation.Z * shift);
-                    break;
+                    return Matrix.RotationX(Rotation.X * shift) *
+                        Matrix.RotationY(Rotation.Y * shift) *
+                        Matrix.Translation(Position);
             }
-            /*   Matrix.RotationY(MathUtil.DegreesToRadians(Rotation.Y + yAddDeg)) *
-               Matrix.RotationX(MathUtil.DegreesToRadians(Rotation.X)) *
-               Matrix.RotationZ(MathUtil.DegreesToRadians(Rotation.Z)) **/
-
-            matrix = matrix * Matrix.Translation(Position);
-            return matrix;
         }
+
         public override void CreateTransformMatrix()
         {
             transformMatrix = ShadowRingTransformMatrix();
-            //DefaultTransformMatrix(180f);
-
             positionsList = new List<Vector3>(NumberOfRings);
 
             switch (RingType)
@@ -90,43 +66,40 @@ namespace HeroesPowerPlant.LayoutEditor
                     positionsList.Add(Vector3.Zero);
                     break;
                 case ERingType.Line:
-                    if (NumberOfRings < 2)
+                    if (NumberOfRings < 1)
+                    {
                         return;
-
-                    for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add(new Vector3(0, 0, -(LengthRadius * i / (NumberOfRings))));
+                    }
+                    for (int curRing = 0; curRing < NumberOfRings; curRing++)
+                    {
+                        positionsList.Add(new Vector3(0, 0, -LengthRadius * curRing / NumberOfRings));
+                    }
                     break;
                 case ERingType.Circle:
                     if (NumberOfRings < 1)
+                    {
                         return;
-
-                    for (int i = 0; i < NumberOfRings; i++)
-                        positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, -LengthRadius), -Matrix.RotationY(2 * (float)Math.PI * i / NumberOfRings)));
+                    }
+                    for (int curRing = 0; curRing < NumberOfRings; curRing++)
+                    {
+                        positionsList.Add((Vector3)Vector3.Transform(new Vector3(0, 0, LengthRadius), Matrix.RotationY(2 * MathUtil.Pi * curRing / NumberOfRings)));
+                    }
                     break;
                 case ERingType.Arch:
-                    // parabola is y^2 = 4ax
-                    // y^2 = 4(Angle)(LengthRadius)
-                    if (NumberOfRings < 2)
-                        return;
-                    for (int i = 0; i < NumberOfRings; i++)
+                    if (NumberOfRings < 1)
                     {
-                        positionsList.Add(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
-                        // ALMOST working but with 2nd off and rotation shift required (-37 Y off)
-                        ///positionsList.Add(new Vector3((float)Math.Sqrt((LengthRadius * i / (NumberOfRings)) * 4 * Angle), 0, (LengthRadius * i / (NumberOfRings))));
-                        //var calc = (LengthRadius / NumberOfRings) * i;
-                        ////var calc2 = LengthRadius * i / NumberOfRings;
-                        ////positionsList.Add(new Vector3((float)Math.Sqrt(calc2 * 4 * Angle), 0, calc2));
-
-                        //positionsList.Add(new Vector3((float)Math.Sqrt(4 * Angle * calc), 50, LengthRadius * i / NumberOfRings));
-
-                        //positionsList.Add(new Vector3((float)Math.Sqrt((4 * Angle * LengthRadius * i / NumberOfRings)), 0, (LengthRadius * i / NumberOfRings)));
-
-                        //Matrix Locator = Matrix.Translation(new Vector3(0, 0, (LengthRadius * i / (NumberOfRings))));
-                        //Matrix Locator = Matrix.Translation(new Vector3(LengthRadius * i / NumberOfRings, 0, 0));
-                        //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator * (4 * Angle * (LengthRadius / NumberOfRings))));
-                        //if (i == 0)
-                        //positionsList.Add((Vector3)Vector3.Transform(Vector3.Zero, Locator));
-                        //continue;
+                        return;
+                    }
+                    // "Parabola" type (its not even a parabola formula, which is why this was so elusive -_-, good one ST)
+                    // X = sin(i * pi / NumberOfRings) * Angle,
+                    // Z = LengthRadius * curRing / NumberOfRings
+                    for (int curRing = 0; curRing < NumberOfRings; curRing++)
+                    {
+                        positionsList.Add(new Vector3(
+                            (float)Math.Sin(curRing * Math.PI / NumberOfRings) * Angle,
+                            0,
+                            LengthRadius * curRing / NumberOfRings)
+                        );
                     }
                     break;
             }
