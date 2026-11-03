@@ -126,29 +126,7 @@ namespace HeroesPowerPlant
             foreach (RenderWareModelFile m in models)
                 foreach (SharpMesh mesh in m.meshList)
                     foreach (SharpSubSet sub in mesh.SubSets)
-                    {
-                        if (Textures.ContainsKey(sub.DiffuseMapName))
-                        {
-                            if (sub.DiffuseMap != Textures[sub.DiffuseMapName])
-                            {
-                                if (sub.DiffuseMap != null)
-                                    if (!sub.DiffuseMap.IsDisposed)
-                                        if (sub.DiffuseMap != SharpRenderer.whiteDefault)
-                                            sub.DiffuseMap.Dispose();
-
-                                sub.DiffuseMap = Textures[sub.DiffuseMapName];
-                            }
-                        }
-                        else
-                        {
-                            if (sub.DiffuseMap != null)
-                                if (!sub.DiffuseMap.IsDisposed)
-                                    if (sub.DiffuseMap != SharpRenderer.whiteDefault)
-                                        sub.DiffuseMap.Dispose();
-
-                            sub.DiffuseMap = SharpRenderer.whiteDefault;
-                        }
-                    }
+                        sub.DiffuseMap = GetTextureFromDictionary(sub.DiffuseMapName);
         }
 
         public static void SetTextureForAnimation(string diffuseMapName, string newMapName, BSPRenderer bspRenderer, DFFRenderer dffRenderer)
