@@ -9,7 +9,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<DebugType>full</DebugType>
 		<ApplicationIcon>Game.ico</ApplicationIcon>
-		<Version>2026.10.26</Version>
+		<Version>2026.11.04</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<Company>Heroes Hacking Central</Company>
 		<Product>Heroes Power Plant</Product>
