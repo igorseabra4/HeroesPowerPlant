@@ -82,8 +82,9 @@ public partial class MainForm : Form
 
     public void ShowForm(Form form)
     {
+        SetFormOwner(form);
         if (!form.Visible)
-            form.Show(this);
+            form.Show();
         form.WindowState = FormWindowState.Normal;
         form.Activate();
     }
@@ -1378,6 +1379,31 @@ public partial class MainForm : Form
             renderer.dontRender = false;
             disableRendering_ToolStripMenuItem.Checked = false;
         }
+    }
+
+    private void SetFormOwner(Form form)
+    {
+        form.Owner = HPPConfig.GetInstance().DetachedEditorWindows ? null : this;
+    }
+
+    private void SetAllFormOwners()
+    {
+        foreach (Form form in Application.OpenForms)
+            if (form != this)
+                SetFormOwner(form);
+    }
+
+    public void SetDetachedEditorWindows(bool isEnabled)
+    {
+        DetachedEditorWindows_ToolStripMenuItem.Checked = isEnabled;
+        SetAllFormOwners();
+    }
+
+    private void DetachedEditorWindows_ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        DetachedEditorWindows_ToolStripMenuItem.Checked = !DetachedEditorWindows_ToolStripMenuItem.Checked;
+        HPPConfig.GetInstance().DetachedEditorWindows = DetachedEditorWindows_ToolStripMenuItem.Checked;
+        SetAllFormOwners();
     }
 
     private void LimitFPS_ToolStripMenuItem_Click(object sender, EventArgs e)

@@ -94,6 +94,7 @@ namespace HeroesPowerPlant.MainForm
             cameraViewSettingsToolStripMenuItem = new ToolStripMenuItem();
             disableRendering_ToolStripMenuItem = new ToolStripMenuItem();
             LimitFPS_ToolStripMenuItem = new ToolStripMenuItem();
+            DetachedEditorWindows_ToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             renderPanel = new Panel();
@@ -334,7 +335,7 @@ namespace HeroesPowerPlant.MainForm
             // 
             // optionsToolStripMenuItem
             // 
-            optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewControlsToolStripMenuItem, toolStripSeparator5, noCullingCToolStripMenuItem, wireframeFToolStripMenuItem, colorsToolStripMenuItem, toolStripSeparator3, mouseModeToolStripMenuItem, startPosToolStripMenuItem, splinesToolStripMenuItem, renderByChunkToolStripMenuItem, chunkBoxesToolStripMenuItem, showCollisionXToolStripMenuItem, showQuadtreeTToolStripMenuItem, showObjectsGToolStripMenuItem, camerasVToolStripMenuItem, toolStripSeparator4, checkForUpdatesOnStartupToolStripMenuItem, checkForUpdatesNowToolStripMenuItem, vSyncToolStripMenuItem, autoLoadLastProjectOnLaunchToolStripMenuItem, autoSaveProjectOnClosingToolStripMenuItem, cameraViewSettingsToolStripMenuItem, disableRendering_ToolStripMenuItem, LimitFPS_ToolStripMenuItem });
+            optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewControlsToolStripMenuItem, toolStripSeparator5, noCullingCToolStripMenuItem, wireframeFToolStripMenuItem, colorsToolStripMenuItem, toolStripSeparator3, mouseModeToolStripMenuItem, startPosToolStripMenuItem, splinesToolStripMenuItem, renderByChunkToolStripMenuItem, chunkBoxesToolStripMenuItem, showCollisionXToolStripMenuItem, showQuadtreeTToolStripMenuItem, showObjectsGToolStripMenuItem, camerasVToolStripMenuItem, toolStripSeparator4, checkForUpdatesOnStartupToolStripMenuItem, checkForUpdatesNowToolStripMenuItem, vSyncToolStripMenuItem, autoLoadLastProjectOnLaunchToolStripMenuItem, autoSaveProjectOnClosingToolStripMenuItem, cameraViewSettingsToolStripMenuItem, disableRendering_ToolStripMenuItem, LimitFPS_ToolStripMenuItem, DetachedEditorWindows_ToolStripMenuItem });
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             optionsToolStripMenuItem.Text = "Options";
@@ -552,7 +553,13 @@ namespace HeroesPowerPlant.MainForm
             LimitFPS_ToolStripMenuItem.Text = "Limit FPS (Set In View Settings)";
             LimitFPS_ToolStripMenuItem.Click += LimitFPS_ToolStripMenuItem_Click;
             // 
+            // DetachedEditorWindows_ToolStripMenuItem
             // 
+            DetachedEditorWindows_ToolStripMenuItem.Name = "DetachedEditorWindows_ToolStripMenuItem";
+            DetachedEditorWindows_ToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            DetachedEditorWindows_ToolStripMenuItem.Text = "Detached Editor Windows";
+            DetachedEditorWindows_ToolStripMenuItem.Click += DetachedEditorWindows_ToolStripMenuItem_Click;
+            //
             // statusStrip1
             // 
             statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -675,6 +682,7 @@ namespace HeroesPowerPlant.MainForm
         private ToolStripMenuItem shadowCameraEditorToolStripMenuItem;
         private ToolStripMenuItem disableRendering_ToolStripMenuItem;
         private ToolStripMenuItem LimitFPS_ToolStripMenuItem;
+        private ToolStripMenuItem DetachedEditorWindows_ToolStripMenuItem;
         private ToolStripMenuItem shadowLayoutMiscToolsToolStripMenuItem;
         private ToolStripMenuItem ResourceToolStripMenuItemSetAFS;
         private ToolStripMenuItem ResourceToolStripMenuItemSetFNT;

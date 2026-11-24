@@ -24,6 +24,7 @@ public class HPPConfig
     public DateTime LastCheckedForUpdate = DateTime.MinValue;
     public bool VSync { get; set; } = true;
     public bool LimitFPS { get; set; } = true;
+    public bool DetachedEditorWindows { get; set; } = false;
 
     public decimal LimitFPSValue { get; set; } = 60.0000m;
 
@@ -98,6 +99,7 @@ public class HPPConfig
                 mainForm.DisableVSync(); // In case the program default ever changes.
 
             mainForm.SetLimitFPS(LimitFPS, LimitFPSValue);
+            mainForm.SetDetachedEditorWindows(DetachedEditorWindows);
 
             mainForm.SetCheckForUpdatesOnStartup(CheckForUpdatesOnStartup);
             mainForm.SetAutoLoadLastProject(AutomaticallyLoadLastConfig);
