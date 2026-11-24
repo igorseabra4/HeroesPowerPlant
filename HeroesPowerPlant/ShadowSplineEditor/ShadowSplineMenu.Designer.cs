@@ -211,7 +211,6 @@ namespace HeroesPowerPlant.ShadowSplineEditor
             ShowIcon = false;
             Text = "Shadow Spline Editor";
             FormClosing += ShadowSplineEditor_FormClosing;
-            Load += ShadowSplineEditor_Load;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

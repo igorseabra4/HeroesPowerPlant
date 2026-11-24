@@ -17,11 +17,6 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ChooseTarget_Load(object sender, EventArgs e)
         {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-
             comboBoxFormat.Items.Add("RenderWare BSP");
             foreach (ExportFormatDescription f in formats)
                 comboBoxFormat.Items.Add(f.Description);

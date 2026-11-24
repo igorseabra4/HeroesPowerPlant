@@ -448,7 +448,7 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonDuplicate_Click(object sender, EventArgs e)
         {
-            int count = layoutSystem.PasteSetObject(layoutSystem.SerializeSetObject(listBoxObjects.SelectedIndices));
+            int count = layoutSystem.PasteSetObjects(layoutSystem.SerializeSetObjectsAt(listBoxObjects.SelectedIndices));
 
             listBoxObjects.ClearSelected();
             for (int i = 0; i < count; i++)
@@ -457,12 +457,12 @@ namespace HeroesPowerPlant.LayoutEditor
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(layoutSystem.SerializeSetObject(listBoxObjects.SelectedIndices));
+            Clipboard.SetText(layoutSystem.SerializeSetObjectsAt(listBoxObjects.SelectedIndices));
         }
 
         private void buttonPaste_Click(object sender, EventArgs e)
         {
-            int count = layoutSystem.PasteSetObject();
+            int count = layoutSystem.PasteSetObjects();
 
             listBoxObjects.ClearSelected();
             for (int i = 0; i < count; i++)
@@ -744,9 +744,9 @@ namespace HeroesPowerPlant.LayoutEditor
 
         public void PlaceObject(Vector3 Position)
         {
-            if (listBoxObjects.SelectedIndices.Count != 1)
+            if (listBoxObjects.SelectedIndices.Count < 1)
                 return;
-            layoutSystem.DuplicateSetObjectAt(listBoxObjects.SelectedIndex, Position);
+            layoutSystem.PasteSetObjects(position: Position);
             listBoxObjects.ClearSelected();
             listBoxObjects.SelectedIndex = layoutSystem.GetSetObjectAmount() - 1;
         }
@@ -1233,14 +1233,6 @@ namespace HeroesPowerPlant.LayoutEditor
             }
         }
 
-        private void LayoutEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         private void buttonLoadShadowSFXBIN_Click(object sender, EventArgs e)
         {
             // TODO migrate this to project scope rather than layout
@@ -1366,6 +1358,8 @@ namespace HeroesPowerPlant.LayoutEditor
         private void loadTemplatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             templates.Clear();
+            if (!File.Exists("templates.txt"))
+                return;
             var tLines = File.ReadAllLines("templates.txt");
             foreach (var line in tLines.OrderBy(l => Convert.ToInt32(l.Split(":")[0].Split('_')[0].Trim('s', 't', 'g'))))
             {

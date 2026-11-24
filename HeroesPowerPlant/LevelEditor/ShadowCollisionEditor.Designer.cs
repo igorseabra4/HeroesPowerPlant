@@ -133,7 +133,6 @@
             this.Name = "ShadowCollisionEditor";
             this.ShowIcon = false;
             this.Text = "Shadow Collision Editor";
-            this.Load += new System.EventHandler(this.ShadowCollisionEditor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

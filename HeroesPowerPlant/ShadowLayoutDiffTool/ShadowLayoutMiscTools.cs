@@ -107,11 +107,6 @@ namespace HeroesPowerPlant.ShadowLayoutMiscTools
 
         private void ShadowLayoutMiscTools_Load(object sender, EventArgs e)
         {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-
             ComboBoxObject.DisplayMember = Name;
             ComboBoxObject.Items.AddRange(LayoutEditorSystem.GetAllShadowObjectEntries());
         }

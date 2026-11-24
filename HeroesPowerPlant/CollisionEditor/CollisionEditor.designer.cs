@@ -332,7 +332,6 @@
             this.Name = "CollisionEditor";
             this.ShowIcon = false;
             this.Text = "Collision Editor";
-            this.Load += new System.EventHandler(this.CollisionEditor_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericDepthLevel)).EndInit();

@@ -12,10 +12,6 @@ namespace HeroesPowerPlant.LevelEditor
         public ReassignMATFlags(LevelEditor levelEditor)
         {
             InitializeComponent();
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
             this.levelEditor = levelEditor;
         }
 

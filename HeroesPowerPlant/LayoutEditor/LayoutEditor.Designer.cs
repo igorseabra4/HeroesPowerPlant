@@ -1083,7 +1083,6 @@
             ShowIcon = false;
             SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             Text = "Layout Editor";
-            Load += LayoutEditor_Load;
             KeyDown += LayoutEditor_KeyDown;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

@@ -16,14 +16,6 @@ namespace HeroesPowerPlant.CollisionEditor
             collisionSystem = new CollisionSystem();
         }
 
-        private void CollisionEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown)

@@ -19,7 +19,6 @@ namespace HeroesPowerPlant.MainForm
             ComponentResourceManager resources = new ComponentResourceManager(typeof(AboutBox));
             this.textBoxDescription.Text = resources.GetString("textBoxDescription.Text");
             this.labelVersion.Text = new HPPVersion().version;
-            TopMost = true;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -86,6 +85,11 @@ namespace HeroesPowerPlant.MainForm
         }
 
         private void button4_Click(object sender, EventArgs e)
+        {
+            OpenWiki();
+        }
+
+        public static void OpenWiki()
         {
             OpenBrowser("https://github.com/igorseabra4/HeroesPowerPlant/wiki");
         }

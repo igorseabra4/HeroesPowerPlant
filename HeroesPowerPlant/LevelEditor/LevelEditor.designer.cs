@@ -752,7 +752,6 @@
             Name = "LevelEditor";
             ShowIcon = false;
             Text = "Level Editor";
-            Load += LevelEditor_Load;
             KeyDown += listBoxLevelModels_KeyDown;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

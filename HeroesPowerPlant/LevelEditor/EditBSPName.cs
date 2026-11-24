@@ -9,10 +9,6 @@ namespace HeroesPowerPlant.LevelEditor
         public EditBSPName(string oldName)
         {
             InitializeComponent();
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
             textBox1.Text = oldName;
         }
 

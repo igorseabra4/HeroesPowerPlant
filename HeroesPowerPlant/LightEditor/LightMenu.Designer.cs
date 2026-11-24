@@ -223,7 +223,6 @@ namespace HeroesPowerPlant.LightEditor
             this.ShowIcon = false;
             this.Text = "Light Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LightEditor_FormClosing);
-            this.Load += new System.EventHandler(this.LightMenu_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericCurrentLight)).EndInit();

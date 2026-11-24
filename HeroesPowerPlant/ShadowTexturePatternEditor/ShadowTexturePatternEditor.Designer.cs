@@ -389,7 +389,6 @@
             ShowIcon = false;
             Text = "Shadow Texture Pattern Editor";
             FormClosing += ShadowTexturePatternEditor_FormClosing;
-            Load += ShadowTexturePatternEditor_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             statusStrip1.ResumeLayout(false);

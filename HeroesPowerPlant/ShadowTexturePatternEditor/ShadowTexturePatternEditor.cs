@@ -345,14 +345,6 @@ namespace HeroesPowerPlant.ShadowTexturePatternEditor
             labelFrame.Text = "Frame: " + counter.ToString();
         }
 
-        private void ShadowTexturePatternEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         private void listBoxPatterns_DoubleClick(object sender, EventArgs e)
         {
             if (programIsChangingStuff)

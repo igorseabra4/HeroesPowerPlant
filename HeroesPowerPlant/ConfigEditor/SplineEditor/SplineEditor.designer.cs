@@ -252,7 +252,6 @@
             this.Name = "SplineEditor";
             this.ShowIcon = false;
             this.Text = "Spline Editor";
-            this.Load += new System.EventHandler(this.SplineEditor_Load);
             this.groupBoxPitchRoll.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRoll)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).EndInit();

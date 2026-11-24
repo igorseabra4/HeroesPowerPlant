@@ -347,13 +347,5 @@ namespace HeroesPowerPlant.TexturePatternEditor
         {
             labelFrame.Text = "Frame: " + counter.ToString();
         }
-
-        private void TexturePatternEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
     }
 }

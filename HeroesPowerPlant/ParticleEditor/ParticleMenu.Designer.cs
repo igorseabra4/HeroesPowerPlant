@@ -204,7 +204,6 @@ namespace HeroesPowerPlant.ParticleEditor
             this.ShowIcon = false;
             this.Text = "Particle Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParticleEditor_FormClosing);
-            this.Load += new System.EventHandler(this.ParticleMenu_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericCurrentParticle)).EndInit();

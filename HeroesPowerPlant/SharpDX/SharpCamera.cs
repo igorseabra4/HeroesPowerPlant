@@ -93,6 +93,16 @@ namespace HeroesPowerPlant
             RaiseCameraChangedEvent();
         }
 
+        public void AddPosition(Vector3 amount, bool scaleWithFramerate = true)
+        {
+            amount.Normalize();
+            if (scaleWithFramerate)
+                ViewMatrix.Position += amount * GetScaledSpeed() * Speed;
+            else
+                ViewMatrix.Position += amount * Speed;
+            RaiseCameraChangedEvent();
+        }
+
         public void ModifyCameraSpeed(float amount)
         {
             if (Speed + amount < 0 || Speed + amount > 100)

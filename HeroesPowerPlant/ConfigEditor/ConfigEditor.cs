@@ -52,14 +52,6 @@ namespace HeroesPowerPlant.ConfigEditor
             CleanFile();
         }
 
-        private void LayoutEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown)
@@ -403,17 +395,17 @@ namespace HeroesPowerPlant.ConfigEditor
 
         private void splineEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SplineEditor.Show();
+            Program.MainForm.ShowForm(SplineEditor);
         }
 
         private void rankEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RankEditor.Show();
+            Program.MainForm.ShowForm(RankEditor);
         }
 
         private void eXEExtractorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EXEExtractor.Show();
+            Program.MainForm.ShowForm(EXEExtractor);
         }
 
         public List<StartPositionEntry> StartPositions = new List<StartPositionEntry>();

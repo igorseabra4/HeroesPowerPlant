@@ -394,7 +394,6 @@
             this.ShowIcon = false;
             this.Text = "Texture Pattern Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PatternEditor_FormClosing);
-            this.Load += new System.EventHandler(this.TexturePatternEditor_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);

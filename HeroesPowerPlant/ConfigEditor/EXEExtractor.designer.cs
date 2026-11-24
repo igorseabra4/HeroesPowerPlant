@@ -115,7 +115,6 @@
             this.Name = "EXEExtractor";
             this.ShowIcon = false;
             this.Text = "EXE Data Extractor";
-            this.Load += new System.EventHandler(this.LayoutEditor_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -56,14 +56,6 @@ namespace HeroesPowerPlant.ConfigEditor
             this.configEditor = configEditor;
         }
 
-        private void LayoutEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown)

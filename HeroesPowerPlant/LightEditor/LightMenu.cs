@@ -234,10 +234,5 @@ namespace HeroesPowerPlant.LightEditor
                 UnsavedChanges = true;
             }
         }
-
-        private void LightMenu_Load(object sender, EventArgs e)
-        {
-            TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
-        }
     }
 }

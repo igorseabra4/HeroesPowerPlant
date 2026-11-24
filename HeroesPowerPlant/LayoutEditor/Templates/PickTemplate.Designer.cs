@@ -96,7 +96,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Pick Template";
-            this.Load += new System.EventHandler(this.PickTemplate_Load);
             this.ResumeLayout(false);
 
         }

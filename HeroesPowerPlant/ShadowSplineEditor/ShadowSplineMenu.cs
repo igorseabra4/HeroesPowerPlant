@@ -199,11 +199,6 @@ namespace HeroesPowerPlant.ShadowSplineEditor {
             catch { }
         }
 
-        private void ShadowSplineEditor_Load(object sender, EventArgs e)
-        {
-            TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
-        }
-
         private void buttonClear_Click(object sender, EventArgs e)
         {
             SplineEditor.RemoveAll();

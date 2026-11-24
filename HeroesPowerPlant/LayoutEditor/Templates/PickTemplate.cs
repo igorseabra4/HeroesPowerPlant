@@ -14,11 +14,6 @@ namespace HeroesPowerPlant.LayoutEditor
                 comboBoxTemplates.Items.Add(t);
         }
 
-        private void PickTemplate_Load(object sender, EventArgs e)
-        {
-            TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
-        }
-
         public static void GetTarget(List<Template> templates, out bool success, out Template template)
         {
             PickTemplate pt = new PickTemplate(templates);

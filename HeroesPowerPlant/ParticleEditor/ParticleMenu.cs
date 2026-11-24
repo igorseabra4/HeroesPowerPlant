@@ -219,13 +219,5 @@ namespace HeroesPowerPlant.ParticleEditor
             foreach (var v in Program.MainForm.LayoutEditors)
                 v.UpdateSetParticleMatrices();
         }
-
-        private void ParticleMenu_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
     }
 }

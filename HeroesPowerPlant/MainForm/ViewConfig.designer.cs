@@ -287,7 +287,6 @@
             MaximizeBox = false;
             Name = "ViewConfig";
             ShowIcon = false;
-            Load += ViewConfig_Load;
             VisibleChanged += ViewConfig_VisibleChanged;
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NumericCameraYaw).EndInit();

@@ -157,7 +157,7 @@ namespace HeroesPowerPlant.LayoutEditor
             var magic = new string(reader.ReadChars(4));
             if (magic != "sky2")
             {
-                System.Windows.Forms.MessageBox.Show("This is not a valid Shadow the Hedgehog layout file.");
+                MessageBox.Show("This is not a valid Shadow the Hedgehog layout file.");
                 throw new InvalidDataException("This is not a valid Shadow the Hedgehog layout file.");
             }
 

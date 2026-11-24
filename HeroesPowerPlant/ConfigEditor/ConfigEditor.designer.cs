@@ -801,7 +801,6 @@
             this.Name = "ConfigEditor";
             this.ShowIcon = false;
             this.Text = "Mod Loader Config Editor";
-            this.Load += new System.EventHandler(this.LayoutEditor_Load);
             this.GroupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumericStartRot)).EndInit();
             this.groupBox3.ResumeLayout(false);

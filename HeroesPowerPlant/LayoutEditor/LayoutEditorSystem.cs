@@ -310,17 +310,10 @@ namespace HeroesPowerPlant.LayoutEditor
             UnsavedChanges = true;
         }
 
-        public void DuplicateSetObjectAt(int index, Vector3 Position)
-        {
-            PasteSetObject(JsonConvert.SerializeObject(new List<SetObject> { GetSetObjectAt(index) }));
-            setObjects.Last().Position = Position;
-            setObjects.Last().CreateTransformMatrix();
-        }
-
-        public string SerializeSetObject(ListBox.SelectedIndexCollection selectedIndices)
+        public string SerializeSetObjectsAt(ListBox.SelectedIndexCollection indices)
         {
             var setObjs = new List<(SetObject, byte[])>();
-            foreach (int i in selectedIndices)
+            foreach (int i in indices)
             {
                 var setObj = GetSetObjectAt(i);
                 setObjs.Add((setObj, setObj.GetMiscSettings()));
@@ -328,7 +321,7 @@ namespace HeroesPowerPlant.LayoutEditor
             return JsonConvert.SerializeObject(setObjs);
         }
 
-        public int PasteSetObject(string text = null)
+        public int PasteSetObjects(string text = null, Vector3? position = null)
         {
             text ??= Clipboard.GetText();
             int result = 0;
@@ -342,7 +335,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         var setObj = src.Item1;
                         var miscSettings = src.Item2;
-                        var dest = CreateShadowObject(setObj.List, setObj.Type, setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
+                        var dest = CreateShadowObject(setObj.List, setObj.Type, position ?? setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
                         dest.SetMiscSettings(miscSettings);
                         dest.CreateTransformMatrix();
                         pasted.Add(dest);
@@ -356,7 +349,7 @@ namespace HeroesPowerPlant.LayoutEditor
                     {
                         var setObj = src.Item1;
                         var miscSettings = src.Item2;
-                        var dest = CreateHeroesObject(setObj.List, setObj.Type, setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
+                        var dest = CreateHeroesObject(setObj.List, setObj.Type, position ?? setObj.Position, setObj.Rotation, setObj.Link, setObj.Rend, setObj.UnkBytes, false);
                         dest.SetMiscSettings(miscSettings);
                         dest.CreateTransformMatrix();
                         pasted.Add(dest);

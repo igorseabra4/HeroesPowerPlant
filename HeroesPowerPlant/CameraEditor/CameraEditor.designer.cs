@@ -1130,7 +1130,6 @@
             Name = "CameraEditor";
             ShowIcon = false;
             Text = "Camera Editor";
-            Load += CameraEditor_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numericUpDownTrigShape).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownActType).EndInit();

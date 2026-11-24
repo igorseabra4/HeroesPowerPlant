@@ -47,14 +47,6 @@ namespace HeroesPowerPlant.LevelEditor
             listViewLevelModels.Columns[0].Width = listViewLevelModels.Width - 4 - SystemInformation.VerticalScrollBarWidth;
         }
 
-        private void LevelEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         private string openONEfilePath;
         public VisibilityFunctions visibilityFunctions;
         public BSPRenderer bspRenderer;
@@ -686,14 +678,12 @@ namespace HeroesPowerPlant.LevelEditor
 
         private void ShadowLevelMenuItemCollisionEditor_Click(object sender, EventArgs e)
         {
-            shadowCollisionEditor.Show();
-            shadowCollisionEditor.Focus();
+            Program.MainForm.ShowForm(shadowCollisionEditor);
         }
 
         private void ShadowLevelMenuItemSplineEditor_Click(object sender, EventArgs e)
         {
-            shadowSplineEditor.Show();
-            shadowSplineEditor.Focus();
+            Program.MainForm.ShowForm(shadowSplineEditor);
         }
 
         public void GetClickedModelPosition(bool isShadowCollision, Ray ray, out bool found, out float smallestDistance)

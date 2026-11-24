@@ -25,14 +25,6 @@ namespace HeroesPowerPlant.LevelEditor
             Hide();
         }
 
-        private void ShadowCollisionEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         public ShadowCollisionEditor(BSPRenderer bspRenderer)
         {
             InitializeComponent();

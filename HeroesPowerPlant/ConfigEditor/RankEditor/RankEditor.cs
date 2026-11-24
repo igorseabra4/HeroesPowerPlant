@@ -15,11 +15,6 @@ namespace HeroesPowerPlant.RankEditor
             RankEditorNewConfig();
         }
 
-        private void RankEditor_Load(object sender, EventArgs e)
-        {
-            TopMost = HPPConfig.GetInstance().LegacyWindowPriorityBehavior;
-        }
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown)

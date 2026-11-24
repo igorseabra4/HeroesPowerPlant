@@ -26,14 +26,6 @@ namespace HeroesPowerPlant.SplineEditor
             InitializeComponent();
         }
 
-        private void SplineEditor_Load(object sender, EventArgs e)
-        {
-            if (HPPConfig.GetInstance().LegacyWindowPriorityBehavior)
-                TopMost = true;
-            else
-                TopMost = false;
-        }
-
         private SplineEditorFunctions splineEditorFunctions = new SplineEditorFunctions();
         private bool ProgramIsChangingStuff = false;
 
