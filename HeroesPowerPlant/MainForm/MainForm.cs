@@ -1397,11 +1397,6 @@ public partial class MainForm : Form
         SetMaxFPS();
     }
 
-    public void SetUseShadowTXDForTextures(bool isEnabled)
-    {
-        UseShadowTXDForTextures_ToolStripMenuItem.Checked = isEnabled;
-    }
-
     public void SetMaxFPS()
     {
         if (LimitFPS_ToolStripMenuItem.Checked)
@@ -1418,12 +1413,6 @@ public partial class MainForm : Form
     private void shadowLayoutMiscToolsToolStripMenuItem_Click(object sender, EventArgs e)
     {
         ShowForm(ShadowLayoutMiscTools);
-    }
-
-    private void UseShadowTXDForTextures_ToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        UseShadowTXDForTextures_ToolStripMenuItem.Checked = !UseShadowTXDForTextures_ToolStripMenuItem.Checked;
-        HPPConfig.GetInstance().UseShadowTXDForTextures = UseShadowTXDForTextures_ToolStripMenuItem.Checked;
     }
 
     private void ResourceToolStripMenuItemSetAFS_Click(object sender, EventArgs e)
