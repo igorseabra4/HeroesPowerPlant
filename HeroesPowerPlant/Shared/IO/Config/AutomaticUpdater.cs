@@ -77,6 +77,8 @@ namespace HeroesPowerPlant.Shared.IO.Config
 
                 hasChecked = true;
 
+                HPPConfig.GetInstance().LastCheckedForUpdate = DateTime.Now;
+
                 if (oldVersion.version != updatedVersion.version)
                 {
                     string messageText = "There is an update available for Heroes Power Plant: \n\n" + updatedVersion.versionName + "\n\nDo you wish to download it?";
